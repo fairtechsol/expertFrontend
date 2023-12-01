@@ -1,12 +1,8 @@
-import "./App.css";
+import { RouterProvider } from "react-router-dom";
+import routes from "./routes";
 
 function App() {
-
-  return (
-    <>
-      <h1>Welcome To Fairgame Expert</h1>
-    </>
-  );
+  return <RouterProvider router={routes()} />;
 }
 
 export default App;
