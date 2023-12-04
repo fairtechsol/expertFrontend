@@ -1,15 +1,14 @@
 import { Box, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import CustomButton from "../../components/Common/CustomButton";
-// import CusButton from "./CusButton";
-// import SearchInput from "./SearchInput";
+import SearchInput from "../../components/Common/SearchInput";
 
-const MatchListHeader = (
-  {
-    // getAllMatch
-  }
-) => {
+interface Props {
+  getAllMatchHandle?: (value: any) => void;
+}
+const MatchListHeader = ({ getAllMatchHandle }: Props) => {
   const navigate = useNavigate();
+
   return (
     <>
       <Box
@@ -17,19 +16,24 @@ const MatchListHeader = (
         sx={{ justifyContent: "space-between", px: "10px", py: "10px" }}
       >
         <Typography
-          sx={{ fontSize: "16px", color: "white", fontWeight: "500" }}
+          sx={{
+            fontSize: "16px",
+            color: "white",
+            fontWeight: "600",
+          }}
         >
           Match List
         </Typography>
         <Box sx={{ display: "flex", alignItems: "center" }}>
-          {/* <SearchInput
-          show={true}
-          getAllMatch={getAllMatch}
-          placeholder={"Search Match..."} 
-        /> */}
+          <SearchInput
+            show={true}
+            getAllMatch={getAllMatchHandle}
+            placeholder={"Search Match..."}
+          />
           <CustomButton
             onClick={() => {
-              navigate("/expert/add_match");
+              // navigate("/expert");
+              alert("Just Click!");
             }}
             title={"Add Match"}
           />

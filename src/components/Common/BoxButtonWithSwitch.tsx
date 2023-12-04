@@ -1,5 +1,5 @@
-import { useState } from "react";
 import { Box, Typography } from "@mui/material";
+import { useState } from "react";
 import MaterialUISwitch from "./MaterialUISwitch";
 
 const BoxButtonWithSwitch = (props: any) => {
