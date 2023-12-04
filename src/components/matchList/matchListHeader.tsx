@@ -25,7 +25,7 @@ const MatchListHeader = (
           {/* <SearchInput
           show={true}
           getAllMatch={getAllMatch}
-          placeholder={"Search Match..."}
+          placeholder={"Search Match..."} 
         /> */}
           <CustomButton
             onClick={() => {
