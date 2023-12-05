@@ -12,8 +12,8 @@ const Header = ({}) => {
   const [selected, setSelected] = useState("Client list");
   const [anchor, setAnchor] = useState(null);
   const [anchor1, setAnchor1] = useState(null);
-  const [mobileOpen, setMobileOpen] = useState(false);
-  const matchesMobile = useMediaQuery(theme.breakpoints.down("lg"));
+  const [xsOpen, setxsOpen] = useState(false);
+  const matchesxs = useMediaQuery(theme.breakpoints.down("lg"));
   const currentSelected = 1;
   console.log(anchor, anchor1);
 
@@ -24,12 +24,12 @@ const Header = ({}) => {
         width: "100%",
         minHeight: { lg: 60, md: 60, xs: 60 },
         display: "flex",
-        flexDirection: matchesMobile ? "column" : "row",
-        alignItems: !matchesMobile ? "center" : "flex-start",
+        flexDirection: matchesxs ? "column" : "row",
+        alignItems: !matchesxs ? "center" : "flex-start",
         justifyContent: "space-between",
         paddingX: { lg: "2%", xs: "2%" },
-        paddingY: matchesMobile ? "9px" : "0px",
-        paddingBottom: matchesMobile ? "5px" : "0px",
+        paddingY: matchesxs ? "9px" : "0px",
+        paddingBottom: matchesxs ? "5px" : "0px",
       },
       (theme: any) => ({
         backgroundImage: `${theme.palette.primary.headerGradient}`,
@@ -98,16 +98,16 @@ const Header = ({}) => {
       display: "flex",
       marginLeft: { xs: 0, lg: 0, md: 0 },
       justifyContent: "flex-end",
-      // minWidth: matchesMobile ? "100%" : "0px",
+      // minWidth: matchesxs ? "100%" : "0px",
       alignItems: "center",
-      marginTop: matchesMobile ? "0" : "0px",
+      marginTop: matchesxs ? "0" : "0px",
     },
     BoxCont1sub2SearchInputContStyle: {
       height: "30px",
       minWidth: { lg: "100px", xs: "1.5vw" },
       width: "140px",
     },
-    BoxCont1sub2BoxProfileContStyle: matchesMobile ? { width: "52%" } : {},
+    BoxCont1sub2BoxProfileContStyle: matchesxs ? { width: "52%" } : {},
     BoxEnd: {
       minHeight: {
         lg: 60,
@@ -124,7 +124,7 @@ const Header = ({}) => {
             <Box sx={classes.BoxCont1sub1sub1}>
               <StyledImage
                 src={Draw}
-                onClick={() => setMobileOpen((prev) => !prev)}
+                onClick={() => setxsOpen((prev) => !prev)}
                 sx={classes.BoxCont1sub1sub1StyleImg}
               />
               <StyledImage src={FgLogo} sx={classes.RenderLogoCompStyleImg} />
@@ -146,7 +146,7 @@ const Header = ({}) => {
             </Box>
           </Box>
         </Box>
-        {/* <MobileSideBar mobileOpen={mobileOpen} setMobileOpen={setMobileOpen} /> */}
+        {/* <xsSideBar xsOpen={xsOpen} setxsOpen={setxsOpen} /> */}
       </AppBar>
       <Box sx={classes.BoxEnd} />
     </>

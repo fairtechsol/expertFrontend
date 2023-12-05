@@ -30,3 +30,10 @@ export { default as TEAM } from "./images/team.webp";
 export { default as TREND } from "./images/trend.webp";
 export { default as UnLockIcon } from "./images/unlock.svg";
 export { default as WALLET } from "./images/wallet.webp";
+export { default as ArrowDownBlack } from "./images/arrowDownBlack.svg";
+export { default as Upload } from "./images/upload.svg";
+export { default as CancelDark } from "./images/cancel_dark.png";
+export { default as LiveOff } from './images/live-off.svg'
+export { default as LiveOn } from './images/live-on.svg'
+export { default as BallStart } from "./images/ballStart.png";
+export { default as Lock } from "./images/lock.png";
