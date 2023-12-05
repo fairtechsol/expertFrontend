@@ -1,24 +1,13 @@
 import { Box, Pagination } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Constants from "../../components/helper/constants";
-import { MatchListTableData } from "../../components/matchList/index.json";
 import MatchListHeader from "../../components/matchList/matchListHeader";
 import MatchListTable from "../../components/matchList/matchListTable";
 import MatchListTableHeader from "../../components/matchList/matchListTableHeader";
 
 const MatchList = ({}) => {
-  // const navigate = useNavigate();
-  const [pageCount, setPageCount] = useState(Constants.pageCount);
+  const [pageCount] = useState(Constants.pageCount);
   const [currentPage, setCurrentPage] = useState(1);
-  const [loading, setLoading] = useState(true);
-  const [allMatch, setAllMatch] = useState();
-  // const { userAllMatches } = useSelector((state) => state?.matchDetails);
-
-  useEffect(() => {
-    // if (userAllMatches) {
-    //   setAllMatch(userAllMatches);
-    // }
-  }, []);
 
   function callPage(value: any) {
     setCurrentPage(parseInt(value));
@@ -45,26 +34,13 @@ const MatchList = ({}) => {
       >
         <MatchListHeader getAllMatchHandle={getAllMatch} />
         <MatchListTableHeader />
-        {MatchListTableData().map((item: any) => {
+        {[1, 2, 3].map(() => {
           return (
             <>
               <MatchListTable />
             </>
           );
         })}
-        {/* {allMatch.length > 0 &&
-          allMatch?.map((element, i) => {
-            return (
-              <Row
-                key={i}
-                index={i + 1}
-                containerStyle={{
-                  background: (i + 1) % 2 === 0 ? "#ECECEC" : "",
-                }}
-                data={element}
-              />
-            );
-          })} */}
         <Pagination
           sx={{
             background: "#073c25",

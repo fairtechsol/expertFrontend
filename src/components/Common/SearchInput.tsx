@@ -18,7 +18,7 @@ const SearchInput = (props: any) => {
   } = props;
 
   const theme = useTheme();
-  const matchesMobile = useMediaQuery(theme.breakpoints.down("lg"));
+  const matchesxs = useMediaQuery(theme.breakpoints.down("lg"));
 
   const handleInputChange = async (event: any) => {
     const value = event.target.value;
@@ -64,7 +64,7 @@ const SearchInput = (props: any) => {
           inputContainerStyle,
         ]}
       >
-        {(!matchesMobile || show) && (
+        {(!matchesxs || show) && (
           <TextField
             variant="standard"
             placeholder={placeholder}

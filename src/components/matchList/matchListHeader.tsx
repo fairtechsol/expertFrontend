@@ -32,8 +32,7 @@ const MatchListHeader = ({ getAllMatchHandle }: Props) => {
           />
           <CustomButton
             onClick={() => {
-              // navigate("/expert");
-              alert("Just Click!");
+              navigate("/expert/add_match");
             }}
             title={"Add Match"}
           />

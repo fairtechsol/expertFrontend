@@ -3,9 +3,8 @@ import { Box, Typography } from "@mui/material";
 import StyledImage from "../StyledImages";
 import { ARROWDROPDOWN } from "../../../assets";
 import DropDownItem from "./DropDownItem";
-import { DropdownInterface } from "../../../interface/addAccount";
 
-const DropDown = (props: DropdownInterface) => {
+const DropDown = (props: any) => {
   const {
     title,
     data,
@@ -84,11 +83,11 @@ const DropDown = (props: DropdownInterface) => {
           >
             {value === "0" ? "0.00" : place ? value : value}
           </Typography>
-          {place === 5 && (
+          {/* {place === 5 && (
             <Typography sx={{ fontSize: "10px !important" }}>
               {Detail[22]?.val}
             </Typography>
-          )}
+          )} */}
         </Box>
         <StyledImage
           src={ARROWDROPDOWN}
