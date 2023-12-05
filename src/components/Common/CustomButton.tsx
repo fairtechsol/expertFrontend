@@ -4,8 +4,13 @@ interface Props {
   title: string;
   onClick: (value: any) => void;
   loading?: boolean;
+  bgColor: string;
+  style?: React.CSSProperties;
 }
-const CustomButton = ({ title, onClick, loading }: Props) => {
+const CustomButton = ({ title, onClick, loading, bgColor, style }: Props) => {
+  const inlineStyle: React.CSSProperties = {
+    ...style,
+  };
   return (
     <Box
       onClick={onClick}
@@ -15,13 +20,13 @@ const CustomButton = ({ title, onClick, loading }: Props) => {
         minWidth: "100px",
         marginLeft: "10px",
         borderRadius: "5px",
-        background: "#0B4F26",
+        background: bgColor ? bgColor : "#0B4F26",
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
       }}
     >
-      <Typography sx={{ color: "white", fontSize: "13px" }}>
+      <Typography sx={{ color: "white", fontSize: "13px", ...inlineStyle }}>
         {" "}
         {loading ? (
           <CircularProgress

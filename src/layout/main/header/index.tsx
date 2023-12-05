@@ -1,7 +1,9 @@
 import { AppBar, Box, useMediaQuery, useTheme } from "@mui/material";
 import { memo, useState } from "react";
+import { NavLink } from "react-router-dom";
 import { Draw, FgLogo } from "../../../assets/index";
 import StyledImage from "../../../components/Common/StyledImages";
+import AllMatch from "./AllMatch";
 import ProfileDropdown from "./ProfileDropdown";
 import "./index.css";
 
@@ -116,9 +118,9 @@ const Header = ({}) => {
   };
   return (
     <>
-      <AppBar position="fixed" sx={classes.AppBarVal}>
+      <AppBar position="fixed" sx={classes.AppBarVal} className="mainMenu">
         <Box sx={classes.BoxCont1}>
-          <Box sx={classes.BoxCont1sub1}>
+          <Box sx={[classes.BoxCont1sub1, { width: "90%" }]}>
             <Box sx={classes.BoxCont1sub1sub1}>
               <StyledImage
                 src={Draw}
@@ -126,6 +128,13 @@ const Header = ({}) => {
                 sx={classes.BoxCont1sub1sub1StyleImg}
               />
               <StyledImage src={FgLogo} sx={classes.RenderLogoCompStyleImg} />
+            </Box>
+            <Box display="flex" alignItems="center" className="mainMenu-list">
+              <AllMatch />
+              <NavLink to="/">All Bets</NavLink>
+              <NavLink className="matchList" to="/">
+                Match List
+              </NavLink>
             </Box>
             <Box sx={classes.BoxCont1sub2}>
               <ProfileDropdown
