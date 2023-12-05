@@ -137,12 +137,24 @@ const Header = ({}) => {
               </NavLink>
             </Box>
             <Box sx={classes.BoxCont1sub2}>
-              <ProfileDropdown
+            <ProfileDropdown
+                containerStyle={{ marginTop: "0" }}
+                image={"https://picsum.photos/200/300"}
+                // value={
+                //   activeUser == 1
+                //     ? "Session"
+                //     : activeUser == 2
+                //     ? "Bookmaker"
+                //     : "Betfair"
+                // }
+                // value1={localCurrentUser?.userName || ""}
+              />
+              {/* <ProfileDropdown
                 containerStyle={classes.BoxCont1sub2BoxProfileContStyle}
                 image={"https://picsum.photos/200/300"}
                 value={"User"}
                 balance={"90000"}
-              />
+              /> */}
             </Box>
           </Box>
         </Box>
