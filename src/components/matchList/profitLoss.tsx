@@ -17,28 +17,32 @@ const MatchListProfitLoss = (Props: any) => {
     <>
       <Box
         sx={{
-          background: "#ECECEC",
-          width: "14%",
+          height: "35px",
+          minWidth: "100px",
+          marginLeft: "10px",
+          borderRadius: "5px",
+          border: "1px solid #0B4F26",
+          background: "#FFF",
           display: "flex",
-          height: "30px",
-          borderLeft: "2px solid white",
-          justifyContent: "center",
+          justifyContent: "space-between",
           alignItems: "center",
+          width: "18%",
         }}
       >
         <Typography
           sx={{
-            marginRight: "10px",
-            color: "#000000",
-            //   color: notSwitch
-            //     ? Number(updateMatchStatus) > 0
-            //       ? "#46E080"
-            //       : "#FF4D4D"
-            //     : "white",
-            fontWeight: notSwitch ? "700" : "500",
+            margin: "0",
+            fontFamily: "Poppins, sans-serif",
+            fontWeight: "700",
             fontSize: "13px",
-            marginLeft: "0.3vw",
-            lineHeight: "14px",
+            lineHeight: "1.5",
+            color: "#575757",
+            marginLeft: "1vw",
+            overflow: "hidden",
+            display: "-webkit-box",
+            WebkitLineClamp: 2,
+            WebkitBoxOrient: "vertical",
+            lineClamp: "2px",
           }}
         >
           {updateMatchStatusLabel}

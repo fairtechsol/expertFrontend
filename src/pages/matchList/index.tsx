@@ -48,9 +48,7 @@ const MatchList = ({}) => {
         {MatchListTableData().map((item: any) => {
           return (
             <>
-              <MatchListHeader />
               <MatchListTable />
-              <h3>This is demo data</h3>
             </>
           );
         })}

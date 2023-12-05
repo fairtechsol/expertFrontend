@@ -312,7 +312,7 @@ const MatchListTable = (props: any) => {
               place={17}
             /> */}
             <MatchListProfitLoss
-              updateMatchStatusLabel="updateMatchStatusLabel"
+              updateMatchStatusLabel="Match Profit/Loss"
               updateMatchStatus="22"
               place="1"
             />
