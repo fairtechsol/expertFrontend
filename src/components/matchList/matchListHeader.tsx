@@ -1,7 +1,7 @@
 import { Box, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import CustomButton from "../../components/Common/CustomButton";
 import SearchInput from "../../components/Common/SearchInput";
+import CustomButton from "../Common/CustomButton";
 
 interface Props {
   getAllMatchHandle?: (value: any) => void;

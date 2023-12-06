@@ -6,6 +6,7 @@ const MainLayout = Loadable(lazy(() => import("../layout/main")));
 const MatchList = Loadable(lazy(() => import("../pages/matchList")));
 const AddMatch = Loadable(lazy(() => import("../pages/addMatch")));
 const AddSession = Loadable(lazy(() => import("../pages/addSession")));
+const MatchDetails = Loadable(lazy(() => import("../pages/matchDetails")));
 const UpdateBookmaker = Loadable(
   lazy(() => import("../pages/updateBookmaker"))
 );
@@ -15,7 +16,7 @@ const MainRoutes = {
   element: <MainLayout />,
   children: [
     {
-      path: "match_list",
+      path: "match",
       element: <MatchList />,
     },
     {
@@ -35,8 +36,12 @@ const MainRoutes = {
       element: <UpdateBookmaker />,
     },
     {
+      path: "betOdds",
+      element: <MatchDetails />,
+    },
+    {
       path: "*",
-      element: <Navigate to={"/wallet"} replace />,
+      element: <Navigate to={"/expert/match"} replace />,
     },
   ],
 };

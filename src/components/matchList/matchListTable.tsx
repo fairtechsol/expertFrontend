@@ -109,7 +109,12 @@ const MatchListTable = (props: any) => {
               place="1"
             />
           </Box>
-          <CustomButton onClick={() => {}} title={"Submit"} />
+          <CustomButton
+            onClick={() => {
+              navigate(`/expert/betOdds`);
+            }}
+            title={"Submit"}
+          />
           <CustomButton
             onClick={() => {
               navigate(`/expert/edit_match`);

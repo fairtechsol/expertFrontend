@@ -14,7 +14,7 @@ const Login = () => {
 
   const handleLogin = (e: any) => {
     e.preventDefault();
-    navigate("/expert");
+    navigate("/expert/match");
   };
 
   return (

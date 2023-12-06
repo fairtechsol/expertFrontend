@@ -1,7 +1,7 @@
 import { Box, Grid, Paper } from "@mui/material";
 import BetsList from "../../components/updateBookmaker/BetsList";
 import { useLocation } from "react-router-dom";
-import BookmakerEditSection from "../../components/updateBookmaker/BookmakerEditSection";
+import BookmakerEditSection from "../../components/updateBookmaker/BookmakerEdit";
 
 const UpdateBookmaker = () => {
   const location: any = useLocation();
