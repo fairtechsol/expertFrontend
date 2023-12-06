@@ -93,7 +93,7 @@ const HeaderDropdown = (props: any) => {
       <Box
         onClick={() => {
           if (!loading) {
-            // logoutProcess();
+            navigate("/");
           } else {
             return false;
           }
