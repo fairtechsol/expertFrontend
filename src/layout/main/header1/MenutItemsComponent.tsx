@@ -45,7 +45,6 @@ const MenutItemsComponent = ({
           },
         }}
         onClick={() => {
-          handleClose();
           if (index == selected) {
             setSelected(null);
           } else {
