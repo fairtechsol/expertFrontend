@@ -1,7 +1,10 @@
 export { default as ADDACCOUNT } from "./images/add-user.png";
+export { default as ArrowDownBlack } from "./images/arrowDownBlack.svg";
 export { default as ARROWDROPDOWN } from "./images/arrowDropDown.png";
 export { default as ArrowDown } from "./images/arrow_down.png";
 export { default as Background } from "./images/back.webp";
+export { default as BallStart } from "./images/ballStart.png";
+export { default as CancelDark } from "./images/cancel_dark.png";
 export { default as CHECKLIST } from "./images/checklist.webp";
 export { default as DeleteIcon } from "./images/delete.png";
 export { default as SmallArrowDown } from "./images/down.png";
@@ -15,8 +18,11 @@ export { default as EyeIconWhite } from "./images/eye-on-white.svg";
 export { default as EyeIcon } from "./images/eye-on.svg";
 export { default as eye } from "./images/eye.png";
 export { default as eyeLock } from "./images/eyeLock.png";
+export { default as LiveOff } from "./images/live-off.svg";
+export { default as LiveOn } from "./images/live-on.svg";
 export { default as LockClosed } from "./images/lock-closed.svg";
 export { default as LockOpen } from "./images/lock-open.svg";
+export { default as Lock } from "./images/lock.png";
 export { default as LockIcon } from "./images/lock.svg";
 export { default as LoginBg } from "./images/loginBg_webp.webp";
 export { default as FgLogo } from "./images/logo.webp";
@@ -29,11 +35,5 @@ export { default as SEARCH, default as Search } from "./images/search.png";
 export { default as TEAM } from "./images/team.webp";
 export { default as TREND } from "./images/trend.webp";
 export { default as UnLockIcon } from "./images/unlock.svg";
-export { default as WALLET } from "./images/wallet.webp";
-export { default as ArrowDownBlack } from "./images/arrowDownBlack.svg";
 export { default as Upload } from "./images/upload.svg";
-export { default as CancelDark } from "./images/cancel_dark.png";
-export { default as LiveOff } from './images/live-off.svg'
-export { default as LiveOn } from './images/live-on.svg'
-export { default as BallStart } from "./images/ballStart.png";
-export { default as Lock } from "./images/lock.png";
+export { default as WALLET } from "./images/wallet.webp";

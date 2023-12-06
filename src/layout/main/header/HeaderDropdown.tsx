@@ -1,11 +1,16 @@
-import React, {  useState } from "react";
+import { useState } from "react";
 // import { GlobalStore } from "../../context/globalStore";
 // import { SocketContext } from "../../context/socketContext";
 import { useNavigate } from "react-router-dom";
 // import { useDispatch } from "react-redux";
 
-import { Box, CircularProgress, Menu, MenuItem, Typography } from "@mui/material";
-import  StyledImage  from "../../../components/Common/StyledImages";
+import {
+  Box,
+  CircularProgress,
+  Menu,
+  MenuItem,
+  Typography,
+} from "@mui/material";
 
 const menutItems = [
   { title: "Bet Odds", navigateTo: "betodds" },
@@ -15,17 +20,15 @@ const menutItems = [
   { title: "Change Password", navigateTo: "change_password" },
 ];
 const HeaderDropdown = (props: any) => {
-    const {
-        anchorEl, open, handleClose
-    } = props;
+  const { anchorEl, open, handleClose } = props;
 
   const [loading, setLoading] = useState(false);
 
-//   const { globalStore, setGlobalStore } = useContext(GlobalStore);
-//   const { socket, socketMicro } = useContext(SocketContext);
+  //   const { globalStore, setGlobalStore } = useContext(GlobalStore);
+  //   const { socket, socketMicro } = useContext(SocketContext);
   const navigate = useNavigate();
-//   const dispatch = useDispatch();
- 
+  //   const dispatch = useDispatch();
+
   return (
     <Menu
       id="account-menu"
@@ -84,7 +87,7 @@ const HeaderDropdown = (props: any) => {
           }}
           onClick={() => handleClose(x.navigateTo)}
         >
-          {x.title}
+          {x.title}111
         </MenuItem>
       ))}
       <Box
@@ -118,8 +121,8 @@ const HeaderDropdown = (props: any) => {
             value={60}
           />
         ) : (
-        //   <StyledImage src={Logout} sx={{ width: "35%", height: "auto" }} />
-        <Typography>djakdf</Typography>
+          //   <StyledImage src={Logout} sx={{ width: "35%", height: "auto" }} />
+          <Typography>Logout</Typography>
         )}
       </Box>
     </Menu>
