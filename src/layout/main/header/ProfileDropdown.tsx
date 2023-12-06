@@ -1,6 +1,7 @@
 import { Box, Typography } from "@mui/material";
 import StyledImage from "../../../components/Common/StyledImages";
-import ArrowDown from "../../../assets/arrowDownBlack.svg";
+// import ArrowDown from "../../../assets/arrowDownBlack.svg";
+import { ArrowDown } from "../../../assets/index";
 import { useEffect, useState } from "react";
 import HeaderDropdown from "./HeaderDropdown";
 import { useNavigate } from "react-router-dom";

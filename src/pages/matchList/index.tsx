@@ -34,12 +34,8 @@ const MatchList = ({}) => {
       >
         <MatchListHeader getAllMatchHandle={getAllMatch} />
         <MatchListTableHeader />
-        {[1, 2, 3].map(() => {
-          return (
-            <>
-              <MatchListTable />
-            </>
-          );
+        {[1, 2, 3].map((item: number) => {
+          return <MatchListTable key={item} />;
         })}
         <Pagination
           sx={{

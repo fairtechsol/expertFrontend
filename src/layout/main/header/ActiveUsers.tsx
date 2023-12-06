@@ -1,9 +1,9 @@
 import { useTheme } from "@emotion/react";
 import { Box, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
-import ArrowDown from "../../../assets/arrowDown.png";
 import StyledImage from "../../../components/Common/StyledImages";
 import HeaderDropdown from "./HeaderDropdown";
+import { ArrowDown } from "../../../assets";
 
 const ActiveUsers = (props: any) => {
   const { image, value, containerStyle } = props;
@@ -30,7 +30,7 @@ const ActiveUsers = (props: any) => {
         }}
       >
         <Box
-          onClick={(event) => {}}
+          onClick={() => {}}
           sx={[
             {
               backgroundColor: "white",

@@ -37,5 +37,6 @@ export { default as TREND } from "./images/trend.webp";
 export { default as UnLockIcon } from "./images/unlock.svg";
 export { default as Upload } from "./images/upload.svg";
 export { default as WALLET } from "./images/wallet.webp";
-
-export { default as Users } from "./users.png";
+export { default as NotiBadge } from "./images/noti_badge.png";
+export { default as Users } from "./images/users.png";
+export { default as ArrowLeft } from "./images/arrow-left.svg";

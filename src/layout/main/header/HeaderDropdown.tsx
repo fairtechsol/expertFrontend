@@ -87,7 +87,7 @@ const HeaderDropdown = (props: any) => {
           }}
           onClick={() => handleClose(x.navigateTo)}
         >
-          {x.title}111
+          {x.title}
         </MenuItem>
       ))}
       <Box
