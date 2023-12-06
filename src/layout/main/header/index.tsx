@@ -1,7 +1,7 @@
 import { AppBar, Box, useMediaQuery, useTheme } from "@mui/material";
 import { memo, useState } from "react";
 import { NavLink } from "react-router-dom";
-import { Draw, FgLogo, LockClosed } from "../../../assets/index";
+import { Draw, FgLogo, Users } from "../../../assets/index";
 import StyledImage from "../../../components/Common/StyledImages";
 import ActiveUsers from "./ActiveUsers";
 import AllMatch from "./AllMatch";
@@ -138,7 +138,7 @@ const Header = ({}) => {
               </NavLink>
             </Box>
             <Box sx={classes.BoxCont1sub2}>
-              <ActiveUsers containerStyle={{}} image={LockClosed} value="6" />
+              <ActiveUsers containerStyle={{}} image={Users} value="6" />
               <ProfileDropdown
                 containerStyle={{ marginTop: "0" }}
                 image={"https://picsum.photos/200/300"}

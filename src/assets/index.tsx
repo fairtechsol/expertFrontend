@@ -37,3 +37,5 @@ export { default as TREND } from "./images/trend.webp";
 export { default as UnLockIcon } from "./images/unlock.svg";
 export { default as Upload } from "./images/upload.svg";
 export { default as WALLET } from "./images/wallet.webp";
+
+export { default as Users } from "./users.png";
