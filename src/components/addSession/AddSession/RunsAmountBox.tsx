@@ -1,5 +1,5 @@
 import { useRef, useEffect } from "react";
-import StyledImage from "../Common/StyledImages";
+import StyledImage from "../../Common/StyledImages";
 import { Box, Typography } from "@mui/material";
 
 const RunsAmountBox = ({ currentOdds, betId, proLoss }: any) => {

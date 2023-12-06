@@ -1,8 +1,8 @@
 import { Box, TextField, Typography } from "@mui/material";
-import StyledImage from "../Common/StyledImages";
+import StyledImage from "../../Common/StyledImages";
 import KeyboardEventHandler from "react-keyboard-event-handler";
-import { BallStart, LiveOff, Lock } from "../../assets";
-import CustomDisableInput from "../Common/CustomDisableInput";
+import { BallStart, LiveOff, Lock } from "../../../assets";
+import CustomDisableInput from "../../Common/CustomDisableInput";
 
 const AddSessionInput = (props: any) => {
   const {

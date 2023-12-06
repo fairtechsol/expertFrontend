@@ -1,7 +1,7 @@
 import { Box, TextField, Typography } from "@mui/material";
 import { useEffect, useRef, useState } from "react";
-import SessionResultCustomButton from "./SessionResultCustomButton";
-import { CancelDark } from "../../assets";
+import SessionResultCustomButton from "../AddSession/SessionResultCustomButton";
+import { CancelDark } from "../../../assets";
 
 const SessionResultModal = (props: any) => {
   const { newData, visible, onClickCancel } = props;
