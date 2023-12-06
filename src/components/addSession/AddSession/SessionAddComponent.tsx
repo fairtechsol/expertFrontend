@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { Box, Grid, Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import RunsAmountBox from "./RunsAmountBox";
-import SessionResultModal from "./SessionResultModal";
+import SessionResultModal from "../SessionResult/SessionResultModal";
 import AddSessionInput from "./AddSessionInput";
 
 const SessionAddComponent = React.forwardRef((props: any) => {
@@ -67,7 +67,6 @@ const SessionAddComponent = React.forwardRef((props: any) => {
             justifyContent: "flex-start",
             display: "flex",
             flexDirection: "column",
-            
           }}
         >
           <AddSessionInput
@@ -90,41 +89,39 @@ const SessionAddComponent = React.forwardRef((props: any) => {
           />
           <Box sx={{ mt: 2, border: "1px solid black", p: 1 }}>
             <Box
-                sx={{
-                  display: 'grid',
-                  gridTemplateColumns: 'repeat(auto-fit, 46px)',
-                  gap: '10px',
-                  justifyContent: "center",
-                  flexWrap: "wrap"
-                }}
+              sx={{
+                display: "grid",
+                gridTemplateColumns: "repeat(auto-fit, 46px)",
+                gap: "10px",
+                justifyContent: "center",
+                flexWrap: "wrap",
+              }}
             >
               {rates?.map((item, index) => (
-             
-                  <Box key={index}
+                <Box
+                  key={index}
+                  sx={{
+                    position: "relative",
+                    display: "flex",
+                    background: true ? "#0B4F26" : "#696969",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    height: "35px",
+                    borderRadius: "5px",
+                    cursor: "pointer",
+                    // p: 1,
+                  }}
+                >
+                  <Typography
                     sx={{
-                      
-                      position: "relative",
-                      display: "flex",
-                      background: true ? "#0B4F26" : "#696969",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      height: "35px",
-                      borderRadius: "5px",
-                      cursor: "pointer",
-                      // p: 1,
+                      color: "white",
+                      fontWeight: "500",
+                      fontSize: "9px",
                     }}
                   >
-                    <Typography
-                      sx={{
-                        color: "white",
-                        fontWeight: "500",
-                        fontSize: "9px",
-                      }}
-                    >
-                      {item?.name}
-                    </Typography>
-                  </Box>
-      
+                    {item?.name}
+                  </Typography>
+                </Box>
               ))}
             </Box>
           </Box>

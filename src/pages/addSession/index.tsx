@@ -1,6 +1,6 @@
 import { Box, Grid, Paper } from "@mui/material";
-import SessionResult from "../../components/addSession/SessionResult";
-import SessionInputFields from "../../components/addSession/SessionAddComponent";
+import SessionResult from "../../components/addSession/SessionResult/SessionResult";
+import SessionInputFields from "../../components/addSession/AddSession/SessionAddComponent";
 import DailogModal from "../../components/helper/DailogModal";
 import BetsList from "../../components/addSession/BetList";
 import { useRef } from "react";

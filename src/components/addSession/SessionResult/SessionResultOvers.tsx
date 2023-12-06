@@ -1,4 +1,4 @@
-import StyledImage from "../Common/StyledImages";
+import StyledImage from "../../Common/StyledImages";
 import { Box, Typography } from "@mui/material";
 
 const SessionResultOvers = (props: any) => {
