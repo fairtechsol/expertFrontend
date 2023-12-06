@@ -10,9 +10,8 @@ import "./index.css";
 
 const Header = ({}) => {
   const theme = useTheme();
-  const [selected, setSelected] = useState("Client list");
-  const [anchor, setAnchor] = useState(null);
-  const [anchor1, setAnchor1] = useState(null);
+  const [anchor] = useState(null);
+  const [anchor1] = useState(null);
   const [xsOpen, setxsOpen] = useState(false);
   const matchesxs = useMediaQuery(theme.breakpoints.down("lg"));
   const currentSelected = 1;
@@ -132,8 +131,8 @@ const Header = ({}) => {
             </Box>
             <Box display="flex" alignItems="center" className="mainMenu-list">
               <AllMatch />
-              <NavLink to="/">All Bets</NavLink>
-              <NavLink className="matchList" to="/">
+              <NavLink to="/expert/live">All Bets</NavLink>
+              <NavLink className="matchList" to="/expert/match">
                 Match List
               </NavLink>
             </Box>

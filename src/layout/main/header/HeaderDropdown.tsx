@@ -69,10 +69,10 @@ const HeaderDropdown = (props: any) => {
           key={i}
           dense={true}
           sx={{
-            fontSize: { laptop: "12px", mobile: "10px" },
+            fontSize: { lg: "12px", xs: "10px" },
             fontWeight: "500",
             marginX: "5px",
-            width: { laptop: "200px", mobile: "200px" },
+            width: { lg: "200px", xs: "200px" },
             borderBottomWidth: 1,
             borderColor: "#EAEFEC",
             paddingY: "2px",
@@ -100,7 +100,7 @@ const HeaderDropdown = (props: any) => {
         }}
         sx={{
           borderRadius: "5px",
-          height: { laptop: "38px", mobile: "34px" },
+          height: { lg: "38px", xs: "34px" },
           width: "200px",
           marginLeft: "5px",
           marginTop: "10px",

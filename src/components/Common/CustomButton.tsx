@@ -1,10 +1,10 @@
 import { Box, CircularProgress, Typography } from "@mui/material";
 
 interface Props {
-  title: string;
+  title?: string;
   onClick: (value: any) => void;
   loading?: boolean;
-  bgColor: string;
+  bgColor?: string;
   style?: React.CSSProperties;
 }
 const CustomButton = ({ title, onClick, loading, bgColor, style }: Props) => {

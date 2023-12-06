@@ -8,8 +8,8 @@ import HeaderDropdown from "./HeaderDropdown";
 const ActiveUsers = (props: any) => {
   const { image, value, containerStyle } = props;
   const theme = useTheme();
-  // const matchesMobile = useMediaQuery(theme.breakpoints.down("laptop"));
-  const [anchorEl, setAnchorEl] = useState(null);
+  // const matchesMobile = useMediaQuery(theme.breakpoints.down("lg"));
+  const [anchorEl, setAnchorEl] = useState<any>(null);
   const handleClick = (event: any) => {
     setAnchorEl(event.currentTarget);
   };
@@ -26,7 +26,7 @@ const ActiveUsers = (props: any) => {
         sx={{
           display: "flex",
           justifyContent: "space-between",
-          minWidth: { laptop: "120px" },
+          minWidth: { lg: "120px" },
         }}
       >
         <Box
@@ -34,13 +34,13 @@ const ActiveUsers = (props: any) => {
           sx={[
             {
               backgroundColor: "white",
-              minWidth: { laptop: "120px", mobile: "90px" },
+              minWidth: { lg: "120px", xs: "90px" },
               marginLeft: "1vw",
               display: "flex",
               alignItems: "center",
               boxShadow: "0px 3px 10px #B7B7B726",
               justifyContent: "space-between",
-              height: { laptop: "40px", mobile: "35px" },
+              height: { lg: "40px", xs: "35px" },
               overflow: "hidden",
               paddingX: "2px",
               borderRadius: "35px",
