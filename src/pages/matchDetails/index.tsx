@@ -11,6 +11,70 @@ import BetList from "../../components/matchDetails/BetList";
 const MatchDetails = () => {
   const [loading] = useState(false);
   const data: any = [];
+  const [Bets, setIObtes] = useState<any>([
+    {
+      id: "c5bf1d70-085f-4c4a-b1ff-fc4ee15bc6e4",
+      isActive: true,
+      createAt: "2023-12-06T10:29:15.841Z",
+      updateAt: "2023-12-06T10:29:15.841Z",
+      createdBy: "f48b6fb9-82f5-4fb3-b6d9-cae7c5145366",
+      deletedAt: null,
+      user_id: "f48b6fb9-82f5-4fb3-b6d9-cae7c5145366",
+      match_id: "b501723d-a82c-4a95-a20c-c40e428fce04",
+      bet_id: "53a0c098-9b8e-44f1-9cf0-acaab915e079",
+      result: "pending",
+      team_bet: null,
+      amount: 1000,
+      odds: 23,
+      win_amount: 1000,
+      loss_amount: 1000,
+      max_loss_amount: 1000,
+      bet_type: "no",
+      country: "India",
+      ip_address: "45.248.161.71",
+      rate: "100-100",
+      marketType: "test 1",
+      deleted_reason: null,
+      user: {
+        id: "f48b6fb9-82f5-4fb3-b6d9-cae7c5145366",
+        userName: "USER04",
+        fullName: "",
+        fw_partnership: 100,
+      },
+      myStack: "1000.00",
+    },
+    {
+      id: "f67f3d3a-161b-443d-ba40-2f853c97ea0c",
+      isActive: true,
+      createAt: "2023-12-06T10:08:12.959Z",
+      updateAt: "2023-12-06T10:08:12.959Z",
+      createdBy: "8d297379-bb60-43f5-8c04-4ffe26b0fc4d",
+      deletedAt: null,
+      user_id: "8d297379-bb60-43f5-8c04-4ffe26b0fc4d",
+      match_id: "b501723d-a82c-4a95-a20c-c40e428fce04",
+      bet_id: "5b259bdb-8431-4bab-8696-22a0eec9bf17",
+      result: "pending",
+      team_bet: "Bangladesh",
+      amount: 100,
+      odds: 2.12,
+      win_amount: 100,
+      loss_amount: 112,
+      max_loss_amount: 200,
+      bet_type: "lay",
+      country: "United States",
+      ip_address: "38.137.44.59",
+      rate: null,
+      marketType: "MATCH ODDS",
+      deleted_reason: null,
+      user: {
+        id: "8d297379-bb60-43f5-8c04-4ffe26b0fc4d",
+        userName: "USER1",
+        fullName: "",
+        fw_partnership: 100,
+      },
+      myStack: "100.00",
+    },
+  ]);
 
   const currentMatch: any = {
     id: "b501723d-a82c-4a95-a20c-c40e428fce04",
@@ -285,6 +349,86 @@ const MatchDetails = () => {
     teamB_rate: "-805.8",
     teamC_rate: "-790",
   };
+
+  const arrayObj = [
+    {
+      betRestult: null,
+      betStatus: 1,
+      bet_condition: "1st Innings run bhav BAN",
+      createAt: "2023-12-06T06:54:35.851Z",
+      createdBy: "5f8d4b41-b1c1-4345-8ed8-88931c07b946",
+      deletedAt: null,
+      id: "de8a2629-2863-4db5-9345-3a1d386a010c",
+      isActive: true,
+      matchType: "cricket",
+      match_id: "b501723d-a82c-4a95-a20c-c40e428fce04",
+      no_rate: "0",
+      profitLoss: {
+        betData: [
+          { odds: 195, profit_loss: -10 },
+          { odds: 196, profit_loss: -10 },
+          { odds: 197, profit_loss: -10 },
+          { odds: 198, profit_loss: -10 },
+          { odds: 199, profit_loss: -10 },
+          { odds: 200, profit_loss: 11.5 },
+          { odds: 201, profit_loss: 11.5 },
+          { odds: 202, profit_loss: 11.5 },
+          { odds: 203, profit_loss: 11.5 },
+          { odds: 204, profit_loss: 11.5 },
+          { odds: 205, profit_loss: 11.5 },
+        ],
+      },
+      line: 5,
+      max_loss: 10,
+      total_bet: 1,
+      rate_percent: "120-90",
+      selectionId: "1stinningsrunbhavban",
+      sessionBet: true,
+      stopAt: "2023-12-06T06:54:35.851Z",
+      suspended: "",
+      updateAt: "2023-12-06T06:54:35.851Z",
+      yes_rate: "0",
+    },
+    {
+      betRestult: null,
+      betStatus: 1,
+      bet_condition: "1st Innings run bhav BAN",
+      createAt: "2023-12-06T06:54:35.851Z",
+      createdBy: "5f8d4b41-b1c1-4345-8ed8-88931c07b946",
+      deletedAt: null,
+      id: "de8a2629-2863-4db5-9345-3a1d386a010c",
+      isActive: true,
+      matchType: "cricket",
+      match_id: "b501723d-a82c-4a95-a20c-c40e428fce04",
+      no_rate: "0",
+      profitLoss: {
+        betData: [
+          { odds: 195, profit_loss: -10 },
+          { odds: 196, profit_loss: -10 },
+          { odds: 197, profit_loss: -10 },
+          { odds: 198, profit_loss: -10 },
+          { odds: 199, profit_loss: -10 },
+          { odds: 200, profit_loss: 11.5 },
+          { odds: 201, profit_loss: 11.5 },
+          { odds: 202, profit_loss: 11.5 },
+          { odds: 203, profit_loss: 11.5 },
+          { odds: 204, profit_loss: 11.5 },
+          { odds: 205, profit_loss: 11.5 },
+        ],
+      },
+      line: 5,
+      max_loss: 10,
+      total_bet: 1,
+      rate_percent: "120-90",
+      selectionId: "1stinningsrunbhavban",
+      sessionBet: true,
+      stopAt: "2023-12-06T06:54:35.851Z",
+      suspended: "",
+      updateAt: "2023-12-06T06:54:35.851Z",
+      yes_rate: "0",
+    },
+  ];
+
   return (
     <Box
       sx={{
@@ -352,14 +496,14 @@ const MatchDetails = () => {
                   }}
                 >
                   <SessionMarket
-                    setIObtes={() => {
-                      // setIObtes((IObets) =>
-                      //   IObets?.filter(
-                      //     (v) =>
-                      //       v?.bet_id !== val?.betId &&
-                      //       val?.match_id === v?.match_id
-                      //   )
-                      // );
+                    setIObtes={(val: any) => {
+                      setIObtes((prev: any) =>
+                        prev?.filter(
+                          (v: any) =>
+                            v?.bet_id !== val?.betId &&
+                            val?.match_id === v?.match_id
+                        )
+                      );
                     }}
                     title={"Session Market"}
                     // setLiveData={setLiveData}
@@ -367,7 +511,7 @@ const MatchDetails = () => {
                     hideTotalBet={false}
                     stopAllHide={false}
                     // setData={setData}
-                    // sessionData={arrayObject?.sort(customSort)}
+                    sessionData={arrayObj}
                     hideResult={false}
                     // setLocalState={setLocalState}
                     // setCurrentMatch={setCurrentMatch}
@@ -445,7 +589,7 @@ const MatchDetails = () => {
               />
             )}
 
-            {currentMatch?.id && <BetList allBetRates={[]} />}
+            {currentMatch?.id && <BetList allBetRates={Bets} />}
           </Box>
         </>
       )}
