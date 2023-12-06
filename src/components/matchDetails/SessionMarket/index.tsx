@@ -1,0 +1,242 @@
+import { Box, Typography } from "@mui/material";
+import { useState } from "react";
+import { ARROWUP } from "../../../assets";
+import Divider from "../../Common/Divider";
+import Stop from "./Stop";
+import SessionMarketBox from "./SessionMarketBox";
+
+const SessionMarket = ({
+  currentMatch,
+  liveOnly,
+  setCurrentMatch,
+  setLocalState,
+  hideResult,
+  stopAllHide,
+  title,
+  hideTotalBet,
+  sessionData,
+  setIObtes,
+  setData,
+  setLocalSessionExpertOdds,
+}: any) => {
+  const [stop, setStop] = useState(true);
+  const [visible, setVisible] = useState(true);
+
+  return (
+    <Box
+      sx={{
+        display: "flex",
+        backgroundColor: "white",
+        flexDirection: "column",
+        marginY: { lg: ".5vh" },
+        width: "100%",
+        alignSelf: {
+          xs: "center",
+          md: "center",
+          lg: "flex-start",
+          boxShadow: "0px 5px 10px #0000001A",
+        },
+      }}
+    >
+      <Box
+        sx={{
+          display: "flex",
+          height: 38,
+          flexDirection: "row",
+          width: "99.7%",
+          alignSelf: "center",
+        }}
+      >
+        <Box
+          sx={{
+            flex: 1,
+            background: "#f1c550",
+            alignItems: "center",
+            display: "flex",
+            justifyContent: "space-between",
+          }}
+        >
+          <Typography
+            sx={{
+              fontSize: { lg: "13px", md: "12px", xs: "12px" },
+              fontWeight: "bold",
+              marginLeft: "7px",
+            }}
+          >
+            {title}
+          </Typography>
+          {!stopAllHide && (
+            <Stop
+              onClick={() => {
+                setStop(false);
+                // handleLive();
+              }}
+            />
+          )}
+        </Box>
+        <Box
+          sx={{
+            flex: 0.1,
+            background: "#262626",
+            // '#262626'
+          }}
+        >
+          <div className="slanted"></div>
+        </Box>
+        <Box
+          sx={{
+            flex: 1,
+            background: "#262626",
+            // '#262626' ,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "flex-end",
+          }}
+        >
+          <img
+            onClick={() => {
+              setVisible(!visible);
+            }}
+            src={ARROWUP}
+            alt={"Up Arrow"}
+            style={{
+              transform: visible ? "rotate(180deg)" : "rotate(0deg)",
+              width: "15px",
+              height: "15px",
+              marginRight: "5px",
+              marginLeft: "5px",
+              cursor: "pointer",
+            }}
+          />
+        </Box>
+      </Box>
+      {visible && (
+        <Box
+          sx={{
+            width: "100%",
+            alignItems: "center",
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
+          {
+            <Box
+              sx={{
+                display: "flex",
+                background: "#319E5B",
+                height: "25px",
+                width: "99.7%",
+                alignSelf: "center",
+              }}
+            >
+              <Box
+                sx={{
+                  display: "flex",
+                  background: "'#319E5B'",
+                  height: "25px",
+                  width: "60%",
+                  alignItems: "center",
+                }}
+              >
+                <Typography
+                  sx={{
+                    color: "white",
+                    fontSize: { lg: "11px", xs: "9px" },
+                    marginLeft: "7px",
+                  }}
+                >
+                  MIN: {currentMatch?.betfair_session_min_bet} MAX:
+                  {currentMatch?.betfair_session_max_bet}
+                </Typography>
+              </Box>
+              <Box
+                sx={{
+                  display: "flex",
+                  background: "#319E5B",
+                  height: "25px",
+                  // marginLeft: "0vw",
+                  width: { lg: "40%", xs: "80%", marginLeft: "8px" },
+                  justifyContent: { lg: "flex-start", xs: "flex-end" },
+                }}
+              >
+                <Box
+                  sx={{
+                    background: "#FF9292",
+                    width: { lg: "22%", xs: "26.5%" },
+                    height: "100%",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <Typography
+                    sx={{ fontSize: "12px", color: "black", fontWeight: "600" }}
+                  >
+                    No
+                  </Typography>
+                </Box>
+                <Box sx={{ width: ".45%", display: "flex" }}></Box>
+                <Box
+                  sx={{
+                    background: "#00C0F9",
+                    width: { lg: "21.9%", xs: "26.5%" },
+                    height: "100%",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <Typography
+                    sx={{ fontSize: "12px", color: "black", fontWeight: "600" }}
+                  >
+                    Yes
+                  </Typography>
+                </Box>
+              </Box>
+            </Box>
+          }
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              width: "100%",
+              position: "relative",
+              height: "auto",
+              maxHeight: "300px",
+              overflowY: "scroll",
+            }}
+          >
+            {console.log("matchSessionData", sessionData)}
+            {sessionData?.length > 0 &&
+              sessionData?.map((match: any, index: any) => (
+                <Box
+                  key={index}
+                  //  ref={messageRef}
+                >
+                  <SessionMarketBox
+                    liveOnly={liveOnly}
+                    setIObtes={setIObtes}
+                    setData={setData}
+                    hideResult={hideResult}
+                    hideTotalBet={hideTotalBet}
+                    // updateSessionData={updateSessionData}
+                    setMatchSessionData={setLocalSessionExpertOdds}
+                    setLocalState={(val: any) => setLocalState(val)}
+                    currentMatch={currentMatch}
+                    setCurrentMatch={setCurrentMatch}
+                    newData={match}
+                    setStop={setStop}
+                    stop={stop}
+                    index={index}
+                  />
+                  <Divider />
+                </Box>
+              ))}
+          </Box>
+        </Box>
+      )}
+    </Box>
+  );
+};
+
+export default SessionMarket;
