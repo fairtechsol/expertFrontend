@@ -7,6 +7,7 @@ const MatchList = Loadable(lazy(() => import("../pages/matchList")));
 const AddMatch = Loadable(lazy(() => import("../pages/addMatch")));
 const AddSession = Loadable(lazy(() => import("../pages/addSession")));
 const MatchDetails = Loadable(lazy(() => import("../pages/matchDetails")));
+const ChangePassword = Loadable(lazy(() => import("../pages/changePassword")));
 const UpdateBookmaker = Loadable(
   lazy(() => import("../pages/updateBookmaker"))
 );
@@ -38,6 +39,10 @@ const MainRoutes = {
     {
       path: "betOdds",
       element: <MatchDetails />,
+    },
+    {
+      path: "change_password",
+      element: <ChangePassword />,
     },
     {
       path: "*",

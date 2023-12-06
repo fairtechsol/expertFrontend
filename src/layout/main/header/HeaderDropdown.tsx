@@ -22,7 +22,7 @@ const menutItems = [
 const HeaderDropdown = (props: any) => {
   const { anchorEl, open, handleClose } = props;
 
-  const [loading, setLoading] = useState(false);
+  const [loading] = useState(false);
 
   //   const { globalStore, setGlobalStore } = useContext(GlobalStore);
   //   const { socket, socketMicro } = useContext(SocketContext);
