@@ -1,21 +1,11 @@
 import { Box, Typography } from "@mui/material";
 
 const MatchListProfitLoss = (Props: any) => {
-  const {
-    title,
-    id,
-    containerStyle,
-    titleStyle,
-    updateMatchStatus,
-    updateMatchStatusLabel,
-    place,
-    notSwitch,
-    onClick,
-  } = Props;
-  const value = updateMatchStatus[place]?.val;
+  const { updateMatchStatus, updateMatchStatusLabel, onClick } = Props;
   return (
     <>
       <Box
+        onClick={onClick}
         sx={{
           height: "35px",
           minWidth: "100px",
