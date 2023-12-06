@@ -1,4 +1,3 @@
-import { useTheme } from "@emotion/react";
 import { Box, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import StyledImage from "../../../components/Common/StyledImages";
@@ -7,12 +6,8 @@ import { ArrowDown } from "../../../assets";
 
 const ActiveUsers = (props: any) => {
   const { image, value, containerStyle } = props;
-  const theme = useTheme();
   // const matchesMobile = useMediaQuery(theme.breakpoints.down("lg"));
   const [anchorEl, setAnchorEl] = useState<any>(null);
-  const handleClick = (event: any) => {
-    setAnchorEl(event.currentTarget);
-  };
   useEffect(() => {
     // console.log(anchorEl)
   }, [anchorEl]);

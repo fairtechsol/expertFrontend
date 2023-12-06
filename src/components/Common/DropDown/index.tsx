@@ -14,7 +14,6 @@ const DropDown = (props: any) => {
     dropStyle,
     dropDownStyle,
     dropDownTextStyle,
-    Detail,
     place,
     type,
     matchesSelect,

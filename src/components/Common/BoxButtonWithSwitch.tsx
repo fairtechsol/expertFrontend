@@ -54,7 +54,7 @@ const BoxButtonWithSwitch = (props: any) => {
     }
   }, [checked]);
 
-  const MaterialUISwitch = styled(Switch)(({ theme }: { theme: Theme }) => ({
+  const MaterialUISwitch = styled(Switch)(({}: { theme: Theme }) => ({
     width: 50,
     height: 35,
     padding: 7,

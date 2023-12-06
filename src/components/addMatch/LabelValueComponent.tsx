@@ -1,5 +1,4 @@
 import { Box, Typography } from "@mui/material";
-import React from "react";
 import ShowComponent from "./ShowComponent";
 
 const LabelValueComponent = (props: any) => {

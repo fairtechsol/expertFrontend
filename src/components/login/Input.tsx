@@ -6,9 +6,8 @@ import {
   useTheme,
 } from "@mui/material";
 import React, { useState } from "react";
-import { InputInterface } from "../../interface/common";
 
-const Input: React.FC<InputInterface> = (props) => {
+const Input: React.FC<any> = (props) => {
   const {
     title,
     value,

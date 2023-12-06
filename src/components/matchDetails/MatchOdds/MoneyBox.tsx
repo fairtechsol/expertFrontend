@@ -1,7 +1,7 @@
 import { Box, Typography, useMediaQuery, useTheme } from "@mui/material";
 import { ArrowDownRed, ArrowUpGreen } from "../../../assets";
 
-const MoneyBox = ({ color, value }: any) => {
+const MoneyBox = ({ value }: any) => {
   const theme = useTheme();
   const matchesMobile = useMediaQuery(theme.breakpoints.down("lg"));
   console.log(value, "value");

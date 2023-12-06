@@ -12,7 +12,7 @@ const Header = ({}) => {
   const theme = useTheme();
   const [anchor] = useState(null);
   const [anchor1] = useState(null);
-  const [xsOpen, setxsOpen] = useState(false);
+  // const [xsOpen, setxsOpen] = useState(false);
   const matchesxs = useMediaQuery(theme.breakpoints.down("lg"));
   const currentSelected = 1;
   console.log(anchor, anchor1);
@@ -124,7 +124,7 @@ const Header = ({}) => {
             <Box sx={classes.BoxCont1sub1sub1}>
               <StyledImage
                 src={Draw}
-                onClick={() => setxsOpen((prev) => !prev)}
+                // onClick={() => setxsOpen((prev) => !prev)}
                 sx={classes.BoxCont1sub1sub1StyleImg}
               />
               <StyledImage src={FgLogo} sx={classes.RenderLogoCompStyleImg} />

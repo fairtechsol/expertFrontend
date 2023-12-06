@@ -6,11 +6,10 @@ const NotificationModal = ({
   visible,
   setVisible,
   title,
-  onDone,
   loadingDeleteBet,
 }: any) => {
   const [value, setValue] = useState("");
-  const [error, setError] = useState(false);
+  const [error] = useState(false);
 
   const handleDone = (e: any) => {
     e.preventDefault();

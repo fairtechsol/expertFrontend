@@ -1,6 +1,6 @@
 import Button from "@mui/material/Button";
 import * as React from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 import { Box } from "@mui/material";
 import "./index.css";
@@ -20,32 +20,21 @@ export default function AllMatcheDropdown({
   subTitle1,
   subTitle2,
   subTitle3,
-  dropdownHandle,
   dropdownURL1,
   dropdownURL2,
   dropdownURL3,
 }: Props) {
-  const navigate = useNavigate();
-
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const [anchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
 
   const [dropdownMenuToggle, setDropdownMenuToggle] = React.useState(false);
 
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const handleClick = () => {
     setDropdownMenuToggle(!dropdownMenuToggle);
   };
   //   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
   //     setAnchorEl(event.currentTarget);
   //   };
-
-  const dropdownClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    navigate("/expert");
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
 
   return (
     <>
