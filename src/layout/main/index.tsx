@@ -1,12 +1,12 @@
 import { memo } from "react";
 import { Outlet } from "react-router-dom";
-import Header1 from "./header1";
+import Header from "./header";
 import BackgroundLayout from "../../components/Common/BackgroundLayout";
 
 const MainLayout = () => {
   return (
     <>
-      <Header1 />
+      <Header />
       <BackgroundLayout>
         <Outlet />
       </BackgroundLayout>

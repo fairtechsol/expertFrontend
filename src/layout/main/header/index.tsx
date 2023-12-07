@@ -1,170 +1,318 @@
-import { AppBar, Box, useMediaQuery, useTheme } from "@mui/material";
-import { memo, useState } from "react";
-import { NavLink } from "react-router-dom";
-import { Draw, FgLogo, Users } from "../../../assets/index";
+import { useState } from "react";
+import { AppBar, Box, useTheme, useMediaQuery } from "@mui/material";
+import ModalMUI from "@mui/material/Modal";
+import Loader from "../../../components/Loader";
 import StyledImage from "../../../components/Common/StyledImages";
+import { Draw, FgLogo, NotiBadge, Users } from "../../../assets";
+import ButtonHead from "../../../components/header/ButtonHead";
+import { NavLink, useNavigate } from "react-router-dom";
+import BoxProfile from "./BoxProfile";
 import ActiveUsers from "./ActiveUsers";
-import AllMatch from "./AllMatch";
-import ProfileDropdown from "./ProfileDropdown";
-import "./index.css";
+import NotificationModal from "../../../components/header/NotificationModal";
+import DropDownMenu from "./DropDownMenu";
 
-const Header = ({}) => {
+const Header1 = () => {
   const theme = useTheme();
-  const [anchor] = useState(null);
-  const [anchor1] = useState(null);
-  // const [xsOpen, setxsOpen] = useState(false);
-  const matchesxs = useMediaQuery(theme.breakpoints.down("lg"));
-  const currentSelected = 1;
-  console.log(anchor, anchor1);
+  const matchesMobile = useMediaQuery(theme.breakpoints.down("lg"));
+  const navigate = useNavigate();
+  const [visible, setVisible] = useState(false);
+  const [activeUser] = useState<any>("2");
+  const [currentSelected, setSelected] = useState<any>(4);
+  const [anchor, setAnchor] = useState(null);
 
-  const classes = {
-    AppBarVal: { zIndex: (theme: any) => theme.zIndex.drawer + 1 },
-    BoxCont1: [
-      {
-        width: "100%",
-        minHeight: { lg: 60, md: 60, xs: 60 },
-        display: "flex",
-        flexDirection: matchesxs ? "column" : "row",
-        alignItems: !matchesxs ? "center" : "flex-start",
-        justifyContent: "space-between",
-        paddingX: { lg: "2%", xs: "2%" },
-        paddingY: matchesxs ? "9px" : "0px",
-        paddingBottom: matchesxs ? "5px" : "0px",
-      },
-      (theme: any) => ({
-        backgroundImage: `${theme.palette.primary.headerGradient}`,
-      }),
-    ],
-    BoxCont1sub1: {
-      display: "flex",
-      alignItems: "center",
-      width: "100%",
-      flex: 1,
+  const allLiveEventSession: any = [
+    {
+      id: "b501723d-a82c-4a95-a20c-c40e428fce04",
+      gameType: "cricket",
+      title: "Bangladesh v New Zealand",
+      teamA: "Bangladesh",
+      teamB: "New Zealand",
+      teamC: "The Draw",
+      bettings: [],
+      bookmakers: [
+        {
+          id: "0ce79b49-85c3-463a-bfac-6320a788cd1b",
+          marketName: "book0",
+        },
+        {
+          id: "072a6251-eac0-4344-a792-0dde184e6c17",
+          marketName: "book1",
+        },
+      ],
     },
-    BoxCont1sub1sub1: {
-      display: "flex",
-      alignItems: "center",
-      marginRight: "12px",
+    {
+      id: "ac92468d-9173-4650-ba8e-997873612ab8",
+      gameType: "cricket",
+      title: "The Chennai Braves v New York Strikers",
+      teamA: "The Chennai Braves",
+      teamB: "New York Strikers",
+      teamC: null,
+      bettings: [],
+      bookmakers: [
+        {
+          id: "40e7b1d4-c861-4dba-908b-e9519ecc65c8",
+          marketName: "Quick Book 0",
+        },
+        {
+          id: "90d46e39-8ccd-4f33-8e06-2165d28bbb3a",
+          marketName: "Quick Book 1",
+        },
+      ],
     },
-    BoxCont1sub1sub1StyleImg: {
-      height: { lg: "24px", xs: "20px" },
-      width: "auto",
-      cursor: "pointer",
-    },
-    RenderLogoCompStyleImg: {
-      height: { lg: "45px", xs: "30px" },
-      width: "auto",
-      marginTop: "12px",
-      marginLeft: { lg: "20px", xs: "10px" },
-    },
-    BoxCont1sub1ButtonHead1boxStyle: {
-      backgroundColor: "transparent",
-      justifyContent: "center",
-      borderRadius: "3px",
-      marginLeft: "2%",
-    },
-    BoxCont1sub1LiveMarketboxStyle: {
-      backgroundColor: currentSelected == 1 ? "white" : "transparent",
-      borderRadius: "3px",
-      justifyContent: "center",
-      cursor: "pointer",
-      alignItems: "center",
-      marginLeft: "2%",
-    },
-    BoxCont1sub1ButtonHead2boxStyle: {
-      backgroundColor: "transparent",
-      borderRadius: "3px",
-      marginLeft: "2%",
-      justifyContent: "center",
-    },
-    BoxCont1sub1ButtonHeadtitleStylefn: (currentSelected: any, num: any) => {
-      return { color: currentSelected == num ? "green" : "white" };
-    },
-    BoxCont1sub1ButtonHead3boxStyle: {
-      backgroundColor: "transparent",
-      borderRadius: "3px",
-      marginLeft: "1.5%",
-      justifyContent: "center",
-    },
-    BoxCont1sub1ButtonHead4boxStyle: {
-      backgroundColor: "transparent",
-      width: "90px",
-      borderRadius: "3px",
-      marginLeft: "1.5%",
-      justifyContent: "space-around",
-    },
-    BoxCont1sub2: {
-      width: "100%",
-      display: "flex",
-      marginLeft: { xs: 0, lg: 0, md: 0 },
-      justifyContent: "flex-end",
-      // minWidth: matchesxs ? "100%" : "0px",
-      alignItems: "center",
-      marginTop: matchesxs ? "0" : "0px",
-    },
-    BoxCont1sub2SearchInputContStyle: {
-      height: "30px",
-      minWidth: { lg: "100px", xs: "1.5vw" },
-      width: "140px",
-    },
-    BoxCont1sub2BoxProfileContStyle: matchesxs ? { width: "52%" } : {},
-    BoxEnd: {
-      minHeight: {
-        lg: 60,
-        xs: "60px",
-        md: "60px",
-      },
-    },
-  };
+  ];
   return (
     <>
-      <AppBar position="fixed" sx={classes.AppBarVal} className="mainMenu">
-        <Box sx={classes.BoxCont1}>
-          <Box sx={[classes.BoxCont1sub1, { width: "90%" }]}>
-            <Box sx={classes.BoxCont1sub1sub1}>
+      <ModalMUI
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+
+          backgroundColor: "white",
+          "& > .MuiBackdrop-root": {
+            backdropFilter: "blur(2px)",
+            backgroundColor: "white",
+          },
+        }}
+        open={false}
+        // onClose={setSelected}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Loader />
+      </ModalMUI>
+      {/* <SessionTimeOut /> */}
+      <AppBar
+        position="fixed"
+        sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
+      >
+        {/* <IdleTimer role="" /> */}
+        <NotificationModal
+          setVisible={setVisible}
+          visible={visible}
+          onClick={() => {}}
+          onDone={() => {
+            // handleAddNotification(value);
+          }}
+        />
+        <Box
+          sx={[
+            {
+              width: "100%",
+              minHeight: { lg: 66, md: 80, xs: 60 },
+              display: "flex",
+              flexDirection: matchesMobile ? "column" : "row",
+              alignItems: !matchesMobile ? "center" : "flex-start",
+              justifyContent: "space-between",
+              paddingX: { lg: "0.5%", xs: "1%" },
+              paddingY: matchesMobile ? "15px" : "0px",
+              paddingBottom: matchesMobile ? "10px" : "0px",
+            },
+            (theme: any) => ({
+              backgroundImage: `${theme.palette.primary.headerGradient}`,
+            }),
+          ]}
+        >
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              width: "100%",
+              flex: 1,
+            }}
+          >
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                marginRight: "12px",
+              }}
+            >
               <StyledImage
+                onClick={() => {
+                  //   setMobileOpen(!mobileOpen);
+                }}
                 src={Draw}
-                // onClick={() => setxsOpen((prev) => !prev)}
-                sx={classes.BoxCont1sub1sub1StyleImg}
+                sx={{
+                  height: { lg: "24px", xs: "20px" },
+                  width: "auto",
+                }}
               />
-              <StyledImage src={FgLogo} sx={classes.RenderLogoCompStyleImg} />
+              <StyledImage
+                src={FgLogo}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  navigate(`/expert/match`);
+                }}
+                sx={{
+                  cursor: "pointer",
+                  height: { lg: "45px", xs: "40px" },
+                  width: "auto",
+                  marginLeft: { lg: "20px", xs: "10px" },
+                }}
+              />
             </Box>
-            <Box display="flex" alignItems="center" className="mainMenu-list">
-              <AllMatch />
-              <NavLink to="/expert/live">All Bets</NavLink>
-              <NavLink className="matchList" to="/expert/match">
-                Match List
-              </NavLink>
+            {activeUser != 1 && activeUser != "2" && (
+              <ButtonHead
+                onClick={() => {
+                  setSelected(0);
+                  navigate("/expert/home");
+                }}
+                title={"ADD MATCH"}
+                boxStyle={{
+                  backgroundColor:
+                    currentSelected == 0 ? "white" : "transparent",
+                  py: "5px",
+                  borderRadius: "5px",
+                  marginLeft: "15px",
+                }}
+                titleStyle={{ color: currentSelected == 0 ? "green" : "white" }}
+              />
+            )}
+            {(activeUser == 1 || activeUser == "2" || activeUser == "3") && (
+              <>
+                <ButtonHead
+                  onClick={(e: any) => {
+                    setSelected(1);
+                    if (activeUser == "3") {
+                      return;
+                    }
+                    setAnchor(e.currentTarget);
+                  }}
+                  title={"ALL MATCH"}
+                  boxStyle={{
+                    backgroundColor:
+                      currentSelected == 1 ? "white" : "transparent",
+                    py: "5px",
+                    borderRadius: "5px",
+                    marginLeft: "15px",
+                    cursor: "pointer",
+                  }}
+                  titleStyle={{
+                    color: currentSelected == 1 ? "green" : "white",
+                  }}
+                />
+                {activeUser != "3" && (
+                  <NavLink
+                    to={"/expert/live"}
+                    style={{ textDecoration: "none" }}
+                  >
+                    <ButtonHead
+                      onClick={() => {
+                        setSelected(5);
+                      }}
+                      title={"ALL BET"}
+                      boxStyle={{
+                        backgroundColor:
+                          currentSelected == 5 ? "white" : "transparent",
+                        py: "5px",
+                        borderRadius: "5px",
+                        marginLeft: "15px",
+                        cursor: "pointer",
+                      }}
+                      titleStyle={{
+                        color: currentSelected == 5 ? "green" : "white",
+                      }}
+                    />
+                  </NavLink>
+                )}
+                {
+                  <NavLink
+                    to={"expert/match"}
+                    style={{ textDecoration: "none" }}
+                  >
+                    <ButtonHead
+                      onClick={() => {
+                        setSelected(4);
+                      }}
+                      title={"MATCH LIST"}
+                      boxStyle={{
+                        backgroundColor:
+                          window.location.pathname.split("/")[2] == "match"
+                            ? "white"
+                            : "transparent",
+                        py: "5px",
+                        borderRadius: "5px",
+                        marginLeft: "15px",
+                        cursor: "pointer",
+                      }}
+                      titleStyle={{
+                        color:
+                          window.location.pathname.split("/")[2] == "match"
+                            ? "green"
+                            : "white",
+                      }}
+                    />
+                  </NavLink>
+                }
+              </>
+            )}
+          </Box>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              minWidth: matchesMobile ? "100%" : "0px",
+              alignItems: "center",
+              marginTop: matchesMobile ? "15px" : "0px",
+            }}
+          >
+            <Box
+              onClick={() => {
+                setVisible(true);
+              }}
+              sx={{
+                height: "45px",
+                width: "45px",
+                borderRadius: "35px",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                background: "white",
+              }}
+            >
+              <StyledImage
+                src={NotiBadge}
+                sx={{ height: "25px", width: "25px" }}
+              />
             </Box>
-            <Box sx={classes.BoxCont1sub2}>
-              <ActiveUsers containerStyle={{}} image={Users} value="6" />
-              <ProfileDropdown
+            <Box sx={{ display: "flex", alignItems: "center" }}>
+              <ActiveUsers containerStyle={{}} image={Users} value={"2"} />
+              <BoxProfile
                 containerStyle={{ marginTop: "0" }}
                 image={"https://picsum.photos/200/300"}
-                value="Bookmaker"
-                // value={
-                //   activeUser == 1
-                //     ? "Session"
-                //     : activeUser == 2
-                //     ? "Bookmaker"
-                //     : "Betfair"
-                // }
-                // value1={localCurrentUser?.userName || ""}
+                value={
+                  activeUser == 1
+                    ? "Session"
+                    : activeUser == 2
+                    ? "Bookmaker"
+                    : "Betfair"
+                }
+                value1={"User"}
               />
-              {/* <ProfileDropdown
-                containerStyle={classes.BoxCont1sub2BoxProfileContStyle}
-                image={"https://picsum.photos/200/300"}
-                value={"User"}
-                balance={"90000"}
-              /> */}
             </Box>
           </Box>
         </Box>
-        {/* <xsSideBar xsOpen={xsOpen} setxsOpen={setxsOpen} /> */}
       </AppBar>
-      <Box sx={classes.BoxEnd} />
+      {/* {false && !/createTransPassword/.test(window.location.pathname) && (
+        // <ThisUseModal
+        //   message="You don't have transaction password"
+        //   buttonMessage="Create Transaction Password"
+        //   navigateTo="createTransPassword"
+        // />
+      )} */}
+      <Box sx={{ minHeight: { lg: 66, xs: 60 + 32 + 42 } }} />
+      <DropDownMenu
+        anchorEl={anchor}
+        open={Boolean(anchor)}
+        allMatch={allLiveEventSession}
+        handleClose={() => {
+          setAnchor(null);
+        }}
+        allLiveEventSession={allLiveEventSession}
+      />
     </>
   );
 };
 
-export default memo(Header);
+export default Header1;
