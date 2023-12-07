@@ -1,24 +1,24 @@
 import { Box, Switch, Theme, Typography, styled } from "@mui/material";
 import { useEffect, useState } from "react";
 
-interface UpdateMatchStatus {
-  [key: string]: {
-    val: boolean;
-    // Add other properties if needed
-  };
-}
+// interface UpdateMatchStatus {
+//   [key: string]: {
+//     val: boolean;
+//     // Add other properties if needed
+//   };
+// }
 
-interface Props {
-  title: string;
-  id: string;
-  containerStyle?: React.CSSProperties;
-  titleStyle?: React.CSSProperties;
-  updateMatchStatus: UpdateMatchStatus;
-  setUpdateMatchStatus: React.Dispatch<React.SetStateAction<UpdateMatchStatus>>;
-  place: string;
-  notSwitch: boolean;
-  onClick: (id: string) => void;
-}
+// interface Props {
+//   title: string;
+//   id: string;
+//   containerStyle?: React.CSSProperties;
+//   titleStyle?: React.CSSProperties;
+//   updateMatchStatus: UpdateMatchStatus;
+//   setUpdateMatchStatus: React.Dispatch<React.SetStateAction<UpdateMatchStatus>>;
+//   place: string;
+//   notSwitch: boolean;
+//   onClick: (id: string) => void;
+// }
 
 const BoxButtonWithSwitch = (props: any) => {
   const {
