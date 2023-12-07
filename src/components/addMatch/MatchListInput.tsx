@@ -1,0 +1,79 @@
+import { Input, Typography } from "@mui/material";
+import { Box } from "@mui/system";
+
+const MatchListInput = (props: any) => {
+  const { value, required, title, type, disable, placeholder } = props;
+
+  const containerStyles = {
+    width: "100%",
+    marginTop: "10px",
+  };
+
+  const titleStyles = {
+    width: "100%",
+    color: "#202020",
+    fontSize: { xs: "12px", lg: "12px" },
+    fontWeight: "600",
+    marginLeft: "0px",
+  };
+
+  const inputStyle = {
+    width: "100%",
+    fontSize: { xs: "14px", lg: "14px", fontWeight: "600" },
+    textTransform: "capitalize",
+  };
+  const inputContainerStyle = {
+    width: "100%",
+    borderRadius: "5px",
+    border: "1px solid #DEDEDE",
+  };
+
+  return (
+    <>
+      <Typography
+        sx={{
+          color: "#575757",
+          fontSize: "12px",
+          fontWeight: "600",
+        }}
+      >
+        {title}
+      </Typography>
+      <Box
+        sx={{
+          width: "100%",
+          height: "40px",
+          borderRadius: "5px",
+          px: "10px",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          background: "white",
+        }}
+      >
+        <Input
+          fullWidth
+          inputProps={{ min: 0 }}
+          disabled={disable}
+          placeholder={`${placeholder}`}
+          // value={DetailError.Detail[place]?.val}
+          containerStyles={containerStyles}
+          titleStyle={titleStyles}
+          inputStyle={inputStyle}
+          inputContainerStyle={inputContainerStyle}
+          title={title}
+          required={required}
+          type={type}
+          onKeyDown={(e) => {
+            // Check string not start with symbols
+            if (/^[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]*$/.test(e.key)) {
+              e.preventDefault();
+            }
+          }}
+        />
+      </Box>
+    </>
+  );
+};
+
+export default MatchListInput;
