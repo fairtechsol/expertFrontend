@@ -1,6 +1,5 @@
-import { Box, Button, Input, Typography } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import StyledImage from "../Common/StyledImages";
-import { DatePicker } from "rsuite";
 
 const containerStyles: any = {
   width: "100%",
@@ -38,44 +37,44 @@ const ShowComponent = ({
   const date = new Date();
   switch (InputValType) {
     case "InputVal":
-      return (
-        <Box
-          sx={[
-            {
-              width: "100%",
-              height: "40px",
-              borderRadius: "5px",
-              px: "10px",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-              background: "white",
-            },
-            valueContainerStyle,
-          ]}
-        >
-          <Input
-            fullWidth
-            inputProps={{ min: 0 }}
-            disabled={disable}
-            placeholder={`${value}`}
-            // value={DetailError.Detail[place]?.val}
-            containerStyle={containerStyles}
-            titleStyle={titleStyles}
-            inputStyle={inputStyle}
-            inputContainerStyle={inputContainerStyle}
-            title={title}
-            required={required}
-            type={type}
-            onKeyDown={(e) => {
-              // Check string not start with symbols
-              if (/^[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]*$/.test(e.key)) {
-                e.preventDefault();
-              }
-            }}
-          />
-        </Box>
-      );
+    // return (
+    //   <Box
+    //     sx={[
+    //       {
+    //         width: "100%",
+    //         height: "40px",
+    //         borderRadius: "5px",
+    //         px: "10px",
+    //         display: "flex",
+    //         alignItems: "center",
+    //         justifyContent: "space-between",
+    //         background: "white",
+    //       },
+    //       valueContainerStyle,
+    //     ]}
+    //   >
+    //     <Input
+    //       fullWidth
+    //       inputProps={{ min: 0 }}
+    //       disabled={disable}
+    //       placeholder={`${value}`}
+    //       // value={DetailError.Detail[place]?.val}
+    //       containerStyle={containerStyles}
+    //       titleStyle={titleStyles}
+    //       inputStyle={inputStyle}
+    //       inputContainerStyle={inputContainerStyle}
+    //       title={title}
+    //       required={required}
+    //       type={type}
+    //       onKeyDown={(e) => {
+    //         // Check string not start with symbols
+    //         if (/^[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]*$/.test(e.key)) {
+    //           e.preventDefault();
+    //         }
+    //       }}
+    //     />
+    //   </Box>
+    // );
     case "FileSelectVal":
       return (
         <Button
@@ -109,15 +108,15 @@ const ShowComponent = ({
           )}
         </Button>
       );
-    case "DatePickerVal":
-      return (
-        <DatePicker
-          disabled={disable}
-          style={{ width: "100%" }}
-          format="yyyy-MM-dd HH:mm"
-          value={date}
-        />
-      );
+    // case "DatePickerVal":
+    //   return (
+    //     <DatePicker
+    //       disabled={disable}
+    //       style={{ width: "100%" }}
+    //       format="yyyy-MM-dd HH:mm"
+    //       value={date}
+    //     />
+    //   );
     default:
       return (
         <Box

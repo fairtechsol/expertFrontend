@@ -2,7 +2,8 @@ import { Input, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 
 const MatchListInput = (props: any) => {
-  const { value, required, title, type, disable, placeholder } = props;
+  const { value, required, label, labelStyle, type, disable, placeholder } =
+    props;
 
   const containerStyles = {
     width: "100%",
@@ -31,13 +32,14 @@ const MatchListInput = (props: any) => {
   return (
     <>
       <Typography
-        sx={{
+        style={{
           color: "#575757",
           fontSize: "12px",
           fontWeight: "600",
+          ...labelStyle,
         }}
       >
-        {title}
+        {label}
       </Typography>
       <Box
         sx={{
@@ -61,9 +63,10 @@ const MatchListInput = (props: any) => {
           titleStyle={titleStyles}
           inputStyle={inputStyle}
           inputContainerStyle={inputContainerStyle}
-          title={title}
+          label={label}
           required={required}
           type={type}
+          value={value}
           onKeyDown={(e) => {
             // Check string not start with symbols
             if (/^[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]*$/.test(e.key)) {

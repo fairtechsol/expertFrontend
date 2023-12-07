@@ -213,6 +213,17 @@ const AddMatch = () => {
                 place={5}
               />
             </Box>
+            {/* <Box sx={{ width: { xs: "100%", lg: "18%", md: "24%" } }}>
+              <MatchListInput
+                label="Team A *"
+                placeholder="Enter Name of Team A"
+                type="text"
+                // required={true}
+                // disable
+                // value="dsaj67sadsa"
+              />
+            </Box> */}
+
             <Box sx={{ width: { xs: "100%", lg: "18%", md: "24%" } }}>
               <LabelValueComponent
                 disable={true}
