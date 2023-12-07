@@ -1,11 +1,30 @@
 import { Box, Button, Typography } from "@mui/material";
+import { makeStyles } from "@mui/styles";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
+import dayjs, { Dayjs } from "dayjs";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { ArrowDownBlack, Upload } from "../../assets";
+import { Upload } from "../../assets";
 import DropDown from "../../components/Common/DropDown";
 import LabelValueComponent from "../../components/addMatch/LabelValueComponent";
 import Constants from "../../components/helper/constants";
 
+const useStyles = makeStyles((theme) => ({
+  dateTimePicker: {
+    "& .MuiFormControl-root": {
+      height: "30px",
+    },
+  },
+}));
+
 const AddMatch = () => {
+  const [value, setValue] = useState<Dayjs | null>(
+    dayjs("2022-04-17T15:30") as Dayjs
+  );
+  const classes = useStyles();
   const navigate = useNavigate();
   const handleSubmit = (e: any) => {
     e.preventDefault();
@@ -270,7 +289,41 @@ const AddMatch = () => {
             </Box>
 
             <Box sx={{ width: { xs: "100%", lg: "18%", md: "24%" } }}>
-              <LabelValueComponent
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                {" "}
+                <DemoContainer
+                  components={["DateTimePicker", "DateTimePicker"]}
+                >
+                  <Typography sx={{ fontSize: "12px" }}>Start Time</Typography>
+                  <DateTimePicker
+                    disabled
+                    sx={{
+                      // height: "40px",
+                      background: "#fff",
+                      overflow: "hidden",
+                      borderRadius: "5px",
+                      mt: "0 !important",
+                      opacity: "0.9",
+                      cursor: "not-allowed",
+                      "& .MuiOutlinedInput-notchedOutline": {
+                        border: "none",
+                      },
+                      "& .css-nxo287-MuiInputBase-input-MuiOutlinedInput-input":
+                        {
+                          cursor: "not-allowed",
+                          paddingBottom: "8px",
+                          paddingTop: "8px",
+                        },
+                    }}
+                    className={classes.dateTimePicker}
+                    // label="Controlled picker"
+                    value={value}
+                    onChange={(newValue) => setValue(newValue)}
+                  />
+                </DemoContainer>
+                `
+              </LocalizationProvider>
+              {/* <LabelValueComponent
                 disable={true}
                 icon={ArrowDownBlack}
                 valueStyle={{}}
@@ -280,7 +333,7 @@ const AddMatch = () => {
                 InputValType={"DatePickerVal"}
                 place={2}
                 DetailError={{}}
-              />
+              /> */}
               {/* {Error[2]?.val && (
                 <Typography
                   color="red"

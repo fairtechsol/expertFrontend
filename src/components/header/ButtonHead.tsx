@@ -25,7 +25,11 @@ const ButtonHead = ({
     >
       <Typography
         sx={[
-          { fontSize: "11px", fontWeight: "bold", fontFamily: "Montserrat" },
+          {
+            fontSize: "11px",
+            fontWeight: "bold",
+            fontFamily: "Poppins,sans-serif",
+          },
           titleStyle,
         ]}
       >

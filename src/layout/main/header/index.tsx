@@ -1,14 +1,14 @@
-import { useState } from "react";
-import { AppBar, Box, useTheme, useMediaQuery } from "@mui/material";
+import { AppBar, Box, useMediaQuery, useTheme } from "@mui/material";
 import ModalMUI from "@mui/material/Modal";
-import Loader from "../../../components/Loader";
-import StyledImage from "../../../components/Common/StyledImages";
-import { Draw, FgLogo, NotiBadge, Users } from "../../../assets";
-import ButtonHead from "../../../components/header/ButtonHead";
+import { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-import BoxProfile from "./BoxProfile";
-import ActiveUsers from "./ActiveUsers";
+import { Draw, FgLogo, NotiBadge, Users } from "../../../assets";
+import StyledImage from "../../../components/Common/StyledImages";
+import Loader from "../../../components/Loader";
+import ButtonHead from "../../../components/header/ButtonHead";
 import NotificationModal from "../../../components/header/NotificationModal";
+import ActiveUsers from "./ActiveUsers";
+import BoxProfile from "./BoxProfile";
 import DropDownMenu from "./DropDownMenu";
 
 const Header1 = () => {
