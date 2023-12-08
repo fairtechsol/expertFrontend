@@ -73,6 +73,10 @@ const MatchListInput = (props: any) => {
               e.preventDefault();
             }
           }}
+          sx={{
+            cursor: disable ? "not-allowed" : "text",
+            zIndex: disable && 999,
+          }}
         />
       </Box>
     </>

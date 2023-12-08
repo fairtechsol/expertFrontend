@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 import { Upload } from "../../assets";
 import DropDown from "../../components/Common/DropDown";
 import LabelValueComponent from "../../components/addMatch/LabelValueComponent";
+import MatchListInput from "../../components/addMatch/MatchListInput";
 import Constants from "../../components/helper/constants";
 
 const useStyles = makeStyles((theme) => ({
@@ -225,7 +226,15 @@ const AddMatch = () => {
             </Box> */}
 
             <Box sx={{ width: { xs: "100%", lg: "18%", md: "24%" } }}>
-              <LabelValueComponent
+              <MatchListInput
+                label="Team A *"
+                placeholder="Enter Name of Team A"
+                type="text"
+                // required={true}
+                disable
+                // value="dsaj67sadsa"
+              />
+              {/* <LabelValueComponent
                 disable={true}
                 containerStyle={{ flex: 1, width: "100%" }}
                 title={"Team A *"}
@@ -237,7 +246,7 @@ const AddMatch = () => {
                 DetailError={{
                   type: "String",
                 }}
-              />
+              /> */}
               {/* {Error[9]?.val && (
                 <Typography
                   color="red"
