@@ -4,7 +4,7 @@ import Constants from "../../components/helper/constants";
 import MatchListHeader from "../../components/matchList/matchListHeader";
 import MatchListTable from "../../components/matchList/matchListTable";
 import MatchListTableHeader from "../../components/matchList/matchListTableHeader";
-
+import "./style.css";
 const MatchList = ({}) => {
   const [pageCount] = useState(Constants.pageCount);
   const [currentPage, setCurrentPage] = useState(1);
@@ -42,9 +42,19 @@ const MatchList = ({}) => {
             background: "#073c25",
             overflow: "hidden",
             borderRadius: "0px 0px 10px 10px",
+            color: "white",
+            "& .MuiPaginationItem-page": {
+              color: "white", // Change the text color for other pages
+            },
+            "& .MuiPaginationItem-ellipsis": {
+              color: "white", // Change the text color for ellipsis (...) items
+            },
+            "& .MuiPaginationItem-next": {
+              color: "white", // Change the text color for the "Next" button
+            },
           }}
           page={currentPage}
-          className="whiteTextPagination d-flex justify-content-center"
+          className="whiteTextPagination matchList-pagination d-flex justify-content-center"
           count={pageCount}
           color="primary"
           onChange={callPage}

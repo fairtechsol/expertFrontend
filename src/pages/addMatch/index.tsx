@@ -263,7 +263,15 @@ const AddMatch = () => {
               )} */}
             </Box>
             <Box sx={{ width: { xs: "100%", lg: "18%", md: "24%" } }}>
-              <LabelValueComponent
+              <MatchListInput
+                label="Team B *"
+                placeholder="Enter Name of Team B..."
+                type="text"
+                // required={true}
+                disable
+                // value="dsaj67sadsa"
+              />
+              {/* <LabelValueComponent
                 disable={true}
                 containerStyle={{ flex: 1, width: "100%" }}
                 title={"Team B *"}
@@ -275,7 +283,7 @@ const AddMatch = () => {
                 DetailError={{
                   type: "String",
                 }}
-              />
+              /> */}
               {/* {Error[13]?.val && (
                 <Typography
                   color="red"
@@ -294,7 +302,15 @@ const AddMatch = () => {
             </Box>
             <Box sx={{ width: { xs: "100%", lg: "18%", md: "24%" } }}>
               {" "}
-              <LabelValueComponent
+              <MatchListInput
+                label="Team C *"
+                placeholder="Enter Name of Team C"
+                type="text"
+                // required={true}
+                disable
+                // value="dsaj67sadsa"
+              />
+              {/* <LabelValueComponent
                 disable={true}
                 containerStyle={{ flex: 1, width: "100%" }}
                 title={"Team C"}
@@ -305,10 +321,10 @@ const AddMatch = () => {
                 DetailError={{
                   type: "String",
                 }}
-              />
+              /> */}
             </Box>
 
-            <Box sx={{ width: { xs: "100%", lg: "18%", md: "24%" } }}>
+            <Box sx={{ width: { xs: "100%", lg: "18%", md: "24%" }, mt: 1 }}>
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 {" "}
                 <DemoContainer
@@ -409,7 +425,17 @@ const AddMatch = () => {
               />
             </Box>
             <Box sx={{ width: { xs: "100%", lg: "18%", md: "24%" } }}>
-              <LabelValueComponent
+              <MatchListInput
+                required={true}
+                valueStyle={{}}
+                containerStyle={{ flex: 1, width: "100%" }}
+                label={"Min Bet"}
+                type={"Number"}
+                placeholder="Enter your Min Bet..."
+                InputValType={"InputVal"}
+                place={3}
+              />
+              {/* <LabelValueComponent
                 required={true}
                 containerStyle={{ flex: 1, width: "100%" }}
                 title={"Min Bet"}
@@ -420,11 +446,24 @@ const AddMatch = () => {
                 DetailError={{
                   type: "String",
                 }}
-              />
+              /> */}
             </Box>
 
             <Box sx={{ width: { xs: "100%", lg: "18%", md: "24%" } }}>
-              <LabelValueComponent
+              <MatchListInput
+                required={true}
+                valueStyle={{}}
+                containerStyle={{ flex: 1, width: "100%" }}
+                label={"Betfair Match Max Bet"}
+                type={"Number"}
+                placeholder="Enter your Match Max Bet..."
+                InputValType={"InputVal"}
+                place={3}
+                // DetailError={{
+                //   type: "Number",
+                // }}
+              />
+              {/* <LabelValueComponent
                 required={true}
                 valueStyle={{}}
                 containerStyle={{ flex: 1, width: "100%" }}
@@ -436,10 +475,22 @@ const AddMatch = () => {
                 DetailError={{
                   type: "Number",
                 }}
-              />
+              /> */}
             </Box>
             <Box sx={{ width: { xs: "100%", lg: "18%", md: "24%" } }}>
-              <LabelValueComponent
+              <MatchListInput
+                required={true}
+                containerStyle={{ flex: 1, width: "100%" }}
+                label={"Betfair Session Max Bet"}
+                type={"Number"}
+                placeholder="Betfair Session Max Bet..."
+                InputValType={"InputVal"}
+                place={11}
+                // DetailError={{
+                //   type: "Number",
+                // }}
+              />
+              {/* <LabelValueComponent
                 required={true}
                 containerStyle={{ flex: 1, width: "100%" }}
                 title={"Betfair Session Max Bet"}
@@ -450,10 +501,20 @@ const AddMatch = () => {
                 DetailError={{
                   type: "String",
                 }}
-              />
+              /> */}
             </Box>
             <Box sx={{ width: { xs: "100%", lg: "18%", md: "24%" } }}>
-              <LabelValueComponent
+              <MatchListInput
+                required={true}
+                containerStyle={{ flex: 1, width: "100%" }}
+                label={"Betfair Bookmaker Max Bet"}
+                type={"Number"}
+                // value="Enter  Bookmaker Max Bet..."
+                placeholder="Enter  Bookmaker Max Bet..."
+                InputValType={"InputVal"}
+                place={15}
+              />
+              {/* <LabelValueComponent
                 required={true}
                 containerStyle={{ flex: 1, width: "100%" }}
                 title={"Betfair Bookmaker Max Bet"}
@@ -464,10 +525,20 @@ const AddMatch = () => {
                 DetailError={{
                   type: "String",
                 }}
-              />
+              /> */}
             </Box>
             <Box sx={{ width: { xs: "100%", lg: "18%", md: "24%" } }}>
-              <LabelValueComponent
+              <MatchListInput
+                required={true}
+                containerStyle={{ flex: 1, width: "100%" }}
+                label={"Manaual Session Max Bet"}
+                type={"Number"}
+                // value="Enter Session Max Bet..."
+                placeholder="Enter Session Max Bet..."
+                InputValType={"InputVal"}
+                place={19}
+              />
+              {/* <LabelValueComponent
                 required={true}
                 containerStyle={{ flex: 1, width: "100%" }}
                 title={"Manaual Session Max Bet"}
@@ -478,7 +549,7 @@ const AddMatch = () => {
                 DetailError={{
                   type: "String",
                 }}
-              />
+              /> */}
             </Box>
             <Box sx={{ width: { xs: "100%", lg: "18%", md: "24%" } }}>
               <LabelValueComponent
@@ -571,7 +642,18 @@ const AddMatch = () => {
                         },
                       }}
                     >
-                      <LabelValueComponent
+                      <MatchListInput
+                        required={true}
+                        containerStyle={{ flex: 1, width: "100%" }}
+                        label={"Market Name"}
+                        type={"text"}
+                        placeholder="Enter Market Name..."
+                        place={11}
+                        // DetailError={{
+                        //   type: "Number",
+                        // }}
+                      />
+                      {/* <LabelValueComponent
                         required={true}
                         containerStyle={{ flex: 1, width: "100%" }}
                         title={"Market Name"}
@@ -582,7 +664,7 @@ const AddMatch = () => {
                         DetailError={{
                           type: "String",
                         }}
-                      />
+                      /> */}
                     </Box>
 
                     <Box
@@ -594,7 +676,18 @@ const AddMatch = () => {
                         },
                       }}
                     >
-                      <LabelValueComponent
+                      <MatchListInput
+                        required={true}
+                        containerStyle={{ flex: 1, width: "100%" }}
+                        label={"Max Limit"}
+                        type={"number"}
+                        placeholder="Enter Max Bet..."
+                        place={11}
+                        // DetailError={{
+                        //   type: "Number",
+                        // }}
+                      />
+                      {/* <LabelValueComponent
                         required={true}
                         containerStyle={{ flex: 1, width: "100%" }}
                         title={"Max Limit"}
@@ -605,6 +698,53 @@ const AddMatch = () => {
                         DetailError={{
                           type: "String",
                         }}
+                      /> */}
+                    </Box>
+                  </Box>
+                )}
+                {true && (
+                  <Box sx={{ display: "flex", width: "100%", gap: 1 }}>
+                    <Box
+                      sx={{
+                        width: {
+                          xs: "100%",
+                          lg: "18%",
+                          md: "24%",
+                        },
+                      }}
+                    >
+                      <MatchListInput
+                        required={true}
+                        containerStyle={{ flex: 1, width: "100%" }}
+                        label={"Market Name"}
+                        type={"text"}
+                        placeholder="Enter Market Name..."
+                        place={11}
+                        // DetailError={{
+                        //   type: "Number",
+                        // }}
+                      />
+                    </Box>
+
+                    <Box
+                      sx={{
+                        width: {
+                          xs: "100%",
+                          lg: "18%",
+                          md: "24%",
+                        },
+                      }}
+                    >
+                      <MatchListInput
+                        required={true}
+                        containerStyle={{ flex: 1, width: "100%" }}
+                        label={"Max Limit"}
+                        type={"number"}
+                        placeholder="Enter Max Bet..."
+                        place={11}
+                        // DetailError={{
+                        //   type: "Number",
+                        // }}
                       />
                     </Box>
                   </Box>
@@ -620,17 +760,16 @@ const AddMatch = () => {
                         },
                       }}
                     >
-                      <LabelValueComponent
+                      <MatchListInput
                         required={true}
                         containerStyle={{ flex: 1, width: "100%" }}
-                        title={"Market Name"}
-                        type={"Text"}
-                        value="Enter Market Name..."
-                        InputValType={"InputVal"}
-                        place={27}
-                        DetailError={{
-                          type: "String",
-                        }}
+                        label={"Market Name"}
+                        type={"text"}
+                        placeholder="Enter Market Name..."
+                        place={11}
+                        // DetailError={{
+                        //   type: "Number",
+                        // }}
                       />
                     </Box>
 
@@ -643,66 +782,16 @@ const AddMatch = () => {
                         },
                       }}
                     >
-                      <LabelValueComponent
+                      <MatchListInput
                         required={true}
                         containerStyle={{ flex: 1, width: "100%" }}
-                        title={"Max Limit"}
-                        type={"Number"}
-                        value="Enter Max Bet..."
-                        InputValType={"InputVal"}
-                        place={29}
-                        DetailError={{
-                          type: "String",
-                        }}
-                      />
-                    </Box>
-                  </Box>
-                )}
-                {true && (
-                  <Box sx={{ display: "flex", width: "100%", gap: 1 }}>
-                    <Box
-                      sx={{
-                        width: {
-                          xs: "100%",
-                          lg: "18%",
-                          md: "24%",
-                        },
-                      }}
-                    >
-                      <LabelValueComponent
-                        required={true}
-                        containerStyle={{ flex: 1, width: "100%" }}
-                        title={"Market Name"}
-                        type={"Text"}
-                        value="Enter Market Name..."
-                        InputValType={"InputVal"}
-                        place={30}
-                        DetailError={{
-                          type: "String",
-                        }}
-                      />
-                    </Box>
-
-                    <Box
-                      sx={{
-                        width: {
-                          xs: "100%",
-                          lg: "18%",
-                          md: "24%",
-                        },
-                      }}
-                    >
-                      <LabelValueComponent
-                        required={true}
-                        containerStyle={{ flex: 1, width: "100%" }}
-                        title={"Max Limit"}
-                        type={"Number"}
-                        value="Enter Max Bet..."
-                        InputValType={"InputVal"}
-                        place={32}
-                        DetailError={{
-                          type: "String",
-                        }}
+                        label={"Max Limit"}
+                        type={"number"}
+                        placeholder="Enter Max Bet..."
+                        place={11}
+                        // DetailError={{
+                        //   type: "Number",
+                        // }}
                       />
                     </Box>
                   </Box>
