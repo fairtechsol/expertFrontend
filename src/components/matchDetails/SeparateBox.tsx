@@ -1,7 +1,7 @@
 import { Box, Typography, useMediaQuery, useTheme } from "@mui/material";
 import React from "react";
-import { Lock } from "../../assets";
 import { Popover } from "react-tiny-popover";
+import { Lock } from "../../assets";
 
 const SeparateBox = ({ color, empty, value, width, value2, lock }: any) => {
   const theme = useTheme();
@@ -14,6 +14,7 @@ const SeparateBox = ({ color, empty, value, width, value2, lock }: any) => {
         align={matchesMobile ? "end" : "center"}
         positions={["bottom"]} // preferred positions by priority
         onClickOutside={() => setIsPopoverOpen(false)}
+        content={<div></div>}
       >
         <Box
           onClick={() => {

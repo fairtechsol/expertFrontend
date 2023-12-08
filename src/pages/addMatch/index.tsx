@@ -13,7 +13,7 @@ import LabelValueComponent from "../../components/addMatch/LabelValueComponent";
 import MatchListInput from "../../components/addMatch/MatchListInput";
 import Constants from "../../components/helper/constants";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   dateTimePicker: {
     "& .MuiFormControl-root": {
       height: "30px",

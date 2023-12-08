@@ -5,7 +5,7 @@ const MatchListInput = (props: any) => {
   const { value, required, label, labelStyle, type, disable, placeholder } =
     props;
 
-  const containerStyles = {
+  const containerStyles: any = {
     width: "100%",
     marginTop: "10px",
   };
@@ -23,11 +23,11 @@ const MatchListInput = (props: any) => {
     fontSize: { xs: "14px", lg: "14px", fontWeight: "600" },
     textTransform: "capitalize",
   };
-  const inputContainerStyle = {
-    width: "100%",
-    borderRadius: "5px",
-    border: "1px solid #DEDEDE",
-  };
+  // const inputContainerStyle = {
+  //   width: "100%",
+  //   borderRadius: "5px",
+  //   border: "1px solid #DEDEDE",
+  // };
 
   return (
     <>
@@ -59,11 +59,11 @@ const MatchListInput = (props: any) => {
           disabled={disable}
           placeholder={`${placeholder}`}
           // value={DetailError.Detail[place]?.val}
-          containerStyles={containerStyles}
-          titleStyle={titleStyles}
-          inputStyle={inputStyle}
-          inputContainerStyle={inputContainerStyle}
-          label={label}
+          // containerStyles={containerStyles}
+          // titleStyle={titleStyles}
+          // inputStyle={inputStyle}
+          // inputContainerStyle={inputContainerStyle}
+
           required={required}
           type={type}
           value={value}
@@ -76,6 +76,9 @@ const MatchListInput = (props: any) => {
           sx={{
             cursor: disable ? "not-allowed" : "text",
             zIndex: disable && 999,
+            ...containerStyles,
+            ...titleStyles,
+            ...inputStyle,
           }}
         />
       </Box>
