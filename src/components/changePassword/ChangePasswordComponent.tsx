@@ -1,30 +1,48 @@
 import { Box, Button, CircularProgress, Typography } from "@mui/material";
-import { useState } from "react";
 import Input from "../login/Input";
 import { eye, eyeLock } from "../../assets";
+import { useFormik } from "formik";
+import { useNavigate } from "react-router-dom";
+import { changePasswordSchema } from "../../utils/Validations/login";
+import { ApiConstants } from "../../utils/Constants";
+import service from "../../service";
+import { toast } from "react-toastify";
+
+const initialValues: any = {
+  oldPassword: "",
+  newPassword: "",
+  confirmPassword: "",
+};
+
+const toastOptions = {
+  autoClose: 5000,
+  hideProgressBar: false,
+  closeOnClick: true,
+  pauseOnHover: true,
+};
 
 export const ChangePasswordComponent = ({ passLoader, width }: any) => {
-  const [passwordDetail, setPasswordDetail] = useState({
-    2: { field: "oldPassword", val: "" },
-    3: { field: "newPassword", val: "" },
-    4: { field: "confirmPassword", val: "" },
-  });
-  const [error, setError] = useState({
-    2: { field: "oldPassword", val: false },
-    3: { field: "newPassword", val: false },
-    4: { field: "confirmPassword", val: false },
+  const navigate = useNavigate();
+
+  const formik = useFormik({
+    initialValues: initialValues,
+    validationSchema: changePasswordSchema,
+    onSubmit: async (values: any) => {
+      try {
+        const resp = await service.post(ApiConstants.CHANGEPASSWORD, values);
+        if (resp) {
+          navigate("/login");
+          localStorage.clear();
+        }
+      } catch (e: any) {
+        toast.error(e?.response?.data?.message);
+      }
+    },
   });
 
-  const handleChange = (e: any) => {
-    e.preventDefault();
-  };
-  const handleEnterKeyPress = (e: any) => {
-    if (e.key === "Enter") {
-      handleChange(e);
-    }
-  };
+  const { handleSubmit, touched, errors } = formik;
   return (
-    <form onSubmit={handleChange}>
+    <form onSubmit={handleSubmit}>
       <Box
         sx={{
           width: { xs: "96vw", lg: "19vw", md: "19vw" },
@@ -60,6 +78,11 @@ export const ChangePasswordComponent = ({ passLoader, width }: any) => {
             required={true}
             placeholder={"Enter Old Password"}
             title={"Old Password"}
+            id="oldPassword"
+            name={"oldPassword"}
+            type="password"
+            value={formik.values.oldPassword}
+            onChange={formik.handleChange}
             titleStyle={{
               color: "#222222",
               marginLeft: "0px",
@@ -69,19 +92,20 @@ export const ChangePasswordComponent = ({ passLoader, width }: any) => {
             containerStyle={{}}
             img={eye}
             img1={eyeLock}
-            setDetail={setPasswordDetail}
-            Detail={passwordDetail}
-            setError={setError}
-            error={error}
             place={2}
-            // onFocusOut={doSendErrorForPassword}
             toFoucs={true}
+            touched={touched.oldPassword}
+            error={errors.oldPassword}
           />
           <Input
             required={true}
             placeholder={"Enter New Password"}
-            inputProps={{ type: "password" }}
             title={"New Password"}
+            name={"newPassword"}
+            id="newPassword"
+            type="password"
+            value={formik.values.newPassword}
+            onChange={formik.handleChange}
             titleStyle={{
               color: "#222222",
               marginLeft: "0px",
@@ -91,20 +115,20 @@ export const ChangePasswordComponent = ({ passLoader, width }: any) => {
             containerStyle={{ marginTop: "30px" }}
             img={eye}
             img1={eyeLock}
-            setDetail={setPasswordDetail}
-            Detail={passwordDetail}
-            setError={setError}
-            error={error}
             place={3}
-            // onFocusOut={doSendErrorForPassword}
             toFoucs={true}
+            touched={touched.newPassword}
+            error={errors.newPassword}
           />
-          {error[3].val && <p style={{ color: "#fa1e1e" }}>{error[3].val}</p>}
           <Input
             required={true}
             placeholder={"Enter Confirm Password"}
-            inputProps={{ type: "password" }}
             title={"Confirm New Password"}
+            name={"confirmPassword"}
+            id="confirmPassword"
+            type="password"
+            value={formik.values.confirmPassword}
+            onChange={formik.handleChange}
             titleStyle={{
               color: "#222222",
               marginLeft: "0px",
@@ -114,21 +138,13 @@ export const ChangePasswordComponent = ({ passLoader, width }: any) => {
             containerStyle={{ marginTop: "30px" }}
             img={eye}
             img1={eyeLock}
-            setDetail={setPasswordDetail}
-            Detail={passwordDetail}
-            setError={setError}
-            error={error}
             place={4}
-            // onFocusOut={doSendErrorForPassword}
             toFoucs={true}
             okButtonRef={"okButtonRef"}
-            onKeyDown={handleEnterKeyPress}
+            touched={touched.confirmPassword}
+            error={errors.confirmPassword}
           />
-          {passwordDetail[3].val !== passwordDetail[4].val && (
-            <p style={{ color: "#fa1e1e" }}>Password Doesn't match</p>
-          )}
           <Button
-            // onClick={handleChange}
             type="submit"
             sx={{
               height: "50px",

@@ -9,6 +9,7 @@ import React, { useState } from "react";
 
 const Input: React.FC<any> = (props) => {
   const {
+    id,
     title,
     value,
     containerStyle,
@@ -26,6 +27,8 @@ const Input: React.FC<any> = (props) => {
     imgstyle,
     onChange,
     name,
+    touched,
+    error,
   } = props;
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.down("md"));
@@ -62,6 +65,7 @@ const Input: React.FC<any> = (props) => {
         ]}
       >
         <TextField
+          id={id}
           autoFocus={autoFocus}
           variant="standard"
           placeholder={placeholder}
@@ -105,6 +109,7 @@ const Input: React.FC<any> = (props) => {
           />
         )}
       </Box>
+      {touched && error ? <div style={{ color: "red" }}>{error}</div> : null}
     </Box>
   );
 };

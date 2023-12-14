@@ -1,9 +1,4 @@
 import { useState } from "react";
-// import { GlobalStore } from "../../context/globalStore";
-// import { SocketContext } from "../../context/socketContext";
-import { useNavigate } from "react-router-dom";
-// import { useDispatch } from "react-redux";
-
 import {
   Box,
   CircularProgress,
@@ -11,6 +6,9 @@ import {
   MenuItem,
   Typography,
 } from "@mui/material";
+import { logout } from "../../../store/actions/auth/authAction";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../../../store/store";
 
 const menutItems = [
   { title: "Bet Odds", navigateTo: "betodds" },
@@ -23,11 +21,7 @@ const HeaderDropdown = (props: any) => {
   const { anchorEl, open, handleClose } = props;
 
   const [loading] = useState(false);
-
-  //   const { globalStore, setGlobalStore } = useContext(GlobalStore);
-  //   const { socket, socketMicro } = useContext(SocketContext);
-  const navigate = useNavigate();
-  //   const dispatch = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
 
   return (
     <Menu
@@ -92,11 +86,7 @@ const HeaderDropdown = (props: any) => {
       ))}
       <Box
         onClick={() => {
-          if (!loading) {
-            navigate("/");
-          } else {
-            return false;
-          }
+          dispatch(logout());
         }}
         sx={{
           borderRadius: "5px",
@@ -121,7 +111,6 @@ const HeaderDropdown = (props: any) => {
             value={60}
           />
         ) : (
-          //   <StyledImage src={Logout} sx={{ width: "35%", height: "auto" }} />
           <Typography>Logout</Typography>
         )}
       </Box>
