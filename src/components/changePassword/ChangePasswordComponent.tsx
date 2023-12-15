@@ -31,6 +31,9 @@ export const ChangePasswordComponent = ({ passLoader, width }: any) => {
       try {
         const resp = await service.post(ApiConstants.CHANGEPASSWORD, values);
         if (resp) {
+          if (resp?.data) {
+            toast.success(resp?.data?.transactionPassword, toastOptions);
+          }
           navigate("/login");
           localStorage.clear();
         }

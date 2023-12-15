@@ -55,101 +55,68 @@ const Login = () => {
   }, [success]);
 
   return (
-    <Box style={{ position: "relative" }}>
-      <AuthBackground />
+    <form
+      onSubmit={handleSubmit}
+      style={{
+        width: "90%",
+        justifyContent: "center",
+      }}
+    >
+      <Box sx={{ width: "100%", opacity: 1 }}>
+        <Input
+          placeholder={"Enter Username"}
+          title={"Username"}
+          name="userName"
+          id="userName"
+          img={mail}
+          img1={mail}
+          value={formik.values.userName}
+          onChange={formik.handleChange}
+          touched={touched.userName}
+          error={errors.userName}
+        />
+        <Input
+          title={"Password"}
+          placeholder={"Enter Password"}
+          containerStyle={{ marginTop: "10px" }}
+          img={eye}
+          img1={eyeLock}
+          type="password"
+          name="password"
+          id="password"
+          value={formik.values.password}
+          onChange={formik.handleChange}
+          touched={touched.password}
+          error={errors.password}
+        />
+      </Box>
       <Box
-        style={{
-          height: "100vh",
-          width: "100vw",
+        sx={{
           display: "flex",
-          alignItems: "flex-start",
-          position: "relative",
           justifyContent: "center",
+          marginY: "1vh",
+          marginTop: "4vh",
         }}
       >
-        <Box
-          sx={[
-            {
-              display: "flex",
-              flexDirection: "column",
-              py: "20px",
-              width: "18%",
-              minWidth: "250px",
-              alignItems: "center",
-              justifyContent: "center",
-            },
-          ]}
+        <Button
+          type="submit"
+          variant="contained"
+          color="secondary"
+          sx={{
+            width: "62%",
+            cursor: "pointer",
+            height: { xs: "50px", lg: "43px" },
+            borderRadius: "10px",
+            fontWeight: "500",
+            textTransform: "none",
+            fontSize: { lg: "14px", xs: "14px" },
+            background: `${theme.palette.secondary}`,
+          }}
         >
-          <StyledImage
-            src={FgLogo}
-            alt="Fairgame"
-            sx={{ height: "8%", width: "300px", mt: 2 }}
-          />
-          <form
-            onSubmit={handleSubmit}
-            style={{
-              width: "90%",
-              justifyContent: "center",
-            }}
-          >
-            <Box sx={{ width: "100%", opacity: 1 }}>
-              <Input
-                placeholder={"Enter Username"}
-                title={"Username"}
-                name="userName"
-                id="userName"
-                img={mail}
-                img1={mail}
-                value={formik.values.userName}
-                onChange={formik.handleChange}
-                touched={touched.userName}
-                error={errors.userName}
-              />
-              <Input
-                title={"Password"}
-                placeholder={"Enter Password"}
-                containerStyle={{ marginTop: "10px" }}
-                img={eye}
-                img1={eyeLock}
-                type="password"
-                name="password"
-                id="password"
-                value={formik.values.password}
-                onChange={formik.handleChange}
-                touched={touched.password}
-                error={errors.password}
-              />
-            </Box>
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-                marginY: "1vh",
-                marginTop: "4vh",
-              }}
-            >
-              <Button
-                type="submit"
-                variant="contained"
-                color="secondary"
-                sx={{
-                  width: "62%",
-                  cursor: "pointer",
-                  height: { xs: "50px", lg: "43px" },
-                  borderRadius: "10px",
-                  fontWeight: "500",
-                  textTransform: "none",
-                  fontSize: { lg: "14px", xs: "14px" },
-                  background: `${theme.palette.secondary}`,
-                }}
-              >
-                Login
-              </Button>
-            </Box>
-          </form>
-        </Box>
+          Login
+        </Button>
       </Box>
-    </Box>
+    </form >
   );
 };
 
