@@ -40,7 +40,12 @@ const addMatchSchema: any = {
   matchOddMaxBet: "",
   betFairSessionMaxBet: "",
   betFairBookmakerMaxBet: "",
-  bookmakers: "",
+  bookmakers: [
+    {
+      maxBet: 6300,
+      marketName: "userDefined",
+    },
+  ],
   tiedMatch: "",
 };
 
@@ -68,8 +73,17 @@ const AddMatch = () => {
     onSubmit: (values: any) => {
       const payload = {
         minBet: values.minBet,
+        teamA: values.teamA,
+        teamB: values.teamB,
+        teamC: values.teamC,
         betFairSessionMaxBet: values.betFairSessionMaxBet,
         betFairBookmakerMaxBet: values.betFairBookmakerMaxBet,
+        bookmakers: [
+          {
+            maxBet: 6300,
+            marketName: "userDefined",
+          },
+        ],
       };
       dispatch(addMatchAPI(payload));
     },
@@ -276,7 +290,10 @@ const AddMatch = () => {
                 type="text"
                 // required={true}
                 disable
-                // value="dsaj67sadsa"
+                id="teamA"
+                name="teamA"
+                value={formik.values.teamA}
+                onChange={formik.handleChange}
               />
               {/* <LabelValueComponent
                 disable={true}
@@ -313,7 +330,10 @@ const AddMatch = () => {
                 type="text"
                 // required={true}
                 disable
-                // value="dsaj67sadsa"
+                id="teamB"
+                name="teamB"
+                value={formik.values.teamB}
+                onChange={formik.handleChange}
               />
               {/* <LabelValueComponent
                 disable={true}
@@ -352,7 +372,10 @@ const AddMatch = () => {
                 type="text"
                 // required={true}
                 disable
-                // value="dsaj67sadsa"
+                id="teamC"
+                name="teamC"
+                value={formik.values.teamC}
+                onChange={formik.handleChange}
               />
               {/* <LabelValueComponent
                 disable={true}
@@ -481,6 +504,7 @@ const AddMatch = () => {
                 id="minBet"
                 name="minBet"
                 value={formik.values.minBet}
+                onChange={formik.handleChange}
               />
               {/* <LabelValueComponent
                 required={true}
@@ -533,6 +557,10 @@ const AddMatch = () => {
                 placeholder="Betfair Session Max Bet..."
                 InputValType={"InputVal"}
                 place={11}
+                id="betFairSessionMaxBet"
+                name="betFairSessionMaxBet"
+                value={formik.values.betFairSessionMaxBet}
+                onChange={formik.handleChange}
                 // DetailError={{
                 //   type: "Number",
                 // }}
@@ -560,6 +588,10 @@ const AddMatch = () => {
                 placeholder="Enter  Bookmaker Max Bet..."
                 InputValType={"InputVal"}
                 place={15}
+                id="betFairBookmakerMaxBet"
+                name="betFairBookmakerMaxBet"
+                value={formik.values.betFairBookmakerMaxBet}
+                onChange={formik.handleChange}
               />
               {/* <LabelValueComponent
                 required={true}
@@ -575,7 +607,7 @@ const AddMatch = () => {
               /> */}
             </Box>
             <Box sx={{ width: { xs: "100%", lg: "18%", md: "24%" } }}>
-              <MatchListInput
+              {/* <MatchListInput
                 required={true}
                 containerStyle={{ flex: 1, width: "100%" }}
                 label={"Manaual Session Max Bet"}
@@ -584,7 +616,7 @@ const AddMatch = () => {
                 placeholder="Enter Session Max Bet..."
                 InputValType={"InputVal"}
                 place={19}
-              />
+              /> */}
               {/* <LabelValueComponent
                 required={true}
                 containerStyle={{ flex: 1, width: "100%" }}
@@ -598,7 +630,7 @@ const AddMatch = () => {
                 }}
               /> */}
             </Box>
-            <Box sx={{ width: { xs: "100%", lg: "18%", md: "24%" } }}>
+            {/* <Box sx={{ width: { xs: "100%", lg: "18%", md: "24%" } }}>
               <LabelValueComponent
                 required={true}
                 containerStyle={{ flex: 1, width: "100%" }}
@@ -611,7 +643,7 @@ const AddMatch = () => {
                   type: "String",
                 }}
               />
-            </Box>
+            </Box> */}
 
             <Box sx={{ width: "100%" }}>
               <Box
@@ -697,6 +729,10 @@ const AddMatch = () => {
                         type={"text"}
                         placeholder="Enter Market Name..."
                         place={11}
+                        id="bookmakersMarketName"
+                        name="bookmakersMarketName"
+                        value={formik.values.bookmakers.marketName}
+                        onChange={formik.handleChange}
                         // DetailError={{
                         //   type: "Number",
                         // }}
@@ -731,6 +767,10 @@ const AddMatch = () => {
                         type={"number"}
                         placeholder="Enter Max Bet..."
                         place={11}
+                        id="bookmakersMaxBet"
+                        name="bookmakersMaxBet"
+                        value={formik.values.bookmakers.marketName}
+                        onChange={formik.handleChange}
                         // DetailError={{
                         //   type: "Number",
                         // }}
