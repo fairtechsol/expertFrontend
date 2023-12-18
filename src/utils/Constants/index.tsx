@@ -3,9 +3,9 @@ export const ApiConstants = {
   LOGOUT: "auth/logout",
   MATCH: {
     ADD_MATCH: "/match/add",
-    USER: {
-      CHANGEPASSWORD: "user/password",
-    },
+  },
+  USER: {
+    CHANGEPASSWORD: "user/password",
   },
 };
 
