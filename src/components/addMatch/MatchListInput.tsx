@@ -7,20 +7,20 @@ const MatchListInput = (props: any) => {
 
   const containerStyles: any = {
     width: "100%",
-    marginTop: "10px",
+    // marginTop: "10px",
   };
 
   const titleStyles = {
     width: "100%",
     color: "#202020",
     fontSize: { xs: "12px", lg: "12px" },
-    fontWeight: "600",
+    // fontWeight: "600",
     marginLeft: "0px",
   };
 
   const inputStyle = {
     width: "100%",
-    fontSize: { xs: "14px", lg: "14px", fontWeight: "600" },
+    fontSize: { xs: "14px", lg: "14px" },
     textTransform: "capitalize",
   };
   // const inputContainerStyle = {

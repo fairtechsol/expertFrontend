@@ -52,7 +52,7 @@ const AddMatch = () => {
           <LabelValueComponent
             title={
               window.location.pathname.includes("add_match")
-                ? "Add Match"
+                ? "Add Match11"
                 : "Edit Match"
             }
             notShowSub={true}
