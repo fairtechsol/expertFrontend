@@ -13,7 +13,7 @@ import { loginValidationSchema } from "../../../utils/Validations/login";
 const initialValues: any = {
   userName: "",
   password: "",
-  loginType: "expert",
+  // loginType: "expert",
 };
 
 const Login = () => {

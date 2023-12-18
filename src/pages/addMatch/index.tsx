@@ -478,6 +478,9 @@ const AddMatch = () => {
                 placeholder="Enter your Min Bet..."
                 InputValType={"InputVal"}
                 place={3}
+                id="minBet"
+                name="minBet"
+                value={formik.values.minBet}
               />
               {/* <LabelValueComponent
                 required={true}
