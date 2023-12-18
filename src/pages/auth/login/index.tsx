@@ -1,21 +1,19 @@
 import { Box, Button, useTheme } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { FgLogo, eye, eyeLock, mail } from "../../../assets";
+import { eye, eyeLock, mail } from "../../../assets";
 // import StyledImage from "../../../components/Common/StyledImages";
-import StyledImage from "../../../components/Common/StyledImages";
-import Input from "../../../components/login/Input";
-import AuthBackground from "../AuthBackground";
-import { useEffect } from "react";
-import { AppDispatch, RootState } from "../../../store/store";
-import { useDispatch, useSelector } from "react-redux";
-import { authReset, login } from "../../../store/actions/auth/authAction";
 import { useFormik } from "formik";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import Input from "../../../components/login/Input";
+import { authReset, login } from "../../../store/actions/auth/authAction";
+import { AppDispatch, RootState } from "../../../store/store";
 import { loginValidationSchema } from "../../../utils/Validations/login";
 
 const initialValues: any = {
   userName: "",
   password: "",
-  loginType: "wallet",
+  loginType: "expert",
 };
 
 const Login = () => {
@@ -116,7 +114,7 @@ const Login = () => {
           Login
         </Button>
       </Box>
-    </form >
+    </form>
   );
 };
 

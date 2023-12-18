@@ -5,13 +5,17 @@ import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import dayjs, { Dayjs } from "dayjs";
+import { useFormik } from "formik";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router";
 import { Upload } from "../../assets";
 import DropDown from "../../components/Common/DropDown";
 import LabelValueComponent from "../../components/addMatch/LabelValueComponent";
 import MatchListInput from "../../components/addMatch/MatchListInput";
 import Constants from "../../components/helper/constants";
+import { addMatchAPI } from "../../store/actions/match/matchAction";
+import { AppDispatch } from "../../store/store";
 
 const useStyles = makeStyles(() => ({
   dateTimePicker: {
@@ -21,15 +25,35 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
+const addMatchSchema: any = {
+  matchType: "",
+  competitionId: "",
+  competitionName: "",
+  title: "",
+  marketId: "",
+  eventId: "",
+  teamA: "",
+  teamB: "",
+  teamC: "",
+  startAt: "",
+  minBet: "",
+  matchOddMaxBet: "",
+  betFairSessionMaxBet: "",
+  betFairBookmakerMaxBet: "",
+  bookmakers: "",
+  tiedMatch: "",
+};
+
 const AddMatch = () => {
   const [value, setValue] = useState<Dayjs | null>(
     dayjs("2022-04-17T15:30") as Dayjs
   );
-  const classes = useStyles();
   const navigate = useNavigate();
-  const handleSubmit = (e: any) => {
-    e.preventDefault();
-  };
+  const classes = useStyles();
+  const dispatch: AppDispatch = useDispatch();
+  // const handleSubmit = (e: any) => {
+  //   e.preventDefault();
+  // };
 
   const inputStyle = {
     fontSize: { xs: "14px", lg: "14px", fontWeight: "600" },
@@ -37,6 +61,23 @@ const AddMatch = () => {
   };
 
   const selectionData = [1, 2, 3];
+
+  const formik = useFormik({
+    initialValues: addMatchSchema,
+    // validationSchema: addUserValidation,
+    onSubmit: (values: any) => {
+      const payload = {
+        minBet: values.minBet,
+        betFairSessionMaxBet: values.betFairSessionMaxBet,
+        betFairBookmakerMaxBet: values.betFairBookmakerMaxBet,
+      };
+      dispatch(addMatchAPI(payload));
+    },
+  });
+
+  const { handleSubmit } = formik;
+
+  // const { loading } = useSelector((state: RootState) => state.match.addMatch);
 
   return (
     <form onSubmit={handleSubmit}>
@@ -52,7 +93,7 @@ const AddMatch = () => {
           <LabelValueComponent
             title={
               window.location.pathname.includes("add_match")
-                ? "Add Match11"
+                ? "Add Match"
                 : "Edit Match"
             }
             notShowSub={true}
@@ -115,6 +156,7 @@ const AddMatch = () => {
                 }}
                 dropDownTextStyle={inputStyle}
                 place={1}
+                setSelected={() => {}}
               />
               {/* {Error[1]?.val && (
                 <Typography
@@ -170,6 +212,7 @@ const AddMatch = () => {
                   overflow: "auto",
                 }}
                 place={33}
+                setSelected={() => {}}
               />
             </Box>
 
@@ -212,6 +255,7 @@ const AddMatch = () => {
                 }}
                 dropDownTextStyle={inputStyle}
                 place={5}
+                setSelected={() => {}}
               />
             </Box>
             {/* <Box sx={{ width: { xs: "100%", lg: "18%", md: "24%" } }}>
@@ -606,6 +650,7 @@ const AddMatch = () => {
                   }}
                   dropDownTextStyle={inputStyle}
                   place={4}
+                  setSelected={() => {}}
                 />
                 {/* {Error[4]?.val && (
                   <Typography
@@ -825,7 +870,7 @@ const AddMatch = () => {
           <Box
             onClick={() => {
               //   setDetail(stateDetail);
-              navigate("/expert/match_list");
+              // navigate("/expert/match_list");
             }}
             sx={{
               background: "#E32A2A",

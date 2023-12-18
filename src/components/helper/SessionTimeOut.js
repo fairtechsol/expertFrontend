@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import Swal from "sweetalert2";
@@ -23,7 +23,7 @@ function SessionTimeOut() {
 
     const logout = () => {
         dispatch(stateActions.logout());
-        navigate("/");
+        // navigate("/");
         Swal.fire("Your Session is timed out, You are logged out");
     };
 
