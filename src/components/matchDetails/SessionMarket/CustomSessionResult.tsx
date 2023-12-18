@@ -43,7 +43,7 @@ const CustomSessionResult = ({ onClick, newData }: any) => {
               variant="standard"
               value={selected}
               // onChange={(e) => setSelected(e?.target.value)}
-              onChange={(e) => {
+              onChange={(e: any) => {
                 const numericValue = e.target.value.replace(/[^0-9]/g, "");
                 setSelected(numericValue);
               }}

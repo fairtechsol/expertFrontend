@@ -1,10 +1,7 @@
 import { Box, Button, useTheme } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { FgLogo, eye, eyeLock, mail } from "../../../assets";
-// import StyledImage from "../../../components/Common/StyledImages";
-import StyledImage from "../../../components/Common/StyledImages";
+import { eye, eyeLock, mail } from "../../../assets";
 import Input from "../../../components/login/Input";
-import AuthBackground from "../AuthBackground";
 import { useEffect } from "react";
 import { AppDispatch, RootState } from "../../../store/store";
 import { useDispatch, useSelector } from "react-redux";
@@ -15,7 +12,7 @@ import { loginValidationSchema } from "../../../utils/Validations/login";
 const initialValues: any = {
   userName: "",
   password: "",
-  loginType: "wallet",
+  // loginType: "expert",
 };
 
 const Login = () => {
@@ -116,7 +113,7 @@ const Login = () => {
           Login
         </Button>
       </Box>
-    </form >
+    </form>
   );
 };
 
