@@ -1,15 +1,18 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { changePassword } from "../../actions/user/userAction";
+import {
+  changePassword,
+  changePasswordReset,
+} from "../../actions/user/userAction";
 
 interface InitialState {
-  profileDetail: any;
+  transactionPassword: string;
   success: boolean;
   loading: boolean;
   error: any;
 }
 
 const initialState: InitialState = {
-  profileDetail: null,
+  transactionPassword: "",
   loading: false,
   success: false,
   error: null,
@@ -26,14 +29,16 @@ const profileSlice = createSlice({
         state.success = false;
         state.error = null;
       })
-      .addCase(changePassword.fulfilled, (state, action) => {
+      .addCase(changePassword.fulfilled, (state) => {
         state.loading = false;
         state.success = true;
-        state.profileDetail = action.payload;
       })
       .addCase(changePassword.rejected, (state, action) => {
         state.loading = false;
         state.error = action?.error?.message;
+      })
+      .addCase(changePasswordReset, (state) => {
+        return { ...state, success: false, transactionPassword: "" };
       });
   },
 });

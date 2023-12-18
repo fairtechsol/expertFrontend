@@ -1,21 +1,13 @@
-import { createAsyncThunk } from "@reduxjs/toolkit";
+import { createAction, createAsyncThunk } from "@reduxjs/toolkit";
 import service from "../../../service";
 import { ApiConstants } from "../../../utils/Constants";
 import { AxiosError } from "axios";
-import { toast } from "react-toastify";
 
 interface ChangePassword {
   oldPassword: string;
   newPassword: string;
   confirmPassword: string;
 }
-
-const toastOptions = {
-  autoClose: 10000,
-  hideProgressBar: false,
-  closeOnClick: true,
-  pauseOnHover: true,
-};
 
 export const changePassword = createAsyncThunk<any, ChangePassword>(
   "user/changePassword",
@@ -27,9 +19,9 @@ export const changePassword = createAsyncThunk<any, ChangePassword>(
       );
       if (resp) {
         if (resp?.data) {
-          toast.success(resp?.data?.transactionPassword, toastOptions);
+          return resp?.data?.transactionPassword;
         }
-        window.location.replace("/login");
+        localStorage.clear();
       }
     } catch (error: any) {
       const err = error as AxiosError;
@@ -37,3 +29,5 @@ export const changePassword = createAsyncThunk<any, ChangePassword>(
     }
   }
 );
+
+export const changePasswordReset = createAction("changePassword/reset");
