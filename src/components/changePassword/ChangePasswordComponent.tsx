@@ -2,11 +2,10 @@ import { Box, Button, CircularProgress, Typography } from "@mui/material";
 import Input from "../login/Input";
 import { eye, eyeLock } from "../../assets";
 import { useFormik } from "formik";
-import { useNavigate } from "react-router-dom";
 import { changePasswordSchema } from "../../utils/Validations/login";
-import { ApiConstants } from "../../utils/Constants";
-import service from "../../service";
-import { toast } from "react-toastify";
+import { changePassword } from "../../store/actions/user/userAction";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../../store/store";
 
 const initialValues: any = {
   oldPassword: "",
@@ -14,36 +13,19 @@ const initialValues: any = {
   confirmPassword: "",
 };
 
-const toastOptions = {
-  autoClose: 5000,
-  hideProgressBar: false,
-  closeOnClick: true,
-  pauseOnHover: true,
-};
-
 export const ChangePasswordComponent = ({ passLoader, width }: any) => {
-  const navigate = useNavigate();
+  const dispatch: AppDispatch = useDispatch();
 
   const formik = useFormik({
     initialValues: initialValues,
     validationSchema: changePasswordSchema,
-    onSubmit: async (values: any) => {
-      try {
-        const resp = await service.post(ApiConstants.CHANGEPASSWORD, values);
-        if (resp) {
-          if (resp?.data) {
-            toast.success(resp?.data?.transactionPassword, toastOptions);
-          }
-          navigate("/login");
-          localStorage.clear();
-        }
-      } catch (e: any) {
-        toast.error(e?.response?.data?.message);
-      }
+    onSubmit: (values: any) => {
+      dispatch(changePassword(values));
     },
   });
 
   const { handleSubmit, touched, errors } = formik;
+
   return (
     <form onSubmit={handleSubmit}>
       <Box
