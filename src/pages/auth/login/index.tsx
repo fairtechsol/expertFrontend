@@ -1,10 +1,9 @@
 import { Box, Button, useTheme } from "@mui/material";
-import { useNavigate } from "react-router-dom";
-import { eye, eyeLock, mail } from "../../../assets";
-// import StyledImage from "../../../components/Common/StyledImages";
 import { useFormik } from "formik";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { eye, eyeLock, mail } from "../../../assets";
 import Input from "../../../components/login/Input";
 import { authReset, login } from "../../../store/actions/auth/authAction";
 import { AppDispatch, RootState } from "../../../store/store";

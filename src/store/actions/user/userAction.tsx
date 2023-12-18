@@ -28,6 +28,27 @@ export const addUser = createAsyncThunk<any, any>(
   }
 );
 
+export const changePassword = createAsyncThunk<any, ChangePassword>(
+  "user/changePassword",
+  async (requestData, thunkApi) => {
+    try {
+      const resp = await service.post(
+        `${ApiConstants.USER.CHANGEPASSWORD}`,
+        requestData
+      );
+      if (resp) {
+        if (resp?.data) {
+          return resp?.data?.transactionPassword;
+        }
+        localStorage.clear();
+      }
+    } catch (error: any) {
+      const err = error as AxiosError;
+      return thunkApi.rejectWithValue(err.response?.status);
+    }
+  }
+);
+
 export const changePasswordReset = createAction("changePassword/reset");
 export const profileReset = createAction("profile/reset");
 export const updateReset = createAction("update/reset");
