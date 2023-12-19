@@ -1,21 +1,28 @@
 import { Box, Pagination } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Constants from "../../components/helper/constants";
 import MatchListHeader from "../../components/matchList/matchListHeader";
 import MatchListTable from "../../components/matchList/matchListTable";
 import MatchListTableHeader from "../../components/matchList/matchListTableHeader";
 import "./style.css";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../store/store";
+import { getMatchList } from "../../store/actions/match/matchAction";
+
 const MatchList = ({}) => {
+  const dispatch: AppDispatch = useDispatch();
   const [pageCount] = useState(Constants.pageCount);
   const [currentPage, setCurrentPage] = useState(1);
+  const { matchList } = useSelector((state: RootState) => state.matchList);
 
   function callPage(value: any) {
     setCurrentPage(parseInt(value));
   }
 
-  const getAllMatch = () => {
-    alert("getAllMatch");
-  };
+  useEffect(() => {
+    dispatch(getMatchList());
+  }, []);
+
   return (
     <>
       <Box
@@ -32,10 +39,10 @@ const MatchList = ({}) => {
           }),
         ]}
       >
-        <MatchListHeader getAllMatchHandle={getAllMatch} />
+        <MatchListHeader getAllMatchHandle={() => {}} />
         <MatchListTableHeader />
-        {[1, 2, 3].map((item: number) => {
-          return <MatchListTable key={item} />;
+        {matchList.map((item: number, index: number) => {
+          return <MatchListTable key={item} data={item} index={index} />;
         })}
         <Pagination
           sx={{

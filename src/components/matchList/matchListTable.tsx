@@ -6,9 +6,10 @@ import MatchListProfitLoss from "./profitLoss";
 import { useNavigate } from "react-router-dom";
 import ModalMUI from "@mui/material/Modal";
 import StyledImage from "../Common/StyledImages";
+import moment from "moment";
 
 const MatchListTable = (props: any) => {
-  const { data } = props;
+  const { data, index } = props;
   const navigate = useNavigate();
   const [showPopup, setShowPopup] = useState(false);
 
@@ -64,11 +65,12 @@ const MatchListTable = (props: any) => {
             borderRight: "2px solid white",
           }}
         >
-          <Typography sx={{ fontSize: "12px" }}>1</Typography>
+          <Typography sx={{ fontSize: "12px" }}>({index + 1})</Typography>
           <Typography
             sx={{ fontSize: "9px", padding: "4px", fontWeight: "700" }}
           >
-            14-oct-2022
+            {moment(data?.startAt).format("DD-MM-YYYY")} <br />
+            {moment(data?.startAt).format("LT")}
           </Typography>
         </Box>
         <Box
@@ -82,33 +84,38 @@ const MatchListTable = (props: any) => {
         >
           <Box sx={{ display: "flex", flex: 1, alignItems: "center" }}>
             <BoxButtonWithSwitch
-              title="Karachi Region Whites v Abbottabad Region"
+              title={data?.title}
               containerStyle={{ width: "15%" }}
               updateMatchStatus={updateMatchStatus}
               setUpdateMatchStatus={setUpdateMatchStatus}
-              place={12}
+              place={1}
             />
-            <BoxButtonWithSwitch
+            {/* <BoxButtonWithSwitch
               title="Bookmaker"
               containerStyle={{ width: "15%" }}
               updateMatchStatus={updateMatchStatus}
               setUpdateMatchStatus={setUpdateMatchStatus}
-              place={13}
-            />
+              place={2}
+            /> */}
             <BoxButtonWithSwitch
               title="Session"
-              containerStyle={{ width: "15%" }}
+              containerStyle={{ width: "15%" }} 
               updateMatchStatus={updateMatchStatus}
               setUpdateMatchStatus={setUpdateMatchStatus}
-              place={14}
+              place={3}
             />
-            <BoxButtonWithSwitch
-              title="BK1"
-              containerStyle={{ width: "15%" }}
-              updateMatchStatus={updateMatchStatus}
-              setUpdateMatchStatus={setUpdateMatchStatus}
-              place={15}
-            />
+            {data?.matchBettings?.map((bettings: any) => {
+              return (
+                <BoxButtonWithSwitch
+                  key={bettings?.id}
+                  title={bettings.name}
+                  containerStyle={{ width: "14%" }}
+                  updateMatchStatus={updateMatchStatus}
+                  setUpdateMatchStatus={setUpdateMatchStatus}
+                  id={bettings.id}
+                />
+              );
+            })}
             <BoxButtonWithSwitch
               title="Manual Session"
               containerStyle={{ width: "15%" }}
@@ -131,7 +138,9 @@ const MatchListTable = (props: any) => {
           />
           <CustomButton
             onClick={() => {
-              navigate(`/expert/edit_match`);
+              navigate(`/expert/edit_match`, {
+                state: { id: data?.id },
+              });
             }}
             title={"Edit"}
           />

@@ -2,12 +2,14 @@ import { configureStore } from "@reduxjs/toolkit";
 import { authReducer } from "./reducers/auth/authReducer";
 import { userReducer } from "./reducers/user";
 import { addMatchReducer } from "./reducers/addMatch";
+import { matchListReducers } from "./reducers/match/matchList";
 
 const store = configureStore({
   reducer: {
     auth: authReducer,
     user: userReducer,
-    addMatch: addMatchReducer
+    addMatch: addMatchReducer,
+    matchList: matchListReducers,
   },
 });
 

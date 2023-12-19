@@ -4,9 +4,8 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
-import dayjs, { Dayjs } from "dayjs";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Upload } from "../../assets";
 import DropDown from "../../components/Common/DropDown";
 import LabelValueComponent from "../../components/addMatch/LabelValueComponent";
@@ -19,6 +18,7 @@ import {
   addMatchExpert,
   getAllEventsList,
   getAllLiveTournaments,
+  getMatchDetail,
 } from "../../store/actions/addMatch/addMatchAction";
 import moment from "moment";
 
@@ -64,9 +64,8 @@ const initialValues = {
 
 const AddMatch = () => {
   const dispatch: AppDispatch = useDispatch();
-  const [value, setValue] = useState<Dayjs | null>(
-    dayjs("2022-04-17T15:30") as Dayjs
-  );
+
+  const { state } = useLocation();
 
   const [selected, setSelected] = useState(initialValues);
   const classes = useStyles();
@@ -149,11 +148,10 @@ const AddMatch = () => {
 
   const { handleSubmit, values, touched, errors, handleChange } = formik;
 
-  const { tournamentList, eventsList } = useSelector(
+  const { tournamentList, eventsList, matchDetail } = useSelector(
     (state: RootState) => state.addMatch.addMatch
   );
 
-  console.log(selected, "selected");
   useEffect(() => {
     if (selected.gameType !== "") {
       dispatch(getAllLiveTournaments(selected.gameType));
@@ -162,6 +160,12 @@ const AddMatch = () => {
       dispatch(getAllEventsList(selected.tournamentId));
     }
   }, [selected.gameType, selected.tournamentId]);
+
+  useEffect(() => {
+    if (state?.id) {
+      dispatch(getMatchDetail(state?.id));
+    }
+  }, [state?.id]);
 
   return (
     <form onSubmit={handleSubmit}>
@@ -175,11 +179,7 @@ const AddMatch = () => {
       >
         <Box sx={{ margin: "15px" }}>
           <LabelValueComponent
-            title={
-              window.location.pathname.includes("add_match")
-                ? "Add Match"
-                : "Edit Match"
-            }
+            title={state?.id ? "Edit Match" : "Add Match"}
             notShowSub={true}
             titleSize={"20px"}
             headColor={"#000000"}
@@ -286,7 +286,6 @@ const AddMatch = () => {
                 place={33}
                 id="tournamentName"
                 setSelected={setSelected}
-                // value={values.gameType}
               />
             </Box>
 
@@ -339,7 +338,6 @@ const AddMatch = () => {
                 label="Team A *"
                 placeholder="Enter Name of Team A"
                 type="text"
-                // required={true}
                 disable
                 value={selected.teamA}
               />
@@ -349,7 +347,6 @@ const AddMatch = () => {
                 label="Team B *"
                 placeholder="Enter Name of Team B..."
                 type="text"
-                // required={true}
                 disable
                 value={selected.teamB}
               />
@@ -399,33 +396,7 @@ const AddMatch = () => {
                     onChange={handleChange}
                   />
                 </DemoContainer>
-                `
               </LocalizationProvider>
-              {/* <LabelValueComponent
-                disable={true}
-                icon={ArrowDownBlack}
-                valueStyle={{}}
-                containerStyle={{ flex: 1, width: "100%" }}
-                title={"Start Time"}
-                value="Select Start Time..."
-                InputValType={"DatePickerVal"}
-                place={2}
-                DetailError={{}}
-              /> */}
-              {/* {Error[2]?.val && (
-                <Typography
-                  color="red"
-                  sx={{
-                    fontSize: {
-                      xs: "10px",
-                      lg: "12px",
-                      md: "12px",
-                    },
-                  }}
-                >
-                  Start Time Required
-                </Typography>
-              )} */}
             </Box>
             <Box sx={{ width: { xs: "100%", lg: "18%", md: "24%" } }}>
               <LabelValueComponent
@@ -473,6 +444,8 @@ const AddMatch = () => {
                 containerStyle={{ flex: 1, width: "100%" }}
                 label={"Min Bet"}
                 type={"Number"}
+                touched={touched.minBet}
+                errors={errors.minBet}
                 value={values.minBet}
                 onChange={handleChange}
                 placeholder="Enter your Min Bet..."
@@ -481,18 +454,6 @@ const AddMatch = () => {
                 id="minBet"
                 name="minBet"
               />
-              {/* <LabelValueComponent
-                required={true}
-                containerStyle={{ flex: 1, width: "100%" }}
-                title={"Min Bet"}
-                type={"Number"}
-                value="Enter your Min Bet..."
-                InputValType={"InputVal"}
-                place={18}
-                DetailError={{
-                  type: "String",
-                }}
-              /> */}
             </Box>
 
             <Box sx={{ width: { xs: "100%", lg: "18%", md: "24%" } }}>
@@ -504,28 +465,13 @@ const AddMatch = () => {
                 type={"Number"}
                 name="betfairMatchMaxBet"
                 id="betfairMatchMaxBet"
+                touched={touched.betfairMatchMaxBet}
                 value={values.betfairMatchMaxBet}
                 onChange={handleChange}
                 placeholder="Enter your Match Max Bet..."
                 InputValType={"InputVal"}
                 place={3}
-                // DetailError={{
-                //   type: "Number",
-                // }}
               />
-              {/* <LabelValueComponent
-                required={true}
-                valueStyle={{}}
-                containerStyle={{ flex: 1, width: "100%" }}
-                title={"Betfair Match Max Bet"}
-                type={"Number"}
-                value="Enter your Match Max Bet..."
-                InputValType={"InputVal"}
-                place={3}
-                DetailError={{
-                  type: "Number",
-                }}
-              /> */}
             </Box>
             <Box sx={{ width: { xs: "100%", lg: "18%", md: "24%" } }}>
               <MatchListInput
@@ -538,11 +484,9 @@ const AddMatch = () => {
                 place={11}
                 name="betfairSessionMaxBet"
                 id="betfairSessionMaxBet"
+                touched={touched.betfairSessionMaxBet}
                 value={values.betfairSessionMaxBet}
                 onChange={handleChange}
-                // DetailError={{
-                //   type: "Number",
-                // }}
               />
             </Box>
             <Box sx={{ width: { xs: "100%", lg: "18%", md: "24%" } }}>
@@ -552,6 +496,7 @@ const AddMatch = () => {
                 label={"Betfair Bookmaker Max Bet"}
                 type={"Number"}
                 // value="Enter  Bookmaker Max Bet..."
+                touched={touched.betfairBookmakerMaxBet}
                 value={values.betfairBookmakerMaxBet}
                 onChange={handleChange}
                 placeholder="Enter  Bookmaker Max Bet..."
@@ -561,22 +506,6 @@ const AddMatch = () => {
                 name="betfairBookmakerMaxBet"
               />
             </Box>
-            {/* <Box sx={{ width: { xs: "100%", lg: "18%", md: "24%" } }}>
-              <MatchListInput
-                required={true}
-                containerStyle={{ flex: 1, width: "100%" }}
-                label={"Manaual Session Max Bet"}
-                type={"Number"}
-                name="manualSessionMaxBet"
-                id="manualSessionMaxBet"
-                value={values.manualSessionMaxBet}
-                onChange={handleChange}
-                // value="Enter Session Max Bet..."
-                placeholder="Enter Session Max Bet..."
-                InputValType={"InputVal"}
-                place={19}
-              />
-            </Box> */}
             <Box sx={{ width: "100%" }}>
               <Box
                 sx={{
@@ -606,8 +535,6 @@ const AddMatch = () => {
                   }}
                   titleStyle={{ marginLeft: "0px", color: "#575757" }}
                   data={selectionData}
-                  // setMarketId={setMarketId}
-                  // matchesSelect={true}
                   dropDownStyle={{
                     width: "100%",
                     marginLeft: "0px",
@@ -620,20 +547,6 @@ const AddMatch = () => {
                   dropDownTextStyle={inputStyle}
                   place={4}
                 />
-                {/* {Error[4]?.val && (
-                  <Typography
-                    color="red"
-                    sx={{
-                      fontSize: {
-                        xs: "10px",
-                        lg: "12px",
-                        md: "12px",
-                      },
-                    }}
-                  >
-                    Atleast One Bookmaker Required
-                  </Typography>
-                )} */}
               </Box>
 
               <Box
@@ -822,8 +735,6 @@ const AddMatch = () => {
                   }}
                   titleStyle={{ marginLeft: "0px", color: "#575757" }}
                   data={[1]}
-                  // setMarketId={setMarketId}
-                  // matchesSelect={true}
                   dropDownStyle={{
                     width: "100%",
                     marginLeft: "0px",
@@ -836,20 +747,6 @@ const AddMatch = () => {
                   dropDownTextStyle={inputStyle}
                   place={4}
                 />
-                {/* {Error[4]?.val && (
-                  <Typography
-                    color="red"
-                    sx={{
-                      fontSize: {
-                        xs: "10px",
-                        lg: "12px",
-                        md: "12px",
-                      },
-                    }}
-                  >
-                    Atleast One Bookmaker Required
-                  </Typography>
-                )} */}
               </Box>
 
               <Box
@@ -938,7 +835,7 @@ const AddMatch = () => {
           <Box
             onClick={() => {
               setSelected(initialValues);
-              formik.resetForm()
+              formik.resetForm();
               navigate("/expert/match_list");
             }}
             sx={{

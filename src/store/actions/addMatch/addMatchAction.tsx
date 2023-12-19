@@ -78,5 +78,21 @@ export const addMatchExpert = createAsyncThunk<any, any>(
     }
   }
 );
+export const getMatchDetail = createAsyncThunk<any, any>(
+  "getMatchDetail",
+  async (requestData, thunkApi) => {
+    try {
+      const resp = await service.get(
+        `/${ApiConstants.MATCH.GETDETAIL}/${requestData}`
+      );
+      if (resp) {
+        return resp?.data;
+      }
+    } catch (error) {
+      const err = error as AxiosError;
+      return thunkApi.rejectWithValue(err.response?.status);
+    }
+  }
+);
 
 export const addMatchReset = createAction("auth/reset");
