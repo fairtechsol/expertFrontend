@@ -20,9 +20,12 @@ const DropDown = (props: any) => {
     disable,
     setSelected,
     name,
+    valued,
   } = props;
 
-  const [value, setValue] = useState(data[0]);
+  console.log(data, "data");
+
+  const [value, setValue] = useState(valued ?? data[0]);
   const [open, setOpen] = useState(false);
 
   return (
@@ -123,14 +126,14 @@ const DropDown = (props: any) => {
                 return (
                   <DropDownItem
                     key={idx}
-                    i={i}
-                    mId={i.MarketId}
-                    EventId={i.EventId}
+                    i={i.EventName}
+                    mId={i?.MarketId}
+                    EventId={i?.EventId}
                     matchesSelect={matchesSelect}
-                    CompetitionName={i}
-                    eventDetail={i.EventDetail}
+                    CompetitionName={i?.CompetitionName}
+                    eventDetail={i?.EventDetail}
                     type={type}
-                    disable={disable}
+                    // disable={disable}
                     setValue={setValue}
                     setSelected={setSelected}
                     setOpen={setOpen}
@@ -139,7 +142,7 @@ const DropDown = (props: any) => {
                   />
                 );
               })
-            : data?.map((i: string, idx: any) => {
+            : data?.map((i: any, idx: any) => {
                 return (
                   <DropDownItem
                     key={idx}

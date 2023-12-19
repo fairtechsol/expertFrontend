@@ -3,6 +3,10 @@ import { Box, Typography } from "@mui/material";
 const DropDownItem = (props: any) => {
   const {
     i,
+    mId,
+    EventId,
+    matchesSelect,
+    eventDetail,
     CompetitionName,
     disable,
     setValue,
@@ -16,11 +20,44 @@ const DropDownItem = (props: any) => {
       onClick={() => {
         if (!disable) {
           setValue(i);
+          if (eventDetail) {
+            function setDetailWithRunners() {
+              let allrunners: any = [];
+              eventDetail.Runners.map((runner: any) => {
+                allrunners.push(runner?.runnerName);
+              });
+              setSelected((prev: any) => {
+                return {
+                  ...prev,
+                  teamA: allrunners[0],
+                  teamB: allrunners[1],
+                  teamC: allrunners[2] ? allrunners[2] : undefined,
+                  startAt: new Date(eventDetail?.EventDate),
+                  eventId: EventId,
+                  marketId: mId,
+                  matchName: CompetitionName,
+                  title: i,
+                };
+              });
+            }
+            setDetailWithRunners();
+          } else if (matchesSelect) {
+            setSelected((prev: any) => {
+              return {
+                ...prev,
+                [name]: i,
+                tournamentId: EventId,
+              };
+            });
+          } else {
+            setSelected((prev: any) => {
+              return {
+                ...prev,
+                [name]: i,
+              };
+            });
+          }
           setOpen(false);
-          setSelected((prev: any) => ({
-            ...prev,
-            [name]: i,
-          }));
         }
       }}
       sx={[

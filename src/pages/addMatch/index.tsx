@@ -5,17 +5,22 @@ import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import dayjs, { Dayjs } from "dayjs";
-import { useFormik } from "formik";
-import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Upload } from "../../assets";
 import DropDown from "../../components/Common/DropDown";
 import LabelValueComponent from "../../components/addMatch/LabelValueComponent";
 import MatchListInput from "../../components/addMatch/MatchListInput";
 import Constants from "../../components/helper/constants";
-import { addMatchAPI } from "../../store/actions/match/matchAction";
-import { AppDispatch } from "../../store/store";
+import { useFormik } from "formik";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../store/store";
+import {
+  addMatchExpert,
+  getAllEventsList,
+  getAllLiveTournaments,
+} from "../../store/actions/addMatch/addMatchAction";
+import moment from "moment";
 
 const useStyles = makeStyles(() => ({
   dateTimePicker: {
@@ -25,40 +30,47 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const addMatchSchema: any = {
-  matchType: "",
-  competitionId: "",
-  competitionName: "",
-  title: "",
-  marketId: "",
-  eventId: "",
+const initialFormikValues = {
+  minBet: "",
+  betfairMatchMaxBet: "",
+  betfairSessionMaxBet: "",
+  betfairBookmakerMaxBet: "",
+  manualSessionMaxBet: "",
+  marketName1: "",
+  marketMaxBet1: "",
+  marketName2: "",
+  marketMaxBet2: "",
+  marketName3: "",
+  marketMaxBet3: "",
+  marketName4: "",
+  marketMaxBet4: "",
+};
+
+const initialValues = {
   teamA: "",
   teamB: "",
   teamC: "",
-  startAt: "",
-  minBet: "",
-  matchOddMaxBet: "",
-  betFairSessionMaxBet: "",
-  betFairBookmakerMaxBet: "",
-  bookmakers: [
-    {
-      maxBet: 6300,
-      marketName: "userDefined",
-    },
-  ],
-  tiedMatch: "",
+  title: "",
+  tiedMatch: 0,
+  manualBookmaker: 0,
+  gameType: "",
+  tournamentName: "",
+  tournamentId: "",
+  matchName: "",
+  eventId: "",
+  marketId: "",
+  startAt: new Date(),
 };
 
 const AddMatch = () => {
+  const dispatch: AppDispatch = useDispatch();
   const [value, setValue] = useState<Dayjs | null>(
     dayjs("2022-04-17T15:30") as Dayjs
   );
-  const navigate = useNavigate();
+
+  const [selected, setSelected] = useState(initialValues);
   const classes = useStyles();
-  const dispatch: AppDispatch = useDispatch();
-  // const handleSubmit = (e: any) => {
-  //   e.preventDefault();
-  // };
+  const navigate = useNavigate();
 
   const inputStyle = {
     fontSize: { xs: "14px", lg: "14px", fontWeight: "600" },
@@ -68,30 +80,88 @@ const AddMatch = () => {
   const selectionData = [1, 2, 3];
 
   const formik = useFormik({
-    initialValues: addMatchSchema,
-    // validationSchema: addUserValidation,
-    onSubmit: (values: any) => {
-      const payload = {
-        minBet: values.minBet,
-        teamA: values.teamA,
-        teamB: values.teamB,
-        teamC: values.teamC,
-        betFairSessionMaxBet: values.betFairSessionMaxBet,
-        betFairBookmakerMaxBet: values.betFairBookmakerMaxBet,
-        bookmakers: [
+    initialValues: initialFormikValues,
+    onSubmit: (value: any) => {
+      let bookmakers;
+
+      if (selected.manualBookmaker === 1) {
+        bookmakers = [
           {
-            maxBet: 6300,
-            marketName: "userDefined",
+            maxBet: values.marketMaxBet1,
+            marketName: values.marketName1,
+          },
+        ];
+      } else if (selected.manualBookmaker === 2) {
+        bookmakers = [
+          {
+            maxBet: values.marketMaxBet1,
+            marketName: values.marketName1,
+          },
+          {
+            maxBet: values.marketMaxBet2,
+            marketName: values.marketName2,
+          },
+        ];
+      } else if (selected.manualBookmaker === 3) {
+        bookmakers = [
+          {
+            maxBet: values.marketMaxBet1,
+            marketName: values.marketName1,
+          },
+          {
+            maxBet: values.marketMaxBet2,
+            marketName: values.marketName2,
+          },
+          {
+            maxBet: values.marketMaxBet3,
+            marketName: values.marketName3,
+          },
+        ];
+      }
+
+      let payload = {
+        matchType: selected.gameType,
+        competitionId: selected.tournamentId,
+        competitionName: selected.matchName,
+        title: selected.title,
+        marketId: selected.marketId,
+        eventId: selected.eventId,
+        teamA: selected.teamA,
+        teamB: selected.teamB,
+        teamC: selected.teamC,
+        startAt: selected.startAt,
+        minBet: value.minBet,
+        matchOddMaxBet: value.betfairMatchMaxBet,
+        betFairSessionMaxBet: value.betfairSessionMaxBet,
+        betFairBookmakerMaxBet: value.betfairBookmakerMaxBet,
+        bookmakers: bookmakers,
+        tiedMatch: [
+          {
+            maxBet: values.marketMaxBet4,
+            marketName: values.marketName4,
           },
         ],
       };
-      dispatch(addMatchAPI(payload));
+
+      dispatch(addMatchExpert(payload));
     },
   });
 
-  const { handleSubmit } = formik;
+  const { handleSubmit, values, touched, errors, handleChange } = formik;
 
-  // const { loading } = useSelector((state: RootState) => state.match.addMatch);
+  const { tournamentList, eventsList } = useSelector(
+    (state: RootState) => state.addMatch.addMatch
+  );
+
+  console.log(selected, "selected");
+  useEffect(() => {
+    if (selected.gameType !== "") {
+      dispatch(getAllLiveTournaments(selected.gameType));
+    }
+    if (selected.tournamentId !== "") {
+      dispatch(getAllEventsList(selected.tournamentId));
+    }
+  }, [selected.gameType, selected.tournamentId]);
 
   return (
     <form onSubmit={handleSubmit}>
@@ -142,6 +212,7 @@ const AddMatch = () => {
               }}
             >
               <DropDown
+                name="gameType"
                 valued="Select Game Type..."
                 dropStyle={{
                   filter: "invert(.9) sepia(1) saturate(5) hue-rotate(175deg);",
@@ -168,24 +239,10 @@ const AddMatch = () => {
                   marginTop: "0px",
                   position: "absolute",
                 }}
+                setSelected={setSelected}
                 dropDownTextStyle={inputStyle}
                 place={1}
-                setSelected={() => {}}
               />
-              {/* {Error[1]?.val && (
-                <Typography
-                  color="red"
-                  sx={{
-                    fontSize: {
-                      xs: "10px",
-                      lg: "12px",
-                      md: "12px",
-                    },
-                  }}
-                >
-                  Game Type Required
-                </Typography>
-              )} */}
             </Box>
 
             <Box
@@ -195,10 +252,12 @@ const AddMatch = () => {
               }}
             >
               <DropDown
+                name="tournamentName"
                 valued="Select tournament"
                 dropStyle={{
                   filter: "invert(.9) sepia(1) saturate(5) hue-rotate(175deg);",
                 }}
+                data={tournamentList}
                 valueStyle={{ ...inputStyle, color: "white" }}
                 title={"Tournament Name"}
                 valueContainerStyle={{
@@ -215,7 +274,6 @@ const AddMatch = () => {
                 }}
                 type={"tournament"}
                 titleStyle={{ marginLeft: "0px", color: "#575757" }}
-                data={[]}
                 matchesSelect={true}
                 dropDownStyle={{
                   width: "100%",
@@ -226,7 +284,9 @@ const AddMatch = () => {
                   overflow: "auto",
                 }}
                 place={33}
-                setSelected={() => {}}
+                id="tournamentName"
+                setSelected={setSelected}
+                // value={values.gameType}
               />
             </Box>
 
@@ -237,6 +297,7 @@ const AddMatch = () => {
               }}
             >
               <DropDown
+                name="matchName"
                 valued="Select match"
                 dropStyle={{
                   filter: "invert(.9) sepia(1) saturate(5) hue-rotate(175deg);",
@@ -257,7 +318,7 @@ const AddMatch = () => {
                 }}
                 type={"cricket"}
                 titleStyle={{ marginLeft: "0px", color: "#575757" }}
-                data={[]}
+                data={eventsList}
                 matchesSelect={true}
                 dropDownStyle={{
                   width: "100%",
@@ -268,20 +329,10 @@ const AddMatch = () => {
                   overflow: "auto",
                 }}
                 dropDownTextStyle={inputStyle}
+                setSelected={setSelected}
                 place={5}
-                setSelected={() => {}}
               />
             </Box>
-            {/* <Box sx={{ width: { xs: "100%", lg: "18%", md: "24%" } }}>
-              <MatchListInput
-                label="Team A *"
-                placeholder="Enter Name of Team A"
-                type="text"
-                // required={true}
-                // disable
-                // value="dsaj67sadsa"
-              />
-            </Box> */}
 
             <Box sx={{ width: { xs: "100%", lg: "18%", md: "24%" } }}>
               <MatchListInput
@@ -290,38 +341,8 @@ const AddMatch = () => {
                 type="text"
                 // required={true}
                 disable
-                id="teamA"
-                name="teamA"
-                value={formik.values.teamA}
-                onChange={formik.handleChange}
+                value={selected.teamA}
               />
-              {/* <LabelValueComponent
-                disable={true}
-                containerStyle={{ flex: 1, width: "100%" }}
-                title={"Team A *"}
-                type={"text"}
-                required={true}
-                value="Enter Name of Team A..."
-                InputValType={"InputVal"}
-                place={9}
-                DetailError={{
-                  type: "String",
-                }}
-              /> */}
-              {/* {Error[9]?.val && (
-                <Typography
-                  color="red"
-                  sx={{
-                    fontSize: {
-                      xs: "10px",
-                      lg: "12px",
-                      md: "12px",
-                    },
-                  }}
-                >
-                  Team A name Required
-                </Typography>
-              )} */}
             </Box>
             <Box sx={{ width: { xs: "100%", lg: "18%", md: "24%" } }}>
               <MatchListInput
@@ -330,39 +351,8 @@ const AddMatch = () => {
                 type="text"
                 // required={true}
                 disable
-                id="teamB"
-                name="teamB"
-                value={formik.values.teamB}
-                onChange={formik.handleChange}
+                value={selected.teamB}
               />
-              {/* <LabelValueComponent
-                disable={true}
-                containerStyle={{ flex: 1, width: "100%" }}
-                title={"Team B *"}
-                type={"text"}
-                required={true}
-                value="Enter Name of Team B..."
-                InputValType={"InputVal"}
-                place={13}
-                DetailError={{
-                  type: "String",
-                }}
-              /> */}
-              {/* {Error[13]?.val && (
-                <Typography
-                  color="red"
-                  sx={{
-                    fontSize: {
-                      xs: "10px",
-                      lg: "12px",
-                      md: "12px",
-                    },
-                  }}
-                >
-                  {" "}
-                  Team B name Required
-                </Typography>
-              )} */}
             </Box>
             <Box sx={{ width: { xs: "100%", lg: "18%", md: "24%" } }}>
               {" "}
@@ -372,23 +362,8 @@ const AddMatch = () => {
                 type="text"
                 // required={true}
                 disable
-                id="teamC"
-                name="teamC"
-                value={formik.values.teamC}
-                onChange={formik.handleChange}
+                value={selected.teamC}
               />
-              {/* <LabelValueComponent
-                disable={true}
-                containerStyle={{ flex: 1, width: "100%" }}
-                title={"Team C"}
-                type={"text"}
-                value="Enter Name of Team C..."
-                InputValType={"InputVal"}
-                place={17}
-                DetailError={{
-                  type: "String",
-                }}
-              /> */}
             </Box>
 
             <Box sx={{ width: { xs: "100%", lg: "18%", md: "24%" }, mt: 1 }}>
@@ -420,8 +395,8 @@ const AddMatch = () => {
                     }}
                     className={classes.dateTimePicker}
                     // label="Controlled picker"
-                    value={value}
-                    onChange={(newValue) => setValue(newValue)}
+                    value={moment(selected.startAt)}
+                    onChange={handleChange}
                   />
                 </DemoContainer>
                 `
@@ -498,13 +473,13 @@ const AddMatch = () => {
                 containerStyle={{ flex: 1, width: "100%" }}
                 label={"Min Bet"}
                 type={"Number"}
+                value={values.minBet}
+                onChange={handleChange}
                 placeholder="Enter your Min Bet..."
                 InputValType={"InputVal"}
                 place={3}
                 id="minBet"
                 name="minBet"
-                value={formik.values.minBet}
-                onChange={formik.handleChange}
               />
               {/* <LabelValueComponent
                 required={true}
@@ -525,8 +500,12 @@ const AddMatch = () => {
                 required={true}
                 valueStyle={{}}
                 containerStyle={{ flex: 1, width: "100%" }}
-                label={"Betfair Match Max Bet"}
+                label={"Betfair MatchOdd Max Bet"}
                 type={"Number"}
+                name="betfairMatchMaxBet"
+                id="betfairMatchMaxBet"
+                value={values.betfairMatchMaxBet}
+                onChange={handleChange}
                 placeholder="Enter your Match Max Bet..."
                 InputValType={"InputVal"}
                 place={3}
@@ -557,26 +536,14 @@ const AddMatch = () => {
                 placeholder="Betfair Session Max Bet..."
                 InputValType={"InputVal"}
                 place={11}
-                id="betFairSessionMaxBet"
-                name="betFairSessionMaxBet"
-                value={formik.values.betFairSessionMaxBet}
-                onChange={formik.handleChange}
+                name="betfairSessionMaxBet"
+                id="betfairSessionMaxBet"
+                value={values.betfairSessionMaxBet}
+                onChange={handleChange}
                 // DetailError={{
                 //   type: "Number",
                 // }}
               />
-              {/* <LabelValueComponent
-                required={true}
-                containerStyle={{ flex: 1, width: "100%" }}
-                title={"Betfair Session Max Bet"}
-                type={"Number"}
-                value="Betfair Session Max Bet..."
-                InputValType={"InputVal"}
-                place={11}
-                DetailError={{
-                  type: "String",
-                }}
-              /> */}
             </Box>
             <Box sx={{ width: { xs: "100%", lg: "18%", md: "24%" } }}>
               <MatchListInput
@@ -585,66 +552,31 @@ const AddMatch = () => {
                 label={"Betfair Bookmaker Max Bet"}
                 type={"Number"}
                 // value="Enter  Bookmaker Max Bet..."
+                value={values.betfairBookmakerMaxBet}
+                onChange={handleChange}
                 placeholder="Enter  Bookmaker Max Bet..."
                 InputValType={"InputVal"}
                 place={15}
-                id="betFairBookmakerMaxBet"
-                name="betFairBookmakerMaxBet"
-                value={formik.values.betFairBookmakerMaxBet}
-                onChange={formik.handleChange}
+                id="betfairBookmakerMaxBet"
+                name="betfairBookmakerMaxBet"
               />
-              {/* <LabelValueComponent
-                required={true}
-                containerStyle={{ flex: 1, width: "100%" }}
-                title={"Betfair Bookmaker Max Bet"}
-                type={"Number"}
-                value="Enter  Bookmaker Max Bet..."
-                InputValType={"InputVal"}
-                place={15}
-                DetailError={{
-                  type: "String",
-                }}
-              /> */}
             </Box>
-            <Box sx={{ width: { xs: "100%", lg: "18%", md: "24%" } }}>
-              {/* <MatchListInput
+            {/* <Box sx={{ width: { xs: "100%", lg: "18%", md: "24%" } }}>
+              <MatchListInput
                 required={true}
                 containerStyle={{ flex: 1, width: "100%" }}
                 label={"Manaual Session Max Bet"}
                 type={"Number"}
+                name="manualSessionMaxBet"
+                id="manualSessionMaxBet"
+                value={values.manualSessionMaxBet}
+                onChange={handleChange}
                 // value="Enter Session Max Bet..."
                 placeholder="Enter Session Max Bet..."
                 InputValType={"InputVal"}
                 place={19}
-              /> */}
-              {/* <LabelValueComponent
-                required={true}
-                containerStyle={{ flex: 1, width: "100%" }}
-                title={"Manaual Session Max Bet"}
-                type={"Number"}
-                value="Enter Session Max Bet..."
-                InputValType={"InputVal"}
-                place={19}
-                DetailError={{
-                  type: "String",
-                }}
-              /> */}
-            </Box>
-            {/* <Box sx={{ width: { xs: "100%", lg: "18%", md: "24%" } }}>
-              <LabelValueComponent
-                required={true}
-                containerStyle={{ flex: 1, width: "100%" }}
-                title={"Delay Time Limit"}
-                type={"Number"}
-                value="Enter Delay Time..."
-                InputValType={"InputVal"}
-                place={21}
-                DetailError={{
-                  type: "String",
-                }}
               />
             </Box> */}
-
             <Box sx={{ width: "100%" }}>
               <Box
                 sx={{
@@ -652,6 +584,7 @@ const AddMatch = () => {
                 }}
               >
                 <DropDown
+                  name="manualBookmaker"
                   valued="Select Bookmaker"
                   dropStyle={{
                     filter:
@@ -683,9 +616,9 @@ const AddMatch = () => {
                     maxHeight: "500px",
                     overflow: "auto",
                   }}
+                  setSelected={setSelected}
                   dropDownTextStyle={inputStyle}
                   place={4}
-                  setSelected={() => {}}
                 />
                 {/* {Error[4]?.val && (
                   <Typography
@@ -711,7 +644,7 @@ const AddMatch = () => {
                   gap: 1,
                 }}
               >
-                {true && (
+                {selected.manualBookmaker >= 1 && (
                   <Box sx={{ display: "flex", width: "100%", gap: 1 }}>
                     <Box
                       sx={{
@@ -729,88 +662,10 @@ const AddMatch = () => {
                         type={"text"}
                         placeholder="Enter Market Name..."
                         place={11}
-                        id="bookmakersMarketName"
-                        name="bookmakersMarketName"
-                        value={formik.values.bookmakers.marketName}
-                        onChange={formik.handleChange}
-                        // DetailError={{
-                        //   type: "Number",
-                        // }}
-                      />
-                      {/* <LabelValueComponent
-                        required={true}
-                        containerStyle={{ flex: 1, width: "100%" }}
-                        title={"Market Name"}
-                        type={"Text"}
-                        value="Enter Market Name..."
-                        InputValType={"InputVal"}
-                        place={24}
-                        DetailError={{
-                          type: "String",
-                        }}
-                      /> */}
-                    </Box>
-
-                    <Box
-                      sx={{
-                        width: {
-                          xs: "100%",
-                          lg: "18%",
-                          md: "24%",
-                        },
-                      }}
-                    >
-                      <MatchListInput
-                        required={true}
-                        containerStyle={{ flex: 1, width: "100%" }}
-                        label={"Max Limit"}
-                        type={"number"}
-                        placeholder="Enter Max Bet..."
-                        place={11}
-                        id="bookmakersMaxBet"
-                        name="bookmakersMaxBet"
-                        value={formik.values.bookmakers.marketName}
-                        onChange={formik.handleChange}
-                        // DetailError={{
-                        //   type: "Number",
-                        // }}
-                      />
-                      {/* <LabelValueComponent
-                        required={true}
-                        containerStyle={{ flex: 1, width: "100%" }}
-                        title={"Max Limit"}
-                        type={"Number"}
-                        value="Enter Max Bet..."
-                        InputValType={"InputVal"}
-                        place={26}
-                        DetailError={{
-                          type: "String",
-                        }}
-                      /> */}
-                    </Box>
-                  </Box>
-                )}
-                {true && (
-                  <Box sx={{ display: "flex", width: "100%", gap: 1 }}>
-                    <Box
-                      sx={{
-                        width: {
-                          xs: "100%",
-                          lg: "18%",
-                          md: "24%",
-                        },
-                      }}
-                    >
-                      <MatchListInput
-                        required={true}
-                        containerStyle={{ flex: 1, width: "100%" }}
-                        label={"Market Name"}
-                        type={"text"}
-                        placeholder="Enter Market Name..."
-                        place={11}
-                        // DetailError={{
-                        //   type: "Number",
-                        // }}
+                        name="marketName1"
+                        id="marketName1"
+                        value={values.marketName1}
+                        onChange={handleChange}
                       />
                     </Box>
 
@@ -830,14 +685,15 @@ const AddMatch = () => {
                         type={"number"}
                         placeholder="Enter Max Bet..."
                         place={11}
-                        // DetailError={{
-                        //   type: "Number",
-                        // }}
+                        name="marketMaxBet1"
+                        id="marketMaxBet1"
+                        value={values.marketMaxBet1}
+                        onChange={handleChange}
                       />
                     </Box>
                   </Box>
                 )}
-                {true && (
+                {selected.manualBookmaker >= 2 && (
                   <Box sx={{ display: "flex", width: "100%", gap: 1 }}>
                     <Box
                       sx={{
@@ -855,9 +711,10 @@ const AddMatch = () => {
                         type={"text"}
                         placeholder="Enter Market Name..."
                         place={11}
-                        // DetailError={{
-                        //   type: "Number",
-                        // }}
+                        name="marketName2"
+                        id="marketName2"
+                        onChange={handleChange}
+                        value={values.marketName2}
                       />
                     </Box>
 
@@ -877,9 +734,177 @@ const AddMatch = () => {
                         type={"number"}
                         placeholder="Enter Max Bet..."
                         place={11}
-                        // DetailError={{
-                        //   type: "Number",
-                        // }}
+                        name="marketMaxBet2"
+                        id="marketMaxBet2"
+                        onChange={handleChange}
+                        value={values.marketMaxBet2}
+                      />
+                    </Box>
+                  </Box>
+                )}
+                {selected.manualBookmaker === 3 && (
+                  <Box sx={{ display: "flex", width: "100%", gap: 1 }}>
+                    <Box
+                      sx={{
+                        width: {
+                          xs: "100%",
+                          lg: "18%",
+                          md: "24%",
+                        },
+                      }}
+                    >
+                      <MatchListInput
+                        required={true}
+                        containerStyle={{ flex: 1, width: "100%" }}
+                        label={"Market Name"}
+                        type={"text"}
+                        placeholder="Enter Market Name..."
+                        place={11}
+                        name="marketName3"
+                        id="marketName3"
+                        value={values.marketName3}
+                        onChange={handleChange}
+                      />
+                    </Box>
+
+                    <Box
+                      sx={{
+                        width: {
+                          xs: "100%",
+                          lg: "18%",
+                          md: "24%",
+                        },
+                      }}
+                    >
+                      <MatchListInput
+                        required={true}
+                        containerStyle={{ flex: 1, width: "100%" }}
+                        label={"Max Limit"}
+                        type={"number"}
+                        placeholder="Enter Max Bet..."
+                        place={11}
+                        name="marketMaxBet3"
+                        id="marketMaxBet3"
+                        onChange={handleChange}
+                        value={values.marketMaxBet3}
+                      />
+                    </Box>
+                  </Box>
+                )}
+              </Box>
+            </Box>
+            <Box sx={{ width: "100%" }}>
+              <Box
+                sx={{
+                  width: { xs: "100%", lg: "18%", md: "24%" },
+                }}
+              >
+                <DropDown
+                  name="tiedMatch"
+                  valued="Select Tied Match"
+                  dropStyle={{
+                    filter:
+                      "invert(.9) sepia(1) saturate(5) hue-rotate(175deg);",
+                  }}
+                  valueStyle={{ ...inputStyle, color: "white" }}
+                  title={"Tied Match"}
+                  valueContainerStyle={{
+                    height: "45px",
+                    marginX: "0px",
+                    background: "#0B4F26",
+                    border: "1px solid #DEDEDE",
+                    borderRadius: "5px",
+                  }}
+                  containerStyle={{
+                    width: "100%",
+                    position: "relative",
+                    marginTop: "5px",
+                  }}
+                  titleStyle={{ marginLeft: "0px", color: "#575757" }}
+                  data={[1]}
+                  // setMarketId={setMarketId}
+                  // matchesSelect={true}
+                  dropDownStyle={{
+                    width: "100%",
+                    marginLeft: "0px",
+                    marginTop: "0px",
+                    position: "absolute",
+                    maxHeight: "500px",
+                    overflow: "auto",
+                  }}
+                  setSelected={setSelected}
+                  dropDownTextStyle={inputStyle}
+                  place={4}
+                />
+                {/* {Error[4]?.val && (
+                  <Typography
+                    color="red"
+                    sx={{
+                      fontSize: {
+                        xs: "10px",
+                        lg: "12px",
+                        md: "12px",
+                      },
+                    }}
+                  >
+                    Atleast One Bookmaker Required
+                  </Typography>
+                )} */}
+              </Box>
+
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  width: "100%",
+                  gap: 1,
+                }}
+              >
+                {selected.tiedMatch >= 1 && (
+                  <Box sx={{ display: "flex", width: "100%", gap: 1 }}>
+                    <Box
+                      sx={{
+                        width: {
+                          xs: "100%",
+                          lg: "18%",
+                          md: "24%",
+                        },
+                      }}
+                    >
+                      <MatchListInput
+                        required={true}
+                        containerStyle={{ flex: 1, width: "100%" }}
+                        label={"Market Name"}
+                        type={"text"}
+                        placeholder="Enter Market Name..."
+                        place={11}
+                        name="marketName4"
+                        id="marketName4"
+                        value={values.marketName4}
+                        onChange={handleChange}
+                      />
+                    </Box>
+
+                    <Box
+                      sx={{
+                        width: {
+                          xs: "100%",
+                          lg: "18%",
+                          md: "24%",
+                        },
+                      }}
+                    >
+                      <MatchListInput
+                        required={true}
+                        containerStyle={{ flex: 1, width: "100%" }}
+                        label={"Max Limit"}
+                        type={"number"}
+                        placeholder="Enter Max Bet..."
+                        place={11}
+                        name="marketMaxBet4"
+                        id="marketMaxBet4"
+                        value={values.marketMaxBet4}
+                        onChange={handleChange}
                       />
                     </Box>
                   </Box>
@@ -912,8 +937,9 @@ const AddMatch = () => {
           </Button>
           <Box
             onClick={() => {
-              //   setDetail(stateDetail);
-              // navigate("/expert/match_list");
+              setSelected(initialValues);
+              formik.resetForm()
+              navigate("/expert/match_list");
             }}
             sx={{
               background: "#E32A2A",
