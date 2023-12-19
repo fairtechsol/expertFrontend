@@ -2,8 +2,16 @@ import { Input, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 
 const MatchListInput = (props: any) => {
-  const { value, required, label, labelStyle, type, disable, placeholder } =
-    props;
+  const {
+    value,
+    required,
+    label,
+    labelStyle,
+    type,
+    disable,
+    placeholder,
+    ...prop
+  } = props;
 
   const containerStyles: any = {
     width: "100%",
@@ -63,7 +71,7 @@ const MatchListInput = (props: any) => {
           // titleStyle={titleStyles}
           // inputStyle={inputStyle}
           // inputContainerStyle={inputContainerStyle}
-
+          {...prop}
           required={required}
           type={type}
           value={value}

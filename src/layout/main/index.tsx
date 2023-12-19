@@ -1,9 +1,9 @@
 import { memo, useEffect } from "react";
-import { Outlet, useNavigate } from "react-router-dom";
-import Header from "./header";
-import BackgroundLayout from "../../components/Common/BackgroundLayout";
 import { useDispatch } from "react-redux";
+import { Outlet, useNavigate } from "react-router-dom";
+import BackgroundLayout from "../../components/Common/BackgroundLayout";
 import { AppDispatch } from "../../store/store";
+import Header from "./header";
 
 const MainLayout = () => {
   const navigate = useNavigate();
