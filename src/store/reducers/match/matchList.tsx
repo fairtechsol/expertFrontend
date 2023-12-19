@@ -1,43 +1,44 @@
 import { createSlice } from "@reduxjs/toolkit";
-// import { addMatch } from "../../actions/auth/authAction";
-// import {  profileReset } from "../../actions/user/userAction";
-import { addMatchAPI } from "../../actions/match/matchAction";
+import { getMatchList, matchListReset } from "../../actions/match/matchAction";
 
 interface InitialState {
-  matchDetail: any;
+  matchList: any;
   success: boolean;
   loading: boolean;
   error: any;
 }
 
 const initialState: InitialState = {
-  matchDetail: null,
+  matchList: [],
   loading: false,
   success: false,
   error: null,
 };
 
-const addMatchSlice = createSlice({
-  name: "addMatch",
+const matchList = createSlice({
+  name: "matchList",
   initialState: initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(addMatchAPI.pending, (state) => {
+      .addCase(getMatchList.pending, (state) => {
         state.loading = true;
         state.success = false;
         state.error = null;
       })
-      .addCase(addMatchAPI.fulfilled, (state, action) => {
+      .addCase(getMatchList.fulfilled, (state, action) => {
+        state.matchList = action.payload;
         state.loading = false;
         state.success = true;
-        state.matchDetail = action.payload;
       })
-      .addCase(addMatchAPI.rejected, (state, action) => {
+      .addCase(getMatchList.rejected, (state, action) => {
         state.loading = false;
         state.error = action?.error?.message;
+      })
+      .addCase(matchListReset, (state) => {
+        return { ...state, success: false };
       });
   },
 });
 
-export const addMatchReducer = addMatchSlice.reducer;
+export const matchListReducers = matchList.reducer;
