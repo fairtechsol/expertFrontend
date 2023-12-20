@@ -1,39 +1,28 @@
-import { Box, Switch, Theme, Typography, styled } from "@mui/material";
+import { Box, Switch, Typography, styled } from "@mui/material";
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
 import { updateMatchActiveStatus } from "../../store/actions/match/matchAction";
+import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../store/store";
 
-const BoxButtonWithSwitch = (props: any) => {
-  const {
-    title,
-    matchId,
-    id,
-    containerStyle,
-    titleStyle,
-    updateMatchStatus,
-    setUpdateMatchStatus,
-    place,
-    notSwitch,
-    onClick,
-    isManualBet,
-    matchBettingType,
-  } = props;
+const BoxButtonWithBettings = ({
+  title,
+  matchId,
+  containerStyle,
+  titleStyle,
+  updateBettings,
+  setUpdateBettings,
+  bettingId,
+  notSwitch,
+  matchBettingType,
+}: any) => {
   const dispatch: AppDispatch = useDispatch();
-  const [background, setBackground] = useState<string>("#0B4F26");
-  const value = updateMatchStatus[place]?.val;
-  const [checked, setChecked] = useState<boolean>(
-    notSwitch ? false : value || false
+  const [background, setBackground] = useState("#0B4F26");
+
+  const [checked, setChecked] = useState(
+    notSwitch
+      ? false
+      : updateBettings.find((item: any) => bettingId === item.id)?.isActive
   );
-
-  useEffect(() => {
-    if (notSwitch) {
-      setChecked(false);
-    } else {
-      setChecked(!!value);
-    }
-  }, [notSwitch, place, updateMatchStatus]);
-
   useEffect(() => {
     if (checked) {
       setBackground("#0B4F26");
@@ -42,7 +31,17 @@ const BoxButtonWithSwitch = (props: any) => {
     }
   }, [checked]);
 
-  const MaterialUISwitch = styled(Switch)(({}: { theme: Theme }) => ({
+  useEffect(() => {
+    if (updateBettings) {
+      setChecked(
+        notSwitch
+          ? false
+          : updateBettings.find((item: any) => bettingId === item.id)?.isActive
+      );
+    }
+  }, [updateBettings, notSwitch]);
+
+  const MaterialUISwitch = styled(Switch)(({}) => ({
     width: 50,
     height: 35,
     padding: 7,
@@ -83,21 +82,16 @@ const BoxButtonWithSwitch = (props: any) => {
       borderRadius: 20,
     },
   }));
-
   return (
     <Box
-      onClick={() => {
-        if (notSwitch) {
-          onClick(id);
-        }
-      }}
       sx={[
         {
           height: "35px",
           minWidth: "100px",
+          // width: "14%",
           marginLeft: "10px",
           borderRadius: "5px",
-          border: notSwitch ? "1px solid #0B4F26" : undefined,
+          border: notSwitch && "1px solid #0B4F26",
           background: notSwitch ? "#FFF" : background,
           display: "flex",
           justifyContent: "space-between",
@@ -114,11 +108,6 @@ const BoxButtonWithSwitch = (props: any) => {
             fontSize: "13px",
             marginLeft: "1vw",
             lineHeight: "14px",
-            overflow: "hidden",
-            display: "-webkit-box",
-            WebkitLineClamp: 2,
-            WebkitBoxOrient: "vertical",
-            lineClamp: 2,
           },
           titleStyle,
         ]}
@@ -130,7 +119,7 @@ const BoxButtonWithSwitch = (props: any) => {
           sx={{
             marginRight: "10px",
             color: notSwitch
-              ? Number(updateMatchStatus) > 0
+              ? Number(updateBettings) > 0
                 ? "#46E080"
                 : "#FF4D4D"
               : "white",
@@ -140,7 +129,7 @@ const BoxButtonWithSwitch = (props: any) => {
             lineHeight: "14px",
           }}
         >
-          {updateMatchStatus}
+          {updateBettings}
         </Typography>
       ) : (
         <MaterialUISwitch
@@ -148,19 +137,21 @@ const BoxButtonWithSwitch = (props: any) => {
           onChange={() => {
             let payload = {
               matchId: matchId,
+              bettingId: bettingId,
               matchBettingType: matchBettingType,
               isActive: !checked,
-              isManualBet: isManualBet,
             };
             dispatch(updateMatchActiveStatus(payload));
             setChecked(!checked);
-            setUpdateMatchStatus((prevStatus: any) => ({
-              ...prevStatus,
-              [place]: {
-                ...prevStatus[place],
-                val: !checked,
-              },
-            }));
+            setUpdateBettings((pre: any) => {
+              const body = pre?.map((val: any) => {
+                if (val.id === bettingId) {
+                  return { ...val, isActive: !checked };
+                }
+                return val;
+              });
+              return body;
+            });
           }}
         />
       )}
@@ -168,4 +159,4 @@ const BoxButtonWithSwitch = (props: any) => {
   );
 };
 
-export default BoxButtonWithSwitch;
+export default BoxButtonWithBettings;

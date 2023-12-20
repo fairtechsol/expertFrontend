@@ -4,17 +4,35 @@ import RunsAmountBox from "./RunsAmountBox";
 import SessionResultModal from "../SessionResult/SessionResultModal";
 import AddSessionInput from "./AddSessionInput";
 
+const stateDetail = {
+  match_id: "",
+  matchType: "",
+  sessionBet: true,
+  betStatus: 1,
+  bet_condition: "",
+  l_no_rate: "",
+  l_yes_rate: "",
+  ly_rate_percent: "",
+  ln_rate_percent: "",
+  no_rate: "",
+  yes_rate: "",
+  y_rate_percent: "",
+  n_rate_percent: "",
+  suspended: "ACTIVE",
+};
+
 const SessionAddComponent = React.forwardRef((props: any) => {
   const { createSession, match } = props;
   const [isCreateSession] = useState(createSession);
 
   const [loading] = useState(false);
+  const [incrementGap, setIncrementGap] = useState(1);
   const [isDisable, setIsDisable] = useState(false);
   const [showUndeclare, setShowUndeclare] = useState(false);
   const [visible, setVisible] = useState(false);
   const [visible1, setVisible1] = useState(false);
   const [visible2, setVisible2] = useState(false);
-  const [Detail, setDetail] = useState({});
+  const [inputDetail, setInputDetail] = useState<any>(stateDetail);
   const [live] = useState(true);
 
   const rates = [
@@ -70,10 +88,12 @@ const SessionAddComponent = React.forwardRef((props: any) => {
           }}
         >
           <AddSessionInput
+            inputDetail={inputDetail}
+            setInputDetail={setInputDetail}
+            incrementGap={incrementGap}
+            setIncrementGap={setIncrementGap}
             // createSession={createSession}
             // betId={betId}
-            Detail={{ Detail, setDetail }}
-            // incGap={{ incGap, setIncGap }}
             // socket={socket}
             // sessionEvent={sessionEvent}
             // lock={lock}
@@ -315,7 +335,7 @@ const SessionAddComponent = React.forwardRef((props: any) => {
                     return true;
                   } else {
                     // doSubmitSessionBet(
-                    //   Detail.n_rate_percent + "-" + Detail.y_rate_percent
+                    //   inputDetail.n_rate_percent + "-" + inputDetail.y_rate_percent
                     // );
                   }
                 }}
