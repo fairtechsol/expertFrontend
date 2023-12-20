@@ -94,7 +94,8 @@ const BoxButtonWithSwitch = (props: any) => {
       sx={[
         {
           height: "35px",
-          minWidth: "100px",
+          width: { xs: "100%", sm: "48%", md: "15%" },
+          marginTop: { xs: 1, md: 0 },
           marginLeft: "10px",
           borderRadius: "5px",
           border: notSwitch ? "1px solid #0B4F26" : undefined,
@@ -114,11 +115,11 @@ const BoxButtonWithSwitch = (props: any) => {
             fontSize: "13px",
             marginLeft: "1vw",
             lineHeight: "14px",
-            overflow: "hidden",
             display: "-webkit-box",
-            WebkitLineClamp: 2,
+            overflow: "hidden",
+            WebkitLineClamp: { xs: 1, md: 2 },
             WebkitBoxOrient: "vertical",
-            lineClamp: 2,
+            lineClamp: { xs: 1, md: 2 },
           },
           titleStyle,
         ]}
