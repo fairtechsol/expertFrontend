@@ -1,5 +1,5 @@
 import { Box, Typography } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import BoxButtonWithSwitch from "../Common/BoxButtonWithSwitch";
 import CustomButton from "../Common/CustomButton";
 import MatchListProfitLoss from "./profitLoss";
@@ -7,29 +7,23 @@ import { useNavigate } from "react-router-dom";
 import ModalMUI from "@mui/material/Modal";
 import StyledImage from "../Common/StyledImages";
 import moment from "moment";
+import BoxButtonWithBettings from "../Common/BoxButtonWithBettings";
 
 const MatchListTable = (props: any) => {
   const { data, index } = props;
   const navigate = useNavigate();
   const [showPopup, setShowPopup] = useState(false);
 
+  const [updateBettings, setUpdateBettings] = useState<any>([]);
+
   const [updateMatchStatus, setUpdateMatchStatus] = useState({
-    1: { field: "apiMatchActive", val: data?.apiMatchActive || false },
-    2: {
-      field: "apiBookMakerActive",
-      val: data?.apiBookMakerActive || false,
-    },
-    3: {
+    1: {
       field: "apiSessionActive",
-      val: data?.apiSessionActive || false,
+      val: data?.apiSessionActive,
     },
-    5: {
+    2: {
       field: "manualSessionActive",
-      val: data?.manualSessionActive || false,
-    },
-    4: {
-      field: "manualBookMakerActive",
-      val: data?.manualBookMakerActive || false,
+      val: data?.manualSessionActive,
     },
   });
 
@@ -42,6 +36,23 @@ const MatchListTable = (props: any) => {
       console.log(e);
     }
   };
+
+  useEffect(() => {
+    if (data) {
+      const newBody = data?.matchBettings?.map((betting: any) => ({
+        id: betting?.id,
+        name: betting?.name,
+        isActive: betting?.isActive,
+      }));
+      setUpdateBettings(newBody);
+      setUpdateMatchStatus((prevStatus) => ({
+        ...prevStatus,
+        1: { ...prevStatus[1], val: data?.apiSessionActive },
+        2: { ...prevStatus[2], val: data?.manualSessionActive },
+      }));
+    }
+  }, [data]);
+
   return (
     <>
       <Box
@@ -83,45 +94,42 @@ const MatchListTable = (props: any) => {
           }}
         >
           <Box sx={{ display: "flex", flex: 1, alignItems: "center" }}>
-            <BoxButtonWithSwitch
-              title={data?.title}
-              containerStyle={{ width: "15%" }}
-              updateMatchStatus={updateMatchStatus}
-              setUpdateMatchStatus={setUpdateMatchStatus}
-              place={1}
-            />
-            {/* <BoxButtonWithSwitch
-              title="Bookmaker"
-              containerStyle={{ width: "15%" }}
-              updateMatchStatus={updateMatchStatus}
-              setUpdateMatchStatus={setUpdateMatchStatus}
-              place={2}
-            /> */}
-            <BoxButtonWithSwitch
-              title="Session"
-              containerStyle={{ width: "15%" }} 
-              updateMatchStatus={updateMatchStatus}
-              setUpdateMatchStatus={setUpdateMatchStatus}
-              place={3}
-            />
-            {data?.matchBettings?.map((bettings: any) => {
+            {data?.matchBettings?.map((betting: any) => {
               return (
-                <BoxButtonWithSwitch
-                  key={bettings?.id}
-                  title={bettings.name}
+                <BoxButtonWithBettings
+                  key={betting?.id}
+                  title={
+                    betting?.type === "matchOdd" ? data?.title : betting?.name
+                  }
+                  matchId={data?.id}
+                  matchBettingType={"match"}
                   containerStyle={{ width: "14%" }}
-                  updateMatchStatus={updateMatchStatus}
-                  setUpdateMatchStatus={setUpdateMatchStatus}
-                  id={bettings.id}
+                  updateBettings={updateBettings}
+                  setUpdateBettings={setUpdateBettings}
+                  bettingId={betting.id}
                 />
               );
             })}
             <BoxButtonWithSwitch
-              title="Manual Session"
+              title="Session"
+              matchId={data?.id}
               containerStyle={{ width: "15%" }}
+              matchBettingType={"session"}
+              isManualBet={false}
               updateMatchStatus={updateMatchStatus}
               setUpdateMatchStatus={setUpdateMatchStatus}
-              place={16}
+              place={1}
+            />
+
+            <BoxButtonWithSwitch
+              title="Manual Session"
+              matchId={data?.id}
+              containerStyle={{ width: "15%" }}
+              matchBettingType={"session"}
+              isManualBet={true}
+              updateMatchStatus={updateMatchStatus}
+              setUpdateMatchStatus={setUpdateMatchStatus}
+              place={2}
             />
             <MatchListProfitLoss
               onClick={handleMatchProfitLossClick}
@@ -132,7 +140,9 @@ const MatchListTable = (props: any) => {
           </Box>
           <CustomButton
             onClick={() => {
-              navigate(`/expert/betOdds`);
+              navigate(`/expert/betOdds`, {
+                state: { id: data?.id },
+              });
             }}
             title={"Submit"}
           />

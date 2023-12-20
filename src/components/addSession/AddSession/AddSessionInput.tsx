@@ -3,18 +3,44 @@ import StyledImage from "../../Common/StyledImages";
 import KeyboardEventHandler from "react-keyboard-event-handler";
 import { BallStart, LiveOff, Lock } from "../../../assets";
 import CustomDisableInput from "../../Common/CustomDisableInput";
+import { handleKeysMatchEvents } from "../../../utils/InputKeys/SessionInputKeys";
 
 const AddSessionInput = (props: any) => {
   const {
     betId,
-    Detail,
+    inputDetail,
+    setInputDetail,
     inputRef,
     lock,
     isBall,
     isCreateSession,
     live,
     isDisable,
+    incGap,
+    setIncGap,
   } = props;
+
+  const handleSuspend = () => {};
+
+  const handleChange = (event: any) => {
+    let targetValue = parseFloat(event.target.value);
+    let checkValue = parseFloat(event.target.value);
+    setInputDetail((prev: any) => {
+      return {
+        ...prev,
+        no_rate: targetValue,
+        yes_rate: targetValue + 1,
+        y_rate_percent: checkValue >= 0 ? 100 : "",
+        n_rate_percent: checkValue >= 0 ? 100 : "",
+        l_no_rate: targetValue,
+        l_yes_rate: targetValue + 1,
+        ly_rate_percent: checkValue >= 0 ? 100 : "",
+        ln_rate_percent: checkValue >= 0 ? 100 : "",
+      };
+    });
+    // handleSuspend();
+  };
+
   return (
     <Box sx={{ border: "2px solid #FFFFFF", position: "relative" }}>
       <Box sx={{ display: "flex" }}>
@@ -58,14 +84,14 @@ const AddSessionInput = (props: any) => {
         <Box sx={{ background: "#FFFFFF", width: "40%" }}>
           <TextField
             onChange={(e: any) => {
-              Detail.setDetail({
-                ...Detail.Detail,
+              setInputDetail({
+                ...inputDetail,
                 bet_condition: e.target.value,
               });
             }}
             autoComplete="off"
             disabled={betId ? true : false}
-            value={Detail.Detail.bet_condition}
+            value={inputDetail.bet_condition}
             variant="standard"
             InputProps={{
               placeholder: "Your Bet Condition Here...",
@@ -124,15 +150,17 @@ const AddSessionInput = (props: any) => {
                       "minus",
                     ]}
                     isDisabled={false}
-                    // onKeyEvent={(key, e) => handleKeysMatchEvents(key, e)}
+                    onKeyEvent={(key, e) =>
+                      handleKeysMatchEvents(key, e, setInputDetail, inputDetail)
+                    }
                   >
                     <TextField
                       disabled={isDisable}
-                      //   onChange={(e) => handleChange(e)}
+                      onChange={(e) => handleChange(e)}
                       type="Number"
                       autoComplete="off"
                       inputRef={inputRef}
-                      value={Detail?.Detail?.l_no_rate}
+                      value={inputDetail?.l_no_rate}
                       variant="standard"
                       InputProps={{
                         disableUnderline: true,
@@ -163,7 +191,7 @@ const AddSessionInput = (props: any) => {
                   <CustomDisableInput
                     type="Number"
                     autoComplete="off"
-                    value={Detail?.Detail?.l_yes_rate}
+                    value={inputDetail?.l_yes_rate}
                     variant="standard"
                     disabled={true}
                     InputProps={{
@@ -192,41 +220,12 @@ const AddSessionInput = (props: any) => {
                 }}
               >
                 <Typography sx={{ fontWeight: "600", fontSize: "14px" }}>
-                  {/* <KeyboardEventHandler
-                handleKeys={[
-                  "a",
-                  "d",
-                  "w",
-                  "z",
-                  "q",
-                  "e",
-                  "up",
-                  "down",
-                  "left",
-                  "right",
-                  "tab",
-                  "shift",
-                  "`",
-                  ",",
-                  ".",
-                  "/",
-                  "enter",
-                  "return",
-                  "esc",
-                  "*",
-                  "plus",
-                  "=",
-                  "minus",
-                ]}
-                isDisabled={false}
-                onKeyEvent={(key, e) => handleKeysMatchEvents(key, e)}
-              > */}
                   <CustomDisableInput
                     type="Number"
                     disabled={true}
                     value={
-                      Detail?.Detail?.ln_rate_percent
-                        ? Detail?.Detail?.ln_rate_percent
+                      inputDetail?.ln_rate_percent
+                        ? inputDetail?.ln_rate_percent
                         : ""
                     }
                     autoComplete="off"
@@ -242,7 +241,6 @@ const AddSessionInput = (props: any) => {
                       },
                     }}
                   />
-                  {/* </KeyboardEventHandler> */}
                 </Typography>
               </Box>
               <Box
@@ -262,8 +260,8 @@ const AddSessionInput = (props: any) => {
                     autoComplete="off"
                     type="Number"
                     value={
-                      Detail.Detail.ly_rate_percent
-                        ? Detail.Detail.ly_rate_percent
+                      inputDetail.ly_rate_percent
+                        ? inputDetail.ly_rate_percent
                         : ""
                     }
                     variant="standard"
@@ -304,7 +302,7 @@ const AddSessionInput = (props: any) => {
                           color: "black",
                         }}
                       >
-                        {Detail?.Detail?.no_rate ? Detail?.Detail?.no_rate : ""}
+                        {inputDetail?.no_rate ? inputDetail?.no_rate : ""}
                       </Typography>
                     ) : (
                       <img
@@ -334,7 +332,7 @@ const AddSessionInput = (props: any) => {
                           color: "black",
                         }}
                       >
-                        {Detail.Detail.yes_rate ? Detail.Detail.yes_rate : ""}
+                        {inputDetail.yes_rate ? inputDetail.yes_rate : ""}
                       </Typography>
                     ) : (
                       <img
@@ -364,7 +362,7 @@ const AddSessionInput = (props: any) => {
                           color: "black",
                         }}
                       >
-                        {Detail.Detail.n_rate_percent}
+                        {inputDetail.n_rate_percent}
                       </Typography>
                     ) : (
                       <img
@@ -393,7 +391,7 @@ const AddSessionInput = (props: any) => {
                           color: "black",
                         }}
                       >
-                        {Detail.Detail.y_rate_percent}
+                        {inputDetail.y_rate_percent}
                       </Typography>
                     ) : (
                       <img

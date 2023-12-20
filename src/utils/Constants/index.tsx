@@ -5,6 +5,7 @@ export const ApiConstants = {
     ADD: "match/add",
     LIST: "match/list",
     GETDETAIL: "match",
+    UPDATEACTIVESTATUS: "match/updateActiveStatus",
   },
   USER: {
     CHANGEPASSWORD: "user/password",

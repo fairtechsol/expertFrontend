@@ -1,5 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getMatchList, matchListReset } from "../../actions/match/matchAction";
+import {
+  getMatchList,
+  matchListReset,
+  updateMatchActiveStatus,
+} from "../../actions/match/matchAction";
 
 interface InitialState {
   matchList: any;
@@ -32,6 +36,19 @@ const matchList = createSlice({
         state.success = true;
       })
       .addCase(getMatchList.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action?.error?.message;
+      })
+      .addCase(updateMatchActiveStatus.pending, (state) => {
+        state.loading = true;
+        state.success = false;
+        state.error = null;
+      })
+      .addCase(updateMatchActiveStatus.fulfilled, (state) => {
+        state.success = true;
+        state.loading = false;
+      })
+      .addCase(updateMatchActiveStatus.rejected, (state, action) => {
         state.loading = false;
         state.error = action?.error?.message;
       })
