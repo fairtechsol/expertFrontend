@@ -16,28 +16,43 @@ const AddSessionInput = (props: any) => {
     isCreateSession,
     live,
     isDisable,
+    setLock,
     incGap,
     setIncGap,
+    isPercent,
+    setIsPercent,
+    setIsBall,
   } = props;
 
   const handleSuspend = () => {};
 
   const handleChange = (event: any) => {
-    let targetValue = parseFloat(event.target.value);
-    let checkValue = parseFloat(event.target.value);
-    setInputDetail((prev: any) => {
+    const { value } = event.target;
+    let targetValue = +value ? +value : 0;
+    setLock((prev: any) => {
       return {
         ...prev,
-        no_rate: targetValue,
-        yes_rate: targetValue + 1,
-        y_rate_percent: checkValue >= 0 ? 100 : "",
-        n_rate_percent: checkValue >= 0 ? 100 : "",
-        l_no_rate: targetValue,
-        l_yes_rate: targetValue + 1,
-        ly_rate_percent: checkValue >= 0 ? 100 : "",
-        ln_rate_percent: checkValue >= 0 ? 100 : "",
+        isNo: true,
+        isYes: true,
+        isNoPercent: true,
+        isYesPercent: true,
       };
     });
+    if (targetValue >= 0 && targetValue <= 999) {
+      setInputDetail((prev: any) => {
+        return {
+          ...prev,
+          noRate: targetValue,
+          yesRate: targetValue + 1,
+          yesRatePercent: targetValue >= 0 ? 100 : "",
+          noRatePercent: targetValue >= 0 ? 100 : "",
+          leftNoRate: targetValue,
+          leftYesRate: targetValue + 1,
+          leftYesRatePercent: targetValue >= 0 ? 100 : "",
+          leftNoRatePercent: targetValue >= 0 ? 100 : "",
+        };
+      });
+    } else return;
     // handleSuspend();
   };
 
@@ -46,6 +61,7 @@ const AddSessionInput = (props: any) => {
       <Box sx={{ display: "flex" }}>
         <Box sx={{ background: "#319E5B", width: "70%", px: "5px" }}>
           <Typography
+            component={"span"}
             sx={{ color: "white", fontWeight: "600", fontSize: "12px" }}
           >
             {isCreateSession ? "Add" : "Your"} Session
@@ -61,7 +77,10 @@ const AddSessionInput = (props: any) => {
             alignItems: "center",
           }}
         >
-          <Typography sx={{ fontWeight: "600", fontSize: "12px" }}>
+          <Typography
+            sx={{ fontWeight: "600", fontSize: "12px" }}
+            component={"span"}
+          >
             No
           </Typography>
         </Box>
@@ -75,7 +94,10 @@ const AddSessionInput = (props: any) => {
             alignItems: "center",
           }}
         >
-          <Typography sx={{ fontWeight: "600", fontSize: "12px" }}>
+          <Typography
+            sx={{ fontWeight: "600", fontSize: "12px" }}
+            component={"span"}
+          >
             Yes
           </Typography>
         </Box>
@@ -84,14 +106,16 @@ const AddSessionInput = (props: any) => {
         <Box sx={{ background: "#FFFFFF", width: "40%" }}>
           <TextField
             onChange={(e: any) => {
-              setInputDetail({
-                ...inputDetail,
-                bet_condition: e.target.value,
+              setInputDetail((prev: any) => {
+                return {
+                  ...prev,
+                  betCondition: e.target.value,
+                };
               });
             }}
             autoComplete="off"
             disabled={betId ? true : false}
-            value={inputDetail.bet_condition}
+            value={inputDetail.betCondition}
             variant="standard"
             InputProps={{
               placeholder: "Your Bet Condition Here...",
@@ -122,7 +146,10 @@ const AddSessionInput = (props: any) => {
                   alignItems: "center",
                 }}
               >
-                <Typography sx={{ fontWeight: "600", fontSize: "14px" }}>
+                <Typography
+                  sx={{ fontWeight: "600", fontSize: "14px" }}
+                  component={"span"}
+                >
                   <KeyboardEventHandler
                     handleKeys={[
                       "a",
@@ -151,7 +178,17 @@ const AddSessionInput = (props: any) => {
                     ]}
                     isDisabled={false}
                     onKeyEvent={(key, e) =>
-                      handleKeysMatchEvents(key, e, setInputDetail, inputDetail)
+                      handleKeysMatchEvents(
+                        key,
+                        e,
+                        setInputDetail,
+                        setLock,
+                        incGap,
+                        setIncGap,
+                        isPercent,
+                        setIsPercent,
+                        setIsBall
+                      )
                     }
                   >
                     <TextField
@@ -160,7 +197,7 @@ const AddSessionInput = (props: any) => {
                       type="Number"
                       autoComplete="off"
                       inputRef={inputRef}
-                      value={inputDetail?.l_no_rate}
+                      value={inputDetail?.leftNoRate}
                       variant="standard"
                       InputProps={{
                         disableUnderline: true,
@@ -187,11 +224,14 @@ const AddSessionInput = (props: any) => {
                   alignItems: "center",
                 }}
               >
-                <Typography sx={{ fontWeight: "600", fontSize: "14px" }}>
+                <Typography
+                  sx={{ fontWeight: "600", fontSize: "14px" }}
+                  component={"span"}
+                >
                   <CustomDisableInput
                     type="Number"
                     autoComplete="off"
-                    value={inputDetail?.l_yes_rate}
+                    value={inputDetail?.leftYesRate}
                     variant="standard"
                     disabled={true}
                     InputProps={{
@@ -219,13 +259,16 @@ const AddSessionInput = (props: any) => {
                   alignItems: "center",
                 }}
               >
-                <Typography sx={{ fontWeight: "600", fontSize: "14px" }}>
+                <Typography
+                  sx={{ fontWeight: "600", fontSize: "14px" }}
+                  component={"span"}
+                >
                   <CustomDisableInput
                     type="Number"
                     disabled={true}
                     value={
-                      inputDetail?.ln_rate_percent
-                        ? inputDetail?.ln_rate_percent
+                      inputDetail?.leftNoRatePercent
+                        ? inputDetail?.leftNoRatePercent
                         : ""
                     }
                     autoComplete="off"
@@ -254,14 +297,17 @@ const AddSessionInput = (props: any) => {
                   alignItems: "center",
                 }}
               >
-                <Typography sx={{ fontWeight: "600", fontSize: "14px" }}>
+                <Typography
+                  sx={{ fontWeight: "600", fontSize: "14px" }}
+                  component={"span"}
+                >
                   <CustomDisableInput
                     disabled={true}
                     autoComplete="off"
                     type="Number"
                     value={
-                      inputDetail.ly_rate_percent
-                        ? inputDetail.ly_rate_percent
+                      inputDetail.leftYesRatePercent
+                        ? inputDetail.leftYesRatePercent
                         : ""
                     }
                     variant="standard"
@@ -281,7 +327,7 @@ const AddSessionInput = (props: any) => {
             </Box>
           </Box>
           <Box sx={{ width: "60%" }}>
-            {!isBall?.isBall ? (
+            {!isBall ? (
               <>
                 <Box display={"flex"} sx={{ borderTop: "2px solid white" }}>
                   <Box
@@ -296,13 +342,14 @@ const AddSessionInput = (props: any) => {
                   >
                     {!lock?.isNo ? (
                       <Typography
+                        component={"span"}
                         sx={{
                           fontWeight: "600",
                           fontSize: "18px",
                           color: "black",
                         }}
                       >
-                        {inputDetail?.no_rate ? inputDetail?.no_rate : ""}
+                        {inputDetail?.noRate ? inputDetail?.noRate : ""}
                       </Typography>
                     ) : (
                       <img
@@ -326,13 +373,14 @@ const AddSessionInput = (props: any) => {
                   >
                     {!lock?.isYes ? (
                       <Typography
+                        component={"span"}
                         sx={{
                           fontWeight: "600",
                           fontSize: "18px",
                           color: "black",
                         }}
                       >
-                        {inputDetail.yes_rate ? inputDetail.yes_rate : ""}
+                        {inputDetail.yesRate ? inputDetail.yesRate : ""}
                       </Typography>
                     ) : (
                       <img
@@ -356,13 +404,14 @@ const AddSessionInput = (props: any) => {
                   >
                     {!lock?.isNoPercent ? (
                       <Typography
+                        component={"span"}
                         sx={{
                           fontWeight: "600",
                           fontSize: "18px",
                           color: "black",
                         }}
                       >
-                        {inputDetail.n_rate_percent}
+                        {inputDetail.noRatePercent}
                       </Typography>
                     ) : (
                       <img
@@ -385,13 +434,14 @@ const AddSessionInput = (props: any) => {
                   >
                     {!lock?.isYesPercent ? (
                       <Typography
+                        component={"span"}
                         sx={{
                           fontWeight: "600",
                           fontSize: "18px",
                           color: "black",
                         }}
                       >
-                        {inputDetail.y_rate_percent}
+                        {inputDetail.yesRatePercent}
                       </Typography>
                     ) : (
                       <img

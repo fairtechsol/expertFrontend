@@ -41,7 +41,7 @@ const MatchList = ({}) => {
       >
         <MatchListHeader getAllMatchHandle={() => {}} />
         <MatchListTableHeader />
-        {matchList.map((item: number, index: number) => {
+        {matchList?.map((item: number, index: number) => {
           return <MatchListTable key={item} data={item} index={index} />;
         })}
         <Pagination
