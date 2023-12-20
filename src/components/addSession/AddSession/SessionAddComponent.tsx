@@ -9,30 +9,38 @@ const stateDetail = {
   matchType: "",
   sessionBet: true,
   betStatus: 1,
-  bet_condition: "",
-  l_no_rate: "",
-  l_yes_rate: "",
-  ly_rate_percent: "",
-  ln_rate_percent: "",
-  no_rate: "",
-  yes_rate: "",
-  y_rate_percent: "",
-  n_rate_percent: "",
+  betCondition: "",
+  leftNoRate: "",
+  leftYesRate: "",
+  leftYesRatePercent: "",
+  leftNoRatePercent: "",
+  noRate: "",
+  yesRate: "",
+  yesRatePercent: "",
+  noRatePercent: "",
   suspended: "ACTIVE",
 };
 
-const SessionAddComponent = React.forwardRef((props: any) => {
+const SessionAddComponent = React.forwardRef((props: any, ref: any) => {
   const { createSession, match } = props;
   const [isCreateSession] = useState(createSession);
 
   const [loading] = useState(false);
-  const [incrementGap, setIncrementGap] = useState(1);
+  const [incGap, setIncGap] = useState<number>(1);
+  const [isPercent, setIsPercent] = useState<string>("");
+  const [isBall, setIsBall] = useState<boolean>(false);
+  const [inputDetail, setInputDetail] = useState<any>(stateDetail);
   const [isDisable, setIsDisable] = useState(false);
   const [showUndeclare, setShowUndeclare] = useState(false);
   const [visible, setVisible] = useState(false);
   const [visible1, setVisible1] = useState(false);
   const [visible2, setVisible2] = useState(false);
-  const [inputDetail, setInputDetail] = useState<any>(stateDetail);
+  const [lock, setLock] = useState<any>({
+    isNo: true,
+    isYes: true,
+    isNoPercent: true,
+    isYesPercent: true,
+  });
   const [live] = useState(true);
 
   const rates = [
@@ -90,21 +98,23 @@ const SessionAddComponent = React.forwardRef((props: any) => {
           <AddSessionInput
             inputDetail={inputDetail}
             setInputDetail={setInputDetail}
-            incrementGap={incrementGap}
-            setIncrementGap={setIncrementGap}
+            incGap={incGap}
+            setIncGap={setIncGap}
+            live={live}
+            lock={lock}
+            setLock={setLock}
+            isPercent={isPercent}
+            setIsPercent={setIsPercent}
+            isBall={isBall}
+            setIsBall={setIsBall}
             // createSession={createSession}
             // betId={betId}
             // socket={socket}
             // sessionEvent={sessionEvent}
-            // lock={lock}
             // inputRef={inputRef}
-            // setLock={setLock}
-            // isBall={{ isBall, setIsBall }}
             // isCreateSession={isCreateSession}
             // sessionBetId={sessionBetId}
             // match={match}
-            // isPercent={{ isPercent, setIsPercent }}
-            live={live}
             // isDisable={isDisable}
           />
           <Box sx={{ mt: 2, border: "1px solid black", p: 1 }}>
@@ -119,6 +129,32 @@ const SessionAddComponent = React.forwardRef((props: any) => {
             >
               {rates?.map((item, index) => (
                 <Box
+                  onClick={(e) => {
+                    e.preventDefault();
+                    if (
+                      !isNaN(inputDetail?.leftNoRate) &&
+                      inputDetail?.leftNoRate != null
+                    ) {
+                      const [yesRatePercent, noRatePercent] =
+                        item?.value?.split("-");
+                      setInputDetail((prev: any) => {
+                        return {
+                          ...prev,
+                          leftYesRatePercent: parseInt(yesRatePercent),
+                          leftNoRatePercent: parseInt(noRatePercent),
+                          yesRatePercent: parseInt(yesRatePercent),
+                          noRatePercent: parseInt(noRatePercent),
+                        };
+                      });
+                      // handleLiveChange(
+                      //   parseInt(yesRatePercent),
+                      //   parseInt(noRatePercent)
+                      // );
+                      // if (inputRef.current) {
+                      //   inputRef.current.focus();
+                      // }
+                    }
+                  }}
                   key={index}
                   sx={{
                     position: "relative",
@@ -335,7 +371,7 @@ const SessionAddComponent = React.forwardRef((props: any) => {
                     return true;
                   } else {
                     // doSubmitSessionBet(
-                    //   inputDetail.n_rate_percent + "-" + inputDetail.y_rate_percent
+                    //   inputDetail.noRatePercent + "-" + inputDetail.yesRatePercent
                     // );
                   }
                 }}
