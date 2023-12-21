@@ -3,7 +3,7 @@ import StyledImage from "../../Common/StyledImages";
 import KeyboardEventHandler from "react-keyboard-event-handler";
 import { BallStart, LiveOff, Lock } from "../../../assets";
 import CustomDisableInput from "../../Common/CustomDisableInput";
-import { handleKeysMatchEvents } from "../../../utils/InputKeys/SessionInputKeys";
+import { handleKeysMatchEvents } from "../../../utils/InputKeys/Session/SessionInputKeys";
 
 const AddSessionInput = (props: any) => {
   const {
@@ -162,18 +162,13 @@ const AddSessionInput = (props: any) => {
                       "down",
                       "left",
                       "right",
-                      // "tab",
                       "shift",
-                      // "`",
                       ",",
                       ".",
-                      // "/",
                       "enter",
                       "return",
                       "esc",
-                      // "*",
                       "plus",
-                      // "=",
                       "minus",
                     ]}
                     isDisabled={false}

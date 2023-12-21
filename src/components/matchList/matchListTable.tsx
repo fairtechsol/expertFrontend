@@ -9,6 +9,7 @@ import BoxButtonWithSwitch from "../Common/BoxButtonWithSwitch";
 import CustomButton from "../Common/CustomButton";
 import StyledImage from "../Common/StyledImages";
 import MatchListProfitLoss from "./profitLoss";
+import MatchPermissionsModal from "./matchPermissionsModal";
 
 const MatchListTable = (props: any) => {
   const { data, index } = props;
@@ -107,29 +108,26 @@ const MatchListTable = (props: any) => {
           >
             <Typography
               variant="h5"
-              color="primary.main"
+              // color="primary.main"
               sx={[
                 {
-                  // color: "004A25",
-                  textAlign: "center",
+                  color: "000",
                   alignItems: "center",
-                  marginRight: { lg: "0", xs: "3px" },
+                  marginRight: { lg: "10px", xs: "6px" },
                   justifyContent: "space-between",
                 },
               ]}
             >
-              Commission Details
+              {data?.title}
             </Typography>
             <StyledImage
               onClick={() => {
                 setShowUserModal((prev) => !prev);
-                // setSelected(null);
               }}
-              src={
-                // fContainerStyle.background == "#F8C851" ? DownGIcon : DownIcon
-                DownGIcon
-              }
+              src={showUserModal ? DownGIcon : DownGIcon}
               style={{
+                transform: showUserModal ? "rotate(180deg)" : "rotate(0deg)",
+                transition: "0.5s",
                 cursor: "pointer",
                 width: "16px",
                 height: "12px",
@@ -184,58 +182,14 @@ const MatchListTable = (props: any) => {
           </Box>
         </Box>
       </Box>
-      {showUserModal ? (
-        <Box
-          sx={{
-            display: "flex",
-            // flexDirection: { xs: "column", sm: "row" },
-            flexWrap: "wrap",
-            flex: 1,
-            alignItems: "center",
-            p: 2,
-            background: "#ffe094",
-          }}
-        >
-          {data?.matchBettings?.map((betting: any) => {
-            return (
-              <BoxButtonWithBettings
-                key={betting?.id}
-                title={
-                  betting?.type === "matchOdd" ? data?.title : betting?.name
-                }
-                matchId={data?.id}
-                matchBettingType={"match"}
-                // containerStyle={{ width: "14%" }}
-                updateBettings={updateBettings}
-                setUpdateBettings={setUpdateBettings}
-                bettingId={betting.id}
-              />
-            );
-          })}
-          <BoxButtonWithSwitch
-            title="Session"
-            matchId={data?.id}
-            // containerStyle={{ minWidth: "15%" }}
-            matchBettingType={"session"}
-            isManualBet={false}
-            updateMatchStatus={updateMatchStatus}
-            setUpdateMatchStatus={setUpdateMatchStatus}
-            place={1}
-          />
-
-          <BoxButtonWithSwitch
-            title="Manual Session"
-            matchId={data?.id}
-            // containerStyle={{ minWidth: "15%" }}
-            matchBettingType={"session"}
-            isManualBet={true}
-            updateMatchStatus={updateMatchStatus}
-            setUpdateMatchStatus={setUpdateMatchStatus}
-            place={2}
-          />
-        </Box>
-      ) : (
-        ""
+      {showUserModal && (
+        <MatchPermissionsModal
+          data={data}
+          updateBettings={updateBettings}
+          setUpdateBettings={setUpdateBettings}
+          updateMatchStatus={updateMatchStatus}
+          setUpdateMatchStatus={setUpdateMatchStatus}
+        />
       )}
       <ModalMUI
         open={showPopup}
