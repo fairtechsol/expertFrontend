@@ -48,6 +48,26 @@ export const changePassword = createAsyncThunk<any, ChangePassword>(
     }
   }
 );
+export const headerAddNotification = createAsyncThunk<any, any>(
+  "/general/notification/add",
+  async (requestData, thunkApi) => {
+    try {
+      const resp = await service.post(
+        `${ApiConstants.USER.MARQUEE_NOTIFICATION}`,
+        requestData
+      );
+      if (resp) {
+        if (resp?.data) {
+          return resp?.data?.transactionPassword;
+        }
+        localStorage.clear();
+      }
+    } catch (error: any) {
+      const err = error as AxiosError;
+      return thunkApi.rejectWithValue(err.response?.status);
+    }
+  }
+);
 
 export const changePasswordReset = createAction("changePassword/reset");
 export const profileReset = createAction("profile/reset");
