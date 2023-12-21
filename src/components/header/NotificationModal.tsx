@@ -1,29 +1,43 @@
-import { useState } from "react";
-import { Box, Modal, TextField, Typography } from "@mui/material";
+import { Box, Button, Modal, TextField, Typography } from "@mui/material";
+import { useEffect, useState } from "react";
 import { CancelDark } from "../../assets";
-import CustomButton from "../Common/CustomButton";
+
+import { useFormik } from "formik";
+import { useDispatch } from "react-redux";
+import { headerAddNotification } from "../../store/actions/user/userAction";
+import { AppDispatch } from "../../store/store";
+// import { depositAmountValidations } from "../../../utils/Validations";
+
 const NotificationModal = ({
   visible,
   setVisible,
   title,
   loadingDeleteBet,
 }: any) => {
-  const [value, setValue] = useState("");
+  // const [value, setValue] = useState("");
   const [error] = useState(false);
-
-  const handleDone = (e: any) => {
-    e.preventDefault();
-    // if (loadingDeleteBet) {
-    //   return false;
-    // } else {
-    //   if (value == "") {
-    //     return setError(true);
-    //   }
-    //   onDone(value);
-    //   setValue("");
-    setVisible(false);
-    // }
+  const dispatch: AppDispatch = useDispatch();
+  const initialValues: any = {
+    value: "",
   };
+
+  const formik = useFormik({
+    initialValues: initialValues,
+    // validationSchema: depositAmountValidations,
+    onSubmit: (values: any) => {
+      let payload = {
+        value: values.value,
+      };
+      dispatch(headerAddNotification(payload));
+      setVisible(false);
+    },
+  });
+
+  const { handleSubmit } = formik;
+
+  useEffect(() => {
+    formik.resetForm();
+  }, [visible]);
 
   return (
     <Modal
@@ -42,7 +56,7 @@ const NotificationModal = ({
           display: "flex",
         }}
       >
-        <form onSubmit={handleDone}>
+        <form onSubmit={handleSubmit}>
           <Box
             sx={{
               width: "500px",
@@ -93,12 +107,12 @@ const NotificationModal = ({
               }}
             >
               <TextField
+                name={"value"}
+                id={"value"}
+                value={formik.values.value}
+                onChange={formik.handleChange}
                 variant="standard"
-                value={value}
-                onChange={(e) => {
-                  setValue(e.target?.value);
-                }}
-                placeholder="Enter a valid reason to delete bet"
+                placeholder="Add new Notification"
                 multiline={true}
                 InputProps={{
                   disableUnderline: true,
@@ -143,17 +157,16 @@ const NotificationModal = ({
                 alignItems: "center",
               }}
             >
-              <CustomButton
-                type={"submit"}
-                loading={loadingDeleteBet}
-                onClick={() => {}}
-                buttonStyle={{
+              <Button
+                type="submit"
+                style={{
                   backgroundColor: "#0B4F26",
                   color: "white",
-                  "&:hover": { backgroundColor: "#0B4F26" },
+                  // "&:hover": { backgroundColor: "#0B4F26" },
                 }}
-                title={"Done"}
-              />
+              >
+                {loadingDeleteBet ? "Loading..." : "Submit"}
+              </Button>
             </Box>
           </Box>
         </form>
