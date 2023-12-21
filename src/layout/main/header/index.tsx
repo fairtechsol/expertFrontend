@@ -1,24 +1,29 @@
 import { AppBar, Box, useMediaQuery, useTheme } from "@mui/material";
 import ModalMUI from "@mui/material/Modal";
 import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";
 import { Draw, FgLogo, NotiBadge, Users } from "../../../assets";
 import StyledImage from "../../../components/Common/StyledImages";
 import Loader from "../../../components/Loader";
 import ButtonHead from "../../../components/header/ButtonHead";
 import NotificationModal from "../../../components/header/NotificationModal";
+import { AppDispatch, RootState } from "../../../store/store";
 import ActiveUsers from "./ActiveUsers";
 import BoxProfile from "./BoxProfile";
 import DropDownMenu from "./DropDownMenu";
 
 const Header1 = () => {
   const theme = useTheme();
+  const dispatch: AppDispatch = useDispatch();
   const matchesMobile = useMediaQuery(theme.breakpoints.down("lg"));
   const navigate = useNavigate();
   const [visible, setVisible] = useState(false);
   const [activeUser] = useState<any>("2");
   const [currentSelected, setSelected] = useState<any>(4);
   const [anchor, setAnchor] = useState(null);
+
+  const { getProfile } = useSelector((state: RootState) => state.user.profile);
 
   const allLiveEventSession: any = [
     {
@@ -281,7 +286,8 @@ const Header1 = () => {
                     ? "Bookmaker"
                     : "Betfair"
                 }
-                value1={"User"}
+                value1={getProfile?.userName}
+                // value1={"User"}
               />
             </Box>
           </Box>

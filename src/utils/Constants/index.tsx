@@ -10,6 +10,7 @@ export const ApiConstants = {
   USER: {
     CHANGEPASSWORD: "user/password",
     MARQUEE_NOTIFICATION: "/general/notification/add",
+    PROFILE: "user/profile",
   },
 };
 
