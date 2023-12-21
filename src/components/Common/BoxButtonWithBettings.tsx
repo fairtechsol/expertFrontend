@@ -1,7 +1,7 @@
 import { Box, Switch, Typography, styled } from "@mui/material";
 import { useEffect, useState } from "react";
-import { updateMatchActiveStatus } from "../../store/actions/match/matchAction";
 import { useDispatch } from "react-redux";
+import { updateMatchActiveStatus } from "../../store/actions/match/matchAction";
 import { AppDispatch } from "../../store/store";
 
 const BoxButtonWithBettings = ({
@@ -88,8 +88,9 @@ const BoxButtonWithBettings = ({
         {
           height: "35px",
           minWidth: "100px",
-          // width: "14%",
+          width: { xs: "100%", sm: "48%", md: "15%" },
           marginLeft: "10px",
+          marginTop: { xs: 1, md: 0 },
           borderRadius: "5px",
           border: notSwitch && "1px solid #0B4F26",
           background: notSwitch ? "#FFF" : background,
@@ -108,6 +109,14 @@ const BoxButtonWithBettings = ({
             fontSize: "13px",
             marginLeft: "1vw",
             lineHeight: "14px",
+            // overflow: "hidden",
+            // WebkitLineClamp: { xs: 1, md: 1 },
+            // WebkitBoxOrient: "vertical",
+            // lineClamp: { xs: 1, md: 1 },
+            whiteSpace: "nowrap",
+            width: { xs: "100%", md: "70%" },
+            overflow: "hidden",
+            textOverflow: "ellipsis",
           },
           titleStyle,
         ]}

@@ -1,18 +1,20 @@
 import { Box, Typography } from "@mui/material";
+import ModalMUI from "@mui/material/Modal";
+import moment from "moment";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { DownGIcon } from "../../assets";
+import BoxButtonWithBettings from "../Common/BoxButtonWithBettings";
 import BoxButtonWithSwitch from "../Common/BoxButtonWithSwitch";
 import CustomButton from "../Common/CustomButton";
-import MatchListProfitLoss from "./profitLoss";
-import { useNavigate } from "react-router-dom";
-import ModalMUI from "@mui/material/Modal";
 import StyledImage from "../Common/StyledImages";
-import moment from "moment";
-import BoxButtonWithBettings from "../Common/BoxButtonWithBettings";
+import MatchListProfitLoss from "./profitLoss";
 
 const MatchListTable = (props: any) => {
   const { data, index } = props;
   const navigate = useNavigate();
   const [showPopup, setShowPopup] = useState(false);
+  const [showUserModal, setShowUserModal] = useState(false);
 
   const [updateBettings, setUpdateBettings] = useState<any>([]);
 
@@ -59,9 +61,9 @@ const MatchListTable = (props: any) => {
         sx={[
           {
             display: "flex",
-            height: "45px",
+            height: { xs: "auto", md: "45px" },
             background: "#FFE094",
-            alignItems: "center",
+            alignItems: { xs: "stretch", md: "center" },
             borderBottom: "2px solid white",
           },
         ]}
@@ -72,7 +74,7 @@ const MatchListTable = (props: any) => {
             width: "100px",
             paddingLeft: "10px",
             alignItems: "center",
-            height: "45px",
+            // height: "45px",
             borderRight: "2px solid white",
           }}
         >
@@ -90,72 +92,151 @@ const MatchListTable = (props: any) => {
             display: "flex",
             paddingX: "10px",
             alignItems: "center",
-            height: "45px",
+            justifyContent: "space-between",
+            flexDirection: { xs: "column", sm: "row", lg: "row" },
+            // height: "45px",
           }}
         >
-          <Box sx={{ display: "flex", flex: 1, alignItems: "center" }}>
-            {data?.matchBettings?.map((betting: any) => {
-              return (
-                <BoxButtonWithBettings
-                  key={betting?.id}
-                  title={
-                    betting?.type === "matchOdd" ? data?.title : betting?.name
-                  }
-                  matchId={data?.id}
-                  matchBettingType={"match"}
-                  containerStyle={{ width: "14%" }}
-                  updateBettings={updateBettings}
-                  setUpdateBettings={setUpdateBettings}
-                  bettingId={betting.id}
-                />
-              );
-            })}
-            <BoxButtonWithSwitch
-              title="Session"
-              matchId={data?.id}
-              containerStyle={{ width: "15%" }}
-              matchBettingType={"session"}
-              isManualBet={false}
-              updateMatchStatus={updateMatchStatus}
-              setUpdateMatchStatus={setUpdateMatchStatus}
-              place={1}
+          {/* Switch button row =====*/}
+          <Box
+            display="flex"
+            alignItems="center"
+            sx={{
+              order: { xs: "2", sm: "1" },
+            }}
+          >
+            <Typography
+              variant="h5"
+              color="primary.main"
+              sx={[
+                {
+                  // color: "004A25",
+                  textAlign: "center",
+                  alignItems: "center",
+                  marginRight: { lg: "0", xs: "3px" },
+                  justifyContent: "space-between",
+                },
+              ]}
+            >
+              Commission Details
+            </Typography>
+            <StyledImage
+              onClick={() => {
+                setShowUserModal((prev) => !prev);
+                // setSelected(null);
+              }}
+              src={
+                // fContainerStyle.background == "#F8C851" ? DownGIcon : DownIcon
+                DownGIcon
+              }
+              style={{
+                cursor: "pointer",
+                width: "16px",
+                height: "12px",
+                color: "#004A25",
+              }}
             />
+          </Box>
 
-            <BoxButtonWithSwitch
-              title="Manual Session"
-              matchId={data?.id}
-              containerStyle={{ width: "15%" }}
-              matchBettingType={"session"}
-              isManualBet={true}
-              updateMatchStatus={updateMatchStatus}
-              setUpdateMatchStatus={setUpdateMatchStatus}
-              place={2}
-            />
+          <Box
+            display={"flex"}
+            sx={{
+              flexDirection: { xs: "column", sm: "row" },
+              order: { xs: "1", sm: "2" },
+              width: { xs: "100%", sm: "auto" },
+              py: { xs: 1, sm: 0 },
+            }}
+          >
             <MatchListProfitLoss
               onClick={handleMatchProfitLossClick}
               updateMatchStatusLabel="Match Profit/Loss"
               updateMatchStatus="22"
               place="1"
             />
+            <Box display={"flex"} sx={{ marginY: { xs: 1, sm: 0 } }}>
+              <CustomButton
+                containerStyle={{
+                  minWidth: { xs: "49%", sm: "100px" },
+                  width: { xs: "49%", sm: "100px" },
+                  marginLeft: { xs: "1%", sm: "10px" },
+                }}
+                onClick={() => {
+                  navigate(`/expert/betOdds`, {
+                    state: { id: data?.id },
+                  });
+                }}
+                title={"Submit"}
+              />
+              <CustomButton
+                containerStyle={{
+                  minWidth: { xs: "49%", sm: "100px" },
+                  width: { xs: "49%", sm: "100px" },
+                  marginLeft: { xs: "1%", sm: "10px" },
+                }}
+                onClick={() => {
+                  navigate(`/expert/edit_match`, {
+                    state: { id: data?.id },
+                  });
+                }}
+                title={"Edit"}
+              />
+            </Box>
           </Box>
-          <CustomButton
-            onClick={() => {
-              navigate(`/expert/betOdds`, {
-                state: { id: data?.id },
-              });
-            }}
-            title={"Submit"}
-          />
-          <CustomButton
-            onClick={() => {
-              navigate(`/expert/edit_match`, {
-                state: { id: data?.id },
-              });
-            }}
-            title={"Edit"}
-          />
         </Box>
       </Box>
+      {showUserModal ? (
+        <Box
+          sx={{
+            display: "flex",
+            // flexDirection: { xs: "column", sm: "row" },
+            flexWrap: "wrap",
+            flex: 1,
+            alignItems: "center",
+            p: 2,
+            background: "#ffe094",
+          }}
+        >
+          {data?.matchBettings?.map((betting: any) => {
+            return (
+              <BoxButtonWithBettings
+                key={betting?.id}
+                title={
+                  betting?.type === "matchOdd" ? data?.title : betting?.name
+                }
+                matchId={data?.id}
+                matchBettingType={"match"}
+                // containerStyle={{ width: "14%" }}
+                updateBettings={updateBettings}
+                setUpdateBettings={setUpdateBettings}
+                bettingId={betting.id}
+              />
+            );
+          })}
+          <BoxButtonWithSwitch
+            title="Session"
+            matchId={data?.id}
+            // containerStyle={{ minWidth: "15%" }}
+            matchBettingType={"session"}
+            isManualBet={false}
+            updateMatchStatus={updateMatchStatus}
+            setUpdateMatchStatus={setUpdateMatchStatus}
+            place={1}
+          />
+
+          <BoxButtonWithSwitch
+            title="Manual Session"
+            matchId={data?.id}
+            // containerStyle={{ minWidth: "15%" }}
+            matchBettingType={"session"}
+            isManualBet={true}
+            updateMatchStatus={updateMatchStatus}
+            setUpdateMatchStatus={setUpdateMatchStatus}
+            place={2}
+          />
+        </Box>
+      ) : (
+        ""
+      )}
       <ModalMUI
         open={showPopup}
         aria-labelledby="modal-modal-title"

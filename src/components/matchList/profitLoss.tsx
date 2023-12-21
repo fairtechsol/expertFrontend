@@ -8,15 +8,15 @@ const MatchListProfitLoss = (Props: any) => {
         onClick={onClick}
         sx={{
           height: "35px",
-          minWidth: "100px",
-          marginLeft: "10px",
+          minWidth: { xs: "100%", sm: "200px" },
+          marginLeft: { xs: "0", sm: "10px" },
           borderRadius: "5px",
           border: "1px solid #0B4F26",
           background: "#FFF",
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
-          width: "18%",
+          // width: "18%",
         }}
       >
         <Typography

@@ -13,7 +13,12 @@ const MatchListHeader = ({ getAllMatchHandle }: Props) => {
     <>
       <Box
         display={"flex"}
-        sx={{ justifyContent: "space-between", px: "10px", py: "10px" }}
+        sx={{
+          justifyContent: "space-between",
+          px: "10px",
+          py: "10px",
+          flexDirection: { xs: "column", sm: "row" },
+        }}
       >
         <Typography
           sx={{
@@ -24,8 +29,15 @@ const MatchListHeader = ({ getAllMatchHandle }: Props) => {
         >
           Match List
         </Typography>
-        <Box sx={{ display: "flex", alignItems: "center" }}>
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: { xs: "space-between", sm: "flex-end" },
+          }}
+        >
           <SearchInput
+            width="50%"
             show={true}
             getAllMatch={getAllMatchHandle}
             placeholder={"Search Match..."}
