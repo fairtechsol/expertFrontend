@@ -1,55 +1,67 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Box, TextField, Typography } from "@mui/material";
 import { BallStart, Lock } from "../../../assets";
 import KeyboardEventHandler from "react-keyboard-event-handler";
 import BookButton from "./BookButton";
 import ResultComponent from "./ResultComponent";
+import { handleKeysMatchEvents } from "../../../utils/InputKeys/Bookmaker/BookmakerSessionKeys";
+import {
+  handleSuspend,
+  updateLocalQuickBookmaker,
+} from "../../../utils/InputKeys/Bookmaker/Utils";
 
 const EditBookmaker = (props: any) => {
   const { add, match } = props;
   const [teamRates] = useState({
-    teamA: "",
-    teamB: "",
-    teamC: "",
+    teamA: 1.5,
+    teamB: 2.5,
+    teamC: 5.6,
   });
+
+  const innerRefTeamA = useRef();
+  const innerRefTeamB = useRef();
+  const innerRefTeamC = useRef();
+
+  const [incGap, setIncGap] = useState<number>(1);
+  const [isPercent, setIsPercent] = useState<string>("");
+  const [isBall, setIsBall] = useState<boolean>(false);
+  const [inputDetail, setInputDetail] = useState<any>({});
+
+  const [isTab, setIsTab] = useState("");
 
   const [visible, setVisible] = useState(false);
   const [visible1, setVisible1] = useState(false);
 
-  const [localQuickBookmaker] = useState({
+  const [localQuickBookmaker, setLocalQuickBookmaker] = useState({
     teamA: {
-      rate: null,
+      rate: "",
       lock: true,
       suspended: true,
-      lay: null,
-      back: null,
+      lay: "",
+      back: "",
       layLock: false,
     },
     teamB: {
-      rate: null,
+      rate: "",
       lock: true,
       suspended: true,
-      lay: null,
-      back: null,
+      lay: "",
+      back: "",
       layLock: false,
     },
     teamC: {
-      rate: null,
+      rate: "",
       lock: true,
       suspended: true,
-      lay: null,
-      back: null,
+      lay: "",
+      back: "",
       layLock: false,
     },
-    teamBall: {
-      isABall: false,
-      isBBall: false,
-      isCBall: false,
-    },
+    teamBall: false,
     teamSuspended: {
-      teamA_suspend: true,
-      teamB_suspend: true,
-      teamC_suspend: true,
+      teamAsuspend: true,
+      teamBsuspend: true,
+      teamCsuspend: true,
     },
     teamBackUnlock: true,
   });
@@ -64,6 +76,43 @@ const EditBookmaker = (props: any) => {
     const bookRatio = teamARates != 0 ? teamBRates / teamARates || 0 : 0;
     const formattedRatio = Math.abs(bookRatio).toFixed(2);
     return teamARates < 0 ? `-${formattedRatio}` : formattedRatio;
+  };
+
+  const handleChange = (event: any) => {
+    let { name, value } = event.target;
+
+    setLocalQuickBookmaker((prev: any) => {
+      return {
+        ...prev,
+        teamBall: false,
+      };
+    });
+
+    setIsTab("");
+    if (value < 100) {
+      if (name === "teamArate") {
+        updateLocalQuickBookmaker(
+          "teamA",
+          +value,
+          +value + 1,
+          setLocalQuickBookmaker
+        );
+      } else if (name === "teamBrate") {
+        updateLocalQuickBookmaker(
+          "teamB",
+          +value,
+          +value + 1,
+          setLocalQuickBookmaker
+        );
+      } else if (name === "teamCrate") {
+        updateLocalQuickBookmaker(
+          "teamC",
+          +value,
+          +value + 1,
+          setLocalQuickBookmaker
+        );
+      }
+    }
   };
 
   return (
@@ -254,28 +303,37 @@ const EditBookmaker = (props: any) => {
                     "l",
                   ]}
                   isDisabled={false}
-                  // onKeyEvent={(key, e) => handleKeysMatchEvents(key, e)}
+                  onKeyEvent={(key, e) =>
+                    handleKeysMatchEvents(
+                      key,
+                      e,
+                      setLocalQuickBookmaker,
+                      innerRefTeamB,
+                      innerRefTeamC,
+                      innerRefTeamA,
+                      match,
+                      incGap,
+                      setIncGap,
+                      isTab,
+                      setIsTab
+                    )
+                  }
                 >
                   <TextField
                     className="InputChild"
-                    // onChange={handleChange}
-                    name={"teamA_rate"}
-                    // inputRef={innerRefTeamA}
+                    onChange={handleChange}
+                    name={"teamArate"}
+                    inputRef={innerRefTeamA}
                     // onFocus={() => handleFocus(innerRefTeamA)}
                     type="number"
                     variant="standard"
-                    // fullWidth
-                    // value={lQuickBookMaker?.l_teamARate}
+                    value={localQuickBookmaker?.teamA?.rate}
                     InputProps={{
                       disableUnderline: true,
-                      // inputProps: { min: "0", max: "100" },
                       sx: {
                         height: "55px",
                         width: "98%",
                         background: "#F6F6F6",
-                        // border: '1px solid #2626264D',
-                        // borderRadius: '4px',
-                        // border: "0.5px solid white",
                         alignSelf: "flex-end",
                         textAlign: "center",
                         alignItems: "center",
@@ -288,22 +346,17 @@ const EditBookmaker = (props: any) => {
                   />
                 </KeyboardEventHandler>
                 <TextField
-                  // fullWidth
                   className="InputChild"
                   disabled
-                  // onChange={(e) => handleChange(e)}
+                  onChange={handleChange}
                   variant="standard"
-                  // value={lQuickBookMaker?.l_teamALayValue}
+                  value={localQuickBookmaker?.teamA?.lay}
                   InputProps={{
                     disableUnderline: true,
-                    // inputProps: { min: "0", max: "100" },
                     sx: {
                       height: "55px",
                       width: "97%",
                       background: "#F6F6F6",
-                      // border: '1px solid #2626264D',
-                      // borderRadius: '4px',
-                      // border: "0.5px solid white",
                       alignSelf: "flex-end",
                       alignItems: "center",
                       paddingX: "2px",
@@ -393,29 +446,38 @@ const EditBookmaker = (props: any) => {
                     "l",
                   ]}
                   isDisabled={false}
-                  // onKeyEvent={(key, e) => handleKeysMatchEvents(key, e)}
+                  onKeyEvent={(key, e) =>
+                    handleKeysMatchEvents(
+                      key,
+                      e,
+                      setLocalQuickBookmaker,
+                      innerRefTeamB,
+                      innerRefTeamC,
+                      innerRefTeamA,
+                      match,
+                      incGap,
+                      setIncGap,
+                      isTab,
+                      setIsTab
+                    )
+                  }
                 >
                   <TextField
                     // fullWidth
                     className="InputChild"
                     variant="standard"
-                    // value={lQuickBookMaker?.l_teamBRate}
-                    // onChange={handleChange}
-                    name={"teamB_rate"}
-                    // inputRef={innerRefTeamB}
+                    value={localQuickBookmaker?.teamB?.rate}
+                    onChange={handleChange}
+                    name={"teamBrate"}
+                    inputRef={innerRefTeamB}
                     type="number"
                     // onFocus={() => handleFocus(innerRefTeamB)}
-                    // onChange={(i) => setValue2(i.target.value)}
                     InputProps={{
                       disableUnderline: true,
-                      // inputProps: { min: "0", max: "100" },
                       sx: {
                         height: "55px",
                         width: "98%",
                         background: "#F6F6F6",
-                        // border: '1px solid #2626264D',
-                        // borderRadius: '4px',
-                        // border: "0.5px solid white",
                         alignSelf: "flex-end",
                         textAlign: "center",
                         alignItems: "center",
@@ -432,18 +494,14 @@ const EditBookmaker = (props: any) => {
                   variant="standard"
                   disabled
                   // fullWidth
-                  // value={lQuickBookMaker?.l_teamBLayValue}
+                  value={localQuickBookmaker?.teamB?.lay}
                   // onChange={(i) => setTeamBLayValue(i.target.value)}
                   InputProps={{
                     disableUnderline: true,
-                    // inputProps: { min: "0", max: "100" },
                     sx: {
                       height: "55px",
                       width: "97%",
                       background: "#F6F6F6",
-                      // border: '1px solid #2626264D',
-                      // borderRadius: '4px',
-                      // border: "0.5px solid white",
                       alignSelf: "flex-end",
                       alignItems: "center",
                       paddingX: "2px",
@@ -533,22 +591,32 @@ const EditBookmaker = (props: any) => {
                       "l",
                     ]}
                     isDisabled={false}
-                    // onKeyEvent={(key, e) => handleKeysMatchEvents(key, e)}
+                    onKeyEvent={(key, e) =>
+                      handleKeysMatchEvents(
+                        key,
+                        e,
+                        setLocalQuickBookmaker,
+                        innerRefTeamB,
+                        innerRefTeamC,
+                        innerRefTeamA,
+                        match,
+                        incGap,
+                        setIncGap,
+                        isTab,
+                        setIsTab
+                      )
+                    }
                   >
                     <TextField
                       className="InputChild"
                       variant="standard"
-                      // value={lQuickBookMaker?.l_teamCRate}
-                      // onChange={handleChange}
-                      name={"teamC_rate"}
-                      // inputRef={innerRefTeamC}
+                      value={localQuickBookmaker?.teamC?.rate}
+                      onChange={handleChange}
+                      name={"teamCrate"}
+                      inputRef={innerRefTeamC}
                       type="number"
-                      // fullWidth
-                      // onFocus={() => handleFocus(innerRefTeamC)}
-                      // onChange={(i) => setValue2(i.target.value)}
                       InputProps={{
                         disableUnderline: true,
-                        // inputProps: { min: "0", max: "100" },
                         sx: {
                           height: "55px",
                           width: "98%",
@@ -568,7 +636,7 @@ const EditBookmaker = (props: any) => {
                     className="InputChild"
                     variant="standard"
                     disabled
-                    // value={lQuickBookMaker?.l_teamCLayValue}
+                    value={localQuickBookmaker?.teamC?.lay}
                     InputProps={{
                       disableUnderline: true,
                       // inputProps: { min: "0", max: "100" },
@@ -576,9 +644,6 @@ const EditBookmaker = (props: any) => {
                         height: "55px",
                         width: "97%",
                         background: "#F6F6F6",
-                        // border: '1px solid #2626264D',
-                        // borderRadius: '4px',
-                        // border: "0.5px solid white",
                         alignSelf: "flex-end",
                         alignItems: "center",
                         paddingX: "2px",
@@ -595,16 +660,14 @@ const EditBookmaker = (props: any) => {
           </Box>
 
           <Box sx={{ borderLeft: "2px solid white", width: "40%" }}>
-            {localQuickBookmaker?.teamBall?.isABall ? (
+            {localQuickBookmaker?.teamBall ? (
               <Box
                 sx={{
                   borderTop: "2px solid white",
                   background: "rgba(0,0,0,1)",
                   height: match?.teamC ? "170px" : "112px",
                   right: 0,
-                  // position: "absolute",
                   width: "100%",
-                  // width: { lg: "50%", xs: "40.5%" },
                   justifyContent: { xs: "center", lg: "center" },
                   alignItems: "center",
                   display: "flex",
@@ -618,7 +681,6 @@ const EditBookmaker = (props: any) => {
               </Box>
             ) : (
               <>
-                {/* {!teamBall?.isABall ?  */}
                 <Box display={"flex"} sx={{ borderTop: "2px solid white" }}>
                   {!localQuickBookmaker?.teamBackUnlock ? (
                     <Box
@@ -681,7 +743,7 @@ const EditBookmaker = (props: any) => {
                     <Box
                       sx={{
                         background:
-                          localQuickBookmaker?.teamA?.lay === null
+                          localQuickBookmaker?.teamA?.lay === ""
                             ? "#FDF21A"
                             : "#FFB5B5",
                         width: "50%",
@@ -710,7 +772,7 @@ const EditBookmaker = (props: any) => {
                       sx={{
                         background:
                           localQuickBookmaker?.teamA?.suspended ||
-                          localQuickBookmaker?.teamA?.lay === null
+                          localQuickBookmaker?.teamA?.lay === ""
                             ? "#FDF21A"
                             : "#FFB5B5",
                         width: "50%",
@@ -801,7 +863,7 @@ const EditBookmaker = (props: any) => {
                     <Box
                       sx={{
                         background:
-                          localQuickBookmaker?.teamB?.lay === null
+                          localQuickBookmaker?.teamB?.lay === ""
                             ? "#FDF21A"
                             : "#FFB5B5",
                         width: "50%",
@@ -830,7 +892,7 @@ const EditBookmaker = (props: any) => {
                       sx={{
                         background:
                           localQuickBookmaker?.teamB?.suspended ||
-                          localQuickBookmaker?.teamB?.lay === null
+                          localQuickBookmaker?.teamB?.lay === ""
                             ? "#FDF21A"
                             : "#FFB5B5",
                         width: "50%",
@@ -861,7 +923,6 @@ const EditBookmaker = (props: any) => {
                 </Box>
                 {match?.teamC && (
                   <>
-                    {/* {!teamBall?.isCBall ?  */}
                     <Box display={"flex"} sx={{ borderTop: "2px solid white" }}>
                       {!localQuickBookmaker?.teamBackUnlock ? (
                         <Box
@@ -924,7 +985,7 @@ const EditBookmaker = (props: any) => {
                         <Box
                           sx={{
                             background:
-                              localQuickBookmaker?.teamC?.lay === null
+                              localQuickBookmaker?.teamC?.lay === ""
                                 ? "#FDF21A"
                                 : "#FFB5B5",
                             width: "50%",
@@ -953,7 +1014,7 @@ const EditBookmaker = (props: any) => {
                           sx={{
                             background:
                               localQuickBookmaker?.teamC?.suspended ||
-                              localQuickBookmaker?.teamC?.lay === null
+                              localQuickBookmaker?.teamC?.lay === ""
                                 ? "#FDF21A"
                                 : "#FFB5B5",
                             width: "50%",

@@ -33,13 +33,17 @@ export const handleKeysMatchEvents = (
   } else if (key === "up" || key === "w") {
     setInputDetail((prev: any) => {
       if (isPercent === "percent") {
-        return {
-          ...prev,
-          leftYesRatePercent: +prev.leftYesRatePercent - incGap,
-          leftNoRatePercent: +prev.leftNoRatePercent + incGap,
-          yesRatePercent: +prev.yesRatePercent - incGap,
-          noRatePercent: +prev.noRatePercent + incGap,
-        };
+        if (+prev.leftYesRatePercent - incGap < 5) {
+          return prev;
+        } else {
+          return {
+            ...prev,
+            leftYesRatePercent: +prev.leftYesRatePercent - incGap,
+            leftNoRatePercent: +prev.leftNoRatePercent + incGap,
+            yesRatePercent: +prev.yesRatePercent - incGap,
+            noRatePercent: +prev.noRatePercent + incGap,
+          };
+        }
       } else {
         return {
           ...prev,
@@ -51,13 +55,17 @@ export const handleKeysMatchEvents = (
   } else if (key === "down" || key === "z") {
     setInputDetail((prev: any) => {
       if (isPercent === "percent") {
-        return {
-          ...prev,
-          leftYesRatePercent: prev.leftYesRatePercent + incGap,
-          leftNoRatePercent: prev.leftNoRatePercent - incGap,
-          yesRatePercent: prev.yesRatePercent + incGap,
-          noRatePercent: prev.noRatePercent - incGap,
-        };
+        if (prev.leftNoRatePercent - incGap < 5) {
+          return prev;
+        } else {
+          return {
+            ...prev,
+            leftYesRatePercent: prev.leftYesRatePercent + incGap,
+            leftNoRatePercent: prev.leftNoRatePercent - incGap,
+            yesRatePercent: prev.yesRatePercent + incGap,
+            noRatePercent: prev.noRatePercent - incGap,
+          };
+        }
       } else {
         if (prev.leftYesRate - 1 > prev.leftNoRate) {
           return {
