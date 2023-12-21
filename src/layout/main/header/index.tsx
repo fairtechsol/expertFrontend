@@ -87,14 +87,7 @@ const Header1 = () => {
         sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
       >
         {/* <IdleTimer role="" /> */}
-        <NotificationModal
-          setVisible={setVisible}
-          visible={visible}
-          onClick={() => {}}
-          onDone={() => {
-            // handleAddNotification(value);
-          }}
-        />
+        <NotificationModal setVisible={setVisible} visible={visible} />
         <Box
           sx={[
             {
