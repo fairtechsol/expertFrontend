@@ -14,7 +14,7 @@ export const login = createAsyncThunk<any, LoginData>(
   async (requestData, thunkApi) => {
     try {
       const { data } = await service.post(
-        `/${ApiConstants.LOGIN}`,
+        `${ApiConstants.LOGIN}`,
         requestData
       );
       const { token } = data;
@@ -29,7 +29,7 @@ export const login = createAsyncThunk<any, LoginData>(
 
 export const logout = createAsyncThunk<any>("auth/logout", async () => {
   try {
-    const response = await service.post(`/${ApiConstants.LOGOUT}`);
+    const response = await service.post(`${ApiConstants.LOGOUT}`);
     localStorage.clear();
     window.location.replace("/login");
     return response;

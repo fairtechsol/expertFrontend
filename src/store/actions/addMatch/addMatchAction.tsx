@@ -60,15 +60,46 @@ export const getAllEventsList = createAsyncThunk<any, string>(
     }
   }
 );
+export const getExtraMarketList = createAsyncThunk<any, string>(
+  "addMatch/extraMarketList",
+  async (requestData, thunkApi) => {
+    try {
+      const { data } = await axios.get(
+        `https://3200dev.fairgame.club/extraMarketList/${requestData}`
+      );
+      if (data) {
+        let extraMarketList: any = {
+          matchOdds: {
+            marketId: data?.find(
+              (match: any) => match?.marketName === "Match Odds"
+            )?.marketId,
+          },
+          tiedMatch: {
+            marketId: data?.find(
+              (match: any) => match?.marketName === "Tied Match"
+            )?.marketId,
+          },
+          completedMatch: {
+            marketId: data?.find(
+              (match: any) => match?.marketName === "Completed Match"
+            )?.marketId,
+          },
+        };
+
+        return extraMarketList;
+      }
+    } catch (error) {
+      const err = error as AxiosError;
+      return thunkApi.rejectWithValue(err.response?.status);
+    }
+  }
+);
 
 export const addMatchExpert = createAsyncThunk<any, any>(
   "addMatchExpert",
   async (requestData, thunkApi) => {
     try {
-      const resp = await service.post(
-        `/${ApiConstants.MATCH.ADD}`,
-        requestData
-      );
+      const resp = await service.post(`${ApiConstants.MATCH.ADD}`, requestData);
       if (resp) {
         console.log(resp);
       }
@@ -83,7 +114,7 @@ export const getMatchDetail = createAsyncThunk<any, any>(
   async (requestData, thunkApi) => {
     try {
       const resp = await service.get(
-        `/${ApiConstants.MATCH.GETDETAIL}/${requestData}`
+        `${ApiConstants.MATCH.GETDETAIL}/${requestData}`
       );
       if (resp) {
         return resp?.data;
@@ -95,4 +126,5 @@ export const getMatchDetail = createAsyncThunk<any, any>(
   }
 );
 
-export const addMatchReset = createAction("auth/reset");
+export const addMatchReset = createAction("add/reset");
+export const editMatchReset = createAction("edit/reset");

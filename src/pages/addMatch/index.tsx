@@ -16,11 +16,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store/store";
 import {
   addMatchExpert,
+  editMatchReset,
   getAllEventsList,
   getAllLiveTournaments,
   getMatchDetail,
 } from "../../store/actions/addMatch/addMatchAction";
 import moment from "moment";
+import { editMatch } from "../../store/actions/match/matchAction";
 
 const useStyles = makeStyles(() => ({
   dateTimePicker: {
@@ -35,15 +37,18 @@ const initialFormikValues = {
   betfairMatchMaxBet: "",
   betfairSessionMaxBet: "",
   betfairBookmakerMaxBet: "",
-  manualSessionMaxBet: "",
+  marketTiedMatchMaxBet: "",
+  manualTiedMatchMaxBet: "",
+  completeMatchMaxBet: "",
   marketName1: "",
   marketMaxBet1: "",
+  marketId1: "",
   marketName2: "",
   marketMaxBet2: "",
+  marketId2: "",
   marketName3: "",
   marketMaxBet3: "",
-  marketName4: "",
-  marketMaxBet4: "",
+  marketId3: "",
 };
 
 const initialValues = {
@@ -51,7 +56,6 @@ const initialValues = {
   teamB: "",
   teamC: "",
   title: "",
-  tiedMatch: 0,
   manualBookmaker: 0,
   gameType: "",
   tournamentName: "",
@@ -67,6 +71,9 @@ const AddMatch = () => {
 
   const { state } = useLocation();
 
+  const { tournamentList, eventsList, extraMarketList, matchDetail } =
+    useSelector((state: RootState) => state.addMatch.addMatch);
+
   const [selected, setSelected] = useState(initialValues);
   const classes = useStyles();
   const navigate = useNavigate();
@@ -81,91 +88,185 @@ const AddMatch = () => {
   const formik = useFormik({
     initialValues: initialFormikValues,
     onSubmit: (value: any) => {
-      let bookmakers;
+      if (state?.id) {
+        let bookmakers;
 
-      if (selected.manualBookmaker === 1) {
-        bookmakers = [
-          {
-            maxBet: values.marketMaxBet1,
-            marketName: values.marketName1,
-          },
-        ];
-      } else if (selected.manualBookmaker === 2) {
-        bookmakers = [
-          {
-            maxBet: values.marketMaxBet1,
-            marketName: values.marketName1,
-          },
-          {
-            maxBet: values.marketMaxBet2,
-            marketName: values.marketName2,
-          },
-        ];
-      } else if (selected.manualBookmaker === 3) {
-        bookmakers = [
-          {
-            maxBet: values.marketMaxBet1,
-            marketName: values.marketName1,
-          },
-          {
-            maxBet: values.marketMaxBet2,
-            marketName: values.marketName2,
-          },
-          {
-            maxBet: values.marketMaxBet3,
-            marketName: values.marketName3,
-          },
-        ];
+        if (selected.manualBookmaker === 1) {
+          bookmakers = [
+            {
+              maxBet: values.marketMaxBet1,
+              id: values.marketId1,
+            },
+          ];
+        } else if (selected.manualBookmaker === 2) {
+          bookmakers = [
+            {
+              maxBet: values.marketMaxBet1,
+              id: values.marketId1,
+            },
+            {
+              maxBet: values.marketMaxBet2,
+              id: values.marketId2,
+            },
+          ];
+        } else if (selected.manualBookmaker === 3) {
+          bookmakers = [
+            {
+              maxBet: values.marketMaxBet1,
+              id: values.marketId1,
+            },
+            {
+              maxBet: values.marketMaxBet2,
+              id: values.marketId2,
+            },
+            {
+              maxBet: values.marketMaxBet3,
+              id: values.marketId3,
+            },
+          ];
+        }
+        let payload = {
+          id: state?.id,
+          minBet: value.minBet,
+          matchOddMaxBet: value.betfairMatchMaxBet,
+          betFairSessionMaxBet: value.betfairSessionMaxBet,
+          betFairBookmakerMaxBet: value.betfairBookmakerMaxBet,
+          marketTiedMatchMaxBet: value.marketTiedMatchMaxBet,
+          manualTiedMatchMaxBet: value.manualTiedMatchMaxBet,
+          completeMatchMaxBet: value.completeMatchMaxBet,
+          bookmakers: bookmakers,
+        };
+        dispatch(editMatch(payload));
+      } else {
+        let bookmakers;
+
+        if (selected.manualBookmaker === 1) {
+          bookmakers = [
+            {
+              maxBet: values.marketMaxBet1,
+              marketName: values.marketName1,
+            },
+          ];
+        } else if (selected.manualBookmaker === 2) {
+          bookmakers = [
+            {
+              maxBet: values.marketMaxBet1,
+              marketName: values.marketName1,
+            },
+            {
+              maxBet: values.marketMaxBet2,
+              marketName: values.marketName2,
+            },
+          ];
+        } else if (selected.manualBookmaker === 3) {
+          bookmakers = [
+            {
+              maxBet: values.marketMaxBet1,
+              marketName: values.marketName1,
+            },
+            {
+              maxBet: values.marketMaxBet2,
+              marketName: values.marketName2,
+            },
+            {
+              maxBet: values.marketMaxBet3,
+              marketName: values.marketName3,
+            },
+          ];
+        }
+        let addMatchpayload = {
+          matchType: selected.gameType,
+          competitionId: selected.tournamentId,
+          competitionName: selected.matchName,
+          title: selected.title,
+          marketId: selected.marketId,
+          eventId: selected.eventId,
+          teamA: selected.teamA,
+          teamB: selected.teamB,
+          teamC: selected.teamC,
+          startAt: selected.startAt,
+          minBet: value.minBet,
+          matchOddMaxBet: value.betfairMatchMaxBet,
+          betFairSessionMaxBet: value.betfairSessionMaxBet,
+          betFairBookmakerMaxBet: value.betfairBookmakerMaxBet,
+          marketTiedMatchMaxBet: value.marketTiedMatchMaxBet,
+          manualTiedMatchMaxBet: value.manualTiedMatchMaxBet,
+          completeMatchMaxBet: value.completeMatchMaxBet,
+          bookmakers: bookmakers,
+          matchOddMarketId: extraMarketList?.matchOdds?.marketId,
+          marketBookmakerId: extraMarketList?.matchOdds?.marketId,
+          tiedMatchMarketId: extraMarketList?.tiedMatch?.marketId,
+          completeMatchMarketId: extraMarketList?.completedMatch?.marketId,
+        };
+        dispatch(addMatchExpert(addMatchpayload));
       }
 
-      let payload = {
-        matchType: selected.gameType,
-        competitionId: selected.tournamentId,
-        competitionName: selected.matchName,
-        title: selected.title,
-        marketId: selected.marketId,
-        eventId: selected.eventId,
-        teamA: selected.teamA,
-        teamB: selected.teamB,
-        teamC: selected.teamC,
-        startAt: selected.startAt,
-        minBet: value.minBet,
-        matchOddMaxBet: value.betfairMatchMaxBet,
-        betFairSessionMaxBet: value.betfairSessionMaxBet,
-        betFairBookmakerMaxBet: value.betfairBookmakerMaxBet,
-        bookmakers: bookmakers,
-        tiedMatch: [
-          {
-            maxBet: values.marketMaxBet4,
-            marketName: values.marketName4,
-          },
-        ],
-      };
-
-      dispatch(addMatchExpert(payload));
+      if (state?.id) {
+        dispatch(editMatchReset());
+      }
     },
   });
 
   const { handleSubmit, values, touched, errors, handleChange } = formik;
 
-  const { tournamentList, eventsList, matchDetail } = useSelector(
-    (state: RootState) => state.addMatch.addMatch
-  );
-
   useEffect(() => {
-    if (selected.gameType !== "") {
+    if (selected.gameType !== "" && !state?.id) {
       dispatch(getAllLiveTournaments(selected.gameType));
     }
-    if (selected.tournamentId !== "") {
+  }, [selected.gameType]);
+
+  useEffect(() => {
+    if (selected.tournamentId !== "" && !state?.id) {
       dispatch(getAllEventsList(selected.tournamentId));
     }
-  }, [selected.gameType, selected.tournamentId]);
+  }, [selected.tournamentId]);
 
   useEffect(() => {
     if (state?.id) {
       dispatch(getMatchDetail(state?.id));
     }
   }, [state?.id]);
+
+  useEffect(() => {
+    if (matchDetail) {
+      formik.setValues({
+        ...values,
+        minBet: matchDetail?.betFairSessionMinBet ?? "",
+        betfairMatchMaxBet: matchDetail?.matchOdd?.maxBet ?? "",
+        betfairSessionMaxBet: matchDetail?.betFairSessionMaxBet ?? "",
+        betfairBookmakerMaxBet: matchDetail?.bookmaker?.maxBet ?? "",
+        marketTiedMatchMaxBet: matchDetail?.apiTideMatch?.maxBet ?? "",
+        manualTiedMatchMaxBet: matchDetail?.manualTiedMatch?.maxBet ?? "",
+        completeMatchMaxBet: matchDetail?.completeMatchMaxBet?.maxBet ?? "",
+        marketName1: matchDetail?.quickBookmaker[0]?.name ?? "",
+        marketMaxBet1: matchDetail?.quickBookmaker[0]?.maxBet ?? "",
+        marketId1: matchDetail?.quickBookmaker[0]?.id ?? "",
+        marketName2: matchDetail?.quickBookmaker[1]?.name ?? "",
+        marketMaxBet2: matchDetail?.quickBookmaker[1]?.maxBet ?? "",
+        marketId2: matchDetail?.quickBookmaker[2]?.id ?? "",
+        marketName3: matchDetail?.quickBookmaker[2]?.name ?? "",
+        marketMaxBet3: matchDetail?.quickBookmaker[2]?.maxBet ?? "",
+        marketId3: matchDetail?.quickBookmaker[3]?.id ?? "",
+      });
+      setSelected((prev: any) => {
+        return {
+          ...prev,
+          teamA: matchDetail?.teamA,
+          teamB: matchDetail?.teamB,
+          teamC: matchDetail?.teamC,
+          manualBookmaker: matchDetail?.quickBookmaker?.length,
+          title: matchDetail?.title,
+          gameType: matchDetail?.matchType,
+          tournamentName: matchDetail?.competitionName,
+          tournamentId: matchDetail?.competitionId,
+          matchName: matchDetail?.title,
+          eventId: matchDetail?.eventId,
+          marketId: matchDetail?.marketId,
+          startAt: matchDetail?.startAt,
+        };
+      });
+    }
+  }, [matchDetail]);
 
   return (
     <form onSubmit={handleSubmit}>
@@ -179,7 +280,7 @@ const AddMatch = () => {
       >
         <Box sx={{ margin: "15px" }}>
           <LabelValueComponent
-            title={state?.id ? "Edit Match" : "Add Match"}
+            title={matchDetail ? "Edit Match" : "Add Match"}
             notShowSub={true}
             titleSize={"20px"}
             headColor={"#000000"}
@@ -217,6 +318,7 @@ const AddMatch = () => {
                 dropStyle={{
                   filter: "invert(.9) sepia(1) saturate(5) hue-rotate(175deg);",
                 }}
+                disable={state?.id ? true : false}
                 valueStyle={{ ...inputStyle, color: "white" }}
                 title={"Game *"}
                 valueContainerStyle={{
@@ -239,6 +341,7 @@ const AddMatch = () => {
                   marginTop: "0px",
                   position: "absolute",
                 }}
+                selected={selected}
                 setSelected={setSelected}
                 dropDownTextStyle={inputStyle}
                 place={1}
@@ -257,6 +360,7 @@ const AddMatch = () => {
                 dropStyle={{
                   filter: "invert(.9) sepia(1) saturate(5) hue-rotate(175deg);",
                 }}
+                disable={state?.id ? true : false}
                 data={tournamentList}
                 valueStyle={{ ...inputStyle, color: "white" }}
                 title={"Tournament Name"}
@@ -285,6 +389,7 @@ const AddMatch = () => {
                 }}
                 place={33}
                 id="tournamentName"
+                selected={selected}
                 setSelected={setSelected}
               />
             </Box>
@@ -301,6 +406,7 @@ const AddMatch = () => {
                 dropStyle={{
                   filter: "invert(.9) sepia(1) saturate(5) hue-rotate(175deg);",
                 }}
+                disable={state?.id ? true : false}
                 valueStyle={{ ...inputStyle, color: "white" }}
                 title={"Match Name"}
                 valueContainerStyle={{
@@ -328,6 +434,7 @@ const AddMatch = () => {
                   overflow: "auto",
                 }}
                 dropDownTextStyle={inputStyle}
+                selected={selected}
                 setSelected={setSelected}
                 place={5}
               />
@@ -461,7 +568,7 @@ const AddMatch = () => {
                 required={true}
                 valueStyle={{}}
                 containerStyle={{ flex: 1, width: "100%" }}
-                label={"Betfair MatchOdd Max Bet"}
+                label={"Match Odd Max Bet"}
                 type={"Number"}
                 name="betfairMatchMaxBet"
                 id="betfairMatchMaxBet"
@@ -495,15 +602,62 @@ const AddMatch = () => {
                 containerStyle={{ flex: 1, width: "100%" }}
                 label={"Betfair Bookmaker Max Bet"}
                 type={"Number"}
-                // value="Enter  Bookmaker Max Bet..."
                 touched={touched.betfairBookmakerMaxBet}
                 value={values.betfairBookmakerMaxBet}
                 onChange={handleChange}
-                placeholder="Enter  Bookmaker Max Bet..."
+                placeholder="Enter Bookmaker Max Bet..."
                 InputValType={"InputVal"}
                 place={15}
                 id="betfairBookmakerMaxBet"
                 name="betfairBookmakerMaxBet"
+              />
+            </Box>
+            <Box sx={{ width: { xs: "100%", lg: "18%", md: "24%" } }}>
+              <MatchListInput
+                required={true}
+                containerStyle={{ flex: 1, width: "100%" }}
+                label={"Market Tied Match Max Bet"}
+                type={"Number"}
+                touched={touched.marketTiedMatchMaxBet}
+                value={values.marketTiedMatchMaxBet}
+                onChange={handleChange}
+                placeholder="Enter Market Tied Match Max Bet..."
+                InputValType={"InputVal"}
+                place={15}
+                id="marketTiedMatchMaxBet"
+                name="marketTiedMatchMaxBet"
+              />
+            </Box>
+            <Box sx={{ width: { xs: "100%", lg: "18%", md: "24%" } }}>
+              <MatchListInput
+                required={true}
+                containerStyle={{ flex: 1, width: "100%" }}
+                label={"Manual Tied Match Max Bet"}
+                type={"Number"}
+                touched={touched.manualTiedMatchMaxBet}
+                value={values.manualTiedMatchMaxBet}
+                onChange={handleChange}
+                placeholder="Enter Manual Tied Match Max Bet..."
+                InputValType={"InputVal"}
+                place={15}
+                id="manualTiedMatchMaxBet"
+                name="manualTiedMatchMaxBet"
+              />
+            </Box>
+            <Box sx={{ width: { xs: "100%", lg: "18%", md: "24%" } }}>
+              <MatchListInput
+                required={true}
+                containerStyle={{ flex: 1, width: "100%" }}
+                label={"Complete Match Max Bet"}
+                type={"Number"}
+                touched={touched.completeMatchMaxBet}
+                value={values.completeMatchMaxBet}
+                onChange={handleChange}
+                placeholder="Enter Manual Tied Match Max Bet..."
+                InputValType={"InputVal"}
+                place={15}
+                id="completeMatchMaxBet"
+                name="completeMatchMaxBet"
               />
             </Box>
             <Box sx={{ width: "100%" }}>
@@ -519,6 +673,7 @@ const AddMatch = () => {
                     filter:
                       "invert(.9) sepia(1) saturate(5) hue-rotate(175deg);",
                   }}
+                  disable={state?.id ? true : false}
                   valueStyle={{ ...inputStyle, color: "white" }}
                   title={"Bookmaker"}
                   valueContainerStyle={{
@@ -543,6 +698,7 @@ const AddMatch = () => {
                     maxHeight: "500px",
                     overflow: "auto",
                   }}
+                  selected={selected}
                   setSelected={setSelected}
                   dropDownTextStyle={inputStyle}
                   place={4}
@@ -577,6 +733,7 @@ const AddMatch = () => {
                         place={11}
                         name="marketName1"
                         id="marketName1"
+                        disable={state?.id ? true : false}
                         value={values.marketName1}
                         onChange={handleChange}
                       />
@@ -626,6 +783,7 @@ const AddMatch = () => {
                         place={11}
                         name="marketName2"
                         id="marketName2"
+                        disable={state?.id ? true : false}
                         onChange={handleChange}
                         value={values.marketName2}
                       />
@@ -675,6 +833,7 @@ const AddMatch = () => {
                         place={11}
                         name="marketName3"
                         id="marketName3"
+                        disable={state?.id ? true : false}
                         value={values.marketName3}
                         onChange={handleChange}
                       />
@@ -706,108 +865,6 @@ const AddMatch = () => {
                 )}
               </Box>
             </Box>
-            <Box sx={{ width: "100%" }}>
-              <Box
-                sx={{
-                  width: { xs: "100%", lg: "18%", md: "24%" },
-                }}
-              >
-                <DropDown
-                  name="tiedMatch"
-                  valued="Select Tied Match"
-                  dropStyle={{
-                    filter:
-                      "invert(.9) sepia(1) saturate(5) hue-rotate(175deg);",
-                  }}
-                  valueStyle={{ ...inputStyle, color: "white" }}
-                  title={"Tied Match"}
-                  valueContainerStyle={{
-                    height: "45px",
-                    marginX: "0px",
-                    background: "#0B4F26",
-                    border: "1px solid #DEDEDE",
-                    borderRadius: "5px",
-                  }}
-                  containerStyle={{
-                    width: "100%",
-                    position: "relative",
-                    marginTop: "5px",
-                  }}
-                  titleStyle={{ marginLeft: "0px", color: "#575757" }}
-                  data={[1]}
-                  dropDownStyle={{
-                    width: "100%",
-                    marginLeft: "0px",
-                    marginTop: "0px",
-                    position: "absolute",
-                    maxHeight: "500px",
-                    overflow: "auto",
-                  }}
-                  setSelected={setSelected}
-                  dropDownTextStyle={inputStyle}
-                  place={4}
-                />
-              </Box>
-
-              <Box
-                sx={{
-                  display: "flex",
-                  flexDirection: "column",
-                  width: "100%",
-                  gap: 1,
-                }}
-              >
-                {selected.tiedMatch >= 1 && (
-                  <Box sx={{ display: "flex", width: "100%", gap: 1 }}>
-                    <Box
-                      sx={{
-                        width: {
-                          xs: "100%",
-                          lg: "18%",
-                          md: "24%",
-                        },
-                      }}
-                    >
-                      <MatchListInput
-                        required={true}
-                        containerStyle={{ flex: 1, width: "100%" }}
-                        label={"Market Name"}
-                        type={"text"}
-                        placeholder="Enter Market Name..."
-                        place={11}
-                        name="marketName4"
-                        id="marketName4"
-                        value={values.marketName4}
-                        onChange={handleChange}
-                      />
-                    </Box>
-
-                    <Box
-                      sx={{
-                        width: {
-                          xs: "100%",
-                          lg: "18%",
-                          md: "24%",
-                        },
-                      }}
-                    >
-                      <MatchListInput
-                        required={true}
-                        containerStyle={{ flex: 1, width: "100%" }}
-                        label={"Max Limit"}
-                        type={"number"}
-                        placeholder="Enter Max Bet..."
-                        place={11}
-                        name="marketMaxBet4"
-                        id="marketMaxBet4"
-                        value={values.marketMaxBet4}
-                        onChange={handleChange}
-                      />
-                    </Box>
-                  </Box>
-                )}
-              </Box>
-            </Box>
           </Box>
         </Box>
         <Box
@@ -830,12 +887,17 @@ const AddMatch = () => {
               },
             }}
           >
-            <Typography sx={{ color: "white" }}>Create</Typography>
+            <Typography sx={{ color: "white" }}>
+              {state?.id ? "Update" : "Create"}
+            </Typography>
           </Button>
           <Box
             onClick={() => {
               setSelected(initialValues);
               formik.resetForm();
+              if (state?.id) {
+                dispatch(editMatchReset());
+              }
               navigate("/expert/match_list");
             }}
             sx={{
