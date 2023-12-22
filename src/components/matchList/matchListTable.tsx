@@ -4,8 +4,6 @@ import moment from "moment";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { DownGIcon } from "../../assets";
-import BoxButtonWithBettings from "../Common/BoxButtonWithBettings";
-import BoxButtonWithSwitch from "../Common/BoxButtonWithSwitch";
 import CustomButton from "../Common/CustomButton";
 import StyledImage from "../Common/StyledImages";
 import MatchListProfitLoss from "./profitLoss";

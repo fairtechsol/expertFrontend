@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {
+  editMatch,
   getMatchList,
   matchListReset,
   updateMatchActiveStatus,
@@ -49,6 +50,18 @@ const matchList = createSlice({
         state.loading = false;
       })
       .addCase(updateMatchActiveStatus.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action?.error?.message;
+      })
+      .addCase(editMatch.pending, (state) => {
+        state.loading = true;
+        state.success = false;
+        state.error = null;
+      })
+      .addCase(editMatch.fulfilled, (state) => {
+        state.loading = false;
+      })
+      .addCase(editMatch.rejected, (state, action) => {
         state.loading = false;
         state.error = action?.error?.message;
       })

@@ -14,16 +14,14 @@ const DropDown = (props: any) => {
     dropStyle,
     dropDownStyle,
     dropDownTextStyle,
-    place,
     type,
     matchesSelect,
     disable,
+    selected,
     setSelected,
     name,
     valued,
   } = props;
-
-  console.log(data, "data");
 
   const [value, setValue] = useState(valued ?? data[0]);
   const [open, setOpen] = useState(false);
@@ -83,13 +81,14 @@ const DropDown = (props: any) => {
               },
             }}
           >
-            {value === "0" ? "0.00" : place ? value : value}
+            {value === "0"
+              ? "0.00"
+              : name
+              ? selected[name]
+                ? selected[name]
+                : value
+              : value}
           </Typography>
-          {/* {place === 5 && (
-            <Typography sx={{ fontSize: "10px !important" }}>
-              {Detail[22]?.val}
-            </Typography>
-          )} */}
         </Box>
         <StyledImage
           src={ARROWDROPDOWN}

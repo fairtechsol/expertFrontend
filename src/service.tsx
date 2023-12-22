@@ -8,8 +8,11 @@ const toastOptions = {
   pauseOnHover: true,
 };
 
+let devUrl = "http://localhost:6060/";
+// let testingUrl = "http://3.89.232.255:6060/";
+
 const service = axios.create({
-  baseURL: "http://localhost:6060/",
+  baseURL: devUrl,
 });
 
 service.defaults.timeout = 100000;

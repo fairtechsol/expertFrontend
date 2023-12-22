@@ -69,6 +69,8 @@ const SessionAddComponent = React.forwardRef((props: any, ref: any) => {
     { name: "200-350", value: "200-350" },
     { name: "250-400", value: "250-400" },
   ];
+
+  console.log(ref);
   return (
     <Box
       sx={{

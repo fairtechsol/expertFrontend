@@ -24,7 +24,7 @@ const AddSessionInput = (props: any) => {
     setIsBall,
   } = props;
 
-  const handleSuspend = () => {};
+  // const handleSuspend = () => {};
 
   const handleChange = (event: any) => {
     const { value } = event.target;

@@ -2,14 +2,17 @@ import { createSlice } from "@reduxjs/toolkit";
 import {
   addMatchExpert,
   addMatchReset,
+  editMatchReset,
   getAllEventsList,
   getAllLiveTournaments,
+  getExtraMarketList,
   getMatchDetail,
 } from "../../actions/addMatch/addMatchAction";
 
 interface InitialState {
   tournamentList: any;
   eventsList: any;
+  extraMarketList: any;
   matchDetail: any;
   success: boolean;
   loading: boolean;
@@ -19,6 +22,7 @@ interface InitialState {
 const initialState: InitialState = {
   tournamentList: [],
   eventsList: [],
+  extraMarketList: [],
   matchDetail: null,
   loading: false,
   success: false,
@@ -60,6 +64,20 @@ const addMatch = createSlice({
         state.loading = false;
         state.error = action?.error?.message;
       })
+      .addCase(getExtraMarketList.pending, (state) => {
+        state.loading = true;
+        state.success = false;
+        state.error = null;
+      })
+      .addCase(getExtraMarketList.fulfilled, (state, action) => {
+        state.extraMarketList = action.payload;
+        state.loading = false;
+        state.success = true;
+      })
+      .addCase(getExtraMarketList.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action?.error?.message;
+      })
       .addCase(addMatchExpert.pending, (state) => {
         state.loading = true;
         state.success = false;
@@ -79,13 +97,16 @@ const addMatch = createSlice({
         state.error = null;
       })
       .addCase(getMatchDetail.fulfilled, (state, action) => {
-        state.success = true;
         state.matchDetail = action.payload;
+        state.success = true;
         state.loading = false;
       })
       .addCase(getMatchDetail.rejected, (state, action) => {
         state.loading = false;
         state.error = action?.error?.message;
+      })
+      .addCase(editMatchReset, (state) => {
+        return { ...state, success: false, matchDetail: null };
       })
       .addCase(addMatchReset, (state) => {
         return { ...state, success: false };

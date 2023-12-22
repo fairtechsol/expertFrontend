@@ -6,7 +6,6 @@ import BookButton from "./BookButton";
 import ResultComponent from "./ResultComponent";
 import { handleKeysMatchEvents } from "../../../utils/InputKeys/Bookmaker/BookmakerSessionKeys";
 import {
-  handleSuspend,
   updateLocalQuickBookmaker,
 } from "../../../utils/InputKeys/Bookmaker/Utils";
 
@@ -23,9 +22,9 @@ const EditBookmaker = (props: any) => {
   const innerRefTeamC = useRef();
 
   const [incGap, setIncGap] = useState<number>(1);
-  const [isPercent, setIsPercent] = useState<string>("");
-  const [isBall, setIsBall] = useState<boolean>(false);
-  const [inputDetail, setInputDetail] = useState<any>({});
+  // const [isPercent, setIsPercent] = useState<string>("");
+  // const [isBall, setIsBall] = useState<boolean>(false);
+  // const [inputDetail, setInputDetail] = useState<any>({});
 
   const [isTab, setIsTab] = useState("");
 

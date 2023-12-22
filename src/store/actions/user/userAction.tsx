@@ -9,25 +9,6 @@ interface ChangePassword {
   confirmPassword: string;
 }
 
-export const addUser = createAsyncThunk<any, any>(
-  "user/add",
-  async (requestData) => {
-    try {
-      const resp = await service.post(
-        `${ApiConstants.MATCH.ADD_MATCH}`,
-        requestData
-      );
-      console.log(resp, ">>>>>>>>456");
-      if (resp) {
-        return resp?.data;
-      }
-    } catch (error: any) {
-      const err = error as AxiosError;
-      throw err;
-    }
-  }
-);
-
 export const getProfile = createAsyncThunk<any>("user/profile", async () => {
   try {
     const resp = await service.get(`${ApiConstants.USER.PROFILE}`);
