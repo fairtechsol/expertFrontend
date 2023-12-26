@@ -13,6 +13,7 @@ let devUrl = "http://localhost:6060/";
 
 const service = axios.create({
   baseURL: devUrl,
+  // baseURL: testingUrl,
 });
 
 service.defaults.timeout = 100000;

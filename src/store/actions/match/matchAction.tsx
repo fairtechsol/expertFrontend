@@ -51,3 +51,6 @@ export const editMatch = createAsyncThunk<any, any>(
 );
 
 export const matchListReset = createAction("matchList/reset");
+export const updateMatchActiveStatusReset = createAction(
+  "updateMatchActiveStatusReset/reset"
+);

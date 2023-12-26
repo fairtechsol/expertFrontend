@@ -47,7 +47,6 @@ const profileSlice = createSlice({
       })
       .addCase(getProfile.fulfilled, (state, action) => {
         state.loading = false;
-        state.success = true;
         state.getProfile = action.payload;
       })
       .addCase(getProfile.rejected, (state, action) => {

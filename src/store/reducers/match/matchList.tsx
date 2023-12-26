@@ -4,6 +4,7 @@ import {
   getMatchList,
   matchListReset,
   updateMatchActiveStatus,
+  updateMatchActiveStatusReset,
 } from "../../actions/match/matchAction";
 
 interface InitialState {
@@ -46,8 +47,8 @@ const matchList = createSlice({
         state.error = null;
       })
       .addCase(updateMatchActiveStatus.fulfilled, (state) => {
-        state.success = true;
         state.loading = false;
+        state.success = true;
       })
       .addCase(updateMatchActiveStatus.rejected, (state, action) => {
         state.loading = false;
@@ -66,6 +67,9 @@ const matchList = createSlice({
         state.error = action?.error?.message;
       })
       .addCase(matchListReset, (state) => {
+        return { ...state, success: false };
+      })
+      .addCase(updateMatchActiveStatusReset, (state) => {
         return { ...state, success: false };
       });
   },

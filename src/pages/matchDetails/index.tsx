@@ -7,10 +7,12 @@ import RunsBox from "../../components/matchDetails/RunsBox";
 import MatchOdds from "../../components/matchDetails/MatchOdds";
 import BookMarket from "../../components/matchDetails/Bookmarket";
 import BetList from "../../components/matchDetails/BetList";
+// import { useLocation } from "react-router-dom";
 
 const MatchDetails = () => {
   const [loading] = useState(false);
   const data: any = [];
+  // const { state } = useLocation();
   const [Bets, setIObtes] = useState<any>([
     {
       id: "c5bf1d70-085f-4c4a-b1ff-fc4ee15bc6e4",
@@ -428,6 +430,11 @@ const MatchDetails = () => {
       yes_rate: "0",
     },
   ];
+
+  // useEffect(() => {
+  //   if (state?.id) {
+  //   }
+  // }, [state?.id]);
 
   return (
     <Box

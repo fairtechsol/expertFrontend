@@ -8,6 +8,8 @@ import {
 import { useNavigate } from "react-router-dom";
 import StyledImage from "../../../components/Common/StyledImages";
 import { ArrowLeft } from "../../../assets";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../store/store";
 
 const MenutItemsComponent = ({
   x,
@@ -20,6 +22,7 @@ const MenutItemsComponent = ({
 }: any) => {
   const theme = useTheme();
   const matchesMobile = useMediaQuery(theme.breakpoints.down("lg"));
+  const { getProfile } = useSelector((state: RootState) => state.user.profile);
   const navigate = useNavigate();
   return (
     <>
@@ -85,8 +88,15 @@ const MenutItemsComponent = ({
                         <Box
                           key={element.id}
                           onClick={() => {
-                            navigate("/expert/live");
-                            handleClose();
+                            if (getProfile?.allPrivilege) {
+                              navigate("/expert/live");
+                              handleClose();
+                            } else if (getProfile?.sessionMatchPrivilege) {
+                              navigate("/expert/live");
+                              handleClose();
+                            } else {
+                              alert("You don't have privilege to Edit session");
+                            }
                           }}
                           sx={{ marginLeft: "10px", marginTop: "3px" }}
                         >
@@ -108,8 +118,15 @@ const MenutItemsComponent = ({
             })}
           <Box
             onClick={() => {
-              navigate("/expert/live");
-              handleClose();
+              if (getProfile?.allPrivilege) {
+                navigate("/expert/live");
+                handleClose();
+              } else if (getProfile?.sessionMatchPrivilege) {
+                navigate("/expert/live");
+                handleClose();
+              } else {
+                alert("You don't have privilege to Add session");
+              }
             }}
             sx={{ marginTop: "5px", display: "flex", alignItems: "center" }}
           >
@@ -139,8 +156,15 @@ const MenutItemsComponent = ({
                       <Box
                         key={element.id}
                         onClick={() => {
-                          navigate("/expert/add_book_maker");
-                          handleClose();
+                          if (getProfile?.allPrivilege) {
+                            navigate("/expert/add_book_maker");
+                            handleClose();
+                          } else if (getProfile?.bookmakerMatchPrivilege) {
+                            navigate("/expert/add_book_maker");
+                            handleClose();
+                          } else {
+                            alert("You don't have privilege to Add session");
+                          }
                         }}
                         sx={{ marginLeft: "10px", marginTop: "3px" }}
                       >
