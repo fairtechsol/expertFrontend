@@ -153,19 +153,35 @@ const MatchListTable = (props: any) => {
               place="1"
             />
             <Box display={"flex"} sx={{ marginY: { xs: 1, sm: 0 } }}>
-              <CustomButton
-                containerStyle={{
-                  minWidth: { xs: "49%", sm: "100px" },
-                  width: { xs: "49%", sm: "100px" },
-                  marginLeft: { xs: "1%", sm: "10px" },
-                }}
-                onClick={() => {
-                  navigate(`/expert/betOdds`, {
-                    state: { id: data?.id },
-                  });
-                }}
-                title={"Submit"}
-              />
+              {getProfile?.allPrivilege ? (
+                <CustomButton
+                  containerStyle={{
+                    minWidth: { xs: "49%", sm: "100px" },
+                    width: { xs: "49%", sm: "100px" },
+                    marginLeft: { xs: "1%", sm: "10px" },
+                  }}
+                  onClick={() => {
+                    navigate(`/expert/betOdds`, {
+                      state: { id: data?.id },
+                    });
+                  }}
+                  title={"Submit"}
+                />
+              ) : getProfile?.betFairMatchPrivilege ? (
+                <CustomButton
+                  containerStyle={{
+                    minWidth: { xs: "49%", sm: "100px" },
+                    width: { xs: "49%", sm: "100px" },
+                    marginLeft: { xs: "1%", sm: "10px" },
+                  }}
+                  onClick={() => {
+                    navigate(`/expert/betOdds`, {
+                      state: { id: data?.id },
+                    });
+                  }}
+                  title={"Submit"}
+                />
+              ) : null}
               {getProfile?.allPrivilege ? (
                 <CustomButton
                   containerStyle={{

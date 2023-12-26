@@ -35,15 +35,7 @@ const MatchPermissionsModal = (props: any) => {
             disable={
               getProfile?.allPrivilege
                 ? false
-                : [
-                    "quickbookmaker1",
-                    "quickbookmaker2",
-                    "quickbookmaker3",
-                  ].includes(betting?.type)
-                ? getProfile?.bookmakerMatchPrivilege
-                  ? false
-                  : true
-                : getProfile?.betFairMatchPrivilege
+                : getProfile?.addMatchPrivilege
                 ? false
                 : true
             }
@@ -61,7 +53,7 @@ const MatchPermissionsModal = (props: any) => {
         disable={
           getProfile?.allPrivilege
             ? false
-            : getProfile?.betFairMatchPrivilege
+            : getProfile?.addMatchPrivilege
             ? false
             : true
         }
@@ -78,7 +70,7 @@ const MatchPermissionsModal = (props: any) => {
         disable={
           getProfile?.allPrivilege
             ? false
-            : getProfile?.sessionMatchPrivilege
+            : getProfile?.addMatchPrivilege
             ? false
             : true
         }
