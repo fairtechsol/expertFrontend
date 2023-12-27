@@ -24,6 +24,9 @@ const Header1 = () => {
   const [anchor, setAnchor] = useState(null);
 
   const { getProfile } = useSelector((state: RootState) => state.user.profile);
+  const { matchListDropdown } = useSelector(
+    (state: RootState) => state.matchList
+  );
 
   const allLiveEventSession: any = [
     {
@@ -304,11 +307,11 @@ const Header1 = () => {
       <DropDownMenu
         anchorEl={anchor}
         open={Boolean(anchor)}
-        allMatch={allLiveEventSession}
+        allMatch={matchListDropdown}
         handleClose={() => {
           setAnchor(null);
         }}
-        allLiveEventSession={allLiveEventSession}
+        allLiveEventSession={matchListDropdown}
       />
     </>
   );

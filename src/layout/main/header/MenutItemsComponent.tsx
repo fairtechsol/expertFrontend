@@ -23,6 +23,10 @@ const MenutItemsComponent = ({
   const theme = useTheme();
   const matchesMobile = useMediaQuery(theme.breakpoints.down("lg"));
   const { getProfile } = useSelector((state: RootState) => state.user.profile);
+
+  const { matchListDropdown } = useSelector(
+    (state: RootState) => state.matchList
+  );
   const navigate = useNavigate();
 
   return (
@@ -70,25 +74,31 @@ const MenutItemsComponent = ({
           }}
         >
           {getProfile.allPrivilege
-            ? allLiveEventSession?.length > 0 &&
-              allLiveEventSession?.map((event: any) => {
-                if (event.id == x.id) {
+            ? matchListDropdown?.length > 0 &&
+              matchListDropdown?.map((event: any) => {
+                if (event?.id == x?.id) {
                   return (
                     <>
-                      {event.bettings.length > 0 && (
+                      {event?.sessions?.length > 0 && (
                         <Typography
-                          key={event.id}
+                          key={event?.id}
                           sx={{ fontSize: "12px", fontWeight: "600" }}
                         >
                           {"Current Live Session"}
                         </Typography>
                       )}
-                      {event.bettings.map((element: any) => {
+                      {event?.sessions?.map((element: any) => {
                         return (
                           <Box
                             key={element.id}
                             onClick={() => {
-                              navigate("/expert/live");
+                              navigate("/expert/live", {
+                                state: {
+                                  createSession: false,
+                                  match: x,
+                                  sessionEvent: element,
+                                },
+                              });
                               handleClose();
                             }}
                             sx={{ marginLeft: "10px", marginTop: "3px" }}
@@ -100,7 +110,7 @@ const MenutItemsComponent = ({
                                 cursor: "pointer",
                               }}
                             >
-                              {element.bet_condition}
+                              {element?.name}
                             </Typography>
                           </Box>
                         );
@@ -110,12 +120,12 @@ const MenutItemsComponent = ({
                 } else return null;
               })
             : getProfile?.sessionMatchPrivilege
-            ? allLiveEventSession?.length > 0 &&
-              allLiveEventSession?.map((event: any) => {
+            ? matchListDropdown &&
+              matchListDropdown?.map((event: any) => {
                 if (event.id == x.id) {
                   return (
                     <>
-                      {event.bettings.length > 0 && (
+                      {event.sessions.length > 0 && (
                         <Typography
                           key={event.id}
                           sx={{ fontSize: "12px", fontWeight: "600" }}
@@ -125,12 +135,18 @@ const MenutItemsComponent = ({
                             : "Current Live Bookmaker"}
                         </Typography>
                       )}
-                      {event.bettings.map((element: any) => {
+                      {event?.sessions?.map((element: any) => {
                         return (
                           <Box
                             key={element.id}
                             onClick={() => {
-                              navigate("/expert/live");
+                              navigate("/expert/live", {
+                                state: {
+                                  createSession: false,
+                                  match: x,
+                                  sessionEvent: element,
+                                },
+                              });
                               handleClose();
                             }}
                             sx={{ marginLeft: "10px", marginTop: "3px" }}
@@ -142,7 +158,7 @@ const MenutItemsComponent = ({
                                 cursor: "pointer",
                               }}
                             >
-                              {element.bet_condition}
+                              {element?.name}
                             </Typography>
                           </Box>
                         );
@@ -155,7 +171,12 @@ const MenutItemsComponent = ({
           {getProfile?.allPrivilege ? (
             <Box
               onClick={() => {
-                navigate("/expert/live");
+                navigate("/expert/live", {
+                  state: {
+                    createSession: true,
+                    match: x,
+                  },
+                });
                 handleClose();
               }}
               sx={{ marginTop: "5px", display: "flex", alignItems: "center" }}
@@ -171,7 +192,12 @@ const MenutItemsComponent = ({
           ) : getProfile?.sessionMatchPrivilege ? (
             <Box
               onClick={() => {
-                navigate("/expert/live");
+                navigate("/expert/live", {
+                  state: {
+                    createSession: true,
+                    match: x,
+                  },
+                });
                 handleClose();
               }}
               sx={{ marginTop: "5px", display: "flex", alignItems: "center" }}
@@ -220,7 +246,9 @@ const MenutItemsComponent = ({
                           <Box
                             key={element.id}
                             onClick={() => {
-                              navigate("/expert/add_book_maker");
+                              navigate("/expert/add_book_maker", {
+                                state: { id: element.id, match: x },
+                              });
                               handleClose();
                             }}
                             sx={{ marginLeft: "10px", marginTop: "3px" }}
@@ -251,7 +279,9 @@ const MenutItemsComponent = ({
                           <Box
                             key={element.id}
                             onClick={() => {
-                              navigate("/expert/add_book_maker");
+                              navigate("/expert/add_book_maker", {
+                                state: { id: element.id, match: x },
+                              });
                               handleClose();
                             }}
                             sx={{ marginLeft: "10px", marginTop: "3px" }}
