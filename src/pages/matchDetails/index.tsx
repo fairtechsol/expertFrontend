@@ -1,5 +1,5 @@
 import { Box } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Loader from "../../components/Loader";
 import SessionMarketLive from "../../components/matchDetails/SessionMarketLive";
 import SessionMarket from "../../components/matchDetails/SessionMarket";
@@ -7,12 +7,20 @@ import RunsBox from "../../components/matchDetails/RunsBox";
 import MatchOdds from "../../components/matchDetails/MatchOdds";
 import BookMarket from "../../components/matchDetails/Bookmarket";
 import BetList from "../../components/matchDetails/BetList";
-// import { useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
+import { getMatchDetail } from "../../store/actions/addMatch/addMatchAction";
+import { AppDispatch, RootState } from "../../store/store";
+import { useDispatch, useSelector } from "react-redux";
+import TiedMatchMarket from "../../components/matchDetails/TiedMatchMarket";
+import CompleteMatchMarket from "../../components/matchDetails/CompleteMatchMarket";
 
 const MatchDetails = () => {
-  const [loading] = useState(false);
   const data: any = [];
-  // const { state } = useLocation();
+  const { state } = useLocation();
+  const dispatch: AppDispatch = useDispatch();
+  const { matchDetail, loading } = useSelector(
+    (state: RootState) => state.addMatch.addMatch
+  );
   const [Bets, setIObtes] = useState<any>([
     {
       id: "c5bf1d70-085f-4c4a-b1ff-fc4ee15bc6e4",
@@ -431,10 +439,11 @@ const MatchDetails = () => {
     },
   ];
 
-  // useEffect(() => {
-  //   if (state?.id) {
-  //   }
-  // }, [state?.id]);
+  useEffect(() => {
+    if (state?.id) {
+      dispatch(getMatchDetail(state?.id));
+    }
+  }, [state?.id]);
 
   return (
     <Box
@@ -463,8 +472,8 @@ const MatchDetails = () => {
               width: { lg: "50%", xs: "100%", md: "100%" },
             }}
           >
-            {(currentMatch?.apiSessionActive ||
-              currentMatch?.manualSessionActive) && (
+            {(matchDetail?.apiSessionActive ||
+              matchDetail?.manualSessionActive) && (
               <Box
                 sx={{
                   width: { lg: "100%", xs: "100%", md: "100%" },
@@ -492,7 +501,7 @@ const MatchDetails = () => {
                     // setMatchLiveSession={setLiveSessionData}
                     // setLocalState={setLocalState}
                     // setCurrentMatch={setCurrentMatch}
-                    currentMatch={currentMatch}
+                    currentMatch={matchDetail}
                   />
                 </Box>
                 <Box
@@ -522,7 +531,7 @@ const MatchDetails = () => {
                     hideResult={false}
                     // setLocalState={setLocalState}
                     // setCurrentMatch={setCurrentMatch}
-                    currentMatch={currentMatch}
+                    currentMatch={matchDetail}
                     // setLocalSessionExpertOdds={setLocalSessionExpertOdds}
                   />
                 </Box>
@@ -565,22 +574,16 @@ const MatchDetails = () => {
               paddingLeft: "5px",
             }}
           >
-            {currentMatch?.apiMatchActive && (
+            {matchDetail?.apiSessionActive && (
               <MatchOdds
-                matchOdds={
-                  currentMatch?.bettings?.length > 0
-                    ? currentMatch?.bettings?.filter(
-                        (v: any) => v?.sessionBet === false
-                      )[0]
-                    : null
-                }
+                matchOdds={matchDetail?.matchOdd}
                 showHeader={true}
-                currentMatch={currentMatch}
+                currentMatch={matchDetail}
                 // setCurrentMatch={setCurrentMatch}
                 // matchOddsLive={matchOddsLive}
               />
             )}
-            {currentMatch?.apiBookMakerActive && (
+            {matchDetail?.bookmaker?.isActive && (
               <BookMarket
                 // socket={socket}
                 // setCurrentMatch={setCurrentMatch}
@@ -591,9 +594,24 @@ const MatchDetails = () => {
                       )[0]
                     : null
                 }
-                currentMatch={currentMatch}
+                currentMatch={matchDetail}
                 // liveData={bookmakerLivedata}
               />
+            )}
+            {matchDetail?.apiTideMatch?.isActive && (
+              <TiedMatchMarket
+                matchOdds={
+                  currentMatch?.bettings?.length > 0
+                    ? [...currentMatch?.bettings].filter(
+                        (v) => v?.sessionBet === false
+                      )[0]
+                    : null
+                }
+                currentMatch={matchDetail}
+              />
+            )}
+            {matchDetail?.marketCompleteMatch?.isActive && (
+              <CompleteMatchMarket currentMatch={matchDetail} />
             )}
 
             {currentMatch?.id && <BetList allBetRates={Bets} />}

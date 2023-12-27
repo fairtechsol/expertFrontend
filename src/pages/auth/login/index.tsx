@@ -43,13 +43,19 @@ const Login = () => {
           "forceChangePassword",
           JSON.stringify(forceChangePassword)
         );
-        navigate("/change_password");
+        navigate("/expert/change_password");
       } else {
         navigate("/expert/match");
       }
       dispatch(authReset());
     }
   }, [success]);
+
+  useEffect(() => {
+    if (localStorage.getItem("userToken")) {
+      navigate("/expert/match");
+    }
+  }, []);
 
   return (
     <form

@@ -6,7 +6,12 @@ import { ARROWUP } from "../../../assets";
 import Divider from "../../Common/Divider";
 import BoxComponent from "../MatchOdds/BoxComponent";
 
-const BookMarket = ({ currentMatch, socket, liveData, matchOdds }: any) => {
+const TiedMatchMarket = ({
+  currentMatch,
+  socket,
+  liveData,
+  matchOdds,
+}: any) => {
   const [newMatchOdds] = useState(matchOdds);
   const [visibleImg, setVisibleImg] = useState(true);
   return (
@@ -51,7 +56,7 @@ const BookMarket = ({ currentMatch, socket, liveData, matchOdds }: any) => {
               marginLeft: "7px",
             }}
           >
-            Bookmaker Market
+            Tied Match Market
           </Typography>
           {/* <img src={LOCKED} style={{ width: '14px', height: '20px' }} /> */}
           <Stop
@@ -168,8 +173,8 @@ const BookMarket = ({ currentMatch, socket, liveData, matchOdds }: any) => {
                   marginLeft: "7px",
                 }}
               >
-                MIN: {currentMatch?.bookmaker?.minBet} MAX:{" "}
-                {currentMatch?.bookmaker?.maxBet}
+                MIN: {currentMatch?.apiTideMatch?.minBet} MAX:{" "}
+                {currentMatch?.apiTideMatch?.maxBet}
               </Typography>
             </Box>
             <Box
@@ -220,7 +225,7 @@ const BookMarket = ({ currentMatch, socket, liveData, matchOdds }: any) => {
           <Box sx={{ position: "relative" }}>
             <BoxComponent
               //   teamRates={teamRates?.teamA}
-              teamImage={currentMatch?.bookmaker?.teamA_Image}
+              teamImage={currentMatch?.apiTideMatch?.teamA_Image}
               livestatus={liveData?.status === "SUSPENDED" ? true : false}
               data={liveData?.runners?.length > 0 ? liveData?.runners[0] : []}
               lock={liveData?.runners?.length > 0 ? false : true}
@@ -230,7 +235,7 @@ const BookMarket = ({ currentMatch, socket, liveData, matchOdds }: any) => {
             <BoxComponent
               livestatus={liveData?.status === "SUSPENDED" ? true : false}
               //   teamRates={teamRates?.teamB}
-              teamImage={currentMatch?.bookmaker?.teamB_Image}
+              teamImage={currentMatch?.apiTideMatch?.teamB_Image}
               lock={liveData?.runners?.length > 0 ? false : true}
               name={currentMatch?.teamB}
               data={liveData?.runners?.length > 0 ? liveData?.runners[1] : []}
@@ -273,4 +278,4 @@ const BookMarket = ({ currentMatch, socket, liveData, matchOdds }: any) => {
   );
 };
 
-export default BookMarket;
+export default TiedMatchMarket;

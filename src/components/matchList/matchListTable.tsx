@@ -162,7 +162,7 @@ const MatchListTable = (props: any) => {
                   }}
                   onClick={() => {
                     navigate(`/expert/betOdds`, {
-                      state: { id: data?.id },
+                      state: { id: data?.id, marketId: data?.marketId },
                     });
                   }}
                   title={"Submit"}
@@ -176,7 +176,7 @@ const MatchListTable = (props: any) => {
                   }}
                   onClick={() => {
                     navigate(`/expert/betOdds`, {
-                      state: { id: data?.id },
+                      state: { id: data?.id, marketId: data?.marketId },
                     });
                   }}
                   title={"Submit"}

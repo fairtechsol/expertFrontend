@@ -14,6 +14,40 @@ const MatchOdds = ({ currentMatch, matchOdds, matchOddsLive, socket }: any) => {
   const [visible, setVisible] = useState(false);
   const [visibleImg, setVisibleImg] = useState(true);
 
+  // const manualBookMarkerRates = [{
+  //   matchId: currentMatch?.id,
+  //   teamA: data?.teamA_rate,
+  //   teamB: data?.teamB_rate,
+  //   teamC: data?.teamC_rate,
+  // }];
+
+  const teamRates = { teamA: 0, teamB: 0, teamC: 0 };
+
+  const valueA = matchOdds?.teamA;
+  const valueB = matchOdds?.teamB;
+  const bookRatioB = (() => {
+    if (valueA === 0) {
+      return 0;
+    } else {
+      const bookRatio = valueB != 0 ? valueA / valueB || 0 : 0;
+      const formattedRatio = Math.abs(bookRatio).toFixed(2);
+      return valueB < 0 ? `-${formattedRatio}` : formattedRatio;
+    }
+  })();
+
+  const bookRatioA = (() => {
+    if (valueA === 0) {
+      return 0;
+    } else {
+      const bookRatio = valueA != 0 ? valueB / valueA || 0 : 0;
+      // alert(teamARates)
+      const formattedRatio = Math.abs(bookRatio).toFixed(2);
+      // alert(typeof teamARates < 0 ? `-${formattedRatio}` : formattedRatio)
+
+      return valueA < 0 ? `-${formattedRatio}` : formattedRatio;
+    }
+  })();
+
   return (
     <>
       <Box
@@ -72,7 +106,7 @@ const MatchOdds = ({ currentMatch, matchOdds, matchOddsLive, socket }: any) => {
               }}
             />
 
-            <SmallBox2 valueA={2} valueB={3.02}/>
+            <SmallBox2 valueA={bookRatioA} valueB={bookRatioB} />
           </Box>
 
           <Box
@@ -101,18 +135,18 @@ const MatchOdds = ({ currentMatch, matchOdds, matchOddsLive, socket }: any) => {
               }}
               invert={true}
             />
-            {!currentMatch?.matchOddRateLive && (
+            {!currentMatch?.matchOdd && (
               <SmallBox
                 onClick={() => {
-                  if (newMatchOdds?.id) {
-                    socket.emit("matchOddRateLive", {
-                      matchId: currentMatch?.id,
-                      matchOddLive: true,
-                    });
-                    // setLive(true);
-                  } else {
-                    // activateMatchOdds(1, "");
-                  }
+                  // if (newMatchOdds?.id) {
+                  //   socket.emit("matchOddRateLive", {
+                  //     matchId: currentMatch?.id,
+                  //     matchOddLive: true,
+                  //   });
+                  //   // setLive(true);
+                  // } else {
+                  //   // activateMatchOdds(1, "");
+                  // }
                 }}
                 title={"Go Live"}
                 color={"#FF4D4D"}
@@ -169,7 +203,7 @@ const MatchOdds = ({ currentMatch, matchOdds, matchOddsLive, socket }: any) => {
                   (v: any) => v?.sessionBet === false
                 )
               }
-              teamA={currentMatch?.teamA}
+              teamA={currentMatch?.matchOdd?.teamA}
               stopAt={currentMatch?.stopAt}
               teamB={currentMatch?.teamB}
               tie={"Tie"}
@@ -208,8 +242,8 @@ const MatchOdds = ({ currentMatch, matchOdds, matchOddsLive, socket }: any) => {
                     marginLeft: "7px",
                   }}
                 >
-                  MIN: {currentMatch?.betfair_match_min_bet} MAX:
-                  {currentMatch?.betfair_match_max_bet}
+                  MIN: {currentMatch?.matchOdd?.minBet} MAX:
+                  {currentMatch?.matchOdd?.maxBet}
                 </Typography>
               </Box>
               <Box
@@ -278,11 +312,11 @@ const MatchOdds = ({ currentMatch, matchOdds, matchOddsLive, socket }: any) => {
                 }
                 name={currentMatch?.teamA}
                 currentMatch={currentMatch}
-                // teamRates={teamRates?.teamA}
+                teamRates={teamRates?.teamA}
               />
               <Divider />
               <BoxComponent
-                // teamRates={teamRates?.teamB}
+                teamRates={teamRates?.teamB}
                 lock={
                   matchOddsLive?.runners !== undefined &&
                   matchOddsLive?.runners?.length > 0
@@ -302,7 +336,7 @@ const MatchOdds = ({ currentMatch, matchOdds, matchOddsLive, socket }: any) => {
                 <>
                   <Divider />
                   <BoxComponent
-                    // teamRates={teamRates?.teamC}
+                    teamRates={teamRates?.teamC}
                     lock={
                       matchOddsLive?.runners !== undefined &&
                       matchOddsLive?.runners?.length > 0

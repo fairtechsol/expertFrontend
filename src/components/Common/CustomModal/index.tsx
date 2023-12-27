@@ -73,7 +73,7 @@ const CustomModal = ({ message, buttonMessage, setShowModal }: any) => {
                 onClick={() => {
                   dispatch(changePasswordReset());
                   setShowModal(false);
-                  navigate("/login");
+                  navigate("/expert/login");
                 }}
               >
                 {buttonMessage}

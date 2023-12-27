@@ -51,7 +51,7 @@ service.interceptors.response.use(
       toast.error(error.response.data.message, toastOptions);
     } else if (error.response.status === 401) {
       toast.error(error.response.data.message, toastOptions);
-      window.location.replace("/login");
+      window.location.replace("/expert/login");
       localStorage.clear();
     }
 
