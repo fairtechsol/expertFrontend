@@ -2,12 +2,15 @@ import { Box, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import SearchInput from "../../components/Common/SearchInput";
 import CustomButton from "../Common/CustomButton";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store/store";
 
 interface Props {
   getAllMatchHandle?: (value: any) => void;
 }
 const MatchListHeader = ({ getAllMatchHandle }: Props) => {
   const navigate = useNavigate();
+  const { getProfile } = useSelector((state: RootState) => state.user.profile);
 
   return (
     <>
@@ -42,12 +45,21 @@ const MatchListHeader = ({ getAllMatchHandle }: Props) => {
             getAllMatch={getAllMatchHandle}
             placeholder={"Search Match..."}
           />
-          <CustomButton
-            onClick={() => {
-              navigate("/expert/add_match");
-            }}
-            title={"Add Match"}
-          />
+          {getProfile?.allPrivilege ? (
+            <CustomButton
+              onClick={() => {
+                navigate("/expert/add_match");
+              }}
+              title={"Add Match"}
+            />
+          ) : getProfile?.addMatchPrivilege ? (
+            <CustomButton
+              onClick={() => {
+                navigate("/expert/add_match");
+              }}
+              title={"Add Match"}
+            />
+          ) : null}
         </Box>
       </Box>
     </>

@@ -8,6 +8,8 @@ import {
 import { useNavigate } from "react-router-dom";
 import StyledImage from "../../../components/Common/StyledImages";
 import { ArrowLeft } from "../../../assets";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../store/store";
 
 const MenutItemsComponent = ({
   x,
@@ -20,7 +22,9 @@ const MenutItemsComponent = ({
 }: any) => {
   const theme = useTheme();
   const matchesMobile = useMediaQuery(theme.breakpoints.down("lg"));
+  const { getProfile } = useSelector((state: RootState) => state.user.profile);
   const navigate = useNavigate();
+
   return (
     <>
       <MenuItem
@@ -65,101 +69,210 @@ const MenutItemsComponent = ({
             paddingY: "5px",
           }}
         >
-          {allLiveEventSession?.length > 0 &&
-            allLiveEventSession?.map((event: any) => {
-              if (event.id == x.id) {
-                return (
-                  <>
-                    {event.bettings.length > 0 && (
-                      <Typography
-                        key={event.id}
-                        sx={{ fontSize: "12px", fontWeight: "600" }}
-                      >
-                        {activeUser == "1"
-                          ? "Current Live Session"
-                          : "Current Live Bookmaker"}
-                      </Typography>
-                    )}
-                    {event.bettings.map((element: any) => {
-                      return (
-                        <Box
-                          key={element.id}
-                          onClick={() => {
-                            navigate("/expert/live");
-                            handleClose();
-                          }}
-                          sx={{ marginLeft: "10px", marginTop: "3px" }}
-                        >
-                          <Typography
-                            sx={{
-                              fontSize: "12px",
-                              marginTop: "3px",
-                              cursor: "pointer",
-                            }}
-                          >
-                            {element.bet_condition}
-                          </Typography>
-                        </Box>
-                      );
-                    })}
-                  </>
-                );
-              } else return null;
-            })}
-          <Box
-            onClick={() => {
-              navigate("/expert/live");
-              handleClose();
-            }}
-            sx={{ marginTop: "5px", display: "flex", alignItems: "center" }}
-          >
-            <Typography sx={{ fontSize: "12px", fontWeight: "600" }}>
-              Create Session
-            </Typography>
-            <StyledImage
-              src={ArrowLeft}
-              sx={{ width: "15px", height: "10px", marginLeft: "10px" }}
-            />
-          </Box>
-          <Box sx={{ marginTop: "5px", display: "flex", alignItems: "center" }}>
-            <Typography sx={{ fontSize: "12px", fontWeight: "600" }}>
-              Add Bookmaker
-            </Typography>
-            <StyledImage
-              src={ArrowLeft}
-              sx={{ width: "15px", height: "10px", marginLeft: "10px" }}
-            />
-          </Box>
-          {allLiveEventSession?.map((event: any) => {
-            if (event.id === x.id) {
-              return (
-                <>
-                  {event?.bookmakers?.map((element: any) => {
-                    return (
-                      <Box
-                        key={element.id}
-                        onClick={() => {
-                          navigate("/expert/add_book_maker");
-                          handleClose();
-                        }}
-                        sx={{ marginLeft: "10px", marginTop: "3px" }}
-                      >
+          {getProfile.allPrivilege
+            ? allLiveEventSession?.length > 0 &&
+              allLiveEventSession?.map((event: any) => {
+                if (event.id == x.id) {
+                  return (
+                    <>
+                      {event.bettings.length > 0 && (
                         <Typography
-                          sx={{
-                            fontSize: "12px",
-                            marginTop: "3px",
-                            cursor: "pointer",
-                          }}
+                          key={event.id}
+                          sx={{ fontSize: "12px", fontWeight: "600" }}
                         >
-                          {element.marketName}
+                          {"Current Live Session"}
                         </Typography>
-                      </Box>
-                    );
-                  })}
-                </>
-              );
-            } else return null;
-          })}
+                      )}
+                      {event.bettings.map((element: any) => {
+                        return (
+                          <Box
+                            key={element.id}
+                            onClick={() => {
+                              navigate("/expert/live");
+                              handleClose();
+                            }}
+                            sx={{ marginLeft: "10px", marginTop: "3px" }}
+                          >
+                            <Typography
+                              sx={{
+                                fontSize: "12px",
+                                marginTop: "3px",
+                                cursor: "pointer",
+                              }}
+                            >
+                              {element.bet_condition}
+                            </Typography>
+                          </Box>
+                        );
+                      })}
+                    </>
+                  );
+                } else return null;
+              })
+            : getProfile?.sessionMatchPrivilege
+            ? allLiveEventSession?.length > 0 &&
+              allLiveEventSession?.map((event: any) => {
+                if (event.id == x.id) {
+                  return (
+                    <>
+                      {event.bettings.length > 0 && (
+                        <Typography
+                          key={event.id}
+                          sx={{ fontSize: "12px", fontWeight: "600" }}
+                        >
+                          {activeUser == "1"
+                            ? "Current Live Session"
+                            : "Current Live Bookmaker"}
+                        </Typography>
+                      )}
+                      {event.bettings.map((element: any) => {
+                        return (
+                          <Box
+                            key={element.id}
+                            onClick={() => {
+                              navigate("/expert/live");
+                              handleClose();
+                            }}
+                            sx={{ marginLeft: "10px", marginTop: "3px" }}
+                          >
+                            <Typography
+                              sx={{
+                                fontSize: "12px",
+                                marginTop: "3px",
+                                cursor: "pointer",
+                              }}
+                            >
+                              {element.bet_condition}
+                            </Typography>
+                          </Box>
+                        );
+                      })}
+                    </>
+                  );
+                } else return null;
+              })
+            : null}
+          {getProfile?.allPrivilege ? (
+            <Box
+              onClick={() => {
+                navigate("/expert/live");
+                handleClose();
+              }}
+              sx={{ marginTop: "5px", display: "flex", alignItems: "center" }}
+            >
+              <Typography sx={{ fontSize: "12px", fontWeight: "600" }}>
+                Create Session
+              </Typography>
+              <StyledImage
+                src={ArrowLeft}
+                sx={{ width: "15px", height: "10px", marginLeft: "10px" }}
+              />
+            </Box>
+          ) : getProfile?.sessionMatchPrivilege ? (
+            <Box
+              onClick={() => {
+                navigate("/expert/live");
+                handleClose();
+              }}
+              sx={{ marginTop: "5px", display: "flex", alignItems: "center" }}
+            >
+              <Typography sx={{ fontSize: "12px", fontWeight: "600" }}>
+                Create Session
+              </Typography>
+              <StyledImage
+                src={ArrowLeft}
+                sx={{ width: "15px", height: "10px", marginLeft: "10px" }}
+              />
+            </Box>
+          ) : null}
+          {getProfile?.allPrivilege ? (
+            <Box
+              sx={{ marginTop: "5px", display: "flex", alignItems: "center" }}
+            >
+              <Typography sx={{ fontSize: "12px", fontWeight: "600" }}>
+                Add Bookmaker
+              </Typography>
+              <StyledImage
+                src={ArrowLeft}
+                sx={{ width: "15px", height: "10px", marginLeft: "10px" }}
+              />
+            </Box>
+          ) : getProfile?.bookmakerMatchPrivilege ? (
+            <Box
+              sx={{ marginTop: "5px", display: "flex", alignItems: "center" }}
+            >
+              <Typography sx={{ fontSize: "12px", fontWeight: "600" }}>
+                Add Bookmaker
+              </Typography>
+              <StyledImage
+                src={ArrowLeft}
+                sx={{ width: "15px", height: "10px", marginLeft: "10px" }}
+              />
+            </Box>
+          ) : null}
+          {getProfile.allPrivilege
+            ? allLiveEventSession?.map((event: any) => {
+                if (event.id === x.id) {
+                  return (
+                    <>
+                      {event?.bookmakers?.map((element: any) => {
+                        return (
+                          <Box
+                            key={element.id}
+                            onClick={() => {
+                              navigate("/expert/add_book_maker");
+                              handleClose();
+                            }}
+                            sx={{ marginLeft: "10px", marginTop: "3px" }}
+                          >
+                            <Typography
+                              sx={{
+                                fontSize: "12px",
+                                marginTop: "3px",
+                                cursor: "pointer",
+                              }}
+                            >
+                              {element.marketName}
+                            </Typography>
+                          </Box>
+                        );
+                      })}
+                    </>
+                  );
+                } else return null;
+              })
+            : getProfile?.bookmakerMatchPrivilege
+            ? allLiveEventSession?.map((event: any) => {
+                if (event.id === x.id) {
+                  return (
+                    <>
+                      {event?.bookmakers?.map((element: any) => {
+                        return (
+                          <Box
+                            key={element.id}
+                            onClick={() => {
+                              navigate("/expert/add_book_maker");
+                              handleClose();
+                            }}
+                            sx={{ marginLeft: "10px", marginTop: "3px" }}
+                          >
+                            <Typography
+                              sx={{
+                                fontSize: "12px",
+                                marginTop: "3px",
+                                cursor: "pointer",
+                              }}
+                            >
+                              {element.marketName}
+                            </Typography>
+                          </Box>
+                        );
+                      })}
+                    </>
+                  );
+                } else return null;
+              })
+            : null}
         </Box>
         // </Box>
       )}

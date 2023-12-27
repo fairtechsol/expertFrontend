@@ -8,10 +8,13 @@ import CustomButton from "../Common/CustomButton";
 import StyledImage from "../Common/StyledImages";
 import MatchListProfitLoss from "./profitLoss";
 import MatchPermissionsModal from "./matchPermissionsModal";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store/store";
 
 const MatchListTable = (props: any) => {
   const { data, index } = props;
   const navigate = useNavigate();
+  const { getProfile } = useSelector((state: RootState) => state.user.profile);
   const [showPopup, setShowPopup] = useState(false);
   const [showUserModal, setShowUserModal] = useState(false);
 
@@ -150,32 +153,64 @@ const MatchListTable = (props: any) => {
               place="1"
             />
             <Box display={"flex"} sx={{ marginY: { xs: 1, sm: 0 } }}>
-              <CustomButton
-                containerStyle={{
-                  minWidth: { xs: "49%", sm: "100px" },
-                  width: { xs: "49%", sm: "100px" },
-                  marginLeft: { xs: "1%", sm: "10px" },
-                }}
-                onClick={() => {
-                  navigate(`/expert/betOdds`, {
-                    state: { id: data?.id },
-                  });
-                }}
-                title={"Submit"}
-              />
-              <CustomButton
-                containerStyle={{
-                  minWidth: { xs: "49%", sm: "100px" },
-                  width: { xs: "49%", sm: "100px" },
-                  marginLeft: { xs: "1%", sm: "10px" },
-                }}
-                onClick={() => {
-                  navigate(`/expert/edit_match`, {
-                    state: { id: data?.id },
-                  });
-                }}
-                title={"Edit"}
-              />
+              {getProfile?.allPrivilege ? (
+                <CustomButton
+                  containerStyle={{
+                    minWidth: { xs: "49%", sm: "100px" },
+                    width: { xs: "49%", sm: "100px" },
+                    marginLeft: { xs: "1%", sm: "10px" },
+                  }}
+                  onClick={() => {
+                    navigate(`/expert/betOdds`, {
+                      state: { id: data?.id, marketId: data?.marketId },
+                    });
+                  }}
+                  title={"Submit"}
+                />
+              ) : getProfile?.betFairMatchPrivilege ? (
+                <CustomButton
+                  containerStyle={{
+                    minWidth: { xs: "49%", sm: "100px" },
+                    width: { xs: "49%", sm: "100px" },
+                    marginLeft: { xs: "1%", sm: "10px" },
+                  }}
+                  onClick={() => {
+                    navigate(`/expert/betOdds`, {
+                      state: { id: data?.id, marketId: data?.marketId },
+                    });
+                  }}
+                  title={"Submit"}
+                />
+              ) : null}
+              {getProfile?.allPrivilege ? (
+                <CustomButton
+                  containerStyle={{
+                    minWidth: { xs: "49%", sm: "100px" },
+                    width: { xs: "49%", sm: "100px" },
+                    marginLeft: { xs: "1%", sm: "10px" },
+                  }}
+                  onClick={() => {
+                    navigate(`/expert/edit_match`, {
+                      state: { id: data?.id },
+                    });
+                  }}
+                  title={"Edit"}
+                />
+              ) : getProfile?.addMatchPrivilege ? (
+                <CustomButton
+                  containerStyle={{
+                    minWidth: { xs: "49%", sm: "100px" },
+                    width: { xs: "49%", sm: "100px" },
+                    marginLeft: { xs: "1%", sm: "10px" },
+                  }}
+                  onClick={() => {
+                    navigate(`/expert/edit_match`, {
+                      state: { id: data?.id },
+                    });
+                  }}
+                  title={"Edit"}
+                />
+              ) : null}
             </Box>
           </Box>
         </Box>

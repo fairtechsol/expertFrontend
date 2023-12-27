@@ -8,31 +8,19 @@ const BoxButtonWithSwitch = (props: any) => {
   const {
     title,
     matchId,
-    id,
     containerStyle,
     titleStyle,
     updateMatchStatus,
     setUpdateMatchStatus,
     place,
-    notSwitch,
-    onClick,
+    disable,
     isManualBet,
     matchBettingType,
   } = props;
   const dispatch: AppDispatch = useDispatch();
   const [background, setBackground] = useState<string>("#0B4F26");
   const value = updateMatchStatus[place]?.val;
-  const [checked, setChecked] = useState<boolean>(
-    notSwitch ? false : value || false
-  );
-
-  useEffect(() => {
-    if (notSwitch) {
-      setChecked(false);
-    } else {
-      setChecked(!!value);
-    }
-  }, [notSwitch, place, updateMatchStatus]);
+  const [checked, setChecked] = useState<boolean>(value || false);
 
   useEffect(() => {
     if (checked) {
@@ -86,11 +74,6 @@ const BoxButtonWithSwitch = (props: any) => {
 
   return (
     <Box
-      onClick={() => {
-        if (notSwitch) {
-          onClick(id);
-        }
-      }}
       sx={[
         {
           height: "35px",
@@ -98,8 +81,9 @@ const BoxButtonWithSwitch = (props: any) => {
           marginTop: { xs: 1, md: 0 },
           marginLeft: "10px",
           borderRadius: "5px",
-          border: notSwitch ? "1px solid #0B4F26" : undefined,
-          background: notSwitch ? "#FFF" : background,
+          margin: "10px",
+          border: undefined,
+          background: background,
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
@@ -110,8 +94,8 @@ const BoxButtonWithSwitch = (props: any) => {
       <Typography
         sx={[
           {
-            color: notSwitch ? "#575757" : "white",
-            fontWeight: notSwitch ? "700" : "500",
+            color: "white",
+            fontWeight: "500",
             fontSize: "13px",
             marginLeft: "1vw",
             lineHeight: "14px",
@@ -126,45 +110,32 @@ const BoxButtonWithSwitch = (props: any) => {
       >
         {title}
       </Typography>
-      {notSwitch ? (
-        <Typography
-          sx={{
-            marginRight: "10px",
-            color: notSwitch
-              ? Number(updateMatchStatus) > 0
-                ? "#46E080"
-                : "#FF4D4D"
-              : "white",
-            fontWeight: notSwitch ? "700" : "500",
-            fontSize: "13px",
-            marginLeft: "0.3vw",
-            lineHeight: "14px",
-          }}
-        >
-          {updateMatchStatus}
-        </Typography>
-      ) : (
+      {
         <MaterialUISwitch
           checked={checked}
           onChange={() => {
-            let payload = {
-              matchId: matchId,
-              matchBettingType: matchBettingType,
-              isActive: !checked,
-              isManualBet: isManualBet,
-            };
-            dispatch(updateMatchActiveStatus(payload));
-            setChecked(!checked);
-            setUpdateMatchStatus((prevStatus: any) => ({
-              ...prevStatus,
-              [place]: {
-                ...prevStatus[place],
-                val: !checked,
-              },
-            }));
+            if (!disable) {
+              let payload = {
+                matchId: matchId,
+                type: matchBettingType,
+                isActive: !checked,
+                isManualBet: isManualBet,
+              };
+              dispatch(updateMatchActiveStatus(payload));
+              setChecked(!checked);
+              setUpdateMatchStatus((prevStatus: any) => ({
+                ...prevStatus,
+                [place]: {
+                  ...prevStatus[place],
+                  val: !checked,
+                },
+              }));
+            } else {
+              alert("You don't have privilege to change status.");
+            }
           }}
         />
-      )}
+      }
     </Box>
   );
 };

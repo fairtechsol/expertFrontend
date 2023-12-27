@@ -10,14 +10,22 @@ const AuthRoutes = {
   path: "/",
   element: <AuthLayout />,
   children: [
-    { index: true, element: <Navigate to="/login" replace /> },
+    { index: true, element: <Navigate to="/expert/login" replace /> },
     {
-      path: "login",
+      path: "expert/login",
       element: <Login />,
     },
     {
-      path: "change_password",
+      path: "expert/change_password",
       element: <ChangePassword />,
+    },
+    {
+      path: "expert/change_password",
+      element: <ChangePassword />,
+    },
+    {
+      path: "*",
+      element: <Navigate to={"/expert/login"} replace />,
     },
   ],
 };

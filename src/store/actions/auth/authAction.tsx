@@ -31,7 +31,7 @@ export const logout = createAsyncThunk<any>("auth/logout", async () => {
   try {
     const response = await service.post(`${ApiConstants.LOGOUT}`);
     localStorage.clear();
-    window.location.replace("/login");
+    window.location.replace("/expert/login");
     return response;
   } catch (error) {
     const err = error as AxiosError;

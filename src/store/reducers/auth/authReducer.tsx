@@ -1,7 +1,14 @@
 import { createReducer } from "@reduxjs/toolkit";
 import { authReset, login } from "../../actions/auth/authAction";
 
-const initialState = {
+interface InitialState {
+  success: boolean;
+  loading: boolean;
+  forceChangePassword: boolean;
+  userRole: string;
+}
+
+const initialState: InitialState = {
   success: false,
   loading: false,
   forceChangePassword: false,
@@ -19,8 +26,7 @@ export const authReducer = createReducer(initialState, (builder) => {
       state.userRole = action.payload.roleName;
       state.forceChangePassword = action?.payload?.forceChangePassword;
     })
-    .addCase(login.rejected, (state, action) => {
-      console.log(action);
+    .addCase(login.rejected, (state) => {
       state.loading = false;
     })
     .addCase(authReset, (state) => {

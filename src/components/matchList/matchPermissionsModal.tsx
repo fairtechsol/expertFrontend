@@ -1,6 +1,8 @@
 import { Box } from "@mui/material";
 import BoxButtonWithBettings from "../Common/BoxButtonWithBettings";
 import BoxButtonWithSwitch from "../Common/BoxButtonWithSwitch";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store/store";
 
 const MatchPermissionsModal = (props: any) => {
   const {
@@ -10,6 +12,8 @@ const MatchPermissionsModal = (props: any) => {
     updateMatchStatus,
     setUpdateMatchStatus,
   } = props;
+
+  const { getProfile } = useSelector((state: RootState) => state.user.profile);
   return (
     <Box
       sx={{
@@ -28,6 +32,13 @@ const MatchPermissionsModal = (props: any) => {
             title={betting?.name}
             matchId={data?.id}
             matchBettingType={"match"}
+            disable={
+              getProfile?.allPrivilege
+                ? false
+                : getProfile?.addMatchPrivilege
+                ? false
+                : true
+            }
             updateBettings={updateBettings}
             setUpdateBettings={setUpdateBettings}
             bettingId={betting.id}
@@ -39,6 +50,13 @@ const MatchPermissionsModal = (props: any) => {
         matchId={data?.id}
         matchBettingType={"session"}
         isManualBet={false}
+        disable={
+          getProfile?.allPrivilege
+            ? false
+            : getProfile?.addMatchPrivilege
+            ? false
+            : true
+        }
         updateMatchStatus={updateMatchStatus}
         setUpdateMatchStatus={setUpdateMatchStatus}
         place={1}
@@ -49,6 +67,13 @@ const MatchPermissionsModal = (props: any) => {
         matchId={data?.id}
         matchBettingType={"session"}
         isManualBet={true}
+        disable={
+          getProfile?.allPrivilege
+            ? false
+            : getProfile?.addMatchPrivilege
+            ? false
+            : true
+        }
         updateMatchStatus={updateMatchStatus}
         setUpdateMatchStatus={setUpdateMatchStatus}
         place={2}

@@ -23,7 +23,7 @@ const initialState: InitialState = {
   tournamentList: [],
   eventsList: [],
   extraMarketList: [],
-  matchDetail: null,
+  matchDetail: [],
   loading: false,
   success: false,
   error: null,
@@ -106,7 +106,7 @@ const addMatch = createSlice({
         state.error = action?.error?.message;
       })
       .addCase(editMatchReset, (state) => {
-        return { ...state, success: false, matchDetail: null };
+        return { ...state, success: false, matchDetail: [] };
       })
       .addCase(addMatchReset, (state) => {
         return { ...state, success: false };

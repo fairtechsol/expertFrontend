@@ -6,7 +6,7 @@ import MoneyBox from "./MoneyBox";
 const BoxComponent = ({
   name,
   data,
-  teamImage,
+  // teamImage,
   currentMatch,
   align,
   lock,
@@ -45,7 +45,7 @@ const BoxComponent = ({
             alignItems: "center",
           }}
         >
-          {teamImage !== null && (
+          {/* {teamImage !== null && (
             <>
               <img
                 src={`wallet/${teamImage}`}
@@ -58,7 +58,7 @@ const BoxComponent = ({
                 alt={name}
               />
             </>
-          )}
+          )} */}
           <Typography
             sx={{
               color: "black",

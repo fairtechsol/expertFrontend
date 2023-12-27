@@ -4,7 +4,6 @@ import { ArrowDownRed, ArrowUpGreen } from "../../../assets";
 const MoneyBox = ({ value }: any) => {
   const theme = useTheme();
   const matchesMobile = useMediaQuery(theme.breakpoints.down("lg"));
-  console.log(value, "value");
   return (
     <>
       <Box
