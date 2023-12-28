@@ -3,8 +3,8 @@ import { Box, Typography } from "@mui/material";
 import RunsAmountBox from "./RunsAmountBox";
 import SessionResultModal from "../SessionResult/SessionResultModal";
 import AddSessionInput from "./AddSessionInput";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "../../../store/store";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../../store/store";
 import { addSession, getSessionById } from "../../../store/actions/addSession";
 
 const stateDetail = {
@@ -27,7 +27,10 @@ const stateDetail = {
 const SessionAddComponent = React.forwardRef((props: any, ref: any) => {
   const dispatch: AppDispatch = useDispatch();
   const { createSession, sessionEvent, match } = props;
-  const [isCreateSession, setIsCreateSession] = useState(createSession);
+  const { sessionById, success } = useSelector(
+    (state: RootState) => state.addSession
+  );
+  const [isCreateSession] = useState(createSession);
 
   const [loading] = useState(false);
   const [incGap, setIncGap] = useState<number>(1);
@@ -39,6 +42,7 @@ const SessionAddComponent = React.forwardRef((props: any, ref: any) => {
   const [visible, setVisible] = useState(false);
   const [visible1, setVisible1] = useState(false);
   const [visible2, setVisible2] = useState(false);
+  const [betId, setBetId] = useState("");
   const [lock, setLock] = useState<any>({
     isNo: true,
     isYes: true,
@@ -98,8 +102,25 @@ const SessionAddComponent = React.forwardRef((props: any, ref: any) => {
           id: sessionEvent?.id,
         })
       );
+      setBetId(sessionEvent?.id);
     }
   }, [sessionEvent?.id]);
+
+  useEffect(() => {
+    if (sessionById !== null) {
+      setInputDetail((prev: any) => {
+        return {
+          ...prev,
+          betCondition: sessionById?.name,
+          leftNoRate: Math.floor(sessionById?.noRate),
+          leftYesRate: Math.floor(sessionById?.yesRate),
+          leftNoRatePercent: Math.floor(sessionById?.noPercent),
+          leftYesRatePercent: Math.floor(sessionById?.yesPercent),
+        };
+      });
+    }
+  }, [sessionById, success]);
+
   return (
     <Box
       sx={{
@@ -140,7 +161,7 @@ const SessionAddComponent = React.forwardRef((props: any, ref: any) => {
             setIsBall={setIsBall}
             createSession={createSession}
             isCreateSession={isCreateSession}
-            // betId={betId}
+            betId={betId}
             // socket={socket}
             // sessionEvent={sessionEvent}
             // inputRef={inputRef}

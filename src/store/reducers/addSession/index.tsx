@@ -1,14 +1,19 @@
 import { createReducer } from "@reduxjs/toolkit";
-import { addSession, getSessionById } from "../../actions/addSession";
+import {
+  addSession,
+  getSessionById,
+  sessionByIdReset,
+  successReset,
+} from "../../actions/addSession";
 
 interface InitialState {
-  sessionById: object;
+  sessionById: any;
   success: boolean;
   loading: boolean;
 }
 
 const initialState: InitialState = {
-  sessionById: {},
+  sessionById: null,
   success: false,
   loading: false,
 };
@@ -35,5 +40,11 @@ export const addSessionReducers = createReducer(initialState, (builder) => {
     })
     .addCase(getSessionById.rejected, (state) => {
       state.loading = false;
+    })
+    .addCase(sessionByIdReset, (state) => {
+      return { ...state, success: false, sessionById: null };
+    })
+    .addCase(successReset, (state) => {
+      return { ...state, success: false };
     });
 });

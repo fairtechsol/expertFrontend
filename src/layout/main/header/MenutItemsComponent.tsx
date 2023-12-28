@@ -8,8 +8,9 @@ import {
 import { useNavigate } from "react-router-dom";
 import StyledImage from "../../../components/Common/StyledImages";
 import { ArrowLeft } from "../../../assets";
-import { useSelector } from "react-redux";
-import { RootState } from "../../../store/store";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../../store/store";
+import { sessionByIdReset } from "../../../store/actions/addSession";
 
 const MenutItemsComponent = ({
   x,
@@ -21,6 +22,7 @@ const MenutItemsComponent = ({
   handleClose,
 }: any) => {
   const theme = useTheme();
+  const dispatch: AppDispatch = useDispatch();
   const matchesMobile = useMediaQuery(theme.breakpoints.down("lg"));
   const { getProfile } = useSelector((state: RootState) => state.user.profile);
 
@@ -171,6 +173,7 @@ const MenutItemsComponent = ({
           {getProfile?.allPrivilege ? (
             <Box
               onClick={() => {
+                dispatch(sessionByIdReset());
                 navigate("/expert/live", {
                   state: {
                     createSession: true,
@@ -192,6 +195,7 @@ const MenutItemsComponent = ({
           ) : getProfile?.sessionMatchPrivilege ? (
             <Box
               onClick={() => {
+                dispatch(sessionByIdReset());
                 navigate("/expert/live", {
                   state: {
                     createSession: true,

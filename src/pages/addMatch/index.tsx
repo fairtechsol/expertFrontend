@@ -16,6 +16,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store/store";
 import {
   addMatchExpert,
+  addMatchReset,
   editMatchReset,
   getAllEventsList,
   getAllLiveTournaments,
@@ -71,7 +72,7 @@ const AddMatch = () => {
 
   const { state } = useLocation();
 
-  const { tournamentList, eventsList, extraMarketList, matchDetail } =
+  const { tournamentList, eventsList, extraMarketList, matchDetail, success } =
     useSelector((state: RootState) => state.addMatch.addMatch);
 
   const [selected, setSelected] = useState(initialValues);
@@ -228,7 +229,7 @@ const AddMatch = () => {
   }, [state?.id]);
 
   useEffect(() => {
-    if (matchDetail) {
+    if (matchDetail && state?.id && success) {
       formik.setValues({
         ...values,
         minBet: matchDetail?.betFairSessionMinBet ?? "",
@@ -237,16 +238,16 @@ const AddMatch = () => {
         betfairBookmakerMaxBet: matchDetail?.bookmaker?.maxBet ?? "",
         marketTiedMatchMaxBet: matchDetail?.apiTideMatch?.maxBet ?? "",
         manualTiedMatchMaxBet: matchDetail?.manualTiedMatch?.maxBet ?? "",
-        completeMatchMaxBet: matchDetail?.completeMatchMaxBet?.maxBet ?? "",
-        marketName1: matchDetail?.quickBookmaker[0]?.name ?? "",
+        completeMatchMaxBet: matchDetail?.marketCompleteMatch?.maxBet ?? "",
+        marketName1: matchDetail?.quickBookmaker[0].name ?? "",
         marketMaxBet1: matchDetail?.quickBookmaker[0]?.maxBet ?? "",
         marketId1: matchDetail?.quickBookmaker[0]?.id ?? "",
         marketName2: matchDetail?.quickBookmaker[1]?.name ?? "",
         marketMaxBet2: matchDetail?.quickBookmaker[1]?.maxBet ?? "",
-        marketId2: matchDetail?.quickBookmaker[2]?.id ?? "",
+        marketId2: matchDetail?.quickBookmaker[1]?.id ?? "",
         marketName3: matchDetail?.quickBookmaker[2]?.name ?? "",
         marketMaxBet3: matchDetail?.quickBookmaker[2]?.maxBet ?? "",
-        marketId3: matchDetail?.quickBookmaker[3]?.id ?? "",
+        marketId3: matchDetail?.quickBookmaker[2]?.id ?? "",
       });
       setSelected((prev: any) => {
         return {
@@ -265,8 +266,9 @@ const AddMatch = () => {
           startAt: matchDetail?.startAt,
         };
       });
+      dispatch(addMatchReset());
     }
-  }, [matchDetail]);
+  }, [matchDetail, success]);
 
   return (
     <form onSubmit={handleSubmit}>
@@ -505,7 +507,7 @@ const AddMatch = () => {
                 </DemoContainer>
               </LocalizationProvider>
             </Box>
-            <Box sx={{ width: { xs: "100%", lg: "18%", md: "24%" } }}>
+            {/* <Box sx={{ width: { xs: "100%", lg: "18%", md: "24%" } }}>
               <LabelValueComponent
                 icon={Upload}
                 containerStyle={{ flex: 1, width: "100%" }}
@@ -543,7 +545,7 @@ const AddMatch = () => {
                   type: "String",
                 }}
               />
-            </Box>
+            </Box> */}
             <Box sx={{ width: { xs: "100%", lg: "18%", md: "24%" } }}>
               <MatchListInput
                 required={true}
