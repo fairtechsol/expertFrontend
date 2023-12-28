@@ -7,7 +7,10 @@ import MatchListTableHeader from "../../components/matchList/matchListTableHeade
 import "./style.css";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store/store";
-import { getMatchList } from "../../store/actions/match/matchAction";
+import {
+  getMatchList,
+  getMatchListDropdown,
+} from "../../store/actions/match/matchAction";
 
 const MatchList = ({}) => {
   const dispatch: AppDispatch = useDispatch();
@@ -21,6 +24,7 @@ const MatchList = ({}) => {
 
   useEffect(() => {
     dispatch(getMatchList());
+    dispatch(getMatchListDropdown());
   }, []);
 
   return (

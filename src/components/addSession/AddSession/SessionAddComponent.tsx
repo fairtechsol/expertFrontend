@@ -1,8 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Box, Typography } from "@mui/material";
 import RunsAmountBox from "./RunsAmountBox";
 import SessionResultModal from "../SessionResult/SessionResultModal";
 import AddSessionInput from "./AddSessionInput";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../../store/store";
+import { addSession, getSessionById } from "../../../store/actions/addSession";
 
 const stateDetail = {
   match_id: "",
@@ -22,7 +25,11 @@ const stateDetail = {
 };
 
 const SessionAddComponent = React.forwardRef((props: any, ref: any) => {
-  const { createSession, match } = props;
+  const dispatch: AppDispatch = useDispatch();
+  const { createSession, sessionEvent, match } = props;
+  const { sessionById, success } = useSelector(
+    (state: RootState) => state.addSession
+  );
   const [isCreateSession] = useState(createSession);
 
   const [loading] = useState(false);
@@ -35,6 +42,7 @@ const SessionAddComponent = React.forwardRef((props: any, ref: any) => {
   const [visible, setVisible] = useState(false);
   const [visible1, setVisible1] = useState(false);
   const [visible2, setVisible2] = useState(false);
+  const [betId, setBetId] = useState("");
   const [lock, setLock] = useState<any>({
     isNo: true,
     isYes: true,
@@ -70,7 +78,49 @@ const SessionAddComponent = React.forwardRef((props: any, ref: any) => {
     { name: "250-400", value: "250-400" },
   ];
 
+  const addSessions = () => {
+    const payload = {
+      matchId: match?.id,
+      type: "manualSession",
+      name: inputDetail?.betCondition,
+      // minBet: "any",
+      // maxBet: "any",
+      yesRate: inputDetail?.leftYesRate,
+      noRate: inputDetail?.leftNoRate,
+      yesPercent: inputDetail?.leftYesRatePercent,
+      noPercent: inputDetail?.leftNoRatePercent,
+    };
+    dispatch(addSession(payload));
+  };
   console.log(ref);
+
+  useEffect(() => {
+    if (sessionEvent?.id) {
+      dispatch(
+        getSessionById({
+          matchId: match?.id,
+          id: sessionEvent?.id,
+        })
+      );
+      setBetId(sessionEvent?.id);
+    }
+  }, [sessionEvent?.id]);
+
+  useEffect(() => {
+    if (sessionById !== null) {
+      setInputDetail((prev: any) => {
+        return {
+          ...prev,
+          betCondition: sessionById?.name,
+          leftNoRate: Math.floor(sessionById?.noRate),
+          leftYesRate: Math.floor(sessionById?.yesRate),
+          leftNoRatePercent: Math.floor(sessionById?.noPercent),
+          leftYesRatePercent: Math.floor(sessionById?.yesPercent),
+        };
+      });
+    }
+  }, [sessionById, success]);
+
   return (
     <Box
       sx={{
@@ -109,12 +159,12 @@ const SessionAddComponent = React.forwardRef((props: any, ref: any) => {
             setIsPercent={setIsPercent}
             isBall={isBall}
             setIsBall={setIsBall}
-            // createSession={createSession}
-            // betId={betId}
+            createSession={createSession}
+            isCreateSession={isCreateSession}
+            betId={betId}
             // socket={socket}
             // sessionEvent={sessionEvent}
             // inputRef={inputRef}
-            // isCreateSession={isCreateSession}
             // sessionBetId={sessionBetId}
             // match={match}
             // isDisable={isDisable}
@@ -372,9 +422,7 @@ const SessionAddComponent = React.forwardRef((props: any, ref: any) => {
                   if (loading) {
                     return true;
                   } else {
-                    // doSubmitSessionBet(
-                    //   inputDetail.noRatePercent + "-" + inputDetail.yesRatePercent
-                    // );
+                    addSessions();
                   }
                 }}
                 sx={{

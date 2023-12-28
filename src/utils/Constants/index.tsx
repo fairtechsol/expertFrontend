@@ -5,6 +5,7 @@ export const ApiConstants = {
     ADD: "match/add",
     EDIT: "match/update",
     LIST: "match/list",
+    DROPDOWNLIST: "/match/listWithManualBetting",
     GETDETAIL: "match",
     UPDATEACTIVESTATUS: "match/updateActiveStatus",
   },
@@ -12,6 +13,10 @@ export const ApiConstants = {
     CHANGEPASSWORD: "user/password",
     MARQUEE_NOTIFICATION: "/general/notification/add",
     PROFILE: "user/profile",
+  },
+  SESSION: {
+    ADD: "session/add",
+    GET: "session",
   },
 };
 

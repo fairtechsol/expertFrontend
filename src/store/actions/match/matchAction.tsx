@@ -14,6 +14,20 @@ export const getMatchList = createAsyncThunk<any>("/match/list", async () => {
     return err.response?.status;
   }
 });
+export const getMatchListDropdown = createAsyncThunk<any>(
+  "/match/listDropdown",
+  async () => {
+    try {
+      const response = await service.get(`${ApiConstants.MATCH.DROPDOWNLIST}`);
+      if (response) {
+        return response?.data?.matches;
+      }
+    } catch (error) {
+      const err = error as AxiosError;
+      return err.response?.status;
+    }
+  }
+);
 
 export const updateMatchActiveStatus = createAsyncThunk<any, any>(
   "/match/updateActiveStatus",
