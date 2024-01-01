@@ -32,7 +32,6 @@ const DropDownMenu = ({
         allMatch?.map((x: any, i: any) => (
           <MenutItemsComponent
             key={i}
-            allLiveEventSession={allLiveEventSession}
             handleClose={handleClose}
             setSelected={setSelected}
             index={i}

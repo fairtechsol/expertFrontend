@@ -9,14 +9,16 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store/store";
 import {
   getMatchList,
-  getMatchListDropdown,
+  matchListReset,
 } from "../../store/actions/match/matchAction";
 
 const MatchList = ({}) => {
   const dispatch: AppDispatch = useDispatch();
   const [pageCount] = useState(Constants.pageCount);
   const [currentPage, setCurrentPage] = useState(1);
-  const { matchList } = useSelector((state: RootState) => state.matchList);
+  const { matchList, success } = useSelector(
+    (state: RootState) => state.matchList
+  );
 
   function callPage(value: any) {
     setCurrentPage(parseInt(value));
@@ -24,8 +26,13 @@ const MatchList = ({}) => {
 
   useEffect(() => {
     dispatch(getMatchList());
-    dispatch(getMatchListDropdown());
   }, []);
+
+  useEffect(() => {
+    if (success) {
+      dispatch(matchListReset());
+    }
+  }, [success]);
 
   return (
     <>

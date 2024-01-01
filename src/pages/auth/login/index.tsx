@@ -37,9 +37,9 @@ const Login = () => {
 
   useEffect(() => {
     if (success) {
-      localStorage.setItem("userRole", userRole);
+      sessionStorage.setItem("userRole", userRole);
       if (forceChangePassword) {
-        localStorage.setItem(
+        sessionStorage.setItem(
           "forceChangePassword",
           JSON.stringify(forceChangePassword)
         );
@@ -52,7 +52,7 @@ const Login = () => {
   }, [success]);
 
   useEffect(() => {
-    if (localStorage.getItem("userToken")) {
+    if (sessionStorage.getItem("userToken")) {
       navigate("/expert/match");
     }
   }, []);

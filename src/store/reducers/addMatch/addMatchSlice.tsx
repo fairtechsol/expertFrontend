@@ -7,6 +7,7 @@ import {
   getAllLiveTournaments,
   getExtraMarketList,
   getMatchDetail,
+  matchDetailReset,
 } from "../../actions/addMatch/addMatchAction";
 
 interface InitialState {
@@ -15,6 +16,7 @@ interface InitialState {
   extraMarketList: any;
   matchDetail: any;
   success: boolean;
+  matchAdded: boolean;
   loading: boolean;
   error: any;
 }
@@ -25,6 +27,7 @@ const initialState: InitialState = {
   extraMarketList: [],
   matchDetail: [],
   loading: false,
+  matchAdded: false,
   success: false,
   error: null,
 };
@@ -84,8 +87,8 @@ const addMatch = createSlice({
         state.error = null;
       })
       .addCase(addMatchExpert.fulfilled, (state) => {
+        state.matchAdded = true;
         state.loading = false;
-        state.success = true;
       })
       .addCase(addMatchExpert.rejected, (state, action) => {
         state.loading = false;
@@ -108,8 +111,17 @@ const addMatch = createSlice({
       .addCase(editMatchReset, (state) => {
         return { ...state, success: false, matchDetail: [] };
       })
+      .addCase(matchDetailReset, (state) => {
+        return {
+          ...state,
+          success: false,
+        };
+      })
       .addCase(addMatchReset, (state) => {
-        return { ...state, success: false };
+        return {
+          ...state,
+          matchAdded: false,
+        };
       });
   },
 });

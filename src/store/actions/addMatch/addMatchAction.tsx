@@ -128,3 +128,4 @@ export const getMatchDetail = createAsyncThunk<any, any>(
 
 export const addMatchReset = createAction("add/reset");
 export const editMatchReset = createAction("edit/reset");
+export const matchDetailReset = createAction("matchDetail/reset");

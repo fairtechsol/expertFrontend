@@ -18,7 +18,7 @@ export const login = createAsyncThunk<any, LoginData>(
         requestData
       );
       const { token } = data;
-      localStorage.setItem("userToken", token);
+      sessionStorage.setItem("userToken", token);
       return data;
     } catch (error) {
       const err = error as AxiosError;
@@ -30,7 +30,7 @@ export const login = createAsyncThunk<any, LoginData>(
 export const logout = createAsyncThunk<any>("auth/logout", async () => {
   try {
     const response = await service.post(`${ApiConstants.LOGOUT}`);
-    localStorage.clear();
+    sessionStorage.clear();
     window.location.replace("/expert/login");
     return response;
   } catch (error) {

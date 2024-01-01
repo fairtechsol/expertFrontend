@@ -37,8 +37,8 @@ export const updateMatchActiveStatus = createAsyncThunk<any, any>(
         `${ApiConstants.MATCH.UPDATEACTIVESTATUS}`,
         requestData
       );
-      if (response) {
-        console.log(response);
+      if (response?.status === 200) {
+        return response?.data;
       }
     } catch (error) {
       const err = error as AxiosError;

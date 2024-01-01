@@ -6,7 +6,6 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { Upload } from "../../assets";
 import DropDown from "../../components/Common/DropDown";
 import LabelValueComponent from "../../components/addMatch/LabelValueComponent";
 import MatchListInput from "../../components/addMatch/MatchListInput";
@@ -21,6 +20,7 @@ import {
   getAllEventsList,
   getAllLiveTournaments,
   getMatchDetail,
+  matchDetailReset,
 } from "../../store/actions/addMatch/addMatchAction";
 import moment from "moment";
 import { editMatch } from "../../store/actions/match/matchAction";
@@ -62,6 +62,7 @@ const initialValues = {
   tournamentName: "",
   tournamentId: "",
   matchName: "",
+  competitionName: "",
   eventId: "",
   marketId: "",
   startAt: new Date(),
@@ -72,8 +73,14 @@ const AddMatch = () => {
 
   const { state } = useLocation();
 
-  const { tournamentList, eventsList, extraMarketList, matchDetail, success } =
-    useSelector((state: RootState) => state.addMatch.addMatch);
+  const {
+    tournamentList,
+    eventsList,
+    extraMarketList,
+    matchDetail,
+    success,
+    matchAdded,
+  } = useSelector((state: RootState) => state.addMatch.addMatch);
 
   const [selected, setSelected] = useState(initialValues);
   const classes = useStyles();
@@ -178,7 +185,7 @@ const AddMatch = () => {
         let addMatchpayload = {
           matchType: selected.gameType,
           competitionId: selected.tournamentId,
-          competitionName: selected.matchName,
+          competitionName: selected.competitionName,
           title: selected.title,
           marketId: selected.marketId,
           eventId: selected.eventId,
@@ -226,47 +233,57 @@ const AddMatch = () => {
     if (state?.id) {
       dispatch(getMatchDetail(state?.id));
     }
-  }, [state?.id]);
+    if (matchAdded) {
+      navigate("/expert/match");
+      dispatch(addMatchReset());
+    }
+  }, [state?.id, matchAdded]);
 
   useEffect(() => {
-    if (matchDetail && state?.id && success) {
-      formik.setValues({
-        ...values,
-        minBet: matchDetail?.betFairSessionMinBet ?? "",
-        betfairMatchMaxBet: matchDetail?.matchOdd?.maxBet ?? "",
-        betfairSessionMaxBet: matchDetail?.betFairSessionMaxBet ?? "",
-        betfairBookmakerMaxBet: matchDetail?.bookmaker?.maxBet ?? "",
-        marketTiedMatchMaxBet: matchDetail?.apiTideMatch?.maxBet ?? "",
-        manualTiedMatchMaxBet: matchDetail?.manualTiedMatch?.maxBet ?? "",
-        completeMatchMaxBet: matchDetail?.marketCompleteMatch?.maxBet ?? "",
-        marketName1: matchDetail?.quickBookmaker[0].name ?? "",
-        marketMaxBet1: matchDetail?.quickBookmaker[0]?.maxBet ?? "",
-        marketId1: matchDetail?.quickBookmaker[0]?.id ?? "",
-        marketName2: matchDetail?.quickBookmaker[1]?.name ?? "",
-        marketMaxBet2: matchDetail?.quickBookmaker[1]?.maxBet ?? "",
-        marketId2: matchDetail?.quickBookmaker[1]?.id ?? "",
-        marketName3: matchDetail?.quickBookmaker[2]?.name ?? "",
-        marketMaxBet3: matchDetail?.quickBookmaker[2]?.maxBet ?? "",
-        marketId3: matchDetail?.quickBookmaker[2]?.id ?? "",
-      });
-      setSelected((prev: any) => {
-        return {
-          ...prev,
-          teamA: matchDetail?.teamA,
-          teamB: matchDetail?.teamB,
-          teamC: matchDetail?.teamC,
-          manualBookmaker: matchDetail?.quickBookmaker?.length,
-          title: matchDetail?.title,
-          gameType: matchDetail?.matchType,
-          tournamentName: matchDetail?.competitionName,
-          tournamentId: matchDetail?.competitionId,
-          matchName: matchDetail?.title,
-          eventId: matchDetail?.eventId,
-          marketId: matchDetail?.marketId,
-          startAt: matchDetail?.startAt,
-        };
-      });
-      dispatch(addMatchReset());
+    try {
+      if (matchDetail && state?.id) {
+        if (success) {
+          formik.setValues({
+            ...values,
+            minBet: matchDetail?.betFairSessionMinBet ?? "",
+            betfairMatchMaxBet: matchDetail?.matchOdd?.maxBet ?? "",
+            betfairSessionMaxBet: matchDetail?.betFairSessionMaxBet ?? "",
+            betfairBookmakerMaxBet: matchDetail?.bookmaker?.maxBet ?? "",
+            marketTiedMatchMaxBet: matchDetail?.apiTideMatch?.maxBet ?? "",
+            manualTiedMatchMaxBet: matchDetail?.manualTiedMatch?.maxBet ?? "",
+            completeMatchMaxBet: matchDetail?.marketCompleteMatch?.maxBet ?? "",
+            marketName1: matchDetail?.quickBookmaker[0].name ?? "",
+            marketMaxBet1: matchDetail?.quickBookmaker[0]?.maxBet ?? "",
+            marketId1: matchDetail?.quickBookmaker[0]?.id ?? "",
+            marketName2: matchDetail?.quickBookmaker[1]?.name ?? "",
+            marketMaxBet2: matchDetail?.quickBookmaker[1]?.maxBet ?? "",
+            marketId2: matchDetail?.quickBookmaker[1]?.id ?? "",
+            marketName3: matchDetail?.quickBookmaker[2]?.name ?? "",
+            marketMaxBet3: matchDetail?.quickBookmaker[2]?.maxBet ?? "",
+            marketId3: matchDetail?.quickBookmaker[2]?.id ?? "",
+          });
+          setSelected((prev: any) => {
+            return {
+              ...prev,
+              teamA: matchDetail?.teamA,
+              teamB: matchDetail?.teamB,
+              teamC: matchDetail?.teamC,
+              manualBookmaker: matchDetail?.quickBookmaker?.length,
+              title: matchDetail?.title,
+              gameType: matchDetail?.matchType,
+              tournamentName: matchDetail?.competitionName,
+              tournamentId: matchDetail?.competitionId,
+              matchName: matchDetail?.title,
+              eventId: matchDetail?.eventId,
+              marketId: matchDetail?.marketId,
+              startAt: matchDetail?.startAt,
+            };
+          });
+          dispatch(matchDetailReset());
+        }
+      }
+    } catch (e) {
+      console.log(e);
     }
   }, [matchDetail, success]);
 
