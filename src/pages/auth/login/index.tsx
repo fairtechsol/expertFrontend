@@ -51,12 +51,6 @@ const Login = () => {
     }
   }, [success]);
 
-  useEffect(() => {
-    if (sessionStorage.getItem("userToken")) {
-      navigate("/expert/match");
-    }
-  }, []);
-
   return (
     <form
       onSubmit={handleSubmit}

@@ -1,6 +1,7 @@
 import { lazy } from "react";
 import { Navigate } from "react-router-dom";
 import Loadable from "../utils/loadable";
+import { Constants } from "../utils/Constants";
 
 const MainLayout = Loadable(lazy(() => import("../layout/main")));
 const MatchList = Loadable(lazy(() => import("../pages/matchList")));
@@ -13,35 +14,35 @@ const UpdateBookmaker = Loadable(
 );
 
 const MainRoutes = {
-  path: "/expert",
+  path: Constants.MainPaths.root,
   element: <MainLayout />,
   children: [
     {
-      path: "match",
+      path: Constants.MainPaths.match,
       element: <MatchList />,
     },
     {
-      path: "add_match",
+      path: Constants.MainPaths.addMatch,
       element: <AddMatch />,
     },
     {
-      path: "edit_match",
+      path: Constants.MainPaths.editMatch,
       element: <AddMatch />,
     },
     {
-      path: "live",
+      path: Constants.MainPaths.live,
       element: <AddSession />,
     },
     {
-      path: "add_book_maker",
+      path: Constants.MainPaths.addBookMaker,
       element: <UpdateBookmaker />,
     },
     {
-      path: "betOdds",
+      path: Constants.MainPaths.betOdds,
       element: <MatchDetails />,
     },
     {
-      path: "change_password",
+      path: Constants.MainPaths.changePassword,
       element: <ChangePassword />,
     },
     {
