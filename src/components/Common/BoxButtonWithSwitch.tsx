@@ -72,6 +72,7 @@ const BoxButtonWithSwitch = (props: any) => {
       {
         <MaterialUISwitch
           checked={checked}
+          disabled={disable}
           onChange={() => {
             try {
               if (!disable) {

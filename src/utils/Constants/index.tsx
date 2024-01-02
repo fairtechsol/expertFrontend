@@ -18,6 +18,9 @@ export const ApiConstants = {
     ADD: "session/add",
     GET: "session",
   },
+  BOOKMAKER: {
+    GET: "matchBeting",
+  },
 };
 
 export const Constants = {
