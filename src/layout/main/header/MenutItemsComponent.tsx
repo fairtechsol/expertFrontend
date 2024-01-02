@@ -17,7 +17,6 @@ const MenutItemsComponent = ({
   selected,
   index,
   setSelected,
-  allLiveEventSession,
   activeUser,
   handleClose,
 }: any) => {
@@ -241,7 +240,7 @@ const MenutItemsComponent = ({
             </Box>
           ) : null}
           {getProfile.allPrivilege
-            ? allLiveEventSession?.map((event: any) => {
+            ? matchListDropdown?.map((event: any) => {
                 if (event.id === x.id) {
                   return (
                     <>
@@ -264,7 +263,7 @@ const MenutItemsComponent = ({
                                 cursor: "pointer",
                               }}
                             >
-                              {element.marketName}
+                              {element.name}
                             </Typography>
                           </Box>
                         );
@@ -274,7 +273,7 @@ const MenutItemsComponent = ({
                 } else return null;
               })
             : getProfile?.bookmakerMatchPrivilege
-            ? allLiveEventSession?.map((event: any) => {
+            ? matchListDropdown?.map((event: any) => {
                 if (event.id === x.id) {
                   return (
                     <>
@@ -297,7 +296,7 @@ const MenutItemsComponent = ({
                                 cursor: "pointer",
                               }}
                             >
-                              {element.marketName}
+                              {element.name}
                             </Typography>
                           </Box>
                         );

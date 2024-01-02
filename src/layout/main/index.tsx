@@ -5,17 +5,16 @@ import BackgroundLayout from "../../components/Common/BackgroundLayout";
 import { getProfile } from "../../store/actions/user/userAction";
 import { AppDispatch } from "../../store/store";
 import Header from "./header";
-import { getMatchListDropdown } from "../../store/actions/match/matchAction";
+
 const MainLayout = () => {
   const navigate = useNavigate();
   const dispatch: AppDispatch = useDispatch();
 
   useEffect(() => {
-    if (!localStorage.getItem("userToken")) {
+    if (!sessionStorage.getItem("userToken")) {
       navigate("/");
     }
     dispatch(getProfile());
-    dispatch(getMatchListDropdown());
   }, [dispatch]);
 
   return (

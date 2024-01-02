@@ -22,4 +22,23 @@ export const ApiConstants = {
 
 export const Constants = {
   pageLimit: 15,
+
+  ///Routes Constants
+
+  AuthPaths: {
+    root: "/",
+    login: "expert/login",
+    changePassword: "expert/change_password",
+  },
+
+  MainPaths: {
+    root: "/expert",
+    match: "match",
+    addMatch: "add_match",
+    editMatch: "edit_match",
+    live: "live",
+    addBookMaker: "add_book_maker",
+    betOdds: "betOdds",
+    changePassword: "change-password",
+  },
 };

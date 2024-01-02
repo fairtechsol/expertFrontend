@@ -1,21 +1,22 @@
 import { AppBar, Box, useMediaQuery, useTheme } from "@mui/material";
 import ModalMUI from "@mui/material/Modal";
 import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";
 import { Draw, FgLogo, NotiBadge, Users } from "../../../assets";
 import StyledImage from "../../../components/Common/StyledImages";
 import Loader from "../../../components/Loader";
 import ButtonHead from "../../../components/header/ButtonHead";
 import NotificationModal from "../../../components/header/NotificationModal";
-import { RootState } from "../../../store/store";
+import { AppDispatch, RootState } from "../../../store/store";
 import ActiveUsers from "./ActiveUsers";
 import BoxProfile from "./BoxProfile";
 import DropDownMenu from "./DropDownMenu";
+import { getMatchListDropdown } from "../../../store/actions/match/matchAction";
 
 const Header1 = () => {
   const theme = useTheme();
-  // const dispatch: AppDispatch = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
   const matchesMobile = useMediaQuery(theme.breakpoints.down("lg"));
   const navigate = useNavigate();
   const [visible, setVisible] = useState(false);
@@ -28,46 +29,6 @@ const Header1 = () => {
     (state: RootState) => state.matchList
   );
 
-  const allLiveEventSession: any = [
-    {
-      id: "b501723d-a82c-4a95-a20c-c40e428fce04",
-      gameType: "cricket",
-      title: "Bangladesh v New Zealand",
-      teamA: "Bangladesh",
-      teamB: "New Zealand",
-      teamC: "The Draw",
-      bettings: [],
-      bookmakers: [
-        {
-          id: "0ce79b49-85c3-463a-bfac-6320a788cd1b",
-          marketName: "book0",
-        },
-        {
-          id: "072a6251-eac0-4344-a792-0dde184e6c17",
-          marketName: "book1",
-        },
-      ],
-    },
-    {
-      id: "ac92468d-9173-4650-ba8e-997873612ab8",
-      gameType: "cricket",
-      title: "The Chennai Braves v New York Strikers",
-      teamA: "The Chennai Braves",
-      teamB: "New York Strikers",
-      teamC: null,
-      bettings: [],
-      bookmakers: [
-        {
-          id: "40e7b1d4-c861-4dba-908b-e9519ecc65c8",
-          marketName: "Quick Book 0",
-        },
-        {
-          id: "90d46e39-8ccd-4f33-8e06-2165d28bbb3a",
-          marketName: "Quick Book 1",
-        },
-      ],
-    },
-  ];
   return (
     <>
       <ModalMUI
@@ -178,6 +139,7 @@ const Header1 = () => {
                     if (activeUser == "3") {
                       return;
                     }
+                    dispatch(getMatchListDropdown());
                     setAnchor(e.currentTarget);
                   }}
                   title={"ALL MATCH"}
@@ -311,7 +273,6 @@ const Header1 = () => {
         handleClose={() => {
           setAnchor(null);
         }}
-        allLiveEventSession={matchListDropdown}
       />
     </>
   );

@@ -1,4 +1,4 @@
-const Constants = {
+const constants = {
   // apiBasePath: "http://159.65.154.97:3100/", // server url
   // apiBasePath: "http://159.65.154.97:3300/", // server url
   // apiBasePath: "http://139.59.88.49:3100/", // server url
@@ -84,4 +84,4 @@ const Constants = {
   sessionExpireTime: 60 * 5, // 30 sec,
 };
 
-export default Constants
+export default constants;

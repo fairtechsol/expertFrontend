@@ -1,8 +1,9 @@
-import { Box, Switch, Theme, Typography, styled } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { updateMatchActiveStatus } from "../../store/actions/match/matchAction";
 import { AppDispatch } from "../../store/store";
+import { MaterialUISwitch } from "../matchList/materialUiSwitch";
 
 const BoxButtonWithSwitch = (props: any) => {
   const {
@@ -29,48 +30,6 @@ const BoxButtonWithSwitch = (props: any) => {
       setBackground("#FF4D4D");
     }
   }, [checked]);
-
-  const MaterialUISwitch = styled(Switch)(({}: { theme: Theme }) => ({
-    width: 50,
-    height: 35,
-    padding: 7,
-    "& .MuiSwitch-switchBase": {
-      marginTop: "8px",
-      marginRight: "1px",
-      padding: 0,
-      paddingLeft: "3px",
-      transform: "translateX(6px)",
-      "&.Mui-checked": {
-        color: "#10DC61",
-        transform: "translateX(20px)",
-        "& + .MuiSwitch-track": {
-          opacity: 1,
-          backgroundColor: "white",
-        },
-        "& .MuiSwitch-thumb": {
-          backgroundColor: "#10DC61",
-        },
-      },
-    },
-    "& .MuiSwitch-thumb": {
-      backgroundColor: "#FF4D4D",
-      width: 18,
-      height: 18,
-      "&:before": {
-        content: "''",
-        position: "absolute",
-        width: "100%",
-        height: "100%",
-        left: 0,
-        top: 0,
-      },
-    },
-    "& .MuiSwitch-track": {
-      opacity: 1,
-      backgroundColor: "white",
-      borderRadius: 20,
-    },
-  }));
 
   return (
     <Box
@@ -114,24 +73,28 @@ const BoxButtonWithSwitch = (props: any) => {
         <MaterialUISwitch
           checked={checked}
           onChange={() => {
-            if (!disable) {
-              let payload = {
-                matchId: matchId,
-                type: matchBettingType,
-                isActive: !checked,
-                isManualBet: isManualBet,
-              };
-              dispatch(updateMatchActiveStatus(payload));
-              setChecked(!checked);
-              setUpdateMatchStatus((prevStatus: any) => ({
-                ...prevStatus,
-                [place]: {
-                  ...prevStatus[place],
-                  val: !checked,
-                },
-              }));
-            } else {
-              alert("You don't have privilege to change status.");
+            try {
+              if (!disable) {
+                let payload = {
+                  matchId: matchId,
+                  type: matchBettingType,
+                  isActive: !checked,
+                  isManualBet: isManualBet,
+                };
+                dispatch(updateMatchActiveStatus(payload));
+                setChecked(!checked);
+                setUpdateMatchStatus((prevStatus: any) => ({
+                  ...prevStatus,
+                  [place]: {
+                    ...prevStatus[place],
+                    val: !checked,
+                  },
+                }));
+              } else {
+                alert("You don't have privilege to change status.");
+              }
+            } catch (e) {
+              console.log(e);
             }
           }}
         />

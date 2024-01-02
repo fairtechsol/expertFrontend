@@ -1,16 +1,20 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Box, TextField, Typography } from "@mui/material";
 import { BallStart, Lock } from "../../../assets";
 import KeyboardEventHandler from "react-keyboard-event-handler";
 import BookButton from "./BookButton";
 import ResultComponent from "./ResultComponent";
 import { handleKeysMatchEvents } from "../../../utils/InputKeys/Bookmaker/BookmakerSessionKeys";
-import {
-  updateLocalQuickBookmaker,
-} from "../../../utils/InputKeys/Bookmaker/Utils";
+import { updateLocalQuickBookmaker } from "../../../utils/InputKeys/Bookmaker/Utils";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../../store/store";
+import { getSessionById } from "../../../store/actions/addSession";
 
 const EditBookmaker = (props: any) => {
-  const { add, match } = props;
+  const { add, match, Bid } = props;
+  const dispatch: AppDispatch = useDispatch();
+
+  const { sessionById } = useSelector((state: RootState) => state.addSession);
   const [teamRates] = useState({
     teamA: 1.5,
     teamB: 2.5,
@@ -113,6 +117,14 @@ const EditBookmaker = (props: any) => {
       }
     }
   };
+
+  useEffect(() => {
+    if (Bid) {
+      dispatch(getSessionById({ matchId: match?.id, id: Bid }));
+    }
+  }, [Bid]);
+
+  console.log(sessionById, "sessionById");
 
   return (
     <>

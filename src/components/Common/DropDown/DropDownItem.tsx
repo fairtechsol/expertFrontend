@@ -20,7 +20,7 @@ const DropDownItem = (props: any) => {
   } = props;
 
   const dispatch: AppDispatch = useDispatch();
-  
+
   return (
     <Box
       onClick={() => {
@@ -42,7 +42,8 @@ const DropDownItem = (props: any) => {
                   startAt: new Date(eventDetail?.EventDate),
                   eventId: EventId,
                   marketId: mId,
-                  matchName: CompetitionName,
+                  competitionName: CompetitionName,
+                  matchName: i,
                   title: i,
                 };
               });

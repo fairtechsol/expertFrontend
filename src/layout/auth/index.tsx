@@ -1,9 +1,18 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import AuthBackground from "../../pages/auth/AuthBackground";
 import { Box } from "@mui/material";
 import StyledImage from "../../components/Common/StyledImages";
 import { FgLogo } from "../../assets";
+import { useEffect } from "react";
+
 const AuthLayout = () => {
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (sessionStorage.getItem("userToken")) {
+      navigate("/expert/match");
+    }
+  }, []);
+
   return (
     <>
       <Box style={{ position: "relative" }}>

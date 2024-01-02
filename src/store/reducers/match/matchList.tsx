@@ -12,6 +12,7 @@ interface InitialState {
   matchList: any;
   matchListDropdown: any;
   success: boolean;
+  statusSuccess: boolean;
   loading: boolean;
   error: any;
 }
@@ -21,6 +22,7 @@ const initialState: InitialState = {
   matchListDropdown: [],
   loading: false,
   success: false,
+  statusSuccess: false,
   error: null,
 };
 
@@ -60,12 +62,12 @@ const matchList = createSlice({
       })
       .addCase(updateMatchActiveStatus.pending, (state) => {
         state.loading = true;
-        state.success = false;
+        state.statusSuccess = false;
         state.error = null;
       })
       .addCase(updateMatchActiveStatus.fulfilled, (state) => {
+        state.statusSuccess = true;
         state.loading = false;
-        state.success = true;
       })
       .addCase(updateMatchActiveStatus.rejected, (state, action) => {
         state.loading = false;
@@ -87,7 +89,7 @@ const matchList = createSlice({
         return { ...state, success: false };
       })
       .addCase(updateMatchActiveStatusReset, (state) => {
-        return { ...state, success: false };
+        return { ...state, statusSuccess: false };
       });
   },
 });

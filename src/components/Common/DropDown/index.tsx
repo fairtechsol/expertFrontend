@@ -23,8 +23,17 @@ const DropDown = (props: any) => {
     valued,
   } = props;
 
-  const [value, setValue] = useState(valued ?? data[0]);
+  const [value, setValue] = useState(valued);
   const [open, setOpen] = useState(false);
+
+  let valueToShow =
+    value === "0"
+      ? "0.00"
+      : name
+      ? selected[name]
+        ? selected[name]
+        : value
+      : value;
 
   return (
     <Box sx={[{ width: "19%" }, containerStyle]}>
@@ -81,13 +90,7 @@ const DropDown = (props: any) => {
               },
             }}
           >
-            {value === "0"
-              ? "0.00"
-              : name
-              ? selected[name]
-                ? selected[name]
-                : value
-              : value}
+            {valueToShow}
           </Typography>
         </Box>
         <StyledImage
@@ -125,7 +128,7 @@ const DropDown = (props: any) => {
                 return (
                   <DropDownItem
                     key={idx}
-                    i={i.EventName}
+                    i={i?.EventName}
                     mId={i?.MarketId}
                     EventId={i?.EventId}
                     matchesSelect={matchesSelect}
