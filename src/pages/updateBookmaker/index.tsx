@@ -4,7 +4,7 @@ import { useLocation } from "react-router-dom";
 import BookmakerEditSection from "../../components/updateBookmaker/BookmakerEdit";
 
 const UpdateBookmaker = () => {
-  const location: any = useLocation();
+  const { state }: any = useLocation();
   return (
     <Box display="flex">
       <Grid container spacing={2}>
@@ -12,8 +12,9 @@ const UpdateBookmaker = () => {
           <Paper style={{ margin: "10px" }}>
             <BookmakerEditSection
               add={true}
-              match={location?.state?.match}
-              Bid={location?.state?.id}
+              match={state?.match}
+              bookmakerId={state?.id}
+              type={state?.type}
             />
           </Paper>
         </Grid>

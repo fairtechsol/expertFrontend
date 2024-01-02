@@ -8,17 +8,22 @@ import { handleKeysMatchEvents } from "../../../utils/InputKeys/Bookmaker/Bookma
 import { updateLocalQuickBookmaker } from "../../../utils/InputKeys/Bookmaker/Utils";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../store/store";
-import { getSessionById } from "../../../store/actions/addSession";
+import {
+  getBookmakerById,
+  getSessionById,
+} from "../../../store/actions/addSession";
 
 const EditBookmaker = (props: any) => {
   const { add, match, Bid } = props;
   const dispatch: AppDispatch = useDispatch();
 
-  const { sessionById } = useSelector((state: RootState) => state.addSession);
+  const { bookmakerById, success } = useSelector(
+    (state: RootState) => state.addSession
+  );
   const [teamRates] = useState({
-    teamA: 1.5,
-    teamB: 2.5,
-    teamC: 5.6,
+    teamA: 0,
+    teamB: 0,
+    teamC: 0,
   });
 
   const innerRefTeamA = useRef();
@@ -120,11 +125,49 @@ const EditBookmaker = (props: any) => {
 
   useEffect(() => {
     if (Bid) {
-      dispatch(getSessionById({ matchId: match?.id, id: Bid }));
+      dispatch(getBookmakerById({ matchId: match?.id, id: Bid }));
     }
   }, [Bid]);
 
-  console.log(sessionById, "sessionById");
+  useEffect(() => {
+    if (success) {
+      setLocalQuickBookmaker((prev: any) => {
+        return {
+          ...prev,
+          teamA: {
+            ...prev.teamA,
+            back: bookmakerById?.backTeamA,
+            lay: bookmakerById?.layTeamA ? bookmakerById?.layTeamA : "",
+            suspended:
+              [null, "", 0].includes(bookmakerById?.layTeamA) ||
+              [null, "", 0].includes(bookmakerById?.backTeamA)
+                ? true
+                : false,
+          },
+          teamB: {
+            ...prev.teamB,
+            back: bookmakerById?.backTeamB,
+            lay: bookmakerById?.layTeamB ? bookmakerById?.layTeamB : "",
+            suspended:
+              [null, "", 0].includes(bookmakerById?.layTeamB) ||
+              [null, "", 0].includes(bookmakerById?.backTeamB)
+                ? true
+                : false,
+          },
+          teamC: {
+            ...prev.teamC,
+            back: bookmakerById?.backTeamC,
+            lay: bookmakerById?.layTeamC ? bookmakerById?.layTeamC : "",
+            suspended:
+              [null, "", 0].includes(bookmakerById?.layTeamC) ||
+              [null, "", 0].includes(bookmakerById?.backTeamC)
+                ? true
+                : false,
+          },
+        };
+      });
+    }
+  }, [bookmakerById, success]);
 
   return (
     <>
@@ -156,7 +199,7 @@ const EditBookmaker = (props: any) => {
               marginLeft: "7px",
             }}
           >
-            Test
+            {bookmakerById?.name}
           </Typography>
         </Box>
         <Box
@@ -711,7 +754,7 @@ const EditBookmaker = (props: any) => {
                           sx={{ fontWeight: "600", fontSize: "22px" }}
                         >
                           {localQuickBookmaker?.teamBackUnlock
-                            ? 0
+                            ? ""
                             : localQuickBookmaker?.teamA?.rate}
                         </Typography>
                       ) : (
@@ -739,7 +782,7 @@ const EditBookmaker = (props: any) => {
                           sx={{ fontWeight: "600", fontSize: "22px" }}
                         >
                           {localQuickBookmaker?.teamA?.suspended
-                            ? 0
+                            ? ""
                             : localQuickBookmaker?.teamA?.rate}
                         </Typography>
                       ) : (
@@ -800,7 +843,7 @@ const EditBookmaker = (props: any) => {
                           sx={{ fontWeight: "600", fontSize: "22px" }}
                         >
                           {localQuickBookmaker?.teamA?.suspended
-                            ? 0
+                            ? ""
                             : localQuickBookmaker?.teamA?.lay}
                         </Typography>
                       ) : (
@@ -831,7 +874,7 @@ const EditBookmaker = (props: any) => {
                           sx={{ fontWeight: "600", fontSize: "22px" }}
                         >
                           {localQuickBookmaker?.teamBackUnlock
-                            ? 0
+                            ? ""
                             : localQuickBookmaker?.teamB?.rate}
                         </Typography>
                       ) : (
@@ -859,7 +902,7 @@ const EditBookmaker = (props: any) => {
                           sx={{ fontWeight: "600", fontSize: "22px" }}
                         >
                           {localQuickBookmaker?.teamB?.suspended
-                            ? 0
+                            ? ""
                             : localQuickBookmaker?.teamB?.rate}
                         </Typography>
                       ) : (
@@ -920,7 +963,7 @@ const EditBookmaker = (props: any) => {
                           sx={{ fontWeight: "600", fontSize: "22px" }}
                         >
                           {localQuickBookmaker?.teamB?.suspended
-                            ? 0
+                            ? ""
                             : localQuickBookmaker?.teamB?.lay}
                         </Typography>
                       ) : (
@@ -953,7 +996,7 @@ const EditBookmaker = (props: any) => {
                               sx={{ fontWeight: "600", fontSize: "22px" }}
                             >
                               {localQuickBookmaker?.teamBackUnlock
-                                ? 0
+                                ? ""
                                 : localQuickBookmaker?.teamC?.rate}
                             </Typography>
                           ) : (
@@ -981,7 +1024,7 @@ const EditBookmaker = (props: any) => {
                               sx={{ fontWeight: "600", fontSize: "22px" }}
                             >
                               {localQuickBookmaker?.teamC?.suspended
-                                ? 0
+                                ? ""
                                 : localQuickBookmaker?.teamC?.rate}
                             </Typography>
                           ) : (
@@ -1042,7 +1085,7 @@ const EditBookmaker = (props: any) => {
                               sx={{ fontWeight: "600", fontSize: "22px" }}
                             >
                               {localQuickBookmaker?.teamC?.suspended
-                                ? 0
+                                ? ""
                                 : localQuickBookmaker?.teamC?.lay}
                             </Typography>
                           ) : (

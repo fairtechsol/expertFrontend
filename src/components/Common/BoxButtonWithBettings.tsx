@@ -1,9 +1,11 @@
 import { Box, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import { updateMatchActiveStatus } from "../../store/actions/match/matchAction";
-import { AppDispatch } from "../../store/store";
+// import { useDispatch } from "react-redux";
+// import { updateMatchActiveStatus } from "../../store/actions/match/matchAction";
+// import { AppDispatch } from "../../store/store";
 import { MaterialUISwitch } from "../matchList/materialUiSwitch";
+import service from "../../service";
+import { ApiConstants } from "../../utils/Constants";
 
 const BoxButtonWithBettings = ({
   title,
@@ -16,7 +18,7 @@ const BoxButtonWithBettings = ({
   bettingId,
   matchBettingType,
 }: any) => {
-  const dispatch: AppDispatch = useDispatch();
+  // const dispatch: AppDispatch = useDispatch();
   const [background, setBackground] = useState("#0B4F26");
 
   const [checked, setChecked] = useState(
@@ -69,7 +71,8 @@ const BoxButtonWithBettings = ({
       </Typography>
       <MaterialUISwitch
         checked={checked}
-        onChange={() => {
+        disabled={disable}
+        onChange={async () => {
           if (!disable) {
             let payload = {
               matchId: matchId,
@@ -77,17 +80,23 @@ const BoxButtonWithBettings = ({
               type: matchBettingType,
               isActive: !checked,
             };
-            dispatch(updateMatchActiveStatus(payload));
-            setChecked(!checked);
-            setUpdateBettings((pre: any) => {
-              const body = pre?.map((val: any) => {
-                if (val.id === bettingId) {
-                  return { ...val, isActive: !checked };
-                }
-                return val;
+            // dispatch(updateMatchActiveStatus(payload));
+            const resp: any = await service.post(
+              ApiConstants.MATCH.UPDATEACTIVESTATUS,
+              payload
+            );
+            if (resp.statusCode === 200) {
+              setChecked(!checked);
+              setUpdateBettings((pre: any) => {
+                const body = pre?.map((val: any) => {
+                  if (val.id === bettingId) {
+                    return { ...val, isActive: !checked };
+                  }
+                  return val;
+                });
+                return body;
               });
-              return body;
-            });
+            }
           } else {
             alert("You don't have privilege to change status.");
           }

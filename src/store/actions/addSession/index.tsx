@@ -20,6 +20,11 @@ interface SessionById {
   matchId: string;
   id?: string;
 }
+interface BookmakerById {
+  matchId: string;
+  id?: string;
+  type?: string;
+}
 
 export const addSession = createAsyncThunk<any, SessionData>(
   "add/session",
@@ -46,6 +51,24 @@ export const getSessionById = createAsyncThunk<any, SessionById>(
         `${ApiConstants.SESSION.GET}/${requestData.matchId}${
           requestData?.id ? `?id=${requestData?.id}` : ""
         }`
+      );
+      if (resp?.data) {
+        return resp?.data;
+      }
+    } catch (error) {
+      const err = error as AxiosError;
+      return thunkApi.rejectWithValue(err.response?.status);
+    }
+  }
+);
+export const getBookmakerById = createAsyncThunk<any, BookmakerById>(
+  "get/bookmaker",
+  async (requestData, thunkApi) => {
+    try {
+      const resp = await service.get(
+        `${ApiConstants.BOOKMAKER.GET}/${requestData.matchId}${
+          requestData?.id ? `?id=${requestData?.id}` : ""
+        }&type=${requestData?.type}`
       );
       if (resp?.data) {
         return resp?.data;
