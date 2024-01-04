@@ -5,6 +5,7 @@ import BackgroundLayout from "../../components/Common/BackgroundLayout";
 import { getProfile } from "../../store/actions/user/userAction";
 import { AppDispatch } from "../../store/store";
 import Header from "./header";
+import { socketService } from "../../socketManager";
 
 const MainLayout = () => {
   const navigate = useNavigate();
@@ -13,9 +14,14 @@ const MainLayout = () => {
   useEffect(() => {
     if (!sessionStorage.getItem("userToken")) {
       navigate("/");
+      sessionStorage.clear();
+      socketService.disconnect();
+    } else {
+      socketService.connect();
+      socketService.auth.logout();
     }
     dispatch(getProfile());
-  }, [dispatch]);
+  }, []);
 
   return (
     <>

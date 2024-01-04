@@ -81,7 +81,7 @@ const SessionAddComponent = React.forwardRef((props: any, ref: any) => {
   const addSessions = () => {
     const payload = {
       matchId: match?.id,
-      type: "manualSession",
+      type: "session",
       name: inputDetail?.betCondition,
       // minBet: "any",
       // maxBet: "any",
