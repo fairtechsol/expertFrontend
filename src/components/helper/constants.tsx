@@ -4,9 +4,10 @@ const constants = {
   // apiBasePath: "http://139.59.88.49:3100/", // server url
   // apiMicroBasePath: "http://localhost:3200", // server url
   // microServiceApiPath: "http://139.59.88.49:3200",
-  apiBasePath: "https://3100dev.fairgame.club/", // server url
+  apiBasePath: "http://3.89.232.255:6060", // server url
   apiMicroBasePath: "https://3100dev.fairgame.club", // server url
-  microServiceApiPath: "https://3200dev.fairgame.club",
+  // microServiceApiPath: "https://3200dev.fairgame.club",
+  microServiceApiPath: "http://3.89.232.255:3200",
   // imageBasePath: "http://localhost:4000/public/images/", /// server image base pathpath
   // apiBasePath: "http://localhost:3100/", // server url
   // apiMicroBasePath: "http://localhost:3100", // server url

@@ -23,6 +23,11 @@ export const ApiConstants = {
   },
 };
 
+export const baseUrls = {
+  socket: "http://localhost:5000",
+  expertSocket: "http://localhost:6060",
+};
+
 export const Constants = {
   pageLimit: 15,
 

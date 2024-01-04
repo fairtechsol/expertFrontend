@@ -2,13 +2,14 @@ import { createAction, createAsyncThunk } from "@reduxjs/toolkit";
 import axios, { AxiosError } from "axios";
 import service from "../../../service";
 import { ApiConstants } from "../../../utils/Constants";
+import constants from "../../../components/helper/constants";
 
 export const getAllLiveTournaments = createAsyncThunk<any, string>(
   "addMatch/getAllLiveTournaments",
   async (requestData, thunkApi) => {
     try {
       const { data } = await axios.get(
-        `https://3200dev.fairgame.club/competitionList?type=${requestData}`
+        `${constants.microServiceApiPath}/competitionList?type=${requestData}`
       );
       if (data) {
         let tournamentList: any = [];
@@ -34,7 +35,7 @@ export const getAllEventsList = createAsyncThunk<any, string>(
   async (requestData, thunkApi) => {
     try {
       const { data } = await axios.get(
-        `https://3200dev.fairgame.club/eventList/${requestData}`
+        `${constants.microServiceApiPath}/eventList/${requestData}`
       );
       if (data) {
         let matchesList: any = [];
@@ -65,7 +66,7 @@ export const getExtraMarketList = createAsyncThunk<any, string>(
   async (requestData, thunkApi) => {
     try {
       const { data } = await axios.get(
-        `https://3200dev.fairgame.club/extraMarketList/${requestData}`
+        `${constants.microServiceApiPath}/extraMarketList/${requestData}`
       );
       if (data) {
         let extraMarketList: any = {
