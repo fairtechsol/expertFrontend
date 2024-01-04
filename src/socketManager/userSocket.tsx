@@ -6,4 +6,12 @@ export const userSocketService = {
       callback(packet?.count);
     });
   },
+  updateSessionRate: (data: any) => {
+    expertSocket.emit("updateSessionRate", data);
+  },
+  updateSessionRateClient: () => {
+    expertSocket.on("updateSessionRateClient", (packet: any) => {
+      console.log(packet);
+    });
+  },
 };

@@ -22,6 +22,7 @@ const AddSessionInput = (props: any) => {
     isPercent,
     setIsPercent,
     setIsBall,
+    match
   } = props;
 
   // const handleSuspend = () => {};
@@ -174,6 +175,8 @@ const AddSessionInput = (props: any) => {
                     isDisabled={false}
                     onKeyEvent={(key, e) =>
                       handleKeysMatchEvents(
+                        betId,
+                        match,
                         key,
                         e,
                         setInputDetail,

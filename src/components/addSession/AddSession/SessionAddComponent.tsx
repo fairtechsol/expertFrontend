@@ -116,6 +116,10 @@ const SessionAddComponent = React.forwardRef((props: any, ref: any) => {
           leftYesRate: Math.floor(sessionById?.yesRate),
           leftNoRatePercent: Math.floor(sessionById?.noPercent),
           leftYesRatePercent: Math.floor(sessionById?.yesPercent),
+          noRate: Math.floor(sessionById?.noRate),
+          yesRate: Math.floor(sessionById?.yesRate),
+          yesRatePercent: Math.floor(sessionById?.yesPercent),
+          noRatePercent: Math.floor(sessionById?.noPercent),
         };
       });
     }
@@ -166,7 +170,7 @@ const SessionAddComponent = React.forwardRef((props: any, ref: any) => {
             // sessionEvent={sessionEvent}
             // inputRef={inputRef}
             // sessionBetId={sessionBetId}
-            // match={match}
+            match={match}
             // isDisable={isDisable}
           />
           <Box sx={{ mt: 2, border: "1px solid black", p: 1 }}>

@@ -1,4 +1,8 @@
+import { socketService } from "../../../socketManager";
+
 export const handleKeysMatchEvents = (
+  betId: any,
+  match: any,
   key: any,
   e: any,
   setInputDetail: any,
@@ -29,6 +33,19 @@ export const handleKeysMatchEvents = (
         isNoPercent: false,
         isYesPercent: false,
       };
+    });
+    setInputDetail((prev: any) => {
+      let data = {
+        matchId: match?.id,
+        betId: betId,
+        noRate: prev?.leftNoRate,
+        yesRate: prev?.leftYesRate,
+        noPercent: prev?.leftNoRatePercent,
+        yesPercent: prev?.leftYesRatePercent,
+        status: "ACTIVE",
+      };
+      socketService.user.updateSessionRate(data);
+      return prev;
     });
   } else if (key === "up" || key === "w") {
     setInputDetail((prev: any) => {
