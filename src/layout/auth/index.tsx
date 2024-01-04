@@ -45,7 +45,7 @@ const AuthLayout = () => {
               alt="Fairgame"
               sx={{ height: "8%", width: "300px" }}
             />
-            <Outlet />;
+            <Outlet />
           </Box>
         </Box>
       </Box>

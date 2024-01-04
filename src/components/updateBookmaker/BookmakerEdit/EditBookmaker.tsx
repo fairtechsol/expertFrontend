@@ -10,7 +10,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../store/store";
 import {
   getBookmakerById,
-  getSessionById,
 } from "../../../store/actions/addSession";
 
 const EditBookmaker = (props: any) => {
