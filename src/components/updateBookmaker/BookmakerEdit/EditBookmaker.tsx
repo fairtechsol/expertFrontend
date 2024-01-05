@@ -8,7 +8,11 @@ import { handleKeysMatchEvents } from "../../../utils/InputKeys/Bookmaker/Bookma
 import { updateLocalQuickBookmaker } from "../../../utils/InputKeys/Bookmaker/Utils";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../store/store";
-import { getBookmakerById } from "../../../store/actions/addSession";
+import {
+  getBookmakerById,
+  successReset,
+} from "../../../store/actions/addSession";
+import { socketService } from "../../../socketManager";
 
 const EditBookmaker = (props: any) => {
   const { add, match, Bid } = props;
@@ -23,9 +27,9 @@ const EditBookmaker = (props: any) => {
     teamC: 0,
   });
 
-  const innerRefTeamA = useRef();
-  const innerRefTeamB = useRef();
-  const innerRefTeamC = useRef();
+  const innerRefTeamA: any = useRef();
+  const innerRefTeamB: any = useRef();
+  const innerRefTeamC: any = useRef();
 
   const [incGap, setIncGap] = useState<number>(1);
   // const [isPercent, setIsPercent] = useState<string>("");
@@ -37,7 +41,7 @@ const EditBookmaker = (props: any) => {
   const [visible, setVisible] = useState(false);
   const [visible1, setVisible1] = useState(false);
 
-  const [localQuickBookmaker, setLocalQuickBookmaker] = useState({
+  const [localQuickBookmaker, setLocalQuickBookmaker] = useState<any>({
     teamA: {
       rate: "",
       lock: true,
@@ -92,11 +96,12 @@ const EditBookmaker = (props: any) => {
         teamBall: false,
       };
     });
-
     setIsTab("");
     if (value < 100) {
       if (name === "teamArate") {
         updateLocalQuickBookmaker(
+          match,
+          Bid,
           "teamA",
           +value,
           +value + 1,
@@ -104,6 +109,8 @@ const EditBookmaker = (props: any) => {
         );
       } else if (name === "teamBrate") {
         updateLocalQuickBookmaker(
+          match,
+          Bid,
           "teamB",
           +value,
           +value + 1,
@@ -111,6 +118,8 @@ const EditBookmaker = (props: any) => {
         );
       } else if (name === "teamCrate") {
         updateLocalQuickBookmaker(
+          match,
+          Bid,
           "teamC",
           +value,
           +value + 1,
@@ -163,8 +172,23 @@ const EditBookmaker = (props: any) => {
           },
         };
       });
+      dispatch(successReset());
+      socketService.user.updateMatchBettingRateClient((data: any) => {
+        if (match?.id === data?.matchId && Bid === data?.id)
+          setLocalQuickBookmaker((prev: any) => {
+            return {
+              ...prev,
+            };
+          });
+      });
     }
   }, [bookmakerById, success]);
+
+  // useEffect(() => {
+  //   innerRefTeamA.current.addEventListener("teamArate", handleChange);
+  //   innerRefTeamB.current.addEventListener("teamBrate", handleChange);
+  //   innerRefTeamC.current.addEventListener("teamCrate", handleChange);
+  // }, []);
 
   return (
     <>
@@ -373,7 +397,9 @@ const EditBookmaker = (props: any) => {
                 >
                   <TextField
                     className="InputChild"
-                    onChange={handleChange}
+                    onChange={(e) => {
+                      handleChange(e);
+                    }}
                     name={"teamArate"}
                     inputRef={innerRefTeamA}
                     // onFocus={() => handleFocus(innerRefTeamA)}
@@ -400,7 +426,7 @@ const EditBookmaker = (props: any) => {
                 <TextField
                   className="InputChild"
                   disabled
-                  onChange={handleChange}
+                  onChange={(e) => handleChange(e)}
                   variant="standard"
                   value={localQuickBookmaker?.teamA?.lay}
                   InputProps={{
@@ -520,7 +546,7 @@ const EditBookmaker = (props: any) => {
                     className="InputChild"
                     variant="standard"
                     value={localQuickBookmaker?.teamB?.rate}
-                    onChange={handleChange}
+                    onChange={(e) => handleChange(e)}
                     name={"teamBrate"}
                     inputRef={innerRefTeamB}
                     type="number"
@@ -665,7 +691,7 @@ const EditBookmaker = (props: any) => {
                       className="InputChild"
                       variant="standard"
                       value={localQuickBookmaker?.teamC?.rate}
-                      onChange={handleChange}
+                      onChange={(e) => handleChange(e)}
                       name={"teamCrate"}
                       inputRef={innerRefTeamC}
                       type="number"

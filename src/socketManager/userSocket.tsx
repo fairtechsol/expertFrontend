@@ -12,4 +12,10 @@ export const userSocketService = {
   updateSessionRateClient: (callback: any) => {
     expertSocket.on("updateSessionRateClient", callback);
   },
+  updateMatchBettingRate: (data: any) => {
+    expertSocket.emit("updateMatchBettingRate", data);
+  },
+  updateMatchBettingRateClient: (callback: any) => {
+    expertSocket.emit("updateMatchBettingRate", callback);
+  },
 };

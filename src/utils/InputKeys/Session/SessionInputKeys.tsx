@@ -46,6 +46,7 @@ export const handleKeysMatchEvents = (
   });
 
   if (key === "enter" || key === "return") {
+    setIsBall(false);
     setLock((prev: any) => {
       return {
         ...prev,
