@@ -1,4 +1,5 @@
 const constants = {
+  apiPath: "http://3.89.232.255:6060",
   microServiceApiPath:
     process.env.NODE_ENV === "production"
       ? "http://3.89.232.255:3200"
