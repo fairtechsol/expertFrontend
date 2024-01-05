@@ -4,7 +4,7 @@ import { authSocketService } from "./authSocket";
 import { matchSocketService } from "./matchSocket";
 import { userSocketService } from "./userSocket";
 
-export const socket = io(baseUrls.socket, {
+export const socket = io(baseUrls.matchSocket, {
   transports: ["websocket"],
   auth: {
     token: `${sessionStorage.getItem("userToken")}`,

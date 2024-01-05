@@ -13,15 +13,21 @@ const MainLayout = () => {
 
   useEffect(() => {
     if (!sessionStorage.getItem("userToken")) {
-      navigate("/");
+      navigate("/expert/login");
       sessionStorage.clear();
-      socketService.disconnect();
-    } else {
-      socketService.connect();
-      socketService.auth.logout();
     }
     dispatch(getProfile());
   }, []);
+
+  useEffect(() => {
+    if (sessionStorage.getItem("userToken")) {
+      socketService.connect();
+      socketService.auth.logout();
+    }
+    return () => {
+      socketService.disconnect();
+    };
+  }, [sessionStorage.getItem("userToken")]);
 
   return (
     <>

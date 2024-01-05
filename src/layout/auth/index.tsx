@@ -9,7 +9,11 @@ const AuthLayout = () => {
   const navigate = useNavigate();
   useEffect(() => {
     if (sessionStorage.getItem("userToken")) {
-      navigate("/expert/match");
+      if (sessionStorage.getItem("forceChangePassword") == "true") {
+        navigate("/change-password");
+      } else {
+        navigate("/expert/match");
+      }
     }
   }, []);
 

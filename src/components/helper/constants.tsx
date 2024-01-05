@@ -1,19 +1,9 @@
 const constants = {
-  // apiBasePath: "http://159.65.154.97:3100/", // server url
-  // apiBasePath: "http://159.65.154.97:3300/", // server url
-  // apiBasePath: "http://139.59.88.49:3100/", // server url
-  // apiMicroBasePath: "http://localhost:3200", // server url
-  // microServiceApiPath: "http://139.59.88.49:3200",
-  apiBasePath: "http://3.89.232.255:6060", // server url
-  apiMicroBasePath: "https://3100dev.fairgame.club", // server url
-  // microServiceApiPath: "https://3200dev.fairgame.club",
-  microServiceApiPath: "http://3.89.232.255:3200",
-  // imageBasePath: "http://localhost:4000/public/images/", /// server image base pathpath
-  // apiBasePath: "http://localhost:3100/", // server url
-  // apiMicroBasePath: "http://localhost:3100", // server url
-  // microServiceApiPath: "http://localhost:3200",
-
-  // thirdPartyAPIBasePath: "http://3.23.22.210:4001/api/", // third party api url
+  apiPath: "http://3.89.232.255:6060",
+  microServiceApiPath:
+    process.env.NODE_ENV === "production"
+      ? "http://3.89.232.255:3200"
+      : "http://localhost:3200",
 
   //---------------------------------------User Roles--------------------------------------------------\\
 
