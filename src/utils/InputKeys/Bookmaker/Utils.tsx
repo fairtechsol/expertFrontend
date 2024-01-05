@@ -1,3 +1,5 @@
+import { socketService } from "../../../socketManager";
+
 export const handleSuspend = (
   back: number,
   lay: number,
@@ -23,6 +25,8 @@ export const handleSuspend = (
 };
 
 export const updateLocalQuickBookmaker = (
+  match: any,
+  Bid: string,
   teamKey: string,
   rate: number,
   lay: number,
@@ -37,6 +41,23 @@ export const updateLocalQuickBookmaker = (
       [teamKey]: { ...prev?.[teamKey], rate: +rate, lay: +lay },
     };
     return newBody;
+  });
+  setLocalQuickBookmaker((prev: any) => {
+    let data = {
+      matchId: match?.id,
+      id: Bid,
+      backTeamA: prev.teamA.rate,
+      backTeamB: prev.teamB.rate,
+      backTeamC: prev.teamC.rate,
+      layTeamA: prev.teamA.lay,
+      layTeamB: prev.teamB.lay,
+      layTeamC: prev.teamC.lay,
+      statusTeamA: "suspend",
+      statusTeamB: "suspend",
+      statusTeamC: "suspend",
+    };
+    socketService.user.updateMatchBettingRate(data);
+    return prev;
   });
 };
 
