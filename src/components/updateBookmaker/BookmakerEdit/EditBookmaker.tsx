@@ -8,9 +8,7 @@ import { handleKeysMatchEvents } from "../../../utils/InputKeys/Bookmaker/Bookma
 import { updateLocalQuickBookmaker } from "../../../utils/InputKeys/Bookmaker/Utils";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../store/store";
-import {
-  getBookmakerById,
-} from "../../../store/actions/addSession";
+import { getBookmakerById } from "../../../store/actions/addSession";
 
 const EditBookmaker = (props: any) => {
   const { add, match, Bid } = props;
@@ -358,6 +356,7 @@ const EditBookmaker = (props: any) => {
                   isDisabled={false}
                   onKeyEvent={(key, e) =>
                     handleKeysMatchEvents(
+                      Bid,
                       key,
                       e,
                       setLocalQuickBookmaker,
@@ -501,6 +500,7 @@ const EditBookmaker = (props: any) => {
                   isDisabled={false}
                   onKeyEvent={(key, e) =>
                     handleKeysMatchEvents(
+                      Bid,
                       key,
                       e,
                       setLocalQuickBookmaker,
@@ -646,6 +646,7 @@ const EditBookmaker = (props: any) => {
                     isDisabled={false}
                     onKeyEvent={(key, e) =>
                       handleKeysMatchEvents(
+                        Bid,
                         key,
                         e,
                         setLocalQuickBookmaker,

@@ -14,8 +14,28 @@ export const handleKeysMatchEvents = (
   setIsBall: any
 ) => {
   e.preventDefault();
-  setIsBall(false);
   setLock((prev: any) => {
+    if (
+      !prev?.isNo ||
+      !prev?.isYes ||
+      !prev?.isNoPercent ||
+      !prev?.isYesPercent
+    ) {
+      setIsBall(false);
+      setInputDetail((prev: any) => {
+        let data = {
+          matchId: match?.id,
+          id: betId,
+          noRate: prev?.leftNoRate,
+          yesRate: prev?.leftYesRate,
+          noPercent: prev?.leftNoRatePercent,
+          yesPercent: prev?.leftYesRatePercent,
+          status: "suspended",
+        };
+        socketService.user.updateSessionRate(data);
+        return prev;
+      });
+    }
     return {
       ...prev,
       isNo: true,
@@ -24,6 +44,7 @@ export const handleKeysMatchEvents = (
       isYesPercent: true,
     };
   });
+
   if (key === "enter" || key === "return") {
     setLock((prev: any) => {
       return {
@@ -37,12 +58,12 @@ export const handleKeysMatchEvents = (
     setInputDetail((prev: any) => {
       let data = {
         matchId: match?.id,
-        betId: betId,
+        id: betId,
         noRate: prev?.leftNoRate,
         yesRate: prev?.leftYesRate,
         noPercent: prev?.leftNoRatePercent,
         yesPercent: prev?.leftYesRatePercent,
-        status: "ACTIVE",
+        status: "active",
       };
       socketService.user.updateSessionRate(data);
       return prev;
@@ -166,6 +187,15 @@ export const handleKeysMatchEvents = (
   } else if (key === "d") {
     setIncGap(1);
     setIsPercent("");
+    setLock((prev: any) => {
+      return {
+        ...prev,
+        isNo: false,
+        isYes: false,
+        isNoPercent: false,
+        isYesPercent: false,
+      };
+    });
     setInputDetail((prev: any) => {
       if (+prev.leftYesRate + 1 <= 1000) {
         if (+prev.leftNoRate === +prev.leftYesRate) {
@@ -197,9 +227,31 @@ export const handleKeysMatchEvents = (
         return prev;
       }
     });
+    setInputDetail((prev: any) => {
+      let data = {
+        matchId: match?.id,
+        id: betId,
+        noRate: prev?.leftNoRate,
+        yesRate: prev?.leftYesRate,
+        noPercent: prev?.leftNoRatePercent,
+        yesPercent: prev?.leftYesRatePercent,
+        status: "active",
+      };
+      socketService.user.updateSessionRate(data);
+      return prev;
+    });
   } else if (key === "a") {
     setIncGap(1);
     setIsPercent("");
+    setLock((prev: any) => {
+      return {
+        ...prev,
+        isNo: false,
+        isYes: false,
+        isNoPercent: false,
+        isYesPercent: false,
+      };
+    });
     setInputDetail((prev: any) => {
       if (+prev.leftNoRate - 1 >= 0) {
         if (+prev.leftNoRate === +prev.leftYesRate) {
@@ -231,6 +283,19 @@ export const handleKeysMatchEvents = (
         return prev;
       }
     });
+    setInputDetail((prev: any) => {
+      let data = {
+        matchId: match?.id,
+        id: betId,
+        noRate: prev?.leftNoRate,
+        yesRate: prev?.leftYesRate,
+        noPercent: prev?.leftNoRatePercent,
+        yesPercent: prev?.leftYesRatePercent,
+        status: "active",
+      };
+      socketService.user.updateSessionRate(data);
+      return prev;
+    });
   } else if (key === "esc") {
     setInputDetail((prev: any) => {
       return {
@@ -245,6 +310,19 @@ export const handleKeysMatchEvents = (
     });
   } else if (key === "shift") {
     setIsBall(true);
+    setInputDetail((prev: any) => {
+      let data = {
+        matchId: match?.id,
+        id: betId,
+        noRate: prev?.leftNoRate,
+        yesRate: prev?.leftYesRate,
+        noPercent: prev?.leftNoRatePercent,
+        yesPercent: prev?.leftYesRatePercent,
+        status: "ball start",
+      };
+      socketService.user.updateSessionRate(data);
+      return prev;
+    });
   } else if (key === ",") {
     setIsPercent("percent");
     setIncGap(5);
@@ -288,6 +366,15 @@ export const handleKeysMatchEvents = (
   } else if (key === "q") {
     setIsPercent("percent");
     setIncGap(5);
+    setLock((prev: any) => {
+      return {
+        ...prev,
+        isNo: false,
+        isYes: false,
+        isNoPercent: false,
+        isYesPercent: false,
+      };
+    });
     setInputDetail((prev: any) => {
       if (+prev.leftNoRate - 1 >= 0) {
         return {
@@ -305,9 +392,31 @@ export const handleKeysMatchEvents = (
         return prev;
       }
     });
+    setInputDetail((prev: any) => {
+      let data = {
+        matchId: match?.id,
+        id: betId,
+        noRate: prev?.leftNoRate,
+        yesRate: prev?.leftYesRate,
+        noPercent: prev?.leftNoRatePercent,
+        yesPercent: prev?.leftYesRatePercent,
+        status: "active",
+      };
+      socketService.user.updateSessionRate(data);
+      return prev;
+    });
   } else if (key === "e") {
     setIsPercent("percent");
     setIncGap(5);
+    setLock((prev: any) => {
+      return {
+        ...prev,
+        isNo: false,
+        isYes: false,
+        isNoPercent: false,
+        isYesPercent: false,
+      };
+    });
     setInputDetail((prev: any) => {
       if (+prev.leftNoRate + 1 <= 1000) {
         return {
@@ -324,6 +433,19 @@ export const handleKeysMatchEvents = (
       } else {
         return prev;
       }
+    });
+    setInputDetail((prev: any) => {
+      let data = {
+        matchId: match?.id,
+        id: betId,
+        noRate: prev?.leftNoRate,
+        yesRate: prev?.leftYesRate,
+        noPercent: prev?.leftNoRatePercent,
+        yesPercent: prev?.leftYesRatePercent,
+        status: "active",
+      };
+      socketService.user.updateSessionRate(data);
+      return prev;
     });
   }
 };

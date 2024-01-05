@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Box, Typography } from "@mui/material";
 import RunsAmountBox from "./RunsAmountBox";
 import SessionResultModal from "../SessionResult/SessionResultModal";
@@ -6,6 +6,7 @@ import AddSessionInput from "./AddSessionInput";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../store/store";
 import { addSession, getSessionById } from "../../../store/actions/addSession";
+import { socketService } from "../../../socketManager";
 
 const stateDetail = {
   match_id: "",
@@ -21,16 +22,16 @@ const stateDetail = {
   yesRate: "",
   yesRatePercent: "",
   noRatePercent: "",
-  suspended: "ACTIVE",
+  status: "active",
 };
 
-const SessionAddComponent = React.forwardRef((props: any, ref: any) => {
+const SessionAddComponent = (props: any) => {
   const dispatch: AppDispatch = useDispatch();
+  const inputRef: any = useRef(null);
   const { createSession, sessionEvent, match } = props;
   const { sessionById, success } = useSelector(
     (state: RootState) => state.addSession
   );
-  const [isCreateSession] = useState(createSession);
 
   const [loading] = useState(false);
   const [incGap, setIncGap] = useState<number>(1);
@@ -92,7 +93,28 @@ const SessionAddComponent = React.forwardRef((props: any, ref: any) => {
     };
     dispatch(addSession(payload));
   };
-  console.log(ref);
+
+  const handleLiveChange = (yesRatePercent: number, noRatePercent: number) => {
+    let data = {
+      matchId: match?.id,
+      id: betId,
+      noRate: inputDetail?.leftNoRate,
+      yesRate: inputDetail?.leftYesRate,
+      noPercent: noRatePercent,
+      yesPercent: yesRatePercent,
+      status: "active",
+    };
+
+    setLock({
+      ...lock,
+      isNo: inputDetail.leftNoRate > 0 ? false : true,
+      isYes: false,
+      isNoPercent: false,
+      isYesPercent: false,
+    });
+    setIsBall(false);
+    socketService.user.updateSessionRate(data);
+  };
 
   useEffect(() => {
     if (sessionEvent?.id) {
@@ -103,11 +125,38 @@ const SessionAddComponent = React.forwardRef((props: any, ref: any) => {
         })
       );
       setBetId(sessionEvent?.id);
+    } else if (createSession) {
+      setBetId("");
     }
   }, [sessionEvent?.id]);
 
   useEffect(() => {
-    if (sessionById !== null) {
+    if (!createSession && sessionById !== null) {
+      if (sessionById?.status === "suspended") {
+        setIsBall(false);
+        setLock({
+          isNo: true,
+          isYes: true,
+          isNoPercent: true,
+          isYesPercent: true,
+        });
+      } else if (sessionById?.status === "ball start") {
+        setIsBall(true);
+        setLock({
+          isNo: false,
+          isYes: false,
+          isNoPercent: false,
+          isYesPercent: false,
+        });
+      } else {
+        setIsBall(false);
+        setLock({
+          isNo: false,
+          isYes: false,
+          isNoPercent: false,
+          isYesPercent: false,
+        });
+      }
       setInputDetail((prev: any) => {
         return {
           ...prev,
@@ -122,8 +171,31 @@ const SessionAddComponent = React.forwardRef((props: any, ref: any) => {
           noRatePercent: Math.floor(sessionById?.noPercent),
         };
       });
+    } else {
+      setIsBall(false);
+      setLock({
+        isNo: true,
+        isYes: true,
+        isNoPercent: true,
+        isYesPercent: true,
+      });
+      setInputDetail(stateDetail);
     }
-  }, [sessionById, success]);
+    socketService.user.updateSessionRateClient((data: any) => {
+      if (data?.id === betId && data?.matchId === match?.id) {
+        setInputDetail((prev: any) => {
+          return {
+            ...prev,
+            noRate: data?.noRate,
+            yesRate: data?.yesRate,
+            yesRatePercent: data?.yesPercent,
+            noRatePercent: data?.noPercent,
+            status: data?.status,
+          };
+        });
+      }
+    });
+  }, [sessionById, success, createSession]);
 
   return (
     <Box
@@ -164,11 +236,10 @@ const SessionAddComponent = React.forwardRef((props: any, ref: any) => {
             isBall={isBall}
             setIsBall={setIsBall}
             createSession={createSession}
-            isCreateSession={isCreateSession}
             betId={betId}
             // socket={socket}
             // sessionEvent={sessionEvent}
-            // inputRef={inputRef}
+            inputRef={inputRef}
             // sessionBetId={sessionBetId}
             match={match}
             // isDisable={isDisable}
@@ -202,13 +273,13 @@ const SessionAddComponent = React.forwardRef((props: any, ref: any) => {
                           noRatePercent: parseInt(noRatePercent),
                         };
                       });
-                      // handleLiveChange(
-                      //   parseInt(yesRatePercent),
-                      //   parseInt(noRatePercent)
-                      // );
-                      // if (inputRef.current) {
-                      //   inputRef.current.focus();
-                      // }
+                      handleLiveChange(
+                        parseInt(yesRatePercent),
+                        parseInt(noRatePercent)
+                      );
+                      if (inputRef.current) {
+                        inputRef.current.focus();
+                      }
                     }
                   }}
                   key={index}
@@ -244,7 +315,7 @@ const SessionAddComponent = React.forwardRef((props: any, ref: any) => {
               mt: "14px",
             }}
           >
-            {!isCreateSession ? (
+            {!createSession ? (
               <>
                 {isDisable && showUndeclare && (
                   <Box
@@ -472,7 +543,7 @@ const SessionAddComponent = React.forwardRef((props: any, ref: any) => {
         </Box>
 
         <Box sx={{ marginLeft: "15px", width: "30%" }}>
-          {!isCreateSession ? (
+          {!createSession ? (
             <RunsAmountBox
             // betId={betId}
             // currentOdds={currentOdds?.bet_id === betId ? currentOdds : null}
@@ -485,6 +556,6 @@ const SessionAddComponent = React.forwardRef((props: any, ref: any) => {
       </Box>
     </Box>
   );
-});
+};
 
 export default SessionAddComponent;

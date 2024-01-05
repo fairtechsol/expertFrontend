@@ -161,7 +161,7 @@ const Header1 = () => {
                     color: currentSelected == 1 ? "green" : "white",
                   }}
                 />
-                {activeUser != "3" && (
+                {/* {activeUser != "3" && (
                   <NavLink
                     to={"/expert/live"}
                     style={{ textDecoration: "none" }}
@@ -184,7 +184,7 @@ const Header1 = () => {
                       }}
                     />
                   </NavLink>
-                )}
+                )} */}
                 {
                   <NavLink
                     to={"expert/match"}

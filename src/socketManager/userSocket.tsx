@@ -9,9 +9,7 @@ export const userSocketService = {
   updateSessionRate: (data: any) => {
     expertSocket.emit("updateSessionRate", data);
   },
-  updateSessionRateClient: () => {
-    expertSocket.on("updateSessionRateClient", (packet: any) => {
-      console.log(packet);
-    });
+  updateSessionRateClient: (callback: any) => {
+    expertSocket.on("updateSessionRateClient", callback);
   },
 };

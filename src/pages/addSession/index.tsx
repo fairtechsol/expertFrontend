@@ -3,11 +3,9 @@ import SessionResult from "../../components/addSession/SessionResult/SessionResu
 import SessionInputFields from "../../components/addSession/AddSession/SessionAddComponent";
 import DailogModal from "../../components/helper/DailogModal";
 import BetsList from "../../components/addSession/BetList";
-import { useRef } from "react";
 import { useLocation } from "react-router-dom";
 
 const AddSession = () => {
-  const childRef = useRef(null);
   const { state } = useLocation();
   return (
     <Box>
@@ -18,7 +16,6 @@ const AddSession = () => {
               createSession={state?.createSession}
               sessionEvent={state?.sessionEvent}
               match={state?.match}
-              ref={childRef}
             />
           </Paper>
           <Paper style={{ margin: "10px" }}>
