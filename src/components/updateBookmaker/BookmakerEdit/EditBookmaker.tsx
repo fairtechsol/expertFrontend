@@ -15,7 +15,7 @@ import {
 import { socketService } from "../../../socketManager";
 
 const EditBookmaker = (props: any) => {
-  const { add, match, Bid } = props;
+  const { add, match, Bid, type } = props;
   const dispatch: AppDispatch = useDispatch();
 
   const { bookmakerById, success } = useSelector(
@@ -102,6 +102,7 @@ const EditBookmaker = (props: any) => {
         updateLocalQuickBookmaker(
           match,
           Bid,
+          type,
           "teamA",
           +value,
           +value + 1,
@@ -111,6 +112,7 @@ const EditBookmaker = (props: any) => {
         updateLocalQuickBookmaker(
           match,
           Bid,
+          type,
           "teamB",
           +value,
           +value + 1,
@@ -120,6 +122,7 @@ const EditBookmaker = (props: any) => {
         updateLocalQuickBookmaker(
           match,
           Bid,
+          type,
           "teamC",
           +value,
           +value + 1,
@@ -381,6 +384,7 @@ const EditBookmaker = (props: any) => {
                   onKeyEvent={(key, e) =>
                     handleKeysMatchEvents(
                       Bid,
+                      type,
                       key,
                       e,
                       setLocalQuickBookmaker,
@@ -527,6 +531,7 @@ const EditBookmaker = (props: any) => {
                   onKeyEvent={(key, e) =>
                     handleKeysMatchEvents(
                       Bid,
+                      type,
                       key,
                       e,
                       setLocalQuickBookmaker,
@@ -673,6 +678,7 @@ const EditBookmaker = (props: any) => {
                     onKeyEvent={(key, e) =>
                       handleKeysMatchEvents(
                         Bid,
+                        type,
                         key,
                         e,
                         setLocalQuickBookmaker,
