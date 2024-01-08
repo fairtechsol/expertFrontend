@@ -72,7 +72,7 @@ const BookmakerEditSection = ({ add, match, bookmakerId, type }: Props) => {
             flexDirection: "column",
           }}
         >
-          <EditBookmaker add={add} match={match} bookmakerId={bookmakerId} />
+          <EditBookmaker add={add} match={match} Bid={bookmakerId} type={type} />
         </Box>
       </Box>
     </Box>

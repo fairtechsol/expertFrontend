@@ -3,6 +3,7 @@ import { handleHunderedValue, handleSuspend, handleZeroValue } from "./Utils";
 
 export const handleKeysMatchEvents = (
   Bid: any,
+  type: any,
   key: any,
   e: any,
   setLocalQuickBookmaker: any,
@@ -18,21 +19,33 @@ export const handleKeysMatchEvents = (
   e.preventDefault();
   let targetValue = e.target.value;
   setLocalQuickBookmaker((prev: any) => {
-    let data = {
-      matchId: match?.id,
-      id: Bid,
-      backTeamA: prev.teamA.rate,
-      backTeamB: prev.teamB.rate,
-      backTeamC: prev.teamC.rate,
-      layTeamA: prev.teamA.lay,
-      layTeamB: prev.teamB.lay,
-      layTeamC: prev.teamC.lay,
-      statusTeamA: "suspend",
-      statusTeamB: "suspend",
-      statusTeamC: "suspend",
+    if (
+      !prev.teamA.suspended ||
+      !prev.teamB.suspended ||
+      !prev.teamC.suspended
+    ) {
+      let data = {
+        matchId: match?.id,
+        id: Bid,
+        type: type,
+        backTeamA: prev.teamA.rate,
+        backTeamB: prev.teamB.rate,
+        backTeamC: prev.teamC.rate,
+        layTeamA: prev.teamA.lay,
+        layTeamB: prev.teamB.lay,
+        layTeamC: prev.teamC.lay,
+        statusTeamA: "suspend",
+        statusTeamB: "suspend",
+        statusTeamC: "suspend",
+      };
+      socketService.user.updateMatchBettingRate(data);
+    }
+    return {
+      ...prev,
+      teamA: { ...prev.teamA, suspended: true },
+      teamB: { ...prev.teamB, suspended: true },
+      teamC: { ...prev.teamC, suspended: true },
     };
-    socketService.user.updateMatchBettingRate(data);
-    return prev;
   });
   if (key === "shift") {
     setLocalQuickBookmaker((prev: any) => {
@@ -45,6 +58,7 @@ export const handleKeysMatchEvents = (
       let data = {
         matchId: match?.id,
         id: Bid,
+        type: type,
         backTeamA: prev.teamA.rate,
         backTeamB: prev.teamB.rate,
         backTeamC: prev.teamC.rate,
@@ -446,6 +460,7 @@ export const handleKeysMatchEvents = (
         let data = {
           matchId: match?.id,
           id: Bid,
+          type: type,
           backTeamA: prev.teamA.rate,
           backTeamB: prev.teamB.rate,
           backTeamC: prev.teamC.rate,

@@ -36,8 +36,10 @@ service.interceptors.request.use(
 
 service.interceptors.response.use(
   (response) => {
-    if (response.data?.message) {
-      toast.success(response.data?.message, toastOptions);
+    const isGetRequest = response.config.method === "get";
+
+    if (!isGetRequest && response.data?.message) {
+      toast.success(response.data.message, toastOptions);
     }
     return response.data;
   },

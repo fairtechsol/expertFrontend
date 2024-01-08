@@ -27,6 +27,7 @@ export const handleSuspend = (
 export const updateLocalQuickBookmaker = (
   match: any,
   Bid: string,
+  type: any,
   teamKey: string,
   rate: number,
   lay: number,
@@ -43,20 +44,27 @@ export const updateLocalQuickBookmaker = (
     return newBody;
   });
   setLocalQuickBookmaker((prev: any) => {
-    let data = {
-      matchId: match?.id,
-      id: Bid,
-      backTeamA: prev.teamA.rate,
-      backTeamB: prev.teamB.rate,
-      backTeamC: prev.teamC.rate,
-      layTeamA: prev.teamA.lay,
-      layTeamB: prev.teamB.lay,
-      layTeamC: prev.teamC.lay,
-      statusTeamA: "suspend",
-      statusTeamB: "suspend",
-      statusTeamC: "suspend",
-    };
-    socketService.user.updateMatchBettingRate(data);
+    if (
+      !prev.teamA.suspended ||
+      !prev.teamB.suspended ||
+      !prev.teamC.suspended
+    ) {
+      let data = {
+        matchId: match?.id,
+        id: Bid,
+        type: type,
+        backTeamA: prev.teamA.rate,
+        backTeamB: prev.teamB.rate,
+        backTeamC: prev.teamC.rate,
+        layTeamA: prev.teamA.lay,
+        layTeamB: prev.teamB.lay,
+        layTeamC: prev.teamC.lay,
+        statusTeamA: "suspend",
+        statusTeamB: "suspend",
+        statusTeamC: "suspend",
+      };
+      socketService.user.updateMatchBettingRate(data);
+    }
     return prev;
   });
 };
