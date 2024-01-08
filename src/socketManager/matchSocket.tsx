@@ -1,17 +1,28 @@
-import { expertSocket } from ".";
+import { matchSocket, socket } from ".";
 
 export const matchSocketService = {
-  joinMatchRoom: (matchId: any) => {
-    expertSocket.emit("matchRoom", {
-      match: {
-        id: matchId,
-      },
+  joinMatchRoom: (matchId: any, roleName?: any) => {
+    socket.emit("matchRoom", {
+      id: matchId,
+    });
+
+    matchSocket.emit("initCricketData", {
+      matchId: matchId,
+      roleName: roleName,
+    });
+  },
+  leaveMatchRoom: (matchId: any) => {
+    matchSocket.emit("disconnectCricketData", {
+      matchId: matchId,
     });
   },
   leaveAllRooms: () => {
-    expertSocket.emit("leaveAll");
+    socket.emit("leaveAll");
   },
   matchAdded: (callback: any) => {
-    expertSocket.on("addMatch", callback);
+    socket.on("addMatch", callback);
+  },
+  getMatchRates: (matchId: string, callback: any) => {
+    matchSocket.on(`liveData${matchId}`, callback);
   },
 };

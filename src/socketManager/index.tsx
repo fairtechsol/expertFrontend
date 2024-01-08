@@ -4,14 +4,14 @@ import { authSocketService } from "./authSocket";
 import { matchSocketService } from "./matchSocket";
 import { userSocketService } from "./userSocket";
 
-export const socket = io(baseUrls.matchSocket, {
+export const matchSocket = io(baseUrls.matchSocket, {
   transports: ["websocket"],
   auth: {
     token: `${sessionStorage.getItem("userToken")}`,
   },
 });
 
-export const expertSocket = io(baseUrls.expertSocket, {
+export const socket = io(baseUrls.expertSocket, {
   transports: ["websocket"],
   auth: {
     token: `${sessionStorage.getItem("userToken")}`,
@@ -22,12 +22,12 @@ export const socketService = {
   connect: () => {
     // Connect to the socket server
     socket.connect();
-    expertSocket.connect();
+    matchSocket.connect();
   },
   disconnect: () => {
     // Disconnect from the socket server
     socket.disconnect();
-    expertSocket.disconnect();
+    matchSocket.disconnect();
   },
   auth: { ...authSocketService },
   user: { ...userSocketService },
