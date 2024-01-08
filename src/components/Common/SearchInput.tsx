@@ -14,7 +14,7 @@ const SearchInput = (props: any) => {
     width,
     searchContainerStyle,
     onChange,
-    getListOfUser,
+    handleSearch,
   } = props;
 
   const theme = useTheme();
@@ -27,7 +27,7 @@ const SearchInput = (props: any) => {
       onChange(value);
     }
     try {
-      getListOfUser(value);
+      handleSearch(value);
     } catch (e) {
       console.log(e);
     }
@@ -68,11 +68,12 @@ const SearchInput = (props: any) => {
           <TextField
             variant="standard"
             placeholder={placeholder}
+            autoComplete="off"
             // value={searchValue}
             onChange={handleInputChange}
             InputProps={{
               disableUnderline: true,
-              autoComplete: "new-password",
+              autoComplete: "off",
               style: {
                 fontSize: "12px",
                 fontWeight: "600",
@@ -93,12 +94,14 @@ const SearchInput = (props: any) => {
           <TextField
             variant="standard"
             placeholder={placeholder}
+            autoComplete="off"
             // value={searchValue}
             onChange={handleInputChange}
             InputProps={{
+              
               disableUnderline: true,
-              autoComplete: "new-password",
-
+              // autoComplete: "new-password",
+              autoComplete: "off",
               style: {
                 fontSize: "12px",
                 fontWeight: "600",
