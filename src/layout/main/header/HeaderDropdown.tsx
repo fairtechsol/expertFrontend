@@ -15,7 +15,7 @@ const menutItems = [
   { title: "Market", navigateTo: "add_book_maker" },
   { title: "Add Book Maker", navigateTo: "add_book_maker" },
   { title: "Add Match", navigateTo: "add_match" },
-  { title: "Change Password", navigateTo: "change_password" },
+  { title: "Change Password", navigateTo: "change-password" },
 ];
 const HeaderDropdown = (props: any) => {
   const { anchorEl, open, handleClose } = props;
