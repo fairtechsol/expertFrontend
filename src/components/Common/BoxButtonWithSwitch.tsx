@@ -1,9 +1,11 @@
 import { Box, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import { updateMatchActiveStatus } from "../../store/actions/match/matchAction";
-import { AppDispatch } from "../../store/store";
+// import { useDispatch } from "react-redux";
+// import { updateMatchActiveStatus } from "../../store/actions/match/matchAction";
+// import { AppDispatch } from "../../store/store";
 import { MaterialUISwitch } from "../matchList/materialUiSwitch";
+import service from "../../service";
+import { ApiConstants } from "../../utils/Constants";
 
 const BoxButtonWithSwitch = (props: any) => {
   const {
@@ -18,7 +20,7 @@ const BoxButtonWithSwitch = (props: any) => {
     isManualBet,
     matchBettingType,
   } = props;
-  const dispatch: AppDispatch = useDispatch();
+  // const dispatch: AppDispatch = useDispatch();
   const [background, setBackground] = useState<string>("#0B4F26");
   const value = updateMatchStatus[place]?.val;
   const [checked, setChecked] = useState<boolean>(value || false);
@@ -30,6 +32,10 @@ const BoxButtonWithSwitch = (props: any) => {
       setBackground("#FF4D4D");
     }
   }, [checked]);
+
+  // useEffect(() => {
+  // setChecked(value);
+  // }, [value]);
 
   return (
     <Box
@@ -72,7 +78,8 @@ const BoxButtonWithSwitch = (props: any) => {
       {
         <MaterialUISwitch
           checked={checked}
-          onChange={() => {
+          disabled={disable}
+          onChange={async () => {
             try {
               if (!disable) {
                 let payload = {
@@ -81,15 +88,21 @@ const BoxButtonWithSwitch = (props: any) => {
                   isActive: !checked,
                   isManualBet: isManualBet,
                 };
-                dispatch(updateMatchActiveStatus(payload));
-                setChecked(!checked);
-                setUpdateMatchStatus((prevStatus: any) => ({
-                  ...prevStatus,
-                  [place]: {
-                    ...prevStatus[place],
-                    val: !checked,
-                  },
-                }));
+                // dispatch(updateMatchActiveStatus(payload));
+                const resp: any = await service.post(
+                  ApiConstants.MATCH.UPDATEACTIVESTATUS,
+                  payload
+                );
+                if (resp?.statusCode === 200) {
+                  setChecked(!checked);
+                  setUpdateMatchStatus((prevStatus: any) => ({
+                    ...prevStatus,
+                    [place]: {
+                      ...prevStatus[place],
+                      val: !checked,
+                    },
+                  }));
+                }
               } else {
                 alert("You don't have privilege to change status.");
               }

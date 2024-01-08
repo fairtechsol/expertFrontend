@@ -5,6 +5,7 @@ import BackgroundLayout from "../../components/Common/BackgroundLayout";
 import { getProfile } from "../../store/actions/user/userAction";
 import { AppDispatch } from "../../store/store";
 import Header from "./header";
+import { socketService } from "../../socketManager";
 
 const MainLayout = () => {
   const navigate = useNavigate();
@@ -12,10 +13,21 @@ const MainLayout = () => {
 
   useEffect(() => {
     if (!sessionStorage.getItem("userToken")) {
-      navigate("/");
+      navigate("/expert/login");
+      sessionStorage.clear();
     }
     dispatch(getProfile());
-  }, [dispatch]);
+  }, []);
+
+  useEffect(() => {
+    if (sessionStorage.getItem("userToken")) {
+      socketService.connect();
+      socketService.auth.logout();
+    }
+    return () => {
+      socketService.disconnect();
+    };
+  }, [sessionStorage.getItem("userToken")]);
 
   return (
     <>

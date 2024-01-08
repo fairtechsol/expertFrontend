@@ -219,7 +219,7 @@ const MenutItemsComponent = ({
               sx={{ marginTop: "5px", display: "flex", alignItems: "center" }}
             >
               <Typography sx={{ fontSize: "12px", fontWeight: "600" }}>
-                Add Bookmaker
+                Bookmakers
               </Typography>
               <StyledImage
                 src={ArrowLeft}
@@ -231,7 +231,7 @@ const MenutItemsComponent = ({
               sx={{ marginTop: "5px", display: "flex", alignItems: "center" }}
             >
               <Typography sx={{ fontSize: "12px", fontWeight: "600" }}>
-                Add Bookmaker
+                Bookmakers
               </Typography>
               <StyledImage
                 src={ArrowLeft}
@@ -241,7 +241,7 @@ const MenutItemsComponent = ({
           ) : null}
           {getProfile.allPrivilege
             ? matchListDropdown?.map((event: any) => {
-                if (event.id === x.id) {
+                if (event?.id === x?.id) {
                   return (
                     <>
                       {event?.bookmakers?.map((element: any) => {
@@ -250,7 +250,11 @@ const MenutItemsComponent = ({
                             key={element.id}
                             onClick={() => {
                               navigate("/expert/add_book_maker", {
-                                state: { id: element.id, match: x },
+                                state: {
+                                  id: element.id,
+                                  match: x,
+                                  type: element?.type,
+                                },
                               });
                               handleClose();
                             }}
@@ -283,7 +287,11 @@ const MenutItemsComponent = ({
                             key={element.id}
                             onClick={() => {
                               navigate("/expert/add_book_maker", {
-                                state: { id: element.id, match: x },
+                                state: {
+                                  id: element.id,
+                                  match: x,
+                                  type: element?.type,
+                                },
                               });
                               handleClose();
                             }}

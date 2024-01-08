@@ -2,13 +2,7 @@ import { useState } from "react";
 import { Menu } from "@mui/material";
 import MenutItemsComponent from "./MenutItemsComponent";
 
-const DropDownMenu = ({
-  anchorEl,
-  open,
-  handleClose,
-  allMatch,
-  allLiveEventSession,
-}: any) => {
+const DropDownMenu = ({ anchorEl, open, handleClose, allMatch }: any) => {
   const [selected, setSelected] = useState(0);
 
   return (

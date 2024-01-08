@@ -9,7 +9,11 @@ const AuthLayout = () => {
   const navigate = useNavigate();
   useEffect(() => {
     if (sessionStorage.getItem("userToken")) {
-      navigate("/expert/match");
+      if (sessionStorage.getItem("forceChangePassword") == "true") {
+        navigate("/change-password");
+      } else {
+        navigate("/expert/match");
+      }
     }
   }, []);
 
@@ -45,7 +49,7 @@ const AuthLayout = () => {
               alt="Fairgame"
               sx={{ height: "8%", width: "300px" }}
             />
-            <Outlet />;
+            <Outlet />
           </Box>
         </Box>
       </Box>

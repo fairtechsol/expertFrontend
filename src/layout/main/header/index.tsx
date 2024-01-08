@@ -1,6 +1,6 @@
 import { AppBar, Box, useMediaQuery, useTheme } from "@mui/material";
 import ModalMUI from "@mui/material/Modal";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";
 import { Draw, FgLogo, NotiBadge, Users } from "../../../assets";
@@ -13,6 +13,7 @@ import ActiveUsers from "./ActiveUsers";
 import BoxProfile from "./BoxProfile";
 import DropDownMenu from "./DropDownMenu";
 import { getMatchListDropdown } from "../../../store/actions/match/matchAction";
+import { socketService } from "../../../socketManager";
 
 const Header1 = () => {
   const theme = useTheme();
@@ -21,6 +22,7 @@ const Header1 = () => {
   const navigate = useNavigate();
   const [visible, setVisible] = useState(false);
   const [activeUser] = useState<any>("2");
+  const [userCount, setUserCount] = useState<number>(0);
   const [currentSelected, setSelected] = useState<any>(4);
   const [anchor, setAnchor] = useState(null);
 
@@ -28,6 +30,10 @@ const Header1 = () => {
   const { matchListDropdown } = useSelector(
     (state: RootState) => state.matchList
   );
+
+  useEffect(() => {
+    socketService.user.userCount(setUserCount);
+  }, []);
 
   return (
     <>
@@ -155,7 +161,7 @@ const Header1 = () => {
                     color: currentSelected == 1 ? "green" : "white",
                   }}
                 />
-                {activeUser != "3" && (
+                {/* {activeUser != "3" && (
                   <NavLink
                     to={"/expert/live"}
                     style={{ textDecoration: "none" }}
@@ -178,7 +184,7 @@ const Header1 = () => {
                       }}
                     />
                   </NavLink>
-                )}
+                )} */}
                 {
                   <NavLink
                     to={"expert/match"}
@@ -240,7 +246,11 @@ const Header1 = () => {
               />
             </Box>
             <Box sx={{ display: "flex", alignItems: "center" }}>
-              <ActiveUsers containerStyle={{}} image={Users} value={"2"} />
+              <ActiveUsers
+                containerStyle={{}}
+                image={Users}
+                value={userCount}
+              />
               <BoxProfile
                 containerStyle={{ marginTop: "0" }}
                 image={"https://picsum.photos/200/300"}

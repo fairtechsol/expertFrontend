@@ -1,3 +1,5 @@
+import { socketService } from "../../../socketManager";
+
 export const handleSuspend = (
   back: number,
   lay: number,
@@ -23,20 +25,47 @@ export const handleSuspend = (
 };
 
 export const updateLocalQuickBookmaker = (
+  match: any,
+  Bid: string,
+  type: any,
   teamKey: string,
-  rate: number,
+  back: number,
   lay: number,
   setLocalQuickBookmaker: any
 ) => {
   setLocalQuickBookmaker((prev: any) => {
     const newBody = {
       ...prev,
-      teamA: { ...prev?.teamA, rate: "", lay: "", suspended: true },
-      teamB: { ...prev?.teamB, rate: "", lay: "", suspended: true },
-      teamC: { ...prev?.teamC, rate: "", lay: "", suspended: true },
-      [teamKey]: { ...prev?.[teamKey], rate: +rate, lay: +lay },
+      teamA: { ...prev?.teamA, back: 0, lay: 0, suspended: true },
+      teamB: { ...prev?.teamB, back: 0, lay: 0, suspended: true },
+      teamC: { ...prev?.teamC, back: 0, lay: 0, suspended: true },
+      [teamKey]: { ...prev?.[teamKey], back: +back, lay: +lay },
     };
     return newBody;
+  });
+  setLocalQuickBookmaker((prev: any) => {
+    if (
+      !prev.teamA.suspended ||
+      !prev.teamB.suspended ||
+      !prev.teamC.suspended
+    ) {
+      let data = {
+        matchId: match?.id,
+        id: Bid,
+        type: type,
+        backTeamA: prev.teamA.back,
+        backTeamB: prev.teamB.back,
+        backTeamC: prev.teamC.back,
+        layTeamA: prev.teamA.lay,
+        layTeamB: prev.teamB.lay,
+        layTeamC: prev.teamC.lay,
+        statusTeamA: "suspended",
+        statusTeamB: "suspended",
+        statusTeamC: "suspended",
+      };
+      socketService.user.updateMatchBettingRate(data);
+    }
+    return prev;
   });
 };
 

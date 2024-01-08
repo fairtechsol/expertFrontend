@@ -1,6 +1,7 @@
 import { createReducer } from "@reduxjs/toolkit";
 import {
   addSession,
+  getBookmakerById,
   getSessionById,
   sessionByIdReset,
   successReset,
@@ -8,12 +9,14 @@ import {
 
 interface InitialState {
   sessionById: any;
+  bookmakerById: any;
   success: boolean;
   loading: boolean;
 }
 
 const initialState: InitialState = {
   sessionById: null,
+  bookmakerById: null,
   success: false,
   loading: false,
 };
@@ -22,8 +25,10 @@ export const addSessionReducers = createReducer(initialState, (builder) => {
   builder
     .addCase(addSession.pending, (state) => {
       state.loading = true;
+      state.success = false;
     })
-    .addCase(addSession.fulfilled, (state) => {
+    .addCase(addSession.fulfilled, (state, action) => {
+      state.sessionById = action.payload;
       state.loading = false;
       state.success = true;
     })
@@ -32,6 +37,7 @@ export const addSessionReducers = createReducer(initialState, (builder) => {
     })
     .addCase(getSessionById.pending, (state) => {
       state.loading = true;
+      state.success = false;
     })
     .addCase(getSessionById.fulfilled, (state, action) => {
       state.sessionById = action.payload;
@@ -39,6 +45,18 @@ export const addSessionReducers = createReducer(initialState, (builder) => {
       state.success = true;
     })
     .addCase(getSessionById.rejected, (state) => {
+      state.loading = false;
+    })
+    .addCase(getBookmakerById.pending, (state) => {
+      state.loading = true;
+      state.success = false;
+    })
+    .addCase(getBookmakerById.fulfilled, (state, action) => {
+      state.bookmakerById = action.payload;
+      state.loading = false;
+      state.success = true;
+    })
+    .addCase(getBookmakerById.rejected, (state) => {
       state.loading = false;
     })
     .addCase(sessionByIdReset, (state) => {

@@ -13,7 +13,7 @@ const AddSessionInput = (props: any) => {
     inputRef,
     lock,
     isBall,
-    isCreateSession,
+    createSession,
     live,
     isDisable,
     setLock,
@@ -22,6 +22,7 @@ const AddSessionInput = (props: any) => {
     isPercent,
     setIsPercent,
     setIsBall,
+    match,
   } = props;
 
   // const handleSuspend = () => {};
@@ -64,7 +65,7 @@ const AddSessionInput = (props: any) => {
             component={"span"}
             sx={{ color: "white", fontWeight: "600", fontSize: "12px" }}
           >
-            {isCreateSession ? "Add" : "Your"} Session
+            {createSession ? "Add" : "Your"} Session
           </Typography>
         </Box>
         <Box
@@ -114,7 +115,7 @@ const AddSessionInput = (props: any) => {
               });
             }}
             autoComplete="off"
-            disabled={betId ? true : false}
+            disabled={!createSession ? true : false}
             value={inputDetail.betCondition}
             variant="standard"
             InputProps={{
@@ -174,6 +175,8 @@ const AddSessionInput = (props: any) => {
                     isDisabled={false}
                     onKeyEvent={(key, e) =>
                       handleKeysMatchEvents(
+                        betId,
+                        match,
                         key,
                         e,
                         setInputDetail,

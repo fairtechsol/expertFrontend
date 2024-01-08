@@ -11,9 +11,9 @@ import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../../store/store";
 
 const menutItems = [
-  { title: "Bet Odds", navigateTo: "betodds" },
-  { title: "Market", navigateTo: "add_book_maker" },
-  { title: "Add Book Maker", navigateTo: "add_book_maker" },
+  // { title: "Bet Odds", navigateTo: "betodds" },
+  // { title: "Market", navigateTo: "add_book_maker" },
+  // { title: "Add Book Maker", navigateTo: "add_book_maker" },
   { title: "Add Match", navigateTo: "add_match" },
   { title: "Change Password", navigateTo: "change-password" },
 ];

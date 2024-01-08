@@ -18,10 +18,16 @@ export const ApiConstants = {
     ADD: "session/add",
     GET: "session",
   },
+  BOOKMAKER: {
+    GET: "matchBeting",
+  },
 };
 
 export const Constants = {
   pageLimit: 15,
+  apiBasePath: "http://3.89.232.255:5000",
+  expertSocketBasePath: "http://3.89.232.255:6060",
+  thirdParty: "http://3.89.232.255:3200",
 
   ///Routes Constants
 
@@ -41,4 +47,19 @@ export const Constants = {
     betOdds: "betOdds",
     changePassword: "change-password",
   },
+};
+
+export const baseUrls = {
+  socket:
+    process.env.NODE_ENV === "production"
+      ? `${Constants.apiBasePath}`
+      : "http://localhost:5000",
+  expertSocket:
+    process.env.NODE_ENV === "production"
+      ? `${Constants.expertSocketBasePath}`
+      : "http://localhost:6060",
+  matchSocket:
+    process.env.NODE_ENV === "production"
+      ? `${Constants.thirdParty}`
+      : "http://localhost:3200",
 };
