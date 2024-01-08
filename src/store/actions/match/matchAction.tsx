@@ -1,13 +1,13 @@
 import { createAction, createAsyncThunk } from "@reduxjs/toolkit";
 import { AxiosError } from "axios";
 import service from "../../../service";
-import { ApiConstants } from "../../../utils/Constants";
+import { ApiConstants, Constants } from "../../../utils/Constants";
 
-export const getMatchList = createAsyncThunk<any>("/match/list", async () => {
+export const getMatchList = createAsyncThunk<any, any>("/match/list", async (requestData) => {
   try {
-    const response = await service.get(`${ApiConstants.MATCH.LIST}`);
+    const response = await service.get(`${ApiConstants.MATCH.LIST}?searchBy=title&keyword=${requestData.keyword}&page=${requestData?.currentPage ? requestData?.currentPage : 1}&limit=${Constants.pageLimit}`);
     if (response) {
-      return response?.data?.matches;
+      return response?.data;
     }
   } catch (error) {
     const err = error as AxiosError;
