@@ -43,27 +43,30 @@ const EditBookmaker = (props: any) => {
 
   const [localQuickBookmaker, setLocalQuickBookmaker] = useState<any>({
     teamA: {
-      rate: "",
+      rightBack: 0,
+      rightLay: 0,
       lock: true,
       suspended: true,
-      lay: "",
-      back: "",
+      lay: 0,
+      back: 0,
       layLock: false,
     },
     teamB: {
-      rate: "",
+      rightBack: 0,
+      rightLay: 0,
       lock: true,
       suspended: true,
-      lay: "",
-      back: "",
+      lay: 0,
+      back: 0,
       layLock: false,
     },
     teamC: {
-      rate: "",
+      rightBack: 0,
+      rightLay: 0,
       lock: true,
       suspended: true,
-      lay: "",
-      back: "",
+      lay: 0,
+      back: 0,
       layLock: false,
     },
     teamBall: false,
@@ -145,53 +148,68 @@ const EditBookmaker = (props: any) => {
           ...prev,
           teamA: {
             ...prev.teamA,
-            back: bookmakerById?.backTeamA,
-            lay: bookmakerById?.layTeamA ? bookmakerById?.layTeamA : "",
-            suspended:
-              [null, "", 0].includes(bookmakerById?.layTeamA) ||
-              [null, "", 0].includes(bookmakerById?.backTeamA)
-                ? true
-                : false,
+            back: bookmakerById?.backTeamA
+              ? Math.floor(bookmakerById?.backTeamA)
+              : 0,
+            lay: bookmakerById?.layTeamA
+              ? Math.floor(bookmakerById?.layTeamA)
+              : 0,
+            suspended: bookmakerById?.statusTeamA !== "active" ? true : false,
           },
           teamB: {
             ...prev.teamB,
-            back: bookmakerById?.backTeamB,
-            lay: bookmakerById?.layTeamB ? bookmakerById?.layTeamB : "",
-            suspended:
-              [null, "", 0].includes(bookmakerById?.layTeamB) ||
-              [null, "", 0].includes(bookmakerById?.backTeamB)
-                ? true
-                : false,
+            back: bookmakerById?.backTeamB
+              ? Math.floor(bookmakerById?.backTeamB)
+              : 0,
+            lay: bookmakerById?.layTeamB
+              ? Math.floor(bookmakerById?.layTeamB)
+              : 0,
+            suspended: bookmakerById?.statusTeamA !== "active" ? true : false,
           },
           teamC: {
             ...prev.teamC,
-            back: bookmakerById?.backTeamC,
-            lay: bookmakerById?.layTeamC ? bookmakerById?.layTeamC : "",
-            suspended:
-              [null, "", 0].includes(bookmakerById?.layTeamC) ||
-              [null, "", 0].includes(bookmakerById?.backTeamC)
-                ? true
-                : false,
+            back: bookmakerById?.backTeamC
+              ? Math.floor(bookmakerById?.backTeamC)
+              : 0,
+            lay: bookmakerById?.layTeamC
+              ? Math.floor(bookmakerById?.layTeamC)
+              : 0,
+            suspended: bookmakerById?.statusTeamA !== "active" ? true : false,
           },
         };
       });
       dispatch(successReset());
-      socketService.user.updateMatchBettingRateClient((data: any) => {
-        if (match?.id === data?.matchId && Bid === data?.id)
-          setLocalQuickBookmaker((prev: any) => {
-            return {
-              ...prev,
-            };
-          });
-      });
     }
   }, [bookmakerById, success]);
 
-  // useEffect(() => {
-  //   innerRefTeamA.current.addEventListener("teamArate", handleChange);
-  //   innerRefTeamB.current.addEventListener("teamBrate", handleChange);
-  //   innerRefTeamC.current.addEventListener("teamCrate", handleChange);
-  // }, []);
+  useEffect(() => {
+    socketService.user.updateMatchBettingRateClient((data: any) => {
+      if (match?.id === data?.matchId && Bid === data?.id)
+        setLocalQuickBookmaker((prev: any) => {
+          return {
+            ...prev,
+            // teamA: {
+            //   ...prev.teamA,
+            //   rightBack: data?.backTeamA,
+            //   rightLay: data?.layTeamA,
+            //   suspended: data?.statusTeamA !== "active" ? true : false,
+            // },
+            // teamB: {
+            //   ...prev.teamA,
+            //   rightBack: data?.backTeamB,
+            //   rightLay: data?.layTeamB,
+            //   suspended: data?.statusTeamB !== "active" ? true : false,
+            // },
+            // teamC: {
+            //   ...prev.teamA,
+            //   rightBack: data?.backTeamC,
+            //   rightLay: data?.layTeamC,
+            //   suspended: data?.statusTeamC !== "active" ? true : false,
+            // },
+          };
+        });
+    });
+  }, []);
 
   return (
     <>
@@ -409,7 +427,7 @@ const EditBookmaker = (props: any) => {
                     // onFocus={() => handleFocus(innerRefTeamA)}
                     type="number"
                     variant="standard"
-                    value={localQuickBookmaker?.teamA?.rate}
+                    value={localQuickBookmaker?.teamA?.back}
                     InputProps={{
                       disableUnderline: true,
                       sx: {
@@ -550,7 +568,7 @@ const EditBookmaker = (props: any) => {
                     // fullWidth
                     className="InputChild"
                     variant="standard"
-                    value={localQuickBookmaker?.teamB?.rate}
+                    value={localQuickBookmaker?.teamB?.back}
                     onChange={(e) => handleChange(e)}
                     name={"teamBrate"}
                     inputRef={innerRefTeamB}
@@ -696,7 +714,7 @@ const EditBookmaker = (props: any) => {
                     <TextField
                       className="InputChild"
                       variant="standard"
-                      value={localQuickBookmaker?.teamC?.rate}
+                      value={localQuickBookmaker?.teamC?.back}
                       onChange={(e) => handleChange(e)}
                       name={"teamCrate"}
                       inputRef={innerRefTeamC}
@@ -787,7 +805,7 @@ const EditBookmaker = (props: any) => {
                         >
                           {localQuickBookmaker?.teamBackUnlock
                             ? ""
-                            : localQuickBookmaker?.teamA?.rate}
+                            : localQuickBookmaker?.teamA?.back}
                         </Typography>
                       ) : (
                         <img
@@ -815,7 +833,7 @@ const EditBookmaker = (props: any) => {
                         >
                           {localQuickBookmaker?.teamA?.suspended
                             ? ""
-                            : localQuickBookmaker?.teamA?.rate}
+                            : localQuickBookmaker?.teamA?.back}
                         </Typography>
                       ) : (
                         <img
@@ -858,7 +876,7 @@ const EditBookmaker = (props: any) => {
                       sx={{
                         background:
                           localQuickBookmaker?.teamA?.suspended ||
-                          localQuickBookmaker?.teamA?.lay === ""
+                          localQuickBookmaker?.teamA?.lay === 0
                             ? "#FDF21A"
                             : "#FFB5B5",
                         width: "50%",
@@ -875,7 +893,7 @@ const EditBookmaker = (props: any) => {
                           sx={{ fontWeight: "600", fontSize: "22px" }}
                         >
                           {localQuickBookmaker?.teamA?.suspended
-                            ? ""
+                            ? 0
                             : localQuickBookmaker?.teamA?.lay}
                         </Typography>
                       ) : (
@@ -907,7 +925,7 @@ const EditBookmaker = (props: any) => {
                         >
                           {localQuickBookmaker?.teamBackUnlock
                             ? ""
-                            : localQuickBookmaker?.teamB?.rate}
+                            : localQuickBookmaker?.teamB?.back}
                         </Typography>
                       ) : (
                         <img
@@ -935,7 +953,7 @@ const EditBookmaker = (props: any) => {
                         >
                           {localQuickBookmaker?.teamB?.suspended
                             ? ""
-                            : localQuickBookmaker?.teamB?.rate}
+                            : localQuickBookmaker?.teamB?.back}
                         </Typography>
                       ) : (
                         <img
@@ -1029,7 +1047,7 @@ const EditBookmaker = (props: any) => {
                             >
                               {localQuickBookmaker?.teamBackUnlock
                                 ? ""
-                                : localQuickBookmaker?.teamC?.rate}
+                                : localQuickBookmaker?.teamC?.back}
                             </Typography>
                           ) : (
                             <img
@@ -1057,7 +1075,7 @@ const EditBookmaker = (props: any) => {
                             >
                               {localQuickBookmaker?.teamC?.suspended
                                 ? ""
-                                : localQuickBookmaker?.teamC?.rate}
+                                : localQuickBookmaker?.teamC?.back}
                             </Typography>
                           ) : (
                             <img
@@ -1071,7 +1089,7 @@ const EditBookmaker = (props: any) => {
                         <Box
                           sx={{
                             background:
-                              localQuickBookmaker?.teamC?.lay === ""
+                              localQuickBookmaker?.teamC?.lay === 0
                                 ? "#FDF21A"
                                 : "#FFB5B5",
                             width: "50%",
@@ -1100,7 +1118,7 @@ const EditBookmaker = (props: any) => {
                           sx={{
                             background:
                               localQuickBookmaker?.teamC?.suspended ||
-                              localQuickBookmaker?.teamC?.lay === ""
+                              localQuickBookmaker?.teamC?.lay === 0
                                 ? "#FDF21A"
                                 : "#FFB5B5",
                             width: "50%",
