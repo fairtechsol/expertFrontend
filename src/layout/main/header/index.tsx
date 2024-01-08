@@ -258,8 +258,8 @@ const Header1 = () => {
                   activeUser == 1
                     ? "Session"
                     : activeUser == 2
-                    ? "Bookmaker"
-                    : "Betfair"
+                    // ? "Bookmaker"
+                    // : "Betfair"
                 }
                 value1={getProfile?.userName}
                 // value1={"User"}
