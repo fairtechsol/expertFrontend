@@ -3,17 +3,26 @@ import { AxiosError } from "axios";
 import service from "../../../service";
 import { ApiConstants, Constants } from "../../../utils/Constants";
 
-export const getMatchList = createAsyncThunk<any, any>("/match/list", async (requestData) => {
-  try {
-    const response = await service.get(`${ApiConstants.MATCH.LIST}?searchBy=title&keyword=${requestData.keyword}&page=${requestData?.currentPage ? requestData?.currentPage : 1}&limit=${Constants.pageLimit}`);
-    if (response) {
-      return response?.data;
+export const getMatchList = createAsyncThunk<any, any>(
+  "/match/list",
+  async (requestData) => {
+    try {
+      const response = await service.get(
+        `${ApiConstants.MATCH.LIST}?searchBy=title&keyword=${
+          requestData.keyword ? requestData.keyword : ""
+        }&page=${
+          requestData?.currentPage ? requestData?.currentPage : 1
+        }&limit=${Constants.pageLimit}`
+      );
+      if (response) {
+        return response?.data;
+      }
+    } catch (error) {
+      const err = error as AxiosError;
+      return err.response?.status;
     }
-  } catch (error) {
-    const err = error as AxiosError;
-    return err.response?.status;
   }
-});
+);
 export const getMatchListDropdown = createAsyncThunk<any>(
   "/match/listDropdown",
   async () => {

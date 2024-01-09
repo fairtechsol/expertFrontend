@@ -8,11 +8,15 @@ import MatchOdds from "../../components/matchDetails/MatchOdds";
 import BookMarket from "../../components/matchDetails/Bookmarket";
 import BetList from "../../components/matchDetails/BetList";
 import { useLocation } from "react-router-dom";
-import { getMatchDetail } from "../../store/actions/addMatch/addMatchAction";
+import {
+  getMatchDetail,
+  updateMatchRates,
+} from "../../store/actions/addMatch/addMatchAction";
 import { AppDispatch, RootState } from "../../store/store";
 import { useDispatch, useSelector } from "react-redux";
 import TiedMatchMarket from "../../components/matchDetails/TiedMatchMarket";
 import CompleteMatchMarket from "../../components/matchDetails/CompleteMatchMarket";
+import { expertSocketService } from "../../socketManager";
 
 const MatchDetails = () => {
   const data: any = [];
@@ -23,52 +27,33 @@ const MatchDetails = () => {
   );
   const [Bets, setIObtes] = useState<any>([]);
 
-  const arrayObj = [
-    {
-      betRestult: null,
-      betStatus: 1,
-      bet_condition: "1st Innings run bhav BAN",
-      createAt: "2023-12-06T06:54:35.851Z",
-      createdBy: "5f8d4b41-b1c1-4345-8ed8-88931c07b946",
-      deletedAt: null,
-      id: "de8a2629-2863-4db5-9345-3a1d386a010c",
-      isActive: true,
-      matchType: "cricket",
-      match_id: "b501723d-a82c-4a95-a20c-c40e428fce04",
-      no_rate: "0",
-      profitLoss: {
-        betData: [
-          { odds: 195, profit_loss: -10 },
-          { odds: 196, profit_loss: -10 },
-          { odds: 197, profit_loss: -10 },
-          { odds: 198, profit_loss: -10 },
-          { odds: 199, profit_loss: -10 },
-          { odds: 200, profit_loss: 11.5 },
-          { odds: 201, profit_loss: 11.5 },
-          { odds: 202, profit_loss: 11.5 },
-          { odds: 203, profit_loss: 11.5 },
-          { odds: 204, profit_loss: 11.5 },
-          { odds: 205, profit_loss: 11.5 },
-        ],
-      },
-      line: 5,
-      max_loss: 10,
-      total_bet: 1,
-      rate_percent: "120-90",
-      selectionId: "1stinningsrunbhavban",
-      sessionBet: true,
-      stopAt: "2023-12-06T06:54:35.851Z",
-      suspended: "",
-      updateAt: "2023-12-06T06:54:35.851Z",
-      yes_rate: "0",
-    },
-  ];
+  const arrayObj: any = [];
+
+  const updateMatchDetailToRedux = (event: any) => {
+    console.log("rendered", event);
+    if (state?.matchId === event?.id) {
+      dispatch(updateMatchRates(event));
+    } else return;
+  };
 
   useEffect(() => {
     if (state?.id) {
       dispatch(getMatchDetail(state?.id));
     }
   }, [state?.id]);
+
+  useEffect(() => {
+    if (state?.id && matchDetail) {
+      expertSocketService.match.joinMatchRoom(state?.id);
+      expertSocketService.match.getMatchRates(
+        state?.id,
+        updateMatchDetailToRedux
+      );
+    }
+    return () => {
+      expertSocketService.match.leaveMatchRoom(state?.id);
+    };
+  }, [matchDetail]);
 
   return (
     <Box

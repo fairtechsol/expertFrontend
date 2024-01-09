@@ -70,11 +70,6 @@ const EditBookmaker = (props: any) => {
       layLock: false,
     },
     teamBall: false,
-    teamSuspended: {
-      teamAsuspend: true,
-      teamBsuspend: true,
-      teamCsuspend: true,
-    },
     teamBackUnlock: true,
   });
 
@@ -164,7 +159,7 @@ const EditBookmaker = (props: any) => {
             lay: bookmakerById?.layTeamB
               ? Math.floor(bookmakerById?.layTeamB)
               : 0,
-            suspended: bookmakerById?.statusTeamA !== "active" ? true : false,
+            suspended: bookmakerById?.statusTeamB !== "active" ? true : false,
           },
           teamC: {
             ...prev.teamC,
@@ -174,7 +169,7 @@ const EditBookmaker = (props: any) => {
             lay: bookmakerById?.layTeamC
               ? Math.floor(bookmakerById?.layTeamC)
               : 0,
-            suspended: bookmakerById?.statusTeamA !== "active" ? true : false,
+            suspended: bookmakerById?.statusTeamC !== "active" ? true : false,
           },
         };
       });
@@ -188,24 +183,24 @@ const EditBookmaker = (props: any) => {
         setLocalQuickBookmaker((prev: any) => {
           return {
             ...prev,
-            // teamA: {
-            //   ...prev.teamA,
-            //   rightBack: data?.backTeamA,
-            //   rightLay: data?.layTeamA,
-            //   suspended: data?.statusTeamA !== "active" ? true : false,
-            // },
-            // teamB: {
-            //   ...prev.teamA,
-            //   rightBack: data?.backTeamB,
-            //   rightLay: data?.layTeamB,
-            //   suspended: data?.statusTeamB !== "active" ? true : false,
-            // },
-            // teamC: {
-            //   ...prev.teamA,
-            //   rightBack: data?.backTeamC,
-            //   rightLay: data?.layTeamC,
-            //   suspended: data?.statusTeamC !== "active" ? true : false,
-            // },
+            teamA: {
+              ...prev.teamA,
+              back: data?.backTeamA,
+              lay: data?.layTeamA,
+              suspended: data?.statusTeamA !== "active" ? true : false,
+            },
+            teamB: {
+              ...prev.teamA,
+              back: data?.backTeamB,
+              lay: data?.layTeamB,
+              suspended: data?.statusTeamB !== "active" ? true : false,
+            },
+            teamC: {
+              ...prev.teamA,
+              back: data?.backTeamC,
+              lay: data?.layTeamC,
+              suspended: data?.statusTeamC !== "active" ? true : false,
+            },
           };
         });
     });
@@ -786,35 +781,7 @@ const EditBookmaker = (props: any) => {
             ) : (
               <>
                 <Box display={"flex"} sx={{ borderTop: "2px solid white" }}>
-                  {!localQuickBookmaker?.teamBackUnlock ? (
-                    <Box
-                      sx={{
-                        background: localQuickBookmaker?.teamBackUnlock
-                          ? "#FDF21A"
-                          : "#A7DCFF",
-                        width: "50%",
-                        display: "flex",
-                        height: "55px",
-                        justifyContent: "center",
-                        alignItems: "center",
-                      }}
-                    >
-                      {!localQuickBookmaker?.teamBackUnlock ? (
-                        <Typography
-                          sx={{ fontWeight: "600", fontSize: "22px" }}
-                        >
-                          {localQuickBookmaker?.teamBackUnlock
-                            ? ""
-                            : localQuickBookmaker?.teamA?.back}
-                        </Typography>
-                      ) : (
-                        <img
-                          src={Lock}
-                          style={{ width: "10px", height: "15px" }}
-                        />
-                      )}
-                    </Box>
-                  ) : (
+                  {
                     <Box
                       sx={{
                         background: localQuickBookmaker?.teamA?.suspended
@@ -842,36 +809,8 @@ const EditBookmaker = (props: any) => {
                         />
                       )}
                     </Box>
-                  )}
-                  {localQuickBookmaker?.teamA?.layLock ? (
-                    <Box
-                      sx={{
-                        background:
-                          localQuickBookmaker?.teamA?.lay === ""
-                            ? "#FDF21A"
-                            : "#FFB5B5",
-                        width: "50%",
-                        borderLeft: "2px solid white",
-                        display: "flex",
-                        height: "55px",
-                        justifyContent: "center",
-                        alignItems: "center",
-                      }}
-                    >
-                      {localQuickBookmaker?.teamA?.lay ? (
-                        <Typography
-                          sx={{ fontWeight: "600", fontSize: "22px" }}
-                        >
-                          {localQuickBookmaker?.teamA?.lay}
-                        </Typography>
-                      ) : (
-                        <img
-                          src={Lock}
-                          style={{ width: "10px", height: "15px" }}
-                        />
-                      )}
-                    </Box>
-                  ) : (
+                  }
+                  {
                     <Box
                       sx={{
                         background:
@@ -903,38 +842,10 @@ const EditBookmaker = (props: any) => {
                         />
                       )}
                     </Box>
-                  )}
+                  }
                 </Box>
                 <Box display={"flex"} sx={{ borderTop: "2px solid white" }}>
-                  {!localQuickBookmaker?.teamBackUnlock ? (
-                    <Box
-                      sx={{
-                        background: localQuickBookmaker?.teamBackUnlock
-                          ? "#FDF21A"
-                          : "#A7DCFF",
-                        width: "50%",
-                        display: "flex",
-                        height: "55px",
-                        justifyContent: "center",
-                        alignItems: "center",
-                      }}
-                    >
-                      {!localQuickBookmaker?.teamBackUnlock ? (
-                        <Typography
-                          sx={{ fontWeight: "600", fontSize: "22px" }}
-                        >
-                          {localQuickBookmaker?.teamBackUnlock
-                            ? ""
-                            : localQuickBookmaker?.teamB?.back}
-                        </Typography>
-                      ) : (
-                        <img
-                          src={Lock}
-                          style={{ width: "10px", height: "15px" }}
-                        />
-                      )}
-                    </Box>
-                  ) : (
+                  {
                     <Box
                       sx={{
                         background: localQuickBookmaker?.teamB?.suspended
@@ -962,41 +873,13 @@ const EditBookmaker = (props: any) => {
                         />
                       )}
                     </Box>
-                  )}
-                  {localQuickBookmaker?.teamB?.layLock ? (
-                    <Box
-                      sx={{
-                        background:
-                          localQuickBookmaker?.teamB?.lay === ""
-                            ? "#FDF21A"
-                            : "#FFB5B5",
-                        width: "50%",
-                        borderLeft: "2px solid white",
-                        display: "flex",
-                        height: "55px",
-                        justifyContent: "center",
-                        alignItems: "center",
-                      }}
-                    >
-                      {localQuickBookmaker?.teamB?.lay ? (
-                        <Typography
-                          sx={{ fontWeight: "600", fontSize: "22px" }}
-                        >
-                          {localQuickBookmaker?.teamB?.lay}
-                        </Typography>
-                      ) : (
-                        <img
-                          src={Lock}
-                          style={{ width: "10px", height: "15px" }}
-                        />
-                      )}
-                    </Box>
-                  ) : (
+                  }
+                  {
                     <Box
                       sx={{
                         background:
                           localQuickBookmaker?.teamB?.suspended ||
-                          localQuickBookmaker?.teamB?.lay === ""
+                          localQuickBookmaker?.teamB?.lay === 0
                             ? "#FDF21A"
                             : "#FFB5B5",
                         width: "50%",
@@ -1013,7 +896,7 @@ const EditBookmaker = (props: any) => {
                           sx={{ fontWeight: "600", fontSize: "22px" }}
                         >
                           {localQuickBookmaker?.teamB?.suspended
-                            ? ""
+                            ? 0
                             : localQuickBookmaker?.teamB?.lay}
                         </Typography>
                       ) : (
@@ -1023,40 +906,12 @@ const EditBookmaker = (props: any) => {
                         />
                       )}
                     </Box>
-                  )}
+                  }
                 </Box>
                 {match?.teamC && (
                   <>
                     <Box display={"flex"} sx={{ borderTop: "2px solid white" }}>
-                      {!localQuickBookmaker?.teamBackUnlock ? (
-                        <Box
-                          sx={{
-                            background: localQuickBookmaker?.teamBackUnlock
-                              ? "#FDF21A"
-                              : "#A7DCFF",
-                            width: "50%",
-                            display: "flex",
-                            height: "56px",
-                            justifyContent: "center",
-                            alignItems: "center",
-                          }}
-                        >
-                          {!localQuickBookmaker?.teamBackUnlock ? (
-                            <Typography
-                              sx={{ fontWeight: "600", fontSize: "22px" }}
-                            >
-                              {localQuickBookmaker?.teamBackUnlock
-                                ? ""
-                                : localQuickBookmaker?.teamC?.back}
-                            </Typography>
-                          ) : (
-                            <img
-                              src={Lock}
-                              style={{ width: "10px", height: "15px" }}
-                            />
-                          )}
-                        </Box>
-                      ) : (
+                      {
                         <Box
                           sx={{
                             background: localQuickBookmaker?.teamC?.suspended
@@ -1084,36 +939,8 @@ const EditBookmaker = (props: any) => {
                             />
                           )}
                         </Box>
-                      )}
-                      {localQuickBookmaker?.teamC?.layLock ? (
-                        <Box
-                          sx={{
-                            background:
-                              localQuickBookmaker?.teamC?.lay === 0
-                                ? "#FDF21A"
-                                : "#FFB5B5",
-                            width: "50%",
-                            borderLeft: "2px solid white",
-                            display: "flex",
-                            height: "56px",
-                            justifyContent: "center",
-                            alignItems: "center",
-                          }}
-                        >
-                          {localQuickBookmaker?.teamC?.lay ? (
-                            <Typography
-                              sx={{ fontWeight: "600", fontSize: "22px" }}
-                            >
-                              {localQuickBookmaker?.teamC?.lay}
-                            </Typography>
-                          ) : (
-                            <img
-                              src={Lock}
-                              style={{ width: "10px", height: "15px" }}
-                            />
-                          )}
-                        </Box>
-                      ) : (
+                      }
+                      {
                         <Box
                           sx={{
                             background:
@@ -1130,12 +957,12 @@ const EditBookmaker = (props: any) => {
                           }}
                         >
                           {!localQuickBookmaker?.teamC?.suspended &&
-                          localQuickBookmaker?.teamC?.lay ? (
+                          localQuickBookmaker?.teamC?.rightLay ? (
                             <Typography
                               sx={{ fontWeight: "600", fontSize: "22px" }}
                             >
                               {localQuickBookmaker?.teamC?.suspended
-                                ? ""
+                                ? 0
                                 : localQuickBookmaker?.teamC?.lay}
                             </Typography>
                           ) : (
@@ -1145,7 +972,7 @@ const EditBookmaker = (props: any) => {
                             />
                           )}
                         </Box>
-                      )}
+                      }
                     </Box>
                   </>
                 )}

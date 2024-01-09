@@ -1,21 +1,21 @@
-import { expertSocket } from ".";
+import { socket } from ".";
 
 export const userSocketService = {
   userCount: (callback: any) => {
-    expertSocket.on("loginUserCount", (packet: any) => {
+    socket.on("loginUserCount", (packet: any) => {
       callback(packet?.count);
     });
   },
   updateSessionRate: (data: any) => {
-    expertSocket.emit("updateSessionRate", data);
+    socket.emit("updateSessionRate", data);
   },
   updateSessionRateClient: (callback: any) => {
-    expertSocket.on("updateSessionRateClient", callback);
+    socket.on("updateSessionRateClient", callback);
   },
   updateMatchBettingRate: (data: any) => {
-    expertSocket.emit("updateMatchBettingRate", data);
+    socket.emit("updateMatchBettingRate", data);
   },
   updateMatchBettingRateClient: (callback: any) => {
-    expertSocket.on("updateMatchBettingRateClient", callback);
+    socket.on("updateMatchBettingRateClient", callback);
   },
 };
