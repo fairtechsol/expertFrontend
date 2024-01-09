@@ -1,7 +1,7 @@
 import { matchSocket, socket } from ".";
 
 export const matchSocketService = {
-  joinMatchRoom: (matchId: any, roleName?: any) => {
+  joinMatchRoom: (matchId: any, roleName: any) => {
     socket.emit("matchRoom", {
       id: matchId,
     });
