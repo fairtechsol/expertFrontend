@@ -1,5 +1,4 @@
-import { TextField, useMediaQuery, useTheme } from "@mui/material";
-import { Box } from "@mui/system";
+import { TextField, useMediaQuery, useTheme, Box } from "@mui/material";
 import StyledImage from "./StyledImages";
 import { SEARCH, Search } from "../../assets";
 
@@ -68,12 +67,10 @@ const SearchInput = (props: any) => {
           <TextField
             variant="standard"
             placeholder={placeholder}
-            autoComplete="off"
-            // value={searchValue}
             onChange={handleInputChange}
             InputProps={{
               disableUnderline: true,
-              autoComplete: "off",
+              autoComplete: "new-password",
               style: {
                 fontSize: "12px",
                 fontWeight: "600",
@@ -94,14 +91,10 @@ const SearchInput = (props: any) => {
           <TextField
             variant="standard"
             placeholder={placeholder}
-            autoComplete="off"
-            // value={searchValue}
             onChange={handleInputChange}
             InputProps={{
-              
               disableUnderline: true,
-              // autoComplete: "new-password",
-              autoComplete: "off",
+              autoComplete: "new-password",
               style: {
                 fontSize: "12px",
                 fontWeight: "600",
