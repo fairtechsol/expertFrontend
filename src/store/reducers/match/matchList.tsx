@@ -79,6 +79,7 @@ const matchList = createSlice({
         state.error = null;
       })
       .addCase(editMatch.fulfilled, (state) => {
+        console.log(state)
         state.loading = false;
       })
       .addCase(editMatch.rejected, (state, action) => {

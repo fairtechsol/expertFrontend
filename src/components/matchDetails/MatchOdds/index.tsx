@@ -303,7 +303,6 @@ const MatchOdds = ({ currentMatch, matchOdds, matchOddsLive, socket }: any) => {
                     ? matchOddsLive?.runners[0]
                     : []
                 }
-                teamImage={currentMatch?.teamA_Image}
                 lock={
                   matchOddsLive?.runners !== undefined &&
                   matchOddsLive?.runners?.length > 0
@@ -323,7 +322,6 @@ const MatchOdds = ({ currentMatch, matchOdds, matchOddsLive, socket }: any) => {
                     ? false
                     : true
                 }
-                teamImage={currentMatch?.teamB_Image}
                 data={
                   matchOddsLive?.runners?.length > 0
                     ? matchOddsLive?.runners[1]
@@ -344,7 +342,6 @@ const MatchOdds = ({ currentMatch, matchOdds, matchOddsLive, socket }: any) => {
                         : true
                     }
                     color={"#FF4D4D"}
-                    teamImage={null}
                     data={
                       matchOddsLive?.runners?.length > 0
                         ? matchOddsLive?.runners[2]

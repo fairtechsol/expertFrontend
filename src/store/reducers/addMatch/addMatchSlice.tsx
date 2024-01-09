@@ -117,22 +117,19 @@ const addMatch = createSlice({
           apiSession,
           apiTiedMatch,
           bookmaker,
-          manualTideMatch,
           marketCompleteMatch,
           matchOdd,
-          quickbookmaker,
-          sessionBettings,
         } = action.payload;
         state.matchDetail = {
           ...state.matchDetail,
           apiSession: apiSession,
           apiTideMatch: { ...state.matchDetail.apiTideMatch, ...apiTiedMatch },
           bookmaker: { ...state.matchDetail.bookmaker, ...bookmaker },
-          manualTiedMatch: manualTideMatch,
-          marketCompleteMatch: marketCompleteMatch,
+          marketCompleteMatch: {
+            ...state.matchDetail.marketCompleteMatch,
+            ...marketCompleteMatch,
+          },
           matchOdd: { ...state.matchDetail.matchOdd, ...matchOdd },
-          quickBookmaker: quickbookmaker,
-          sessionBettings: sessionBettings,
         };
       })
       .addCase(matchDetailReset, (state) => {
