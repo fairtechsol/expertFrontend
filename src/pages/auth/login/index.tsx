@@ -1,4 +1,4 @@
-import { Box, Button, useTheme } from "@mui/material";
+import { Box, Button, CircularProgress, useTheme } from "@mui/material";
 import { useFormik } from "formik";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -12,7 +12,6 @@ import { loginValidationSchema } from "../../../utils/Validations/login";
 const initialValues: any = {
   userName: "",
   password: "",
-  // loginType: "expert",
 };
 
 const Login = () => {
@@ -31,7 +30,7 @@ const Login = () => {
 
   const { handleSubmit, touched, errors } = formik;
 
-  const { success, forceChangePassword } = useSelector(
+  const { success, forceChangePassword, loading } = useSelector(
     (state: RootState) => state.auth
   );
 
@@ -109,7 +108,18 @@ const Login = () => {
             background: `${theme.palette.secondary}`,
           }}
         >
-          Login
+          {loading ? (
+            <CircularProgress
+              sx={{
+                color: "#FFF",
+              }}
+              size={20}
+              thickness={4}
+              value={60}
+            />
+          ) : (
+            "Login"
+          )}
         </Button>
       </Box>
     </form>

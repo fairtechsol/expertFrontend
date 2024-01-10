@@ -30,8 +30,7 @@ const MatchDetails = () => {
   const arrayObj: any = [];
 
   const updateMatchDetailToRedux = (event: any) => {
-    console.log("rendered", event);
-    if (state?.matchId === event?.id) {
+    if (state?.id === event?.id) {
       dispatch(updateMatchRates(event));
     } else return;
   };
@@ -43,8 +42,8 @@ const MatchDetails = () => {
   }, [state?.id]);
 
   useEffect(() => {
-    if (state?.id && matchDetail) {
-      expertSocketService.match.joinMatchRoom(state?.id);
+    if (state?.id) {
+      expertSocketService.match.joinMatchRoom(state?.id, "expert");
       expertSocketService.match.getMatchRates(
         state?.id,
         updateMatchDetailToRedux
@@ -53,7 +52,7 @@ const MatchDetails = () => {
     return () => {
       expertSocketService.match.leaveMatchRoom(state?.id);
     };
-  }, [matchDetail]);
+  }, []);
 
   return (
     <Box
@@ -105,9 +104,7 @@ const MatchDetails = () => {
                     liveOnly={true}
                     stopAllHide={true}
                     hideResult={true}
-                    // sessionData={liveSessionData?.filter(
-                    //   (v) => !idx?.includes(v?.selectionId)
-                    // )}
+                    sessionData={matchDetail?.apiSession}
                     // setMatchLiveSession={setLiveSessionData}
                     // setLocalState={setLocalState}
                     // setCurrentMatch={setCurrentMatch}
@@ -176,16 +173,29 @@ const MatchDetails = () => {
             }}
           >
             {matchDetail?.matchOdd?.isActive && (
-              <MatchOdds showHeader={true} currentMatch={matchDetail} />
+              <MatchOdds
+                showHeader={true}
+                currentMatch={matchDetail}
+                matchOddsLive={matchDetail?.matchOdd}
+              />
             )}
             {matchDetail?.bookmaker?.isActive && (
-              <BookMarket currentMatch={matchDetail} />
+              <BookMarket
+                currentMatch={matchDetail}
+                liveData={matchDetail?.bookmaker}
+              />
             )}
             {matchDetail?.apiTideMatch?.isActive && (
-              <TiedMatchMarket currentMatch={matchDetail} />
+              <TiedMatchMarket
+                currentMatch={matchDetail}
+                liveData={matchDetail?.apiTideMatch}
+              />
             )}
             {matchDetail?.marketCompleteMatch?.isActive && (
-              <CompleteMatchMarket currentMatch={matchDetail} />
+              <CompleteMatchMarket
+                currentMatch={matchDetail}
+                liveData={matchDetail?.marketCompleteMatch}
+              />
             )}
 
             {matchDetail?.id && <BetList allBetRates={Bets} />}

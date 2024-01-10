@@ -23,8 +23,8 @@ export const getMatchList = createAsyncThunk<any, any>(
 );
 export const getMatchListDropdown = createAsyncThunk<any, any>(
   "/match/listDropdown",
-  async (requestData, thunkApi) => {
-    console.log(requestData)
+  async (any, thunkApi) => {
+    console.log(any);
     try {
       const response = await service.get(`${ApiConstants.MATCH.DROPDOWNLIST}`);
       if (response) {
@@ -39,7 +39,7 @@ export const getMatchListDropdown = createAsyncThunk<any, any>(
 
 export const updateMatchActiveStatus = createAsyncThunk<any, any>(
   "/match/updateActiveStatus",
-  async (requestData) => {
+  async (requestData, thunkApi) => {
     try {
       const response = await service.post(
         `${ApiConstants.MATCH.UPDATEACTIVESTATUS}`,
@@ -50,7 +50,7 @@ export const updateMatchActiveStatus = createAsyncThunk<any, any>(
       }
     } catch (error) {
       const err = error as AxiosError;
-      return err.response?.status;
+      return thunkApi.rejectWithValue(err.response?.status);
     }
   }
 );
@@ -66,6 +66,7 @@ export const editMatch = createAsyncThunk<any, any>(
         return response.data
       }
     } catch (error) {
+      console.log(error);
       const err = error as AxiosError;
       return thunkApi.rejectWithValue(err.response?.status);
     }

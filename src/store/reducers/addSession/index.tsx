@@ -9,6 +9,7 @@ import {
 
 interface InitialState {
   sessionById: any;
+  selectedSessionId: string;
   bookmakerById: any;
   success: boolean;
   loading: boolean;
@@ -16,6 +17,7 @@ interface InitialState {
 
 const initialState: InitialState = {
   sessionById: null,
+  selectedSessionId: "",
   bookmakerById: null,
   success: false,
   loading: false,
@@ -29,6 +31,7 @@ export const addSessionReducers = createReducer(initialState, (builder) => {
     })
     .addCase(addSession.fulfilled, (state, action) => {
       state.sessionById = action.payload;
+      state.selectedSessionId = action.payload?.id;
       state.loading = false;
       state.success = true;
     })
@@ -41,6 +44,7 @@ export const addSessionReducers = createReducer(initialState, (builder) => {
     })
     .addCase(getSessionById.fulfilled, (state, action) => {
       state.sessionById = action.payload;
+      state.selectedSessionId = "";
       state.loading = false;
       state.success = true;
     })

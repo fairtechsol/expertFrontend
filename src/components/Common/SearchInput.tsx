@@ -1,5 +1,4 @@
-import { TextField, useMediaQuery, useTheme } from "@mui/material";
-import { Box } from "@mui/system";
+import { TextField, useMediaQuery, useTheme, Box } from "@mui/material";
 import StyledImage from "./StyledImages";
 import { SEARCH, Search } from "../../assets";
 import { useRef, useState } from "react";
@@ -94,63 +93,53 @@ const SearchInput = (props: any) => {
           inputContainerStyle,
         ]}
       >
-        {/* <form autoComplete="off"> */}
-          {(!matchesxs || show) && (
-            <TextField
-              variant="standard"
-              placeholder={placeholder}
-              autoComplete="off"
-              // value={searchValue}
-              onChange={handleInputChange}
-              onFocus={handleInputFocus}
-              onBlur={handleInputBlur}
-              InputProps={{
-                disableUnderline: true,
-                autoComplete: "off",
-                style: {
-                  fontSize: "12px",
-                  fontWeight: "600",
-                  fontStyle: "italic",
-                  color: "black",
-                },
-              }}
-              sx={{
-                borderColor: "white",
-                display: "flex",
-                flex: 1,
-                marginLeft: "5px",
-                fontSize: { lg: "10px", xs: "8px" },
-              }}
-            />
-          )}
-          {showTextInput && (
-            <TextField
-              variant="standard"
-              placeholder={placeholder}
-              autoComplete="off"
-              // value={searchValue}
-              onChange={handleInputChange}
-              InputProps={{
-                
-                disableUnderline: true,
-                // autoComplete: "new-password",
-                autoComplete: "off",
-                style: {
-                  fontSize: "12px",
-                  fontWeight: "600",
-                  fontStyle: "italic",
-                },
-              }}
-              sx={{
-                borderColor: "white",
-                display: "flex",
-                flex: 1,
-                marginLeft: "5px",
-                fontSize: { lg: "10px", xs: "8px" },
-              }}
-            />
-          )}
-        {/* </form> */}
+        {(!matchesxs || show) && (
+          <TextField
+            variant="standard"
+            placeholder={placeholder}
+            onChange={handleInputChange}
+            InputProps={{
+              disableUnderline: true,
+              autoComplete: "new-password",
+              style: {
+                fontSize: "12px",
+                fontWeight: "600",
+                fontStyle: "italic",
+                color: "black",
+              },
+            }}
+            sx={{
+              borderColor: "white",
+              display: "flex",
+              flex: 1,
+              marginLeft: "5px",
+              fontSize: { lg: "10px", xs: "8px" },
+            }}
+          />
+        )}
+        {showTextInput && (
+          <TextField
+            variant="standard"
+            placeholder={placeholder}
+            onChange={handleInputChange}
+            InputProps={{
+              disableUnderline: true,
+              autoComplete: "new-password",
+              style: {
+                fontSize: "12px",
+                fontWeight: "600",
+                fontStyle: "italic",
+              },
+            }}
+            sx={{
+              borderColor: "white",
+              display: "flex",
+              flex: 1,
+              marginLeft: "5px",
+              fontSize: { lg: "10px", xs: "8px" },
+            }}
+          />
+        )}
         <Box
           sx={[
             {
