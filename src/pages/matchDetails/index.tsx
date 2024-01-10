@@ -105,9 +105,6 @@ const MatchDetails = () => {
                     stopAllHide={true}
                     hideResult={true}
                     sessionData={matchDetail?.apiSession}
-                    // setMatchLiveSession={setLiveSessionData}
-                    // setLocalState={setLocalState}
-                    // setCurrentMatch={setCurrentMatch}
                     currentMatch={matchDetail}
                   />
                 </Box>
@@ -134,7 +131,7 @@ const MatchDetails = () => {
                     hideTotalBet={false}
                     stopAllHide={false}
                     // setData={setData}
-                    sessionData={arrayObj}
+                    sessionData={matchDetail?.sessionBettings}
                     hideResult={false}
                     // setLocalState={setLocalState}
                     // setCurrentMatch={setCurrentMatch}

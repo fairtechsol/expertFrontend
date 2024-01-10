@@ -145,8 +145,8 @@ const SessionMarket = ({
                     marginLeft: "7px",
                   }}
                 >
-                  MIN: {currentMatch?.betfair_session_min_bet} MAX:
-                  {currentMatch?.betfair_session_max_bet}
+                  MIN: {currentMatch?.betFairSessionMinBet} MAX:
+                  {currentMatch?.betFairSessionMaxBet}
                 </Typography>
               </Box>
               <Box
@@ -207,30 +207,32 @@ const SessionMarket = ({
             }}
           >
             {sessionData?.length > 0 &&
-              sessionData?.map((match: any, index: any) => (
-                <Box
-                  key={index}
-                  //  ref={messageRef}
-                >
-                  <SessionMarketBox
-                    liveOnly={liveOnly}
-                    setIObtes={setIObtes}
-                    setData={setData}
-                    hideResult={hideResult}
-                    hideTotalBet={hideTotalBet}
-                    // updateSessionData={updateSessionData}
-                    setMatchSessionData={setLocalSessionExpertOdds}
-                    setLocalState={(val: any) => setLocalState(val)}
-                    currentMatch={currentMatch}
-                    setCurrentMatch={setCurrentMatch}
-                    newData={match}
-                    setStop={setStop}
-                    stop={stop}
-                    index={index}
-                  />
-                  <Divider />
-                </Box>
-              ))}
+              sessionData?.map((match: any, index: any) => {
+                if (JSON.parse(match).selectionId) {
+                  return (
+                    <Box key={index}>
+                      <SessionMarketBox
+                        liveOnly={liveOnly}
+                        setIObtes={setIObtes}
+                        setData={setData}
+                        hideResult={hideResult}
+                        hideTotalBet={hideTotalBet}
+                        setMatchSessionData={setLocalSessionExpertOdds}
+                        setLocalState={(val: any) => setLocalState(val)}
+                        currentMatch={currentMatch}
+                        setCurrentMatch={setCurrentMatch}
+                        newData={match}
+                        setStop={setStop}
+                        stop={stop}
+                        index={index}
+                      />
+                      <Divider />
+                    </Box>
+                  );
+                } else {
+                  return null;
+                }
+              })}
           </Box>
         </Box>
       )}
