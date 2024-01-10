@@ -14,16 +14,10 @@ const MatchListHeader = ({ getAllMatchHandle }: Props) => {
   const navigate = useNavigate();
   const { getProfile } = useSelector((state: RootState) => state.user.profile);
 
-  // const [listSearch, setListSearch] = useState("");
-
-  // const matchListSearch = (e: any) => {
-  //   let searchVal = e.target.value
-  //   console.log(searchVal, "searchVal")
-  // }
-
   const getMatchListOnchange = debounce((value: any) => {
-    dispatch(getMatchList({ keyword: value }))
-  }, 500)
+    dispatch(getMatchList({ keyword: value }));
+  }, 500);
+
   return (
     <>
       <Box
@@ -54,10 +48,8 @@ const MatchListHeader = ({ getAllMatchHandle }: Props) => {
           <SearchInput
             width="50%"
             show={true}
-            getAllMatch={getAllMatchHandle}
             placeholder={"Search Match..."}
             handleSearch={getMatchListOnchange}
-            // handleInputChange={matchListSearch}
           />
           {getProfile?.allPrivilege ? (
             <CustomButton

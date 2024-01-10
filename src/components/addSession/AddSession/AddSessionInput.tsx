@@ -13,7 +13,7 @@ const AddSessionInput = (props: any) => {
     inputRef,
     lock,
     isBall,
-    createSession,
+    isCreateSession,
     live,
     isDisable,
     setLock,
@@ -65,7 +65,7 @@ const AddSessionInput = (props: any) => {
             component={"span"}
             sx={{ color: "white", fontWeight: "600", fontSize: "12px" }}
           >
-            {createSession ? "Add" : "Your"} Session
+            {isCreateSession ? "Add" : "Your"} Session
           </Typography>
         </Box>
         <Box
@@ -115,7 +115,7 @@ const AddSessionInput = (props: any) => {
               });
             }}
             autoComplete="off"
-            disabled={!createSession ? true : false}
+            disabled={!isCreateSession ? true : false}
             value={inputDetail.betCondition}
             variant="standard"
             InputProps={{
