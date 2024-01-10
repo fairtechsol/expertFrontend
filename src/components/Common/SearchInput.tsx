@@ -1,6 +1,7 @@
 import { TextField, useMediaQuery, useTheme, Box } from "@mui/material";
 import StyledImage from "./StyledImages";
 import { SEARCH, Search } from "../../assets";
+import { useRef, useState } from "react";
 
 const SearchInput = (props: any) => {
   const {
@@ -18,9 +19,38 @@ const SearchInput = (props: any) => {
 
   const theme = useTheme();
   const matchesxs = useMediaQuery(theme.breakpoints.down("lg"));
+  
+  const [searchValue, setSearchValue] = useState('');
+  const [isFocused, setIsFocused] = useState(false);
+
+
+  const handleInputFocus = () => {
+    setIsFocused(true);
+  };
+  const handleInputBlur = () => {
+    setIsFocused(false);
+  };
+
+  // const handleSearch = () => {
+  //   if (isFocused) {
+  //     // Make API call or perform search operation here using searchValue
+  //     console.log('Searching for:', searchValue);
+  //   }
+  // };
 
   const handleInputChange = async (event: any) => {
+    setSearchValue(event.target.value);
+    
+    setSearchValue(event.target.value);
+
     const value = event.target.value;
+    if (onChange && typeof onChange === "function") {
+      onChange(value);
+    }
+
+    if (isFocused) {
+      handleSearch(value);
+    }
     // setSearchValue(value);
     if (onChange && typeof onChange === "function") {
       onChange(value);
@@ -130,7 +160,7 @@ const SearchInput = (props: any) => {
           <StyledImage
             src={header ? SEARCH : Search}
             sx={{ height: "40%", width: "auto" }}
-          />
+          />          
         </Box>
       </Box>
     </>

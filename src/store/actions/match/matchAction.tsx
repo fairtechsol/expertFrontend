@@ -8,10 +8,8 @@ export const getMatchList = createAsyncThunk<any, any>(
   async (requestData, thunkApi) => {
     try {
       const response = await service.get(
-        `${ApiConstants.MATCH.LIST}?searchBy=title&keyword=${
-          requestData.keyword ? requestData.keyword : ""
-        }&page=${
-          requestData?.currentPage ? requestData?.currentPage : 1
+        `${ApiConstants.MATCH.LIST}?searchBy=title&keyword=${requestData.keyword ? requestData.keyword : ""
+        }&page=${requestData?.currentPage ? requestData?.currentPage : 1
         }&limit=${Constants.pageLimit}`
       );
       if (response) {
@@ -23,7 +21,7 @@ export const getMatchList = createAsyncThunk<any, any>(
     }
   }
 );
-export const getMatchListDropdown = createAsyncThunk<any>(
+export const getMatchListDropdown = createAsyncThunk<any, any>(
   "/match/listDropdown",
   async (any, thunkApi) => {
     console.log(any);
@@ -65,7 +63,7 @@ export const editMatch = createAsyncThunk<any, any>(
         requestData
       );
       if (response) {
-        console.log(response);
+        return response.data
       }
     } catch (error) {
       console.log(error);
@@ -76,6 +74,7 @@ export const editMatch = createAsyncThunk<any, any>(
 );
 
 export const matchListReset = createAction("matchList/reset");
+export const editSuccessReset = createAction("editSuccess/reset");
 export const updateMatchActiveStatusReset = createAction(
   "updateMatchActiveStatusReset/reset"
 );
