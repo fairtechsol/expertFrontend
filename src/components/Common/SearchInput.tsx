@@ -21,7 +21,6 @@ const SearchInput = (props: any) => {
 
   const handleInputChange = async (event: any) => {
     const value = event.target.value;
-    // setSearchValue(value);
     if (onChange && typeof onChange === "function") {
       onChange(value);
     }

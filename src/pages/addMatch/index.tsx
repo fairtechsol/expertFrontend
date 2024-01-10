@@ -23,7 +23,7 @@ import {
   matchDetailReset,
 } from "../../store/actions/addMatch/addMatchAction";
 import moment from "moment";
-import { editMatch } from "../../store/actions/match/matchAction";
+import { editMatch, editSuccessReset } from "../../store/actions/match/matchAction";
 
 const useStyles = makeStyles(() => ({
   dateTimePicker: {
@@ -92,6 +92,10 @@ const AddMatch = () => {
   };
 
   const selectionData = [1, 2, 3];
+
+  const { editSuccess } = useSelector(
+    (state: RootState) => state.matchList
+  );
 
   const formik = useFormik({
     initialValues: initialFormikValues,
@@ -214,6 +218,14 @@ const AddMatch = () => {
       }
     },
   });
+
+  useEffect(() => {
+    if (editSuccess) {
+      debugger
+      navigate("/expert/match");
+      dispatch(editSuccessReset())
+    }
+  }, [editSuccess]);
 
   const { handleSubmit, values, touched, errors, handleChange } = formik;
 
@@ -489,7 +501,7 @@ const AddMatch = () => {
               />
             </Box>
 
-            <Box sx={{ width: { xs: "100%", lg: "18%", md: "24%" }, mt: 1 }}>
+            <Box sx={{ width: { xs: "100%", lg: "18%", md: "24%" }, mt: -1 }}>
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 {" "}
                 <DemoContainer
@@ -510,11 +522,11 @@ const AddMatch = () => {
                         border: "none",
                       },
                       "& .css-nxo287-MuiInputBase-input-MuiOutlinedInput-input":
-                        {
-                          cursor: "not-allowed",
-                          paddingBottom: "8px",
-                          paddingTop: "8px",
-                        },
+                      {
+                        cursor: "not-allowed",
+                        paddingBottom: "8px",
+                        paddingTop: "8px",
+                      },
                     }}
                     className={classes.dateTimePicker}
                     // label="Controlled picker"

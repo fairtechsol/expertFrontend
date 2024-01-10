@@ -6,10 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store/store";
 import { getMatchList } from "../../store/actions/match/matchAction";
 
-interface Props {
-  getAllMatchHandle?: (value: any) => void;
-}
-const MatchListHeader = ({ getAllMatchHandle }: Props) => {
+const MatchListHeader = () => {
   const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
   const { getProfile } = useSelector((state: RootState) => state.user.profile);

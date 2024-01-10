@@ -25,8 +25,7 @@ export const getMatchList = createAsyncThunk<any, any>(
 );
 export const getMatchListDropdown = createAsyncThunk<any>(
   "/match/listDropdown",
-  async (any, thunkApi) => {
-    console.log(any);
+  async (_, thunkApi) => {
     try {
       const response = await service.get(`${ApiConstants.MATCH.DROPDOWNLIST}`);
       if (response) {
@@ -65,7 +64,7 @@ export const editMatch = createAsyncThunk<any, any>(
         requestData
       );
       if (response) {
-        console.log(response);
+        return response.data;
       }
     } catch (error) {
       console.log(error);
@@ -76,6 +75,7 @@ export const editMatch = createAsyncThunk<any, any>(
 );
 
 export const matchListReset = createAction("matchList/reset");
+export const editSuccessReset = createAction("editSuccess/reset");
 export const updateMatchActiveStatusReset = createAction(
   "updateMatchActiveStatusReset/reset"
 );

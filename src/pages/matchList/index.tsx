@@ -50,7 +50,7 @@ const MatchList = ({}) => {
           }),
         ]}
       >
-        <MatchListHeader getAllMatchHandle={() => {}} />
+        <MatchListHeader />
         <MatchListTableHeader />
         {matchList &&
           matchList?.matches?.map((item: any, index: number) => {
