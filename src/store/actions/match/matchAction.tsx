@@ -8,8 +8,10 @@ export const getMatchList = createAsyncThunk<any, any>(
   async (requestData, thunkApi) => {
     try {
       const response = await service.get(
-        `${ApiConstants.MATCH.LIST}?searchBy=title&keyword=${requestData.keyword ? requestData.keyword : ""
-        }&page=${requestData?.currentPage ? requestData?.currentPage : 1
+        `${ApiConstants.MATCH.LIST}?searchBy=title&keyword=${
+          requestData.keyword ? requestData.keyword : ""
+        }&page=${
+          requestData?.currentPage ? requestData?.currentPage : 1
         }&limit=${Constants.pageLimit}`
       );
       if (response) {
@@ -21,10 +23,9 @@ export const getMatchList = createAsyncThunk<any, any>(
     }
   }
 );
-export const getMatchListDropdown = createAsyncThunk<any, any>(
+export const getMatchListDropdown = createAsyncThunk<any>(
   "/match/listDropdown",
-  async (any, thunkApi) => {
-    console.log(any);
+  async (_, thunkApi) => {
     try {
       const response = await service.get(`${ApiConstants.MATCH.DROPDOWNLIST}`);
       if (response) {
@@ -63,7 +64,7 @@ export const editMatch = createAsyncThunk<any, any>(
         requestData
       );
       if (response) {
-        return response.data
+        return response.data;
       }
     } catch (error) {
       console.log(error);
