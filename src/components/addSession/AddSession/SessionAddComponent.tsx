@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Box, Typography } from "@mui/material";
 import RunsAmountBox from "./RunsAmountBox";
 import SessionResultModal from "../SessionResult/SessionResultModal";
@@ -29,9 +29,14 @@ const SessionAddComponent = (props: any) => {
   const dispatch: AppDispatch = useDispatch();
   const inputRef: any = useRef(null);
   const { createSession, sessionEvent, match } = props;
-  const { sessionById, success } = useSelector(
+  const { sessionById, selectedSessionId } = useSelector(
     (state: RootState) => state.addSession
   );
+
+  const [isCreateSession, setIsCreateSession] = useState(createSession);
+  useEffect(() => {
+    setIsCreateSession(createSession);
+  }, [createSession]);
 
   const [loading] = useState(false);
   const [incGap, setIncGap] = useState<number>(1);
@@ -92,6 +97,7 @@ const SessionAddComponent = (props: any) => {
       noPercent: inputDetail?.leftNoRatePercent,
     };
     dispatch(addSession(payload));
+    setIsCreateSession(false);
   };
 
   const handleLiveChange = (yesRatePercent: number, noRatePercent: number) => {
@@ -117,21 +123,21 @@ const SessionAddComponent = (props: any) => {
   };
 
   useEffect(() => {
-    if (sessionEvent?.id) {
+    if (sessionEvent?.id || selectedSessionId) {
       dispatch(
         getSessionById({
           matchId: match?.id,
-          id: sessionEvent?.id,
+          id: sessionEvent?.id || selectedSessionId,
         })
       );
-      setBetId(sessionEvent?.id);
-    } else if (createSession) {
+      setBetId(sessionEvent?.id || selectedSessionId);
+    } else if (isCreateSession) {
       setBetId("");
     }
-  }, [sessionEvent?.id]);
+  }, [sessionEvent?.id, selectedSessionId]);
 
   useEffect(() => {
-    if (!createSession && sessionById !== null) {
+    if (!isCreateSession && sessionById !== null) {
       if (sessionById?.status === "suspended") {
         setIsBall(false);
         setLock({
@@ -195,7 +201,7 @@ const SessionAddComponent = (props: any) => {
         });
       }
     });
-  }, [sessionById, success, createSession]);
+  }, [sessionById, isCreateSession]);
 
   return (
     <Box
@@ -235,7 +241,7 @@ const SessionAddComponent = (props: any) => {
             setIsPercent={setIsPercent}
             isBall={isBall}
             setIsBall={setIsBall}
-            createSession={createSession}
+            isCreateSession={isCreateSession}
             betId={betId}
             // socket={socket}
             // sessionEvent={sessionEvent}
@@ -315,7 +321,7 @@ const SessionAddComponent = (props: any) => {
               mt: "14px",
             }}
           >
-            {!createSession ? (
+            {!isCreateSession ? (
               <>
                 {isDisable && showUndeclare && (
                   <Box
@@ -543,7 +549,7 @@ const SessionAddComponent = (props: any) => {
         </Box>
 
         <Box sx={{ marginLeft: "15px", width: "30%" }}>
-          {!createSession ? (
+          {!isCreateSession ? (
             <RunsAmountBox
             // betId={betId}
             // currentOdds={currentOdds?.bet_id === betId ? currentOdds : null}

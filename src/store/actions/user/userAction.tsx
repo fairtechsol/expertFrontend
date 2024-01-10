@@ -9,17 +9,21 @@ interface ChangePassword {
   confirmPassword: string;
 }
 
-export const getProfile = createAsyncThunk<any>("user/profile", async () => {
-  try {
-    const resp = await service.get(`${ApiConstants.USER.PROFILE}`);
-    if (resp) {
-      return resp?.data;
+export const getProfile = createAsyncThunk<any>(
+  "user/profile",
+  async (any, thunkApi) => {
+    console.log(any);
+    try {
+      const resp = await service.get(`${ApiConstants.USER.PROFILE}`);
+      if (resp) {
+        return resp?.data;
+      }
+    } catch (error: any) {
+      const err = error as AxiosError;
+      throw thunkApi.rejectWithValue(err.response?.status);
     }
-  } catch (error: any) {
-    const err = error as AxiosError;
-    throw err;
   }
-});
+);
 
 export const changePassword = createAsyncThunk<any, ChangePassword>(
   "user/changePassword",

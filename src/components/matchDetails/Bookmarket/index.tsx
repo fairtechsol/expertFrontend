@@ -220,7 +220,7 @@ const BookMarket = ({ currentMatch, socket, liveData, matchOdds }: any) => {
           <Box sx={{ position: "relative" }}>
             <BoxComponent
               //   teamRates={teamRates?.teamA}
-              teamImage={currentMatch?.bookmaker?.teamA_Image}
+              // teamImage={currentMatch?.bookmaker?.teamA_Image}
               livestatus={liveData?.status === "SUSPENDED" ? true : false}
               data={liveData?.runners?.length > 0 ? liveData?.runners[0] : []}
               lock={liveData?.runners?.length > 0 ? false : true}

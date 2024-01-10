@@ -12,7 +12,7 @@ import {
   matchListReset,
 } from "../../store/actions/match/matchAction";
 
-const MatchList = ({ }) => {
+const MatchList = ({}) => {
   const dispatch: AppDispatch = useDispatch();
   const [currentPage, setCurrentPage] = useState(1);
   const { matchList, success } = useSelector(
@@ -20,6 +20,7 @@ const MatchList = ({ }) => {
   );
 
   function callPage(event: any, newPage: any) {
+    console.log(event);
     setCurrentPage(newPage);
   }
 
@@ -32,7 +33,6 @@ const MatchList = ({ }) => {
       dispatch(matchListReset());
     }
   }, [success]);
-
 
   return (
     <>
@@ -50,11 +50,12 @@ const MatchList = ({ }) => {
           }),
         ]}
       >
-        <MatchListHeader getAllMatchHandle={() => { }} />
+        <MatchListHeader getAllMatchHandle={() => {}} />
         <MatchListTableHeader />
-        {matchList && matchList?.matches?.map((item: any, index: number) => {
-          return <MatchListTable key={item?.id} data={item} index={index} />;
-        })}
+        {matchList &&
+          matchList?.matches?.map((item: any, index: number) => {
+            return <MatchListTable key={item?.id} data={item} index={index} />;
+          })}
         <Pagination
           sx={{
             background: "#073c25",
@@ -74,9 +75,8 @@ const MatchList = ({ }) => {
           page={currentPage}
           className="whiteTextPagination matchList-pagination d-flex justify-content-center"
           count={Math.ceil(
-            parseInt(
-              matchList?.count ? matchList?.count : 1
-            ) / Constants.pageLimit
+            parseInt(matchList?.count ? matchList?.count : 1) /
+              Constants.pageLimit
           )}
           color="primary"
           onChange={callPage}

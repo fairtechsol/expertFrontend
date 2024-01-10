@@ -6,15 +6,38 @@ import { formatNumber } from "../../helper";
 import SmallBox from "../SmallBox";
 import Result from "../Result";
 import SessionResultModal from "../../addSession/SessionResult/SessionResultModal";
+import { addSession } from "../../../store/actions/addSession";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../../../store/store";
 
 const SessionMarketBoxLive = ({
   newData,
+  currentMatch,
   setLocalState,
   updateSessionData,
   hideResult,
 }: any) => {
-  const live = false;
+  const dispatch: AppDispatch = useDispatch();
+  const [live, setLive] = useState<any>(
+    newData?.isActive === false ? true : false
+  );
   const [visible, setVisible] = useState(false);
+
+  const handleLive = () => {
+    const payload = {
+      matchId: currentMatch?.id,
+      type: "session",
+      name: newData?.RunnerName,
+      // minBet: "any",
+      // maxBet: "any",
+      selectionId: newData?.SelectionId,
+      yesRate: newData?.LayPrice1,
+      noRate: newData?.BackPrice1,
+      yesPercent: newData?.leftYesRatePercent,
+      noPercent: newData?.leftNoRatePercent,
+    };
+    dispatch(addSession(payload));
+  };
   return (
     <div style={{ position: "relative" }}>
       {live && (
@@ -55,7 +78,7 @@ const SessionMarketBoxLive = ({
               fontWeight: "600",
             }}
           >
-            {newData?.bet_condition}
+            {newData?.RunnerName}
           </Typography>
         </Box>
 
@@ -68,17 +91,16 @@ const SessionMarketBoxLive = ({
             zIndex: 100,
           }}
         >
-          {live && newData?.betStatus !== 2 && (
+          {live && (
             <SmallBox
               hide={true}
               onClick={(e: any) => {
                 e.preventDefault();
-                // setLive(!live);
-                // handleLive(1);
+                setLive(!live);
+                handleLive();
               }}
               textSize={"8px"}
               width={"33px"}
-              // title={"Go Live"}
               color={"#FF4D4D"}
             />
           )}
@@ -135,8 +157,7 @@ const SessionMarketBoxLive = ({
           </Box>
         )}
 
-        {!["ACTIVE", "", undefined, null].includes(newData?.suspended) ||
-        newData?.betStatus === 2 ? (
+        {!["ACTIVE", "", undefined, null].includes(newData?.GameStatus) ? (
           <Box
             sx={{
               margin: "1px",
@@ -164,7 +185,7 @@ const SessionMarketBoxLive = ({
             >
               {newData?.betStatus === 2
                 ? `Result Declared`
-                : newData?.suspended}
+                : newData?.GameStatus}
             </Typography>
           </Box>
         ) : (
@@ -184,9 +205,9 @@ const SessionMarketBoxLive = ({
               session={true}
               back={true}
               width={"30%"}
-              value={newData?.no_rate}
-              value2={formatNumber(newData?.rate_percent?.split("-")[0])}
-              lock={newData?.suspended === "suspended"}
+              value={newData?.BackPrice1}
+              value2={formatNumber(newData?.BackSize1)}
+              lock={newData?.GameStatus === "SUSPENDED"}
               color={"#F6D0CB"}
             />
 
@@ -197,9 +218,9 @@ const SessionMarketBoxLive = ({
             <SeparateBox
               session={true}
               width={"30%"}
-              value={newData?.yes_rate}
-              value2={formatNumber(newData?.rate_percent?.split("-")[1])}
-              lock={newData?.suspended === "suspended"}
+              value={newData?.LayPrice1}
+              value2={formatNumber(newData?.LaySize1)}
+              lock={newData?.GameStatus === "SUSPENDED"}
               color={"#B3E0FF"}
             />
           </Box>

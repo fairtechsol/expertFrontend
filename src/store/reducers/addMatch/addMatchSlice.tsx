@@ -8,6 +8,7 @@ import {
   getExtraMarketList,
   getMatchDetail,
   matchDetailReset,
+  updateMatchRates,
 } from "../../actions/addMatch/addMatchAction";
 
 interface InitialState {
@@ -25,7 +26,7 @@ const initialState: InitialState = {
   tournamentList: [],
   eventsList: [],
   extraMarketList: [],
-  matchDetail: [],
+  matchDetail: null,
   loading: false,
   matchAdded: false,
   success: false,
@@ -109,7 +110,27 @@ const addMatch = createSlice({
         state.error = action?.error?.message;
       })
       .addCase(editMatchReset, (state) => {
-        return { ...state, success: false, matchDetail: [] };
+        return { ...state, success: false, matchDetail: null };
+      })
+      .addCase(updateMatchRates.fulfilled, (state, action) => {
+        const {
+          apiSession,
+          apiTiedMatch,
+          bookmaker,
+          marketCompleteMatch,
+          matchOdd,
+        } = action.payload;
+        state.matchDetail = {
+          ...state.matchDetail,
+          apiSession: apiSession,
+          apiTideMatch: { ...state.matchDetail.apiTideMatch, ...apiTiedMatch },
+          bookmaker: { ...state.matchDetail.bookmaker, ...bookmaker },
+          marketCompleteMatch: {
+            ...state.matchDetail.marketCompleteMatch,
+            ...marketCompleteMatch,
+          },
+          matchOdd: { ...state.matchDetail.matchOdd, ...matchOdd },
+        };
       })
       .addCase(matchDetailReset, (state) => {
         return {
