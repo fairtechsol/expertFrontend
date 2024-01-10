@@ -23,7 +23,7 @@ const SessionMarketBox = ({
   const [loader] = useState(false);
   return (
     <div style={{ position: "relative" }}>
-      {[0, 2].includes(newData?.betStatus) && (
+      {!["live"].includes(JSON.parse(newData)?.activeStatus) && (
         <Box
           sx={{
             margin: "1px",
@@ -61,7 +61,7 @@ const SessionMarketBox = ({
               fontWeight: "600",
             }}
           >
-            {newData?.bet_condition}
+            {JSON.parse(newData)?.name}
           </Typography>
         </Box>
 
@@ -179,7 +179,7 @@ const SessionMarketBox = ({
             >
               {newData?.betStatus === 2
                 ? `Result Declared`
-                : newData?.suspended}
+                : JSON.parse(newData)?.status}
             </h6>
           </Box>
         ) : (
@@ -199,9 +199,9 @@ const SessionMarketBox = ({
             <SeparateBox
               session={true}
               back={true}
-              value={newData?.no_rate}
-              value2={formatNumber(newData?.rate_percent?.split("-")[0])}
-              // lock={newData?.suspended === "suspended"}
+              value={formatNumber(JSON.parse(newData)?.noRate)}
+              value2={formatNumber(JSON.parse(newData)?.noPercent)}
+              lock={JSON.parse(newData)?.suspended === "suspended"}
               color={"#F6D0CB"}
             />
 
@@ -211,9 +211,9 @@ const SessionMarketBox = ({
 
             <SeparateBox
               session={true}
-              value={newData?.yes_rate}
-              value2={formatNumber(newData?.rate_percent?.split("-")[1])}
-              // lock={newData?.suspended === "suspended"}
+              value={formatNumber(JSON.parse(newData)?.yesRate)}
+              value2={formatNumber(JSON.parse(newData)?.yesPercent)}
+              lock={JSON.parse(newData)?.status === "suspended"}
               color={"#B3E0FF"}
             />
           </Box>
