@@ -2,6 +2,7 @@ import { TextField, useMediaQuery, useTheme } from "@mui/material";
 import { Box } from "@mui/system";
 import StyledImage from "./StyledImages";
 import { SEARCH, Search } from "../../assets";
+import { useRef, useState } from "react";
 
 const SearchInput = (props: any) => {
   const {
@@ -19,9 +20,38 @@ const SearchInput = (props: any) => {
 
   const theme = useTheme();
   const matchesxs = useMediaQuery(theme.breakpoints.down("lg"));
+  
+  const [searchValue, setSearchValue] = useState('');
+  const [isFocused, setIsFocused] = useState(false);
+
+
+  const handleInputFocus = () => {
+    setIsFocused(true);
+  };
+  const handleInputBlur = () => {
+    setIsFocused(false);
+  };
+
+  // const handleSearch = () => {
+  //   if (isFocused) {
+  //     // Make API call or perform search operation here using searchValue
+  //     console.log('Searching for:', searchValue);
+  //   }
+  // };
 
   const handleInputChange = async (event: any) => {
+    setSearchValue(event.target.value);
+    
+    setSearchValue(event.target.value);
+
     const value = event.target.value;
+    if (onChange && typeof onChange === "function") {
+      onChange(value);
+    }
+
+    if (isFocused) {
+      handleSearch(value);
+    }
     // setSearchValue(value);
     if (onChange && typeof onChange === "function") {
       onChange(value);
@@ -64,59 +94,63 @@ const SearchInput = (props: any) => {
           inputContainerStyle,
         ]}
       >
-        {(!matchesxs || show) && (
-          <TextField
-            variant="standard"
-            placeholder={placeholder}
-            autoComplete="off"
-            // value={searchValue}
-            onChange={handleInputChange}
-            InputProps={{
-              disableUnderline: true,
-              autoComplete: "off",
-              style: {
-                fontSize: "12px",
-                fontWeight: "600",
-                fontStyle: "italic",
-                color: "black",
-              },
-            }}
-            sx={{
-              borderColor: "white",
-              display: "flex",
-              flex: 1,
-              marginLeft: "5px",
-              fontSize: { lg: "10px", xs: "8px" },
-            }}
-          />
-        )}
-        {showTextInput && (
-          <TextField
-            variant="standard"
-            placeholder={placeholder}
-            autoComplete="off"
-            // value={searchValue}
-            onChange={handleInputChange}
-            InputProps={{
-              
-              disableUnderline: true,
-              // autoComplete: "new-password",
-              autoComplete: "off",
-              style: {
-                fontSize: "12px",
-                fontWeight: "600",
-                fontStyle: "italic",
-              },
-            }}
-            sx={{
-              borderColor: "white",
-              display: "flex",
-              flex: 1,
-              marginLeft: "5px",
-              fontSize: { lg: "10px", xs: "8px" },
-            }}
-          />
-        )}
+        {/* <form autoComplete="off"> */}
+          {(!matchesxs || show) && (
+            <TextField
+              variant="standard"
+              placeholder={placeholder}
+              autoComplete="off"
+              // value={searchValue}
+              onChange={handleInputChange}
+              onFocus={handleInputFocus}
+              onBlur={handleInputBlur}
+              InputProps={{
+                disableUnderline: true,
+                autoComplete: "off",
+                style: {
+                  fontSize: "12px",
+                  fontWeight: "600",
+                  fontStyle: "italic",
+                  color: "black",
+                },
+              }}
+              sx={{
+                borderColor: "white",
+                display: "flex",
+                flex: 1,
+                marginLeft: "5px",
+                fontSize: { lg: "10px", xs: "8px" },
+              }}
+            />
+          )}
+          {showTextInput && (
+            <TextField
+              variant="standard"
+              placeholder={placeholder}
+              autoComplete="off"
+              // value={searchValue}
+              onChange={handleInputChange}
+              InputProps={{
+                
+                disableUnderline: true,
+                // autoComplete: "new-password",
+                autoComplete: "off",
+                style: {
+                  fontSize: "12px",
+                  fontWeight: "600",
+                  fontStyle: "italic",
+                },
+              }}
+              sx={{
+                borderColor: "white",
+                display: "flex",
+                flex: 1,
+                marginLeft: "5px",
+                fontSize: { lg: "10px", xs: "8px" },
+              }}
+            />
+          )}
+        {/* </form> */}
         <Box
           sx={[
             {
@@ -137,7 +171,7 @@ const SearchInput = (props: any) => {
           <StyledImage
             src={header ? SEARCH : Search}
             sx={{ height: "40%", width: "auto" }}
-          />
+          />          
         </Box>
       </Box>
     </>

@@ -5,13 +5,11 @@ import { ApiConstants, Constants } from "../../../utils/Constants";
 
 export const getMatchList = createAsyncThunk<any, any>(
   "/match/list",
-  async (requestData) => {
+  async (requestData, thunkApi) => {
     try {
       const response = await service.get(
-        `${ApiConstants.MATCH.LIST}?searchBy=title&keyword=${
-          requestData.keyword ? requestData.keyword : ""
-        }&page=${
-          requestData?.currentPage ? requestData?.currentPage : 1
+        `${ApiConstants.MATCH.LIST}?searchBy=title&keyword=${requestData.keyword ? requestData.keyword : ""
+        }&page=${requestData?.currentPage ? requestData?.currentPage : 1
         }&limit=${Constants.pageLimit}`
       );
       if (response) {
@@ -19,13 +17,14 @@ export const getMatchList = createAsyncThunk<any, any>(
       }
     } catch (error) {
       const err = error as AxiosError;
-      return err.response?.status;
+      return thunkApi.rejectWithValue(err.response?.status);
     }
   }
 );
-export const getMatchListDropdown = createAsyncThunk<any>(
+export const getMatchListDropdown = createAsyncThunk<any, any>(
   "/match/listDropdown",
-  async () => {
+  async (requestData, thunkApi) => {
+    console.log(requestData)
     try {
       const response = await service.get(`${ApiConstants.MATCH.DROPDOWNLIST}`);
       if (response) {
@@ -33,7 +32,7 @@ export const getMatchListDropdown = createAsyncThunk<any>(
       }
     } catch (error) {
       const err = error as AxiosError;
-      return err.response?.status;
+      return thunkApi.rejectWithValue(err.response?.status);
     }
   }
 );
@@ -57,23 +56,24 @@ export const updateMatchActiveStatus = createAsyncThunk<any, any>(
 );
 export const editMatch = createAsyncThunk<any, any>(
   "/match/edit",
-  async (requestData) => {
+  async (requestData, thunkApi) => {
     try {
       const response = await service.post(
         `${ApiConstants.MATCH.EDIT}`,
         requestData
       );
       if (response) {
-        console.log(response);
+        return response.data
       }
     } catch (error) {
       const err = error as AxiosError;
-      return err.response?.status;
+      return thunkApi.rejectWithValue(err.response?.status);
     }
   }
 );
 
 export const matchListReset = createAction("matchList/reset");
+export const editSuccessReset = createAction("editSuccess/reset");
 export const updateMatchActiveStatusReset = createAction(
   "updateMatchActiveStatusReset/reset"
 );

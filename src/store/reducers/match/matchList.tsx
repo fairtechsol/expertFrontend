@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {
   editMatch,
+  editSuccessReset,
   getMatchList,
   getMatchListDropdown,
   matchListReset,
@@ -12,6 +13,7 @@ interface InitialState {
   matchList: any;
   matchListDropdown: any;
   success: boolean;
+  editSuccess: boolean;
   statusSuccess: boolean;
   loading: boolean;
   error: any;
@@ -22,6 +24,7 @@ const initialState: InitialState = {
   matchListDropdown: [],
   loading: false,
   success: false,
+  editSuccess: false,
   statusSuccess: false,
   error: null,
 };
@@ -75,15 +78,22 @@ const matchList = createSlice({
       })
       .addCase(editMatch.pending, (state) => {
         state.loading = true;
-        state.success = false;
+        state.editSuccess = false;
         state.error = null;
       })
       .addCase(editMatch.fulfilled, (state) => {
         state.loading = false;
+        state.editSuccess = true
       })
       .addCase(editMatch.rejected, (state, action) => {
         state.loading = false;
         state.error = action?.error?.message;
+      })
+      .addCase(editSuccessReset, (state) => {
+        return {
+          ...state,
+          editSuccess: false
+        };
       })
       .addCase(matchListReset, (state) => {
         return { ...state, success: false };

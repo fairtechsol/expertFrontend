@@ -51,14 +51,15 @@ const MatchListHeader = ({ getAllMatchHandle }: Props) => {
             justifyContent: { xs: "space-between", sm: "flex-end" },
           }}
         >
-          <SearchInput
-            width="50%"
-            show={true}
-            getAllMatch={getAllMatchHandle}
-            placeholder={"Search Match..."}
-            handleSearch={getMatchListOnchange}
-            // handleInputChange={matchListSearch}
-          />
+         
+            <SearchInput
+              width="50%"
+              show={true}
+              getAllMatch={getAllMatchHandle}
+              placeholder={"Search Match..."}
+              handleSearch={getMatchListOnchange}
+              // handleInputChange={matchListSearch}
+            />
           {getProfile?.allPrivilege ? (
             <CustomButton
               onClick={() => {
