@@ -27,8 +27,6 @@ const MatchDetails = () => {
   );
   const [Bets, setIObtes] = useState<any>([]);
 
-  const arrayObj: any = [];
-
   const updateMatchDetailToRedux = (event: any) => {
     if (state?.id === event?.id) {
       dispatch(updateMatchRates(event));
