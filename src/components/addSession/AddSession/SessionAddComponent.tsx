@@ -26,9 +26,9 @@ const stateDetail = {
 };
 
 const SessionAddComponent = (props: any) => {
+  const { createSession, sessionEvent, match } = props;
   const dispatch: AppDispatch = useDispatch();
   const inputRef: any = useRef(null);
-  const { createSession, sessionEvent, match } = props;
   const { sessionById, selectedSessionId } = useSelector(
     (state: RootState) => state.addSession
   );
@@ -248,7 +248,7 @@ const SessionAddComponent = (props: any) => {
             inputRef={inputRef}
             // sessionBetId={sessionBetId}
             match={match}
-            // isDisable={isDisable}
+          // isDisable={isDisable}
           />
           <Box sx={{ mt: 2, border: "1px solid black", p: 1 }}>
             <Box
@@ -362,8 +362,8 @@ const SessionAddComponent = (props: any) => {
                       {visible1 && (
                         <SessionResultModal
                           newData={{
-                            // id: betId,
-                            match_id: match?.id,
+                            id: betId,
+                            matchId: match?.id,
                             betStatus: 2,
                           }}
                           undeclare={true}
@@ -420,8 +420,8 @@ const SessionAddComponent = (props: any) => {
                       {visible && (
                         <SessionResultModal
                           newData={{
-                            // id: betId,
-                            match_id: match?.id,
+                            id: betId,
+                            matchId: match?.id,
                             betStatus: 0,
                           }}
                           // setResultPending={setResultPending}
@@ -477,8 +477,8 @@ const SessionAddComponent = (props: any) => {
                       {visible2 && (
                         <SessionResultModal
                           newData={{
-                            // id: betId,
-                            match_id: match?.id,
+                            id: betId,
+                            matchId: match?.id,
                             betStatus: 3,
                             isNoResult: true,
                           }}
