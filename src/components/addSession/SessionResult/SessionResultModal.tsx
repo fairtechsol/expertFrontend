@@ -3,12 +3,15 @@ import { useEffect, useRef, useState } from "react";
 import SessionResultCustomButton from "../AddSession/SessionResultCustomButton";
 import { CancelDark } from "../../../assets";
 import { useFormik } from "formik";
-import { resultDeclare } from "../../../store/actions/match/matchAction";
+import {
+  noResultDeclare,
+  resultDeclare,
+} from "../../../store/actions/match/matchAction";
 import { AppDispatch } from "../../../store/store";
 import { useDispatch } from "react-redux";
 
 const SessionResultModal = (props: any) => {
-  const { newData, visible, onClickCancel, matchId, betId } = props;
+  const { newData, visible, onClickCancel } = props;
   const dispatch: AppDispatch = useDispatch();
   const [selected, setSelected] = useState({ betId: "", matchId: "" });
   const [loading] = useState({ id: "", value: false });
@@ -32,13 +35,20 @@ const SessionResultModal = (props: any) => {
     initialValues: initialValues,
     // validationSchema: changePasswordSchema,
     onSubmit: (values: any) => {
-      let payload = {
-        score: values.score,
-        matchId: selected?.matchId,
-        betId: selected?.betId,
-      };
-      dispatch(resultDeclare(payload));
-      // console.log(values, "values 555555")
+      if (newData?.betStatus === 0) {
+        let payload = {
+          score: values.score,
+          matchId: selected?.matchId,
+          betId: selected?.betId,
+        };
+        dispatch(resultDeclare(payload));
+      } else if (newData?.betStatus === 3) {
+        let payload = {
+          matchId: selected?.matchId,
+          betId: selected?.betId,
+        };
+        dispatch(noResultDeclare(payload));
+      }
     },
   });
 
@@ -51,9 +61,9 @@ const SessionResultModal = (props: any) => {
   useEffect(() => {
     setSelected({
       betId: newData?.id,
-      matchId: newData?.matchId
-    })
-  }, [newData])
+      matchId: newData?.matchId,
+    });
+  }, [newData]);
 
   return (
     <Box
@@ -213,19 +223,19 @@ const SessionResultModal = (props: any) => {
                     id="DR"
                     title={"Declare"}
                     loading={loading}
-                  // onClick={() => {
-                  //   if (loading?.value) {
-                  //     return false;
-                  //   }
-                  //   if (selected !== "" && /^\d+$/.test(selected)) {
-                  //     declareResult();
-                  //   } else if (selected === "") {
-                  //     setError("Please enter score");
-                  //   } else {
-                  //     // toast.warn("Please enter score");
-                  //     setError("Input field should contain numbers only");
-                  //   }
-                  // }}
+                    // onClick={() => {
+                    //   if (loading?.value) {
+                    //     return false;
+                    //   }
+                    //   if (selected !== "" && /^\d+$/.test(selected)) {
+                    //     declareResult();
+                    //   } else if (selected === "") {
+                    //     setError("Please enter score");
+                    //   } else {
+                    //     // toast.warn("Please enter score");
+                    //     setError("Input field should contain numbers only");
+                    //   }
+                    // }}
                   />
                 ) : null}
               </>
@@ -241,8 +251,6 @@ const SessionResultModal = (props: any) => {
                   if (loading?.value) {
                     return false;
                   }
-
-                  //   noResultDeclare();
                 }}
               />
             )}

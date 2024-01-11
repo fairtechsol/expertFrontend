@@ -77,7 +77,25 @@ export const resultDeclare = createAsyncThunk<any, any>(
   async (requestData, thunkApi) => {
     try {
       const response = await service.post(
-        `${ApiConstants.BOOKMAKER.RESULTDECLARE}`,
+        `${ApiConstants.SESSION.RESULTDECLARE}`,
+        requestData
+      );
+      if (response?.status === 200) {
+        return response?.data;
+      }
+    } catch (error) {
+      const err = error as AxiosError;
+      return thunkApi.rejectWithValue(err.response?.status);
+    }
+  }
+);
+
+export const noResultDeclare = createAsyncThunk<any, any>(
+  "/bet/declare/noResult/session",
+  async (requestData, thunkApi) => {
+    try {
+      const response = await service.post(
+        `${ApiConstants.SESSION.NO_RESULT}`,
         requestData
       );
       if (response?.status === 200) {

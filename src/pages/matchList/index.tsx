@@ -11,6 +11,7 @@ import {
   getMatchList,
   matchListReset,
 } from "../../store/actions/match/matchAction";
+import { expertSocketService } from "../../socketManager";
 
 const MatchList = ({}) => {
   const dispatch: AppDispatch = useDispatch();
@@ -19,8 +20,7 @@ const MatchList = ({}) => {
     (state: RootState) => state.matchList
   );
 
-  function callPage(event: any, newPage: any) {
-    console.log(event);
+  function callPage(_: any, newPage: any) {
     setCurrentPage(newPage);
   }
 
@@ -33,6 +33,18 @@ const MatchList = ({}) => {
       dispatch(matchListReset());
     }
   }, [success]);
+
+  const getMatchListService = () => {
+    dispatch(
+      getMatchList({
+        currentPage: currentPage,
+      })
+    );
+  };
+
+  useEffect(() => {
+    expertSocketService.match.matchAdded(getMatchListService);
+  }, []);
 
   return (
     <>
