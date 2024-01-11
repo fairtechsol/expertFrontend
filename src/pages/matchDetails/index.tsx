@@ -27,8 +27,6 @@ const MatchDetails = () => {
   );
   const [Bets, setIObtes] = useState<any>([]);
 
-  const arrayObj: any = [];
-
   const updateMatchDetailToRedux = (event: any) => {
     if (state?.id === event?.id) {
       dispatch(updateMatchRates(event));
@@ -105,9 +103,6 @@ const MatchDetails = () => {
                     stopAllHide={true}
                     hideResult={true}
                     sessionData={matchDetail?.apiSession}
-                    // setMatchLiveSession={setLiveSessionData}
-                    // setLocalState={setLocalState}
-                    // setCurrentMatch={setCurrentMatch}
                     currentMatch={matchDetail}
                   />
                 </Box>
@@ -134,7 +129,7 @@ const MatchDetails = () => {
                     hideTotalBet={false}
                     stopAllHide={false}
                     // setData={setData}
-                    sessionData={arrayObj}
+                    sessionData={matchDetail?.sessionBettings}
                     hideResult={false}
                     // setLocalState={setLocalState}
                     // setCurrentMatch={setCurrentMatch}
