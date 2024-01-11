@@ -4,7 +4,8 @@ import SessionResultOvers from "./SessionResultOvers";
 import SessionResultModal from "./SessionResultModal";
 
 const SessionResult = (props: any) => {
-  const { createSession, betId, handleSession } = props;
+  const { createSession, betId, handleSession, matchId } = props;
+  console.log(matchId, betId, "searchResult 11111")
 
   const [mode, setMode] = useState("0");
   const [selected, setSelected] = useState<any>([]);
@@ -93,11 +94,8 @@ const SessionResult = (props: any) => {
               >
                 {false && sessionData.length > 0 && (
                   <SessionResultModal
-                    newData={{
-                      id: betId,
-                      match_id: sessionData[0]?.match_id,
-                      betStatus: 2,
-                    }}
+                    matchId={matchId}
+                    betId={betId}
                     undeclare={true}
                     onClick={() => {
                       //   setVisible1(false);

@@ -2,11 +2,15 @@ import { Box, TextField, Typography } from "@mui/material";
 import { useEffect, useRef, useState } from "react";
 import SessionResultCustomButton from "../AddSession/SessionResultCustomButton";
 import { CancelDark } from "../../../assets";
+import { useFormik } from "formik";
+import { resultDeclare } from "../../../store/actions/match/matchAction";
+import { AppDispatch } from "../../../store/store";
+import { useDispatch } from "react-redux";
 
 const SessionResultModal = (props: any) => {
-  const { newData, visible, onClickCancel } = props;
-
-  const [selected, setSelected] = useState("");
+  const { newData, visible, onClickCancel, matchId, betId } = props;
+  const dispatch: AppDispatch = useDispatch();
+  const [selected, setSelected] = useState({ betId: "", matchId: "" });
   const [loading] = useState({ id: "", value: false });
   const myDivRef: any = useRef(null);
 
@@ -18,9 +22,38 @@ const SessionResultModal = (props: any) => {
     });
   };
 
+  const initialValues: any = {
+    betId: "",
+    score: "",
+    matchId: "",
+  };
+
+  const formik = useFormik({
+    initialValues: initialValues,
+    // validationSchema: changePasswordSchema,
+    onSubmit: (values: any) => {
+      let payload = {
+        score: values.score,
+        matchId: selected?.matchId,
+        betId: selected?.betId,
+      };
+      dispatch(resultDeclare(payload));
+      // console.log(values, "values 555555")
+    },
+  });
+
+  const { handleSubmit, errors } = formik;
+
   useEffect(() => {
     scrollToBottom();
   }, [visible]);
+
+  useEffect(() => {
+    setSelected({
+      betId: newData?.id,
+      matchId: newData?.matchId
+    })
+  }, [newData])
 
   return (
     <Box
@@ -65,7 +98,7 @@ const SessionResultModal = (props: any) => {
         />
       </Box>
 
-      <form onSubmit={(e) => e.preventDefault()}>
+      <form onSubmit={(e) => handleSubmit(e)}>
         <Box
           sx={{
             width: "100%",
@@ -98,11 +131,17 @@ const SessionResultModal = (props: any) => {
                 autoFocus
                 placeholder="Enter score"
                 variant="standard"
-                value={selected}
-                onChange={(e) => {
-                  //   setError("");
-                  setSelected(e?.target.value);
-                }}
+                // value={selected}
+                value={formik.values.score}
+                id="score"
+                name="score"
+                onChange={formik.handleChange}
+                // onChange={(e) => {
+                //   //   setError("");
+                //   setSelected(e?.target.value);
+                // }}
+                // touched={touched.score}
+                // error={Boolean(errors.score)}
                 InputProps={{
                   disableUnderline: true,
                   sx: {
@@ -114,13 +153,13 @@ const SessionResultModal = (props: any) => {
                   },
                 }}
               />
-              {/* {error && (
+              {errors && (
                 <Box
                   style={{ color: "red", marginTop: "8px", fontSize: "11px" }}
                 >
-                  {error}
+                  {/* {error} */}
                 </Box>
-              )} */}
+              )}
             </>
           ) : (
             <Typography
@@ -174,19 +213,19 @@ const SessionResultModal = (props: any) => {
                     id="DR"
                     title={"Declare"}
                     loading={loading}
-                    // onClick={() => {
-                    //   if (loading?.value) {
-                    //     return false;
-                    //   }
-                    //   if (selected !== "" && /^\d+$/.test(selected)) {
-                    //     declareResult();
-                    //   } else if (selected === "") {
-                    //     setError("Please enter score");
-                    //   } else {
-                    //     // toast.warn("Please enter score");
-                    //     setError("Input field should contain numbers only");
-                    //   }
-                    // }}
+                  // onClick={() => {
+                  //   if (loading?.value) {
+                  //     return false;
+                  //   }
+                  //   if (selected !== "" && /^\d+$/.test(selected)) {
+                  //     declareResult();
+                  //   } else if (selected === "") {
+                  //     setError("Please enter score");
+                  //   } else {
+                  //     // toast.warn("Please enter score");
+                  //     setError("Input field should contain numbers only");
+                  //   }
+                  // }}
                   />
                 ) : null}
               </>

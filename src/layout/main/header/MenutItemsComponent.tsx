@@ -76,52 +76,53 @@ const MenutItemsComponent = ({
         >
           {getProfile.allPrivilege
             ? matchListDropdown?.length > 0 &&
-              matchListDropdown?.map((event: any) => {
-                if (event?.id == x?.id) {
-                  return (
-                    <>
-                      {event?.sessions?.length > 0 && (
-                        <Typography
-                          key={event?.id}
-                          sx={{ fontSize: "12px", fontWeight: "600" }}
+            matchListDropdown?.map((event: any) => {
+              if (event?.id == x?.id) {
+                return (
+                  <>
+                    {event?.sessions?.length > 0 && (
+                      <Typography
+                        key={event?.id}
+                        sx={{ fontSize: "12px", fontWeight: "600" }}
+                      >
+                        {"Current Live Session"}
+                      </Typography>
+                    )}
+                    {event?.sessions?.map((element: any) => {
+                      return (
+                        <Box
+                          key={element.id}
+                          onClick={() => {
+                            navigate("/expert/live", {
+                              state: {
+                                createSession: false,
+                                match: x,
+                                sessionEvent: element,
+                                betId: element?.id
+                              },
+                            });
+                            handleClose();
+                          }}
+                          sx={{ marginLeft: "10px", marginTop: "3px" }}
                         >
-                          {"Current Live Session"}
-                        </Typography>
-                      )}
-                      {event?.sessions?.map((element: any) => {
-                        return (
-                          <Box
-                            key={element.id}
-                            onClick={() => {
-                              navigate("/expert/live", {
-                                state: {
-                                  createSession: false,
-                                  match: x,
-                                  sessionEvent: element,
-                                },
-                              });
-                              handleClose();
+                          <Typography
+                            sx={{
+                              fontSize: "12px",
+                              marginTop: "3px",
+                              cursor: "pointer",
                             }}
-                            sx={{ marginLeft: "10px", marginTop: "3px" }}
                           >
-                            <Typography
-                              sx={{
-                                fontSize: "12px",
-                                marginTop: "3px",
-                                cursor: "pointer",
-                              }}
-                            >
-                              {element?.name}
-                            </Typography>
-                          </Box>
-                        );
-                      })}
-                    </>
-                  );
-                } else return null;
-              })
+                            {element?.name}
+                          </Typography>
+                        </Box>
+                      );
+                    })}
+                  </>
+                );
+              } else return null;
+            })
             : getProfile?.sessionMatchPrivilege
-            ? matchListDropdown &&
+              ? matchListDropdown &&
               matchListDropdown?.map((event: any) => {
                 if (event.id == x.id) {
                   return (
@@ -168,7 +169,7 @@ const MenutItemsComponent = ({
                   );
                 } else return null;
               })
-            : null}
+              : null}
           {getProfile?.allPrivilege ? (
             <Box
               onClick={() => {
@@ -241,43 +242,43 @@ const MenutItemsComponent = ({
           ) : null}
           {getProfile.allPrivilege
             ? matchListDropdown?.map((event: any) => {
-                if (event?.id === x?.id) {
-                  return (
-                    <>
-                      {event?.bookmakers?.map((element: any) => {
-                        return (
-                          <Box
-                            key={element.id}
-                            onClick={() => {
-                              navigate("/expert/add_book_maker", {
-                                state: {
-                                  id: element.id,
-                                  match: x,
-                                  type: element?.type,
-                                },
-                              });
-                              handleClose();
+              if (event?.id === x?.id) {
+                return (
+                  <>
+                    {event?.bookmakers?.map((element: any) => {
+                      return (
+                        <Box
+                          key={element.id}
+                          onClick={() => {
+                            navigate("/expert/add_book_maker", {
+                              state: {
+                                id: element.id,
+                                match: x,
+                                type: element?.type,
+                              },
+                            });
+                            handleClose();
+                          }}
+                          sx={{ marginLeft: "10px", marginTop: "3px" }}
+                        >
+                          <Typography
+                            sx={{
+                              fontSize: "12px",
+                              marginTop: "3px",
+                              cursor: "pointer",
                             }}
-                            sx={{ marginLeft: "10px", marginTop: "3px" }}
                           >
-                            <Typography
-                              sx={{
-                                fontSize: "12px",
-                                marginTop: "3px",
-                                cursor: "pointer",
-                              }}
-                            >
-                              {element.name}
-                            </Typography>
-                          </Box>
-                        );
-                      })}
-                    </>
-                  );
-                } else return null;
-              })
+                            {element.name}
+                          </Typography>
+                        </Box>
+                      );
+                    })}
+                  </>
+                );
+              } else return null;
+            })
             : getProfile?.bookmakerMatchPrivilege
-            ? matchListDropdown?.map((event: any) => {
+              ? matchListDropdown?.map((event: any) => {
                 if (event.id === x.id) {
                   return (
                     <>
@@ -313,7 +314,7 @@ const MenutItemsComponent = ({
                   );
                 } else return null;
               })
-            : null}
+              : null}
         </Box>
         // </Box>
       )}
