@@ -20,10 +20,7 @@ const AddSession = () => {
             />
           </Paper>
           <Paper style={{ margin: "10px" }}>
-            <SessionResult
-              matchId={state?.match?.id}
-              betId={state?.betId}
-            />
+            <SessionResult matchId={state?.match?.id} betId={state?.betId} />
           </Paper>
         </Grid>
         <Grid item xs={12} sm={6}>

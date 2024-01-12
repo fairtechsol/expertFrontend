@@ -5,6 +5,7 @@ import {
   getMatchList,
   getMatchListDropdown,
   matchListReset,
+  noResultDeclare,
   resultDeclare,
   updateMatchActiveStatus,
   updateMatchActiveStatusReset,
@@ -87,6 +88,19 @@ const matchList = createSlice({
         state.loading = false;
       })
       .addCase(resultDeclare.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action?.error?.message;
+      })
+      .addCase(noResultDeclare.pending, (state) => {
+        state.loading = true;
+        state.success = false;
+        state.error = null;
+      })
+      .addCase(noResultDeclare.fulfilled, (state) => {
+        state.success = true;
+        state.loading = false;
+      })
+      .addCase(noResultDeclare.rejected, (state, action) => {
         state.loading = false;
         state.error = action?.error?.message;
       })

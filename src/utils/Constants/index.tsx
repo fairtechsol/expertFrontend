@@ -17,10 +17,11 @@ export const ApiConstants = {
   SESSION: {
     ADD: "session/add",
     GET: "session",
+    RESULTDECLARE: "/bet/declare/result/session",
+    NO_RESULT: "/bet/declare/noResult/session",
   },
   BOOKMAKER: {
     GET: "matchBeting",
-    RESULTDECLARE: "/bet/declare/result/session",
   },
 };
 
