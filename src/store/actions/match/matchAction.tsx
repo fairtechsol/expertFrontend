@@ -55,6 +55,41 @@ export const updateMatchActiveStatus = createAsyncThunk<any, any>(
     }
   }
 );
+export const betSession = createAsyncThunk<any, any>(
+  "/bet/declare/result/session",
+  async (requestData, thunkApi) => {
+    try {
+      const response = await service.post(
+        `${ApiConstants.MATCH.UPDATEACTIVESTATUS}`,
+        requestData
+      );
+      if (response?.status === 200) {
+        return response?.data;
+      }
+    } catch (error) {
+      const err = error as AxiosError;
+      return thunkApi.rejectWithValue(err.response?.status);
+    }
+  }
+);
+export const resultDeclare = createAsyncThunk<any, any>(
+  "/bet/declare/result/session",
+  async (requestData, thunkApi) => {
+    try {
+      const response = await service.post(
+        `${ApiConstants.BOOKMAKER.RESULTDECLARE}`,
+        requestData
+      );
+      if (response?.status === 200) {
+        return response?.data;
+      }
+    } catch (error) {
+      const err = error as AxiosError;
+      return thunkApi.rejectWithValue(err.response?.status);
+    }
+  }
+);
+
 export const editMatch = createAsyncThunk<any, any>(
   "/match/edit",
   async (requestData, thunkApi) => {

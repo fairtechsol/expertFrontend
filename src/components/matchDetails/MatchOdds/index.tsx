@@ -203,7 +203,7 @@ const MatchOdds = ({ currentMatch, matchOdds, matchOddsLive, socket }: any) => {
                   (v: any) => v?.sessionBet === false
                 )
               }
-              teamA={currentMatch?.matchOdd?.teamA}
+              teamA={currentMatch?.teamA}
               stopAt={currentMatch?.stopAt}
               teamB={currentMatch?.teamB}
               tie={"Tie"}
