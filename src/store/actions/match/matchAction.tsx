@@ -8,10 +8,8 @@ export const getMatchList = createAsyncThunk<any, any>(
   async (requestData, thunkApi) => {
     try {
       const response = await service.get(
-        `${ApiConstants.MATCH.LIST}?searchBy=title&keyword=${
-          requestData.keyword ? requestData.keyword : ""
-        }&page=${
-          requestData?.currentPage ? requestData?.currentPage : 1
+        `${ApiConstants.MATCH.LIST}?searchBy=title&keyword=${requestData.keyword ? requestData.keyword : ""
+        }&page=${requestData?.currentPage ? requestData?.currentPage : 1
         }&limit=${Constants.pageLimit}`
       );
       if (response) {
@@ -30,6 +28,20 @@ export const getMatchListDropdown = createAsyncThunk<any>(
       const response = await service.get(`${ApiConstants.MATCH.DROPDOWNLIST}`);
       if (response) {
         return response?.data?.matches;
+      }
+    } catch (error) {
+      const err = error as AxiosError;
+      return thunkApi.rejectWithValue(err.response?.status);
+    }
+  }
+);
+export const betLiveStatus = createAsyncThunk<any, any>(
+  "matchBeting/status/change",
+  async (requestData, thunkApi) => {
+    try {
+      const response = await service.post(`${ApiConstants.BOOKMAKER.BETTINGSTATUS}`, requestData);
+      if (response) {
+        return response?.data;
       }
     } catch (error) {
       const err = error as AxiosError;
