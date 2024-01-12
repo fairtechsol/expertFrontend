@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {
+  betLiveStatus,
   editMatch,
   editSuccessReset,
   getMatchList,
@@ -18,6 +19,7 @@ interface InitialState {
   success: boolean;
   editSuccess: boolean;
   statusSuccess: boolean;
+  statusBetLive: boolean;
   loading: boolean;
   error: any;
   statusBetLive: boolean
@@ -30,6 +32,7 @@ const initialState: InitialState = {
   success: false,
   editSuccess: false,
   statusSuccess: false,
+  statusBetLive: false,
   error: null,
   statusBetLive: false
 };
@@ -126,9 +129,8 @@ const matchList = createSlice({
         state.error = null;
       })
       .addCase(editMatch.fulfilled, (state) => {
-        console.log(state)
         state.loading = false;
-        state.editSuccess = true
+        state.editSuccess = true;
       })
       .addCase(editMatch.rejected, (state, action) => {
         state.loading = false;
@@ -137,7 +139,7 @@ const matchList = createSlice({
       .addCase(editSuccessReset, (state) => {
         return {
           ...state,
-          editSuccess: false
+          editSuccess: false,
         };
       })
       .addCase(matchListReset, (state) => {

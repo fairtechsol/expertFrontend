@@ -37,6 +37,23 @@ export const getMatchListDropdown = createAsyncThunk<any>(
     }
   }
 );
+export const betLiveStatus = createAsyncThunk<any, any>(
+  "matchBeting/status/change",
+  async (requestData, thunkApi) => {
+    try {
+      const response = await service.post(
+        `${ApiConstants.BOOKMAKER.BETTINGSTATUS}`,
+        requestData
+      );
+      if (response) {
+        return response?.data;
+      }
+    } catch (error) {
+      const err = error as AxiosError;
+      return thunkApi.rejectWithValue(err.response?.status);
+    }
+  }
+);
 
 export const updateMatchActiveStatus = createAsyncThunk<any, any>(
   "/match/updateActiveStatus",

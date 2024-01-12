@@ -9,8 +9,8 @@ import { betLiveStatus } from "../../../store/actions/match/matchAction";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../store/store";
 
-const BookMarket = ({ currentMatch, socket, liveData, matchOdds }: any) => {
-  const [newMatchOdds] = useState(matchOdds);
+const BookMarket = ({ currentMatch, socket, liveData }: any) => {
+  // const [newMatchOdds] = useState(matchOdds);
   const [visibleImg, setVisibleImg] = useState(true);
   const [live, setLive] = useState(false);
   const dispatch: AppDispatch = useDispatch();
@@ -108,7 +108,6 @@ const BookMarket = ({ currentMatch, socket, liveData, matchOdds }: any) => {
                 }}
               />
             </>
-
           ) : (
             <SmallBox
               onClick={() => {
