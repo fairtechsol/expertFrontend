@@ -23,7 +23,10 @@ import {
   matchDetailReset,
 } from "../../store/actions/addMatch/addMatchAction";
 import moment from "moment";
-import { editMatch, editSuccessReset } from "../../store/actions/match/matchAction";
+import {
+  editMatch,
+  editSuccessReset,
+} from "../../store/actions/match/matchAction";
 
 const useStyles = makeStyles(() => ({
   dateTimePicker: {
@@ -93,9 +96,7 @@ const AddMatch = () => {
 
   const selectionData = [1, 2, 3];
 
-  const { editSuccess } = useSelector(
-    (state: RootState) => state.matchList
-  );
+  const { editSuccess } = useSelector((state: RootState) => state.matchList);
 
   const formik = useFormik({
     initialValues: initialFormikValues,
@@ -221,9 +222,8 @@ const AddMatch = () => {
 
   useEffect(() => {
     if (editSuccess) {
-      debugger
       navigate("/expert/match");
-      dispatch(editSuccessReset())
+      dispatch(editSuccessReset());
     }
   }, [editSuccess]);
 
@@ -522,11 +522,11 @@ const AddMatch = () => {
                         border: "none",
                       },
                       "& .css-nxo287-MuiInputBase-input-MuiOutlinedInput-input":
-                      {
-                        cursor: "not-allowed",
-                        paddingBottom: "8px",
-                        paddingTop: "8px",
-                      },
+                        {
+                          cursor: "not-allowed",
+                          paddingBottom: "8px",
+                          paddingTop: "8px",
+                        },
                     }}
                     className={classes.dateTimePicker}
                     // label="Controlled picker"

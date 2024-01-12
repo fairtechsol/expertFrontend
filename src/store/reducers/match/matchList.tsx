@@ -126,9 +126,8 @@ const matchList = createSlice({
         state.error = null;
       })
       .addCase(editMatch.fulfilled, (state) => {
-        console.log(state)
         state.loading = false;
-        state.editSuccess = true
+        state.editSuccess = true;
       })
       .addCase(editMatch.rejected, (state, action) => {
         state.loading = false;
@@ -137,7 +136,7 @@ const matchList = createSlice({
       .addCase(editSuccessReset, (state) => {
         return {
           ...state,
-          editSuccess: false
+          editSuccess: false,
         };
       })
       .addCase(matchListReset, (state) => {

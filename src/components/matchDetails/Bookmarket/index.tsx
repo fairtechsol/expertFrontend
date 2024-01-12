@@ -1,24 +1,23 @@
 import { Box, Typography } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Stop from "../SessionMarket/Stop";
 import SmallBox from "../SmallBox";
 import { ARROWUP } from "../../../assets";
 import Divider from "../../Common/Divider";
 import BoxComponent from "../MatchOdds/BoxComponent";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../../../store/store";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../../../store/store";
 import { betLiveStatus } from "../../../store/actions/match/matchAction";
 
-const BookMarket = ({ currentMatch, socket, liveData, matchOdds }: any) => {
-  const [newMatchOdds] = useState(matchOdds);
+const BookMarket = ({ currentMatch, socket, liveData }: any) => {
+  // const [newMatchOdds] = useState(matchOdds);
   const [visibleImg, setVisibleImg] = useState(true);
   const [live, setLive] = useState(false);
   const dispatch: AppDispatch = useDispatch();
 
-  const { statusBetLive } = useSelector((state: RootState) => state.matchList);
+  // const { statusBetLive } = useSelector((state: RootState) => state.matchList);
 
-  console.log(live, "live333")
-
+  console.log(live, "live333");
 
   // useEffect(() => {
   //   // if (statusBetLive) {
@@ -104,11 +103,13 @@ const BookMarket = ({ currentMatch, socket, liveData, matchOdds }: any) => {
             <>
               <SmallBox
                 onClick={() => {
-                  dispatch(betLiveStatus({
-                    isStop: live,
-                    betId: currentMatch?.bookmaker?.id
-                  }));
-                  setLive(!live)
+                  dispatch(
+                    betLiveStatus({
+                      isStop: live,
+                      betId: currentMatch?.bookmaker?.id,
+                    })
+                  );
+                  setLive(!live);
                   // if (newMatchOdds?.id) {
                   //   socket.emit("bookMakerRateLive", {
                   //     matchId: currentMatch?.id,
@@ -121,7 +122,6 @@ const BookMarket = ({ currentMatch, socket, liveData, matchOdds }: any) => {
                   //     matchId: currentMatch?.id,
                   //     bookMakerLive: true,
                   //   });
-
                 }}
                 width={"80px"}
                 title={live ? "Live" : "Go Live"}
@@ -131,7 +131,6 @@ const BookMarket = ({ currentMatch, socket, liveData, matchOdds }: any) => {
                 }}
               />
             </>
-
           ) : (
             <SmallBox
               onClick={() => {
