@@ -90,6 +90,39 @@ export const resultDeclare = createAsyncThunk<any, any>(
   }
 );
 
+// export const betLiveStatus = createAsyncThunk<any, any>(
+//   "/matchBetting/status/change",
+//   async (__, thunkApi) => {
+//     try {
+//       const response = await service.post(
+//         `${ApiConstants.BOOKMAKER.BETTINGSTATUS}`,
+//         // requestData
+//       );
+//       if (response?.status === 200) {
+//         return response?.data;
+//       }
+//     } catch (error) {
+//       const err = error as AxiosError;
+//       return thunkApi.rejectWithValue(err.response?.status);
+//     }
+//   }
+// );
+export const betLiveStatus = createAsyncThunk<any, any>(
+  "/matchBetting/status/change",
+  async (requestData, thunkApi) => {
+    try {
+      const response = await service.post(`${ApiConstants.BOOKMAKER.BETTINGSTATUS}`,
+       requestData);
+      if (response) {
+        return response?.data;
+      }
+    } catch (error) {
+      const err = error as AxiosError;
+      return thunkApi.rejectWithValue(err.response?.status);
+    }
+  }
+);
+
 export const noResultDeclare = createAsyncThunk<any, any>(
   "/bet/declare/noResult/session",
   async (requestData, thunkApi) => {

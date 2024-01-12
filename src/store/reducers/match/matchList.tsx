@@ -9,6 +9,7 @@ import {
   resultDeclare,
   updateMatchActiveStatus,
   updateMatchActiveStatusReset,
+  betLiveStatus
 } from "../../actions/match/matchAction";
 
 interface InitialState {
@@ -19,6 +20,7 @@ interface InitialState {
   statusSuccess: boolean;
   loading: boolean;
   error: any;
+  statusBetLive: boolean
 }
 
 const initialState: InitialState = {
@@ -29,6 +31,7 @@ const initialState: InitialState = {
   editSuccess: false,
   statusSuccess: false,
   error: null,
+  statusBetLive: false
 };
 
 const matchList = createSlice({
@@ -75,6 +78,19 @@ const matchList = createSlice({
         state.loading = false;
       })
       .addCase(updateMatchActiveStatus.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action?.error?.message;
+      })
+      .addCase(betLiveStatus.pending, (state) => {
+        state.loading = true;
+        state.statusBetLive = false;
+        state.error = null;
+      })
+      .addCase(betLiveStatus.fulfilled, (state) => {
+        state.statusSuccess = true;
+        state.loading = false;
+      })
+      .addCase(betLiveStatus.rejected, (state, action) => {
         state.loading = false;
         state.error = action?.error?.message;
       })

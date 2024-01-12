@@ -5,10 +5,17 @@ import SmallBox from "../SmallBox";
 import { ARROWUP } from "../../../assets";
 import Divider from "../../Common/Divider";
 import BoxComponent from "../MatchOdds/BoxComponent";
+import { betLiveStatus } from "../../../store/actions/match/matchAction";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../../store/store";
 
 const BookMarket = ({ currentMatch, socket, liveData, matchOdds }: any) => {
   const [newMatchOdds] = useState(matchOdds);
   const [visibleImg, setVisibleImg] = useState(true);
+  const [live, setLive] = useState(false);
+  const dispatch: AppDispatch = useDispatch();
+
+  const { statusBetLive } = useSelector((state: RootState) => state.matchList);
   return (
     <Box
       sx={{
@@ -56,11 +63,11 @@ const BookMarket = ({ currentMatch, socket, liveData, matchOdds }: any) => {
           {/* <img src={LOCKED} style={{ width: '14px', height: '20px' }} /> */}
           <Stop
             onClick={() => {
-              //   setLive(false);
-              socket.emit("bookMakerRateLive", {
-                matchId: currentMatch?.id,
-                bookMakerLive: false,
-              });
+              dispatch(betLiveStatus({
+                isStop: true,
+                betId: currentMatch?.bookmaker?.id
+              }));
+              setLive(false)
             }}
           />
         </Box>
@@ -84,30 +91,24 @@ const BookMarket = ({ currentMatch, socket, liveData, matchOdds }: any) => {
           }}
         >
           {!currentMatch?.bookMakerRateLive ? (
-            <SmallBox
-              onClick={() => {
-                if (newMatchOdds?.id) {
-                  socket.emit("bookMakerRateLive", {
-                    matchId: currentMatch?.id,
-                    bookMakerLive: true,
-                  });
-                  //   setLive(true);
-                } else {
-                  //   activateMatchOdds(1, "");
-                  socket.emit("bookMakerRateLive", {
-                    matchId: currentMatch?.id,
-                    bookMakerLive: true,
-                  });
-                  //   setLive(true);
-                }
-              }}
-              width={"80px"}
-              title={"Go Live"}
-              color={"#FF4D4D"}
-              customStyle={{
-                justifyContent: "center",
-              }}
-            />
+            <>
+              <SmallBox
+                onClick={() => {
+                  dispatch(betLiveStatus({
+                    isStop: live,
+                    betId: currentMatch?.bookmaker?.id
+                  }));
+                  setLive(!live)
+                }}
+                width={"80px"}
+                title={live ? "Live" : "Go Live"}
+                color={live ? "#46e080" : "#FF4D4D"}
+                customStyle={{
+                  justifyContent: "center",
+                }}
+              />
+            </>
+
           ) : (
             <SmallBox
               onClick={() => {
@@ -225,6 +226,7 @@ const BookMarket = ({ currentMatch, socket, liveData, matchOdds }: any) => {
               data={liveData?.runners?.length > 0 ? liveData?.runners[0] : []}
               lock={liveData?.runners?.length > 0 ? false : true}
               name={currentMatch?.teamA}
+              liveStatus={live}
             />
             <Divider />
             <BoxComponent
@@ -255,7 +257,7 @@ const BookMarket = ({ currentMatch, socket, liveData, matchOdds }: any) => {
             )}
 
             <Divider />
-            {!currentMatch?.bookMakerRateLive && (
+            {!live && (
               <Box
                 sx={{
                   width: "100%",

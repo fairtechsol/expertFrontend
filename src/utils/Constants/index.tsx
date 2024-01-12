@@ -22,6 +22,7 @@ export const ApiConstants = {
   },
   BOOKMAKER: {
     GET: "matchBeting",
+    BETTINGSTATUS: "/matchBeting/status/change"
   },
 };
 
@@ -60,8 +61,10 @@ export const baseUrls = {
     process.env.NODE_ENV === "production"
       ? `${Constants.expertSocketBasePath}`
       : "http://localhost:6060",
+      // : `${Constants.thirdParty}`,
   matchSocket:
     process.env.NODE_ENV === "production"
       ? `${Constants.thirdParty}`
-      : "http://localhost:3200",
+      // : "http://localhost:3200"//,
+      : `${Constants.thirdParty}`,
 };
