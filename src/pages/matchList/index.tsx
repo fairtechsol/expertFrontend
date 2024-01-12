@@ -1,6 +1,5 @@
 import { Box, Pagination } from "@mui/material";
 import { useEffect, useState } from "react";
-import Constants from "../../components/helper/constants";
 import MatchListHeader from "../../components/matchList/matchListHeader";
 import MatchListTable from "../../components/matchList/matchListTable";
 import MatchListTableHeader from "../../components/matchList/matchListTableHeader";
@@ -12,6 +11,7 @@ import {
   matchListReset,
 } from "../../store/actions/match/matchAction";
 import { expertSocketService } from "../../socketManager";
+import { Constants } from "../../utils/Constants";
 
 const MatchList = ({}) => {
   const dispatch: AppDispatch = useDispatch();

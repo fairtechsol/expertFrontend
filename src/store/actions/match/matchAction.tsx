@@ -8,8 +8,10 @@ export const getMatchList = createAsyncThunk<any, any>(
   async (requestData, thunkApi) => {
     try {
       const response = await service.get(
-        `${ApiConstants.MATCH.LIST}?searchBy=title&keyword=${requestData.keyword ? requestData.keyword : ""
-        }&page=${requestData?.currentPage ? requestData?.currentPage : 1
+        `${ApiConstants.MATCH.LIST}?searchBy=title&keyword=${
+          requestData.keyword ? requestData.keyword : ""
+        }&page=${
+          requestData?.currentPage ? requestData?.currentPage : 1
         }&limit=${Constants.pageLimit}`
       );
       if (response) {
@@ -39,7 +41,10 @@ export const betLiveStatus = createAsyncThunk<any, any>(
   "matchBeting/status/change",
   async (requestData, thunkApi) => {
     try {
-      const response = await service.post(`${ApiConstants.BOOKMAKER.BETTINGSTATUS}`, requestData);
+      const response = await service.post(
+        `${ApiConstants.BOOKMAKER.BETTINGSTATUS}`,
+        requestData
+      );
       if (response) {
         return response?.data;
       }
