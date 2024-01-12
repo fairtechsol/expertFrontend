@@ -89,8 +89,6 @@ const SessionAddComponent = (props: any) => {
       matchId: match?.id,
       type: "session",
       name: inputDetail?.betCondition,
-      // minBet: "any",
-      // maxBet: "any",
       yesRate: inputDetail?.leftYesRate,
       noRate: inputDetail?.leftNoRate,
       yesPercent: inputDetail?.leftYesRatePercent,
@@ -243,12 +241,8 @@ const SessionAddComponent = (props: any) => {
             setIsBall={setIsBall}
             isCreateSession={isCreateSession}
             betId={betId}
-            // socket={socket}
-            // sessionEvent={sessionEvent}
             inputRef={inputRef}
-            // sessionBetId={sessionBetId}
             match={match}
-          // isDisable={isDisable}
           />
           <Box sx={{ mt: 2, border: "1px solid black", p: 1 }}>
             <Box
@@ -406,7 +400,6 @@ const SessionAddComponent = (props: any) => {
                         fontSize: "12px",
                       }}
                     >
-                      {/* {resultPending ? "Change Result" : "Declare"} */}
                       Declare
                     </Typography>
                     <Box
