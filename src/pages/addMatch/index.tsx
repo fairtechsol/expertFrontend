@@ -230,12 +230,45 @@ const AddMatch = () => {
   const { handleSubmit, values, touched, errors, handleChange } = formik;
 
   useEffect(() => {
+    setSelected((prev: any) => {
+      return {
+        ...prev,
+        teamA: "",
+        teamB: "",
+        teamC: "",
+        title: "",
+        manualBookmaker: 0,
+        tournamentName: "",
+        tournamentId: "",
+        matchName: "",
+        competitionName: "",
+        eventId: "",
+        marketId: "",
+        startAt: new Date(),
+      };
+    });
     if (selected.gameType !== "" && !state?.id) {
       dispatch(getAllLiveTournaments(selected.gameType));
     }
   }, [selected.gameType]);
 
   useEffect(() => {
+    setSelected((prev: any) => {
+      return {
+        ...prev,
+        teamA: "",
+        teamB: "",
+        teamC: "",
+        title: "",
+        manualBookmaker: 0,
+        matchName: "",
+        competitionName: "",
+        eventId: "",
+        marketId: "",
+        startAt: new Date(),
+      };
+    });
+
     if (selected.tournamentId !== "" && !state?.id) {
       dispatch(getAllEventsList(selected.tournamentId));
     }
