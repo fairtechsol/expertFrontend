@@ -21,7 +21,6 @@ const Header1 = () => {
   const matchesMobile = useMediaQuery(theme.breakpoints.down("lg"));
   const navigate = useNavigate();
   const [visible, setVisible] = useState(false);
-  const [activeUser] = useState<any>("2");
   const [userCount, setUserCount] = useState<number>(0);
   const [currentSelected, setSelected] = useState<any>(4);
   const [anchor, setAnchor] = useState(null);
@@ -120,31 +119,15 @@ const Header1 = () => {
                 }}
               />
             </Box>
-            {activeUser != 1 && activeUser != "2" && (
-              <ButtonHead
-                onClick={() => {
-                  setSelected(0);
-                  navigate("/expert/home");
-                }}
-                title={"ADD MATCH"}
-                boxStyle={{
-                  backgroundColor:
-                    currentSelected == 0 ? "white" : "transparent",
-                  py: "5px",
-                  borderRadius: "5px",
-                  marginLeft: "15px",
-                }}
-                titleStyle={{ color: currentSelected == 0 ? "green" : "white" }}
-              />
-            )}
-            {(activeUser == 1 || activeUser == "2" || activeUser == "3") && (
-              <>
+            <>
+              {getProfile?.addMatchPrivilege &&
+              !getProfile?.betFairMatchPrivilege &&
+              !getProfile?.bookmakerMatchPrivilege &&
+              !getProfile?.sessionMatchPrivilege &&
+              !getProfile?.allPrivilege ? null : (
                 <ButtonHead
                   onClick={(e: any) => {
                     setSelected(1);
-                    if (activeUser == "3") {
-                      return;
-                    }
                     dispatch(getMatchListDropdown());
                     setAnchor(e.currentTarget);
                   }}
@@ -161,61 +144,33 @@ const Header1 = () => {
                     color: currentSelected == 1 ? "green" : "white",
                   }}
                 />
-                {/* {activeUser != "3" && (
-                  <NavLink
-                    to={"/expert/live"}
-                    style={{ textDecoration: "none" }}
-                  >
-                    <ButtonHead
-                      onClick={() => {
-                        setSelected(5);
-                      }}
-                      title={"ALL BET"}
-                      boxStyle={{
-                        backgroundColor:
-                          currentSelected == 5 ? "white" : "transparent",
-                        py: "5px",
-                        borderRadius: "5px",
-                        marginLeft: "15px",
-                        cursor: "pointer",
-                      }}
-                      titleStyle={{
-                        color: currentSelected == 5 ? "green" : "white",
-                      }}
-                    />
-                  </NavLink>
-                )} */}
-                {
-                  <NavLink
-                    to={"expert/match"}
-                    style={{ textDecoration: "none" }}
-                  >
-                    <ButtonHead
-                      onClick={() => {
-                        setSelected(4);
-                      }}
-                      title={"MATCH LIST"}
-                      boxStyle={{
-                        backgroundColor:
-                          window.location.pathname.split("/")[2] == "match"
-                            ? "white"
-                            : "transparent",
-                        py: "5px",
-                        borderRadius: "5px",
-                        marginLeft: "15px",
-                        cursor: "pointer",
-                      }}
-                      titleStyle={{
-                        color:
-                          window.location.pathname.split("/")[2] == "match"
-                            ? "green"
-                            : "white",
-                      }}
-                    />
-                  </NavLink>
-                }
-              </>
-            )}
+              )}
+
+              <NavLink to={"expert/match"} style={{ textDecoration: "none" }}>
+                <ButtonHead
+                  onClick={() => {
+                    setSelected(4);
+                  }}
+                  title={"MATCH LIST"}
+                  boxStyle={{
+                    backgroundColor:
+                      window.location.pathname.split("/")[2] == "match"
+                        ? "white"
+                        : "transparent",
+                    py: "5px",
+                    borderRadius: "5px",
+                    marginLeft: "15px",
+                    cursor: "pointer",
+                  }}
+                  titleStyle={{
+                    color:
+                      window.location.pathname.split("/")[2] == "match"
+                        ? "green"
+                        : "white",
+                  }}
+                />
+              </NavLink>
+            </>
           </Box>
           <Box
             sx={{
@@ -254,27 +209,12 @@ const Header1 = () => {
               <BoxProfile
                 containerStyle={{ marginTop: "0" }}
                 image={"https://picsum.photos/200/300"}
-                value={
-                  activeUser == 1
-                    ? "Session"
-                    : activeUser == 2
-                    ? "Bookmaker"
-                    : "Betfair"
-                }
                 value1={getProfile?.userName}
-                // value1={"User"}
               />
             </Box>
           </Box>
         </Box>
       </AppBar>
-      {/* {false && !/createTransPassword/.test(window.location.pathname) && (
-        // <ThisUseModal
-        //   message="You don't have transaction password"
-        //   buttonMessage="Create Transaction Password"
-        //   navigateTo="createTransPassword"
-        // />
-      )} */}
       <Box sx={{ minHeight: { lg: 66, xs: 60 + 32 + 42 } }} />
       <DropDownMenu
         anchorEl={anchor}

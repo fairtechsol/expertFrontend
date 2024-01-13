@@ -33,9 +33,7 @@ const MatchPermissionsModal = (props: any) => {
             matchId={data?.id}
             matchBettingType={"match"}
             disable={
-              getProfile?.allPrivilege
-                ? false
-                : getProfile?.addMatchPrivilege
+              getProfile?.allPrivilege || getProfile?.addMatchPrivilege
                 ? false
                 : true
             }
@@ -51,9 +49,7 @@ const MatchPermissionsModal = (props: any) => {
         matchBettingType={"session"}
         isManualBet={false}
         disable={
-          getProfile?.allPrivilege
-            ? false
-            : getProfile?.addMatchPrivilege
+          getProfile?.allPrivilege || getProfile?.addMatchPrivilege
             ? false
             : true
         }
@@ -68,9 +64,7 @@ const MatchPermissionsModal = (props: any) => {
         matchBettingType={"session"}
         isManualBet={true}
         disable={
-          getProfile?.allPrivilege
-            ? false
-            : getProfile?.addMatchPrivilege
+          getProfile?.allPrivilege || getProfile?.addMatchPrivilege
             ? false
             : true
         }
