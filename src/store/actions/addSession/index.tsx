@@ -61,6 +61,14 @@ export const getSessionById = createAsyncThunk<any, SessionById>(
     }
   }
 );
+
+export const updateSessionById = createAsyncThunk<any, SessionById>(
+  "update/session",
+  async (requestData) => {
+    return requestData;
+  }
+);
+
 export const getBookmakerById = createAsyncThunk<any, BookmakerById>(
   "get/bookmaker",
   async (requestData, thunkApi) => {

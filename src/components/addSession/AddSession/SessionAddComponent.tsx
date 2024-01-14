@@ -5,7 +5,11 @@ import SessionResultModal from "../SessionResult/SessionResultModal";
 import AddSessionInput from "./AddSessionInput";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../store/store";
-import { addSession, getSessionById } from "../../../store/actions/addSession";
+import {
+  addSession,
+  getSessionById,
+  updateSessionById,
+} from "../../../store/actions/addSession";
 import { socketService } from "../../../socketManager";
 import { sessionResultSuccessReset } from "../../../store/actions/match/matchAction";
 
@@ -117,6 +121,11 @@ const SessionAddComponent = (props: any) => {
     socketService.user.updateSessionRate(data);
   };
 
+  const updateResultDeclared = (event: any) => {
+    if (match?.id === event?.matchId && betId === event?.betId)
+      dispatch(updateSessionById(event));
+  };
+
   useEffect(() => {
     if (sessionEvent?.id || selectedSessionId) {
       dispatch(
@@ -215,6 +224,7 @@ const SessionAddComponent = (props: any) => {
         });
       }
     });
+    socketService.user.sessionResultDeclared(updateResultDeclared);
   }, [sessionById, isCreateSession]);
 
   return (

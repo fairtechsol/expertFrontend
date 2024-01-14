@@ -5,6 +5,7 @@ import {
   getSessionById,
   sessionByIdReset,
   successReset,
+  updateSessionById,
 } from "../../actions/addSession";
 
 interface InitialState {
@@ -59,6 +60,12 @@ export const addSessionReducers = createReducer(initialState, (builder) => {
       state.bookmakerById = action.payload;
       state.loading = false;
       state.success = true;
+    })
+    .addCase(updateSessionById.fulfilled, (state, action) => {
+      state.sessionById = {
+        ...state.sessionById,
+        result: action.payload.score,
+      };
     })
     .addCase(getBookmakerById.rejected, (state) => {
       state.loading = false;
