@@ -5,7 +5,6 @@ import SessionResultModal from "./SessionResultModal";
 
 const SessionResult = (props: any) => {
   const { createSession, betId, handleSession, matchId } = props;
-  console.log(matchId, betId, "searchResult 11111")
 
   const [mode, setMode] = useState("0");
   const [selected, setSelected] = useState<any>([]);

@@ -76,10 +76,10 @@ const MenutItemsComponent = ({
         >
           {(getProfile?.allPrivilege || getProfile?.sessionMatchPrivilege) &&
             matchListDropdown?.length > 0 &&
-            matchListDropdown?.map((event: any) => {
+            matchListDropdown?.map((event: any, index: number) => {
               if (event?.id == x?.id) {
                 return (
-                  <>
+                  <div key={index}>
                     {event?.sessions?.length > 0 && (
                       <Typography
                         key={event?.id}
@@ -117,7 +117,7 @@ const MenutItemsComponent = ({
                         </Box>
                       );
                     })}
-                  </>
+                  </div>
                 );
               } else return null;
             })}
@@ -159,10 +159,10 @@ const MenutItemsComponent = ({
             </Box>
           )}
           {(getProfile?.allPrivilege || getProfile?.bookmakerMatchPrivilege) &&
-            matchListDropdown?.map((event: any) => {
+            matchListDropdown?.map((event: any, index: number) => {
               if (event?.id === x?.id) {
                 return (
-                  <>
+                  <div key={index}>
                     {event?.bookmakers?.map((element: any) => {
                       return (
                         <Box
@@ -191,7 +191,7 @@ const MenutItemsComponent = ({
                         </Box>
                       );
                     })}
-                  </>
+                  </div>
                 );
               } else return null;
             })}

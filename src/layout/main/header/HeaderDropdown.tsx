@@ -63,7 +63,7 @@ const HeaderDropdown = (props: any) => {
       {menutItems.map((x: any, i: any) => {
         if (x?.title === "Add Match") {
           return (
-            <>
+            <div key={i}>
               {(getProfile?.allPrivilege || getProfile?.addMatchPrivilege) && (
                 <MenuItem
                   key={i}
@@ -90,7 +90,7 @@ const HeaderDropdown = (props: any) => {
                   {x.title}
                 </MenuItem>
               )}
-            </>
+            </div>
           );
         } else {
           return (

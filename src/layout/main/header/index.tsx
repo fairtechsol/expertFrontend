@@ -120,16 +120,15 @@ const Header1 = () => {
               />
             </Box>
             <>
-              {getProfile?.addMatchPrivilege &&
-              !getProfile?.betFairMatchPrivilege &&
-              !getProfile?.bookmakerMatchPrivilege &&
-              !getProfile?.sessionMatchPrivilege &&
-              !getProfile?.allPrivilege ? null : (
+              {(getProfile?.betFairMatchPrivilege ||
+                getProfile?.bookmakerMatchPrivilege ||
+                getProfile?.sessionMatchPrivilege ||
+                getProfile?.allPrivilege) && (
                 <ButtonHead
                   onClick={(e: any) => {
                     setSelected(1);
                     dispatch(getMatchListDropdown());
-                    setAnchor(e.currentTarget);
+                    setAnchor(e?.currentTarget);
                   }}
                   title={"ALL MATCH"}
                   boxStyle={{

@@ -6,6 +6,7 @@ import { useFormik } from "formik";
 import {
   noResultDeclare,
   resultDeclare,
+  undeclareResult,
 } from "../../../store/actions/match/matchAction";
 import { AppDispatch } from "../../../store/store";
 import { useDispatch } from "react-redux";
@@ -48,6 +49,12 @@ const SessionResultModal = (props: any) => {
           betId: selected?.betId,
         };
         dispatch(noResultDeclare(payload));
+      } else if (newData?.betStatus === 2) {
+        let payload = {
+          matchId: selected?.matchId,
+          betId: selected?.betId,
+        };
+        dispatch(undeclareResult(payload));
       }
     },
   });
@@ -201,19 +208,12 @@ const SessionResultModal = (props: any) => {
                 title={"Un Declare"}
                 loading={loading}
                 id="UD"
-                onClick={() => {
-                  if (loading?.value) {
-                    return false;
-                  }
-                  //   undeclareResult();
-                  // if (selected && /^\d+$/.test(selected)) {
-                  // } else if (selected === "") {
-                  //   setError("Please enter score");
-                  // } else {
-                  //   // toast.warn("Please enter score");
-                  //   setError("Input field should contain numbers only");
-                  // }
-                }}
+                // onClick={() => {
+                //   if (loading?.value) {
+                //     return false;
+                //   }
+                //   // undeclareResult();
+                // }}
               />
             ) : (
               <>
@@ -247,11 +247,11 @@ const SessionResultModal = (props: any) => {
                 title={newData?.betStatus !== 3 ? "No Result" : "Yes"}
                 loading={loading}
                 id="NR"
-                onClick={() => {
-                  if (loading?.value) {
-                    return false;
-                  }
-                }}
+                // onClick={() => {
+                //   if (loading?.value) {
+                //     return false;
+                //   }
+                // }}
               />
             )}
           </Box>
