@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {
-  betLiveStatus,
+
   editMatch,
   editSuccessReset,
   getMatchList,
@@ -21,7 +21,7 @@ interface InitialState {
   success: boolean;
   editSuccess: boolean;
   statusSuccess: boolean;
-  statusBetLive: boolean;
+
   loading: boolean;
   error: any;
   statusBetLive: boolean
@@ -36,7 +36,7 @@ const initialState: InitialState = {
   statusSuccess: false,
   statusBetLive: false,
   error: null,
-  statusBetLive: false
+  
 };
 
 const matchList = createSlice({

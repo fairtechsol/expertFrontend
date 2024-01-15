@@ -68,20 +68,14 @@ const TiedMatchMarket = ({
           </Typography>
           {/* <img src={LOCKED} style={{ width: '14px', height: '20px' }} /> */}
           <Stop
-            onClick={() => {
-              //   setLive(false);
-              socket.emit("bookMakerRateLive", {
-                matchId: currentMatch?.id,
-                bookMakerLive: false,
-              });
-            // onClick={() => {
-            //   dispatch(betLiveStatus({
-            //     isStop: live,
-            //     betId: currentMatch?.bookmaker?.id
-            //   }));
-            //   setLive(!live)
-            
-            }}
+           onClick={() => {
+            dispatch(betLiveStatus({
+              isStop: true,
+              betId: currentMatch?.bookmaker?.id
+            }));
+            setLive(false)
+          }}
+      
           />
         </Box>
         <Box
@@ -133,7 +127,7 @@ const TiedMatchMarket = ({
               onClick={() => {
                 dispatch(betLiveStatus({
                   isStop: live,
-                  betId: currentMatch?.bookmaker?.id
+                  betId: currentMatch?.apiTideMatch?.id
                 }));
                 setLive(!live)
               }}
@@ -299,7 +293,7 @@ const TiedMatchMarket = ({
             )}
 
             <Divider />
-            {!currentMatch?.bookMakerRateLive && (
+            {!live  && (
               <Box
                 sx={{
                   width: "100%",

@@ -4,6 +4,9 @@ import { ARROWUP } from "../../../assets";
 import Divider from "../../Common/Divider";
 import Stop from "./Stop";
 import SessionMarketBox from "./SessionMarketBox";
+import { betLiveStatus } from "../../../store/actions/match/matchAction";
+import { AppDispatch } from "../../../store/store";
+import { useDispatch } from "react-redux";
 
 const SessionMarket = ({
   currentMatch,
@@ -21,6 +24,21 @@ const SessionMarket = ({
 }: any) => {
   const [stop, setStop] = useState(true);
   const [visible, setVisible] = useState(true);
+  const [live, setLive] = useState(false);
+  const dispatch: AppDispatch = useDispatch();
+
+  // const stopAllSessions = () => {
+
+  //   sessionData.forEach((session: any) => {
+  //     dispatch(betLiveStatus({
+  //       isStop: true,
+  //       betId: session.id,
+  //     }));
+  //   });
+
+  
+  //   setLive(false);
+  // };
 
   return (
     <Box
@@ -67,10 +85,13 @@ const SessionMarket = ({
           </Typography>
           {!stopAllHide && (
             <Stop
-              onClick={() => {
-                setStop(false);
-                // handleLive();
-              }}
+            // onClick={() => {
+            //   dispatch(betLiveStatus({
+            //     isStop: true,
+            //     betId: currentMatch?.id
+            //   }));
+            //   setLive(false)
+            // }}
             />
           )}
         </Box>

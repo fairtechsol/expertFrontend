@@ -68,12 +68,12 @@ const CompleteMatchMarket = ({
           </Typography>
           {/* <img src={LOCKED} style={{ width: '14px', height: '20px' }} /> */}
           <Stop
-            onClick={() => {
-              //   setLive(false);
-              socket.emit("bookMakerRateLive", {
-                matchId: currentMatch?.id,
-                bookMakerLive: false,
-              });
+             onClick={() => {
+              dispatch(betLiveStatus({
+                isStop: true,
+                betId: currentMatch?.bookmaker?.id
+              }));
+              setLive(false)
             }}
           />
         </Box>
@@ -125,7 +125,8 @@ const CompleteMatchMarket = ({
               onClick={() => {
                 dispatch(betLiveStatus({
                   isStop: live,
-                  betId: currentMatch?.bookmaker?.id
+                  betId: currentMatch?.marketCompleteMatch
+                  ?.id
                 }));
                 setLive(!live)
               }}
@@ -284,7 +285,7 @@ const CompleteMatchMarket = ({
             )}
 
             <Divider />
-            {!currentMatch?.bookMakerRateLive && (
+            {!live  && (
               <Box
                 sx={{
                   width: "100%",
