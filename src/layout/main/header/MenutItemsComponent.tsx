@@ -17,7 +17,6 @@ const MenutItemsComponent = ({
   selected,
   index,
   setSelected,
-  activeUser,
   handleClose,
 }: any) => {
   const theme = useTheme();
