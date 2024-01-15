@@ -14,7 +14,7 @@ const menutItems = [
   // { title: "Bet Odds", navigateTo: "betodds" },
   // { title: "Market", navigateTo: "add_book_maker" },
   // { title: "Add Book Maker", navigateTo: "add_book_maker" },
-  { title: "Add Match", navigateTo: "add_match" },
+  { title: "Add Match", navigateTo: "add_match", privilege: "bookmakerMatchPrivilege" },
   { title: "Change Password", navigateTo: "change-password" },
 ];
 const HeaderDropdown = (props: any) => {

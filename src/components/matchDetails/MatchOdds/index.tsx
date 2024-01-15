@@ -8,11 +8,18 @@ import ResultComponent from "../../updateBookmaker/BookmakerEdit/ResultComponent
 import Divider from "../../Common/Divider";
 import BoxComponent from "./BoxComponent";
 import SmallBox2 from "./SmallBox2";
+import { betLiveStatus } from "../../../store/actions/match/matchAction";
+import { AppDispatch } from "../../../store/store";
+import { useDispatch } from "react-redux";
+
 
 const MatchOdds = ({ currentMatch, matchOdds, matchOddsLive, socket }: any) => {
   const [newMatchOdds] = useState(matchOdds);
   const [visible, setVisible] = useState(false);
   const [visibleImg, setVisibleImg] = useState(true);
+
+  const [live, setLive] = useState(false);
+  const dispatch: AppDispatch = useDispatch();
 
   // const manualBookMarkerRates = [{
   //   matchId: currentMatch?.id,
@@ -94,7 +101,7 @@ const MatchOdds = ({ currentMatch, matchOdds, matchOddsLive, socket }: any) => {
             >
               Match Odds
             </Typography>
-            <Stop
+            {/* <Stop
               onClick={() => {
                 if (newMatchOdds?.id) {
                   //   setLive(false);
@@ -104,6 +111,16 @@ const MatchOdds = ({ currentMatch, matchOdds, matchOddsLive, socket }: any) => {
                   });
                 }
               }}
+            /> */}
+            <Stop
+              onClick={() => {
+                dispatch(betLiveStatus({
+                  isStop: true,
+                  betId: currentMatch?.matchOdd?.id
+                }));
+                setLive(false)
+              }}
+
             />
 
             <SmallBox2 valueA={bookRatioA} valueB={bookRatioB} />
@@ -118,6 +135,9 @@ const MatchOdds = ({ currentMatch, matchOdds, matchOddsLive, socket }: any) => {
           >
             <div className="slanted"></div>
           </Box>
+
+
+
           <Box
             sx={{
               flex: 1,
@@ -170,6 +190,42 @@ const MatchOdds = ({ currentMatch, matchOdds, matchOddsLive, socket }: any) => {
                 }}
               />
             )}
+
+            {!currentMatch?.bookMakerRateLive ? (
+              <>
+                <SmallBox
+                  onClick={() => {
+                    dispatch(betLiveStatus({
+                      isStop: live,
+                      betId: currentMatch?.matchOdd?.id
+                    }));
+                    setLive(!live)
+                  }}
+                  width={"80px"}
+                  title={live ? "Live" : "Go Live"}
+                  color={live ? "#46e080" : "#FF4D4D"}
+                  customStyle={{
+                    justifyContent: "center",
+                  }}
+                />
+              </>
+            ) : (
+              <SmallBox
+                onClick={() => {
+                  socket.emit("bookMakerRateLive", {
+                    matchId: currentMatch?.id,
+                    bookMakerLive: false,
+                  });
+                  // setLive(false);
+                }}
+                width={"80px"}
+                title={"Live"}
+                customStyle={{
+                  justifyContent: "center",
+                }}
+              />
+            )}
+
             <img
               onClick={() => {
                 setVisibleImg(!visibleImg);
@@ -185,6 +241,7 @@ const MatchOdds = ({ currentMatch, matchOdds, matchOddsLive, socket }: any) => {
               }}
             />
           </Box>
+
         </Box>
 
         <Box
@@ -213,7 +270,59 @@ const MatchOdds = ({ currentMatch, matchOdds, matchOddsLive, socket }: any) => {
               }}
             />
           )}
+
         </Box>
+
+
+
+
+
+        <Box
+          sx={{
+            flex: 1,
+            background: "#262626",
+            // '#262626' ,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "flex-end",
+          }}
+        >
+          {/* {!currentMatch?.bookMakerRateLive ? (
+            <>
+            <SmallBox
+              onClick={() => {
+                dispatch(betLiveStatus({
+                  isStop: live,
+                  betId: currentMatch?.matchOdd?.id
+                }));
+                setLive(!live)
+              }}
+              width={"80px"}
+              title={live ? "Live" : "Go Live"}
+              color={live ? "#46e080" : "#FF4D4D"}
+              customStyle={{
+                justifyContent: "center",
+              }}
+            />
+          </>
+          ) : (
+            <SmallBox
+              onClick={() => {
+                socket.emit("bookMakerRateLive", {
+                  matchId: currentMatch?.id,
+                  bookMakerLive: false,
+                });
+                // setLive(false);
+              }}
+              width={"80px"}
+              title={"Live"}
+              customStyle={{
+                justifyContent: "center",
+              }}
+            />
+          )} */}
+        </Box>
+
 
         {visibleImg && (
           <>
@@ -305,7 +414,7 @@ const MatchOdds = ({ currentMatch, matchOdds, matchOddsLive, socket }: any) => {
                 }
                 lock={
                   matchOddsLive?.runners !== undefined &&
-                  matchOddsLive?.runners?.length > 0
+                    matchOddsLive?.runners?.length > 0
                     ? false
                     : true
                 }
@@ -318,7 +427,7 @@ const MatchOdds = ({ currentMatch, matchOdds, matchOddsLive, socket }: any) => {
                 teamRates={teamRates?.teamB}
                 lock={
                   matchOddsLive?.runners !== undefined &&
-                  matchOddsLive?.runners?.length > 0
+                    matchOddsLive?.runners?.length > 0
                     ? false
                     : true
                 }
@@ -337,7 +446,7 @@ const MatchOdds = ({ currentMatch, matchOdds, matchOddsLive, socket }: any) => {
                     teamRates={teamRates?.teamC}
                     lock={
                       matchOddsLive?.runners !== undefined &&
-                      matchOddsLive?.runners?.length > 0
+                        matchOddsLive?.runners?.length > 0
                         ? false
                         : true
                     }
@@ -352,7 +461,7 @@ const MatchOdds = ({ currentMatch, matchOdds, matchOddsLive, socket }: any) => {
                   />
                 </>
               )}
-              {!currentMatch?.matchOddRateLive && (
+              {!live && (
                 <Box
                   sx={{
                     width: "100%",

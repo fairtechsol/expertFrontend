@@ -148,6 +148,7 @@ const AddMatch = () => {
           manualTiedMatchMaxBet: value.manualTiedMatchMaxBet,
           completeMatchMaxBet: value.completeMatchMaxBet,
           bookmakers: bookmakers,
+
         };
         dispatch(editMatch(payload));
       } else {
@@ -874,6 +875,7 @@ const AddMatch = () => {
                         onChange={handleChange}
                         value={values.marketMaxBet2}
                       />
+               
                     </Box>
                   </Box>
                 )}

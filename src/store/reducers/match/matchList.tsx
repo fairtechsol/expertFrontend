@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {
-  betLiveStatus,
+
   editMatch,
   editSuccessReset,
   getMatchList,
@@ -12,6 +12,7 @@ import {
   undeclareResult,
   updateMatchActiveStatus,
   updateMatchActiveStatusReset,
+  betLiveStatus
 } from "../../actions/match/matchAction";
 
 interface InitialState {
@@ -20,9 +21,10 @@ interface InitialState {
   success: boolean;
   editSuccess: boolean;
   statusSuccess: boolean;
-  statusBetLive: boolean;
+
   loading: boolean;
   error: any;
+  statusBetLive: boolean
 }
 
 const initialState: InitialState = {
@@ -34,6 +36,7 @@ const initialState: InitialState = {
   statusSuccess: false,
   statusBetLive: false,
   error: null,
+  
 };
 
 const matchList = createSlice({
