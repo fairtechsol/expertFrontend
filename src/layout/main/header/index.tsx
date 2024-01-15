@@ -119,17 +119,16 @@ const Header1 = () => {
                 }}
               />
             </Box>
-            {getProfile?.betFairMatchPrivilege === true &&
-              (!getProfile?.allPrivilege === false ||
-                !getProfile.bookmakerMatchPrivilege === false ||
-                !getProfile.sessionMatchPrivilege === false ||
-                !getProfile.addMatchPrivilege === false) && (
-
+            <>
+              {(getProfile?.betFairMatchPrivilege ||
+                getProfile?.bookmakerMatchPrivilege ||
+                getProfile?.sessionMatchPrivilege ||
+                getProfile?.allPrivilege) && (
                 <ButtonHead
                   onClick={(e: any) => {
                     setSelected(1);
                     dispatch(getMatchListDropdown());
-                    setAnchor(e.currentTarget);
+                    setAnchor(e?.currentTarget);
                   }}
                   title={"ALL MATCH"}
                   boxStyle={{
@@ -145,42 +144,32 @@ const Header1 = () => {
                   }}
                 />
               )}
-            {
-              <NavLink
-                to={"expert/match"}
-                style={{ textDecoration: "none" }}
-              >
-                {getProfile?.betFairMatchPrivilege === true &&
-                  (!getProfile?.allPrivilege === false ||
-                    !getProfile.bookmakerMatchPrivilege === true ||
-                    !getProfile.sessionMatchPrivilege === false ||
-                    !getProfile.addMatchPrivilege === false) && (
 
-                    <ButtonHead
-                      onClick={() => {
-                        setSelected(4);
-                      }}
-                      title={"MATCH LIST"}
-                      boxStyle={{
-                        backgroundColor:
-                          window.location.pathname.split("/")[2] == "match"
-                            ? "white"
-                            : "transparent",
-                        py: "5px",
-                        borderRadius: "5px",
-                        marginLeft: "15px",
-                        cursor: "pointer",
-                      }}
-                      titleStyle={{
-                        color:
-                          window.location.pathname.split("/")[2] == "match"
-                            ? "green"
-                            : "white",
-                      }}
-                    />
-                  )}
+              <NavLink to={"expert/match"} style={{ textDecoration: "none" }}>
+                <ButtonHead
+                  onClick={() => {
+                    setSelected(4);
+                  }}
+                  title={"MATCH LIST"}
+                  boxStyle={{
+                    backgroundColor:
+                      window.location.pathname.split("/")[2] == "match"
+                        ? "white"
+                        : "transparent",
+                    py: "5px",
+                    borderRadius: "5px",
+                    marginLeft: "15px",
+                    cursor: "pointer",
+                  }}
+                  titleStyle={{
+                    color:
+                      window.location.pathname.split("/")[2] == "match"
+                        ? "green"
+                        : "white",
+                  }}
+                />
               </NavLink>
-            }
+            </>
           </Box>
           <Box
             sx={{
@@ -220,19 +209,11 @@ const Header1 = () => {
                 containerStyle={{ marginTop: "0" }}
                 image={"https://picsum.photos/200/300"}
                 value1={getProfile?.userName}
-              // value1={"User"}
               />
             </Box>
           </Box>
         </Box>
       </AppBar>
-      {/* {false && !/createTransPassword/.test(window.location.pathname) && (
-        // <ThisUseModal
-        //   message="You don't have transaction password"
-        //   buttonMessage="Create Transaction Password"
-        //   navigateTo="createTransPassword"
-        // />
-      )} */}
       <Box sx={{ minHeight: { lg: 66, xs: 60 + 32 + 42 } }} />
       <DropDownMenu
         anchorEl={anchor}

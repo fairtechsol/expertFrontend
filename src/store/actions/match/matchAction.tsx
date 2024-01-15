@@ -107,30 +107,15 @@ export const resultDeclare = createAsyncThunk<any, any>(
   }
 );
 
-// export const betLiveStatus = createAsyncThunk<any, any>(
-//   "/matchBetting/status/change",
-//   async (__, thunkApi) => {
-//     try {
-//       const response = await service.post(
-//         `${ApiConstants.BOOKMAKER.BETTINGSTATUS}`,
-//         // requestData
-//       );
-//       if (response?.status === 200) {
-//         return response?.data;
-//       }
-//     } catch (error) {
-//       const err = error as AxiosError;
-//       return thunkApi.rejectWithValue(err.response?.status);
-//     }
-//   }
-// );
-export const betLiveStatus = createAsyncThunk<any, any>(
-  "/matchBetting/status/change",
+export const undeclareResult = createAsyncThunk<any, any>(
+  "/bet/unDeclare/result/session",
   async (requestData, thunkApi) => {
     try {
-      const response = await service.post(`${ApiConstants.BOOKMAKER.BETTINGSTATUS}`,
-       requestData);
-      if (response) {
+      const response = await service.post(
+        `${ApiConstants.SESSION.UNDECLARE_RESULT}`,
+        requestData
+      );
+      if (response?.status === 200) {
         return response?.data;
       }
     } catch (error) {
@@ -179,6 +164,7 @@ export const editMatch = createAsyncThunk<any, any>(
 
 export const matchListReset = createAction("matchList/reset");
 export const editSuccessReset = createAction("editSuccess/reset");
+export const sessionResultSuccessReset = createAction("sessionResult/reset");
 export const updateMatchActiveStatusReset = createAction(
   "updateMatchActiveStatusReset/reset"
 );

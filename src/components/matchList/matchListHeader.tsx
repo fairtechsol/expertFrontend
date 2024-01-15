@@ -48,21 +48,14 @@ const MatchListHeader = () => {
             placeholder={"Search Match..."}
             handleSearch={getMatchListOnchange}
           />
-          {getProfile?.allPrivilege ? (
+          {(getProfile?.allPrivilege || getProfile?.addMatchPrivilege) && (
             <CustomButton
               onClick={() => {
                 navigate("/expert/add_match");
               }}
               title={"Add Match"}
             />
-          ) : getProfile?.addMatchPrivilege ? (
-            <CustomButton
-              onClick={() => {
-                navigate("/expert/add_match");
-              }}
-              title={"Add Match"}
-            />
-          ) : null}
+          )}
         </Box>
       </Box>
     </>

@@ -5,8 +5,13 @@ import SessionResultModal from "../SessionResult/SessionResultModal";
 import AddSessionInput from "./AddSessionInput";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../store/store";
-import { addSession, getSessionById } from "../../../store/actions/addSession";
+import {
+  addSession,
+  getSessionById,
+  updateSessionById,
+} from "../../../store/actions/addSession";
 import { socketService } from "../../../socketManager";
+import { sessionResultSuccessReset } from "../../../store/actions/match/matchAction";
 
 const stateDetail = {
   match_id: "",
@@ -29,16 +34,12 @@ const SessionAddComponent = (props: any) => {
   const { createSession, sessionEvent, match } = props;
   const dispatch: AppDispatch = useDispatch();
   const inputRef: any = useRef(null);
-  const { sessionById, selectedSessionId } = useSelector(
+  const { sessionById, selectedSessionId, loading } = useSelector(
     (state: RootState) => state.addSession
   );
+  const { success } = useSelector((state: RootState) => state.matchList);
 
   const [isCreateSession, setIsCreateSession] = useState(createSession);
-  useEffect(() => {
-    setIsCreateSession(createSession);
-  }, [createSession]);
-
-  const [loading] = useState(false);
   const [incGap, setIncGap] = useState<number>(1);
   const [isPercent, setIsPercent] = useState<string>("");
   const [isBall, setIsBall] = useState<boolean>(false);
@@ -120,6 +121,11 @@ const SessionAddComponent = (props: any) => {
     socketService.user.updateSessionRate(data);
   };
 
+  const updateResultDeclared = (event: any) => {
+    if (match?.id === event?.matchId && betId === event?.betId)
+      dispatch(updateSessionById(event));
+  };
+
   useEffect(() => {
     if (sessionEvent?.id || selectedSessionId) {
       dispatch(
@@ -133,6 +139,18 @@ const SessionAddComponent = (props: any) => {
       setBetId("");
     }
   }, [sessionEvent?.id, selectedSessionId]);
+
+  useEffect(() => {
+    if (createSession && !sessionById) {
+      setIsCreateSession(createSession);
+    } else setIsCreateSession(false);
+    if (success) {
+      setVisible(false);
+      setVisible1(false);
+      setVisible2(false);
+      dispatch(sessionResultSuccessReset());
+    }
+  }, [createSession, sessionById, success]);
 
   useEffect(() => {
     if (!isCreateSession && sessionById !== null) {
@@ -175,6 +193,13 @@ const SessionAddComponent = (props: any) => {
           noRatePercent: Math.floor(sessionById?.noPercent),
         };
       });
+      if (sessionById?.result !== null) {
+        setShowUndeclare(true);
+        setIsDisable(true);
+      } else {
+        setShowUndeclare(false);
+        setIsDisable(false);
+      }
     } else {
       setIsBall(false);
       setLock({
@@ -199,6 +224,7 @@ const SessionAddComponent = (props: any) => {
         });
       }
     });
+    socketService.user.sessionResultDeclared(updateResultDeclared);
   }, [sessionById, isCreateSession]);
 
   return (

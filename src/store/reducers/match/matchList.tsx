@@ -8,6 +8,8 @@ import {
   matchListReset,
   noResultDeclare,
   resultDeclare,
+  sessionResultSuccessReset,
+  undeclareResult,
   updateMatchActiveStatus,
   updateMatchActiveStatusReset,
   betLiveStatus
@@ -110,6 +112,19 @@ const matchList = createSlice({
         state.loading = false;
         state.error = action?.error?.message;
       })
+      .addCase(undeclareResult.pending, (state) => {
+        state.loading = true;
+        state.success = false;
+        state.error = null;
+      })
+      .addCase(undeclareResult.fulfilled, (state) => {
+        state.success = true;
+        state.loading = false;
+      })
+      .addCase(undeclareResult.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action?.error?.message;
+      })
       .addCase(noResultDeclare.pending, (state) => {
         state.loading = true;
         state.success = false;
@@ -141,6 +156,9 @@ const matchList = createSlice({
           ...state,
           editSuccess: false,
         };
+      })
+      .addCase(sessionResultSuccessReset, (state) => {
+        return { ...state, success: false };
       })
       .addCase(matchListReset, (state) => {
         return { ...state, success: false };

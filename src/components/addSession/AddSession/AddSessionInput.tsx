@@ -4,6 +4,7 @@ import KeyboardEventHandler from "react-keyboard-event-handler";
 import { BallStart, LiveOff, Lock } from "../../../assets";
 import CustomDisableInput from "../../Common/CustomDisableInput";
 import { handleKeysMatchEvents } from "../../../utils/InputKeys/Session/SessionInputKeys";
+import { useEffect } from "react";
 
 const AddSessionInput = (props: any) => {
   const {

@@ -19,6 +19,7 @@ export const ApiConstants = {
     GET: "session",
     RESULTDECLARE: "/bet/declare/result/session",
     NO_RESULT: "/bet/declare/noResult/session",
+    UNDECLARE_RESULT: "/bet/unDeclare/result/session",
   },
   BOOKMAKER: {
     GET: "matchBeting",

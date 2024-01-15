@@ -74,12 +74,12 @@ const MenutItemsComponent = ({
             paddingY: "5px",
           }}
         >
-          {getProfile.allPrivilege
-            ? matchListDropdown?.length > 0 &&
-            matchListDropdown?.map((event: any) => {
+          {(getProfile?.allPrivilege || getProfile?.sessionMatchPrivilege) &&
+            matchListDropdown?.length > 0 &&
+            matchListDropdown?.map((event: any, index: number) => {
               if (event?.id == x?.id) {
                 return (
-                  <>
+                  <div key={index}>
                     {event?.sessions?.length > 0 && (
                       <Typography
                         key={event?.id}
@@ -98,7 +98,7 @@ const MenutItemsComponent = ({
                                 createSession: false,
                                 match: x,
                                 sessionEvent: element,
-                                betId: element?.id
+                                betId: element?.id,
                               },
                             });
                             handleClose();
@@ -117,60 +117,11 @@ const MenutItemsComponent = ({
                         </Box>
                       );
                     })}
-                  </>
+                  </div>
                 );
               } else return null;
-            })
-            : getProfile?.sessionMatchPrivilege
-              ? matchListDropdown &&
-              matchListDropdown?.map((event: any) => {
-                if (event.id == x.id) {
-                  return (
-                    <>
-                      {event.sessions.length > 0 && (
-                        <Typography
-                          key={event.id}
-                          sx={{ fontSize: "12px", fontWeight: "600" }}
-                        >
-                          {activeUser == "1"
-                            ? "Current Live Session"
-                            : "Current Live Bookmaker"}
-                        </Typography>
-                      )}
-                      {event?.sessions?.map((element: any) => {
-                        return (
-                          <Box
-                            key={element.id}
-                            onClick={() => {
-                              navigate("/expert/live", {
-                                state: {
-                                  createSession: false,
-                                  match: x,
-                                  sessionEvent: element,
-                                },
-                              });
-                              handleClose();
-                            }}
-                            sx={{ marginLeft: "10px", marginTop: "3px" }}
-                          >
-                            <Typography
-                              sx={{
-                                fontSize: "12px",
-                                marginTop: "3px",
-                                cursor: "pointer",
-                              }}
-                            >
-                              {element?.name}
-                            </Typography>
-                          </Box>
-                        );
-                      })}
-                    </>
-                  );
-                } else return null;
-              })
-              : null}
-          {getProfile?.allPrivilege ? (
+            })}
+          {(getProfile?.allPrivilege || getProfile?.sessionMatchPrivilege) && (
             <Box
               onClick={() => {
                 dispatch(sessionByIdReset());
@@ -192,30 +143,9 @@ const MenutItemsComponent = ({
                 sx={{ width: "15px", height: "10px", marginLeft: "10px" }}
               />
             </Box>
-          ) : getProfile?.sessionMatchPrivilege ? (
-            <Box
-              onClick={() => {
-                dispatch(sessionByIdReset());
-                navigate("/expert/live", {
-                  state: {
-                    createSession: true,
-                    match: x,
-                  },
-                });
-                handleClose();
-              }}
-              sx={{ marginTop: "5px", display: "flex", alignItems: "center" }}
-            >
-              <Typography sx={{ fontSize: "12px", fontWeight: "600" }}>
-                Create Session
-              </Typography>
-              <StyledImage
-                src={ArrowLeft}
-                sx={{ width: "15px", height: "10px", marginLeft: "10px" }}
-              />
-            </Box>
-          ) : null}
-          {getProfile?.allPrivilege ? (
+          )}
+          {(getProfile?.allPrivilege ||
+            getProfile?.bookmakerMatchPrivilege) && (
             <Box
               sx={{ marginTop: "5px", display: "flex", alignItems: "center" }}
             >
@@ -227,24 +157,12 @@ const MenutItemsComponent = ({
                 sx={{ width: "15px", height: "10px", marginLeft: "10px" }}
               />
             </Box>
-          ) : getProfile?.bookmakerMatchPrivilege ? (
-            <Box
-              sx={{ marginTop: "5px", display: "flex", alignItems: "center" }}
-            >
-              <Typography sx={{ fontSize: "12px", fontWeight: "600" }}>
-                Bookmakers
-              </Typography>
-              <StyledImage
-                src={ArrowLeft}
-                sx={{ width: "15px", height: "10px", marginLeft: "10px" }}
-              />
-            </Box>
-          ) : null}
-          {getProfile.allPrivilege
-            ? matchListDropdown?.map((event: any) => {
+          )}
+          {(getProfile?.allPrivilege || getProfile?.bookmakerMatchPrivilege) &&
+            matchListDropdown?.map((event: any, index: number) => {
               if (event?.id === x?.id) {
                 return (
-                  <>
+                  <div key={index}>
                     {event?.bookmakers?.map((element: any) => {
                       return (
                         <Box
@@ -273,50 +191,11 @@ const MenutItemsComponent = ({
                         </Box>
                       );
                     })}
-                  </>
+                  </div>
                 );
               } else return null;
-            })
-            : getProfile?.bookmakerMatchPrivilege
-              ? matchListDropdown?.map((event: any) => {
-                if (event.id === x.id) {
-                  return (
-                    <>
-                      {event?.bookmakers?.map((element: any) => {
-                        return (
-                          <Box
-                            key={element.id}
-                            onClick={() => {
-                              navigate("/expert/add_book_maker", {
-                                state: {
-                                  id: element.id,
-                                  match: x,
-                                  type: element?.type,
-                                },
-                              });
-                              handleClose();
-                            }}
-                            sx={{ marginLeft: "10px", marginTop: "3px" }}
-                          >
-                            <Typography
-                              sx={{
-                                fontSize: "12px",
-                                marginTop: "3px",
-                                cursor: "pointer",
-                              }}
-                            >
-                              {element.name}
-                            </Typography>
-                          </Box>
-                        );
-                      })}
-                    </>
-                  );
-                } else return null;
-              })
-              : null}
+            })}
         </Box>
-        // </Box>
       )}
     </>
   );

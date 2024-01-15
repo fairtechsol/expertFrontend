@@ -18,4 +18,7 @@ export const userSocketService = {
   updateMatchBettingRateClient: (callback: any) => {
     socket.on("updateMatchBettingRateClient", callback);
   },
+  sessionResultDeclared: (callback: any) => {
+    socket.on("sessionResultDeclared", callback);
+  },
 };

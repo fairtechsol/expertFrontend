@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Box, Typography } from "@mui/material";
 import StyledImage from "../StyledImages";
 import { ARROWDROPDOWN } from "../../../assets";
@@ -34,6 +34,10 @@ const DropDown = (props: any) => {
         ? selected[name]
         : value
       : value;
+
+  useEffect(() => {
+    setValue(valued);
+  }, [selected]);
 
   return (
     <Box sx={[{ width: "19%" }, containerStyle]}>
