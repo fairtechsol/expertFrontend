@@ -7,8 +7,8 @@ import {
   Typography,
 } from "@mui/material";
 import { logout } from "../../../store/actions/auth/authAction";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "../../../store/store";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../../store/store";
 
 const menutItems = [
   // { title: "Bet Odds", navigateTo: "betodds" },
@@ -19,6 +19,8 @@ const menutItems = [
 ];
 const HeaderDropdown = (props: any) => {
   const { anchorEl, open, handleClose } = props;
+
+  const { getProfile } = useSelector((state: RootState) => state.user.profile);
 
   const [loading] = useState(false);
   const dispatch: AppDispatch = useDispatch();
@@ -58,32 +60,67 @@ const HeaderDropdown = (props: any) => {
       transformOrigin={{ horizontal: "right", vertical: "top" }}
       anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
     >
-      {menutItems.map((x, i) => (
-        <MenuItem
-          key={i}
-          dense={true}
-          sx={{
-            fontSize: { lg: "12px", xs: "10px" },
-            fontWeight: "500",
-            marginX: "5px",
-            width: { lg: "200px", xs: "200px" },
-            borderBottomWidth: 1,
-            borderColor: "#EAEFEC",
-            paddingY: "2px",
-            borderStyle: "solid",
-            "&:hover": {
-              backgroundColor: "primary.main",
-              color: "white",
-              borderColor: "white",
-              borderRadius: "5px",
-              transform: "scale(1.02)",
-            },
-          }}
-          onClick={() => handleClose(x.navigateTo)}
-        >
-          {x.title}
-        </MenuItem>
-      ))}
+      {menutItems.map((x: any, i: any) => {
+        if (x?.title === "Add Match") {
+          return (
+            <div key={i}>
+              {(getProfile?.allPrivilege || getProfile?.addMatchPrivilege) && (
+                <MenuItem
+                  key={i}
+                  dense={true}
+                  sx={{
+                    fontSize: { lg: "12px", xs: "10px" },
+                    fontWeight: "500",
+                    marginX: "5px",
+                    width: { lg: "200px", xs: "200px" },
+                    borderBottomWidth: 1,
+                    borderColor: "#EAEFEC",
+                    paddingY: "2px",
+                    borderStyle: "solid",
+                    "&:hover": {
+                      backgroundColor: "primary.main",
+                      color: "white",
+                      borderColor: "white",
+                      borderRadius: "5px",
+                      transform: "scale(1.02)",
+                    },
+                  }}
+                  onClick={() => handleClose(x.navigateTo)}
+                >
+                  {x.title}
+                </MenuItem>
+              )}
+            </div>
+          );
+        } else {
+          return (
+            <MenuItem
+              key={i}
+              dense={true}
+              sx={{
+                fontSize: { lg: "12px", xs: "10px" },
+                fontWeight: "500",
+                marginX: "5px",
+                width: { lg: "200px", xs: "200px" },
+                borderBottomWidth: 1,
+                borderColor: "#EAEFEC",
+                paddingY: "2px",
+                borderStyle: "solid",
+                "&:hover": {
+                  backgroundColor: "primary.main",
+                  color: "white",
+                  borderColor: "white",
+                  borderRadius: "5px",
+                  transform: "scale(1.02)",
+                },
+              }}
+              onClick={() => handleClose(x.navigateTo)}
+            >
+              {x.title}
+            </MenuItem>
+          );
+        }
+      })}
       <Box
         onClick={() => {
           dispatch(logout());

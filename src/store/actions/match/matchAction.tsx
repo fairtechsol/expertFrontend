@@ -107,6 +107,24 @@ export const resultDeclare = createAsyncThunk<any, any>(
   }
 );
 
+export const undeclareResult = createAsyncThunk<any, any>(
+  "/bet/unDeclare/result/session",
+  async (requestData, thunkApi) => {
+    try {
+      const response = await service.post(
+        `${ApiConstants.SESSION.UNDECLARE_RESULT}`,
+        requestData
+      );
+      if (response?.status === 200) {
+        return response?.data;
+      }
+    } catch (error) {
+      const err = error as AxiosError;
+      return thunkApi.rejectWithValue(err.response?.status);
+    }
+  }
+);
+
 export const noResultDeclare = createAsyncThunk<any, any>(
   "/bet/declare/noResult/session",
   async (requestData, thunkApi) => {
@@ -146,6 +164,7 @@ export const editMatch = createAsyncThunk<any, any>(
 
 export const matchListReset = createAction("matchList/reset");
 export const editSuccessReset = createAction("editSuccess/reset");
+export const sessionResultSuccessReset = createAction("sessionResult/reset");
 export const updateMatchActiveStatusReset = createAction(
   "updateMatchActiveStatusReset/reset"
 );
