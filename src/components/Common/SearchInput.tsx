@@ -65,11 +65,13 @@ const SearchInput = (props: any) => {
         {(!matchesxs || show) && (
           <TextField
             variant="standard"
+            id="search"
+            name="search"
             placeholder={placeholder}
             onChange={handleInputChange}
             InputProps={{
               disableUnderline: true,
-              autoComplete: "new-password",
+              autoComplete: "off",
               style: {
                 fontSize: "12px",
                 fontWeight: "600",
@@ -89,11 +91,13 @@ const SearchInput = (props: any) => {
         {showTextInput && (
           <TextField
             variant="standard"
+            id="search"
+            name="search"
             placeholder={placeholder}
             onChange={handleInputChange}
             InputProps={{
               disableUnderline: true,
-              autoComplete: "new-password",
+              autoComplete: "off",
               style: {
                 fontSize: "12px",
                 fontWeight: "600",
