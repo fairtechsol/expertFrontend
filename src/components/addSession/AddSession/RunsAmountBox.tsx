@@ -24,7 +24,7 @@ const RunsAmountBox = ({ currentOdds, betId, proLoss }: any) => {
   };
 
   useEffect(() => {
-    if (currentOdds && currentOdds?.bet_id === betId) {
+    if (currentOdds && currentOdds?.betId === betId) {
       setTimeout(() => {
         scrollToElement(`${betId}_${currentOdds?.odds}`);
       }, 500);
@@ -83,12 +83,12 @@ const RunsAmountBox = ({ currentOdds, betId, proLoss }: any) => {
           </Box>
         </Box>
         <Box ref={containerRef} sx={{ maxHeight: "42vh", overflowY: "auto" }}>
-          {proLoss?.betData?.length > 0
-            ? proLoss?.betData?.map((v: any) => {
+          {proLoss?.betPlaced?.length > 0
+            ? proLoss?.betPlaced?.map((v: any) => {
                 const getColor = (value: any) => {
                   if (value >= 1) {
                     return "#10DC61";
-                  } else if (value === v?.profit_loss && value > 1) {
+                  } else if (value === v?.profitLoss && value > 1) {
                     return "#F8C851";
                   } else {
                     return "#DC3545";
@@ -97,7 +97,7 @@ const RunsAmountBox = ({ currentOdds, betId, proLoss }: any) => {
                 const getSVG = (value: any) => {
                   if (value > 1) {
                     return "https://fontawesomeicons.com/images/svg/trending-up-sharp.svg";
-                  } else if (value === v?.profit_loss && value > 1) {
+                  } else if (value === v?.profitLoss && value > 1) {
                     return "https://fontawesomeicons.com/images/svg/trending-up-sharp.svg";
                   } else {
                     return "https://fontawesomeicons.com/images/svg/trending-down-sharp.svg";
@@ -137,7 +137,7 @@ const RunsAmountBox = ({ currentOdds, betId, proLoss }: any) => {
                         width: "65%",
                         display: "flex",
                         borderLeft: `1px solid #306A47`,
-                        background: getColor(v?.profit_loss),
+                        background: getColor(v?.profitLoss),
                         justifyContent: "space-between",
                         alignItems: "center",
                         paddingRight: "7px",
@@ -151,17 +151,17 @@ const RunsAmountBox = ({ currentOdds, betId, proLoss }: any) => {
                           width: "40px",
                         }}
                       >
-                        {Number(v?.profit_loss) >= 0 ? (
+                        {Number(v?.profitLoss) >= 0 ? (
                           <>
                             <span style={{ visibility: "hidden" }}>-</span>
-                            {v?.profit_loss}
+                            {v?.profitLoss}
                           </>
                         ) : (
-                          v?.profit_loss
+                          v?.profitLoss
                         )}
                       </Typography>
                       <StyledImage
-                        src={getSVG(v?.profit_loss)}
+                        src={getSVG(v?.profitLoss)}
                         sx={{
                           height: "15px",
                           marginLeft: "5px",

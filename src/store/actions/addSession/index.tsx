@@ -61,9 +61,37 @@ export const getSessionById = createAsyncThunk<any, SessionById>(
     }
   }
 );
+export const getSessionProfitLoss = createAsyncThunk<any, SessionById>(
+  "get/sessionProfitLoss",
+  async (requestData, thunkApi) => {
+    try {
+      const resp = await service.get(
+        `${ApiConstants.SESSION.PROFIT_LOSS}/${requestData}`
+      );
+      if (resp?.data) {
+        return resp?.data;
+      }
+    } catch (error) {
+      const err = error as AxiosError;
+      return thunkApi.rejectWithValue(err.response?.status);
+    }
+  }
+);
 
 export const updateSessionById = createAsyncThunk<any, SessionById>(
   "update/session",
+  async (requestData) => {
+    return requestData;
+  }
+);
+export const setCurrentOdd = createAsyncThunk<any, any>(
+  "update/currentOdd",
+  async (requestData) => {
+    return requestData;
+  }
+);
+export const updateSessionProfitLoss = createAsyncThunk<any, SessionById>(
+  "update/sessionProLoss",
   async (requestData) => {
     return requestData;
   }

@@ -8,7 +8,10 @@ import { AppDispatch, RootState } from "../../../store/store";
 import {
   addSession,
   getSessionById,
+  getSessionProfitLoss,
+  setCurrentOdd,
   updateSessionById,
+  updateSessionProfitLoss,
 } from "../../../store/actions/addSession";
 import { socketService } from "../../../socketManager";
 import { sessionResultSuccessReset } from "../../../store/actions/match/matchAction";
@@ -34,9 +37,13 @@ const SessionAddComponent = (props: any) => {
   const { createSession, sessionEvent, match } = props;
   const dispatch: AppDispatch = useDispatch();
   const inputRef: any = useRef(null);
-  const { sessionById, selectedSessionId, loading } = useSelector(
-    (state: RootState) => state.addSession
-  );
+  const {
+    sessionById,
+    selectedSessionId,
+    loading,
+    sessionProfitLoss,
+    currentOdd,
+  } = useSelector((state: RootState) => state.addSession);
   const { success } = useSelector((state: RootState) => state.matchList);
 
   const [isCreateSession, setIsCreateSession] = useState(createSession);
@@ -125,6 +132,20 @@ const SessionAddComponent = (props: any) => {
     if (match?.id === event?.matchId && betId === event?.betId)
       dispatch(updateSessionById(event));
   };
+  const updateUserProfitLoss = (event: any) => {
+    if (
+      match?.id === event?.jobData?.placedBet?.matchId &&
+      betId === event?.jobData?.placedBet?.betId
+    )
+      dispatch(updateSessionProfitLoss(event?.redisData));
+    dispatch(
+      setCurrentOdd({
+        matchId: event?.jobData?.placedBet?.matchId,
+        betId: event?.jobData?.placedBet?.betId,
+        odds: event?.jobData?.placedBet?.odds,
+      })
+    );
+  };
 
   useEffect(() => {
     if (sessionEvent?.id || selectedSessionId) {
@@ -134,6 +155,7 @@ const SessionAddComponent = (props: any) => {
           id: sessionEvent?.id || selectedSessionId,
         })
       );
+      dispatch(getSessionProfitLoss(sessionEvent?.id || selectedSessionId));
       setBetId(sessionEvent?.id || selectedSessionId);
     } else if (isCreateSession) {
       setBetId("");
@@ -225,6 +247,7 @@ const SessionAddComponent = (props: any) => {
       }
     });
     socketService.user.sessionResultDeclared(updateResultDeclared);
+    socketService.user.userSessionBetPlaced(updateUserProfitLoss);
   }, [sessionById, isCreateSession]);
 
   return (
@@ -570,9 +593,9 @@ const SessionAddComponent = (props: any) => {
         <Box sx={{ marginLeft: "15px", width: "30%" }}>
           {!isCreateSession ? (
             <RunsAmountBox
-            // betId={betId}
-            // currentOdds={currentOdds?.bet_id === betId ? currentOdds : null}
-            // proLoss={proLoss}
+              betId={betId}
+              currentOdds={currentOdd?.betId === betId ? currentOdd : null}
+              proLoss={sessionProfitLoss}
             />
           ) : (
             <Box sx={{ width: "162px", minHeight: "182px" }} />

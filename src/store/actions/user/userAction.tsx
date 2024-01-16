@@ -11,8 +11,7 @@ interface ChangePassword {
 
 export const getProfile = createAsyncThunk<any>(
   "user/profile",
-  async (any, thunkApi) => {
-    console.log(any);
+  async (_, thunkApi) => {
     try {
       const resp = await service.get(`${ApiConstants.USER.PROFILE}`);
       if (resp) {

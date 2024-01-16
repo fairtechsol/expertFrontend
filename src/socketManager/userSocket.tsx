@@ -21,4 +21,10 @@ export const userSocketService = {
   sessionResultDeclared: (callback: any) => {
     socket.on("sessionResultDeclared", callback);
   },
+  userSessionBetPlaced: (callBack: any) => {
+    socket.on("userSessionBetPlaced", callBack);
+  },
+  matchBettingStatusChange: (callback: any) => {
+    socket.on("matchBettingStatusChange", callback);
+  },
 };
