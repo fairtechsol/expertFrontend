@@ -193,10 +193,10 @@ const SessionAddComponent = (props: any) => {
           noRatePercent: Math.floor(sessionById?.noPercent),
         };
       });
-      if (sessionById?.result !== null) {
+      if (sessionById?.activeStatus !== "live") {
         setShowUndeclare(true);
         setIsDisable(true);
-      } else {
+      } else if (sessionById?.activeStatus !== "result") {
         setShowUndeclare(false);
         setIsDisable(false);
       }

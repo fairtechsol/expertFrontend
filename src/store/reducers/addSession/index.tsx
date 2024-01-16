@@ -64,6 +64,7 @@ export const addSessionReducers = createReducer(initialState, (builder) => {
     .addCase(updateSessionById.fulfilled, (state, action) => {
       state.sessionById = {
         ...state.sessionById,
+        activeStatus: action.payload.activeStatus,
         result: action.payload.score,
       };
     })
