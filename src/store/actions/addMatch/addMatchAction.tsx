@@ -12,15 +12,26 @@ export const getAllLiveTournaments = createAsyncThunk<any, string>(
         `${constants.microServiceApiPath}/competitionList?type=${requestData}`
       );
       if (data) {
-        let tournamentList: any = [];
-        data.forEach((tournament: any) => {
-          tournamentList.push({
-            EventName: tournament?.competition?.name,
-            EventId: tournament?.competition?.id,
-            competitionRegion: tournament?.competitionRegion,
-            marketCount: tournament?.marketCount,
+        let tournamentList: any = [
+          {
+            EventName: "No result Found",
+            EventId: "No result Found",
+            competitionRegion: "No result Found",
+            marketCount: "No result Found",
+          },
+        ];
+        if (data && data.length > 0) {
+          let tournamentList1: any = [];
+          data.forEach((tournament: any) => {
+            tournamentList1.push({
+              EventName: tournament?.competition?.name,
+              EventId: tournament?.competition?.id,
+              competitionRegion: tournament?.competitionRegion,
+              marketCount: tournament?.marketCount,
+            });
           });
-        });
+          tournamentList = tournamentList1;
+        }
         return tournamentList;
       }
     } catch (error) {
@@ -38,9 +49,20 @@ export const getAllEventsList = createAsyncThunk<any, string>(
         `${constants.microServiceApiPath}/eventList/${requestData}`
       );
       if (data) {
-        let matchesList: any = [];
+        let matchesList: any = [
+          {
+            EventName: "No result Found",
+            EventId: "No result Found",
+            CompetitionId: "No result Found",
+            CompetitionName: "No result Found",
+            MarketId: "No result Found",
+            EventDetail: "No result Found",
+          },
+        ];
+        if (data && data.length > 0) {
+          let matchesList1: any = [];
         data.forEach((match: any) => {
-          matchesList.push({
+          matchesList1.push({
             EventName: match?.event?.name,
             EventId: match?.event?.id,
             MarketId: match?.marketId,
@@ -53,14 +75,17 @@ export const getAllEventsList = createAsyncThunk<any, string>(
             },
           });
         });
-        return matchesList;
+        matchesList = matchesList1;
       }
-    } catch (error) {
-      const err = error as AxiosError;
-      return thunkApi.rejectWithValue(err.response?.status);
+      return matchesList;
     }
+  } catch (error) {
+    const err = error as AxiosError;
+    return thunkApi.rejectWithValue(err.response?.status);
   }
+}
 );
+
 export const getExtraMarketList = createAsyncThunk<any, string>(
   "addMatch/extraMarketList",
   async (requestData, thunkApi) => {
