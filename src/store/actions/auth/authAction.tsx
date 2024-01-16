@@ -26,8 +26,7 @@ export const login = createAsyncThunk<any, LoginData>(
 
 export const logout = createAsyncThunk<any>(
   "auth/logout",
-  async (any, thunkApi) => {
-    console.log(any);
+  async (_, thunkApi) => {
     try {
       const response = await service.post(`${ApiConstants.LOGOUT}`);
       sessionStorage.clear();

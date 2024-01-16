@@ -8,6 +8,7 @@ import {
   getExtraMarketList,
   getMatchDetail,
   matchDetailReset,
+  updateMatchBettingStatus,
   updateMatchRates,
 } from "../../actions/addMatch/addMatchAction";
 
@@ -131,6 +132,14 @@ const addMatch = createSlice({
           },
           matchOdd: { ...state.matchDetail.matchOdd, ...matchOdd },
         };
+      })
+      .addCase(updateMatchBettingStatus.fulfilled, (state, action) => {
+        let matchingObjectKey = Object.keys(state?.matchDetail).find(
+          (key) => state?.matchDetail[key].type === action.payload.type
+        );
+        if (matchingObjectKey) {
+          state.matchDetail[matchingObjectKey] = action.payload;
+        }
       })
       .addCase(matchDetailReset, (state) => {
         return {

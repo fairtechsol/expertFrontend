@@ -10,13 +10,14 @@ import BetList from "../../components/matchDetails/BetList";
 import { useLocation } from "react-router-dom";
 import {
   getMatchDetail,
+  updateMatchBettingStatus,
   updateMatchRates,
 } from "../../store/actions/addMatch/addMatchAction";
 import { AppDispatch, RootState } from "../../store/store";
 import { useDispatch, useSelector } from "react-redux";
 import TiedMatchMarket from "../../components/matchDetails/TiedMatchMarket";
 import CompleteMatchMarket from "../../components/matchDetails/CompleteMatchMarket";
-import { expertSocketService } from "../../socketManager";
+import { expertSocketService, socketService } from "../../socketManager";
 
 const MatchDetails = () => {
   const data: any = [];
@@ -33,6 +34,12 @@ const MatchDetails = () => {
     } else return;
   };
 
+  const updateBettingStatus = (event: any) => {
+    if (state?.id === event?.matchId) {
+      dispatch(updateMatchBettingStatus(event));
+    }
+  };
+
   useEffect(() => {
     if (state?.id) {
       dispatch(getMatchDetail(state?.id));
@@ -42,6 +49,7 @@ const MatchDetails = () => {
   useEffect(() => {
     if (state?.id) {
       expertSocketService.match.joinMatchRoom(state?.id, "expert");
+      socketService.user.matchBettingStatusChange(updateBettingStatus);
       expertSocketService.match.getMatchRates(
         state?.id,
         updateMatchDetailToRedux

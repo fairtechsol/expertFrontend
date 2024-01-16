@@ -3,14 +3,19 @@ import {
   addSession,
   getBookmakerById,
   getSessionById,
+  getSessionProfitLoss,
   sessionByIdReset,
+  setCurrentOdd,
   successReset,
   updateSessionById,
+  updateSessionProfitLoss,
 } from "../../actions/addSession";
 
 interface InitialState {
   sessionById: any;
   selectedSessionId: string;
+  sessionProfitLoss: any;
+  currentOdd: any;
   bookmakerById: any;
   success: boolean;
   loading: boolean;
@@ -19,6 +24,8 @@ interface InitialState {
 const initialState: InitialState = {
   sessionById: null,
   selectedSessionId: "",
+  sessionProfitLoss: [],
+  currentOdd: null,
   bookmakerById: null,
   success: false,
   loading: false,
@@ -52,6 +59,21 @@ export const addSessionReducers = createReducer(initialState, (builder) => {
     .addCase(getSessionById.rejected, (state) => {
       state.loading = false;
     })
+    .addCase(getSessionProfitLoss.pending, (state) => {
+      state.loading = true;
+      state.success = false;
+    })
+    .addCase(getSessionProfitLoss.fulfilled, (state, action) => {
+      state.loading = false;
+      state.success = true;
+      state.sessionProfitLoss = action.payload;
+    })
+    .addCase(getSessionProfitLoss.rejected, (state) => {
+      state.loading = false;
+    })
+    .addCase(setCurrentOdd.fulfilled, (state, action) => {
+      state.currentOdd = action.payload;
+    })
     .addCase(getBookmakerById.pending, (state) => {
       state.loading = true;
       state.success = false;
@@ -68,11 +90,19 @@ export const addSessionReducers = createReducer(initialState, (builder) => {
         result: action.payload.score,
       };
     })
+    .addCase(updateSessionProfitLoss.fulfilled, (state, action) => {
+      state.sessionProfitLoss = action.payload;
+    })
     .addCase(getBookmakerById.rejected, (state) => {
       state.loading = false;
     })
     .addCase(sessionByIdReset, (state) => {
-      return { ...state, success: false, sessionById: null };
+      return {
+        ...state,
+        success: false,
+        sessionById: null,
+        sessionProfitLoss: null,
+      };
     })
     .addCase(successReset, (state) => {
       return { ...state, success: false };

@@ -20,10 +20,11 @@ export const ApiConstants = {
     RESULTDECLARE: "/bet/declare/result/session",
     NO_RESULT: "/bet/declare/noResult/session",
     UNDECLARE_RESULT: "/bet/unDeclare/result/session",
+    PROFIT_LOSS: "/session/profitLoss",
   },
   BOOKMAKER: {
     GET: "matchBeting",
-    BETTINGSTATUS: "/matchBeting/status/change"
+    BETTINGSTATUS: "/matchBeting/status/change",
   },
 };
 
@@ -62,10 +63,10 @@ export const baseUrls = {
     process.env.NODE_ENV === "production"
       ? `${Constants.expertSocketBasePath}`
       : "http://localhost:6060",
-      // : `${Constants.thirdParty}`,
+  // : `${Constants.thirdParty}`,
   matchSocket:
     process.env.NODE_ENV === "production"
       ? `${Constants.thirdParty}`
-      // : "http://localhost:3200"//,
-      : `${Constants.thirdParty}`,
+      : // : "http://localhost:3200"//,
+        `${Constants.thirdParty}`,
 };
