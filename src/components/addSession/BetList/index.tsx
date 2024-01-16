@@ -29,10 +29,8 @@ const BetsList = (props: any) => {
           }),
         ]}
       >
-        <Typography
-          sx={{ color: "white", fontSize: "20px", fontWeight: "600" }}
-        >
-          {sessionEvent?.bet_condition}
+        <Typography sx={{ color: "#000", fontSize: "20px", fontWeight: "600" }}>
+          {sessionEvent?.name}
         </Typography>
         <Box
           sx={{

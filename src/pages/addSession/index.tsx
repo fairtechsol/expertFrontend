@@ -4,9 +4,19 @@ import SessionInputFields from "../../components/addSession/AddSession/SessionAd
 import DailogModal from "../../components/helper/DailogModal";
 import BetsList from "../../components/addSession/BetList";
 import { useLocation } from "react-router-dom";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../store/store";
+import { getPlacedBets } from "../../store/actions/addSession";
 
 const AddSession = () => {
   const { state } = useLocation();
+  const dispatch: AppDispatch = useDispatch();
+  const { placedBets } = useSelector((state: RootState) => state.addSession);
+
+  useEffect(() => {
+    dispatch(getPlacedBets(state?.betId));
+  }, [state?.betId]);
   return (
     <Box>
       <Grid container spacing={2}>
@@ -25,7 +35,12 @@ const AddSession = () => {
         </Grid>
         <Grid item xs={12} sm={6}>
           <Paper style={{ margin: "10px" }}>
-            {true && <BetsList betData={[]} />}
+            {true && (
+              <BetsList
+                sessionEvent={state?.sessionEvent}
+                betData={placedBets && placedBets.length > 0 ? placedBets : []}
+              />
+            )}
           </Paper>
         </Grid>
       </Grid>

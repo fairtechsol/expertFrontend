@@ -116,5 +116,22 @@ export const getBookmakerById = createAsyncThunk<any, BookmakerById>(
   }
 );
 
+export const getPlacedBets = createAsyncThunk<any, any>(
+  "get/placedBets",
+  async (requestData, thunkApi) => {
+    try {
+      const resp = await service.get(
+        `${ApiConstants.SESSION.GET_PLACED_BETS}?betPlaced.betId=${requestData}&deleteReason=isNull`
+      );
+      if (resp?.data) {
+        return resp?.data;
+      }
+    } catch (error) {
+      const err = error as AxiosError;
+      return thunkApi.rejectWithValue(err.response?.status);
+    }
+  }
+);
+
 export const sessionByIdReset = createAction("sessionById/reset");
 export const successReset = createAction("success/reset");

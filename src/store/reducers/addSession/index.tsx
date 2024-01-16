@@ -2,6 +2,7 @@ import { createReducer } from "@reduxjs/toolkit";
 import {
   addSession,
   getBookmakerById,
+  getPlacedBets,
   getSessionById,
   getSessionProfitLoss,
   sessionByIdReset,
@@ -17,6 +18,7 @@ interface InitialState {
   sessionProfitLoss: any;
   currentOdd: any;
   bookmakerById: any;
+  placedBets: any;
   success: boolean;
   loading: boolean;
 }
@@ -27,6 +29,7 @@ const initialState: InitialState = {
   sessionProfitLoss: [],
   currentOdd: null,
   bookmakerById: null,
+  placedBets: [],
   success: false,
   loading: false,
 };
@@ -83,6 +86,22 @@ export const addSessionReducers = createReducer(initialState, (builder) => {
       state.loading = false;
       state.success = true;
     })
+    .addCase(getBookmakerById.rejected, (state) => {
+      state.loading = false;
+    })
+    .addCase(getPlacedBets.pending, (state) => {
+      state.loading = true;
+      state.success = false;
+    })
+    .addCase(getPlacedBets.fulfilled, (state, action) => {
+      state.loading = false;
+      state.success = true;
+      state.placedBets = action.payload;
+    })
+    .addCase(getPlacedBets.rejected, (state) => {
+      state.loading = true;
+      state.success = false;
+    })
     .addCase(updateSessionById.fulfilled, (state, action) => {
       state.sessionById = {
         ...state.sessionById,
@@ -92,9 +111,6 @@ export const addSessionReducers = createReducer(initialState, (builder) => {
     })
     .addCase(updateSessionProfitLoss.fulfilled, (state, action) => {
       state.sessionProfitLoss = action.payload;
-    })
-    .addCase(getBookmakerById.rejected, (state) => {
-      state.loading = false;
     })
     .addCase(sessionByIdReset, (state) => {
       return {
