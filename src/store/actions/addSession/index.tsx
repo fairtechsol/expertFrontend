@@ -96,6 +96,12 @@ export const updateSessionProfitLoss = createAsyncThunk<any, SessionById>(
     return requestData;
   }
 );
+export const updateBetsPlaced = createAsyncThunk<any, SessionById>(
+  "update/betsPlaced",
+  async (requestData) => {
+    return requestData;
+  }
+);
 
 export const getBookmakerById = createAsyncThunk<any, BookmakerById>(
   "get/bookmaker",

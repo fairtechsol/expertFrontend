@@ -56,6 +56,7 @@ const MatchDetails = () => {
       );
     }
     return () => {
+      expertSocketService.match.leaveAllRooms();
       expertSocketService.match.leaveMatchRoom(state?.id);
     };
   }, []);
@@ -132,17 +133,12 @@ const MatchDetails = () => {
                       );
                     }}
                     title={"Session Market"}
-                    // setLiveData={setLiveData}
                     liveOnly={false}
                     hideTotalBet={false}
                     stopAllHide={false}
-                    // setData={setData}
                     sessionData={matchDetail?.sessionBettings}
                     hideResult={false}
-                    // setLocalState={setLocalState}
-                    // setCurrentMatch={setCurrentMatch}
                     currentMatch={matchDetail}
-                    // setLocalSessionExpertOdds={setLocalSessionExpertOdds}
                   />
                 </Box>
               </Box>

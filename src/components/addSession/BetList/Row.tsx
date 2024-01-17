@@ -93,7 +93,7 @@ const Row = (props: any) => {
         </Box>
         <Box
           sx={{
-            background: values.betType == "yes" ? "#B3E0FF" : "#FFB5B5",
+            background: values.betType == "YES" ? "#B3E0FF" : "#FFB5B5",
             width: "14%",
             borderLeft: "2px solid white",
             display: "flex",
@@ -159,7 +159,12 @@ const Row = (props: any) => {
           <Typography
             sx={{ fontWeight: "600", fontSize: "14px", color: "white" }}
           >
-            {((values?.amount * values?.user?.fwPartnership) / 100).toFixed()}
+            {values?.myStake
+              ? values?.myStake
+              : (
+                  (values?.amount * values?.user?.fwPartnership) /
+                  100
+                ).toFixed()}
           </Typography>
         </Box>
       </Box>

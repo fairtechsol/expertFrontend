@@ -201,25 +201,27 @@ const SessionMarketLive = ({
             }}
           >
             {matchSessionData?.length > 0 &&
-              matchSessionData?.map((match: any, index: any) => (
-                <Box key={index}>
-                  <SessionMarketBoxLive
-                    setMatchLiveSession={setMatchLiveSession}
-                    liveOnly={liveOnly}
-                    hideResult={hideResult}
-                    hideTotalBet={hideTotalBet}
-                    setMatchSessionData={setMatchSessionData}
-                    setLocalState={(val: any) => setLocalState(val)}
-                    currentMatch={currentMatch}
-                    setCurrentMatch={setCurrentMatch}
-                    newData={match}
-                    setStop={setStop}
-                    stop={stop}
-                    index={index}
-                  />
-                  <Divider />
-                </Box>
-              ))}
+              matchSessionData?.map((match: any, index: any) => {
+                return (
+                  <Box key={index}>
+                    <SessionMarketBoxLive
+                      setMatchLiveSession={setMatchLiveSession}
+                      liveOnly={liveOnly}
+                      hideResult={hideResult}
+                      hideTotalBet={hideTotalBet}
+                      setMatchSessionData={setMatchSessionData}
+                      setLocalState={(val: any) => setLocalState(val)}
+                      currentMatch={currentMatch}
+                      setCurrentMatch={setCurrentMatch}
+                      newData={match}
+                      setStop={setStop}
+                      stop={stop}
+                      index={index}
+                    />
+                    <Divider />
+                  </Box>
+                );
+              })}
           </Box>
         </Box>
       )}

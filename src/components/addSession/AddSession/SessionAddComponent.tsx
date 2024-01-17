@@ -10,6 +10,7 @@ import {
   getSessionById,
   getSessionProfitLoss,
   setCurrentOdd,
+  updateBetsPlaced,
   updateSessionById,
   updateSessionProfitLoss,
 } from "../../../store/actions/addSession";
@@ -138,6 +139,7 @@ const SessionAddComponent = (props: any) => {
       betId === event?.jobData?.placedBet?.betId
     )
       dispatch(updateSessionProfitLoss(event?.redisData));
+    dispatch(updateBetsPlaced(event?.jobData));
     dispatch(
       setCurrentOdd({
         matchId: event?.jobData?.placedBet?.matchId,

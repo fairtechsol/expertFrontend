@@ -7,6 +7,9 @@ import SeparateBox from "../SeparateBox";
 import { formatNumber } from "../../helper";
 import CustomSessionResult from "./CustomSessionResult";
 import PlaceBetComponent from "./PlaceBetComponent";
+import { betLiveStatus } from "../../../store/actions/match/matchAction";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../../../store/store";
 
 const SessionMarketBox = ({
   currentMatch,
@@ -18,8 +21,9 @@ const SessionMarketBox = ({
   setData,
   setIObtes,
 }: any) => {
+  const dispatch: AppDispatch = useDispatch();
   const [visible, setVisible] = useState(false);
-
+  const [live, setLive] = useState<boolean>(false);
   const [loader] = useState(false);
   return (
     <div style={{ position: "relative" }}>
@@ -76,32 +80,37 @@ const SessionMarketBox = ({
             zIndex: 100,
           }}
         >
-          {newData?.betStatus === 0 && (
+          {JSON.parse(newData)?.activeStatus === "live" && (
             <SmallBox
               loading={loader}
               hide={true}
               onClick={(e: any) => {
                 e.preventDefault();
-                // setLive(!live);
-                // handleLive(1);
+                setLive(!live);
+                dispatch(
+                  betLiveStatus({
+                    isStop: live,
+                    betId: JSON.parse(newData)?.id,
+                  })
+                );
               }}
               textSize={"8px"}
               width={"33px"}
-              // title={"Go Live"}
               color={"#FF4D4D"}
             />
           )}
-          {newData?.betStatus === 2 && newData?.betRestult && (
-            <SmallBox
-              loading={false}
-              hide={false}
-              textSize={"12px"}
-              width={"80px"}
-              title={`Score : ${newData?.betRestult || 0}`}
-              color={"#FFF"}
-            />
-          )}
-          {newData?.betStatus === 1 && (
+          {JSON.parse(newData)?.activeStatus === "result" &&
+            JSON.parse(newData)?.result && (
+              <SmallBox
+                loading={false}
+                hide={false}
+                textSize={"12px"}
+                width={"80px"}
+                title={`Score : ${JSON.parse(newData)?.result || 0}`}
+                color={"#FFF"}
+              />
+            )}
+          {JSON.parse(newData)?.activeStatus === "save" && (
             <SmallBox
               hide={true}
               loading={loader}
