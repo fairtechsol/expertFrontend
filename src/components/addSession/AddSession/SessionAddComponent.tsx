@@ -307,10 +307,7 @@ const SessionAddComponent = (props: any) => {
                 <Box
                   onClick={(e) => {
                     e.preventDefault();
-                    if (
-                      !isNaN(inputDetail?.leftNoRate) &&
-                      inputDetail?.leftNoRate != null
-                    ) {
+                    if (!isCreateSession) {
                       const [yesRatePercent, noRatePercent] =
                         item?.value?.split("-");
                       setInputDetail((prev: any) => {
@@ -335,7 +332,7 @@ const SessionAddComponent = (props: any) => {
                   sx={{
                     position: "relative",
                     display: "flex",
-                    background: true ? "#0B4F26" : "#696969",
+                    background: !isCreateSession ? "#0B4F26" : "#696969",
                     justifyContent: "center",
                     alignItems: "center",
                     height: "35px",
