@@ -127,7 +127,7 @@ export const getPlacedBets = createAsyncThunk<any, any>(
   async (requestData, thunkApi) => {
     try {
       const resp = await service.get(
-        `${ApiConstants.SESSION.GET_PLACED_BETS}?betPlaced.betId=${requestData}&deleteReason=isNull`
+        `${ApiConstants.SESSION.GET_PLACED_BETS}?betPlaced.betId=${requestData}&deleteReason=isNull&result=eqPENDING`
       );
       if (resp?.data) {
         return resp?.data;

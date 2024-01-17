@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../store/store";
 import {
   addSession,
+  getPlacedBets,
   getSessionById,
   getSessionProfitLoss,
   setCurrentOdd,
@@ -132,6 +133,7 @@ const SessionAddComponent = (props: any) => {
   const updateResultDeclared = (event: any) => {
     if (match?.id === event?.matchId && betId === event?.betId)
       dispatch(updateSessionById(event));
+    dispatch(getPlacedBets(betId));
   };
   const updateUserProfitLoss = (event: any) => {
     if (
