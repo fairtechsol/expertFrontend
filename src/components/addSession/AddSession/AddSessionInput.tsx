@@ -185,7 +185,8 @@ const AddSessionInput = (props: any) => {
                         setIncGap,
                         isPercent,
                         setIsPercent,
-                        setIsBall
+                        setIsBall,
+                        isCreateSession
                       )
                     }
                   >

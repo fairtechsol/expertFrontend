@@ -205,8 +205,8 @@ const SessionMarketBoxLive = ({
               session={true}
               back={true}
               width={"30%"}
-              value={newData?.BackPrice1}
-              value2={formatNumber(newData?.BackSize1)}
+              value={newData?.LayPrice1}
+              value2={formatNumber(newData?.LaySize1)}
               lock={newData?.GameStatus === "SUSPENDED"}
               color={"#F6D0CB"}
             />
@@ -218,8 +218,8 @@ const SessionMarketBoxLive = ({
             <SeparateBox
               session={true}
               width={"30%"}
-              value={newData?.LayPrice1}
-              value2={formatNumber(newData?.LaySize1)}
+              value={newData?.BackPrice1}
+              value2={formatNumber(newData?.BackSize1)}
               lock={newData?.GameStatus === "SUSPENDED"}
               color={"#B3E0FF"}
             />

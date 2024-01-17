@@ -53,7 +53,6 @@ const initialFormikValues = {
   marketName3: "",
   marketMaxBet3: "",
   marketId3: "",
-
 };
 
 const initialValues = {
@@ -96,8 +95,6 @@ const AddMatch = () => {
   };
 
   const selectionData = [1, 2, 3];
-
-
 
   const { editSuccess } = useSelector((state: RootState) => state.matchList);
 
@@ -151,7 +148,6 @@ const AddMatch = () => {
           manualTiedMatchMaxBet: value.manualTiedMatchMaxBet,
           completeMatchMaxBet: value.completeMatchMaxBet,
           bookmakers: bookmakers,
-
         };
         dispatch(editMatch(payload));
       } else {
@@ -255,6 +251,7 @@ const AddMatch = () => {
     }
     if (selected.gameType !== "" && !state?.id) {
       dispatch(getAllLiveTournaments(selected.gameType));
+      dispatch(getAllEventsList("123"));
     }
   }, [selected.gameType]);
 
@@ -277,7 +274,7 @@ const AddMatch = () => {
       });
     }
 
-    if (selected.tournamentId !== "" && !state?.id) {
+    if (selected?.tournamentId && !state?.id) {
       dispatch(getAllEventsList(selected.tournamentId));
     }
   }, [selected.tournamentId]);
@@ -285,6 +282,17 @@ const AddMatch = () => {
   useEffect(() => {
     if (state?.id) {
       dispatch(getMatchDetail(state?.id));
+    } else {
+      formik.setValues({
+        ...values,
+        ...initialFormikValues,
+      });
+      setSelected((prev: any) => {
+        return {
+          ...prev,
+          ...initialValues,
+        };
+      });
     }
     if (matchAdded) {
       navigate("/expert/match");
@@ -463,7 +471,6 @@ const AddMatch = () => {
                 id="tournamentName"
                 selected={selected}
                 setSelected={setSelected}
-      
               />
             </Box>
 
@@ -883,7 +890,6 @@ const AddMatch = () => {
                         onChange={handleChange}
                         value={values.marketMaxBet2}
                       />
-               
                     </Box>
                   </Box>
                 )}

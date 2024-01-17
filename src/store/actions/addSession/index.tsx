@@ -96,6 +96,12 @@ export const updateSessionProfitLoss = createAsyncThunk<any, SessionById>(
     return requestData;
   }
 );
+export const updateBetsPlaced = createAsyncThunk<any, SessionById>(
+  "update/betsPlaced",
+  async (requestData) => {
+    return requestData;
+  }
+);
 
 export const getBookmakerById = createAsyncThunk<any, BookmakerById>(
   "get/bookmaker",
@@ -105,6 +111,23 @@ export const getBookmakerById = createAsyncThunk<any, BookmakerById>(
         `${ApiConstants.BOOKMAKER.GET}/${requestData.matchId}${
           requestData?.id ? `?id=${requestData?.id}` : ""
         }&type=${requestData?.type}`
+      );
+      if (resp?.data) {
+        return resp?.data;
+      }
+    } catch (error) {
+      const err = error as AxiosError;
+      return thunkApi.rejectWithValue(err.response?.status);
+    }
+  }
+);
+
+export const getPlacedBets = createAsyncThunk<any, any>(
+  "get/placedBets",
+  async (requestData, thunkApi) => {
+    try {
+      const resp = await service.get(
+        `${ApiConstants.SESSION.GET_PLACED_BETS}?betPlaced.betId=${requestData}&deleteReason=isNull&result=eqPENDING`
       );
       if (resp?.data) {
         return resp?.data;

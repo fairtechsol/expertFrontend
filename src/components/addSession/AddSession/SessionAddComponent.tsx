@@ -7,9 +7,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../store/store";
 import {
   addSession,
+  getPlacedBets,
   getSessionById,
   getSessionProfitLoss,
   setCurrentOdd,
+  updateBetsPlaced,
   updateSessionById,
   updateSessionProfitLoss,
 } from "../../../store/actions/addSession";
@@ -131,6 +133,7 @@ const SessionAddComponent = (props: any) => {
   const updateResultDeclared = (event: any) => {
     if (match?.id === event?.matchId && betId === event?.betId)
       dispatch(updateSessionById(event));
+    dispatch(getPlacedBets(betId));
   };
   const updateUserProfitLoss = (event: any) => {
     if (
@@ -138,6 +141,7 @@ const SessionAddComponent = (props: any) => {
       betId === event?.jobData?.placedBet?.betId
     )
       dispatch(updateSessionProfitLoss(event?.redisData));
+    dispatch(updateBetsPlaced(event?.jobData));
     dispatch(
       setCurrentOdd({
         matchId: event?.jobData?.placedBet?.matchId,
@@ -307,10 +311,7 @@ const SessionAddComponent = (props: any) => {
                 <Box
                   onClick={(e) => {
                     e.preventDefault();
-                    if (
-                      !isNaN(inputDetail?.leftNoRate) &&
-                      inputDetail?.leftNoRate != null
-                    ) {
+                    if (!isCreateSession) {
                       const [yesRatePercent, noRatePercent] =
                         item?.value?.split("-");
                       setInputDetail((prev: any) => {
@@ -335,7 +336,7 @@ const SessionAddComponent = (props: any) => {
                   sx={{
                     position: "relative",
                     display: "flex",
-                    background: true ? "#0B4F26" : "#696969",
+                    background: !isCreateSession ? "#0B4F26" : "#696969",
                     justifyContent: "center",
                     alignItems: "center",
                     height: "35px",

@@ -21,6 +21,7 @@ export const ApiConstants = {
     NO_RESULT: "/bet/declare/noResult/session",
     UNDECLARE_RESULT: "/bet/unDeclare/result/session",
     PROFIT_LOSS: "/session/profitLoss",
+    GET_PLACED_BETS: "/bet",
   },
   BOOKMAKER: {
     GET: "matchBeting",
@@ -67,6 +68,6 @@ export const baseUrls = {
   matchSocket:
     process.env.NODE_ENV === "production"
       ? `${Constants.thirdParty}`
-      : // : "http://localhost:3200"//,
-        `${Constants.thirdParty}`,
+      : "http://localhost:3200",
+  // `${Constants.thirdParty}`,
 };

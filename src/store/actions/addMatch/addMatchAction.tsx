@@ -14,10 +14,7 @@ export const getAllLiveTournaments = createAsyncThunk<any, string>(
       if (data) {
         let tournamentList: any = [
           {
-            EventName: "No result Found",
-            EventId: "No result Found",
-            competitionRegion: "No result Found",
-            marketCount: "No result Found",
+            EventName: "No Tournaments Available",
           },
         ];
         if (data && data.length > 0) {
@@ -51,39 +48,34 @@ export const getAllEventsList = createAsyncThunk<any, string>(
       if (data) {
         let matchesList: any = [
           {
-            EventName: "No result Found",
-            EventId: "No result Found",
-            CompetitionId: "No result Found",
-            CompetitionName: "No result Found",
-            MarketId: "No result Found",
-            EventDetail: "No result Found",
+            EventName: "No Matches Available",
           },
         ];
         if (data && data.length > 0) {
           let matchesList1: any = [];
-        data.forEach((match: any) => {
-          matchesList1.push({
-            EventName: match?.event?.name,
-            EventId: match?.event?.id,
-            MarketId: match?.marketId,
-            CompetitionId: match?.competition?.id,
-            CompetitionName: match?.competition?.name,
-            EventDetail: {
-              EventDate: match?.event?.openDate,
-              Runners: match?.runners,
-              // Runnercount: match?.runners,
-            },
+          data.forEach((match: any) => {
+            matchesList1.push({
+              EventName: match?.event?.name,
+              EventId: match?.event?.id,
+              MarketId: match?.marketId,
+              CompetitionId: match?.competition?.id,
+              CompetitionName: match?.competition?.name,
+              EventDetail: {
+                EventDate: match?.event?.openDate,
+                Runners: match?.runners,
+                // Runnercount: match?.runners,
+              },
+            });
           });
-        });
-        matchesList = matchesList1;
+          matchesList = matchesList1;
+        }
+        return matchesList;
       }
-      return matchesList;
+    } catch (error) {
+      const err = error as AxiosError;
+      return thunkApi.rejectWithValue(err.response?.status);
     }
-  } catch (error) {
-    const err = error as AxiosError;
-    return thunkApi.rejectWithValue(err.response?.status);
   }
-}
 );
 
 export const getExtraMarketList = createAsyncThunk<any, string>(

@@ -51,12 +51,12 @@ const Row = (props: any) => {
           <Typography
             sx={{ color: "white", fontWeight: "600", fontSize: "14px" }}
           >
-            {values?.user?.userName || values?.userName}
+            {values?.user?.userName}
           </Typography>
         </Box>
         <Box
           sx={{
-            background: values.bet_type == "yes" ? "#B3E0FF" : "#FFB5B5",
+            background: values?.betType == "YES" ? "#B3E0FF" : "#FFB5B5",
             width: "10%",
             borderLeft: "2px solid white",
             display: "flex",
@@ -76,7 +76,7 @@ const Row = (props: any) => {
             }}
           >
             {" "}
-            {values.odds}{" "}
+            {values?.odds}{" "}
           </Typography>
           <Typography
             sx={{
@@ -88,14 +88,12 @@ const Row = (props: any) => {
               marginRight: "2px",
             }}
           >
-            {values?.bet_type == "no"
-              ? values?.rate?.split("-")[0]
-              : values?.rate?.split("-")[1]}
+            {values?.rate}
           </Typography>
         </Box>
         <Box
           sx={{
-            background: values.bet_type == "yes" ? "#B3E0FF" : "#FFB5B5",
+            background: values.betType == "YES" ? "#B3E0FF" : "#FFB5B5",
             width: "14%",
             borderLeft: "2px solid white",
             display: "flex",
@@ -113,12 +111,12 @@ const Row = (props: any) => {
               right: 5,
             }}
           >
-            {getTime(values.createAt)}
+            {getTime(values.createdAt)}
           </Typography>
         </Box>
         <Box
           sx={{
-            background: values.bet_type == "yes" ? "#B3E0FF" : "#FFB5B5",
+            background: values.betType == "YES" ? "#B3E0FF" : "#FFB5B5",
             width: "10%",
             borderLeft: "2px solid white",
             display: "flex",
@@ -129,12 +127,12 @@ const Row = (props: any) => {
           <Typography
             sx={{ fontWeight: "600", fontSize: "14px", color: "black" }}
           >
-            {values.bet_type == "yes" ? "Yes" : "No"}
+            {values.betType == "YES" ? "Yes" : "No"}
           </Typography>
         </Box>
         <Box
           sx={{
-            background: values.bet_type == "yes" ? "#B3E0FF" : "#FFB5B5",
+            background: values.betType == "YES" ? "#B3E0FF" : "#FFB5B5",
             width: "20%",
             borderLeft: "2px solid white",
             display: "flex",
@@ -145,7 +143,7 @@ const Row = (props: any) => {
           <Typography
             sx={{ fontWeight: "600", fontSize: "14px", color: "black" }}
           >
-            {values.amount || values.stake}
+            {values?.amount}
           </Typography>
         </Box>
         <Box
@@ -161,7 +159,12 @@ const Row = (props: any) => {
           <Typography
             sx={{ fontWeight: "600", fontSize: "14px", color: "white" }}
           >
-            {values.myStack}
+            {values?.myStake
+              ? values?.myStake
+              : (
+                  (values?.amount * values?.user?.fwPartnership) /
+                  100
+                ).toFixed()}
           </Typography>
         </Box>
       </Box>
