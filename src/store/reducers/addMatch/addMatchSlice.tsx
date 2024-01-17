@@ -24,20 +24,16 @@ interface InitialState {
 }
 
 const initialState: InitialState = {
-  tournamentList: [{
-    EventName: "No result Found",
-    EventId:"No result Found",
-    competitionRegion: "No result Found",
-    marketCount: "No result Found",
-  }],
-  eventsList: [{
-    EventName: "No result Found",
-    EventId: "No result Found",
-    CompetitionId: "No result Found",
-    CompetitionName: "No result Found",
-    MarketId: "No result Found",
-    EventDetail: "No result Found",
-  }],
+  tournamentList: [
+    {
+      EventName: "No Tournaments Available",
+    },
+  ],
+  eventsList: [
+    {
+      EventName: "No Matches Available",
+    },
+  ],
   extraMarketList: [],
   matchDetail: null,
   loading: false,
