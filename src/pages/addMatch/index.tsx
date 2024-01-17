@@ -282,6 +282,17 @@ const AddMatch = () => {
   useEffect(() => {
     if (state?.id) {
       dispatch(getMatchDetail(state?.id));
+    } else {
+      formik.setValues({
+        ...values,
+        ...initialFormikValues,
+      });
+      setSelected((prev: any) => {
+        return {
+          ...prev,
+          ...initialValues,
+        };
+      });
     }
     if (matchAdded) {
       navigate("/expert/match");
