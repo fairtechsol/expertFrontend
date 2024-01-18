@@ -3,11 +3,13 @@ import {
   addMatchExpert,
   addMatchReset,
   editMatchReset,
+  eventListReset,
   getAllEventsList,
   getAllLiveTournaments,
   getExtraMarketList,
   getMatchDetail,
   matchDetailReset,
+  tournamentListReset,
   updateMatchBettingStatus,
   updateMatchRates,
 } from "../../actions/addMatch/addMatchAction";
@@ -148,6 +150,33 @@ const addMatch = createSlice({
         if (matchingObjectKey) {
           state.matchDetail[matchingObjectKey] = action.payload;
         }
+      })
+      .addCase(tournamentListReset, (state) => {
+        return {
+          ...state,
+          tournamentList: [
+            {
+              EventName: "No Tournaments Available",
+            },
+          ],
+          eventsList: [
+            {
+              EventName: "No Matches Available",
+            },
+          ],
+          extraMarketList: [],
+        };
+      })
+      .addCase(eventListReset, (state) => {
+        return {
+          ...state,
+          eventsList: [
+            {
+              EventName: "No Matches Available",
+            },
+          ],
+          extraMarketList: [],
+        };
       })
       .addCase(matchDetailReset, (state) => {
         return {

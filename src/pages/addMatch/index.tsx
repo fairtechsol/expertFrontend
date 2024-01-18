@@ -17,10 +17,12 @@ import {
   addMatchExpert,
   addMatchReset,
   editMatchReset,
+  eventListReset,
   getAllEventsList,
   getAllLiveTournaments,
   getMatchDetail,
   matchDetailReset,
+  tournamentListReset,
 } from "../../store/actions/addMatch/addMatchAction";
 import moment from "moment";
 import {
@@ -250,8 +252,8 @@ const AddMatch = () => {
       });
     }
     if (selected.gameType !== "" && !state?.id) {
+      dispatch(tournamentListReset());
       dispatch(getAllLiveTournaments(selected.gameType));
-      dispatch(getAllEventsList("123"));
     }
   }, [selected.gameType]);
 
@@ -275,6 +277,7 @@ const AddMatch = () => {
     }
 
     if (selected?.tournamentId && !state?.id) {
+      dispatch(eventListReset());
       dispatch(getAllEventsList(selected.tournamentId));
     }
   }, [selected.tournamentId]);
@@ -283,6 +286,7 @@ const AddMatch = () => {
     if (state?.id) {
       dispatch(getMatchDetail(state?.id));
     } else {
+      dispatch(tournamentListReset());
       formik.setValues({
         ...values,
         ...initialFormikValues,
