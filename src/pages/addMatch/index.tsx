@@ -1,9 +1,9 @@
 import { Box, Button, Typography } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
+import { DesktopDateTimePicker } from "@mui/x-date-pickers/DesktopDateTimePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
+import { DemoContainer, DemoItem } from "@mui/x-date-pickers/internals/demo";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import DropDown from "../../components/Common/DropDown";
@@ -29,6 +29,7 @@ import {
   editMatch,
   editSuccessReset,
 } from "../../store/actions/match/matchAction";
+import dayjs from "dayjs";
 
 const useStyles = makeStyles(() => ({
   dateTimePicker: {
@@ -557,38 +558,45 @@ const AddMatch = () => {
               />
             </Box>
 
-            <Box sx={{ width: { xs: "100%", lg: "18%", md: "24%" }, mt: -1 }}>
+            <Box
+              sx={{
+                width: { xs: "100%", lg: "18%", md: "24%" },
+                mt: -1,
+              }}
+            >
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 {" "}
-                <DemoContainer
-                  components={["DateTimePicker", "DateTimePicker"]}
-                >
-                  <Typography sx={{ fontSize: "12px" }}>Start Time</Typography>
-                  <DateTimePicker
-                    disabled
-                    sx={{
-                      // height: "40px",
-                      background: "#fff",
-                      overflow: "hidden",
-                      borderRadius: "5px",
-                      mt: "0 !important",
-                      opacity: "0.9",
-                      cursor: "not-allowed",
-                      "& .MuiOutlinedInput-notchedOutline": {
-                        border: "none",
-                      },
-                      "& .css-nxo287-MuiInputBase-input-MuiOutlinedInput-input":
-                        {
-                          cursor: "not-allowed",
-                          paddingBottom: "8px",
-                          paddingTop: "8px",
+                <DemoContainer components={["DesktopDateTimePicker"]}>
+                  <DemoItem>
+                    <Typography sx={{ fontSize: "12px" }}>
+                      Start Time
+                    </Typography>
+                    <DesktopDateTimePicker
+                      disabled
+                      sx={{
+                        // height: "40px",
+                        background: "#fff",
+                        overflow: "hidden",
+                        borderRadius: "5px",
+                        mt: "0 !important",
+                        opacity: "0.9",
+                        cursor: "not-allowed",
+                        "& .MuiOutlinedInput-notchedOutline": {
+                          border: "none",
                         },
-                    }}
-                    className={classes.dateTimePicker}
-                    // label="Controlled picker"
-                    value={moment(selected.startAt)}
-                    onChange={handleChange}
-                  />
+                        "& .css-nxo287-MuiInputBase-input-MuiOutlinedInput-input":
+                          {
+                            cursor: "not-allowed",
+                            paddingBottom: "8px",
+                            paddingTop: "8px",
+                          },
+                      }}
+                      // className={classes.dateTimePicker}
+                      // label="Basic date picker"
+                      value={moment(selected.startAt)}
+                      onChange={handleChange}
+                    />
+                  </DemoItem>
                 </DemoContainer>
               </LocalizationProvider>
             </Box>
