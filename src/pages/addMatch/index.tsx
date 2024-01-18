@@ -311,7 +311,10 @@ const AddMatch = () => {
             betfairSessionMaxBet: matchDetail?.betFairSessionMaxBet ?? "",
             betfairBookmakerMaxBet: matchDetail?.bookmaker?.maxBet ?? "",
             marketTiedMatchMaxBet: matchDetail?.apiTideMatch?.maxBet ?? "",
-            manualTiedMatchMaxBet: matchDetail?.manualTiedMatch?.maxBet ?? "",
+            manualTiedMatchMaxBet:
+              matchDetail?.manualTiedMatch?.maxBet ??
+              matchDetail?.manualTideMatch?.maxBet ??
+              "",
             completeMatchMaxBet: matchDetail?.marketCompleteMatch?.maxBet ?? "",
             marketName1: matchDetail?.quickBookmaker[0].name ?? "",
             marketMaxBet1: matchDetail?.quickBookmaker[0]?.maxBet ?? "",

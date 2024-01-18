@@ -120,8 +120,7 @@ const Header1 = () => {
               />
             </Box>
             <>
-              {(getProfile?.betFairMatchPrivilege ||
-                getProfile?.bookmakerMatchPrivilege ||
+              {(getProfile?.bookmakerMatchPrivilege ||
                 getProfile?.sessionMatchPrivilege ||
                 getProfile?.allPrivilege) && (
                 <ButtonHead
