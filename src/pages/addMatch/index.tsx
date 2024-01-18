@@ -363,7 +363,7 @@ const AddMatch = () => {
       >
         <Box sx={{ margin: "15px" }}>
           <LabelValueComponent
-            title={matchDetail ? "Edit Match" : "Add Match"}
+            title={state?.id ? "Edit Match" : "Add Match"}
             notShowSub={true}
             titleSize={"20px"}
             headColor={"#000000"}
