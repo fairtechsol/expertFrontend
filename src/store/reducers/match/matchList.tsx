@@ -1,6 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {
-
   editMatch,
   editSuccessReset,
   getMatchList,
@@ -12,7 +11,8 @@ import {
   undeclareResult,
   updateMatchActiveStatus,
   updateMatchActiveStatusReset,
-  betLiveStatus
+  betLiveStatus,
+  getPlacedBetsMatch,
 } from "../../actions/match/matchAction";
 
 interface InitialState {
@@ -21,10 +21,10 @@ interface InitialState {
   success: boolean;
   editSuccess: boolean;
   statusSuccess: boolean;
-
+  placedBetsMatch: any;
   loading: boolean;
   error: any;
-  statusBetLive: boolean
+  statusBetLive: boolean;
 }
 
 const initialState: InitialState = {
@@ -36,7 +36,7 @@ const initialState: InitialState = {
   statusSuccess: false,
   statusBetLive: false,
   error: null,
-  
+  placedBetsMatch: [],
 };
 
 const matchList = createSlice({
@@ -148,6 +148,20 @@ const matchList = createSlice({
         state.editSuccess = true;
       })
       .addCase(editMatch.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action?.error?.message;
+      })
+      .addCase(getPlacedBetsMatch.pending, (state) => {
+        state.loading = true;
+        state.success = false;
+        state.error = null;
+      })
+      .addCase(getPlacedBetsMatch.fulfilled, (state, action) => {
+        state.loading = false;
+        state.success = true;
+        state.placedBetsMatch = action.payload;
+      })
+      .addCase(getPlacedBetsMatch.rejected, (state, action) => {
         state.loading = false;
         state.error = action?.error?.message;
       })

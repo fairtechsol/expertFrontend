@@ -10,7 +10,7 @@ import {
   getMatchList,
   matchListReset,
 } from "../../store/actions/match/matchAction";
-import { expertSocketService } from "../../socketManager";
+import { expertSocketService, socketService } from "../../socketManager";
 import { Constants } from "../../utils/Constants";
 
 const MatchList = ({}) => {
@@ -44,6 +44,7 @@ const MatchList = ({}) => {
 
   useEffect(() => {
     expertSocketService.match.matchAdded(getMatchListService);
+    socketService.user.matchResultUnDeclared(getMatchListService);
   }, []);
 
   return (

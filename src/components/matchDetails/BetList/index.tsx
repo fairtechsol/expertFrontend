@@ -16,11 +16,11 @@ const BetList = ({ tag, submit, allBetRates }: any) => {
           values: [
             {
               name: v?.user?.userName,
-              color: ["no", "yes"].includes(v?.bet_type) ? "#FFF" : "black",
-              background: ["no", "yes"].includes(v?.bet_type)
+              color: ["NO", "YES"].includes(v?.betType) ? "#FFF" : "black",
+              background: ["NO", "YES"].includes(v?.betType)
                 ? "#319E5B"
                 : "#F1C550",
-              deleted_reason: v?.deleted_reason,
+              deletedReason: v?.deletedReason,
               width: "12%",
             },
             {
@@ -28,73 +28,71 @@ const BetList = ({ tag, submit, allBetRates }: any) => {
                 v?.marketType == "MANUAL BOOKMAKER"
                   ? "Quick Bookmaker"
                   : v?.marketType,
-              color: ["no", "yes"].includes(v?.bet_type) ? "#FFF" : "black",
-              background: ["no", "yes"].includes(v?.bet_type)
+              color: ["NO", "YES"].includes(v?.betType) ? "#FFF" : "black",
+              background: ["NO", "YES"].includes(v?.betType)
                 ? "#319E5B"
                 : "#F1C550",
-              deleted_reason: v?.deleted_reason,
+              deletedReason: v?.deletedReason,
               width: "20%",
             },
             {
-              name: v?.team_bet,
+              name: v?.teamName,
               color: "black",
-              background: ["yes", "back"].includes(v?.bet_type)
+              background: ["YES", "BACK"].includes(v?.betType)
                 ? "#B3E0FF"
                 : "rgb(255, 146, 146)",
-              deleted_reason: v?.deleted_reason,
+              deletedReason: v?.deletedReason,
               width: "13%",
             },
             {
               name: v?.odds,
               color: "black",
-              rate:
-                (v?.bet_type === "no" && v?.rate?.split("-")[0]) ||
-                (v?.bet_type === "yes" && v?.rate?.split("-")[1]),
-              background: ["yes", "back"].includes(v?.bet_type)
+              rate: (v?.betType === "NO" || v?.betType === "YES") && v?.rate,
+              background: ["YES", "BACK"].includes(v?.betType)
                 ? "#B3E0FF"
                 : "rgb(255, 146, 146)",
               small: true,
-              deleted_reason: v?.deleted_reason,
+              deletedReason: v?.deletedReason,
               width: "7%",
               fSize: "13px",
               lHeight: 1,
             },
             {
-              name: v?.bet_type,
+              name: v?.betType,
               color: "black",
-              background: ["yes", "back"].includes(v?.bet_type)
+              background: ["YES", "BACK"].includes(v?.betType)
                 ? "#B3E0FF"
                 : "rgb(255, 146, 146)",
               small: true,
-              deleted_reason: v?.deleted_reason,
+              deletedReason: v?.deletedReason,
               width: "7%",
             },
             {
               name: v?.amount,
               color: "black",
-              background: ["yes", "back"].includes(v?.bet_type)
+              background: ["YES", "BACK"].includes(v?.betType)
                 ? "#B3E0FF"
                 : "rgb(255, 146, 146)",
-              deleted_reason: v?.deleted_reason,
+              deletedReason: v?.deletedReason,
               width: "17%",
               fSize: "12px",
             },
             {
-              name: v?.myStack,
+              name: (v?.amount * v?.user?.fwPartnership) / 100,
               color: "white",
               background: "#0B4F26",
-              deleted_reason: v?.deleted_reason,
+              deletedReason: v?.deletedReason,
               width: "14%",
             },
             {
-              name: moment(v?.createAt).format("LT"),
+              name: moment(v?.createdAt).format("LT"),
               color: "black",
-              background: ["yes", "back"].includes(v?.bet_type)
+              background: ["YES", "BACK"].includes(v?.betType)
                 ? "#B3E0FF"
                 : "rgb(255, 146, 146)",
               time: true,
-              date: moment(v?.createAt).format("L"),
-              deleted_reason: v?.deleted_reason,
+              date: moment(v?.createdAt).format("L"),
+              deletedReason: v?.deletedReason,
               width: "10%",
             },
           ],
@@ -243,7 +241,7 @@ const BetList = ({ tag, submit, allBetRates }: any) => {
                       </Typography>
                     </Box>
                     <Row index={k} values={i.values} />
-                    {i?.values[0]?.deleted_reason && (
+                    {i?.values[0]?.deletedReason && (
                       <Box
                         sx={{
                           background: "rgba(0,0,0,0.5)",
@@ -277,7 +275,7 @@ const BetList = ({ tag, submit, allBetRates }: any) => {
                                 <span style={{ color: "#e41b23" }}>
                                   deleted
                                 </span>{" "}
-                                due to {i?.values[0]?.deleted_reason}
+                                due to {i?.values[0]?.deletedReason}
                               </Typography>
                             }
                           </Box>
@@ -293,7 +291,5 @@ const BetList = ({ tag, submit, allBetRates }: any) => {
     </Box>
   );
 };
-
-
 
 export default BetList;
