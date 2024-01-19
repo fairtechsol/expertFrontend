@@ -7,7 +7,7 @@ import RunsBox from "../../components/matchDetails/RunsBox";
 import MatchOdds from "../../components/matchDetails/MatchOdds";
 import BookMarket from "../../components/matchDetails/Bookmarket";
 import BetList from "../../components/matchDetails/BetList";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import {
   getMatchDetail,
   updateMatchBettingStatus,
@@ -22,6 +22,7 @@ import { expertSocketService, socketService } from "../../socketManager";
 const MatchDetails = () => {
   const data: any = [];
   const { state } = useLocation();
+  const navigate = useNavigate();
   const dispatch: AppDispatch = useDispatch();
   const { matchDetail, loading } = useSelector(
     (state: RootState) => state.addMatch.addMatch
@@ -29,34 +30,71 @@ const MatchDetails = () => {
   const [Bets, setIObtes] = useState<any>([]);
 
   const updateMatchDetailToRedux = (event: any) => {
-    if (state?.id === event?.id) {
-      dispatch(updateMatchRates(event));
-    } else return;
+    try {
+      if (state?.id === event?.id) {
+        dispatch(updateMatchRates(event));
+      } else return;
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const resultDeclared = (event: any) => {
+    try {
+      if (event?.matchId === state?.id) {
+        navigate("/expert/match");
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+  const resultUnDeclared = (event: any) => {
+    try {
+      if (event?.matchId === state?.id) {
+        dispatch(getMatchDetail(state?.id));
+      }
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   const updateBettingStatus = (event: any) => {
-    if (state?.id === event?.matchId) {
-      dispatch(updateMatchBettingStatus(event));
+    try {
+      if (state?.id === event?.matchId) {
+        dispatch(updateMatchBettingStatus(event));
+      }
+    } catch (e) {
+      console.log(e);
     }
   };
 
   useEffect(() => {
-    if (state?.id) {
-      dispatch(getMatchDetail(state?.id));
+    try {
+      if (state?.id) {
+        dispatch(getMatchDetail(state?.id));
+      }
+    } catch (e) {
+      console.log(e);
     }
   }, [state?.id]);
 
   useEffect(() => {
-    if (state?.id) {
-      expertSocketService.match.joinMatchRoom(state?.id, "expert");
-      socketService.user.matchBettingStatusChange(updateBettingStatus);
-      expertSocketService.match.getMatchRates(
-        state?.id,
-        updateMatchDetailToRedux
-      );
+    try {
+      if (state?.id) {
+        expertSocketService.match.joinMatchRoom(state?.id, "expert");
+        socketService.user.matchBettingStatusChange(updateBettingStatus);
+        socketService.user.matchResultDeclared(resultDeclared);
+        socketService.user.matchResultUnDeclared(resultUnDeclared);
+        expertSocketService.match.getMatchRates(
+          state?.id,
+          updateMatchDetailToRedux
+        );
+      }
+    } catch (e) {
+      console.log(e);
     }
     return () => {
-      expertSocketService.match.leaveAllRooms();
+      // expertSocketService.match.leaveAllRooms();
       expertSocketService.match.leaveMatchRoom(state?.id);
     };
   }, []);

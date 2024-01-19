@@ -21,37 +21,38 @@ const MatchOdds = ({ currentMatch, matchOdds, matchOddsLive }: any) => {
   );
   const dispatch: AppDispatch = useDispatch();
 
-  // const manualBookMarkerRates = [{
-  //   matchId: currentMatch?.id,
-  //   teamA: data?.teamA_rate,
-  //   teamB: data?.teamB_rate,
-  //   teamC: data?.teamC_rate,
-  // }];
-
   const teamRates = { teamA: 0, teamB: 0, teamC: 0 };
 
   const valueA = matchOdds?.teamA;
   const valueB = matchOdds?.teamB;
   const bookRatioB = (() => {
-    if (valueA === 0) {
-      return 0;
-    } else {
-      const bookRatio = valueB != 0 ? valueA / valueB || 0 : 0;
-      const formattedRatio = Math.abs(bookRatio).toFixed(2);
-      return valueB < 0 ? `-${formattedRatio}` : formattedRatio;
+    try {
+      if (valueA === 0) {
+        return 0;
+      } else {
+        const bookRatio = valueB != 0 ? valueA / valueB || 0 : 0;
+        const formattedRatio = Math.abs(bookRatio).toFixed(2);
+        return valueB < 0 ? `-${formattedRatio}` : formattedRatio;
+      }
+    } catch (e) {
+      console.log(e);
     }
   })();
 
   const bookRatioA = (() => {
-    if (valueA === 0) {
-      return 0;
-    } else {
-      const bookRatio = valueA != 0 ? valueB / valueA || 0 : 0;
-      // alert(teamARates)
-      const formattedRatio = Math.abs(bookRatio).toFixed(2);
-      // alert(typeof teamARates < 0 ? `-${formattedRatio}` : formattedRatio)
+    try {
+      if (valueA === 0) {
+        return 0;
+      } else {
+        const bookRatio = valueA != 0 ? valueB / valueA || 0 : 0;
+        // alert(teamARates)
+        const formattedRatio = Math.abs(bookRatio).toFixed(2);
+        // alert(typeof teamARates < 0 ? `-${formattedRatio}` : formattedRatio)
 
-      return valueA < 0 ? `-${formattedRatio}` : formattedRatio;
+        return valueA < 0 ? `-${formattedRatio}` : formattedRatio;
+      }
+    } catch (e) {
+      console.log(e);
     }
   })();
 
@@ -101,17 +102,6 @@ const MatchOdds = ({ currentMatch, matchOdds, matchOddsLive }: any) => {
             >
               Match Odds
             </Typography>
-            {/* <Stop
-              onClick={() => {
-                if (newMatchOdds?.id) {
-                  //   setLive(false);
-                  socket.emit("matchOddRateLive", {
-                    matchId: currentMatch?.id,
-                    matchOddLive: false,
-                  });
-                }
-              }}
-            /> */}
             <Stop
               onClick={() => {
                 dispatch(
@@ -236,6 +226,7 @@ const MatchOdds = ({ currentMatch, matchOdds, matchOddsLive }: any) => {
         >
           {visible && (
             <ResultComponent
+              currentMatch={currentMatch}
               betId={
                 currentMatch?.bettings?.length > 0 &&
                 currentMatch?.bettings?.filter(

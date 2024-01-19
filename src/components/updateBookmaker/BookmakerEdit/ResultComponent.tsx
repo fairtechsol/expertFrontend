@@ -1,20 +1,29 @@
 import { Box, Typography } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { memo } from "react";
 import { CancelDark } from "../../../assets";
 import MatchOddsResultCustomButton from "./MatchOddsResultCustomButton";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../../store/store";
+import {
+  declareMatchResult,
+  declareMatchStatusReset,
+  unDeclareMatchResult,
+} from "../../../store/actions/match/matchDeclareActions";
 
 const ResultComponent = ({
+  currentMatch,
   onClick,
   teamA,
   teamB,
   tie,
   draw,
-  betStatus,
   stopAt,
 }: any) => {
+  const dispatch: AppDispatch = useDispatch();
+  const { success, error } = useSelector((state: RootState) => state.match);
   const [selected, setSelected] = useState(teamA);
-  const [loading] = useState({ id: "", value: false });
+  const [loading, setLoading] = useState({ id: "", value: false });
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
@@ -22,6 +31,22 @@ const ResultComponent = ({
   const teamData = draw
     ? [`${teamA}`, `${teamB}`, `${draw}`, `${tie}`]
     : [`${teamA}`, `${teamB}`, `${tie}`];
+
+  useEffect(() => {
+    try {
+      if (success) {
+        setLoading({ id: "", value: false });
+        dispatch(declareMatchStatusReset());
+        onClick();
+        // navigate("/expert/match");
+      }
+      if (error) {
+        setLoading({ id: "", value: false });
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  }, [success, error]);
   return (
     <Box
       sx={{
@@ -122,33 +147,75 @@ const ResultComponent = ({
               background: "#000",
             }}
           >
-            {betStatus === 2 || stopAt ? (
+            {stopAt ? (
               <MatchOddsResultCustomButton
                 color={"#FF4D4D"}
                 loading={loading}
                 id="UD"
                 title={"Un Declare"}
                 onClick={() => {
-                  if (loading?.value) {
-                    return false;
+                  try {
+                    if (loading?.value) {
+                      return false;
+                    }
+                    setLoading({ id: "UD", value: true });
+                    dispatch(
+                      unDeclareMatchResult({
+                        matchId: currentMatch?.id,
+                      })
+                    );
+                  } catch (e) {
+                    console.log(e);
                   }
-                  //   undeclareResult();
                 }}
               />
             ) : (
-              <MatchOddsResultCustomButton
-                id="DR"
-                color={"#0B4F26"}
-                loading={loading}
-                title={"Declare"}
-                onClick={() => {
-                  if (loading?.value) {
-                    return false;
-                  }
-
-                  //   declareResult();
-                }}
-              />
+              <>
+                <MatchOddsResultCustomButton
+                  id="DR"
+                  color={"#0B4F26"}
+                  loading={loading}
+                  title={"Declare"}
+                  onClick={() => {
+                    try {
+                      if (loading?.value) {
+                        return false;
+                      }
+                      setLoading({ id: "DR", value: true });
+                      dispatch(
+                        declareMatchResult({
+                          matchId: currentMatch?.id,
+                          result: selected,
+                        })
+                      );
+                    } catch (e) {
+                      console.log(e);
+                    }
+                  }}
+                />
+                <MatchOddsResultCustomButton
+                  id="DNR"
+                  color={"#0B4F26"}
+                  loading={loading}
+                  title={"No Result"}
+                  onClick={() => {
+                    try {
+                      if (loading?.value) {
+                        return false;
+                      }
+                      setLoading({ id: "DNR", value: true });
+                      dispatch(
+                        declareMatchResult({
+                          matchId: currentMatch?.id,
+                          result: "No Result",
+                        })
+                      );
+                    } catch (e) {
+                      console.log(e);
+                    }
+                  }}
+                />
+              </>
             )}
           </Box>
         </form>

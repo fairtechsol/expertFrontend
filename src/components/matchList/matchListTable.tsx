@@ -146,12 +146,14 @@ const MatchListTable = (props: any) => {
               py: { xs: 1, sm: 0 },
             }}
           >
-            <MatchListProfitLoss
-              onClick={handleMatchProfitLossClick}
-              updateMatchStatusLabel="Match Profit/Loss"
-              updateMatchStatus="22"
-              place="1"
-            />
+            {data?.stopAt && (
+              <MatchListProfitLoss
+                onClick={handleMatchProfitLossClick}
+                updateMatchStatusLabel="Match Profit/Loss"
+                updateMatchStatus="22"
+                place="1"
+              />
+            )}
             <Box display={"flex"} sx={{ marginY: { xs: 1, sm: 0 } }}>
               {(getProfile?.allPrivilege ||
                 getProfile?.betFairMatchPrivilege) && (

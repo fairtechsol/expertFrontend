@@ -1,5 +1,5 @@
 import { Box, Button, Typography } from "@mui/material";
-import { makeStyles } from "@mui/styles";
+// import { makeStyles } from "@mui/styles";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DesktopDateTimePicker } from "@mui/x-date-pickers/DesktopDateTimePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
@@ -29,15 +29,14 @@ import {
   editMatch,
   editSuccessReset,
 } from "../../store/actions/match/matchAction";
-import dayjs from "dayjs";
 
-const useStyles = makeStyles(() => ({
-  dateTimePicker: {
-    "& .MuiFormControl-root": {
-      height: "30px",
-    },
-  },
-}));
+// const useStyles = makeStyles(() => ({
+//   dateTimePicker: {
+//     "& .MuiFormControl-root": {
+//       height: "30px",
+//     },
+//   },
+// }));
 
 const initialFormikValues = {
   minBet: "",
@@ -89,7 +88,6 @@ const AddMatch = () => {
   } = useSelector((state: RootState) => state.addMatch.addMatch);
 
   const [selected, setSelected] = useState(initialValues);
-  const classes = useStyles();
   const navigate = useNavigate();
 
   const inputStyle = {
