@@ -1,9 +1,9 @@
 import { Box, Button, Typography } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
+import { DesktopDateTimePicker } from "@mui/x-date-pickers/DesktopDateTimePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
+import { DemoContainer, DemoItem } from "@mui/x-date-pickers/internals/demo";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import DropDown from "../../components/Common/DropDown";
@@ -17,16 +17,19 @@ import {
   addMatchExpert,
   addMatchReset,
   editMatchReset,
+  eventListReset,
   getAllEventsList,
   getAllLiveTournaments,
   getMatchDetail,
   matchDetailReset,
+  tournamentListReset,
 } from "../../store/actions/addMatch/addMatchAction";
 import moment from "moment";
 import {
   editMatch,
   editSuccessReset,
 } from "../../store/actions/match/matchAction";
+import dayjs from "dayjs";
 
 const useStyles = makeStyles(() => ({
   dateTimePicker: {
@@ -250,8 +253,8 @@ const AddMatch = () => {
       });
     }
     if (selected.gameType !== "" && !state?.id) {
+      dispatch(tournamentListReset());
       dispatch(getAllLiveTournaments(selected.gameType));
-      dispatch(getAllEventsList("123"));
     }
   }, [selected.gameType]);
 
@@ -275,6 +278,7 @@ const AddMatch = () => {
     }
 
     if (selected?.tournamentId && !state?.id) {
+      dispatch(eventListReset());
       dispatch(getAllEventsList(selected.tournamentId));
     }
   }, [selected.tournamentId]);
@@ -283,6 +287,7 @@ const AddMatch = () => {
     if (state?.id) {
       dispatch(getMatchDetail(state?.id));
     } else {
+      dispatch(tournamentListReset());
       formik.setValues({
         ...values,
         ...initialFormikValues,
@@ -311,7 +316,10 @@ const AddMatch = () => {
             betfairSessionMaxBet: matchDetail?.betFairSessionMaxBet ?? "",
             betfairBookmakerMaxBet: matchDetail?.bookmaker?.maxBet ?? "",
             marketTiedMatchMaxBet: matchDetail?.apiTideMatch?.maxBet ?? "",
-            manualTiedMatchMaxBet: matchDetail?.manualTiedMatch?.maxBet ?? "",
+            manualTiedMatchMaxBet:
+              matchDetail?.manualTiedMatch?.maxBet ??
+              matchDetail?.manualTideMatch?.maxBet ??
+              "",
             completeMatchMaxBet: matchDetail?.marketCompleteMatch?.maxBet ?? "",
             marketName1: matchDetail?.quickBookmaker[0].name ?? "",
             marketMaxBet1: matchDetail?.quickBookmaker[0]?.maxBet ?? "",
@@ -360,7 +368,7 @@ const AddMatch = () => {
       >
         <Box sx={{ margin: "15px" }}>
           <LabelValueComponent
-            title={matchDetail ? "Edit Match" : "Add Match"}
+            title={state?.id ? "Edit Match" : "Add Match"}
             notShowSub={true}
             titleSize={"20px"}
             headColor={"#000000"}
@@ -550,38 +558,45 @@ const AddMatch = () => {
               />
             </Box>
 
-            <Box sx={{ width: { xs: "100%", lg: "18%", md: "24%" }, mt: -1 }}>
+            <Box
+              sx={{
+                width: { xs: "100%", lg: "18%", md: "24%" },
+                mt: -1,
+              }}
+            >
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 {" "}
-                <DemoContainer
-                  components={["DateTimePicker", "DateTimePicker"]}
-                >
-                  <Typography sx={{ fontSize: "12px" }}>Start Time</Typography>
-                  <DateTimePicker
-                    disabled
-                    sx={{
-                      // height: "40px",
-                      background: "#fff",
-                      overflow: "hidden",
-                      borderRadius: "5px",
-                      mt: "0 !important",
-                      opacity: "0.9",
-                      cursor: "not-allowed",
-                      "& .MuiOutlinedInput-notchedOutline": {
-                        border: "none",
-                      },
-                      "& .css-nxo287-MuiInputBase-input-MuiOutlinedInput-input":
-                        {
-                          cursor: "not-allowed",
-                          paddingBottom: "8px",
-                          paddingTop: "8px",
+                <DemoContainer components={["DesktopDateTimePicker"]}>
+                  <DemoItem>
+                    <Typography sx={{ fontSize: "12px" }}>
+                      Start Time
+                    </Typography>
+                    <DesktopDateTimePicker
+                      disabled
+                      sx={{
+                        // height: "40px",
+                        background: "#fff",
+                        overflow: "hidden",
+                        borderRadius: "5px",
+                        mt: "0 !important",
+                        opacity: "0.9",
+                        cursor: "not-allowed",
+                        "& .MuiOutlinedInput-notchedOutline": {
+                          border: "none",
                         },
-                    }}
-                    className={classes.dateTimePicker}
-                    // label="Controlled picker"
-                    value={moment(selected.startAt)}
-                    onChange={handleChange}
-                  />
+                        "& .css-nxo287-MuiInputBase-input-MuiOutlinedInput-input":
+                          {
+                            cursor: "not-allowed",
+                            paddingBottom: "8px",
+                            paddingTop: "8px",
+                          },
+                      }}
+                      // className={classes.dateTimePicker}
+                      // label="Basic date picker"
+                      value={moment(selected.startAt)}
+                      onChange={handleChange}
+                    />
+                  </DemoItem>
                 </DemoContainer>
               </LocalizationProvider>
             </Box>
