@@ -18,6 +18,7 @@ import { useDispatch, useSelector } from "react-redux";
 import TiedMatchMarket from "../../components/matchDetails/TiedMatchMarket";
 import CompleteMatchMarket from "../../components/matchDetails/CompleteMatchMarket";
 import { expertSocketService, socketService } from "../../socketManager";
+import { getPlacedBetsMatch } from "../../store/actions/match/matchAction";
 
 const MatchDetails = () => {
   const data: any = [];
@@ -27,7 +28,9 @@ const MatchDetails = () => {
   const { matchDetail, loading } = useSelector(
     (state: RootState) => state.addMatch.addMatch
   );
-  const [Bets, setIObtes] = useState<any>([]);
+  const { placedBetsMatch } = useSelector(
+    (state: RootState) => state.matchList
+  );
 
   const updateMatchDetailToRedux = (event: any) => {
     try {
@@ -72,6 +75,7 @@ const MatchDetails = () => {
     try {
       if (state?.id) {
         dispatch(getMatchDetail(state?.id));
+        dispatch(getPlacedBetsMatch(state?.id));
       }
     } catch (e) {
       console.log(e);
@@ -161,15 +165,7 @@ const MatchDetails = () => {
                   }}
                 >
                   <SessionMarket
-                    setIObtes={(val: any) => {
-                      setIObtes((prev: any) =>
-                        prev?.filter(
-                          (v: any) =>
-                            v?.bet_id !== val?.betId &&
-                            val?.match_id === v?.match_id
-                        )
-                      );
-                    }}
+                    setIObtes={() => {}}
                     title={"Session Market"}
                     liveOnly={false}
                     hideTotalBet={false}
@@ -235,7 +231,7 @@ const MatchDetails = () => {
               />
             )}
 
-            {matchDetail?.id && <BetList allBetRates={Bets} />}
+            {matchDetail?.id && <BetList allBetRates={placedBetsMatch} />}
           </Box>
         </>
       )}

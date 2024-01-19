@@ -10,6 +10,7 @@ export const ApiConstants = {
     UPDATEACTIVESTATUS: "match/updateActiveStatus",
     DECLARE: "bet/declare/result/match",
     UNDECLARE: "bet/unDeclare/result/match",
+    GET_BETS: "/bet",
   },
   USER: {
     CHANGEPASSWORD: "user/password",
