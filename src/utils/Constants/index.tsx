@@ -8,6 +8,8 @@ export const ApiConstants = {
     DROPDOWNLIST: "/match/listWithManualBetting",
     GETDETAIL: "match",
     UPDATEACTIVESTATUS: "match/updateActiveStatus",
+    DECLARE: "bet/declare/result/match",
+    UNDECLARE: "bet/unDeclare/result/match",
   },
   USER: {
     CHANGEPASSWORD: "user/password",

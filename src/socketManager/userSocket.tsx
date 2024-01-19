@@ -27,4 +27,10 @@ export const userSocketService = {
   matchBettingStatusChange: (callback: any) => {
     socket.on("matchBettingStatusChange", callback);
   },
+  matchResultDeclared: (callback: any) => {
+    socket.on("matchResultDeclared", callback);
+  },
+  matchResultUnDeclared: (callback: any) => {
+    socket.on("matchResultUnDeclared", callback);
+  },
 };

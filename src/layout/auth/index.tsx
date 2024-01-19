@@ -20,7 +20,7 @@ const AuthLayout = () => {
   return (
     <>
       <Box style={{ position: "relative" }}>
-        <AuthBackground />;
+        <AuthBackground />
         <Box
           style={{
             height: "100vh",
