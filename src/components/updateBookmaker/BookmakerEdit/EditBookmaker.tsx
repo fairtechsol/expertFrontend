@@ -333,7 +333,7 @@ const EditBookmaker = (props: any) => {
               <Typography
                 sx={{ fontSize: "14px", fontWeight: "600", width: "50%" }}
               >
-                {match?.teamA}
+                {"tiedMatch2".includes(type) ? "Yes" : match?.teamA}
               </Typography>
               <Box
                 sx={{
@@ -481,7 +481,7 @@ const EditBookmaker = (props: any) => {
               <Typography
                 sx={{ fontSize: "14px", fontWeight: "600", width: "50%" }}
               >
-                {match?.teamB}
+                {"tiedMatch2".includes(type) ? "No" : match?.teamB}
               </Typography>
               <Box
                 sx={{
@@ -611,7 +611,7 @@ const EditBookmaker = (props: any) => {
                 />
               </Box>
             </Box>
-            {match?.teamC && (
+            {match?.teamC && !"tiedMatch2".includes(type) && (
               <Box
                 sx={{
                   border: ".2px solid #2626264D",
@@ -764,7 +764,10 @@ const EditBookmaker = (props: any) => {
                 sx={{
                   borderTop: "2px solid white",
                   background: "rgba(0,0,0,1)",
-                  height: match?.teamC ? "170px" : "112px",
+                  height:
+                    match?.teamC && !"tiedMatch2".includes(type)
+                      ? "170px"
+                      : "112px",
                   right: 0,
                   width: "100%",
                   justifyContent: { xs: "center", lg: "center" },
@@ -908,7 +911,7 @@ const EditBookmaker = (props: any) => {
                     </Box>
                   }
                 </Box>
-                {match?.teamC && (
+                {match?.teamC && !"tiedMatch2".includes(type) && (
                   <>
                     <Box display={"flex"} sx={{ borderTop: "2px solid white" }}>
                       {
@@ -957,7 +960,7 @@ const EditBookmaker = (props: any) => {
                           }}
                         >
                           {!localQuickBookmaker?.teamC?.suspended &&
-                          localQuickBookmaker?.teamC?.rightLay ? (
+                          localQuickBookmaker?.teamC?.lay ? (
                             <Typography
                               sx={{ fontWeight: "600", fontSize: "22px" }}
                             >
@@ -1037,7 +1040,11 @@ const EditBookmaker = (props: any) => {
                   teamA={match?.teamA}
                   teamB={match?.teamB}
                   tie={"Tie"}
-                  draw={match?.teamC ? match?.teamC : ""}
+                  draw={
+                    match?.teamC && !"tiedMatch2".includes(type)
+                      ? match?.teamC
+                      : ""
+                  }
                   // betStatus={localSelectedBookmaker?.betStatus}
                 />
               )}
@@ -1089,7 +1096,11 @@ const EditBookmaker = (props: any) => {
                   teamA={match?.teamA}
                   teamB={match?.teamB}
                   tie={"Tie"}
-                  draw={match?.teamC ? match?.teamC : ""}
+                  draw={
+                    match?.teamC && !"tiedMatch2".includes(type)
+                      ? match?.teamC
+                      : ""
+                  }
                   // betStatus={localSelectedBookmaker?.betStatus}
                 />
               )}
