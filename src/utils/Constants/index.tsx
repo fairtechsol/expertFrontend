@@ -5,6 +5,7 @@ export const ApiConstants = {
     ADD: "match/add",
     EDIT: "match/update",
     LIST: "match/list",
+    LIST_SESSION_PRO_LOSS: "session/result",
     DROPDOWNLIST: "/match/listWithManualBetting",
     GETDETAIL: "match",
     UPDATEACTIVESTATUS: "match/updateActiveStatus",

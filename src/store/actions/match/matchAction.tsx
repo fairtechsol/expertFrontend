@@ -23,6 +23,22 @@ export const getMatchList = createAsyncThunk<any, any>(
     }
   }
 );
+export const getMatchListSessionProfitLoss = createAsyncThunk<any, any>(
+  "/matchListSession/profitLoss",
+  async (requestData, thunkApi) => {
+    try {
+      const response = await service.get(
+        `${ApiConstants.MATCH.LIST_SESSION_PRO_LOSS}/${requestData}`
+      );
+      if (response) {
+        return response?.data;
+      }
+    } catch (error) {
+      const err = error as AxiosError;
+      return thunkApi.rejectWithValue(err.response?.status);
+    }
+  }
+);
 export const getMatchListDropdown = createAsyncThunk<any>(
   "/match/listDropdown",
   async (_, thunkApi) => {
@@ -184,4 +200,7 @@ export const editSuccessReset = createAction("editSuccess/reset");
 export const sessionResultSuccessReset = createAction("sessionResult/reset");
 export const updateMatchActiveStatusReset = createAction(
   "updateMatchActiveStatusReset/reset"
+);
+export const resetMatchListSessionProLoss = createAction(
+  "matchListSessionProLoss/reset"
 );

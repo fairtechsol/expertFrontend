@@ -3,6 +3,7 @@ import BoxButtonWithBettings from "../Common/BoxButtonWithBettings";
 import BoxButtonWithSwitch from "../Common/BoxButtonWithSwitch";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
+import { handleSorting } from "../helper";
 
 const MatchPermissionsModal = (props: any) => {
   const {
@@ -14,6 +15,7 @@ const MatchPermissionsModal = (props: any) => {
   } = props;
 
   const { getProfile } = useSelector((state: RootState) => state.user.profile);
+
   return (
     <Box
       sx={{
@@ -25,24 +27,27 @@ const MatchPermissionsModal = (props: any) => {
         background: "#ffe094",
       }}
     >
-      {data?.matchBettings?.map((betting: any) => {
-        return (
-          <BoxButtonWithBettings
-            key={betting?.id}
-            title={betting?.name}
-            matchId={data?.id}
-            matchBettingType={"match"}
-            disable={
-              getProfile?.allPrivilege || getProfile?.addMatchPrivilege
-                ? false
-                : true
-            }
-            updateBettings={updateBettings}
-            setUpdateBettings={setUpdateBettings}
-            bettingId={betting.id}
-          />
-        );
-      })}
+      {data?.matchBettings
+        .slice()
+        .sort(handleSorting)
+        ?.map((betting: any) => {
+          return (
+            <BoxButtonWithBettings
+              key={betting?.id}
+              title={betting?.name}
+              matchId={data?.id}
+              matchBettingType={"match"}
+              disable={
+                getProfile?.allPrivilege || getProfile?.addMatchPrivilege
+                  ? false
+                  : true
+              }
+              updateBettings={updateBettings}
+              setUpdateBettings={setUpdateBettings}
+              bettingId={betting.id}
+            />
+          );
+        })}
       <BoxButtonWithSwitch
         title="Session"
         matchId={data?.id}
