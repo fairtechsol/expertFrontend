@@ -13,6 +13,8 @@ import {
   updateMatchActiveStatusReset,
   betLiveStatus,
   getPlacedBetsMatch,
+  getMatchListSessionProfitLoss,
+  resetMatchListSessionProLoss,
 } from "../../actions/match/matchAction";
 
 interface InitialState {
@@ -25,6 +27,7 @@ interface InitialState {
   loading: boolean;
   error: any;
   statusBetLive: boolean;
+  sessionProLoss: any;
 }
 
 const initialState: InitialState = {
@@ -37,6 +40,7 @@ const initialState: InitialState = {
   statusBetLive: false,
   error: null,
   placedBetsMatch: [],
+  sessionProLoss: [],
 };
 
 const matchList = createSlice({
@@ -165,6 +169,20 @@ const matchList = createSlice({
         state.loading = false;
         state.error = action?.error?.message;
       })
+      .addCase(getMatchListSessionProfitLoss.pending, (state) => {
+        state.loading = true;
+        state.success = false;
+        state.error = null;
+      })
+      .addCase(getMatchListSessionProfitLoss.fulfilled, (state, action) => {
+        state.loading = false;
+        state.success = true;
+        state.sessionProLoss = action.payload;
+      })
+      .addCase(getMatchListSessionProfitLoss.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action?.error?.message;
+      })
       .addCase(editSuccessReset, (state) => {
         return {
           ...state,
@@ -179,6 +197,9 @@ const matchList = createSlice({
       })
       .addCase(updateMatchActiveStatusReset, (state) => {
         return { ...state, statusSuccess: false };
+      })
+      .addCase(resetMatchListSessionProLoss, (state) => {
+        return { ...state, success: false, sessionProLoss: [] };
       });
   },
 });

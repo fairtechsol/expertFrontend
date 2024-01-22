@@ -8,13 +8,17 @@ import CustomButton from "../Common/CustomButton";
 import StyledImage from "../Common/StyledImages";
 import MatchListProfitLoss from "./profitLoss";
 import MatchPermissionsModal from "./matchPermissionsModal";
-import { useSelector } from "react-redux";
-import { RootState } from "../../store/store";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../store/store";
+import { getMatchListSessionProfitLoss } from "../../store/actions/match/matchAction";
+import SessionResultComponent from "./sessionResultComponent";
 
 const MatchListTable = (props: any) => {
   const { data, index } = props;
   const navigate = useNavigate();
+  const dispatch: AppDispatch = useDispatch();
   const { getProfile } = useSelector((state: RootState) => state.user.profile);
+  const { sessionProLoss } = useSelector((state: RootState) => state.matchList);
   const [showPopup, setShowPopup] = useState(false);
   const [showUserModal, setShowUserModal] = useState(false);
 
@@ -31,11 +35,10 @@ const MatchListTable = (props: any) => {
     },
   });
 
-  const sessionResults: any = [];
-
-  const handleMatchProfitLossClick = () => {
+  const handleMatchProfitLossClick = (id: any) => {
     try {
       setShowPopup(true);
+      dispatch(getMatchListSessionProfitLoss(id));
     } catch (e) {
       console.log(e);
     }
@@ -148,9 +151,13 @@ const MatchListTable = (props: any) => {
           >
             {data?.stopAt && (
               <MatchListProfitLoss
-                onClick={handleMatchProfitLossClick}
+                onClick={() => handleMatchProfitLossClick(data?.id)}
                 updateMatchStatusLabel="Match Profit/Loss"
-                updateMatchStatus="22"
+                updateMatchStatus={
+                  data?.pl &&
+                  data?.pl?.length > 0 &&
+                  data?.pl[0]?.totalProfitLoss
+                }
                 place="1"
               />
             )}
@@ -204,266 +211,10 @@ const MatchListTable = (props: any) => {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <Box
-          sx={{
-            width: "100%",
-            height: "100%",
-            display: "flex",
-            justifyContent: "center",
-            flexDirection: "column",
-            alignItems: "center",
-          }}
-        >
-          <Box
-            sx={{
-              alignSelf: "center",
-              width: { xs: "90%", lg: "50%" },
-            }}
-          >
-            <Box
-              display={"flex"}
-              sx={{
-                justifyContent: "space-between",
-                alignItems: "center",
-                width: "100%",
-                px: "10px",
-                py: "6px",
-                backgroundColor: "#F8C851",
-              }}
-            >
-              <Box
-                display={"flex"}
-                alignItems="center"
-                sx={{ alignItems: "center" }}
-              >
-                <Typography
-                  sx={{
-                    fontSize: {
-                      xs: "14px",
-                      lg: "18px",
-                      md: "18px",
-                    },
-                    color: "#000",
-                    marginRight: {
-                      xs: "10px",
-                      lg: "20px",
-                      md: "20px",
-                    },
-                  }}
-                >
-                  Session Results
-                </Typography>
-              </Box>
-              <Typography
-                sx={{
-                  color: "#000",
-                  fontSize: "30px",
-                  cursor: "pointer",
-                }}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setShowPopup((prev) => !prev);
-                }}
-              >
-                &times;
-              </Typography>
-            </Box>
-            <Box
-              sx={{
-                border: "2px solid #FFFFFF",
-                overflowY: "auto",
-                maxHeight: "30rem",
-              }}
-            >
-              <Box sx={{ display: "flex" }}>
-                <Box sx={{ background: "#319E5B", width: "60%", px: "5px" }}>
-                  <Typography
-                    sx={{ color: "white", fontWeight: "600", fontSize: "12px" }}
-                  >
-                    Overs
-                  </Typography>
-                </Box>
-                <Box
-                  sx={{
-                    background: "#303030",
-                    width: "20%",
-                    borderLeft: "2px solid white",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                  }}
-                >
-                  <Typography
-                    sx={{ color: "white", fontWeight: "600", fontSize: "12px" }}
-                  >
-                    RESULT
-                  </Typography>
-                </Box>
-                <Box
-                  sx={{
-                    background: "#303030",
-                    width: "20%",
-                    borderLeft: "2px solid white",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                  }}
-                >
-                  <Typography
-                    sx={{ color: "white", fontWeight: "600", fontSize: "12px" }}
-                  >
-                    COMMISSION
-                  </Typography>
-                </Box>
-                <Box
-                  sx={{
-                    background: "#303030",
-                    width: "20%",
-                    borderLeft: "2px solid white",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                  }}
-                >
-                  <Typography
-                    sx={{ color: "white", fontWeight: "600", fontSize: "12px" }}
-                  >
-                    PROFIT/LOSS
-                  </Typography>
-                </Box>
-              </Box>
-              {sessionResults?.length > 0 &&
-                sessionResults?.map((item: any) => {
-                  let profit_loss = parseInt(item.profit_loss);
-                  return (
-                    <Box
-                      key={item?.bet_id?.id}
-                      display={"flex"}
-                      sx={{
-                        borderTop: "2px solid white",
-                        background: "#FFFFFF",
-                      }}
-                    >
-                      <Box
-                        sx={{
-                          background: "#FFFFFF",
-                          width: "60%",
-                        }}
-                      >
-                        <Typography
-                          sx={{
-                            fontWeight: "600",
-                            fontSize: "14px",
-                            px: "5px",
-                          }}
-                        >
-                          {item?.bet_id?.bet_condition}
-                        </Typography>
-                      </Box>
-                      <Box
-                        sx={{
-                          background: "#ECECEC",
-                          width: "20%",
-                          display: "flex",
-                          height: "30px",
-                          justifyContent: "center",
-                          alignItems: "center",
-                        }}
-                      >
-                        <Typography
-                          sx={{ fontWeight: "600", fontSize: "14px" }}
-                        >
-                          {item?.score}
-                        </Typography>
-                      </Box>
-                      <Box
-                        sx={{
-                          background: "#ECECEC",
-                          width: "20%",
-                          display: "flex",
-                          height: "30px",
-                          borderLeft: "2px solid white",
-                          justifyContent: "center",
-                          alignItems: "center",
-                        }}
-                      >
-                        <Typography
-                          sx={{ fontWeight: "600", fontSize: "14px" }}
-                        >
-                          {item?.commission ?? "NaN"}
-                        </Typography>
-                      </Box>
-                      {profit_loss > 0 ? (
-                        <Box
-                          sx={{
-                            background: "#10DC61",
-                            width: "20%",
-                            borderLeft: "2px solid white",
-                            display: "flex",
-                            height: "30px",
-                            justifyContent: "center",
-                            alignItems: "center",
-                          }}
-                        >
-                          <Typography
-                            sx={{
-                              fontWeight: "600",
-                              fontSize: "14px",
-                              color: "white",
-                            }}
-                          >
-                            {profit_loss}
-                            <StyledImage
-                              src="https://fontawesomeicons.com/images/svg/trending-up-sharp.svg"
-                              sx={{
-                                height: "15px",
-                                marginLeft: "5px",
-                                filter:
-                                  "invert(.9) sepia(1) saturate(5) hue-rotate(175deg);",
-                                width: "15px",
-                              }}
-                            />
-                          </Typography>
-                        </Box>
-                      ) : (
-                        <Box
-                          sx={{
-                            background: "#FF4D4D",
-                            width: "20%",
-                            borderLeft: "2px solid white",
-                            display: "flex",
-                            height: "30px",
-                            justifyContent: "center",
-                            alignItems: "center",
-                          }}
-                        >
-                          <Typography
-                            sx={{
-                              fontWeight: "600",
-                              fontSize: "14px",
-                              color: "white",
-                            }}
-                          >
-                            {profit_loss}
-                            <StyledImage
-                              src="https://fontawesomeicons.com/images/svg/trending-down-sharp.svg"
-                              sx={{
-                                height: "15px",
-                                marginLeft: "5px",
-                                filter:
-                                  "invert(.9) sepia(1) saturate(5) hue-rotate(175deg);",
-                                width: "15px",
-                              }}
-                            />
-                          </Typography>
-                        </Box>
-                      )}
-                    </Box>
-                  );
-                })}
-            </Box>
-          </Box>
-        </Box>
+        <SessionResultComponent
+          setShowPopup={setShowPopup}
+          sessionResults={sessionProLoss}
+        />
       </ModalMUI>
     </>
   );

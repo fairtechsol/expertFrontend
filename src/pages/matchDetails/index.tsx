@@ -1,5 +1,5 @@
 import { Box } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import Loader from "../../components/Loader";
 import SessionMarketLive from "../../components/matchDetails/SessionMarketLive";
 import SessionMarket from "../../components/matchDetails/SessionMarket";
