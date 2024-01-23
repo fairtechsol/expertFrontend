@@ -100,6 +100,7 @@ const MatchDetails = () => {
         socketService.user.matchResultDeclared(resultDeclared);
         socketService.user.matchResultUnDeclared(resultUnDeclared);
         socketService.user.matchDeleteBet(matchDeleteBet);
+        socketService.user.sessionDeleteBet(matchDeleteBet);
         expertSocketService.match.getMatchRates(
           state?.id,
           updateMatchDetailToRedux
