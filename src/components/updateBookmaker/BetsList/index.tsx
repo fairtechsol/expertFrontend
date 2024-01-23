@@ -2,8 +2,7 @@ import { Box, Typography } from "@mui/material";
 import Header from "./Header";
 import Row from "./Row";
 
-const BetsList = () => {
-  const betData: any = [];
+const BetsList = ({ betData }: any) => {
   return (
     <Box
       sx={{

@@ -1,10 +1,5 @@
 import { Box, Typography } from "@mui/material";
 import EditBookmaker from "./EditBookmaker";
-import { getBookmakerById } from "../../../store/actions/addSession";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "../../../store/store";
-import { useEffect } from "react";
-
 interface Props {
   add: boolean;
   match: any;
@@ -13,18 +8,6 @@ interface Props {
 }
 
 const BookmakerEditSection = ({ add, match, bookmakerId, type }: Props) => {
-  const dispatch: AppDispatch = useDispatch();
-  useEffect(() => {
-    if (bookmakerId) {
-      dispatch(
-        getBookmakerById({
-          matchId: match?.id,
-          id: bookmakerId,
-          type: type,
-        })
-      );
-    }
-  }, [bookmakerId]);
 
   return (
     <Box
@@ -72,7 +55,12 @@ const BookmakerEditSection = ({ add, match, bookmakerId, type }: Props) => {
             flexDirection: "column",
           }}
         >
-          <EditBookmaker add={add} match={match} Bid={bookmakerId} type={type} />
+          <EditBookmaker
+            add={add}
+            match={match}
+            Bid={bookmakerId}
+            type={type}
+          />
         </Box>
       </Box>
     </Box>

@@ -15,7 +15,9 @@ const AddSession = () => {
   const { placedBets } = useSelector((state: RootState) => state.addSession);
 
   useEffect(() => {
-    dispatch(getPlacedBets(state?.betId));
+    if (state?.betId) {
+      dispatch(getPlacedBets(state?.betId));
+    }
   }, [state?.betId]);
   return (
     <Box>
