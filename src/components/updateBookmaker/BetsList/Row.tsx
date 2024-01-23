@@ -92,7 +92,7 @@ const Row = ({ index, values }: any) => {
               lineHeight: 1,
             }}
           >
-            {values.team_bet}
+            {values.teamName}
           </Typography>
         </Box>
         <Box
@@ -135,7 +135,7 @@ const Row = ({ index, values }: any) => {
               right: 5,
             }}
           >
-            {getTime(values.createAt)}
+            {getTime(values.createdAt)}
           </Typography>
         </Box>
         <Box
@@ -183,11 +183,16 @@ const Row = ({ index, values }: any) => {
           <Typography
             sx={{ fontWeight: "600", fontSize: "12px", color: "white" }}
           >
-            {values.myStack}
+            {values?.myStake
+              ? values?.myStake
+              : (
+                  (values?.amount * values?.user?.fwPartnership) /
+                  100
+                ).toFixed()}
           </Typography>
         </Box>
       </Box>
-      {values?.deleted_reason && (
+      {values?.deletedReason && (
         <Box
           sx={{
             background: "rgba(0,0,0,0.5)",

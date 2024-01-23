@@ -8,10 +8,7 @@ import { handleKeysMatchEvents } from "../../../utils/InputKeys/Bookmaker/Bookma
 import { updateLocalQuickBookmaker } from "../../../utils/InputKeys/Bookmaker/Utils";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../store/store";
-import {
-  getBookmakerById,
-  successReset,
-} from "../../../store/actions/addSession";
+import { successReset } from "../../../store/actions/addSession";
 import { socketService } from "../../../socketManager";
 
 const EditBookmaker = (props: any) => {
@@ -131,12 +128,6 @@ const EditBookmaker = (props: any) => {
   };
 
   useEffect(() => {
-    if (Bid) {
-      dispatch(getBookmakerById({ matchId: match?.id, id: Bid }));
-    }
-  }, [Bid]);
-
-  useEffect(() => {
     if (success) {
       setLocalQuickBookmaker((prev: any) => {
         return {
@@ -144,31 +135,25 @@ const EditBookmaker = (props: any) => {
           teamA: {
             ...prev.teamA,
             back: bookmakerById?.backTeamA
-              ? Math.floor(bookmakerById?.backTeamA)
+              ? Number(bookmakerById?.backTeamA)
               : 0,
-            lay: bookmakerById?.layTeamA
-              ? Math.floor(bookmakerById?.layTeamA)
-              : 0,
+            lay: Number(bookmakerById?.layTeamA) ? bookmakerById?.layTeamA : 0,
             suspended: bookmakerById?.statusTeamA !== "active" ? true : false,
           },
           teamB: {
             ...prev.teamB,
             back: bookmakerById?.backTeamB
-              ? Math.floor(bookmakerById?.backTeamB)
+              ? Number(bookmakerById?.backTeamB)
               : 0,
-            lay: bookmakerById?.layTeamB
-              ? Math.floor(bookmakerById?.layTeamB)
-              : 0,
+            lay: bookmakerById?.layTeamB ? Number(bookmakerById?.layTeamB) : 0,
             suspended: bookmakerById?.statusTeamB !== "active" ? true : false,
           },
           teamC: {
             ...prev.teamC,
             back: bookmakerById?.backTeamC
-              ? Math.floor(bookmakerById?.backTeamC)
+              ? Number(bookmakerById?.backTeamC)
               : 0,
-            lay: bookmakerById?.layTeamC
-              ? Math.floor(bookmakerById?.layTeamC)
-              : 0,
+            lay: bookmakerById?.layTeamC ? Number(bookmakerById?.layTeamC) : 0,
             suspended: bookmakerById?.statusTeamC !== "active" ? true : false,
           },
         };
