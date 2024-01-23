@@ -82,6 +82,16 @@ const MatchDetails = () => {
     }
   }, [state?.id]);
 
+  const matchDeleteBet = (event: any) => {
+    try {
+      if (event?.matchId === state?.id) {
+        dispatch(getPlacedBetsMatch(state?.id));
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   useEffect(() => {
     try {
       if (state?.id) {
@@ -89,6 +99,8 @@ const MatchDetails = () => {
         socketService.user.matchBettingStatusChange(updateBettingStatus);
         socketService.user.matchResultDeclared(resultDeclared);
         socketService.user.matchResultUnDeclared(resultUnDeclared);
+        socketService.user.matchDeleteBet(matchDeleteBet);
+        socketService.user.sessionDeleteBet(matchDeleteBet);
         expertSocketService.match.getMatchRates(
           state?.id,
           updateMatchDetailToRedux

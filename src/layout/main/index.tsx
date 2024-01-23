@@ -12,20 +12,32 @@ const MainLayout = () => {
   const dispatch: AppDispatch = useDispatch();
 
   useEffect(() => {
-    if (!sessionStorage.getItem("userToken")) {
-      navigate("/expert/login");
-      sessionStorage.clear();
+    try {
+      if (!sessionStorage.getItem("userToken")) {
+        navigate("/expert/login");
+        sessionStorage.clear();
+      }
+      dispatch(getProfile());
+    } catch (e) {
+      console.log(e);
     }
-    dispatch(getProfile());
   }, []);
 
   useEffect(() => {
-    if (sessionStorage.getItem("userToken")) {
-      socketService.connect();
-      socketService.auth.logout();
+    try {
+      if (sessionStorage.getItem("userToken")) {
+        socketService.connect();
+        socketService.auth.logout();
+      }
+    } catch (e) {
+      console.log(e);
     }
     return () => {
-      socketService.disconnect();
+      try {
+        socketService.disconnect();
+      } catch (e) {
+        console.log(e);
+      }
     };
   }, [sessionStorage.getItem("userToken")]);
 
