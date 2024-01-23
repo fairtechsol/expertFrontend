@@ -17,6 +17,7 @@ export const ApiConstants = {
     CHANGEPASSWORD: "user/password",
     MARQUEE_NOTIFICATION: "/general/notification/add",
     PROFILE: "user/profile",
+    LOGGED_USER: "user/totalLoginCount",
   },
   SESSION: {
     ADD: "session/add",

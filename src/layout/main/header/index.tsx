@@ -14,24 +14,53 @@ import BoxProfile from "./BoxProfile";
 import DropDownMenu from "./DropDownMenu";
 import { getMatchListDropdown } from "../../../store/actions/match/matchAction";
 import { socketService } from "../../../socketManager";
+import { getLoggedUserCount } from "../../../store/actions/user/userAction";
 
 const Header1 = () => {
   const theme = useTheme();
-  const dispatch: AppDispatch = useDispatch();
   const matchesMobile = useMediaQuery(theme.breakpoints.down("lg"));
   const navigate = useNavigate();
+  const dispatch: AppDispatch = useDispatch();
+  const { getProfile, loggedUserCount } = useSelector(
+    (state: RootState) => state.user.profile
+  );
   const [visible, setVisible] = useState(false);
   const [userCount, setUserCount] = useState<number>(0);
   const [currentSelected, setSelected] = useState<any>(4);
   const [anchor, setAnchor] = useState(null);
 
-  const { getProfile } = useSelector((state: RootState) => state.user.profile);
   const { matchListDropdown } = useSelector(
     (state: RootState) => state.matchList
   );
 
+  const handleUserCount = (event: any) => {
+    setUserCount(event);
+  };
+
   useEffect(() => {
-    socketService.user.userCount(setUserCount);
+    try {
+      if (loggedUserCount) {
+        setUserCount(loggedUserCount);
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  }, [loggedUserCount]);
+
+  useEffect(() => {
+    try {
+      dispatch(getLoggedUserCount());
+    } catch (e) {
+      console.log(e);
+    }
+  }, []);
+
+  useEffect(() => {
+    try {
+      socketService.user.userCount(handleUserCount);
+    } catch (e) {
+      console.log(e);
+    }
   }, []);
 
   return (

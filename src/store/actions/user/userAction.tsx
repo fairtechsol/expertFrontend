@@ -23,6 +23,20 @@ export const getProfile = createAsyncThunk<any>(
     }
   }
 );
+export const getLoggedUserCount = createAsyncThunk<any>(
+  "logged/user",
+  async (_, thunkApi) => {
+    try {
+      const resp = await service.get(`${ApiConstants.USER.LOGGED_USER}`);
+      if (resp) {
+        return resp?.data;
+      }
+    } catch (error: any) {
+      const err = error as AxiosError;
+      throw thunkApi.rejectWithValue(err.response?.status);
+    }
+  }
+);
 
 export const changePassword = createAsyncThunk<any, ChangePassword>(
   "user/changePassword",
