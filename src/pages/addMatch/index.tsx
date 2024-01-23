@@ -249,6 +249,10 @@ const AddMatch = () => {
           startAt: new Date(),
         };
       });
+      formik.setValues({
+        ...values,
+        minBet: 100,
+      });
     }
     if (selected.gameType !== "" && !state?.id) {
       dispatch(tournamentListReset());
