@@ -92,7 +92,7 @@ const EditBookmaker = (props: any) => {
       };
     });
     setIsTab("");
-    if (value < 100) {
+    if (value <= 100) {
       if (name === "teamArate") {
         updateLocalQuickBookmaker(
           match,
@@ -124,6 +124,8 @@ const EditBookmaker = (props: any) => {
           setLocalQuickBookmaker
         );
       }
+    } else {
+      return;
     }
   };
 
@@ -324,6 +326,7 @@ const EditBookmaker = (props: any) => {
                 sx={{
                   width: "180px",
                   // my: "5px",
+
                   marginRight: "15px",
                   border: "1px solid #2626264D",
                   justifyContent: "center",
@@ -405,7 +408,7 @@ const EditBookmaker = (props: any) => {
                     name={"teamArate"}
                     inputRef={innerRefTeamA}
                     // onFocus={() => handleFocus(innerRefTeamA)}
-                    type="number"
+                    type="text"
                     variant="standard"
                     value={localQuickBookmaker?.teamA?.back}
                     InputProps={{
@@ -421,6 +424,9 @@ const EditBookmaker = (props: any) => {
                         color: "#319E5B",
                         fontWeight: "600",
                         backgroundColor: "#A7DCFF",
+                      },
+                      inputProps: {
+                        style: { textAlign: "center" },
                       },
                     }}
                   />
@@ -444,6 +450,9 @@ const EditBookmaker = (props: any) => {
                       fontWeight: "600",
                       backgroundColor: "#FFB5B5",
                       textAlign: "center",
+                    },
+                    inputProps: {
+                      style: { textAlign: "center" },
                     },
                   }}
                 />
@@ -552,7 +561,7 @@ const EditBookmaker = (props: any) => {
                     onChange={(e) => handleChange(e)}
                     name={"teamBrate"}
                     inputRef={innerRefTeamB}
-                    type="number"
+                    type="text"
                     // onFocus={() => handleFocus(innerRefTeamB)}
                     InputProps={{
                       disableUnderline: true,
@@ -567,6 +576,9 @@ const EditBookmaker = (props: any) => {
                         color: "#319E5B",
                         fontWeight: "600",
                         backgroundColor: "#A7DCFF",
+                      },
+                      inputProps: {
+                        style: { textAlign: "center" },
                       },
                     }}
                   />
@@ -591,6 +603,9 @@ const EditBookmaker = (props: any) => {
                       fontWeight: "600",
                       backgroundColor: "#FFB5B5",
                       textAlign: "center",
+                    },
+                    inputProps: {
+                      style: { textAlign: "center" },
                     },
                   }}
                 />
@@ -698,7 +713,7 @@ const EditBookmaker = (props: any) => {
                       onChange={(e) => handleChange(e)}
                       name={"teamCrate"}
                       inputRef={innerRefTeamC}
-                      type="number"
+                      type="text"
                       InputProps={{
                         disableUnderline: true,
                         sx: {
@@ -712,6 +727,9 @@ const EditBookmaker = (props: any) => {
                           color: "#319E5B",
                           fontWeight: "600",
                           backgroundColor: "#A7DCFF",
+                        },
+                        inputProps: {
+                          style: { textAlign: "center" },
                         },
                       }}
                     />
@@ -735,6 +753,9 @@ const EditBookmaker = (props: any) => {
                         fontWeight: "600",
                         backgroundColor: "#FFB5B5",
                         textAlign: "center",
+                      },
+                      inputProps: {
+                        style: { textAlign: "center" },
                       },
                     }}
                   />
@@ -782,7 +803,8 @@ const EditBookmaker = (props: any) => {
                         alignItems: "center",
                       }}
                     >
-                      {!localQuickBookmaker?.teamA?.suspended ? (
+                      {!localQuickBookmaker?.teamA?.suspended &&
+                      localQuickBookmaker?.teamA?.back > 0 ? (
                         <Typography
                           sx={{ fontWeight: "600", fontSize: "22px" }}
                         >
@@ -846,7 +868,8 @@ const EditBookmaker = (props: any) => {
                         alignItems: "center",
                       }}
                     >
-                      {!localQuickBookmaker?.teamB?.suspended ? (
+                      {!localQuickBookmaker?.teamB?.suspended &&
+                      localQuickBookmaker?.teamB?.back > 0 ? (
                         <Typography
                           sx={{ fontWeight: "600", fontSize: "22px" }}
                         >
@@ -879,7 +902,7 @@ const EditBookmaker = (props: any) => {
                       }}
                     >
                       {!localQuickBookmaker?.teamB?.suspended &&
-                      localQuickBookmaker?.teamB?.lay ? (
+                      localQuickBookmaker?.teamB?.lay > 0 ? (
                         <Typography
                           sx={{ fontWeight: "600", fontSize: "22px" }}
                         >
@@ -912,7 +935,8 @@ const EditBookmaker = (props: any) => {
                             alignItems: "center",
                           }}
                         >
-                          {!localQuickBookmaker?.teamC?.suspended ? (
+                          {!localQuickBookmaker?.teamC?.suspended &&
+                          localQuickBookmaker?.teamC?.back > 0 ? (
                             <Typography
                               sx={{ fontWeight: "600", fontSize: "22px" }}
                             >
@@ -981,7 +1005,7 @@ const EditBookmaker = (props: any) => {
         }}
       >
         <Box sx={{ width: "2%" }}></Box>
-        {false ? (
+        {match?.stopAt ? (
           <Box
             onClick={(e) => {
               setVisible1(true);
@@ -1019,9 +1043,7 @@ const EditBookmaker = (props: any) => {
                   onClick={() => {
                     setVisible1(false);
                   }}
-                  // betId={[
-                  //   { match_id: match?.id, id: localSelectedBookmaker?.betId },
-                  // ]}
+                  currentMatch={match}
                   teamA={match?.teamA}
                   teamB={match?.teamB}
                   tie={"Tie"}
@@ -1030,6 +1052,7 @@ const EditBookmaker = (props: any) => {
                       ? match?.teamC
                       : ""
                   }
+                  stopAt={match?.stopAt}
                   // betStatus={localSelectedBookmaker?.betStatus}
                 />
               )}
@@ -1075,9 +1098,8 @@ const EditBookmaker = (props: any) => {
                   onClick={() => {
                     setVisible(false);
                   }}
-                  // betId={[
-                  //   { match_id: match?.id, id: localSelectedBookmaker?.betId },
-                  // ]}
+                  currentMatch={match}
+                  stopAt={match?.stopAt}
                   teamA={match?.teamA}
                   teamB={match?.teamB}
                   tie={"Tie"}

@@ -40,12 +40,7 @@ const MatchListProfitLoss = (Props: any) => {
         <Typography
           sx={{
             marginRight: "10px",
-            color: Number(updateMatchStatus) > 0 ? "#FF4D4D" : "#46E080",
-            //   color: notSwitch
-            //     ? Number(updateMatchStatus) > 0
-            //       ? "#46E080"
-            //       : "#FF4D4D"
-            //     : "white",
+            color: Number(updateMatchStatus) < 0 ? "#FF4D4D" : "#46E080",
             fontWeight: "700",
             fontSize: "13px",
             marginLeft: "0.3vw",
