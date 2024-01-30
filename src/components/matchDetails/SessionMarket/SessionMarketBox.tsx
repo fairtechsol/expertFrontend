@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Divider from "../../Common/Divider";
 import { Box, Typography } from "@mui/material";
 import Result from "../Result";
@@ -7,9 +7,12 @@ import SeparateBox from "../SeparateBox";
 import { formatNumber } from "../../helper";
 import CustomSessionResult from "./CustomSessionResult";
 import PlaceBetComponent from "./PlaceBetComponent";
-import { betLiveStatus } from "../../../store/actions/match/matchAction";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "../../../store/store";
+import {
+  betLiveStatus,
+  matchListReset,
+} from "../../../store/actions/match/matchAction";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../../store/store";
 
 const SessionMarketBox = ({
   currentMatch,
@@ -22,9 +25,18 @@ const SessionMarketBox = ({
   setIObtes,
 }: any) => {
   const dispatch: AppDispatch = useDispatch();
+  const { success, loading } = useSelector(
+    (state: RootState) => state.matchList
+  );
   const [visible, setVisible] = useState(false);
   const [live, setLive] = useState<boolean>(false);
-  const [loader] = useState(false);
+
+  useEffect(() => {
+    if (success) {
+      setVisible(false);
+      dispatch(matchListReset());
+    }
+  }, [success]);
   return (
     <div style={{ position: "relative" }}>
       {!["live"].includes(JSON.parse(newData)?.activeStatus) && (
@@ -82,7 +94,7 @@ const SessionMarketBox = ({
         >
           {JSON.parse(newData)?.activeStatus === "live" && (
             <SmallBox
-              loading={loader}
+              loading={loading}
               hide={true}
               onClick={(e: any) => {
                 e.preventDefault();
@@ -96,7 +108,11 @@ const SessionMarketBox = ({
               }}
               textSize={"8px"}
               width={"33px"}
-              color={"#FF4D4D"}
+              color={
+                JSON.parse(newData)?.activeStatus === "live"
+                  ? "#46e080"
+                  : "#FF4D4D"
+              }
             />
           )}
           {JSON.parse(newData)?.activeStatus === "result" &&
@@ -113,7 +129,7 @@ const SessionMarketBox = ({
           {JSON.parse(newData)?.activeStatus === "save" && (
             <SmallBox
               hide={true}
-              loading={loader}
+              loading={loading}
               onClick={(e: any) => {
                 e.preventDefault();
                 // setLive(!live);
