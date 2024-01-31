@@ -22,6 +22,7 @@ export const ApiConstants = {
   SESSION: {
     ADD: "session/add",
     GET: "session",
+    BETTING_STATUS: "/session/status",
     RESULTDECLARE: "/bet/declare/result/session",
     NO_RESULT: "/bet/declare/noResult/session",
     UNDECLARE_RESULT: "/bet/unDeclare/result/session",

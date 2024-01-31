@@ -8,8 +8,8 @@ import { formatNumber } from "../../helper";
 import CustomSessionResult from "./CustomSessionResult";
 import PlaceBetComponent from "./PlaceBetComponent";
 import {
-  betLiveStatus,
   matchListReset,
+  sessionBetLiveStatus,
 } from "../../../store/actions/match/matchAction";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../store/store";
@@ -100,8 +100,8 @@ const SessionMarketBox = ({
                 e.preventDefault();
                 setLive(!live);
                 dispatch(
-                  betLiveStatus({
-                    isStop: live,
+                  sessionBetLiveStatus({
+                    status: live ? "live" : "save",
                     betId: JSON.parse(newData)?.id,
                   })
                 );
