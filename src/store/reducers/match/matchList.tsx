@@ -15,6 +15,7 @@ import {
   getPlacedBetsMatch,
   getMatchListSessionProfitLoss,
   resetMatchListSessionProLoss,
+  sessionBetLiveStatus,
 } from "../../actions/match/matchAction";
 
 interface InitialState {
@@ -96,10 +97,23 @@ const matchList = createSlice({
         state.error = null;
       })
       .addCase(betLiveStatus.fulfilled, (state) => {
-        state.statusSuccess = true;
+        state.statusBetLive = true;
         state.loading = false;
       })
       .addCase(betLiveStatus.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action?.error?.message;
+      })
+      .addCase(sessionBetLiveStatus.pending, (state) => {
+        state.loading = true;
+        state.statusBetLive = false;
+        state.error = null;
+      })
+      .addCase(sessionBetLiveStatus.fulfilled, (state) => {
+        state.statusBetLive = true;
+        state.loading = false;
+      })
+      .addCase(sessionBetLiveStatus.rejected, (state, action) => {
         state.loading = false;
         state.error = action?.error?.message;
       })

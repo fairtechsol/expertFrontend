@@ -70,6 +70,23 @@ export const betLiveStatus = createAsyncThunk<any, any>(
     }
   }
 );
+export const sessionBetLiveStatus = createAsyncThunk<any, any>(
+  "session/status/change",
+  async (requestData, thunkApi) => {
+    try {
+      const response = await service.post(
+        `${ApiConstants.SESSION.BETTING_STATUS}/${requestData.betId}`,
+        { status: requestData?.status }
+      );
+      if (response) {
+        return response?.data;
+      }
+    } catch (error) {
+      const err = error as AxiosError;
+      return thunkApi.rejectWithValue(err.response?.status);
+    }
+  }
+);
 
 export const getPlacedBetsMatch = createAsyncThunk<any, any>(
   "placedBets/match",
