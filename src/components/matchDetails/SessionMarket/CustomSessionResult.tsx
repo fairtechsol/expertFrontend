@@ -2,19 +2,49 @@ import { useState } from "react";
 import { CancelDark } from "../../../assets";
 import { Box, TextField, Typography } from "@mui/material";
 import SessionResultCustomButton from "../../addSession/AddSession/SessionResultCustomButton";
+import { AppDispatch } from "../../../store/store";
+import { useDispatch } from "react-redux";
+import {
+  noResultDeclare,
+  resultDeclare,
+  undeclareResult,
+} from "../../../store/actions/match/matchAction";
 
 const CustomSessionResult = ({ onClick, newData }: any) => {
+  console.log(JSON.parse(newData));
+  const dispatch: AppDispatch = useDispatch();
   const [selected, setSelected] = useState("");
   const [loading] = useState({ id: "", value: false });
   const [confirmNoResult, setConfirmNoResults] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
 
-  const undeclareResult = async () => {};
+  const handleUndeclareResult = async () => {
+    const payload = {
+      matchId: JSON.parse(newData)?.matchId,
+      betId: JSON.parse(newData)?.betId,
+    };
+    dispatch(undeclareResult(payload));
+  };
 
-  const noResultDeclare = async () => {};
+  const handleNoResultDeclare = async () => {
+    const payload = {
+      matchId: JSON.parse(newData)?.matchId,
+      betId: JSON.parse(newData)?.id,
+    };
+    dispatch(noResultDeclare(payload));
+  };
 
-  const handleDeclare = () => {};
+  const handleDeclare = () => {
+    const payload = {
+      score: selected,
+      matchId: JSON.parse(newData)?.matchId,
+      betId: JSON.parse(newData)?.id,
+    };
+    dispatch(resultDeclare(payload));
+  };
   const handleInputKeyPress = () => {};
+
+  console.log(JSON.parse(newData)?.matchId, JSON.parse(newData)?.id);
 
   return (
     <Box
@@ -115,7 +145,7 @@ const CustomSessionResult = ({ onClick, newData }: any) => {
                     if (loading?.value) {
                       return false;
                     }
-                    undeclareResult();
+                    handleUndeclareResult();
                   }}
                 />
               )}
@@ -161,7 +191,7 @@ const CustomSessionResult = ({ onClick, newData }: any) => {
                 if (loading?.value) {
                   return false;
                 }
-                noResultDeclare();
+                handleNoResultDeclare();
               }}
             />
           )}
