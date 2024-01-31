@@ -124,7 +124,6 @@ const addMatch = createSlice({
         return { ...state, success: false, matchDetail: null };
       })
       .addCase(updateMatchRates.fulfilled, (state, action) => {
-        debugger;
         const {
           apiSession,
           apiTiedMatch,
