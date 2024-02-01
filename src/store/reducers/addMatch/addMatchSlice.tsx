@@ -12,7 +12,9 @@ import {
   tournamentListReset,
   updateMatchBettingStatus,
   updateMatchRates,
+  updateSessionAdded,
 } from "../../actions/addMatch/addMatchAction";
+import { updateApiSessionById } from "../../actions/addSession";
 
 interface InitialState {
   tournamentList: any;
@@ -141,7 +143,61 @@ const addMatch = createSlice({
             ...marketCompleteMatch,
           },
           matchOdd: { ...state.matchDetail.matchOdd, ...matchOdd },
+          sessionBettings: state.matchDetail.sessionBettings.map(
+            (item: any) => {
+              const parsedItem = JSON.parse(item);
+              let id = parsedItem?.id;
+
+              const matchingApiSession = apiSession.find(
+                (sessionItem: any) => sessionItem.id === id
+              );
+
+              if (matchingApiSession) {
+                return JSON.stringify({
+                  ...parsedItem,
+                  noRate: matchingApiSession.BackPrice1,
+                  noPercent: matchingApiSession.BackSize1,
+                  yesRate: matchingApiSession.LayPrice1,
+                  yesPercent: matchingApiSession.LaySize1,
+                  activeStatus: "live",
+                });
+              } else {
+                return JSON.stringify({
+                  ...parsedItem,
+                  noRate: 0,
+                  yesRate: 0,
+                  yesPercent: 0,
+                  noPercent: 0,
+                  activeStatus:
+                    parsedItem.activeStatus === "live"
+                      ? "save"
+                      : parsedItem.activeStatus,
+                });
+              }
+            }
+          ),
         };
+      })
+      .addCase(updateApiSessionById.fulfilled, (state, action) => {
+        state.matchDetail = {
+          ...state.matchDetail,
+          sessionBettings: state.matchDetail.sessionBettings.map(
+            (item: any) => {
+              const parsedItem = JSON.parse(item);
+              let id = parsedItem?.id;
+              if (id === action.payload.betId) {
+                return JSON.stringify({
+                  ...parsedItem,
+                  activeStatus: action.payload.activeStatus,
+                  result: action.payload.score ? action.payload.score : null,
+                });
+              } else return item;
+            }
+          ),
+        };
+      })
+      .addCase(updateSessionAdded.fulfilled, (state, action) => {
+        state.matchDetail.sessionBettings.push(JSON.stringify(action.payload));
       })
       .addCase(updateMatchBettingStatus.fulfilled, (state, action) => {
         let matchingObjectKey = Object.keys(state?.matchDetail).find(

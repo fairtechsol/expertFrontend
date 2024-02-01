@@ -39,4 +39,7 @@ export const userSocketService = {
   sessionDeleteBet: (callback: any) => {
     socket.on("sessionDeleteBet", callback);
   },
+  sessionAdded: (callback: any) => {
+    socket.on("sessionAdded", callback);
+  },
 };

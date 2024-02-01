@@ -48,8 +48,8 @@ const SessionResultOvers = (props: any) => {
       </Box>
       {sessionData?.length > 0 &&
         sessionData?.map((item: any, index: any) => {
-          let profit_loss = parseInt(item.profit_loss);
-          let checkSelcted = !selected.includes(item?.bet_id?.id);
+          let profit_loss = parseInt(item.profitLoss);
+          let checkSelcted = !selected.includes(item?.betId?.id);
           return (
             <Box
               onClick={() => changeSelected(item)}
@@ -71,7 +71,7 @@ const SessionResultOvers = (props: any) => {
                 <Typography
                   sx={{ fontWeight: "600", fontSize: "14px", px: "5px" }}
                 >
-                  {item?.bet_id?.bet_condition}
+                  {item?.betId?.name}
                 </Typography>
               </Box>
               <Box
@@ -86,7 +86,7 @@ const SessionResultOvers = (props: any) => {
                 }}
               >
                 <Typography sx={{ fontWeight: "600", fontSize: "14px" }}>
-                  {item.score}
+                  {item?.result}
                 </Typography>
               </Box>
               {profit_loss > 0 ? (
