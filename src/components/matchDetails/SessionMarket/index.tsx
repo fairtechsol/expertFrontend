@@ -4,9 +4,9 @@ import { ARROWUP } from "../../../assets";
 import Divider from "../../Common/Divider";
 import Stop from "./Stop";
 import SessionMarketBox from "./SessionMarketBox";
-import { betLiveStatus } from "../../../store/actions/match/matchAction";
-import { AppDispatch } from "../../../store/store";
-import { useDispatch } from "react-redux";
+// import { betLiveStatus } from "../../../store/actions/match/matchAction";
+// import { AppDispatch } from "../../../store/store";
+// import { useDispatch } from "react-redux";
 
 const SessionMarket = ({
   currentMatch,
@@ -22,7 +22,7 @@ const SessionMarket = ({
   setData,
   setLocalSessionExpertOdds,
 }: any) => {
-  const dispatch: AppDispatch = useDispatch();
+  // const dispatch: AppDispatch = useDispatch();
   const [stop, setStop] = useState(true);
   const [visible, setVisible] = useState(true);
 
