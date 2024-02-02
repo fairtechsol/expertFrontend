@@ -8,7 +8,6 @@ import { formatNumber } from "../../helper";
 import CustomSessionResult from "./CustomSessionResult";
 import PlaceBetComponent from "./PlaceBetComponent";
 import {
-  matchListReset,
   sessionBetLiveStatus,
 } from "../../../store/actions/match/matchAction";
 import { useDispatch, useSelector } from "react-redux";
@@ -29,16 +28,14 @@ const SessionMarketBox = ({
     (state: RootState) => state.matchList
   );
   const [visible, setVisible] = useState(false);
-  const [live, setLive] = useState<boolean>(false);
+  // const [live, setLive] = useState<boolean>(false);
 
   useEffect(() => {
     if (success) {
       setVisible(false);
-      dispatch(matchListReset());
+      // dispatch(matchListReset());
     }
   }, [success]);
-
-  console.log(JSON.parse(newData));
 
   return (
     <div style={{ position: "relative" }}>
@@ -101,7 +98,7 @@ const SessionMarketBox = ({
               hide={true}
               onClick={(e: any) => {
                 e.preventDefault();
-                setLive(false);
+                // setLive(false);
                 dispatch(
                   sessionBetLiveStatus({
                     status: "save",
