@@ -12,6 +12,7 @@ import {
   getMatchDetail,
   updateMatchBettingStatus,
   updateMatchRates,
+  updateSessionAdded,
 } from "../../store/actions/addMatch/addMatchAction";
 import { AppDispatch, RootState } from "../../store/store";
 import { useDispatch, useSelector } from "react-redux";
@@ -19,6 +20,7 @@ import TiedMatchMarket from "../../components/matchDetails/TiedMatchMarket";
 import CompleteMatchMarket from "../../components/matchDetails/CompleteMatchMarket";
 import { expertSocketService, socketService } from "../../socketManager";
 import { getPlacedBetsMatch } from "../../store/actions/match/matchAction";
+import { updateApiSessionById } from "../../store/actions/addSession";
 
 const MatchDetails = () => {
   const data: any = [];
@@ -92,6 +94,26 @@ const MatchDetails = () => {
     }
   };
 
+  const handleSessionAdded = (event: any) => {
+    try {
+      if (event?.matchId === state?.id) {
+        dispatch(updateSessionAdded(event));
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const updateResultDeclared = (event: any) => {
+    try {
+      if (state?.id === event?.matchId) {
+        dispatch(updateApiSessionById(event));
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   useEffect(() => {
     try {
       if (state?.id) {
@@ -101,6 +123,8 @@ const MatchDetails = () => {
         socketService.user.matchResultUnDeclared(resultUnDeclared);
         socketService.user.matchDeleteBet(matchDeleteBet);
         socketService.user.sessionDeleteBet(matchDeleteBet);
+        socketService.user.sessionAdded(handleSessionAdded);
+        socketService.user.sessionResultDeclared(updateResultDeclared);
         expertSocketService.match.getMatchRates(
           state?.id,
           updateMatchDetailToRedux

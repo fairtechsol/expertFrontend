@@ -84,6 +84,12 @@ export const updateSessionById = createAsyncThunk<any, SessionById>(
     return requestData;
   }
 );
+export const updateApiSessionById = createAsyncThunk<any, SessionById>(
+  "update/Apisession",
+  async (requestData) => {
+    return requestData;
+  }
+);
 export const setCurrentOdd = createAsyncThunk<any, any>(
   "update/currentOdd",
   async (requestData) => {

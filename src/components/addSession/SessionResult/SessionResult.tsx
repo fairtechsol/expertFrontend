@@ -4,7 +4,8 @@ import SessionResultOvers from "./SessionResultOvers";
 import SessionResultModal from "./SessionResultModal";
 
 const SessionResult = (props: any) => {
-  const { createSession, betId, handleSession, matchId } = props;
+  const { createSession, betId, handleSession, matchId, sessionProLoss } =
+    props;
 
   const [mode, setMode] = useState("0");
   const [selected, setSelected] = useState<any>([]);
@@ -15,12 +16,12 @@ const SessionResult = (props: any) => {
       return false;
     }
     const x: any = [...selected];
-    const itemId = item.bet_id.id;
+    const itemId = item.betId.id;
 
     if (x.includes(itemId)) {
       return;
     }
-    setSelected([item.bet_id.id]);
+    setSelected([item.betId.id]);
     handleSession(item);
   };
 
@@ -53,7 +54,7 @@ const SessionResult = (props: any) => {
         >
           <SessionResultOvers
             createSession={createSession}
-            sessionData={sessionData}
+            sessionData={sessionProLoss && sessionProLoss}
             mode={mode}
             changeSelected={changeSelected}
             selected={selected}

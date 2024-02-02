@@ -150,6 +150,12 @@ export const updateMatchRates = createAsyncThunk<any, any>(
     return matchDetails;
   }
 );
+export const updateSessionAdded = createAsyncThunk<any, any>(
+  "/session/added",
+  async (matchDetails) => {
+    return matchDetails;
+  }
+);
 export const updateMatchBettingStatus = createAsyncThunk<any, any>(
   "/match/bettingtatus",
   async (betting) => {

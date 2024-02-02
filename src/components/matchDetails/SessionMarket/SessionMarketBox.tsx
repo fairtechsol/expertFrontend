@@ -37,6 +37,9 @@ const SessionMarketBox = ({
       dispatch(matchListReset());
     }
   }, [success]);
+
+  console.log(JSON.parse(newData));
+
   return (
     <div style={{ position: "relative" }}>
       {!["live"].includes(JSON.parse(newData)?.activeStatus) && (
@@ -98,10 +101,10 @@ const SessionMarketBox = ({
               hide={true}
               onClick={(e: any) => {
                 e.preventDefault();
-                setLive(!live);
+                setLive(false);
                 dispatch(
                   sessionBetLiveStatus({
-                    status: live ? "live" : "save",
+                    status: "save",
                     betId: JSON.parse(newData)?.id,
                   })
                 );
@@ -132,12 +135,21 @@ const SessionMarketBox = ({
               loading={loading}
               onClick={(e: any) => {
                 e.preventDefault();
-                // setLive(!live);
-                // handleLive(0);
+                dispatch(
+                  sessionBetLiveStatus({
+                    status: "live",
+                    betId: JSON.parse(newData)?.id,
+                  })
+                );
               }}
               textSize={"8px"}
               // width={"80px"}
               width={"33px"}
+              color={
+                JSON.parse(newData)?.activeStatus === "live"
+                  ? "#46e080"
+                  : "#FF4D4D"
+              }
               // title={"Live"}
             />
           )}
@@ -177,7 +189,7 @@ const SessionMarketBox = ({
           </Box>
         )}
         {!["ACTIVE", "", undefined, null, 0].includes(newData?.suspended) ||
-        newData?.betStatus === 2 ? (
+        JSON.parse(newData)?.activeStatus === "result" ? (
           <Box
             sx={{
               margin: "1px",
@@ -202,7 +214,8 @@ const SessionMarketBox = ({
                 fontWeight: "400",
               }}
             >
-              {newData?.betStatus === 2
+              {JSON.parse(newData)?.activeStatus === "result" &&
+              JSON.parse(newData)?.result
                 ? `Result Declared`
                 : JSON.parse(newData)?.status}
             </h6>
@@ -226,7 +239,7 @@ const SessionMarketBox = ({
               back={true}
               value={formatNumber(JSON.parse(newData)?.noRate)}
               value2={formatNumber(JSON.parse(newData)?.noPercent)}
-              lock={JSON.parse(newData)?.suspended === "suspended"}
+              lock={JSON.parse(newData)?.status === "suspended"}
               color={"#F6D0CB"}
             />
 

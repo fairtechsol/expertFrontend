@@ -7,6 +7,7 @@ const MatchListProfitLoss = (Props: any) => {
       <Box
         onClick={onClick}
         sx={{
+          cursor: "pointer",
           height: "35px",
           minWidth: { xs: "100%", sm: "200px" },
           marginLeft: { xs: "0", sm: "10px" },

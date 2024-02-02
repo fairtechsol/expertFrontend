@@ -11,7 +11,6 @@ import {
 } from "../../../store/actions/match/matchAction";
 
 const CustomSessionResult = ({ onClick, newData }: any) => {
-  console.log(JSON.parse(newData));
   const dispatch: AppDispatch = useDispatch();
   const [selected, setSelected] = useState("");
   const [loading] = useState({ id: "", value: false });
@@ -21,7 +20,7 @@ const CustomSessionResult = ({ onClick, newData }: any) => {
   const handleUndeclareResult = async () => {
     const payload = {
       matchId: JSON.parse(newData)?.matchId,
-      betId: JSON.parse(newData)?.betId,
+      betId: JSON.parse(newData)?.id,
     };
     dispatch(undeclareResult(payload));
   };
@@ -44,8 +43,6 @@ const CustomSessionResult = ({ onClick, newData }: any) => {
   };
   const handleInputKeyPress = () => {};
 
-  console.log(JSON.parse(newData)?.matchId, JSON.parse(newData)?.id);
-
   return (
     <Box
       sx={{
@@ -66,7 +63,7 @@ const CustomSessionResult = ({ onClick, newData }: any) => {
     >
       {!confirmNoResult ? (
         <>
-          {newData?.betStatus !== 2 && (
+          {JSON.parse(newData)?.activeStatus !== "result" && (
             <TextField
               autoFocus
               placeholder="Score"
@@ -93,7 +90,8 @@ const CustomSessionResult = ({ onClick, newData }: any) => {
           )}
           {!showPopup ? (
             <>
-              {newData?.betStatus === 2 ? (
+              {JSON.parse(newData)?.activeStatus === "result" &&
+              JSON.parse(newData)?.result ? (
                 <SessionResultCustomButton
                   color={"#FF4D4D"}
                   title={"Un Declare"}
@@ -107,7 +105,7 @@ const CustomSessionResult = ({ onClick, newData }: any) => {
                 />
               ) : (
                 <>
-                  {newData?.betStatus !== 3 ? (
+                  {JSON.parse(newData)?.activeStatus !== "result" ? (
                     <SessionResultCustomButton
                       color={"#0B4F26"}
                       id="DR"
@@ -134,7 +132,7 @@ const CustomSessionResult = ({ onClick, newData }: any) => {
               >
                 Are you sure to Undeclare Result ?
               </Typography>
-              {newData?.betStatus === 2 && (
+              {JSON.parse(newData)?.activeStatus === "result" && (
                 <SessionResultCustomButton
                   color={"rgb(106 90 90)"}
                   title={"Yes"}
@@ -152,7 +150,7 @@ const CustomSessionResult = ({ onClick, newData }: any) => {
             </>
           )}
 
-          {newData?.betStatus !== 2 && (
+          {JSON.parse(newData)?.activeStatus !== "result" && (
             <SessionResultCustomButton
               color={"rgb(106 90 90)"}
               title={"No Result"}
@@ -180,7 +178,7 @@ const CustomSessionResult = ({ onClick, newData }: any) => {
           >
             Are you sure to set No Result ?
           </Typography>
-          {newData?.betStatus !== 2 && (
+          {JSON.parse(newData)?.activeStatus !== "result" && (
             <SessionResultCustomButton
               color={"rgb(106 90 90)"}
               title={"Yes"}
