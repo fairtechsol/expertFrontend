@@ -6,11 +6,8 @@ import { ArrowDown } from "../../../assets";
 
 const ActiveUsers = (props: any) => {
   const { image, value, containerStyle } = props;
-  // const matchesMobile = useMediaQuery(theme.breakpoints.down("lg"));
   const [anchorEl, setAnchorEl] = useState<any>(null);
-  useEffect(() => {
-    // console.log(anchorEl)
-  }, [anchorEl]);
+  useEffect(() => {}, [anchorEl]);
   const handleClose = () => {
     setAnchorEl(0);
   };

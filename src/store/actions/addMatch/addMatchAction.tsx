@@ -119,7 +119,7 @@ export const addMatchExpert = createAsyncThunk<any, any>(
     try {
       const resp = await service.post(`${ApiConstants.MATCH.ADD}`, requestData);
       if (resp) {
-        console.log(resp);
+        return resp?.data;
       }
     } catch (error) {
       const err = error as AxiosError;

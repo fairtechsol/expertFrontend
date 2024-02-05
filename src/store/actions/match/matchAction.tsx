@@ -205,7 +205,6 @@ export const editMatch = createAsyncThunk<any, any>(
         return response.data;
       }
     } catch (error) {
-      console.log(error);
       const err = error as AxiosError;
       return thunkApi.rejectWithValue(err.response?.status);
     }
