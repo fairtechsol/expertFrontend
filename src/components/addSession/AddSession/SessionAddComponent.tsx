@@ -405,6 +405,7 @@ const SessionAddComponent = React.forwardRef(
                         alignItems: "center",
                         height: "35px",
                         borderRadius: "5px",
+                        cursor: "pointer"
                       }}
                     >
                       <Typography
@@ -462,6 +463,7 @@ const SessionAddComponent = React.forwardRef(
                         alignItems: "center",
                         height: "35px",
                         borderRadius: "5px",
+                        cursor: "pointer"
                       }}
                     >
                       <Typography
@@ -519,6 +521,7 @@ const SessionAddComponent = React.forwardRef(
                         alignItems: "center",
                         height: "35px",
                         borderRadius: "5px",
+                        cursor: "pointer"
                       }}
                     >
                       <Typography
@@ -581,6 +584,7 @@ const SessionAddComponent = React.forwardRef(
                     alignItems: "center",
                     height: "35px",
                     borderRadius: "5px",
+                    cursor: "pointer"
                   }}
                 >
                   <Typography

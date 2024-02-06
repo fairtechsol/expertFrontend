@@ -82,6 +82,7 @@ const SessionResult = (props: any) => {
                 alignItems: "center",
                 height: "35px",
                 borderRadius: "5px",
+                cursor: "pointer"
               }}
             >
               <Typography
