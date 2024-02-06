@@ -207,47 +207,32 @@ const TiedMatchMarket = ({ currentMatch, liveData }: any) => {
 
           <Box sx={{ position: "relative" }}>
             <BoxComponent
-              //   teamRates={teamRates?.teamA}
+              teamRates={
+                currentMatch?.teamRates?.yesRateTie
+                  ? currentMatch?.teamRates?.yesRateTie
+                  : 0
+              }
               teamImage={currentMatch?.apiTideMatch?.teamA_Image}
               livestatus={liveData?.status === "SUSPENDED" ? true : false}
               data={liveData?.runners?.length > 0 ? liveData?.runners[0] : []}
               lock={liveData?.runners?.length > 0 ? false : true}
-              name={currentMatch?.teamA}
+              name={"Yes"}
             />
+
             <Divider />
             <BoxComponent
               livestatus={liveData?.status === "SUSPENDED" ? true : false}
-              //   teamRates={teamRates?.teamB}
+              teamRates={
+                currentMatch?.teamRates?.noRateTie
+                  ? currentMatch?.teamRates?.noRateTie
+                  : 0
+              }
               teamImage={currentMatch?.apiTideMatch?.teamB_Image}
               lock={liveData?.runners?.length > 0 ? false : true}
-              name={currentMatch?.teamB}
+              name={"No"}
               data={liveData?.runners?.length > 0 ? liveData?.runners[1] : []}
               align="end"
             />
-            {currentMatch?.teamC && (
-              <>
-                <Divider />
-                <BoxComponent
-                  onClick={() => {
-                    // socket.emit("bookMakerRateLive", {
-                    //   matchId: currentMatch?.id,
-                    //   bookMakerLive: false,
-                    // });
-                    // setLive(false);
-                  }}
-                  color={"#FF4D4D"}
-                  livestatus={liveData?.status === "SUSPENDED" ? true : false}
-                  //   teamRates={teamRates?.teamC}
-                  teamImage={null}
-                  lock={liveData?.runners?.length > 0 ? false : true}
-                  name={currentMatch?.teamC}
-                  data={
-                    liveData?.runners?.length > 0 ? liveData?.runners[2] : []
-                  }
-                  align="end"
-                />
-              </>
-            )}
 
             <Divider />
             {!live && (

@@ -205,40 +205,31 @@ const CompleteMatchMarket = ({ currentMatch, liveData }: any) => {
 
           <Box sx={{ position: "relative" }}>
             <BoxComponent
-              //   teamRates={teamRates?.teamA}
+              teamRates={
+                currentMatch?.teamRates?.yesRateComplete
+                  ? currentMatch?.teamRates?.yesRateComplete
+                  : 0
+              }
               teamImage={currentMatch?.marketCompleteMatch?.teamA_Image}
               livestatus={liveData?.status === "SUSPENDED" ? true : false}
               data={liveData?.runners?.length > 0 ? liveData?.runners[0] : []}
               lock={liveData?.runners?.length > 0 ? false : true}
-              name={currentMatch?.teamA}
+              name={"Yes"}
             />
             <Divider />
             <BoxComponent
               livestatus={liveData?.status === "SUSPENDED" ? true : false}
-              //   teamRates={teamRates?.teamB}
+              teamRates={
+                currentMatch?.teamRates?.noRateComplete
+                  ? currentMatch?.teamRates?.noRateComplete
+                  : 0
+              }
               teamImage={currentMatch?.marketCompleteMatch?.teamB_Image}
               lock={liveData?.runners?.length > 0 ? false : true}
-              name={currentMatch?.teamB}
+              name={"No"}
               data={liveData?.runners?.length > 0 ? liveData?.runners[1] : []}
               align="end"
             />
-            {currentMatch?.teamC && (
-              <>
-                <Divider />
-                <BoxComponent
-                  color={"#FF4D4D"}
-                  livestatus={liveData?.status === "SUSPENDED" ? true : false}
-                  //   teamRates={teamRates?.teamC}
-                  teamImage={null}
-                  lock={liveData?.runners?.length > 0 ? false : true}
-                  name={currentMatch?.teamC}
-                  data={
-                    liveData?.runners?.length > 0 ? liveData?.runners[2] : []
-                  }
-                  align="end"
-                />
-              </>
-            )}
 
             <Divider />
             {!live && (

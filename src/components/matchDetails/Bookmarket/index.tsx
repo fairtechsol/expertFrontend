@@ -204,17 +204,26 @@ const BookMarket = ({ currentMatch, liveData }: any) => {
 
           <Box sx={{ position: "relative" }}>
             <BoxComponent
-              //   teamRates={teamRates?.teamA}
+              teamRates={
+                currentMatch?.teamRates?.teamARate
+                  ? currentMatch?.teamRates?.teamARate
+                  : 0
+              }
               // teamImage={currentMatch?.bookmaker?.teamA_Image}
               livestatus={liveData?.status === "live" ? true : false}
               data={liveData?.runners?.length > 0 ? liveData?.runners[0] : []}
               lock={liveData?.runners?.length > 0 ? false : true}
               name={currentMatch?.teamA}
             />
+
             <Divider />
             <BoxComponent
               livestatus={liveData?.status === "live" ? true : false}
-              //   teamRates={teamRates?.teamB}
+              teamRates={
+                currentMatch?.teamRates?.teamBRate
+                  ? currentMatch?.teamRates?.teamBRate
+                  : 0
+              }
               teamImage={currentMatch?.bookmaker?.teamB_Image}
               lock={liveData?.runners?.length > 0 ? false : true}
               name={currentMatch?.teamB}
@@ -227,7 +236,11 @@ const BookMarket = ({ currentMatch, liveData }: any) => {
                 <BoxComponent
                   color={"#FF4D4D"}
                   livestatus={liveData?.status === "live" ? true : false}
-                  //   teamRates={teamRates?.teamC}
+                  teamRates={
+                    currentMatch?.teamRates?.teamCRate
+                      ? currentMatch?.teamRates?.teamCRate
+                      : 0
+                  }
                   teamImage={null}
                   lock={liveData?.runners?.length > 0 ? false : true}
                   name={currentMatch?.teamC}
