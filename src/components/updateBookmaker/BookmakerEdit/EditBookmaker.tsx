@@ -320,7 +320,7 @@ const EditBookmaker = (props: any) => {
               <Typography
                 sx={{ fontSize: "14px", fontWeight: "600", width: "50%" }}
               >
-                {"tiedMatch2".includes(type) ? "Yes" : match?.teamA}
+               {type === "tiedMatch2" ? "Yes" : (match?.teamA ? match?.teamA.slice(0, 4) + (match?.teamA.length > 4 ? "..." : "") : "")}
               </Typography>
               <Box
                 sx={{
@@ -351,7 +351,7 @@ const EditBookmaker = (props: any) => {
               <Box
                 sx={{
                   display: "flex",
-                  width: "30%",
+                  width: "50%",
                   borderTop: "1px solid white",
                 }}
               >
@@ -475,7 +475,7 @@ const EditBookmaker = (props: any) => {
               <Typography
                 sx={{ fontSize: "14px", fontWeight: "600", width: "50%" }}
               >
-                {"tiedMatch2".includes(type) ? "No" : match?.teamB}
+                 {type === "tiedMatch2" ? "No" : (match?.teamB ? match?.teamB.slice(0, 4) + (match?.teamB.length > 4 ? "..." : "") : "")}
               </Typography>
               <Box
                 sx={{
@@ -504,7 +504,7 @@ const EditBookmaker = (props: any) => {
               <Box
                 sx={{
                   display: "flex",
-                  width: "30%",
+                  width: "50%",
                   borderTop: "2px solid white",
                 }}
               >
@@ -583,6 +583,7 @@ const EditBookmaker = (props: any) => {
                     }}
                   />
                 </KeyboardEventHandler>
+           
                 <TextField
                   className="InputChild"
                   variant="standard"
@@ -609,6 +610,7 @@ const EditBookmaker = (props: any) => {
                     },
                   }}
                 />
+   
               </Box>
             </Box>
             {match?.teamC && !"tiedMatch2".includes(type) && (
@@ -1023,6 +1025,7 @@ const EditBookmaker = (props: any) => {
               alignItems: "center",
               height: "45px",
               borderRadius: "5px",
+              cursor: "pointer"
             }}
           >
             <Typography
@@ -1078,6 +1081,7 @@ const EditBookmaker = (props: any) => {
               alignItems: "center",
               height: "45px",
               borderRadius: "5px",
+              cursor: "pointer"
             }}
           >
             <Typography

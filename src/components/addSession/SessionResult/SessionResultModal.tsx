@@ -220,6 +220,7 @@ const SessionResultModal = (props: any) => {
                 {newData?.betStatus !== 3 ? (
                   <SessionResultCustomButton
                     color={"#0B4F26"}
+             
                     id="DR"
                     title={"Declare"}
                     loading={loading}
@@ -243,6 +244,7 @@ const SessionResultModal = (props: any) => {
 
             {newData?.betStatus !== 2 && newData?.isNoResult && (
               <SessionResultCustomButton
+              
                 color={"rgb(106 90 90)"}
                 title={newData?.betStatus !== 3 ? "No Result" : "Yes"}
                 loading={loading}
