@@ -257,30 +257,30 @@ const MatchOdds = ({ currentMatch, matchOdds, matchOddsLive }: any) => {
         >
           {/* {!currentMatch?.bookMakerRateLive ? (
             <>
-            <SmallBox
-              onClick={() => {
+              <SmallBox
+                onClick={() => {
                 dispatch(betLiveStatus({
-                  isStop: live,
-                  betId: currentMatch?.matchOdd?.id
+                isStop: live,
+                betId: currentMatch?.matchOdd?.id
                 }));
                 setLive(!live)
               }}
-              width={"80px"}
-              title={live ? "Live" : "Go Live"}
-              color={live ? "#46e080" : "#FF4D4D"}
-              customStyle={{
-                justifyContent: "center",
-              }}
-            />
-          </>
+                width={"80px"}
+                title={live ? "Live" : "Go Live"}
+                color={live ? "#46e080" : "#FF4D4D"}
+                customStyle={{
+                  justifyContent: "center",
+                }}
+              />
+            </>
           ) : (
             <SmallBox
               onClick={() => {
-                socket.emit("bookMakerRateLive", {
-                  matchId: currentMatch?.id,
-                  bookMakerLive: false,
-                });
-                // setLive(false);
+              socket.emit("bookMakerRateLive", {
+              matchId: currentMatch?.id,
+              bookMakerLive: false,
+              });
+              // setLive(false);
               }}
               width={"80px"}
               title={"Live"}
@@ -387,11 +387,19 @@ const MatchOdds = ({ currentMatch, matchOdds, matchOddsLive }: any) => {
                 }
                 name={currentMatch?.teamA}
                 currentMatch={currentMatch}
-                teamRates={teamRates?.teamA}
+                teamRates={
+                  currentMatch?.teamRates?.teamARate
+                    ? currentMatch?.teamRates?.teamARate
+                    : 0
+                }
               />
               <Divider />
               <BoxComponent
-                teamRates={teamRates?.teamB}
+                teamRates={
+                  currentMatch?.teamRates?.teamBRate
+                    ? currentMatch?.teamRates?.teamBRate
+                    : 0
+                }
                 lock={
                   matchOddsLive?.runners !== undefined &&
                   matchOddsLive?.runners?.length > 0
@@ -410,7 +418,11 @@ const MatchOdds = ({ currentMatch, matchOdds, matchOddsLive }: any) => {
                 <>
                   <Divider />
                   <BoxComponent
-                    teamRates={teamRates?.teamC}
+                    teamRates={
+                      currentMatch?.teamRates?.teamCRate
+                        ? currentMatch?.teamRates?.teamCRate
+                        : 0
+                    }
                     lock={
                       matchOddsLive?.runners !== undefined &&
                       matchOddsLive?.runners?.length > 0
