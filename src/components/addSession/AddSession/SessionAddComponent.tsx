@@ -7,16 +7,19 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../store/store";
 import {
   addSession,
-  getPlacedBets,
   getSessionById,
   getSessionProfitLoss,
+  resetPlacedBets,
   setCurrentOdd,
   updateBetsPlaced,
   updateSessionById,
   updateSessionProfitLoss,
 } from "../../../store/actions/addSession";
 import { socketService } from "../../../socketManager";
-import { sessionResultSuccessReset } from "../../../store/actions/match/matchAction";
+import {
+  getMatchListSessionProfitLoss,
+  sessionResultSuccessReset,
+} from "../../../store/actions/match/matchAction";
 
 const stateDetail = {
   match_id: "",
@@ -133,8 +136,6 @@ const SessionAddComponent = React.forwardRef(
       socketService.user.updateSessionRate(data);
     };
 
-    console.log(ref, "ref")
-
     useImperativeHandle(ref, () => {
       ({
         childFunction(item: any) {
@@ -152,7 +153,8 @@ const SessionAddComponent = React.forwardRef(
     const updateResultDeclared = (event: any) => {
       if (match?.id === event?.matchId && betId === event?.betId)
         dispatch(updateSessionById(event));
-      dispatch(getPlacedBets(betId));
+      dispatch(getMatchListSessionProfitLoss(match?.id));
+      dispatch(resetPlacedBets());
     };
     const updateUserProfitLoss = (event: any) => {
       if (

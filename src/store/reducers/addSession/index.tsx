@@ -5,6 +5,7 @@ import {
   getPlacedBets,
   getSessionById,
   getSessionProfitLoss,
+  resetPlacedBets,
   sessionByIdReset,
   setCurrentOdd,
   successReset,
@@ -137,5 +138,8 @@ export const addSessionReducers = createReducer(initialState, (builder) => {
     })
     .addCase(successReset, (state) => {
       return { ...state, success: false };
+    })
+    .addCase(resetPlacedBets, (state) => {
+      return { ...state, placedBets: [] };
     });
 });
