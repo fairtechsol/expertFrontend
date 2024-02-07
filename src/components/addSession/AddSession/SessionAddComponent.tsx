@@ -39,7 +39,7 @@ const stateDetail = {
 };
 
 const SessionAddComponent = React.forwardRef(
-  ({ createSession, sessionEvent, match }: any, ref: any) => {
+  ({ createSession, sessionEvent, match, newBetId }: any, ref: any) => {
     const dispatch: AppDispatch = useDispatch();
     const inputRef: any = useRef(null);
     const {
@@ -50,7 +50,7 @@ const SessionAddComponent = React.forwardRef(
       currentOdd,
     } = useSelector((state: RootState) => state.addSession);
     const { success } = useSelector((state: RootState) => state.matchList);
-
+    console.log("newBetId", newBetId);
     const [isCreateSession, setIsCreateSession] = useState(createSession);
     const [incGap, setIncGap] = useState<number>(1);
     const [isPercent, setIsPercent] = useState<string>("");
@@ -171,17 +171,17 @@ const SessionAddComponent = React.forwardRef(
         })
       );
     };
-
+    console.log("selectedSessionId", selectedSessionId);
     useEffect(() => {
       if (sessionEvent?.id || selectedSessionId) {
         dispatch(
           getSessionById({
             matchId: match?.id,
-            id: sessionEvent?.id || selectedSessionId,
+            id: newBetId ? newBetId : sessionEvent?.id,
           })
         );
-        dispatch(getSessionProfitLoss(sessionEvent?.id || selectedSessionId));
-        setBetId(sessionEvent?.id || selectedSessionId);
+        dispatch(getSessionProfitLoss(newBetId ? newBetId : sessionEvent?.id));
+        setBetId(newBetId ? newBetId : sessionEvent?.id);
       } else if (isCreateSession) {
         setBetId("");
       }
@@ -405,7 +405,7 @@ const SessionAddComponent = React.forwardRef(
                         alignItems: "center",
                         height: "35px",
                         borderRadius: "5px",
-                        cursor: "pointer"
+                        cursor: "pointer",
                       }}
                     >
                       <Typography
@@ -463,7 +463,7 @@ const SessionAddComponent = React.forwardRef(
                         alignItems: "center",
                         height: "35px",
                         borderRadius: "5px",
-                        cursor: "pointer"
+                        cursor: "pointer",
                       }}
                     >
                       <Typography
@@ -521,7 +521,7 @@ const SessionAddComponent = React.forwardRef(
                         alignItems: "center",
                         height: "35px",
                         borderRadius: "5px",
-                        cursor: "pointer"
+                        cursor: "pointer",
                       }}
                     >
                       <Typography
@@ -584,7 +584,7 @@ const SessionAddComponent = React.forwardRef(
                     alignItems: "center",
                     height: "35px",
                     borderRadius: "5px",
-                    cursor: "pointer"
+                    cursor: "pointer",
                   }}
                 >
                   <Typography
