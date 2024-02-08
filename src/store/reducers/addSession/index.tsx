@@ -144,6 +144,6 @@ export const addSessionReducers = createReducer(initialState, (builder) => {
       return { ...state, selectedSessionId: action.payload };
     })
     .addCase(resetPlacedBets, (state) => {
-      return { ...state, placedBets: [] };
+      return { ...state, placedBets: [], sessionProfitLoss: [] };
     });
 });
