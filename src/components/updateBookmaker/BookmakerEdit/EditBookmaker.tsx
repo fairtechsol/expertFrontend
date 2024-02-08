@@ -1043,7 +1043,7 @@ const EditBookmaker = (props: any) => {
         }}
       >
         <Box sx={{ width: "2%" }}></Box>
-        {match?.stopAt ? (
+        {bookmakerById?.stopAt ? (
           <Box
             onClick={(e) => {
               setVisible1(true);
