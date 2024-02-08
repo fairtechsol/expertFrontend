@@ -11,6 +11,7 @@ import {
   successReset,
   updateBetsPlaced,
   updateSessionById,
+  updateSessionByIdForUndeclare,
   updateSessionProfitLoss,
 } from "../../actions/addSession";
 
@@ -138,6 +139,9 @@ export const addSessionReducers = createReducer(initialState, (builder) => {
     })
     .addCase(successReset, (state) => {
       return { ...state, success: false };
+    })
+    .addCase(updateSessionByIdForUndeclare.fulfilled, (state, action) => {
+      return { ...state, selectedSessionId: action.payload };
     })
     .addCase(resetPlacedBets, (state) => {
       return { ...state, placedBets: [] };

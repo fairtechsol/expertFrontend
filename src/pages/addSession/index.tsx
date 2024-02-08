@@ -4,7 +4,7 @@ import SessionInputFields from "../../components/addSession/AddSession/SessionAd
 import DailogModal from "../../components/helper/DailogModal";
 import BetsList from "../../components/addSession/BetList";
 import { useLocation } from "react-router-dom";
-import { useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store/store";
 import { getPlacedBets } from "../../store/actions/addSession";
@@ -16,9 +16,10 @@ const AddSession = () => {
   const dispatch: AppDispatch = useDispatch();
   const { placedBets } = useSelector((state: RootState) => state.addSession);
   const { sessionProLoss } = useSelector((state: RootState) => state.matchList);
+  const [betId, setBetId] = useState("");
 
   const handleSession = (item: any) => {
-    debugger;
+    setBetId(item?.betId?.id);
     if (childRef.current) {
       childRef.current.childFunction(item);
     }
@@ -43,6 +44,7 @@ const AddSession = () => {
               sessionEvent={state?.sessionEvent}
               match={state?.match}
               betId={state?.betId}
+              newBetId={betId}
               ref={childRef}
             />
           </Paper>
