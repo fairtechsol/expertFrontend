@@ -8,7 +8,6 @@ interface Props {
 }
 
 const BookmakerEditSection = ({ add, match, bookmakerId, type }: Props) => {
-
   return (
     <Box
       sx={{
