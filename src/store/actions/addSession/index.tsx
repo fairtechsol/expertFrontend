@@ -102,6 +102,12 @@ export const updateSessionProfitLoss = createAsyncThunk<any, SessionById>(
     return requestData;
   }
 );
+export const updateSessionByIdForUndeclare = createAsyncThunk<any, SessionById>(
+  "updateSessionByIdUndeclare/reset",
+  async (requestData) => {
+    return requestData;
+  }
+);
 export const updateBetsPlaced = createAsyncThunk<any, SessionById>(
   "update/betsPlaced",
   async (requestData) => {
