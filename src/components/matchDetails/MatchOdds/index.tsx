@@ -21,7 +21,7 @@ const MatchOdds = ({ currentMatch, matchOdds, matchOddsLive }: any) => {
   );
   const dispatch: AppDispatch = useDispatch();
 
-  const teamRates = { teamA: 0, teamB: 0, teamC: 0 };
+  // const teamRates = { teamA: 0, teamB: 0, teamC: 0 };
 
   const valueA = matchOdds?.teamA;
   const valueB = matchOdds?.teamB;
