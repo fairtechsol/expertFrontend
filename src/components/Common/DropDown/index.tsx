@@ -56,9 +56,13 @@ const DropDown = (props: any) => {
       </Typography>
       <Box
         onClick={() => {
+
           if (!disable) {
+
             setOpen((prev) => !prev);
+ 
           }
+
         }}
         sx={[
           {
