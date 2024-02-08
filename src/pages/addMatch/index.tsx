@@ -29,6 +29,8 @@ import {
   editMatch,
   editSuccessReset,
 } from "../../store/actions/match/matchAction";
+import { addMatchValidation } from "../../utils/Validations/login";
+import CustomErrorMessage from "../../components/Common/CustomErrorMessage";
 
 // const useStyles = makeStyles(() => ({
 //   dateTimePicker: {
@@ -88,6 +90,8 @@ const AddMatch = () => {
   } = useSelector((state: RootState) => state.addMatch.addMatch);
 
   const [selected, setSelected] = useState(initialValues);
+  const [tcheck, setTcheck] = useState(false);
+  const [ccheck, setCcheck] = useState(false);
   const navigate = useNavigate();
 
   const inputStyle = {
@@ -100,8 +104,11 @@ const AddMatch = () => {
   const { editSuccess } = useSelector((state: RootState) => state.matchList);
 
   const formik = useFormik({
+    validationSchema: addMatchValidation,
     initialValues: initialFormikValues,
+
     onSubmit: (value: any) => {
+    
       if (state?.id) {
         let bookmakers;
 
@@ -218,6 +225,11 @@ const AddMatch = () => {
       if (state?.id) {
         dispatch(editMatchReset());
       }
+      if(selected.tournamentId === ""){
+        setTcheck(true);
+      }else if(selected.competitionName === ""){
+        setCcheck(true)
+      }
     },
   });
 
@@ -229,6 +241,7 @@ const AddMatch = () => {
   }, [editSuccess]);
 
   const { handleSubmit, values, touched, errors, handleChange } = formik;
+
 
   useEffect(() => {
     if (!state?.id) {
@@ -389,7 +402,7 @@ const AddMatch = () => {
           <Box
             sx={{
               display: "flex",
-              gap: 1,
+              gap: 2,
               flexWrap: "wrap",
               width: "100%",
               alignItems: "center",
@@ -399,9 +412,10 @@ const AddMatch = () => {
             <Box
               sx={{
                 position: "relative",
-                width: { xs: "100%", lg: "18%", md: "24%" },
+                width: { xs: "100%", lg: "18%", md: "24%" }
               }}
             >
+  
               <DropDown
                 name="gameType"
                 valued="Select Game Type..."
@@ -411,6 +425,9 @@ const AddMatch = () => {
                 disable={state?.id ? true : false}
                 valueStyle={{ ...inputStyle, color: "white" }}
                 title={"Game *"}
+                id={"gameType"}
+            
+                value={values.gameType}
                 valueContainerStyle={{
                   height: "45px",
                   marginX: "0px",
@@ -436,8 +453,14 @@ const AddMatch = () => {
                 dropDownTextStyle={inputStyle}
                 place={1}
               />
+           
             </Box>
-
+            {/* {touched.gameType && errors.gameType && (
+              <p style={{ color: "#fa1e1e" }}>
+                {errors.gameType as string}
+              </p>
+            )} */}
+    
             <Box
               sx={{
                 position: "relative",
@@ -506,6 +529,11 @@ const AddMatch = () => {
                   border: "1px solid #DEDEDE",
                   borderRadius: "5px",
                 }}
+                // touched={touched.competitionName}
+       
+                // onBlur={formik.handleBlur}
+                // error={touched.competitionName}
+                value={values.competitionName}
                 containerStyle={{
                   width: "100%",
                   position: "relative",
@@ -527,7 +555,16 @@ const AddMatch = () => {
                 selected={selected}
                 setSelected={setSelected}
                 place={5}
-              />
+              /> 
+               {/* <CustomErrorMessage
+                    touched={ccheck}
+                    errors={errors.competitionName}
+                  /> */}
+                    {ccheck && (
+              <p style={{ color: "red" }}>
+                {"Required"}
+              </p>
+            )}
             </Box>
 
             <Box sx={{ width: { xs: "100%", lg: "18%", md: "24%" } }}>
@@ -587,11 +624,11 @@ const AddMatch = () => {
                           border: "none",
                         },
                         "& .css-nxo287-MuiInputBase-input-MuiOutlinedInput-input":
-                          {
-                            cursor: "not-allowed",
-                            paddingBottom: "8px",
-                            paddingTop: "8px",
-                          },
+                        {
+                          cursor: "not-allowed",
+                          paddingBottom: "8px",
+                          paddingTop: "8px",
+                        },
                       }}
                       // className={classes.dateTimePicker}
                       // label="Basic date picker"
@@ -642,6 +679,7 @@ const AddMatch = () => {
               />
             </Box> */}
             <Box sx={{ width: { xs: "100%", lg: "18%", md: "24%" } }}>
+
               <MatchListInput
                 required={true}
                 valueStyle={{}}
@@ -657,8 +695,15 @@ const AddMatch = () => {
                 place={3}
                 id="minBet"
                 name="minBet"
+                onBlur={formik.handleBlur}
+               
               />
+                <CustomErrorMessage
+                    touched={touched.minBet}
+                    errors={errors.minBet}
+                  />
             </Box>
+           
 
             <Box sx={{ width: { xs: "100%", lg: "18%", md: "24%" } }}>
               <MatchListInput
@@ -669,6 +714,7 @@ const AddMatch = () => {
                 type={"Number"}
                 name="betfairMatchMaxBet"
                 id="betfairMatchMaxBet"
+                onBlur={formik.handleBlur}
                 touched={touched.betfairMatchMaxBet}
                 value={values.betfairMatchMaxBet}
                 onChange={handleChange}
@@ -676,7 +722,12 @@ const AddMatch = () => {
                 InputValType={"InputVal"}
                 place={3}
               />
+               <CustomErrorMessage
+                    touched={touched.betfairMatchMaxBet}
+                    errors={errors.betfairMatchMaxBet}
+                  />
             </Box>
+
             <Box sx={{ width: { xs: "100%", lg: "18%", md: "24%" } }}>
               <MatchListInput
                 required={true}
@@ -691,7 +742,12 @@ const AddMatch = () => {
                 touched={touched.betfairSessionMaxBet}
                 value={values.betfairSessionMaxBet}
                 onChange={handleChange}
+                onBlur={formik.handleBlur}
               />
+                <CustomErrorMessage
+                    touched={touched.betfairSessionMaxBet}
+                    errors={errors.betfairSessionMaxBet}
+                  />
             </Box>
             <Box sx={{ width: { xs: "100%", lg: "18%", md: "24%" } }}>
               <MatchListInput
@@ -707,7 +763,12 @@ const AddMatch = () => {
                 place={15}
                 id="betfairBookmakerMaxBet"
                 name="betfairBookmakerMaxBet"
+                onBlur={formik.handleBlur}
               />
+                <CustomErrorMessage
+                    touched={touched.betfairBookmakerMaxBet}
+                    errors={errors.betfairBookmakerMaxBet}
+                  />
             </Box>
             <Box sx={{ width: { xs: "100%", lg: "18%", md: "24%" } }}>
               <MatchListInput
@@ -723,7 +784,12 @@ const AddMatch = () => {
                 place={15}
                 id="marketTiedMatchMaxBet"
                 name="marketTiedMatchMaxBet"
+                onBlur={formik.handleBlur}
               />
+              <CustomErrorMessage
+                  touched={touched.marketTiedMatchMaxBet}
+                  errors={errors.marketTiedMatchMaxBet}
+                />
             </Box>
             <Box sx={{ width: { xs: "100%", lg: "18%", md: "24%" } }}>
               <MatchListInput
@@ -739,7 +805,12 @@ const AddMatch = () => {
                 place={15}
                 id="manualTiedMatchMaxBet"
                 name="manualTiedMatchMaxBet"
+                onBlur={formik.handleBlur}
               />
+              <CustomErrorMessage
+                  touched={touched.manualTiedMatchMaxBet}
+                  errors={errors.manualTiedMatchMaxBet}
+                />
             </Box>
             <Box sx={{ width: { xs: "100%", lg: "18%", md: "24%" } }}>
               <MatchListInput
@@ -755,7 +826,12 @@ const AddMatch = () => {
                 place={15}
                 id="completeMatchMaxBet"
                 name="completeMatchMaxBet"
+                onBlur={formik.handleBlur}
               />
+              <CustomErrorMessage
+                  touched={touched.completeMatchMaxBet}
+                  errors={errors.completeMatchMaxBet}
+                />
             </Box>
             <Box sx={{ width: "100%" }}>
               <Box

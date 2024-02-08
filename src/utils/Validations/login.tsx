@@ -18,3 +18,66 @@ export const changePasswordSchema = Yup.object({
       .oneOf([Yup.ref("newPassword"), ""], "Passwords must match")
       .required("Confirm Password is required"),
   });
+
+  export const addMatchValidation = (item: any) => {
+    return Yup.object({
+ 
+        minBet: Yup.string()
+        .required("Min Bet is required"),
+        betfairMatchMaxBet: Yup.string()
+        .test(
+            "moreThanMinBet",
+            "must be more than Min Bet",
+            function (value) {
+                const minBet = this.parent.minBet;
+                return minBet && value && parseFloat(value) > parseFloat(minBet);
+            }
+        ),
+    betfairSessionMaxBet: Yup.string()
+        .test(
+            "moreThanMinBet",
+            "must be more than Min Bet",
+            function (value) {
+                const minBet = this.parent.minBet;
+                return minBet && value && parseFloat(value) > parseFloat(minBet);
+            }
+        ),
+    betfairBookmakerMaxBet: Yup.string()
+        .test(
+            "moreThanMinBet",
+            "must be more than Min Bet",
+            function (value) {
+                const minBet = this.parent.minBet;
+                return minBet && value && parseFloat(value) > parseFloat(minBet);
+            }
+        ),
+    marketTiedMatchMaxBet: Yup.string()
+        .test(
+            "moreThanMinBet",
+            "must be more than Min Bet",
+            function (value) {
+                const minBet = this.parent.minBet;
+                return minBet && value && parseFloat(value) > parseFloat(minBet);
+            }
+        ),
+    manualTiedMatchMaxBet: Yup.string()
+        .test(
+            "moreThanMinBet",
+            "must be more than Min Bet",
+            function (value) {
+                const minBet = this.parent.minBet;
+                return minBet && value && parseFloat(value) > parseFloat(minBet);
+            }
+        ),
+    completeMatchMaxBet: Yup.string()
+        .test(
+            "moreThanMinBet",
+            "must be more than Min Bet",
+            function (value) {
+                const minBet = this.parent.minBet;
+                return minBet && value && parseFloat(value) > parseFloat(minBet);
+            }
+        ),
+});
+  
+  };

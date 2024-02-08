@@ -112,6 +112,7 @@ const addMatch = createSlice({
         state.loading = true;
         state.success = false;
         state.error = null;
+        state.matchDetail = null
       })
       .addCase(getMatchDetail.fulfilled, (state, action) => {
         state.matchDetail = action.payload;
@@ -155,10 +156,10 @@ const addMatch = createSlice({
               if (matchingApiSession) {
                 return JSON.stringify({
                   ...parsedItem,
-                  noRate: matchingApiSession.BackPrice1,
-                  noPercent: matchingApiSession.BackSize1,
-                  yesRate: matchingApiSession.LayPrice1,
-                  yesPercent: matchingApiSession.LaySize1,
+                  noRate: matchingApiSession.LayPrice1,
+                  noPercent: matchingApiSession.LaySize1,
+                  yesRate: matchingApiSession.BackPrice1,
+                  yesPercent: matchingApiSession.BackSize1,
                   activeStatus: "live",
                 });
               } else {
