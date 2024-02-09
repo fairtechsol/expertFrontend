@@ -18,20 +18,12 @@ const EditBookmaker = (props: any) => {
   const { bookmakerById, success } = useSelector(
     (state: RootState) => state.addSession
   );
-  const [teamRates] = useState({
-    teamA: 0,
-    teamB: 0,
-    teamC: 0,
-  });
 
   const innerRefTeamA: any = useRef();
   const innerRefTeamB: any = useRef();
   const innerRefTeamC: any = useRef();
 
   const [incGap, setIncGap] = useState<number>(1);
-  // const [isPercent, setIsPercent] = useState<string>("");
-  // const [isBall, setIsBall] = useState<boolean>(false);
-  // const [inputDetail, setInputDetail] = useState<any>({});
 
   const [isTab, setIsTab] = useState("");
 
@@ -243,8 +235,26 @@ const EditBookmaker = (props: any) => {
             justifyContent: "flex-end",
           }}
         >
-          <BookButton rate={bookRatioA(teamRates?.teamA, teamRates?.teamB)} />
-          <BookButton rate={bookRatioB(teamRates?.teamA, teamRates?.teamB)} />
+          <BookButton
+            rate={bookRatioA(
+              bookmakerById?.type !== "tiedMatch2"
+                ? bookmakerById?.matchRates?.teamARate
+                : bookmakerById?.matchRates?.yesRateTie,
+              bookmakerById?.type !== "tiedMatch2"
+                ? bookmakerById?.matchRates?.teamBRate
+                : bookmakerById?.matchRates?.noRateTie
+            )}
+          />
+          <BookButton
+            rate={bookRatioB(
+              bookmakerById?.type !== "tiedMatch2"
+                ? bookmakerById?.matchRates?.teamARate
+                : bookmakerById?.matchRates?.yesRateTie,
+              bookmakerById?.type !== "tiedMatch2"
+                ? bookmakerById?.matchRates?.teamBRate
+                : bookmakerById?.matchRates?.noRateTie
+            )}
+          />
         </Box>
       </Box>
       <Box sx={{ border: "2px solid #FFFFFF" }}>
@@ -320,7 +330,12 @@ const EditBookmaker = (props: any) => {
               <Typography
                 sx={{ fontSize: "14px", fontWeight: "600", width: "50%" }}
               >
-               {type === "tiedMatch2" ? "Yes" : (match?.teamA ? match?.teamA.slice(0, 4) + (match?.teamA.length > 4 ? "..." : "") : "")}
+                {type === "tiedMatch2"
+                  ? "Yes"
+                  : match?.teamA
+                  ? match?.teamA.slice(0, 4) +
+                    (match?.teamA.length > 4 ? "..." : "")
+                  : ""}
               </Typography>
               <Box
                 sx={{
@@ -342,10 +357,17 @@ const EditBookmaker = (props: any) => {
                   sx={{
                     fontSize: "16px",
                     fontWeight: "bold",
-                    color: +teamRates?.teamA <= 0 ? "#FF4D4D" : "#46e080",
+                    color:
+                      (bookmakerById?.type !== "tiedMatch2"
+                        ? +bookmakerById?.matchRates?.teamARate || 0
+                        : +bookmakerById?.matchRates?.yesRateTie || 0) <= 0
+                        ? "#FF4D4D"
+                        : "#46e080",
                   }}
                 >
-                  {teamRates?.teamA}
+                  {bookmakerById?.type !== "tiedMatch2"
+                    ? +bookmakerById?.matchRates?.teamARate || 0
+                    : +bookmakerById?.matchRates?.yesRateTie || 0}
                 </Typography>
               </Box>
               <Box
@@ -410,7 +432,7 @@ const EditBookmaker = (props: any) => {
                     // onFocus={() => handleFocus(innerRefTeamA)}
                     type="text"
                     variant="standard"
-                    value={localQuickBookmaker?.teamA?.back}
+                    value={+localQuickBookmaker?.teamA?.back}
                     InputProps={{
                       disableUnderline: true,
                       sx: {
@@ -436,7 +458,7 @@ const EditBookmaker = (props: any) => {
                   disabled
                   onChange={(e) => handleChange(e)}
                   variant="standard"
-                  value={localQuickBookmaker?.teamA?.lay}
+                  value={+localQuickBookmaker?.teamA?.lay}
                   InputProps={{
                     disableUnderline: true,
                     sx: {
@@ -475,7 +497,12 @@ const EditBookmaker = (props: any) => {
               <Typography
                 sx={{ fontSize: "14px", fontWeight: "600", width: "50%" }}
               >
-                 {type === "tiedMatch2" ? "No" : (match?.teamB ? match?.teamB.slice(0, 4) + (match?.teamB.length > 4 ? "..." : "") : "")}
+                {type === "tiedMatch2"
+                  ? "No"
+                  : match?.teamB
+                  ? match?.teamB.slice(0, 4) +
+                    (match?.teamB.length > 4 ? "..." : "")
+                  : ""}
               </Typography>
               <Box
                 sx={{
@@ -495,10 +522,17 @@ const EditBookmaker = (props: any) => {
                   sx={{
                     fontSize: "16px",
                     fontWeight: "bold",
-                    color: +teamRates?.teamB <= 0 ? "#FF4D4D" : "#319E5B",
+                    color:
+                      (bookmakerById?.type !== "tiedMatch2"
+                        ? +bookmakerById?.matchRates?.teamBRate || 0
+                        : +bookmakerById?.matchRates?.noRateTie || 0) <= 0
+                        ? "#FF4D4D"
+                        : "#319E5B",
                   }}
                 >
-                  {teamRates?.teamB}
+                  {bookmakerById?.type !== "tiedMatch2"
+                    ? +bookmakerById?.matchRates?.teamBRate || 0
+                    : +bookmakerById?.matchRates?.noRateTie || 0}
                 </Typography>
               </Box>
               <Box
@@ -557,7 +591,7 @@ const EditBookmaker = (props: any) => {
                     // fullWidth
                     className="InputChild"
                     variant="standard"
-                    value={localQuickBookmaker?.teamB?.back}
+                    value={+localQuickBookmaker?.teamB?.back}
                     onChange={(e) => handleChange(e)}
                     name={"teamBrate"}
                     inputRef={innerRefTeamB}
@@ -583,13 +617,13 @@ const EditBookmaker = (props: any) => {
                     }}
                   />
                 </KeyboardEventHandler>
-           
+
                 <TextField
                   className="InputChild"
                   variant="standard"
                   disabled
                   // fullWidth
-                  value={localQuickBookmaker?.teamB?.lay}
+                  value={+localQuickBookmaker?.teamB?.lay}
                   // onChange={(i) => setTeamBLayValue(i.target.value)}
                   InputProps={{
                     disableUnderline: true,
@@ -610,10 +644,9 @@ const EditBookmaker = (props: any) => {
                     },
                   }}
                 />
-   
               </Box>
             </Box>
-            {match?.teamC && !"tiedMatch2".includes(type) && (
+            {match?.teamC && !["tiedMatch2"].includes(type) && (
               <Box
                 sx={{
                   border: ".2px solid #2626264D",
@@ -650,10 +683,13 @@ const EditBookmaker = (props: any) => {
                     sx={{
                       fontSize: "14px",
                       fontWeight: "bold",
-                      color: +teamRates?.teamC <= 0 ? "#FF4D4D" : "#46e080",
+                      color:
+                        (+bookmakerById?.matchRates?.teamCRate || 0) <= 0
+                          ? "#FF4D4D"
+                          : "#46e080",
                     }}
                   >
-                    {teamRates?.teamC}
+                    {bookmakerById?.matchRates?.teamCRate || 0}
                   </Typography>
                 </Box>
                 <Box
@@ -711,7 +747,7 @@ const EditBookmaker = (props: any) => {
                     <TextField
                       className="InputChild"
                       variant="standard"
-                      value={localQuickBookmaker?.teamC?.back}
+                      value={+localQuickBookmaker?.teamC?.back}
                       onChange={(e) => handleChange(e)}
                       name={"teamCrate"}
                       inputRef={innerRefTeamC}
@@ -740,7 +776,7 @@ const EditBookmaker = (props: any) => {
                     className="InputChild"
                     variant="standard"
                     disabled
-                    value={localQuickBookmaker?.teamC?.lay}
+                    value={+localQuickBookmaker?.teamC?.lay}
                     InputProps={{
                       disableUnderline: true,
                       // inputProps: { min: "0", max: "100" },
@@ -812,7 +848,7 @@ const EditBookmaker = (props: any) => {
                         >
                           {localQuickBookmaker?.teamA?.suspended
                             ? ""
-                            : localQuickBookmaker?.teamA?.back}
+                            : +localQuickBookmaker?.teamA?.back}
                         </Typography>
                       ) : (
                         <img
@@ -845,7 +881,7 @@ const EditBookmaker = (props: any) => {
                         >
                           {localQuickBookmaker?.teamA?.suspended
                             ? 0
-                            : localQuickBookmaker?.teamA?.lay}
+                            : +localQuickBookmaker?.teamA?.lay}
                         </Typography>
                       ) : (
                         <img
@@ -877,7 +913,7 @@ const EditBookmaker = (props: any) => {
                         >
                           {localQuickBookmaker?.teamB?.suspended
                             ? ""
-                            : localQuickBookmaker?.teamB?.back}
+                            : +localQuickBookmaker?.teamB?.back}
                         </Typography>
                       ) : (
                         <img
@@ -910,7 +946,7 @@ const EditBookmaker = (props: any) => {
                         >
                           {localQuickBookmaker?.teamB?.suspended
                             ? 0
-                            : localQuickBookmaker?.teamB?.lay}
+                            : +localQuickBookmaker?.teamB?.lay}
                         </Typography>
                       ) : (
                         <img
@@ -944,7 +980,7 @@ const EditBookmaker = (props: any) => {
                             >
                               {localQuickBookmaker?.teamC?.suspended
                                 ? ""
-                                : localQuickBookmaker?.teamC?.back}
+                                : +localQuickBookmaker?.teamC?.back}
                             </Typography>
                           ) : (
                             <img
@@ -977,7 +1013,7 @@ const EditBookmaker = (props: any) => {
                             >
                               {localQuickBookmaker?.teamC?.suspended
                                 ? 0
-                                : localQuickBookmaker?.teamC?.lay}
+                                : +localQuickBookmaker?.teamC?.lay}
                             </Typography>
                           ) : (
                             <img
@@ -1007,7 +1043,7 @@ const EditBookmaker = (props: any) => {
         }}
       >
         <Box sx={{ width: "2%" }}></Box>
-        {match?.stopAt ? (
+        {bookmakerById?.stopAt ? (
           <Box
             onClick={(e) => {
               setVisible1(true);
@@ -1025,7 +1061,7 @@ const EditBookmaker = (props: any) => {
               alignItems: "center",
               height: "45px",
               borderRadius: "5px",
-              cursor: "pointer"
+              cursor: "pointer",
             }}
           >
             <Typography
@@ -1081,7 +1117,7 @@ const EditBookmaker = (props: any) => {
               alignItems: "center",
               height: "45px",
               borderRadius: "5px",
-              cursor: "pointer"
+              cursor: "pointer",
             }}
           >
             <Typography
