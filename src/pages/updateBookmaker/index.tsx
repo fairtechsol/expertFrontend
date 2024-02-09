@@ -6,6 +6,7 @@ import { useEffect } from "react";
 import {
   getBookmakerById,
   getPlacedBets,
+  updateMatchBetsPlaced,
 } from "../../store/actions/addSession";
 import { AppDispatch, RootState } from "../../store/store";
 import { useDispatch, useSelector } from "react-redux";
@@ -16,6 +17,15 @@ const UpdateBookmaker = () => {
   const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
   const { placedBets } = useSelector((state: RootState) => state.addSession);
+
+  const updateBetList = (event: any) => {
+    if (
+      state?.match?.id === event?.jobData?.newBet?.matchId &&
+      state?.id === event?.jobData?.newBet?.betId
+    ) {
+      dispatch(updateMatchBetsPlaced(event?.jobData));
+    }
+  };
 
   const resultDeclared = (event: any) => {
     try {
@@ -37,6 +47,7 @@ const UpdateBookmaker = () => {
         })
       );
       dispatch(getPlacedBets(state?.id));
+      socketService.user.userMatchBetPlaced(updateBetList);
       socketService.user.matchResultDeclared(resultDeclared);
     }
   }, [state?.id]);

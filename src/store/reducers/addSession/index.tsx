@@ -10,6 +10,7 @@ import {
   setCurrentOdd,
   successReset,
   updateBetsPlaced,
+  updateMatchBetsPlaced,
   updateSessionById,
   updateSessionByIdForUndeclare,
   updateSessionProfitLoss,
@@ -95,6 +96,7 @@ export const addSessionReducers = createReducer(initialState, (builder) => {
     .addCase(getPlacedBets.pending, (state) => {
       state.loading = true;
       state.success = false;
+      state.placedBets = [];
     })
     .addCase(getPlacedBets.fulfilled, (state, action) => {
       state.loading = false;
@@ -111,6 +113,20 @@ export const addSessionReducers = createReducer(initialState, (builder) => {
         myStake: +action.payload.betPlaceObject.myStack,
         user: {
           userName: action.payload.betPlaceObject.betPlacedData.userName,
+        },
+      };
+      const id = objToUpdate.id;
+
+      if (!state.placedBets.some((item: any) => item.id === id)) {
+        state.placedBets = [objToUpdate, ...state.placedBets];
+      }
+    })
+    .addCase(updateMatchBetsPlaced.fulfilled, (state, action) => {
+      let objToUpdate = {
+        ...action.payload.newBet,
+        myStake: +action.payload.myStake,
+        user: {
+          userName: action.payload.userName,
         },
       };
       const id = objToUpdate.id;
