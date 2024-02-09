@@ -97,7 +97,7 @@ const Row = ({ index, values }: any) => {
         </Box>
         <Box
           sx={{
-            background: values.bet_type == "back" ? "#B3E0FF" : "#FFB5B5",
+            background: values.betType === "BACK" ? "#B3E0FF" : "#FFB5B5",
             width: "10%",
             borderLeft: "2px solid white",
             display: "flex",
@@ -115,7 +115,7 @@ const Row = ({ index, values }: any) => {
         </Box>
         <Box
           sx={{
-            background: values.bet_type == "back" ? "#B3E0FF" : "#FFB5B5",
+            background: values.betType === "BACK" ? "#B3E0FF" : "#FFB5B5",
             width: "14%",
             borderLeft: "2px solid white",
             display: "flex",
@@ -140,7 +140,7 @@ const Row = ({ index, values }: any) => {
         </Box>
         <Box
           sx={{
-            background: values.bet_type == "back" ? "#B3E0FF" : "#FFB5B5",
+            background: values.betType === "BACK" ? "#B3E0FF" : "#FFB5B5",
             width: "15%",
             borderLeft: "2px solid white",
             display: "flex",
@@ -151,12 +151,12 @@ const Row = ({ index, values }: any) => {
           <Typography
             sx={{ fontWeight: "600", fontSize: "12px", color: "black" }}
           >
-            {values.bet_type == "back" ? "Back" : "Lay"}
+            {values.betType == "BACK" ? "Back" : "Lay"}
           </Typography>
         </Box>
         <Box
           sx={{
-            background: values.bet_type == "back" ? "#B3E0FF" : "#FFB5B5",
+            background: values.betType === "BACK" ? "#B3E0FF" : "#FFB5B5",
             width: "20%",
             borderLeft: "2px solid white",
             display: "flex",
