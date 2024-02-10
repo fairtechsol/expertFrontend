@@ -173,7 +173,7 @@ const MatchDetails = () => {
                   width: { lg: "100%", xs: "100%", md: "100%" },
                   display: "flex",
                   gap: 0.1,
-                  flexDirection: { md: "column", lg: "coulmn" },
+                  flexDirection: "column",
                 }}
               >
                 <Box

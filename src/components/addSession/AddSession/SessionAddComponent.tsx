@@ -50,7 +50,6 @@ const SessionAddComponent = React.forwardRef(
       currentOdd,
     } = useSelector((state: RootState) => state.addSession);
     const { success } = useSelector((state: RootState) => state.matchList);
-    console.log("newBetId", newBetId);
     const [isCreateSession, setIsCreateSession] = useState(createSession);
     const [incGap, setIncGap] = useState<number>(1);
     const [isPercent, setIsPercent] = useState<string>("");

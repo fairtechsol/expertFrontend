@@ -7,9 +7,7 @@ import SeparateBox from "../SeparateBox";
 import { formatNumber } from "../../helper";
 import CustomSessionResult from "./CustomSessionResult";
 import PlaceBetComponent from "./PlaceBetComponent";
-import {
-  sessionBetLiveStatus,
-} from "../../../store/actions/match/matchAction";
+import { sessionBetLiveStatus } from "../../../store/actions/match/matchAction";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../store/store";
 
@@ -185,8 +183,9 @@ const SessionMarketBox = ({
             />
           </Box>
         )}
-        {!["ACTIVE", "", undefined, null, 0].includes(newData?.suspended) ||
-        JSON.parse(newData)?.activeStatus === "result" ? (
+        {!["ACTIVE", "active", "", undefined, null, 0].includes(
+          JSON.parse(newData)?.status
+        ) || JSON.parse(newData)?.activeStatus === "result" ? (
           <Box
             sx={{
               margin: "1px",
@@ -236,7 +235,7 @@ const SessionMarketBox = ({
               back={true}
               value={formatNumber(JSON.parse(newData)?.noRate)}
               value2={formatNumber(JSON.parse(newData)?.noPercent)}
-              lock={JSON.parse(newData)?.status === "suspended"}
+              lock={JSON.parse(newData)?.status === "SUSPENDED"}
               color={"#F6D0CB"}
             />
 
@@ -248,7 +247,7 @@ const SessionMarketBox = ({
               session={true}
               value={formatNumber(JSON.parse(newData)?.yesRate)}
               value2={formatNumber(JSON.parse(newData)?.yesPercent)}
-              lock={JSON.parse(newData)?.status === "suspended"}
+              lock={JSON.parse(newData)?.status === "SUSPENDED"}
               color={"#B3E0FF"}
             />
           </Box>
