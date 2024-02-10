@@ -7,32 +7,54 @@ import { useLocation } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store/store";
-import { getPlacedBets } from "../../store/actions/addSession";
+import {
+  getPlacedBets,
+  getSessionById,
+  getSessionProfitLoss,
+} from "../../store/actions/addSession";
 import { getMatchListSessionProfitLoss } from "../../store/actions/match/matchAction";
 
 const AddSession = () => {
   const { state } = useLocation();
   const childRef = useRef<any>(null);
+  const { selectedSessionId } = useSelector(
+    (state: RootState) => state.addSession
+  );
   const dispatch: AppDispatch = useDispatch();
+  const [betId, setBetId] = useState("");
   const { placedBets } = useSelector((state: RootState) => state.addSession);
   const { sessionProLoss } = useSelector((state: RootState) => state.matchList);
-  const [betId, setBetId] = useState("");
+  // const [betId, setBetId] = useState("");
 
   const handleSession = (item: any) => {
-    setBetId(item?.betId?.id);
+    // setBetId(item?.betId?.id);
     if (childRef.current) {
       childRef.current.childFunction(item);
     }
   };
 
   useEffect(() => {
-    if (state?.betId) {
-      dispatch(getPlacedBets(state?.betId));
+    try {
+      if (!state?.createSession) {
+        dispatch(
+          getSessionById({
+            matchId: state?.match?.id,
+            id: state?.betId || selectedSessionId,
+          })
+        );
+        dispatch(getSessionProfitLoss(state?.betId || selectedSessionId));
+        dispatch(getPlacedBets(state?.betId));
+        setBetId(state?.betId || selectedSessionId);
+      } else if (state?.createSession) {
+        setBetId("");
+      }
+      if (state?.match?.id) {
+        dispatch(getMatchListSessionProfitLoss(state?.match?.id));
+      }
+    } catch (e) {
+      console.log(e);
     }
-    if (state?.match?.id) {
-      dispatch(getMatchListSessionProfitLoss(state?.match?.id));
-    }
-  }, [state?.betId, state?.match?.id]);
+  }, [state]);
 
   return (
     <Box>
@@ -44,17 +66,15 @@ const AddSession = () => {
               sessionEvent={state?.sessionEvent}
               match={state?.match}
               betId={state?.betId}
-              newBetId={betId}
               ref={childRef}
             />
           </Paper>
           <Paper style={{ margin: "10px" }}>
             <SessionResult
-              matchId={state?.match?.id}
-              betId={state?.betId}
+              sessionEvent={state?.sessionEvent}
               sessionProLoss={sessionProLoss}
-              createSession={state?.createSession}
               handleSession={handleSession}
+              matchId={state?.match?.id}
             />
           </Paper>
         </Grid>

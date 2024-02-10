@@ -2,14 +2,9 @@ import { useState } from "react";
 import { Box, Typography } from "@mui/material";
 import SessionResultOvers from "./SessionResultOvers";
 import SessionResultModal from "./SessionResultModal";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "../../../store/store";
-import { updateSessionByIdForUndeclare } from "../../../store/actions/addSession";
 
 const SessionResult = (props: any) => {
-  const { createSession, betId, handleSession, matchId, sessionProLoss } =
-    props;
-  const dispatch: AppDispatch = useDispatch();
+  const { sessionProLoss, handleSession } = props;
   const [mode, setMode] = useState("0");
   const [selected, setSelected] = useState<any>([]);
   const [sessionData] = useState<any>([]);
@@ -24,7 +19,7 @@ const SessionResult = (props: any) => {
     if (x.includes(itemId)) {
       return;
     }
-    dispatch(updateSessionByIdForUndeclare(itemId));
+
     setSelected([item.betId.id]);
     handleSession(item);
   };
@@ -57,7 +52,6 @@ const SessionResult = (props: any) => {
           }}
         >
           <SessionResultOvers
-            createSession={createSession}
             sessionData={sessionProLoss && sessionProLoss}
             mode={mode}
             changeSelected={changeSelected}
@@ -99,8 +93,6 @@ const SessionResult = (props: any) => {
               >
                 {false && sessionData.length > 0 && (
                   <SessionResultModal
-                    matchId={matchId}
-                    betId={betId}
                     undeclare={true}
                     onClick={() => {
                       //   setVisible1(false);

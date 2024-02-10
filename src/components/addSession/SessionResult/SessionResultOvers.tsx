@@ -50,7 +50,7 @@ const SessionResultOvers = (props: any) => {
         sessionData?.map((item: any, index: any) => {
           if (!item?.betId?.selectionId) {
             let profit_loss = parseInt(item.profitLoss);
-            let checkSelcted = !selected.includes(item?.betId?.id);
+            let checkSelected = !selected.includes(item?.betId?.id);
             return (
               <Box
                 onClick={() => changeSelected(item)}
@@ -59,13 +59,13 @@ const SessionResultOvers = (props: any) => {
                 sx={{
                   borderTop: "2px solid white",
                   background:
-                    checkSelcted && mode == "1" ? "rgba(0,0,0,.6)" : "#FFFFFF",
+                    checkSelected && mode == "1" ? "rgba(0,0,0,.6)" : "#FFFFFF",
                 }}
               >
                 <Box
                   sx={{
                     background:
-                      checkSelcted && mode == "1"
+                      checkSelected && mode == "1"
                         ? "rgba(0,0,0,.6)"
                         : "#FFFFFF",
                     width: "60%",
@@ -80,7 +80,7 @@ const SessionResultOvers = (props: any) => {
                 <Box
                   sx={{
                     background:
-                      checkSelcted && mode == "1"
+                      checkSelected && mode == "1"
                         ? "rgba(0,0,0,.6)"
                         : "#ECECEC",
                     width: "20%",
@@ -98,7 +98,7 @@ const SessionResultOvers = (props: any) => {
                   <Box
                     sx={{
                       background:
-                        checkSelcted && mode == "1"
+                        checkSelected && mode == "1"
                           ? "rgba(0,0,0,.6)"
                           : "#10DC61",
                       width: "20%",
@@ -133,7 +133,7 @@ const SessionResultOvers = (props: any) => {
                   <Box
                     sx={{
                       background:
-                        checkSelcted && mode == "1"
+                        checkSelected && mode == "1"
                           ? "rgba(0,0,0,.6)"
                           : "#FF4D4D",
                       width: "20%",

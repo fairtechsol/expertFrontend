@@ -8,7 +8,6 @@ import { AppDispatch, RootState } from "../../../store/store";
 import {
   addSession,
   getSessionById,
-  getSessionProfitLoss,
   resetPlacedBets,
   setCurrentOdd,
   updateBetsPlaced,
@@ -20,6 +19,7 @@ import {
   getMatchListSessionProfitLoss,
   sessionResultSuccessReset,
 } from "../../../store/actions/match/matchAction";
+import { ButtonRatesQuickSessions } from "../../../utils/Constants";
 
 const stateDetail = {
   match_id: "",
@@ -39,16 +39,12 @@ const stateDetail = {
 };
 
 const SessionAddComponent = React.forwardRef(
-  ({ createSession, sessionEvent, match, newBetId }: any, ref: any) => {
+  ({ createSession, match, betId }: any, ref: any) => {
     const dispatch: AppDispatch = useDispatch();
     const inputRef: any = useRef(null);
-    const {
-      sessionById,
-      selectedSessionId,
-      loading,
-      sessionProfitLoss,
-      currentOdd,
-    } = useSelector((state: RootState) => state.addSession);
+    const { sessionById, loading, sessionProfitLoss, currentOdd } = useSelector(
+      (state: RootState) => state.addSession
+    );
     const { success } = useSelector((state: RootState) => state.matchList);
     const [isCreateSession, setIsCreateSession] = useState(createSession);
     const [incGap, setIncGap] = useState<number>(1);
@@ -60,7 +56,6 @@ const SessionAddComponent = React.forwardRef(
     const [visible, setVisible] = useState(false);
     const [visible1, setVisible1] = useState(false);
     const [visible2, setVisible2] = useState(false);
-    const [betId, setBetId] = useState("");
     const [lock, setLock] = useState<any>({
       isNo: true,
       isYes: true,
@@ -68,33 +63,6 @@ const SessionAddComponent = React.forwardRef(
       isYesPercent: true,
     });
     const [live] = useState(true);
-
-    const rates = [
-      { name: "90-110", value: "90-110" },
-      { name: "95-110", value: "95-110" },
-      { name: "95-115", value: "95-115" },
-      { name: "85-115", value: "85-115" },
-      { name: "75-125", value: "75-125" },
-      { name: "80-120", value: "80-120" },
-      { name: "80-130", value: "80-130" },
-      { name: "90-140", value: "90-140" },
-      { name: "85-100", value: "85-100" },
-      { name: "80-100", value: "80-100" },
-      { name: "70-100", value: "70-100" },
-      { name: "60-90", value: "60-90" },
-      { name: "50-80", value: "50-80" },
-      { name: "40-70", value: "40-70" },
-      { name: "30-60", value: "30-60" },
-      { name: "25-50", value: "25-50" },
-      { name: "100-115", value: "100-115" },
-      { name: "100-120", value: "100-120" },
-      { name: "100-130", value: "100-130" },
-      { name: "100-150", value: "100-150" },
-      { name: "130-200", value: "130-200" },
-      { name: "150-250", value: "150-250" },
-      { name: "200-350", value: "200-350" },
-      { name: "250-400", value: "250-400" },
-    ];
 
     const addSessions = () => {
       const payload = {
@@ -135,26 +103,26 @@ const SessionAddComponent = React.forwardRef(
       socketService.user.updateSessionRate(data);
     };
 
-    useImperativeHandle(ref, () => {
-      ({
-        childFunction(item: any) {
-          dispatch(
-            getSessionById({
-              matchId: match?.id,
-              id: item?.betId?.id,
-            })
-          );
-          setIsDisable(true);
-        },
-      });
-    });
+    useImperativeHandle(ref, () => ({
+      childFunction(item: any) {
+        dispatch(
+          getSessionById({
+            matchId: match?.id,
+            id: item?.betId?.id,
+          })
+        );
+        setIsDisable(true);
+      },
+    }));
 
     const updateResultDeclared = (event: any) => {
-      if (match?.id === event?.matchId && betId === event?.betId)
+      if (match?.id === event?.matchId && betId === event?.betId) {
         dispatch(updateSessionById(event));
-      dispatch(getMatchListSessionProfitLoss(match?.id));
-      dispatch(resetPlacedBets());
+        dispatch(getMatchListSessionProfitLoss(match?.id));
+        dispatch(resetPlacedBets());
+      }
     };
+
     const updateUserProfitLoss = (event: any) => {
       if (
         match?.id === event?.jobData?.placedBet?.matchId &&
@@ -170,21 +138,6 @@ const SessionAddComponent = React.forwardRef(
         })
       );
     };
-    console.log("selectedSessionId", selectedSessionId);
-    useEffect(() => {
-      if (sessionEvent?.id || selectedSessionId) {
-        dispatch(
-          getSessionById({
-            matchId: match?.id,
-            id: newBetId ? newBetId : sessionEvent?.id,
-          })
-        );
-        dispatch(getSessionProfitLoss(newBetId ? newBetId : sessionEvent?.id));
-        setBetId(newBetId ? newBetId : sessionEvent?.id);
-      } else if (isCreateSession) {
-        setBetId("");
-      }
-    }, [sessionEvent?.id, selectedSessionId]);
 
     useEffect(() => {
       if (createSession && !sessionById) {
@@ -256,6 +209,9 @@ const SessionAddComponent = React.forwardRef(
         });
         setInputDetail(stateDetail);
       }
+    }, [sessionById, isCreateSession]);
+
+    useEffect(() => {
       socketService.user.updateSessionRateClient((data: any) => {
         if (data?.id === betId && data?.matchId === match?.id) {
           setInputDetail((prev: any) => {
@@ -272,7 +228,7 @@ const SessionAddComponent = React.forwardRef(
       });
       socketService.user.sessionResultDeclared(updateResultDeclared);
       socketService.user.userSessionBetPlaced(updateUserProfitLoss);
-    }, [sessionById, isCreateSession]);
+    }, []);
 
     return (
       <Box
@@ -327,7 +283,7 @@ const SessionAddComponent = React.forwardRef(
                   flexWrap: "wrap",
                 }}
               >
-                {rates?.map((item, index) => (
+                {ButtonRatesQuickSessions?.map((item, index) => (
                   <Box
                     onClick={(e) => {
                       e.preventDefault();
