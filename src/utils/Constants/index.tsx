@@ -55,6 +55,7 @@ export const Constants = {
     addMatch: "add_match",
     editMatch: "edit_match",
     live: "live",
+    live_update: "live/:id",
     addBookMaker: "add_book_maker",
     betOdds: "betOdds",
     changePassword: "change-password",

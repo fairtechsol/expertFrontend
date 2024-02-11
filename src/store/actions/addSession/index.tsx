@@ -18,7 +18,7 @@ interface SessionData {
 
 interface SessionById {
   matchId: string;
-  id?: string;
+  id?: string | any;
 }
 interface BookmakerById {
   matchId: string;
@@ -61,7 +61,7 @@ export const getSessionById = createAsyncThunk<any, SessionById>(
     }
   }
 );
-export const getSessionProfitLoss = createAsyncThunk<any, SessionById>(
+export const getSessionProfitLoss = createAsyncThunk<any, any>(
   "get/sessionProfitLoss",
   async (requestData, thunkApi) => {
     try {
@@ -159,4 +159,5 @@ export const getPlacedBets = createAsyncThunk<any, any>(
 
 export const sessionByIdReset = createAction("sessionById/reset");
 export const successReset = createAction("success/reset");
+export const sessionSuccessReset = createAction("sessionSuccess/reset");
 export const resetPlacedBets = createAction("placedBets/reset");

@@ -92,7 +92,7 @@ const MenutItemsComponent = ({
                         <Box
                           key={element.id}
                           onClick={() => {
-                            navigate("/expert/live", {
+                            navigate(`/expert/live/${element?.id}`, {
                               state: {
                                 createSession: false,
                                 match: x,
