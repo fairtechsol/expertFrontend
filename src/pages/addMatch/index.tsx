@@ -31,6 +31,7 @@ import {
 } from "../../store/actions/match/matchAction";
 import { addMatchValidation } from "../../utils/Validations/login";
 import CustomErrorMessage from "../../components/Common/CustomErrorMessage";
+import BoxButtonManualMatch from "../../components/addMatch/ButtonSwitchManualMatch";
 
 // const useStyles = makeStyles(() => ({
 //   dateTimePicker: {
@@ -92,6 +93,7 @@ const AddMatch = () => {
   const [selected, setSelected] = useState(initialValues);
   const [tcheck, setTcheck] = useState(false);
   const [ccheck, setCcheck] = useState(false);
+  const [manualMatchToggle, setManualMatchToggle] = useState(false);
   const navigate = useNavigate();
 
   const inputStyle = {
@@ -108,7 +110,6 @@ const AddMatch = () => {
     initialValues: initialFormikValues,
 
     onSubmit: (value: any) => {
-    
       if (state?.id) {
         let bookmakers;
 
@@ -225,10 +226,10 @@ const AddMatch = () => {
       if (state?.id) {
         dispatch(editMatchReset());
       }
-      if(selected.tournamentId === ""){
+      if (selected.tournamentId === "") {
         setTcheck(true);
-      }else if(selected.competitionName === ""){
-        setCcheck(true)
+      } else if (selected.competitionName === "") {
+        setCcheck(true);
       }
     },
   });
@@ -241,7 +242,6 @@ const AddMatch = () => {
   }, [editSuccess]);
 
   const { handleSubmit, values, touched, errors, handleChange } = formik;
-
 
   useEffect(() => {
     if (!state?.id) {
@@ -381,12 +381,23 @@ const AddMatch = () => {
           p: "10px",
         }}
       >
-        <Box sx={{ margin: "15px" }}>
+        <Box
+          sx={{
+            margin: "15px",
+            display: "flex",
+            justifyContent: "space-between",
+          }}
+        >
           <LabelValueComponent
             title={state?.id ? "Edit Match" : "Add Match"}
             notShowSub={true}
             titleSize={"20px"}
             headColor={"#000000"}
+          />
+          <BoxButtonManualMatch
+            title={manualMatchToggle === false ? "Live" : "Manual"}
+            manualMatchToggle={manualMatchToggle}
+            setManualMatchToggle={setManualMatchToggle}
           />
         </Box>
         <Box
@@ -412,10 +423,9 @@ const AddMatch = () => {
             <Box
               sx={{
                 position: "relative",
-                width: { xs: "100%", lg: "18%", md: "24%" }
+                width: { xs: "100%", lg: "18%", md: "24%" },
               }}
             >
-  
               <DropDown
                 name="gameType"
                 valued="Select Game Type..."
@@ -426,7 +436,6 @@ const AddMatch = () => {
                 valueStyle={{ ...inputStyle, color: "white" }}
                 title={"Game *"}
                 id={"gameType"}
-            
                 value={values.gameType}
                 valueContainerStyle={{
                   height: "45px",
@@ -453,58 +462,74 @@ const AddMatch = () => {
                 dropDownTextStyle={inputStyle}
                 place={1}
               />
-           
             </Box>
             {/* {touched.gameType && errors.gameType && (
               <p style={{ color: "#fa1e1e" }}>
                 {errors.gameType as string}
               </p>
             )} */}
-    
+
             <Box
               sx={{
                 position: "relative",
                 width: { xs: "100%", lg: "18%", md: "24%" },
               }}
             >
-              <DropDown
-                name="tournamentName"
-                valued="Select tournament"
-                dropStyle={{
-                  filter: "invert(.9) sepia(1) saturate(5) hue-rotate(175deg);",
-                }}
-                disable={state?.id ? true : false}
-                data={tournamentList}
-                valueStyle={{ ...inputStyle, color: "white" }}
-                title={"Tournament Name"}
-                valueContainerStyle={{
-                  height: "45px",
-                  marginX: "0px",
-                  background: "#0B4F26",
-                  border: "1px solid #DEDEDE",
-                  borderRadius: "5px",
-                }}
-                containerStyle={{
-                  width: "100%",
-                  position: "relative",
-                  marginTop: "5px",
-                }}
-                type={"tournament"}
-                titleStyle={{ marginLeft: "0px", color: "#575757" }}
-                matchesSelect={true}
-                dropDownStyle={{
-                  width: "100%",
-                  marginLeft: "0px",
-                  marginTop: "0px",
-                  position: "absolute",
-                  maxHeight: "500px",
-                  overflow: "auto",
-                }}
-                place={33}
-                id="tournamentName"
-                selected={selected}
-                setSelected={setSelected}
-              />
+              {!manualMatchToggle ? (
+                <DropDown
+                  name="tournamentName"
+                  valued="Select tournament"
+                  dropStyle={{
+                    filter:
+                      "invert(.9) sepia(1) saturate(5) hue-rotate(175deg);",
+                  }}
+                  disable={state?.id ? true : false}
+                  data={tournamentList}
+                  valueStyle={{ ...inputStyle, color: "white" }}
+                  title={"Tournament Name"}
+                  valueContainerStyle={{
+                    height: "45px",
+                    marginX: "0px",
+                    background: "#0B4F26",
+                    border: "1px solid #DEDEDE",
+                    borderRadius: "5px",
+                  }}
+                  containerStyle={{
+                    width: "100%",
+                    position: "relative",
+                    marginTop: "5px",
+                  }}
+                  type={"tournament"}
+                  titleStyle={{ marginLeft: "0px", color: "#575757" }}
+                  matchesSelect={true}
+                  dropDownStyle={{
+                    width: "100%",
+                    marginLeft: "0px",
+                    marginTop: "0px",
+                    position: "absolute",
+                    maxHeight: "500px",
+                    overflow: "auto",
+                  }}
+                  place={33}
+                  id="tournamentName"
+                  selected={selected}
+                  setSelected={setSelected}
+                />
+              ) : (
+                <MatchListInput
+                  required={true}
+                  valueStyle={{}}
+                  containerStyle={{ flex: 1, width: "100%" }}
+                  label={"Tournament Name"}
+                  type={"text"}
+                  onChange={handleChange}
+                  placeholder="Enter your Tournament Name"
+                  InputValType={"InputVal"}
+                  place={3}
+                  id="tournamentName"
+                  name="tournamentName"
+                />
+              )}
             </Box>
 
             <Box
@@ -513,58 +538,86 @@ const AddMatch = () => {
                 width: { xs: "100%", lg: "18%", md: "24%" },
               }}
             >
-              <DropDown
-                name="matchName"
-                valued="Select match"
-                dropStyle={{
-                  filter: "invert(.9) sepia(1) saturate(5) hue-rotate(175deg);",
-                }}
-                disable={state?.id ? true : false}
-                valueStyle={{ ...inputStyle, color: "white" }}
-                title={"Match Name"}
-                valueContainerStyle={{
-                  height: "45px",
-                  marginX: "0px",
-                  background: "#0B4F26",
-                  border: "1px solid #DEDEDE",
-                  borderRadius: "5px",
-                }}
-                // touched={touched.competitionName}
-       
-                // onBlur={formik.handleBlur}
-                // error={touched.competitionName}
-                value={values.competitionName}
-                containerStyle={{
-                  width: "100%",
-                  position: "relative",
-                  marginTop: "5px",
-                }}
-                type={"cricket"}
-                titleStyle={{ marginLeft: "0px", color: "#575757" }}
-                data={eventsList}
-                matchesSelect={true}
-                dropDownStyle={{
-                  width: "100%",
-                  marginLeft: "0px",
-                  marginTop: "0px",
-                  position: "absolute",
-                  maxHeight: "500px",
-                  overflow: "auto",
-                }}
-                dropDownTextStyle={inputStyle}
-                selected={selected}
-                setSelected={setSelected}
-                place={5}
-              /> 
-               {/* <CustomErrorMessage
+              {!manualMatchToggle ? (
+                <DropDown
+                  name="matchName"
+                  valued="Select match"
+                  dropStyle={{
+                    filter:
+                      "invert(.9) sepia(1) saturate(5) hue-rotate(175deg);",
+                  }}
+                  disable={state?.id ? true : false}
+                  valueStyle={{ ...inputStyle, color: "white" }}
+                  title={"Match Name"}
+                  valueContainerStyle={{
+                    height: "45px",
+                    marginX: "0px",
+                    background: "#0B4F26",
+                    border: "1px solid #DEDEDE",
+                    borderRadius: "5px",
+                  }}
+                  // touched={touched.competitionName}
+
+                  // onBlur={formik.handleBlur}
+                  // error={touched.competitionName}
+                  value={values.competitionName}
+                  containerStyle={{
+                    width: "100%",
+                    position: "relative",
+                    marginTop: "5px",
+                  }}
+                  type={"cricket"}
+                  titleStyle={{ marginLeft: "0px", color: "#575757" }}
+                  data={eventsList}
+                  matchesSelect={true}
+                  dropDownStyle={{
+                    width: "100%",
+                    marginLeft: "0px",
+                    marginTop: "0px",
+                    position: "absolute",
+                    maxHeight: "500px",
+                    overflow: "auto",
+                  }}
+                  onChange={(e: any) => {
+                    setSelected((prev) => {
+                      return {
+                        ...prev,
+                        competitionName: e.target?.value,
+                      };
+                    });
+                  }}
+                  dropDownTextStyle={inputStyle}
+                  selected={selected}
+                  setSelected={setSelected}
+                  place={5}
+                />
+              ) : (
+                <MatchListInput
+                  required={true}
+                  valueStyle={{}}
+                  containerStyle={{ flex: 1, width: "100%" }}
+                  label={"Match Name"}
+                  type={"text"}
+                  onChange={(e: any) => {
+                    setSelected((prev) => {
+                      return {
+                        ...prev,
+                        matchName: e.target?.value,
+                      };
+                    });
+                  }}
+                  placeholder="Enter your Match Name"
+                  InputValType={"InputVal"}
+                  place={3}
+                  id="matchName"
+                  name="matchName"
+                />
+              )}
+              {/* <CustomErrorMessage
                     touched={ccheck}
                     errors={errors.competitionName}
                   /> */}
-                    {ccheck && (
-              <p style={{ color: "red" }}>
-                {"Required"}
-              </p>
-            )}
+              {ccheck && <p style={{ color: "red" }}>{"Required"}</p>}
             </Box>
 
             <Box sx={{ width: { xs: "100%", lg: "18%", md: "24%" } }}>
@@ -572,7 +625,16 @@ const AddMatch = () => {
                 label="Team A *"
                 placeholder="Enter Name of Team A"
                 type="text"
-                disable
+                required={true}
+                disable={!manualMatchToggle}
+                onChange={(e: any) => {
+                  setSelected((prev) => {
+                    return {
+                      ...prev,
+                      teamA: e.target?.value,
+                    };
+                  });
+                }}
                 value={selected.teamA}
               />
             </Box>
@@ -581,7 +643,16 @@ const AddMatch = () => {
                 label="Team B *"
                 placeholder="Enter Name of Team B..."
                 type="text"
-                disable
+                required={true}
+                disable={!manualMatchToggle}
+                onChange={(e: any) => {
+                  setSelected((prev) => {
+                    return {
+                      ...prev,
+                      teamB: e.target?.value,
+                    };
+                  });
+                }}
                 value={selected.teamB}
               />
             </Box>
@@ -592,7 +663,15 @@ const AddMatch = () => {
                 placeholder="Enter Name of Team C"
                 type="text"
                 // required={true}
-                disable
+                onChange={(e: any) => {
+                  setSelected((prev) => {
+                    return {
+                      ...prev,
+                      teamC: e.target?.value,
+                    };
+                  });
+                }}
+                disable={!manualMatchToggle}
                 value={selected.teamC}
               />
             </Box>
@@ -624,11 +703,11 @@ const AddMatch = () => {
                           border: "none",
                         },
                         "& .css-nxo287-MuiInputBase-input-MuiOutlinedInput-input":
-                        {
-                          cursor: "not-allowed",
-                          paddingBottom: "8px",
-                          paddingTop: "8px",
-                        },
+                          {
+                            cursor: "not-allowed",
+                            paddingBottom: "8px",
+                            paddingTop: "8px",
+                          },
                       }}
                       // className={classes.dateTimePicker}
                       // label="Basic date picker"
@@ -679,7 +758,6 @@ const AddMatch = () => {
               />
             </Box> */}
             <Box sx={{ width: { xs: "100%", lg: "18%", md: "24%" } }}>
-
               <MatchListInput
                 required={true}
                 valueStyle={{}}
@@ -696,14 +774,12 @@ const AddMatch = () => {
                 id="minBet"
                 name="minBet"
                 onBlur={formik.handleBlur}
-               
               />
-                <CustomErrorMessage
-                    touched={touched.minBet}
-                    errors={errors.minBet}
-                  />
+              <CustomErrorMessage
+                touched={touched.minBet}
+                errors={errors.minBet}
+              />
             </Box>
-           
 
             <Box sx={{ width: { xs: "100%", lg: "18%", md: "24%" } }}>
               <MatchListInput
@@ -722,10 +798,10 @@ const AddMatch = () => {
                 InputValType={"InputVal"}
                 place={3}
               />
-               <CustomErrorMessage
-                    touched={touched.betfairMatchMaxBet}
-                    errors={errors.betfairMatchMaxBet}
-                  />
+              <CustomErrorMessage
+                touched={touched.betfairMatchMaxBet}
+                errors={errors.betfairMatchMaxBet}
+              />
             </Box>
 
             <Box sx={{ width: { xs: "100%", lg: "18%", md: "24%" } }}>
@@ -744,10 +820,10 @@ const AddMatch = () => {
                 onChange={handleChange}
                 onBlur={formik.handleBlur}
               />
-                <CustomErrorMessage
-                    touched={touched.betfairSessionMaxBet}
-                    errors={errors.betfairSessionMaxBet}
-                  />
+              <CustomErrorMessage
+                touched={touched.betfairSessionMaxBet}
+                errors={errors.betfairSessionMaxBet}
+              />
             </Box>
             <Box sx={{ width: { xs: "100%", lg: "18%", md: "24%" } }}>
               <MatchListInput
@@ -765,10 +841,10 @@ const AddMatch = () => {
                 name="betfairBookmakerMaxBet"
                 onBlur={formik.handleBlur}
               />
-                <CustomErrorMessage
-                    touched={touched.betfairBookmakerMaxBet}
-                    errors={errors.betfairBookmakerMaxBet}
-                  />
+              <CustomErrorMessage
+                touched={touched.betfairBookmakerMaxBet}
+                errors={errors.betfairBookmakerMaxBet}
+              />
             </Box>
             <Box sx={{ width: { xs: "100%", lg: "18%", md: "24%" } }}>
               <MatchListInput
@@ -787,9 +863,9 @@ const AddMatch = () => {
                 onBlur={formik.handleBlur}
               />
               <CustomErrorMessage
-                  touched={touched.marketTiedMatchMaxBet}
-                  errors={errors.marketTiedMatchMaxBet}
-                />
+                touched={touched.marketTiedMatchMaxBet}
+                errors={errors.marketTiedMatchMaxBet}
+              />
             </Box>
             <Box sx={{ width: { xs: "100%", lg: "18%", md: "24%" } }}>
               <MatchListInput
@@ -808,9 +884,9 @@ const AddMatch = () => {
                 onBlur={formik.handleBlur}
               />
               <CustomErrorMessage
-                  touched={touched.manualTiedMatchMaxBet}
-                  errors={errors.manualTiedMatchMaxBet}
-                />
+                touched={touched.manualTiedMatchMaxBet}
+                errors={errors.manualTiedMatchMaxBet}
+              />
             </Box>
             <Box sx={{ width: { xs: "100%", lg: "18%", md: "24%" } }}>
               <MatchListInput
@@ -829,9 +905,9 @@ const AddMatch = () => {
                 onBlur={formik.handleBlur}
               />
               <CustomErrorMessage
-                  touched={touched.completeMatchMaxBet}
-                  errors={errors.completeMatchMaxBet}
-                />
+                touched={touched.completeMatchMaxBet}
+                errors={errors.completeMatchMaxBet}
+              />
             </Box>
             <Box sx={{ width: "100%" }}>
               <Box
