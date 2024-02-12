@@ -7,9 +7,11 @@ import {
   getSessionProfitLoss,
   resetPlacedBets,
   sessionByIdReset,
+  sessionSuccessReset,
   setCurrentOdd,
   successReset,
   updateBetsPlaced,
+  updateMatchBetsPlaced,
   updateSessionById,
   updateSessionByIdForUndeclare,
   updateSessionProfitLoss,
@@ -23,6 +25,7 @@ interface InitialState {
   bookmakerById: any;
   placedBets: any;
   success: boolean;
+  getSessionSuccess: boolean;
   loading: boolean;
 }
 
@@ -34,6 +37,7 @@ const initialState: InitialState = {
   bookmakerById: null,
   placedBets: [],
   success: false,
+  getSessionSuccess: false,
   loading: false,
 };
 
@@ -54,20 +58,23 @@ export const addSessionReducers = createReducer(initialState, (builder) => {
     })
     .addCase(getSessionById.pending, (state) => {
       state.loading = true;
-      state.success = false;
+      state.getSessionSuccess = false;
+      state.sessionById = null;
     })
     .addCase(getSessionById.fulfilled, (state, action) => {
       state.sessionById = action.payload;
       state.selectedSessionId = "";
       state.loading = false;
-      state.success = true;
+      state.getSessionSuccess = true;
     })
     .addCase(getSessionById.rejected, (state) => {
       state.loading = false;
+      state.getSessionSuccess = false;
     })
     .addCase(getSessionProfitLoss.pending, (state) => {
       state.loading = true;
       state.success = false;
+      state.sessionProfitLoss = [];
     })
     .addCase(getSessionProfitLoss.fulfilled, (state, action) => {
       state.loading = false;
@@ -95,6 +102,7 @@ export const addSessionReducers = createReducer(initialState, (builder) => {
     .addCase(getPlacedBets.pending, (state) => {
       state.loading = true;
       state.success = false;
+      state.placedBets = [];
     })
     .addCase(getPlacedBets.fulfilled, (state, action) => {
       state.loading = false;
@@ -111,6 +119,20 @@ export const addSessionReducers = createReducer(initialState, (builder) => {
         myStake: +action.payload.betPlaceObject.myStack,
         user: {
           userName: action.payload.betPlaceObject.betPlacedData.userName,
+        },
+      };
+      const id = objToUpdate.id;
+
+      if (!state.placedBets.some((item: any) => item.id === id)) {
+        state.placedBets = [objToUpdate, ...state.placedBets];
+      }
+    })
+    .addCase(updateMatchBetsPlaced.fulfilled, (state, action) => {
+      let objToUpdate = {
+        ...action.payload.newBet,
+        myStake: +action.payload.myStake,
+        user: {
+          userName: action.payload.userName,
         },
       };
       const id = objToUpdate.id;
@@ -139,6 +161,9 @@ export const addSessionReducers = createReducer(initialState, (builder) => {
     })
     .addCase(successReset, (state) => {
       return { ...state, success: false };
+    })
+    .addCase(sessionSuccessReset, (state) => {
+      return { ...state, getSessionSuccess: false };
     })
     .addCase(updateSessionByIdForUndeclare.fulfilled, (state, action) => {
       return { ...state, selectedSessionId: action.payload };

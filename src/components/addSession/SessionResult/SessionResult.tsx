@@ -2,14 +2,14 @@ import { useState } from "react";
 import { Box, Typography } from "@mui/material";
 import SessionResultOvers from "./SessionResultOvers";
 import SessionResultModal from "./SessionResultModal";
+import { useNavigate } from "react-router-dom";
+import { resetPlacedBets } from "../../../store/actions/addSession";
 import { useDispatch } from "react-redux";
-import { AppDispatch } from "../../../store/store";
-import { updateSessionByIdForUndeclare } from "../../../store/actions/addSession";
 
 const SessionResult = (props: any) => {
-  const { createSession, betId, handleSession, matchId, sessionProLoss } =
-    props;
-  const dispatch: AppDispatch = useDispatch();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { sessionProLoss, matchId } = props;
   const [mode, setMode] = useState("0");
   const [selected, setSelected] = useState<any>([]);
   const [sessionData] = useState<any>([]);
@@ -24,9 +24,14 @@ const SessionResult = (props: any) => {
     if (x.includes(itemId)) {
       return;
     }
-    dispatch(updateSessionByIdForUndeclare(itemId));
+    dispatch(resetPlacedBets());
+    navigate(`/expert/live/${item?.betId?.id}`, {
+      state: {
+        createSession: false,
+        match: matchId,
+      },
+    });
     setSelected([item.betId.id]);
-    handleSession(item);
   };
 
   return (
@@ -57,7 +62,6 @@ const SessionResult = (props: any) => {
           }}
         >
           <SessionResultOvers
-            createSession={createSession}
             sessionData={sessionProLoss && sessionProLoss}
             mode={mode}
             changeSelected={changeSelected}
@@ -99,8 +103,6 @@ const SessionResult = (props: any) => {
               >
                 {false && sessionData.length > 0 && (
                   <SessionResultModal
-                    matchId={matchId}
-                    betId={betId}
                     undeclare={true}
                     onClick={() => {
                       //   setVisible1(false);

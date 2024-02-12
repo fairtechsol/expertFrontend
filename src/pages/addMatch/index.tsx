@@ -92,6 +92,7 @@ const AddMatch = () => {
 
   const [selected, setSelected] = useState(initialValues);
   const [tcheck, setTcheck] = useState(false);
+  console.log(tcheck);
   const [ccheck, setCcheck] = useState(false);
   const [manualMatchToggle, setManualMatchToggle] = useState(false);
   const navigate = useNavigate();

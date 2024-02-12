@@ -3,36 +3,55 @@ import SessionResult from "../../components/addSession/SessionResult/SessionResu
 import SessionInputFields from "../../components/addSession/AddSession/SessionAddComponent";
 import DailogModal from "../../components/helper/DailogModal";
 import BetsList from "../../components/addSession/BetList";
-import { useLocation } from "react-router-dom";
-import { useState, useEffect, useRef } from "react";
+import { useLocation, useParams } from "react-router-dom";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store/store";
-import { getPlacedBets } from "../../store/actions/addSession";
+import {
+  getPlacedBets,
+  getSessionById,
+  getSessionProfitLoss,
+  sessionSuccessReset,
+} from "../../store/actions/addSession";
 import { getMatchListSessionProfitLoss } from "../../store/actions/match/matchAction";
 
 const AddSession = () => {
   const { state } = useLocation();
-  const childRef = useRef<any>(null);
+  const { id } = useParams();
+  const { sessionById, getSessionSuccess } = useSelector(
+    (state: RootState) => state.addSession
+  );
   const dispatch: AppDispatch = useDispatch();
   const { placedBets } = useSelector((state: RootState) => state.addSession);
   const { sessionProLoss } = useSelector((state: RootState) => state.matchList);
-  const [betId, setBetId] = useState("");
-
-  const handleSession = (item: any) => {
-    setBetId(item?.betId?.id);
-    if (childRef.current) {
-      childRef.current.childFunction(item);
-    }
-  };
 
   useEffect(() => {
-    if (state?.betId) {
-      dispatch(getPlacedBets(state?.betId));
+    try {
+      if (id) {
+        dispatch(
+          getSessionById({
+            matchId: state?.match?.id,
+            id: id,
+          })
+        );
+      }
+      if (state?.match?.id) {
+        dispatch(getMatchListSessionProfitLoss(state?.match?.id));
+      }
+    } catch (e) {
+      console.log(e);
     }
-    if (state?.match?.id) {
-      dispatch(getMatchListSessionProfitLoss(state?.match?.id));
+  }, [id]);
+
+  useEffect(() => {
+    if (getSessionSuccess) {
+      if (!sessionById?.result) {
+        dispatch(getSessionProfitLoss(id));
+        dispatch(getPlacedBets(id));
+      }
+      dispatch(sessionSuccessReset());
     }
-  }, [state?.betId, state?.match?.id]);
+  }, [getSessionSuccess]);
 
   return (
     <Box>
@@ -43,18 +62,12 @@ const AddSession = () => {
               createSession={state?.createSession}
               sessionEvent={state?.sessionEvent}
               match={state?.match}
-              betId={state?.betId}
-              newBetId={betId}
-              ref={childRef}
             />
           </Paper>
           <Paper style={{ margin: "10px" }}>
             <SessionResult
-              matchId={state?.match?.id}
-              betId={state?.betId}
               sessionProLoss={sessionProLoss}
-              createSession={state?.createSession}
-              handleSession={handleSession}
+              matchId={state?.match}
             />
           </Paper>
         </Grid>
@@ -62,7 +75,7 @@ const AddSession = () => {
           <Paper style={{ margin: "10px" }}>
             {true && (
               <BetsList
-                sessionEvent={state?.sessionEvent}
+                sessionEvent={sessionById && sessionById}
                 betData={placedBets && placedBets.length > 0 ? placedBets : []}
               />
             )}
