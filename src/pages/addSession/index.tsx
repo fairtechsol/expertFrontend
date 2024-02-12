@@ -27,7 +27,7 @@ const AddSession = () => {
 
   useEffect(() => {
     try {
-      if (id) {
+      if (id && state?.match?.id) {
         dispatch(
           getSessionById({
             matchId: state?.match?.id,

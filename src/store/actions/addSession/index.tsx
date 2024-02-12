@@ -159,5 +159,6 @@ export const getPlacedBets = createAsyncThunk<any, any>(
 
 export const sessionByIdReset = createAction("sessionById/reset");
 export const successReset = createAction("success/reset");
+export const addsuccessReset = createAction("addsuccess/reset");
 export const sessionSuccessReset = createAction("sessionSuccess/reset");
 export const resetPlacedBets = createAction("placedBets/reset");

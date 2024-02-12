@@ -1,6 +1,7 @@
 import { createReducer } from "@reduxjs/toolkit";
 import {
   addSession,
+  addsuccessReset,
   getBookmakerById,
   getPlacedBets,
   getSessionById,
@@ -20,11 +21,13 @@ import {
 interface InitialState {
   sessionById: any;
   selectedSessionId: string;
+  selectedMatchId: string;
   sessionProfitLoss: any;
   currentOdd: any;
   bookmakerById: any;
   placedBets: any;
   success: boolean;
+  addSuccess: boolean;
   getSessionSuccess: boolean;
   loading: boolean;
 }
@@ -32,11 +35,13 @@ interface InitialState {
 const initialState: InitialState = {
   sessionById: null,
   selectedSessionId: "",
+  selectedMatchId: "",
   sessionProfitLoss: [],
   currentOdd: null,
   bookmakerById: null,
   placedBets: [],
   success: false,
+  addSuccess: false,
   getSessionSuccess: false,
   loading: false,
 };
@@ -45,16 +50,18 @@ export const addSessionReducers = createReducer(initialState, (builder) => {
   builder
     .addCase(addSession.pending, (state) => {
       state.loading = true;
-      state.success = false;
+      state.addSuccess = false;
     })
     .addCase(addSession.fulfilled, (state, action) => {
       state.sessionById = action.payload;
       state.selectedSessionId = action.payload?.id;
+      state.selectedMatchId = action.payload.matchId;
       state.loading = false;
-      state.success = true;
+      state.addSuccess = true;
     })
     .addCase(addSession.rejected, (state) => {
       state.loading = false;
+      state.addSuccess = false;
     })
     .addCase(getSessionById.pending, (state) => {
       state.loading = true;
@@ -63,7 +70,6 @@ export const addSessionReducers = createReducer(initialState, (builder) => {
     })
     .addCase(getSessionById.fulfilled, (state, action) => {
       state.sessionById = action.payload;
-      state.selectedSessionId = "";
       state.loading = false;
       state.getSessionSuccess = true;
     })
@@ -160,6 +166,9 @@ export const addSessionReducers = createReducer(initialState, (builder) => {
       };
     })
     .addCase(successReset, (state) => {
+      return { ...state, success: false };
+    })
+    .addCase(addsuccessReset, (state) => {
       return { ...state, success: false };
     })
     .addCase(sessionSuccessReset, (state) => {
