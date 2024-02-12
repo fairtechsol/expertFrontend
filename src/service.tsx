@@ -1,6 +1,6 @@
 import axios from "axios";
 import { toast } from "react-toastify";
-import constants from "./components/helper/constants";
+import { Constants } from "./utils/Constants";
 
 const toastOptions = {
   autoClose: 1500,
@@ -10,13 +10,13 @@ const toastOptions = {
 };
 
 // let devUrl = "http://localhost:6060/";
-// let testingUrl = "http://3.89.232.255:6060/";
+// let testingUrl = "http://54.208.19.89:6060/";
 
 const service = axios.create({
   baseURL:
     process.env.NODE_ENV === "production"
-      ? `${constants.apiPath}`
-      : "http://localhost:6060",
+      ? `${Constants.expertSocketBasePath}`
+      : `${Constants.localPathExpert}`,
 });
 
 service.defaults.timeout = 100000;
@@ -38,7 +38,7 @@ service.interceptors.response.use(
   (response) => {
     const isGetRequest = response.config.method === "get";
 
-  if (!isGetRequest && response.data?.message) {
+    if (!isGetRequest && response.data?.message) {
       toast.success(response.data.message, toastOptions);
     }
 
