@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../store/store";
 import {
   addSession,
+  addsuccessReset,
   getPlacedBets,
   getSessionProfitLoss,
   resetPlacedBets,
@@ -145,16 +146,22 @@ const SessionAddComponent = ({ createSession, match }: any) => {
   };
 
   useEffect(() => {
-    if (addSuccess) {
-      navigate(`/expert/live/${selectedSessionId}`, {
-        state: {
-          createSession: false,
-          match: { id: selectedMatchId },
-          betId: selectedSessionId,
-        },
-      });
+    try {
+      if (addSuccess) {
+        navigate(`/expert/live/${selectedSessionId}`, {
+          state: {
+            createSession: false,
+            match: { id: selectedMatchId },
+            betId: selectedSessionId,
+          },
+        });
+        dispatch(addsuccessReset());
+      }
+    } catch (e) {
+      console.log(e);
     }
   }, [addSuccess]);
+
   useEffect(() => {
     if (createSession && !sessionById) {
       setIsCreateSession(createSession);
