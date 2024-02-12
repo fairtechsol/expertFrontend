@@ -1,4 +1,4 @@
-import React, { useEffect, useImperativeHandle, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Box, Typography } from "@mui/material";
 import RunsAmountBox from "./RunsAmountBox";
 import SessionResultModal from "../SessionResult/SessionResultModal";
@@ -7,8 +7,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../store/store";
 import {
   addSession,
+  addsuccessReset,
   getPlacedBets,
-  getSessionById,
   getSessionProfitLoss,
   resetPlacedBets,
   setCurrentOdd,
@@ -22,7 +22,7 @@ import {
   sessionResultSuccessReset,
 } from "../../../store/actions/match/matchAction";
 import { ButtonRatesQuickSessions } from "../../../utils/Constants";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const stateDetail = {
   match_id: "",
@@ -44,10 +44,17 @@ const stateDetail = {
 const SessionAddComponent = ({ createSession, match }: any) => {
   const { id } = useParams();
   const dispatch: AppDispatch = useDispatch();
+  const navigate = useNavigate();
   const inputRef: any = useRef(null);
-  const { sessionById, loading, sessionProfitLoss, currentOdd } = useSelector(
-    (state: RootState) => state.addSession
-  );
+  const {
+    sessionById,
+    loading,
+    sessionProfitLoss,
+    currentOdd,
+    selectedSessionId,
+    selectedMatchId,
+    addSuccess,
+  } = useSelector((state: RootState) => state.addSession);
   const { success } = useSelector((state: RootState) => state.matchList);
   const [isCreateSession, setIsCreateSession] = useState(createSession);
   const [incGap, setIncGap] = useState<number>(1);
@@ -110,7 +117,6 @@ const SessionAddComponent = ({ createSession, match }: any) => {
   // }));
 
   const updateResultDeclared = (event: any) => {
-    debugger;
     if (match?.id === event?.matchId && id === event?.betId) {
       dispatch(updateSessionById(event));
       dispatch(getMatchListSessionProfitLoss(match?.id));
@@ -138,6 +144,23 @@ const SessionAddComponent = ({ createSession, match }: any) => {
       })
     );
   };
+
+  useEffect(() => {
+    try {
+      if (addSuccess) {
+        navigate(`/expert/live/${selectedSessionId}`, {
+          state: {
+            createSession: false,
+            match: { id: selectedMatchId },
+            betId: selectedSessionId,
+          },
+        });
+        dispatch(addsuccessReset());
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  }, [addSuccess]);
 
   useEffect(() => {
     if (createSession && !sessionById) {
