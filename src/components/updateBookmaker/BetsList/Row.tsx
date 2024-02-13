@@ -60,18 +60,22 @@ const Row = ({ index, values }: any) => {
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
+            overflow: "hidden",
+            whiteSpace: "nowrap",
+            position: "relative",
           }}
         >
           <Typography
             sx={{
               color: "black",
               fontWeight: "600",
-              fontSize: "12px",
+              fontSize: "10px",
               lineHeight: 1,
               textAlign: "center",
+          
             }}
           >
-            {values.marketType}
+              {values.marketType}
           </Typography>
         </Box>
         <Box
@@ -90,6 +94,7 @@ const Row = ({ index, values }: any) => {
               fontWeight: "600",
               fontSize: "12px",
               lineHeight: 1,
+              textAlign: "center",
             }}
           >
             {values.teamName}
