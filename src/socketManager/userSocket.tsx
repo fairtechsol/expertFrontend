@@ -24,6 +24,9 @@ export const userSocketService = {
   userSessionBetPlaced: (callBack: any) => {
     socket.on("userSessionBetPlaced", callBack);
   },
+  userMatchBetPlaced: (callBack: any) => {
+    socket.on("userMatchBetPlaced", callBack);
+  },
   matchBettingStatusChange: (callback: any) => {
     socket.on("matchBettingStatusChange", callback);
   },

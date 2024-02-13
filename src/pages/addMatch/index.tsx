@@ -91,8 +91,10 @@ const AddMatch = () => {
   } = useSelector((state: RootState) => state.addMatch.addMatch);
 
   const [selected, setSelected] = useState(initialValues);
-  const [tcheck, setTcheck] = useState(false);
-  const [ccheck, setCcheck] = useState(false);
+  const [error, setError] = useState({
+    torunamentName: false,
+    competitionName: false,
+  });
   const [manualMatchToggle, setManualMatchToggle] = useState(false);
   const navigate = useNavigate();
 
@@ -108,7 +110,6 @@ const AddMatch = () => {
   const formik = useFormik({
     validationSchema: addMatchValidation,
     initialValues: initialFormikValues,
-
     onSubmit: (value: any) => {
       if (state?.id) {
         let bookmakers;
@@ -161,7 +162,6 @@ const AddMatch = () => {
         dispatch(editMatch(payload));
       } else {
         let bookmakers;
-
         if (selected.manualBookmaker === 1) {
           bookmakers = [
             {
@@ -196,6 +196,23 @@ const AddMatch = () => {
             },
           ];
         }
+        if (selected.tournamentName === "") {
+          setError((prev: any) => {
+            return {
+              ...prev,
+              torunamentName: true,
+            };
+          });
+          return;
+        } else if (selected.competitionName === "") {
+          setError((prev: any) => {
+            return {
+              ...prev,
+              competitionName: true,
+            };
+          });
+          return;
+        }
         let addMatchpayload = {
           matchType: selected.gameType,
           competitionId: selected.tournamentId,
@@ -225,11 +242,6 @@ const AddMatch = () => {
 
       if (state?.id) {
         dispatch(editMatchReset());
-      }
-      if (selected.tournamentId === "") {
-        setTcheck(true);
-      } else if (selected.competitionName === "") {
-        setCcheck(true);
       }
     },
   });
@@ -297,6 +309,25 @@ const AddMatch = () => {
       dispatch(getAllEventsList(selected.tournamentId));
     }
   }, [selected.tournamentId]);
+
+  useEffect(() => {
+    if (selected.tournamentName !== "") {
+      setError((prev: any) => {
+        return {
+          ...prev,
+          torunamentName: false,
+        };
+      });
+    }
+    if (selected.competitionName !== "") {
+      setError((prev: any) => {
+        return {
+          ...prev,
+          competitionName: false,
+        };
+      });
+    }
+  }, [selected.competitionName, selected.tournamentName]);
 
   useEffect(() => {
     if (state?.id) {
@@ -530,8 +561,10 @@ const AddMatch = () => {
                   name="tournamentName"
                 />
               )}
+              {error.torunamentName && (
+                <span style={{ color: "red" }}>{"Field is Required"}</span>
+              )}
             </Box>
-
             <Box
               sx={{
                 position: "relative",
@@ -613,11 +646,9 @@ const AddMatch = () => {
                   name="matchName"
                 />
               )}
-              {/* <CustomErrorMessage
-                    touched={ccheck}
-                    errors={errors.competitionName}
-                  /> */}
-              {ccheck && <p style={{ color: "red" }}>{"Required"}</p>}
+              {error.competitionName && (
+                <span style={{ color: "red" }}>{"Field is Required"}</span>
+              )}
             </Box>
 
             <Box sx={{ width: { xs: "100%", lg: "18%", md: "24%" } }}>

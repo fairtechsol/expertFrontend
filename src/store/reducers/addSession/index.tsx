@@ -1,15 +1,18 @@
 import { createReducer } from "@reduxjs/toolkit";
 import {
   addSession,
+  addsuccessReset,
   getBookmakerById,
   getPlacedBets,
   getSessionById,
   getSessionProfitLoss,
   resetPlacedBets,
   sessionByIdReset,
+  sessionSuccessReset,
   setCurrentOdd,
   successReset,
   updateBetsPlaced,
+  updateMatchBetsPlaced,
   updateSessionById,
   updateSessionByIdForUndeclare,
   updateSessionProfitLoss,
@@ -18,22 +21,28 @@ import {
 interface InitialState {
   sessionById: any;
   selectedSessionId: string;
+  selectedMatchId: string;
   sessionProfitLoss: any;
   currentOdd: any;
   bookmakerById: any;
   placedBets: any;
   success: boolean;
+  addSuccess: boolean;
+  getSessionSuccess: boolean;
   loading: boolean;
 }
 
 const initialState: InitialState = {
   sessionById: null,
   selectedSessionId: "",
+  selectedMatchId: "",
   sessionProfitLoss: [],
   currentOdd: null,
   bookmakerById: null,
   placedBets: [],
   success: false,
+  addSuccess: false,
+  getSessionSuccess: false,
   loading: false,
 };
 
@@ -41,33 +50,37 @@ export const addSessionReducers = createReducer(initialState, (builder) => {
   builder
     .addCase(addSession.pending, (state) => {
       state.loading = true;
-      state.success = false;
+      state.addSuccess = false;
     })
     .addCase(addSession.fulfilled, (state, action) => {
       state.sessionById = action.payload;
       state.selectedSessionId = action.payload?.id;
+      state.selectedMatchId = action.payload.matchId;
       state.loading = false;
-      state.success = true;
+      state.addSuccess = true;
     })
     .addCase(addSession.rejected, (state) => {
       state.loading = false;
+      state.addSuccess = false;
     })
     .addCase(getSessionById.pending, (state) => {
       state.loading = true;
-      state.success = false;
+      state.getSessionSuccess = false;
+      state.sessionById = null;
     })
     .addCase(getSessionById.fulfilled, (state, action) => {
       state.sessionById = action.payload;
-      state.selectedSessionId = "";
       state.loading = false;
-      state.success = true;
+      state.getSessionSuccess = true;
     })
     .addCase(getSessionById.rejected, (state) => {
       state.loading = false;
+      state.getSessionSuccess = false;
     })
     .addCase(getSessionProfitLoss.pending, (state) => {
       state.loading = true;
       state.success = false;
+      state.sessionProfitLoss = [];
     })
     .addCase(getSessionProfitLoss.fulfilled, (state, action) => {
       state.loading = false;
@@ -95,6 +108,7 @@ export const addSessionReducers = createReducer(initialState, (builder) => {
     .addCase(getPlacedBets.pending, (state) => {
       state.loading = true;
       state.success = false;
+      state.placedBets = [];
     })
     .addCase(getPlacedBets.fulfilled, (state, action) => {
       state.loading = false;
@@ -111,6 +125,20 @@ export const addSessionReducers = createReducer(initialState, (builder) => {
         myStake: +action.payload.betPlaceObject.myStack,
         user: {
           userName: action.payload.betPlaceObject.betPlacedData.userName,
+        },
+      };
+      const id = objToUpdate.id;
+
+      if (!state.placedBets.some((item: any) => item.id === id)) {
+        state.placedBets = [objToUpdate, ...state.placedBets];
+      }
+    })
+    .addCase(updateMatchBetsPlaced.fulfilled, (state, action) => {
+      let objToUpdate = {
+        ...action.payload.newBet,
+        myStake: +action.payload.myStake,
+        user: {
+          userName: action.payload.userName,
         },
       };
       const id = objToUpdate.id;
@@ -139,6 +167,12 @@ export const addSessionReducers = createReducer(initialState, (builder) => {
     })
     .addCase(successReset, (state) => {
       return { ...state, success: false };
+    })
+    .addCase(addsuccessReset, (state) => {
+      return { ...state, success: false };
+    })
+    .addCase(sessionSuccessReset, (state) => {
+      return { ...state, getSessionSuccess: false };
     })
     .addCase(updateSessionByIdForUndeclare.fulfilled, (state, action) => {
       return { ...state, selectedSessionId: action.payload };

@@ -161,6 +161,7 @@ const addMatch = createSlice({
                   yesRate: matchingApiSession.BackPrice1,
                   yesPercent: matchingApiSession.BackSize1,
                   activeStatus: "live",
+                  status: matchingApiSession.GameStatus
                 });
               } else {
                 return JSON.stringify({
@@ -169,6 +170,7 @@ const addMatch = createSlice({
                   yesRate: 0,
                   yesPercent: 0,
                   noPercent: 0,
+                  // status: matchingApiSession.GameStatus,
                   activeStatus:
                     parsedItem.activeStatus === "live"
                       ? "save"

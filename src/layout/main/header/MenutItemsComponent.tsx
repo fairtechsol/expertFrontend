@@ -10,7 +10,10 @@ import StyledImage from "../../../components/Common/StyledImages";
 import { ArrowLeft } from "../../../assets";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../store/store";
-import { sessionByIdReset } from "../../../store/actions/addSession";
+import {
+  resetPlacedBets,
+  sessionByIdReset,
+} from "../../../store/actions/addSession";
 
 const MenutItemsComponent = ({
   x,
@@ -92,7 +95,7 @@ const MenutItemsComponent = ({
                         <Box
                           key={element.id}
                           onClick={() => {
-                            navigate("/expert/live", {
+                            navigate(`/expert/live/${element?.id}`, {
                               state: {
                                 createSession: false,
                                 match: x,
@@ -124,6 +127,7 @@ const MenutItemsComponent = ({
             <Box
               onClick={() => {
                 dispatch(sessionByIdReset());
+                dispatch(resetPlacedBets());
                 navigate("/expert/live", {
                   state: {
                     createSession: true,

@@ -34,6 +34,10 @@ const MainRoutes = {
       element: <AddSession />,
     },
     {
+      path: Constants.MainPaths.live_update,
+      element: <AddSession />,
+    },
+    {
       path: Constants.MainPaths.addBookMaker,
       element: <UpdateBookmaker />,
     },
