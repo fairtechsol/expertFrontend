@@ -339,7 +339,7 @@ const EditBookmaker = (props: any) => {
               </Typography>
               <Box
                 sx={{
-                  width: "180px",
+                  width: "120px",
                   // my: "5px",
 
                   marginRight: "15px",
@@ -373,7 +373,7 @@ const EditBookmaker = (props: any) => {
               <Box
                 sx={{
                   display: "flex",
-                  width: "50%",
+                  width: "70%",
                   borderTop: "1px solid white",
                 }}
               >
@@ -506,7 +506,7 @@ const EditBookmaker = (props: any) => {
               </Typography>
               <Box
                 sx={{
-                  width: "180px",
+                  width: "120px",
                   marginRight: "15px",
                   border: "1px solid #2626264D",
                   justifyContent: "center",
@@ -538,7 +538,7 @@ const EditBookmaker = (props: any) => {
               <Box
                 sx={{
                   display: "flex",
-                  width: "50%",
+                  width: "70%",
                   borderTop: "2px solid white",
                 }}
               >
@@ -667,7 +667,7 @@ const EditBookmaker = (props: any) => {
                 </Typography>
                 <Box
                   sx={{
-                    width: "180px",
+                    width: "120px",
                     marginRight: "15px",
                     border: "1px solid #2626264D",
                     justifyContent: "center",
@@ -695,7 +695,7 @@ const EditBookmaker = (props: any) => {
                 <Box
                   sx={{
                     display: "flex",
-                    width: "30%",
+                    width: "70%",
                     borderTop: "2px solid white",
                   }}
                 >
