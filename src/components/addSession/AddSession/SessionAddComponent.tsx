@@ -52,7 +52,6 @@ const SessionAddComponent = ({ createSession, match }: any) => {
     sessionProfitLoss,
     currentOdd,
     selectedSessionId,
-    selectedMatchId,
     addSuccess,
   } = useSelector((state: RootState) => state.addSession);
   const { success } = useSelector((state: RootState) => state.matchList);
@@ -151,7 +150,7 @@ const SessionAddComponent = ({ createSession, match }: any) => {
         navigate(`/expert/live/${selectedSessionId}`, {
           state: {
             createSession: false,
-            match: { id: selectedMatchId },
+            match: match,
             betId: selectedSessionId,
           },
         });
@@ -268,7 +267,7 @@ const SessionAddComponent = ({ createSession, match }: any) => {
       <Typography
         sx={{ color: "#0B4F26", fontSize: "20px", fontWeight: "600" }}
       >
-        {match?.title ? match.title : "India vs Pakistan"}
+        {match?.title && match.title}
       </Typography>
       <Box sx={{ display: "flex", marginTop: "6px" }}>
         <Box
