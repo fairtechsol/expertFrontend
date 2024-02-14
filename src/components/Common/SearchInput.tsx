@@ -66,7 +66,7 @@ const SearchInput = (props: any) => {
           <TextField
             variant="standard"
             id="search"
-            name="search"
+            name={`search_${Math.random().toString(36).substring(7)}`}
             placeholder={placeholder}
             onChange={handleInputChange}
             InputProps={{
@@ -92,7 +92,7 @@ const SearchInput = (props: any) => {
           <TextField
             variant="standard"
             id="search"
-            name="search"
+            name={`search_${Math.random().toString(36).substring(7)}`}
             placeholder={placeholder}
             onChange={handleInputChange}
             InputProps={{
