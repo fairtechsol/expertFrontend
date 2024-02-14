@@ -10,7 +10,7 @@ const toastOptions = {
 };
 
 // let devUrl = "http://localhost:6060/";
-// let testingUrl = "http://54.208.19.89:6060/";
+// let testingUrl = "http://107.23.165.155:6060/";
 
 const service = axios.create({
   baseURL:
