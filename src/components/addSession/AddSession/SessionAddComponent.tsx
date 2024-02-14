@@ -309,7 +309,11 @@ const SessionAddComponent = ({ createSession, match }: any) => {
                 <Box
                   onClick={(e) => {
                     e.preventDefault();
-                    if (!isCreateSession && !sessionById?.result) {
+                    if (
+                      !isCreateSession &&
+                      !sessionById?.result &&
+                      sessionById?.activeStatus === "live"
+                    ) {
                       const [yesRatePercent, noRatePercent] =
                         item?.value?.split("-");
                       setInputDetail((prev: any) => {
@@ -334,7 +338,12 @@ const SessionAddComponent = ({ createSession, match }: any) => {
                   sx={{
                     position: "relative",
                     display: "flex",
-                    background: !isCreateSession ? "#0B4F26" : "#696969",
+                    background:
+                      !isCreateSession &&
+                      !sessionById?.result &&
+                      sessionById?.activeStatus === "live"
+                        ? "#0B4F26"
+                        : "#696969",
                     justifyContent: "center",
                     alignItems: "center",
                     height: "35px",
