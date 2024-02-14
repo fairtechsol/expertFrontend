@@ -37,9 +37,9 @@ export const ApiConstants = {
 
 export const Constants = {
   pageLimit: 15,
-  apiBasePath: "http://54.208.19.89:5000",
-  expertSocketBasePath: "http://54.208.19.89:6060",
-  thirdParty: "http://54.208.19.89:3200",
+  apiBasePath: "http://107.23.165.155:5000",
+  expertSocketBasePath: "http://107.23.165.155:6060",
+  thirdParty: "http://107.23.165.155:3200",
   localPath: "http://localhost:5000",
   localPathThird: "http://localhost:3200",
   localPathExpert: "http://localhost:6060",
