@@ -12,7 +12,7 @@ import { betLiveStatus } from "../../../store/actions/match/matchAction";
 import { AppDispatch } from "../../../store/store";
 import { useDispatch } from "react-redux";
 
-const MatchOdds = ({ currentMatch, matchOdds, matchOddsLive }: any) => {
+const MatchOdds = ({ currentMatch, matchOddsLive }: any) => {
   const [visible, setVisible] = useState(false);
   const [visibleImg, setVisibleImg] = useState(true);
 
@@ -23,8 +23,8 @@ const MatchOdds = ({ currentMatch, matchOdds, matchOddsLive }: any) => {
 
   // const teamRates = { teamA: 0, teamB: 0, teamC: 0 };
 
-  const valueA = matchOdds?.teamA;
-  const valueB = matchOdds?.teamB;
+  const valueA = currentMatch?.teamRates?.teamARate;
+  const valueB = currentMatch?.teamRates?.teamBRate;
   const bookRatioB = (() => {
     try {
       if (valueA === 0) {

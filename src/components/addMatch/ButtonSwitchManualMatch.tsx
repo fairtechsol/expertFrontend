@@ -1,7 +1,4 @@
 import { Box, Typography } from "@mui/material";
-// import { useDispatch } from "react-redux";
-// import { updateMatchActiveStatus } from "../../store/actions/match/matchAction";
-// import { AppDispatch } from "../../store/store";
 import { MaterialUISwitch } from "../matchList/materialUiSwitch";
 
 const BoxButtonManualMatch = (props: any) => {
@@ -12,29 +9,17 @@ const BoxButtonManualMatch = (props: any) => {
     manualMatchToggle,
     setManualMatchToggle,
   } = props;
-  // const dispatch: AppDispatch = useDispatch();
-  // const [background, setBackground] = useState<string>("#0B4F26");
-  // const [checked, setChecked] = useState<boolean>(manualMatchToggle || false);
-
-  // useEffect(() => {
-  //   if (checked) {
-  //     setBackground("#0B4F26");
-  //   } else {
-  //     setBackground("#FF4D4D");
-  //   }
-  // }, [checked]);
 
   return (
     <Box
       sx={[
         {
           height: "35px",
-          width: { xs: "100%", sm: "48%", md: "15%" },
+          width: { xs: "30%", sm: "15%", md: "10%" },
           marginTop: { xs: 1, md: 0 },
           marginLeft: "10px",
-          borderRadius: "5px",
+          borderRadius: "25px",
           margin: "10px",
-          border: undefined,
           background: "#0B4F26",
           display: "flex",
           justifyContent: "space-between",
@@ -67,7 +52,6 @@ const BoxButtonManualMatch = (props: any) => {
           checked={manualMatchToggle}
           onChange={async () => {
             try {
-              // setChecked(!checked);
               setManualMatchToggle((state: boolean) => !state);
             } catch (e) {
               console.log(e);

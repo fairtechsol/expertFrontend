@@ -15,6 +15,7 @@ import {
   updateSessionAdded,
 } from "../../actions/addMatch/addMatchAction";
 import { updateApiSessionById } from "../../actions/addSession";
+import { updateTeamRates } from "../../actions/match/matchAction";
 
 interface InitialState {
   tournamentList: any;
@@ -112,7 +113,7 @@ const addMatch = createSlice({
         state.loading = true;
         state.success = false;
         state.error = null;
-        state.matchDetail = null
+        state.matchDetail = null;
       })
       .addCase(getMatchDetail.fulfilled, (state, action) => {
         state.matchDetail = action.payload;
@@ -161,7 +162,7 @@ const addMatch = createSlice({
                   yesRate: matchingApiSession.BackPrice1,
                   yesPercent: matchingApiSession.BackSize1,
                   activeStatus: "live",
-                  status: matchingApiSession.GameStatus
+                  status: matchingApiSession.GameStatus,
                 });
               } else {
                 return JSON.stringify({
@@ -248,6 +249,29 @@ const addMatch = createSlice({
           ...state,
           matchAdded: false,
         };
+      })
+      .addCase(updateTeamRates.fulfilled, (state, action) => {
+        const { userRedisObj, jobData } = action.payload;
+        if (["tiedMatch2", "tiedMatch"].includes(jobData?.newBet?.marketType)) {
+          state.matchDetail.teamRates = {
+            ...state.matchDetail.teamRates,
+            yesRateTie: userRedisObj[jobData?.teamArateRedisKey],
+            noRateTie: userRedisObj[jobData?.teamBrateRedisKey],
+          };
+        } else if (["completeMatch"].includes(jobData?.newBet?.marketType)) {
+          state.matchDetail.teamRates = {
+            ...state.matchDetail.teamRates,
+            yesRateComplete: userRedisObj[jobData?.teamArateRedisKey],
+            noRateComplete: userRedisObj[jobData?.teamBrateRedisKey],
+          };
+        } else {
+          state.matchDetail.teamRates = {
+            ...state.matchDetail.teamRates,
+            teamARate: userRedisObj[jobData?.teamArateRedisKey],
+            teamBRate: userRedisObj[jobData?.teamBrateRedisKey],
+            teamCRate: userRedisObj[jobData?.teamCrateRedisKey] ?? "",
+          };
+        }
       });
   },
 });
