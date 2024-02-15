@@ -23,8 +23,8 @@ const MatchOdds = ({ currentMatch, matchOdds, matchOddsLive }: any) => {
 
   // const teamRates = { teamA: 0, teamB: 0, teamC: 0 };
 
-  const valueA = matchOdds?.teamA;
-  const valueB = matchOdds?.teamB;
+  const valueA = currentMatch?.teamRates?.teamARate;
+  const valueB = currentMatch?.teamRates?.teamBRate;
   const bookRatioB = (() => {
     try {
       if (valueA === 0) {
