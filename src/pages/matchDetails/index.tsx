@@ -19,7 +19,10 @@ import { useDispatch, useSelector } from "react-redux";
 import TiedMatchMarket from "../../components/matchDetails/TiedMatchMarket";
 import CompleteMatchMarket from "../../components/matchDetails/CompleteMatchMarket";
 import { expertSocketService, socketService } from "../../socketManager";
-import { getPlacedBetsMatch } from "../../store/actions/match/matchAction";
+import {
+  getPlacedBetsMatch,
+  updateTeamRates,
+} from "../../store/actions/match/matchAction";
 import { updateApiSessionById } from "../../store/actions/addSession";
 
 const MatchDetails = () => {
@@ -114,6 +117,16 @@ const MatchDetails = () => {
     }
   };
 
+  const updateMatchBetPlaced = (event: any) => {
+    try {
+      if (event?.jobData?.newBet?.matchId === state?.id) {
+        dispatch(updateTeamRates(event));
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   useEffect(() => {
     try {
       if (state?.id) {
@@ -124,6 +137,8 @@ const MatchDetails = () => {
         socketService.user.matchDeleteBet(matchDeleteBet);
         socketService.user.sessionDeleteBet(matchDeleteBet);
         socketService.user.sessionAdded(handleSessionAdded);
+        socketService.user.userMatchBetPlaced(updateMatchBetPlaced);
+
         socketService.user.sessionResultDeclared(updateResultDeclared);
         expertSocketService.match.getMatchRates(
           state?.id,

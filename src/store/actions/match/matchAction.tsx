@@ -211,6 +211,13 @@ export const editMatch = createAsyncThunk<any, any>(
   }
 );
 
+export const updateTeamRates = createAsyncThunk<any, any>(
+  "/teamRates/update",
+  async (data) => {
+    return data;
+  }
+);
+
 export const matchListReset = createAction("matchList/reset");
 export const editSuccessReset = createAction("editSuccess/reset");
 export const sessionResultSuccessReset = createAction("sessionResult/reset");
