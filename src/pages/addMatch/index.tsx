@@ -1,7 +1,7 @@
 import { Box, Button, Typography } from "@mui/material";
 // import { makeStyles } from "@mui/styles";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { DesktopDateTimePicker } from "@mui/x-date-pickers/DesktopDateTimePicker";
+import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DemoContainer, DemoItem } from "@mui/x-date-pickers/internals/demo";
 import { useEffect, useState } from "react";
@@ -24,7 +24,6 @@ import {
   matchDetailReset,
   tournamentListReset,
 } from "../../store/actions/addMatch/addMatchAction";
-import moment from "moment";
 import {
   editMatch,
   editSuccessReset,
@@ -32,6 +31,7 @@ import {
 import { addMatchValidation } from "../../utils/Validations/login";
 import CustomErrorMessage from "../../components/Common/CustomErrorMessage";
 import BoxButtonManualMatch from "../../components/addMatch/ButtonSwitchManualMatch";
+import dayjs from "dayjs";
 
 // const useStyles = makeStyles(() => ({
 //   dateTimePicker: {
@@ -196,11 +196,11 @@ const AddMatch = () => {
             },
           ];
         }
-        if (selected.tournamentName === "") {
+        if (selected.title === "") {
           setError((prev: any) => {
             return {
               ...prev,
-              torunamentName: true,
+              title: true,
             };
           });
           return;
@@ -237,7 +237,15 @@ const AddMatch = () => {
           tiedMatchMarketId: extraMarketList?.tiedMatch?.marketId,
           completeMatchMarketId: extraMarketList?.completedMatch?.marketId,
         };
-        dispatch(addMatchExpert(addMatchpayload));
+        if (manualMatchToggle) {
+          let newPayload = {
+            ...addMatchpayload,
+            isManualMatch: true,
+          };
+          dispatch(addMatchExpert(newPayload));
+        } else {
+          dispatch(addMatchExpert(addMatchpayload));
+        }
       }
 
       if (state?.id) {
@@ -245,6 +253,25 @@ const AddMatch = () => {
       }
     },
   });
+
+  const handleInputChange = (event: any) => {
+    const { name, value } = event.target;
+    setSelected((prev: any) => {
+      return {
+        ...prev,
+        [name]: value,
+      };
+    });
+  };
+
+  const handleDateChange = (date: any) => {
+    setSelected((prev: any) => {
+      return {
+        ...prev,
+        startAt: date.toDate(),
+      };
+    });
+  };
 
   useEffect(() => {
     if (editSuccess) {
@@ -274,14 +301,16 @@ const AddMatch = () => {
           startAt: new Date(),
         };
       });
+    }
+    if (selected.gameType !== "" && !state?.id) {
+      if (!manualMatchToggle) {
+        dispatch(tournamentListReset());
+        dispatch(getAllLiveTournaments(selected.gameType));
+      }
       formik.setValues({
         ...values,
         minBet: 100,
       });
-    }
-    if (selected.gameType !== "" && !state?.id) {
-      dispatch(tournamentListReset());
-      dispatch(getAllLiveTournaments(selected.gameType));
     }
   }, [selected.gameType]);
 
@@ -311,11 +340,11 @@ const AddMatch = () => {
   }, [selected.tournamentId]);
 
   useEffect(() => {
-    if (selected.tournamentName !== "") {
+    if (selected.title !== "") {
       setError((prev: any) => {
         return {
           ...prev,
-          torunamentName: false,
+          title: false,
         };
       });
     }
@@ -327,7 +356,7 @@ const AddMatch = () => {
         };
       });
     }
-  }, [selected.competitionName, selected.tournamentName]);
+  }, [selected.competitionName, selected.title]);
 
   useEffect(() => {
     if (state?.id) {
@@ -401,6 +430,11 @@ const AddMatch = () => {
       console.log(e);
     }
   }, [matchDetail, success]);
+
+  useEffect(() => {
+    setSelected(initialValues);
+    formik.resetForm();
+  }, [manualMatchToggle]);
 
   return (
     <form onSubmit={handleSubmit}>
@@ -553,12 +587,12 @@ const AddMatch = () => {
                   containerStyle={{ flex: 1, width: "100%" }}
                   label={"Tournament Name"}
                   type={"text"}
-                  onChange={handleChange}
+                  onChange={handleInputChange}
                   placeholder="Enter your Tournament Name"
                   InputValType={"InputVal"}
                   place={3}
-                  id="tournamentName"
-                  name="tournamentName"
+                  id="competitionName"
+                  name="competitionName"
                 />
               )}
               {error.torunamentName && (
@@ -631,19 +665,12 @@ const AddMatch = () => {
                   containerStyle={{ flex: 1, width: "100%" }}
                   label={"Match Name"}
                   type={"text"}
-                  onChange={(e: any) => {
-                    setSelected((prev) => {
-                      return {
-                        ...prev,
-                        matchName: e.target?.value,
-                      };
-                    });
-                  }}
+                  onChange={handleInputChange}
                   placeholder="Enter your Match Name"
                   InputValType={"InputVal"}
                   place={3}
-                  id="matchName"
-                  name="matchName"
+                  id="title"
+                  name="title"
                 />
               )}
               {error.competitionName && (
@@ -715,13 +742,13 @@ const AddMatch = () => {
             >
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 {" "}
-                <DemoContainer components={["DesktopDateTimePicker"]}>
+                <DemoContainer components={["DateTimePicker"]}>
                   <DemoItem>
                     <Typography sx={{ fontSize: "12px" }}>
                       Start Time
                     </Typography>
-                    <DesktopDateTimePicker
-                      disabled
+                    <DateTimePicker
+                      disabled={state?.id || !manualMatchToggle}
                       sx={{
                         // height: "40px",
                         background: "#fff",
@@ -735,15 +762,15 @@ const AddMatch = () => {
                         },
                         "& .css-nxo287-MuiInputBase-input-MuiOutlinedInput-input":
                           {
-                            cursor: "not-allowed",
+                            // cursor: "not-allowed",
                             paddingBottom: "8px",
                             paddingTop: "8px",
                           },
                       }}
                       // className={classes.dateTimePicker}
                       // label="Basic date picker"
-                      value={moment(selected.startAt)}
-                      onChange={handleChange}
+                      value={dayjs(selected?.startAt)}
+                      onChange={handleDateChange}
                     />
                   </DemoItem>
                 </DemoContainer>
