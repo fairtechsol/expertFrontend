@@ -173,7 +173,7 @@ const Header1 = () => {
                 />
               )}
 
-              <NavLink to={"expert/match"} style={{ textDecoration: "none" }}>
+              <NavLink to={"/expert/match"} style={{ textDecoration: "none" }}>
                 <ButtonHead
                   onClick={() => {
                     setSelected(4);
