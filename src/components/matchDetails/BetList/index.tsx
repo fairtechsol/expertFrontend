@@ -78,7 +78,7 @@ const BetList = ({ tag, submit, allBetRates }: any) => {
               fSize: "12px",
             },
             {
-              name: (v?.amount * v?.user?.fwPartnership) / 100,
+              name: +v.myStake ? +v.myStake : (+v?.amount * +v?.user?.fwPartnership || 0) / 100,
               color: "white",
               background: "#0B4F26",
               deletedReason: v?.deletedReason,

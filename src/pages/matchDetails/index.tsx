@@ -21,7 +21,7 @@ import CompleteMatchMarket from "../../components/matchDetails/CompleteMatchMark
 import { expertSocketService, socketService } from "../../socketManager";
 import {
   getPlacedBetsMatch,
-  // updateMatchBetsPlace,
+  updateMatchBetsPlace,
   updateTeamRates,
 } from "../../store/actions/match/matchAction";
 import { updateApiSessionById } from "../../store/actions/addSession";
@@ -122,7 +122,7 @@ const MatchDetails = () => {
     try {
       if (event?.jobData?.newBet?.matchId === state?.id) {
         dispatch(updateTeamRates(event));
-        // dispatch(updateMatchBetsPlace(event))
+        dispatch(updateMatchBetsPlace(event))
       }
     } catch (e) {
       console.log(e);
