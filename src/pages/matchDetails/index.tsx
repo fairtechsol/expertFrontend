@@ -131,7 +131,7 @@ const MatchDetails = () => {
 
   useEffect(() => {
     try {
-      if (state?.id) {
+      if (state?.id && matchDetail) {
         expertSocketService.match.joinMatchRoom(state?.id, "expert");
         socketService.user.matchBettingStatusChange(updateBettingStatus);
         socketService.user.matchResultDeclared(resultDeclared);
