@@ -22,6 +22,7 @@ import { expertSocketService, socketService } from "../../socketManager";
 import {
   getPlacedBetsMatch,
   updateMatchBetsPlace,
+  updateSessionBetsPlace,
   updateTeamRates,
 } from "../../store/actions/match/matchAction";
 import { updateApiSessionById } from "../../store/actions/addSession";
@@ -129,6 +130,16 @@ const MatchDetails = () => {
     }
   };
 
+  const updateSessionBetPlaced = (event: any) => {
+    try {
+      if (event?.jobData?.placedBet?.matchId === state?.id) {
+        dispatch(updateSessionBetsPlace(event))
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   useEffect(() => {
     try {
       if (state?.id) {
@@ -140,7 +151,7 @@ const MatchDetails = () => {
         socketService.user.sessionDeleteBet(matchDeleteBet);
         socketService.user.sessionAdded(handleSessionAdded);
         socketService.user.userMatchBetPlaced(updateMatchBetPlaced);
-
+        socketService.user.userSessionBetPlaced(updateSessionBetPlaced)
         socketService.user.sessionResultDeclared(updateResultDeclared);
         expertSocketService.match.getMatchRates(
           state?.id,
