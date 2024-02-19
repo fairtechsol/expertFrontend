@@ -134,6 +134,7 @@ export const addSessionReducers = createReducer(initialState, (builder) => {
       }
     })
     .addCase(updateMatchBetsPlaced.fulfilled, (state, action) => {
+      const { userRedisObj, jobData } = action.payload;
       let objToUpdate = {
         ...action.payload.newBet,
         myStake: +action.payload.myStake,
@@ -145,6 +146,20 @@ export const addSessionReducers = createReducer(initialState, (builder) => {
 
       if (!state.placedBets.some((item: any) => item.id === id)) {
         state.placedBets = [objToUpdate, ...state.placedBets];
+      }
+      if (["tiedMatch2"].includes(jobData?.newBet?.marketType)) {
+        state.bookmakerById.teamRates = {
+          ...state.bookmakerById.teamRates,
+          yesRateTie: userRedisObj[jobData?.teamArateRedisKey],
+          noRateTie: userRedisObj[jobData?.teamBrateRedisKey],
+        };
+      } else {
+        state.bookmakerById.teamRates = {
+          ...state.bookmakerById.teamRates,
+          teamARate: userRedisObj[jobData?.teamArateRedisKey],
+          teamBRate: userRedisObj[jobData?.teamBrateRedisKey],
+          teamCRate: userRedisObj[jobData?.teamCrateRedisKey] ?? "",
+        };
       }
     })
     .addCase(updateSessionById.fulfilled, (state, action) => {
