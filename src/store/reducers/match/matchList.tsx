@@ -205,9 +205,9 @@ const matchList = createSlice({
         if (jobData && jobData.newBet) {
           let obj = jobData.newBet;
           obj.user = {
-            userName: jobData.userName
+            userName: jobData.userName,
           };
-          obj.myStake = jobData.myStake || 0 ;
+          obj.myStake = jobData.myStake || 0;
           state.placedBetsMatch.unshift(obj);
         }
       })
