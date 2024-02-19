@@ -199,9 +199,17 @@ const matchList = createSlice({
         state.error = action?.error?.message;
       })
       .addCase(updateMatchBetsPlace.fulfilled, (state, action) => {
-        const {jobData} = action.payload
-        console.log(jobData?.newBet,state)
-        // state.placedBetsMatch = jobData?.newBet;
+        const { jobData } = action.payload;
+        state.placedBetsMatch = state.placedBetsMatch || [];
+
+        if (jobData && jobData.newBet) {
+          let obj = jobData.newBet;
+          obj.user = {
+            userName: jobData.userName
+          };
+          obj.myStake = jobData.myStake || 0 ;
+          state.placedBetsMatch.unshift(obj);
+        }
       })
       .addCase(editSuccessReset, (state) => {
         return {
