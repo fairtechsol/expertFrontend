@@ -17,6 +17,7 @@ import {
   resetMatchListSessionProLoss,
   sessionBetLiveStatus,
   updateMatchBetsPlace,
+  updateSessionBetsPlace,
 } from "../../actions/match/matchAction";
 
 interface InitialState {
@@ -205,9 +206,25 @@ const matchList = createSlice({
         if (jobData && jobData.newBet) {
           let obj = jobData.newBet;
           obj.user = {
-            userName: jobData.userName
+            userName: jobData.userName,
           };
-          obj.myStake = jobData.myStake || 0 ;
+          obj.myStake = jobData.myStake || 0;
+          state.placedBetsMatch.unshift(obj);
+        }
+      })
+      .addCase(updateSessionBetsPlace.fulfilled, (state, action) => {
+        const { jobData } = action.payload;
+        state.placedBetsMatch = state.placedBetsMatch || [];
+
+        if (jobData && jobData?.placedBet) {
+          let obj = jobData.placedBet;
+          const partnership = JSON.parse(jobData?.partnership);
+          obj.user = {
+            userName: jobData.betPlaceObject?.betPlacedData?.userName,
+            fwPartnership: partnership?.fwPartnership,
+            faPartnership: partnership?.faPartnership,
+          };
+          obj.myStake = parseFloat(jobData?.betPlaceObject?.myStack || 0);
           state.placedBetsMatch.unshift(obj);
         }
       })
