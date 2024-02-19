@@ -23,7 +23,7 @@ const UpdateBookmaker = () => {
       state?.match?.id === event?.jobData?.newBet?.matchId &&
       state?.id === event?.jobData?.newBet?.betId
     ) {
-      dispatch(updateMatchBetsPlaced(event?.jobData));
+      dispatch(updateMatchBetsPlaced(event));
     }
   };
 
