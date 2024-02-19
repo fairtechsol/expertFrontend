@@ -3,6 +3,12 @@ import { AxiosError } from "axios";
 import service from "../../../service";
 import { ApiConstants, Constants } from "../../../utils/Constants";
 
+
+interface SessionById {
+  matchId: string;
+  id?: string | any;
+}
+
 export const getMatchList = createAsyncThunk<any, any>(
   "/match/list",
   async (requestData, thunkApi) => {
@@ -217,7 +223,12 @@ export const updateTeamRates = createAsyncThunk<any, any>(
     return data;
   }
 );
-
+export const updateMatchBetsPlace = createAsyncThunk<any, SessionById>(
+  "update/matchBetsPlace",
+  async (requestData) => {
+    return requestData;
+  }
+);
 export const matchListReset = createAction("matchList/reset");
 export const editSuccessReset = createAction("editSuccess/reset");
 export const sessionResultSuccessReset = createAction("sessionResult/reset");

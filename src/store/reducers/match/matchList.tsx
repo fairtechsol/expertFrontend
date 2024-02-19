@@ -16,6 +16,7 @@ import {
   getMatchListSessionProfitLoss,
   resetMatchListSessionProLoss,
   sessionBetLiveStatus,
+  updateMatchBetsPlace,
 } from "../../actions/match/matchAction";
 
 interface InitialState {
@@ -196,6 +197,11 @@ const matchList = createSlice({
       .addCase(getMatchListSessionProfitLoss.rejected, (state, action) => {
         state.loading = false;
         state.error = action?.error?.message;
+      })
+      .addCase(updateMatchBetsPlace.fulfilled, (state, action) => {
+        const {jobData} = action.payload
+        console.log(jobData?.newBet,state)
+        // state.placedBetsMatch = jobData?.newBet;
       })
       .addCase(editSuccessReset, (state) => {
         return {
