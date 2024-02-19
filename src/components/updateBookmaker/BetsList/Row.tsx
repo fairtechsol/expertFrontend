@@ -188,10 +188,10 @@ const Row = ({ index, values }: any) => {
           <Typography
             sx={{ fontWeight: "600", fontSize: "12px", color: "white" }}
           >
-            {values?.myStake
+            {values?.myStake 
               ? values?.myStake
               : (
-                  (values?.amount * values?.user?.fwPartnership) /
+                  (+values?.amount * (+values?.user?.fwPartnership || 0)) /
                   100
                 ).toFixed()}
           </Typography>
