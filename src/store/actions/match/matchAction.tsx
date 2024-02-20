@@ -229,6 +229,12 @@ export const updateMatchBetsPlace = createAsyncThunk<any, SessionById>(
     return requestData;
   }
 );
+export const updateSessionBetsPlace = createAsyncThunk<any, SessionById>(
+  "update/sessionBetsPlace",
+  async (requestData) => {
+    return requestData;
+  }
+);
 export const matchListReset = createAction("matchList/reset");
 export const editSuccessReset = createAction("editSuccess/reset");
 export const sessionResultSuccessReset = createAction("sessionResult/reset");
