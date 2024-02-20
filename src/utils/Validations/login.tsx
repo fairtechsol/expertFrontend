@@ -11,8 +11,13 @@ export const changePasswordSchema = Yup.object({
     .required("New Password is required")
     .min(8, "Password must be at least 8 characters long")
     .matches(
-      /^(?=.*[A-Z])(?=.*[0-9])(?=.*[@$!%*?&]).*$/,
-      "Password must contain at least one uppercase letter, one number, and one special character (@ $ ! % * ? &)"
+      /^(?=.*[A-Z])/, "Password must contain at least one uppercase letter"
+    )
+    .matches(
+      /^(?=.*[a-zA-Z].*[a-zA-Z].*[a-zA-Z].*[a-zA-Z])/, "Password must contain at least four alphabet letters"
+    )
+    .matches(
+      /^(?=.*\d.*\d.*\d.*\d)/, "Password must contain at least four numbers"
     ),
   confirmPassword: Yup.string()
     .oneOf([Yup.ref("newPassword"), ""], "Passwords must match")
