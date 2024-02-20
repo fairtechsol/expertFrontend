@@ -48,7 +48,8 @@ export const handleKeysMatchEvents = (
       if (
         !prev?.teamA?.suspended ||
         !prev?.teamB?.suspended ||
-        !prev?.teamC?.suspended
+        !prev?.teamC?.suspended ||
+        prev?.teamBall
       ) {
         let data = {
           matchId: match?.id,
@@ -133,7 +134,8 @@ export const handleKeysMatchEvents = (
       if (
         !prev?.teamA?.suspended ||
         !prev?.teamB?.suspended ||
-        !prev?.teamC?.suspended
+        !prev?.teamC?.suspended ||
+        prev?.teamBall
       ) {
         let data = {
           matchId: match?.id,
@@ -225,6 +227,19 @@ export const handleKeysMatchEvents = (
       });
     }
   } else if (key === "d") {
+    setLocalQuickBookmaker((prev: any) => {
+      if (
+        !prev?.teamA?.suspended ||
+        !prev?.teamB?.suspended ||
+        !prev?.teamC?.suspended ||
+        prev?.teamBall
+      ) {
+      }
+      return {
+        ...prev,
+        teamBall: false,
+      };
+    });
     setIsTab("");
     let value = +targetValue ? +targetValue + +incGap : +incGap;
     if (e.target.name === "teamArate") {
@@ -349,7 +364,8 @@ export const handleKeysMatchEvents = (
       if (
         !prev?.teamA?.suspended ||
         !prev?.teamB?.suspended ||
-        !prev?.teamC?.suspended
+        !prev?.teamC?.suspended ||
+        prev?.teamBall
       ) {
         let data = {
           matchId: match?.id,
@@ -429,6 +445,19 @@ export const handleKeysMatchEvents = (
       });
     }
   } else if (key === "a") {
+    setLocalQuickBookmaker((prev: any) => {
+      if (
+        !prev?.teamA?.suspended ||
+        !prev?.teamB?.suspended ||
+        !prev?.teamC?.suspended ||
+        prev?.teamBall
+      ) {
+      }
+      return {
+        ...prev,
+        teamBall: false,
+      };
+    });
     setIsTab("");
     let value = +targetValue - +incGap;
     if (e.target.name === "teamArate") {
@@ -541,7 +570,8 @@ export const handleKeysMatchEvents = (
       if (
         !prev?.teamA?.suspended ||
         !prev?.teamB?.suspended ||
-        !prev?.teamC?.suspended
+        !prev?.teamC?.suspended ||
+        prev?.teamBall
       ) {
         let data = {
           matchId: match?.id,
@@ -647,6 +677,19 @@ export const handleKeysMatchEvents = (
       });
     }
   } else if (key === "w") {
+    setLocalQuickBookmaker((prev: any) => {
+      if (
+        !prev?.teamA?.suspended ||
+        !prev?.teamB?.suspended ||
+        !prev?.teamC?.suspended ||
+        prev?.teamBall
+      ) {
+      }
+      return {
+        ...prev,
+        teamBall: false,
+      };
+    });
     if (isTab == "tab") {
       setIsTab("");
     }
@@ -785,7 +828,8 @@ export const handleKeysMatchEvents = (
       if (
         !prev?.teamA?.suspended ||
         !prev?.teamB?.suspended ||
-        !prev?.teamC?.suspended
+        !prev?.teamC?.suspended ||
+        prev?.teamBall
       ) {
         let data = {
           matchId: match?.id,
@@ -883,6 +927,19 @@ export const handleKeysMatchEvents = (
       });
     }
   } else if (key === "z") {
+    setLocalQuickBookmaker((prev: any) => {
+      if (
+        !prev?.teamA?.suspended ||
+        !prev?.teamB?.suspended ||
+        !prev?.teamC?.suspended ||
+        prev?.teamBall
+      ) {
+      }
+      return {
+        ...prev,
+        teamBall: false,
+      };
+    });
     setIsTab("");
     if (e.target.name === "teamArate") {
       setLocalQuickBookmaker((prev: any) => {
@@ -1013,7 +1070,8 @@ export const handleKeysMatchEvents = (
       if (
         !prev?.teamA?.suspended ||
         !prev?.teamB?.suspended ||
-        !prev?.teamC?.suspended
+        !prev?.teamC?.suspended ||
+        prev?.teamBall
       ) {
         let data = {
           matchId: match?.id,
@@ -1531,7 +1589,8 @@ export const handleKeysMatchEvents = (
       if (
         !prev?.teamA?.suspended ||
         !prev?.teamB?.suspended ||
-        !prev?.teamC?.suspended
+        !prev?.teamC?.suspended ||
+        prev?.teamBall
       ) {
         let data = {
           matchId: match?.id,
@@ -1703,7 +1762,8 @@ export const handleKeysMatchEvents = (
       if (
         !prev?.teamA?.suspended ||
         !prev?.teamB?.suspended ||
-        !prev?.teamC?.suspended
+        !prev?.teamC?.suspended ||
+        prev?.teamBall
       ) {
         let data = {
           matchId: match?.id,
@@ -1769,7 +1829,8 @@ export const handleKeysMatchEvents = (
       if (
         !prev?.teamA?.suspended ||
         !prev?.teamB?.suspended ||
-        !prev?.teamC?.suspended
+        !prev?.teamC?.suspended ||
+        prev?.teamBall
       ) {
         let data = {
           matchId: match?.id,
