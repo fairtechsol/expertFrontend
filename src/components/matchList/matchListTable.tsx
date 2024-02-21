@@ -169,6 +169,7 @@ const MatchListTable = (props: any) => {
                     minWidth: { xs: "49%", sm: "100px" },
                     width: { xs: "49%", sm: "100px" },
                     marginLeft: { xs: "1%", sm: "10px" },
+                    marginTop: showUserModal ? { xs: "1%", sm: "5%", lg: "100%" } : "1%", 
                   }}
                   onClick={() => {
                     navigate(`/expert/betOdds`, {
@@ -184,6 +185,7 @@ const MatchListTable = (props: any) => {
                     minWidth: { xs: "49%", sm: "100px" },
                     width: { xs: "49%", sm: "100px" },
                     marginLeft: { xs: "1%", sm: "10px" },
+                    marginTop: showUserModal ? { xs: "1%", sm: "5%", lg: "100%" } : "1%", 
                   }}
                   onClick={() => {
                     navigate(`/expert/edit_match`, {

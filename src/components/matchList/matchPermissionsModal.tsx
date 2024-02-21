@@ -18,13 +18,19 @@ const MatchPermissionsModal = (props: any) => {
 
   return (
     <Box
+  sx={{
+    width: "100%",
+    background: "#ffe094",
+  }}
+>
+    <Box
       sx={{
         display: "flex",
+        width: "88%",
         flexWrap: "wrap",
         flex: 1,
         alignItems: "center",
         p: 2,
-        background: "#ffe094",
       }}
     >
       {data?.matchBettings
@@ -77,6 +83,7 @@ const MatchPermissionsModal = (props: any) => {
         setUpdateMatchStatus={setUpdateMatchStatus}
         place={2}
       />
+    </Box>
     </Box>
   );
 };
