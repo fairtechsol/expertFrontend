@@ -157,11 +157,11 @@ const addMatch = createSlice({
               if (matchingApiSession) {
                 return JSON.stringify({
                   ...parsedItem,
-                  noRate: matchingApiSession.LayPrice1,
-                  noPercent: matchingApiSession.LaySize1,
-                  yesRate: matchingApiSession.BackPrice1,
-                  yesPercent: matchingApiSession.BackSize1,
-                  activeStatus: "live",
+                  noRate: matchingApiSession.LayPrice1 ?? 0,
+                  noPercent: matchingApiSession.LaySize1 ?? 0,
+                  yesRate: matchingApiSession.BackPrice1 ?? 0,
+                  yesPercent: matchingApiSession.BackSize1 ?? 0,
+                  activeStatus: matchingApiSession.activeStatus,
                   status: matchingApiSession.GameStatus,
                 });
               } else {

@@ -3,7 +3,6 @@ import { AxiosError } from "axios";
 import service from "../../../service";
 import { ApiConstants, Constants } from "../../../utils/Constants";
 
-
 interface SessionById {
   matchId: string;
   id?: string | any;
@@ -80,9 +79,10 @@ export const sessionBetLiveStatus = createAsyncThunk<any, any>(
   "session/status/change",
   async (requestData, thunkApi) => {
     try {
+      const { betId, ...data } = requestData;
       const response = await service.post(
-        `${ApiConstants.SESSION.BETTING_STATUS}/${requestData.betId}`,
-        { status: requestData?.status }
+        `${ApiConstants.SESSION.BETTING_STATUS}/${betId}`,
+        data
       );
       if (response) {
         return response?.data;
