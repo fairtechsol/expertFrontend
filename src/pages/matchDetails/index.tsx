@@ -1,38 +1,38 @@
 import { Box } from "@mui/material";
 import { useEffect } from "react";
-import Loader from "../../components/Loader";
-import SessionMarketLive from "../../components/matchDetails/SessionMarketLive";
-import SessionMarket from "../../components/matchDetails/SessionMarket";
-import RunsBox from "../../components/matchDetails/RunsBox";
-import MatchOdds from "../../components/matchDetails/MatchOdds";
-import BookMarket from "../../components/matchDetails/Bookmarket";
-import BetList from "../../components/matchDetails/BetList";
+import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
+import Loader from "../../components/Loader";
+import BetList from "../../components/matchDetails/BetList";
+import BookMarket from "../../components/matchDetails/Bookmarket";
+import CompleteMatchMarket from "../../components/matchDetails/CompleteMatchMarket";
+import MatchOdds from "../../components/matchDetails/MatchOdds";
+import RunsBox from "../../components/matchDetails/RunsBox";
+import SessionMarket from "../../components/matchDetails/SessionMarket";
+import SessionMarketLive from "../../components/matchDetails/SessionMarketLive";
+import TiedMatchMarket from "../../components/matchDetails/TiedMatchMarket";
+import { expertSocketService, socketService } from "../../socketManager";
 import {
   getMatchDetail,
   updateMatchBettingStatus,
   updateMatchRates,
   updateSessionAdded,
 } from "../../store/actions/addMatch/addMatchAction";
-import { AppDispatch, RootState } from "../../store/store";
-import { useDispatch, useSelector } from "react-redux";
-import TiedMatchMarket from "../../components/matchDetails/TiedMatchMarket";
-import CompleteMatchMarket from "../../components/matchDetails/CompleteMatchMarket";
-import { expertSocketService, socketService } from "../../socketManager";
+import { updateApiSessionById } from "../../store/actions/addSession";
 import {
   getPlacedBetsMatch,
   updateMatchBetsPlace,
   updateSessionBetsPlace,
   updateTeamRates,
 } from "../../store/actions/match/matchAction";
-import { updateApiSessionById } from "../../store/actions/addSession";
+import { AppDispatch, RootState } from "../../store/store";
 
 const MatchDetails = () => {
   const data: any = [];
   const { state } = useLocation();
   const navigate = useNavigate();
   const dispatch: AppDispatch = useDispatch();
-  const { matchDetail, loading } = useSelector(
+  const { matchDetail, loading, success } = useSelector(
     (state: RootState) => state.addMatch.addMatch
   );
   const { placedBetsMatch } = useSelector(
@@ -142,7 +142,7 @@ const MatchDetails = () => {
 
   useEffect(() => {
     try {
-      if (state?.id) {
+      if (success) {
         expertSocketService.match.joinMatchRoom(state?.id, "expert");
         expertSocketService.match.getMatchRates(
           state?.id,
@@ -169,7 +169,7 @@ const MatchDetails = () => {
         updateMatchDetailToRedux
       );
     };
-  }, [state?.id]);
+  }, [success]);
 
   useEffect(() => {
     const handleVisibilityChange = () => {

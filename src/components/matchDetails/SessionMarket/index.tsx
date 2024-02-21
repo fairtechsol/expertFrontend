@@ -4,9 +4,12 @@ import { ARROWUP } from "../../../assets";
 import Divider from "../../Common/Divider";
 import Stop from "./Stop";
 import SessionMarketBox from "./SessionMarketBox";
-// import { betLiveStatus } from "../../../store/actions/match/matchAction";
-// import { AppDispatch } from "../../../store/store";
-// import { useDispatch } from "react-redux";
+import {
+  betLiveStatus,
+  sessionBetLiveStatus,
+} from "../../../store/actions/match/matchAction";
+import { AppDispatch } from "../../../store/store";
+import { useDispatch } from "react-redux";
 
 const SessionMarket = ({
   currentMatch,
@@ -22,7 +25,7 @@ const SessionMarket = ({
   setData,
   setLocalSessionExpertOdds,
 }: any) => {
-  // const dispatch: AppDispatch = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
   const [stop, setStop] = useState(true);
   const [visible, setVisible] = useState(true);
 
@@ -72,14 +75,13 @@ const SessionMarket = ({
           {!stopAllHide && (
             <Stop
               onClick={() => {
-                // dispatch(
-                //   betLiveStatus({
-                //     type: "session",
-                //     matchId: currentMatch?.id,
-                //     isManualBet: false,
-                //     isActive: false,
-                //   })
-                // );
+                dispatch(
+                  sessionBetLiveStatus({
+                    status: "save",
+                    matchId: currentMatch?.id,
+                    stopAllSessions: true,
+                  })
+                );
               }}
             />
           )}
