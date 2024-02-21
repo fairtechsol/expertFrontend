@@ -123,7 +123,7 @@ const MatchDetails = () => {
     try {
       if (event?.jobData?.newBet?.matchId === state?.id) {
         dispatch(updateTeamRates(event));
-        dispatch(updateMatchBetsPlace(event))
+        dispatch(updateMatchBetsPlace(event));
       }
     } catch (e) {
       console.log(e);
@@ -133,7 +133,7 @@ const MatchDetails = () => {
   const updateSessionBetPlaced = (event: any) => {
     try {
       if (event?.jobData?.placedBet?.matchId === state?.id) {
-        dispatch(updateSessionBetsPlace(event))
+        dispatch(updateSessionBetsPlace(event));
       }
     } catch (e) {
       console.log(e);
@@ -144,6 +144,10 @@ const MatchDetails = () => {
     try {
       if (state?.id) {
         expertSocketService.match.joinMatchRoom(state?.id, "expert");
+        expertSocketService.match.getMatchRates(
+          state?.id,
+          updateMatchDetailToRedux
+        );
         socketService.user.matchBettingStatusChange(updateBettingStatus);
         socketService.user.matchResultDeclared(resultDeclared);
         socketService.user.matchResultUnDeclared(resultUnDeclared);
@@ -151,12 +155,8 @@ const MatchDetails = () => {
         socketService.user.sessionDeleteBet(matchDeleteBet);
         socketService.user.sessionAdded(handleSessionAdded);
         socketService.user.userMatchBetPlaced(updateMatchBetPlaced);
-        socketService.user.userSessionBetPlaced(updateSessionBetPlaced)
+        socketService.user.userSessionBetPlaced(updateSessionBetPlaced);
         socketService.user.sessionResultDeclared(updateResultDeclared);
-        expertSocketService.match.getMatchRates(
-          state?.id,
-          updateMatchDetailToRedux
-        );
       }
     } catch (e) {
       console.log(e);
@@ -164,6 +164,37 @@ const MatchDetails = () => {
     return () => {
       // expertSocketService.match.leaveAllRooms();
       expertSocketService.match.leaveMatchRoom(state?.id);
+      expertSocketService.match.getMatchRatesOff(
+        state?.id,
+        updateMatchDetailToRedux
+      );
+    };
+  }, [state?.id]);
+
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === "visible") {
+        if (state?.id) {
+          dispatch(getMatchDetail(state?.id));
+          dispatch(getPlacedBetsMatch(state?.id));
+          expertSocketService.match.joinMatchRoom(state?.id, "expert");
+          expertSocketService.match.getMatchRates(
+            state?.id,
+            updateMatchDetailToRedux
+          );
+        }
+      } else if (document.visibilityState === "hidden") {
+        expertSocketService.match.leaveMatchRoom(state?.id);
+        expertSocketService.match.getMatchRatesOff(
+          state?.id,
+          updateMatchDetailToRedux
+        );
+      }
+    };
+
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+    return () => {
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
     };
   }, []);
 

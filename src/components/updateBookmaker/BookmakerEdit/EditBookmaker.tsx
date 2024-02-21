@@ -77,12 +77,6 @@ const EditBookmaker = (props: any) => {
   const handleChange = (event: any) => {
     let { name, value } = event.target;
 
-    setLocalQuickBookmaker((prev: any) => {
-      return {
-        ...prev,
-        teamBall: false,
-      };
-    });
     setIsTab("");
     if (value <= 100) {
       if (name === "teamArate") {
@@ -116,6 +110,37 @@ const EditBookmaker = (props: any) => {
           setLocalQuickBookmaker
         );
       }
+      setLocalQuickBookmaker((prev: any) => {
+        if (
+          !prev?.teamA?.suspended ||
+          !prev?.teamB?.suspended ||
+          !prev?.teamC?.suspended ||
+          prev?.teamBall
+        ) {
+          let data = {
+            matchId: match?.id,
+            id: Bid,
+            type: type,
+            backTeamA: prev.teamA.back ? prev.teamA.back : 0,
+            backTeamB: prev.teamB.back ? prev.teamB.back : 0,
+            backTeamC: prev.teamC.back ? prev.teamC.back : 0,
+            layTeamA: prev.teamA.lay ? prev.teamA.lay : 0,
+            layTeamB: prev.teamB.lay ? prev.teamB.lay : 0,
+            layTeamC: prev.teamC.lay ? prev.teamC.lay : 0,
+            statusTeamA: "suspended",
+            statusTeamB: "suspended",
+            statusTeamC: "suspended",
+          };
+          socketService.user.updateMatchBettingRate(data);
+        }
+        return {
+          ...prev,
+          teamA: { ...prev.teamA, suspended: true },
+          teamB: { ...prev.teamB, suspended: true },
+          teamC: { ...prev.teamC, suspended: true },
+          teamBall: false,
+        };
+      });
     } else {
       return;
     }
@@ -158,7 +183,7 @@ const EditBookmaker = (props: any) => {
 
   useEffect(() => {
     socketService.user.updateMatchBettingRateClient((data: any) => {
-      if (match?.id === data?.matchId && Bid === data?.id)
+      if (match?.id === data?.matchId && Bid === data?.id) {
         setLocalQuickBookmaker((prev: any) => {
           return {
             ...prev,
@@ -182,6 +207,7 @@ const EditBookmaker = (props: any) => {
             },
           };
         });
+      }
     });
   }, []);
 

@@ -69,7 +69,7 @@ const MatchListTable = (props: any) => {
             height: { xs: "auto", md: "45px" },
             background: "#FFE094",
             alignItems: { xs: "stretch", md: "center" },
-            borderBottom: "2px solid white",
+            borderTop: "2px solid white",
           },
         ]}
       >

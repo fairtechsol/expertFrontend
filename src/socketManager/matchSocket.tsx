@@ -14,6 +14,7 @@ export const matchSocketService = {
   leaveMatchRoom: (matchId: any) => {
     matchSocket.emit("disconnectCricketData", {
       matchId: matchId,
+      roleName: "expert",
     });
   },
   leaveAllRooms: () => {
@@ -23,6 +24,12 @@ export const matchSocketService = {
     socket.on("addMatch", callback);
   },
   getMatchRates: (matchId: string, callback: any) => {
+    matchSocket.on(`liveData${matchId}`, callback);
+  },
+  matchAddedOff: (callback: any) => {
+    socket.on("addMatch", callback);
+  },
+  getMatchRatesOff: (matchId: string, callback: any) => {
     matchSocket.on(`liveData${matchId}`, callback);
   },
 };

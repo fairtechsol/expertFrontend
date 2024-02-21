@@ -138,19 +138,19 @@ const addMatch = createSlice({
         state.matchDetail = {
           ...state.matchDetail,
           apiSession: apiSession,
-          apiTideMatch: { ...state.matchDetail.apiTideMatch, ...apiTiedMatch },
-          bookmaker: { ...state.matchDetail.bookmaker, ...bookmaker },
+          apiTideMatch: { ...state.matchDetail?.apiTideMatch, ...apiTiedMatch },
+          bookmaker: { ...state.matchDetail?.bookmaker, ...bookmaker },
           marketCompleteMatch: {
-            ...state.matchDetail.marketCompleteMatch,
+            ...state.matchDetail?.marketCompleteMatch,
             ...marketCompleteMatch,
           },
-          matchOdd: { ...state.matchDetail.matchOdd, ...matchOdd },
-          sessionBettings: state.matchDetail.sessionBettings.map(
+          matchOdd: { ...state.matchDetail?.matchOdd, ...matchOdd },
+          sessionBettings: state.matchDetail?.sessionBettings?.map(
             (item: any) => {
               const parsedItem = JSON.parse(item);
               let id = parsedItem?.id;
 
-              const matchingApiSession = apiSession.find(
+              const matchingApiSession = apiSession?.find(
                 (sessionItem: any) => sessionItem.id === id
               );
 
@@ -201,7 +201,23 @@ const addMatch = createSlice({
         };
       })
       .addCase(updateSessionAdded.fulfilled, (state, action) => {
-        state.matchDetail.sessionBettings.push(JSON.stringify(action.payload));
+        const newSessionBetting = JSON.stringify(action.payload);
+
+        const isIdAlreadyPresent = state.matchDetail.sessionBettings.some(
+          (existingSession: any) => {
+            try {
+              const existingId = JSON.parse(existingSession).id;
+              const newId = JSON.parse(newSessionBetting).id;
+              return existingId === newId;
+            } catch (error) {
+              return false;
+            }
+          }
+        );
+
+        if (!isIdAlreadyPresent) {
+          state.matchDetail.sessionBettings.push(newSessionBetting);
+        }
       })
       .addCase(updateMatchBettingStatus.fulfilled, (state, action) => {
         let matchingObjectKey = Object.keys(state?.matchDetail).find(

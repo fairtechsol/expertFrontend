@@ -31,8 +31,8 @@ const SessionMarketBoxLive = ({
       // minBet: "any",
       // maxBet: "any",
       selectionId: newData?.SelectionId,
-      yesRate: newData?.LayPrice1,
-      noRate: newData?.BackPrice1,
+      yesRate: newData?.BackPrice1,
+      noRate: newData?.LayPrice1,
       yesPercent: newData?.leftYesRatePercent,
       noPercent: newData?.leftNoRatePercent,
     };

@@ -18,36 +18,6 @@ export const handleKeysMatchEvents = (
 ) => {
   e.preventDefault();
   let targetValue = e.target.value;
-  setLocalQuickBookmaker((prev: any) => {
-    if (
-      !prev?.teamA?.suspended ||
-      !prev?.teamB?.suspended ||
-      !prev?.teamC?.suspended
-    ) {
-      let data = {
-        matchId: match?.id,
-        id: Bid,
-        type: type,
-        backTeamA: prev.teamA.back ? prev.teamA.back : 0,
-        backTeamB: prev.teamB.back ? prev.teamB.back : 0,
-        backTeamC: prev.teamC.back ? prev.teamC.back : 0,
-        layTeamA: prev.teamA.lay ? prev.teamA.lay : 0,
-        layTeamB: prev.teamB.lay ? prev.teamB.lay : 0,
-        layTeamC: prev.teamC.lay ? prev.teamC.lay : 0,
-        statusTeamA: "suspended",
-        statusTeamB: "suspended",
-        statusTeamC: "suspended",
-      };
-      socketService.user.updateMatchBettingRate(data);
-    }
-    return {
-      ...prev,
-      teamA: { ...prev.teamA, suspended: true },
-      teamB: { ...prev.teamB, suspended: true },
-      teamC: { ...prev.teamC, suspended: true },
-      teamBall: false,
-    };
-  });
   if (key === "shift") {
     setLocalQuickBookmaker((prev: any) => {
       return {
@@ -128,6 +98,37 @@ export const handleKeysMatchEvents = (
         });
       }
     }
+    setLocalQuickBookmaker((prev: any) => {
+      if (
+        !prev?.teamA?.suspended ||
+        !prev?.teamB?.suspended ||
+        !prev?.teamC?.suspended ||
+        prev?.teamBall
+      ) {
+        let data = {
+          matchId: match?.id,
+          id: Bid,
+          type: type,
+          backTeamA: prev.teamA.back ? prev.teamA.back : 0,
+          backTeamB: prev.teamB.back ? prev.teamB.back : 0,
+          backTeamC: prev.teamC.back ? prev.teamC.back : 0,
+          layTeamA: prev.teamA.lay ? prev.teamA.lay : 0,
+          layTeamB: prev.teamB.lay ? prev.teamB.lay : 0,
+          layTeamC: prev.teamC.lay ? prev.teamC.lay : 0,
+          statusTeamA: "suspended",
+          statusTeamB: "suspended",
+          statusTeamC: "suspended",
+        };
+        socketService.user.updateMatchBettingRate(data);
+      }
+      return {
+        ...prev,
+        teamA: { ...prev.teamA, suspended: true },
+        teamB: { ...prev.teamB, suspended: true },
+        teamC: { ...prev.teamC, suspended: true },
+        teamBall: false,
+      };
+    });
   } else if (key === "right") {
     setIsTab("");
     let value = +targetValue ? +targetValue + +incGap : +incGap;
@@ -194,7 +195,51 @@ export const handleKeysMatchEvents = (
         };
       });
     }
+    setLocalQuickBookmaker((prev: any) => {
+      if (
+        !prev?.teamA?.suspended ||
+        !prev?.teamB?.suspended ||
+        !prev?.teamC?.suspended ||
+        prev?.teamBall
+      ) {
+        let data = {
+          matchId: match?.id,
+          id: Bid,
+          type: type,
+          backTeamA: prev.teamA.back ? prev.teamA.back : 0,
+          backTeamB: prev.teamB.back ? prev.teamB.back : 0,
+          backTeamC: prev.teamC.back ? prev.teamC.back : 0,
+          layTeamA: prev.teamA.lay ? prev.teamA.lay : 0,
+          layTeamB: prev.teamB.lay ? prev.teamB.lay : 0,
+          layTeamC: prev.teamC.lay ? prev.teamC.lay : 0,
+          statusTeamA: "suspended",
+          statusTeamB: "suspended",
+          statusTeamC: "suspended",
+        };
+        socketService.user.updateMatchBettingRate(data);
+      }
+      return {
+        ...prev,
+        teamA: { ...prev.teamA, suspended: true },
+        teamB: { ...prev.teamB, suspended: true },
+        teamC: { ...prev.teamC, suspended: true },
+        teamBall: false,
+      };
+    });
   } else if (key === "d") {
+    setLocalQuickBookmaker((prev: any) => {
+      if (
+        !prev?.teamA?.suspended ||
+        !prev?.teamB?.suspended ||
+        !prev?.teamC?.suspended ||
+        prev?.teamBall
+      ) {
+      }
+      return {
+        ...prev,
+        teamBall: false,
+      };
+    });
     setIsTab("");
     let value = +targetValue ? +targetValue + +incGap : +incGap;
     if (e.target.name === "teamArate") {
@@ -368,7 +413,51 @@ export const handleKeysMatchEvents = (
         };
       });
     }
+    setLocalQuickBookmaker((prev: any) => {
+      if (
+        !prev?.teamA?.suspended ||
+        !prev?.teamB?.suspended ||
+        !prev?.teamC?.suspended ||
+        prev?.teamBall
+      ) {
+        let data = {
+          matchId: match?.id,
+          id: Bid,
+          type: type,
+          backTeamA: prev.teamA.back ? prev.teamA.back : 0,
+          backTeamB: prev.teamB.back ? prev.teamB.back : 0,
+          backTeamC: prev.teamC.back ? prev.teamC.back : 0,
+          layTeamA: prev.teamA.lay ? prev.teamA.lay : 0,
+          layTeamB: prev.teamB.lay ? prev.teamB.lay : 0,
+          layTeamC: prev.teamC.lay ? prev.teamC.lay : 0,
+          statusTeamA: "suspended",
+          statusTeamB: "suspended",
+          statusTeamC: "suspended",
+        };
+        socketService.user.updateMatchBettingRate(data);
+      }
+      return {
+        ...prev,
+        teamA: { ...prev.teamA, suspended: true },
+        teamB: { ...prev.teamB, suspended: true },
+        teamC: { ...prev.teamC, suspended: true },
+        teamBall: false,
+      };
+    });
   } else if (key === "a") {
+    setLocalQuickBookmaker((prev: any) => {
+      if (
+        !prev?.teamA?.suspended ||
+        !prev?.teamB?.suspended ||
+        !prev?.teamC?.suspended ||
+        prev?.teamBall
+      ) {
+      }
+      return {
+        ...prev,
+        teamBall: false,
+      };
+    });
     setIsTab("");
     let value = +targetValue - +incGap;
     if (e.target.name === "teamArate") {
@@ -556,7 +645,51 @@ export const handleKeysMatchEvents = (
         };
       });
     }
+    setLocalQuickBookmaker((prev: any) => {
+      if (
+        !prev?.teamA?.suspended ||
+        !prev?.teamB?.suspended ||
+        !prev?.teamC?.suspended ||
+        prev?.teamBall
+      ) {
+        let data = {
+          matchId: match?.id,
+          id: Bid,
+          type: type,
+          backTeamA: prev.teamA.back ? prev.teamA.back : 0,
+          backTeamB: prev.teamB.back ? prev.teamB.back : 0,
+          backTeamC: prev.teamC.back ? prev.teamC.back : 0,
+          layTeamA: prev.teamA.lay ? prev.teamA.lay : 0,
+          layTeamB: prev.teamB.lay ? prev.teamB.lay : 0,
+          layTeamC: prev.teamC.lay ? prev.teamC.lay : 0,
+          statusTeamA: "suspended",
+          statusTeamB: "suspended",
+          statusTeamC: "suspended",
+        };
+        socketService.user.updateMatchBettingRate(data);
+      }
+      return {
+        ...prev,
+        teamA: { ...prev.teamA, suspended: true },
+        teamB: { ...prev.teamB, suspended: true },
+        teamC: { ...prev.teamC, suspended: true },
+        teamBall: false,
+      };
+    });
   } else if (key === "w") {
+    setLocalQuickBookmaker((prev: any) => {
+      if (
+        !prev?.teamA?.suspended ||
+        !prev?.teamB?.suspended ||
+        !prev?.teamC?.suspended ||
+        prev?.teamBall
+      ) {
+      }
+      return {
+        ...prev,
+        teamBall: false,
+      };
+    });
     if (isTab == "tab") {
       setIsTab("");
     }
@@ -762,7 +895,51 @@ export const handleKeysMatchEvents = (
         } else return prev;
       });
     }
+    setLocalQuickBookmaker((prev: any) => {
+      if (
+        !prev?.teamA?.suspended ||
+        !prev?.teamB?.suspended ||
+        !prev?.teamC?.suspended ||
+        prev?.teamBall
+      ) {
+        let data = {
+          matchId: match?.id,
+          id: Bid,
+          type: type,
+          backTeamA: prev.teamA.back ? prev.teamA.back : 0,
+          backTeamB: prev.teamB.back ? prev.teamB.back : 0,
+          backTeamC: prev.teamC.back ? prev.teamC.back : 0,
+          layTeamA: prev.teamA.lay ? prev.teamA.lay : 0,
+          layTeamB: prev.teamB.lay ? prev.teamB.lay : 0,
+          layTeamC: prev.teamC.lay ? prev.teamC.lay : 0,
+          statusTeamA: "suspended",
+          statusTeamB: "suspended",
+          statusTeamC: "suspended",
+        };
+        socketService.user.updateMatchBettingRate(data);
+      }
+      return {
+        ...prev,
+        teamA: { ...prev.teamA, suspended: true },
+        teamB: { ...prev.teamB, suspended: true },
+        teamC: { ...prev.teamC, suspended: true },
+        teamBall: false,
+      };
+    });
   } else if (key === "z") {
+    setLocalQuickBookmaker((prev: any) => {
+      if (
+        !prev?.teamA?.suspended ||
+        !prev?.teamB?.suspended ||
+        !prev?.teamC?.suspended ||
+        prev?.teamBall
+      ) {
+      }
+      return {
+        ...prev,
+        teamBall: false,
+      };
+    });
     setIsTab("");
     if (e.target.name === "teamArate") {
       setLocalQuickBookmaker((prev: any) => {
@@ -940,6 +1117,37 @@ export const handleKeysMatchEvents = (
         };
       });
     }
+    setLocalQuickBookmaker((prev: any) => {
+      if (
+        !prev?.teamA?.suspended ||
+        !prev?.teamB?.suspended ||
+        !prev?.teamC?.suspended ||
+        prev?.teamBall
+      ) {
+        let data = {
+          matchId: match?.id,
+          id: Bid,
+          type: type,
+          backTeamA: prev.teamA.back ? prev.teamA.back : 0,
+          backTeamB: prev.teamB.back ? prev.teamB.back : 0,
+          backTeamC: prev.teamC.back ? prev.teamC.back : 0,
+          layTeamA: prev.teamA.lay ? prev.teamA.lay : 0,
+          layTeamB: prev.teamB.lay ? prev.teamB.lay : 0,
+          layTeamC: prev.teamC.lay ? prev.teamC.lay : 0,
+          statusTeamA: "suspended",
+          statusTeamB: "suspended",
+          statusTeamC: "suspended",
+        };
+        socketService.user.updateMatchBettingRate(data);
+      }
+      return {
+        ...prev,
+        teamA: { ...prev.teamA, suspended: true },
+        teamB: { ...prev.teamB, suspended: true },
+        teamC: { ...prev.teamC, suspended: true },
+        teamBall: false,
+      };
+    });
   } else if (key === "enter" || key === "return") {
     if (isTab !== "tab") {
       if (e.target.name === "teamArate") {
@@ -1518,6 +1726,37 @@ export const handleKeysMatchEvents = (
         });
       }
     }
+    setLocalQuickBookmaker((prev: any) => {
+      if (
+        !prev?.teamA?.suspended ||
+        !prev?.teamB?.suspended ||
+        !prev?.teamC?.suspended ||
+        prev?.teamBall
+      ) {
+        let data = {
+          matchId: match?.id,
+          id: Bid,
+          type: type,
+          backTeamA: prev.teamA.back ? prev.teamA.back : 0,
+          backTeamB: prev.teamB.back ? prev.teamB.back : 0,
+          backTeamC: prev.teamC.back ? prev.teamC.back : 0,
+          layTeamA: prev.teamA.lay ? prev.teamA.lay : 0,
+          layTeamB: prev.teamB.lay ? prev.teamB.lay : 0,
+          layTeamC: prev.teamC.lay ? prev.teamC.lay : 0,
+          statusTeamA: "suspended",
+          statusTeamB: "suspended",
+          statusTeamC: "suspended",
+        };
+        socketService.user.updateMatchBettingRate(data);
+      }
+      return {
+        ...prev,
+        teamA: { ...prev.teamA, suspended: true },
+        teamB: { ...prev.teamB, suspended: true },
+        teamC: { ...prev.teamC, suspended: true },
+        teamBall: false,
+      };
+    });
   } else if (key === "*" || key === "l") {
     setIsTab("");
     if (e.target.name === "teamArate") {
@@ -1554,6 +1793,37 @@ export const handleKeysMatchEvents = (
         };
       });
     }
+    setLocalQuickBookmaker((prev: any) => {
+      if (
+        !prev?.teamA?.suspended ||
+        !prev?.teamB?.suspended ||
+        !prev?.teamC?.suspended ||
+        prev?.teamBall
+      ) {
+        let data = {
+          matchId: match?.id,
+          id: Bid,
+          type: type,
+          backTeamA: prev.teamA.back ? prev.teamA.back : 0,
+          backTeamB: prev.teamB.back ? prev.teamB.back : 0,
+          backTeamC: prev.teamC.back ? prev.teamC.back : 0,
+          layTeamA: prev.teamA.lay ? prev.teamA.lay : 0,
+          layTeamB: prev.teamB.lay ? prev.teamB.lay : 0,
+          layTeamC: prev.teamC.lay ? prev.teamC.lay : 0,
+          statusTeamA: "suspended",
+          statusTeamB: "suspended",
+          statusTeamC: "suspended",
+        };
+        socketService.user.updateMatchBettingRate(data);
+      }
+      return {
+        ...prev,
+        teamA: { ...prev.teamA, suspended: true },
+        teamB: { ...prev.teamB, suspended: true },
+        teamC: { ...prev.teamC, suspended: true },
+        teamBall: false,
+      };
+    });
   } else if (key === "/") {
     setIncGap(5);
     setIsTab("");
@@ -1588,5 +1858,36 @@ export const handleKeysMatchEvents = (
         };
       });
     }
+    setLocalQuickBookmaker((prev: any) => {
+      if (
+        !prev?.teamA?.suspended ||
+        !prev?.teamB?.suspended ||
+        !prev?.teamC?.suspended ||
+        prev?.teamBall
+      ) {
+        let data = {
+          matchId: match?.id,
+          id: Bid,
+          type: type,
+          backTeamA: prev.teamA.back ? prev.teamA.back : 0,
+          backTeamB: prev.teamB.back ? prev.teamB.back : 0,
+          backTeamC: prev.teamC.back ? prev.teamC.back : 0,
+          layTeamA: prev.teamA.lay ? prev.teamA.lay : 0,
+          layTeamB: prev.teamB.lay ? prev.teamB.lay : 0,
+          layTeamC: prev.teamC.lay ? prev.teamC.lay : 0,
+          statusTeamA: "suspended",
+          statusTeamB: "suspended",
+          statusTeamC: "suspended",
+        };
+        socketService.user.updateMatchBettingRate(data);
+      }
+      return {
+        ...prev,
+        teamA: { ...prev.teamA, suspended: true },
+        teamB: { ...prev.teamB, suspended: true },
+        teamC: { ...prev.teamC, suspended: true },
+        teamBall: false,
+      };
+    });
   }
 };
