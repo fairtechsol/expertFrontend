@@ -1,5 +1,5 @@
 import { Box } from "@mui/material";
-import { useEffect } from "react";
+import { memo, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import Loader from "../../components/Loader";
@@ -334,4 +334,4 @@ const MatchDetails = () => {
   );
 };
 
-export default MatchDetails;
+export default memo(MatchDetails);

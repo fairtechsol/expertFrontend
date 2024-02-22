@@ -224,7 +224,10 @@ const addMatch = createSlice({
           (key) => state?.matchDetail[key].type === action.payload.type
         );
         if (matchingObjectKey) {
-          state.matchDetail[matchingObjectKey] = action.payload;
+          state.matchDetail[matchingObjectKey] = {
+            ...state.matchDetail[matchingObjectKey],
+            activeStatus: action.payload.activeStatus,
+          };
         }
       })
       .addCase(tournamentListReset, (state) => {

@@ -4,10 +4,7 @@ import { ARROWUP } from "../../../assets";
 import Divider from "../../Common/Divider";
 import Stop from "./Stop";
 import SessionMarketBox from "./SessionMarketBox";
-import {
-  betLiveStatus,
-  sessionBetLiveStatus,
-} from "../../../store/actions/match/matchAction";
+import { sessionBetLiveStatus } from "../../../store/actions/match/matchAction";
 import { AppDispatch } from "../../../store/store";
 import { useDispatch } from "react-redux";
 
