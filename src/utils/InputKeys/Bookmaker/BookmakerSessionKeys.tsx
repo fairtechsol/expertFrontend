@@ -1254,6 +1254,12 @@ export const handleKeysMatchEvents = (
         });
       }
     }
+    setLocalQuickBookmaker((prev: any) => {
+      return {
+        ...prev,
+        teamBall: false,
+      };
+    });
   } else if (key === "ctrl") {
     setIncGap(1);
     setIsTab("");
