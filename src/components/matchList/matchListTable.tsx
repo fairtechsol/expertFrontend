@@ -147,8 +147,9 @@ const MatchListTable = (props: any) => {
               order: { xs: "1", sm: "2" },
               width: { xs: "100%", sm: "auto" },
               py: { xs: 1, sm: 0 },
+              overflow: "hidden",
             }}
-          >
+          ><Box sx={{   marginTop: showUserModal ? { xs: "1%", sm: "5%", lg: "51%" } : "0", }}>
             {data?.stopAt && (
               <MatchListProfitLoss
                 onClick={() => handleMatchProfitLossClick(data?.id)}
@@ -161,6 +162,7 @@ const MatchListTable = (props: any) => {
                 place="1"
               />
             )}
+           </Box>
             <Box display={"flex"} sx={{ marginY: { xs: 1, sm: 0 } }}>
               {(getProfile?.allPrivilege ||
                 getProfile?.betFairMatchPrivilege) && (

@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store/store";
 import { useEffect, useState } from "react";
 import CustomModal from "../Common/CustomModal";
+import CustomErrorMessage from "../Common/CustomErrorMessage";
 
 const initialValues: any = {
   oldPassword: "",
@@ -93,9 +94,12 @@ export const ChangePasswordComponent = ({ passLoader, width }: any) => {
               img1={eyeLock}
               place={2}
               toFoucs={true}
-              touched={touched.oldPassword}
-              error={errors.oldPassword}
+              onBlur={formik.handleBlur}
             />
+             <CustomErrorMessage
+                touched={touched.oldPassword}
+                errors={errors.oldPassword}
+              />
             <Input
               required={true}
               placeholder={"Enter New Password"}
@@ -110,15 +114,18 @@ export const ChangePasswordComponent = ({ passLoader, width }: any) => {
                 marginLeft: "0px",
                 fontWeight: "600",
               }}
+              onBlur={formik.handleBlur}
               inputContainerStyle={{ borderRadius: "5px" }}
               containerStyle={{ marginTop: "30px" }}
               img={eye}
               img1={eyeLock}
               place={3}
               toFoucs={true}
-              touched={touched.newPassword}
-              error={errors.newPassword}
             />
+             <CustomErrorMessage
+                touched={touched.newPassword}
+                errors={errors.newPassword}
+              />
             <Input
               required={true}
               placeholder={"Enter Confirm Password"}
@@ -133,6 +140,7 @@ export const ChangePasswordComponent = ({ passLoader, width }: any) => {
                 marginLeft: "0px",
                 fontWeight: "600",
               }}
+              onBlur={formik.handleBlur}
               inputContainerStyle={{ borderRadius: "5px" }}
               containerStyle={{ marginTop: "30px" }}
               img={eye}
@@ -140,9 +148,11 @@ export const ChangePasswordComponent = ({ passLoader, width }: any) => {
               place={4}
               toFoucs={true}
               okButtonRef={"okButtonRef"}
-              touched={touched.confirmPassword}
-              error={errors.confirmPassword}
             />
+               <CustomErrorMessage
+                touched={touched.confirmPassword}
+                errors={errors.confirmPassword}
+              />
             <Button
               type="submit"
               sx={{
