@@ -114,12 +114,12 @@ const BoxComponent = ({
                 lock={lock}
                 value={
                   ex?.availableToBack?.length > 0
-                    ? ex?.availableToBack[2]?.price
+                    ? ex?.availableToBack[2]?.price ?? 0
                     : 0
                 }
                 value2={formatNumber(
                   ex?.availableToBack?.length > 0
-                    ? ex?.availableToBack[2]?.size
+                    ? ex?.availableToBack[2]?.size ?? 0
                     : 0
                 )}
                 color={matchesMobile ? "white" : "#CEEBFF"}
@@ -135,12 +135,12 @@ const BoxComponent = ({
                 lock={lock}
                 value={
                   ex?.availableToBack?.length > 0
-                    ? ex?.availableToBack[1]?.price
+                    ? ex?.availableToBack[1]?.price ?? 0
                     : 0
                 }
                 value2={formatNumber(
                   ex?.availableToBack?.length > 0
-                    ? ex?.availableToBack[1]?.size
+                    ? ex?.availableToBack[1]?.size ?? 0
                     : 0
                 )}
                 color={matchesMobile ? "white" : "#C2E6FF"}
@@ -154,13 +154,13 @@ const BoxComponent = ({
               align={align}
               value={
                 ex?.availableToBack?.length > 0
-                  ? ex?.availableToBack[0]?.price
+                  ? ex?.availableToBack[0]?.price ?? 0
                   : 0
               }
               lock={lock}
               value2={formatNumber(
                 ex?.availableToBack?.length > 0
-                  ? ex?.availableToBack[0]?.size
+                  ? ex?.availableToBack[0]?.size ?? 0
                   : 0
               )}
               color={matchesMobile ? "white" : "#A7DCFF"}
@@ -173,12 +173,14 @@ const BoxComponent = ({
               align={align}
               value={
                 ex?.availableToLay?.length > 0
-                  ? ex?.availableToLay[0]?.price
+                  ? ex?.availableToLay[0]?.price ?? 0
                   : 0
               }
               lock={lock}
               value2={formatNumber(
-                ex?.availableToLay?.length > 0 ? ex?.availableToLay[0]?.size : 0
+                ex?.availableToLay?.length > 0
+                  ? ex?.availableToLay[0]?.size ?? 0
+                  : 0
               )}
               color={matchesMobile ? "white" : "#FFB5B5"}
             />
@@ -192,11 +194,13 @@ const BoxComponent = ({
               lock={lock}
               value={
                 ex?.availableToLay?.length > 0
-                  ? ex?.availableToLay[1]?.price
+                  ? ex?.availableToLay[1]?.price ?? 0
                   : 0
               }
               value2={formatNumber(
-                ex?.availableToLay?.length > 0 ? ex?.availableToLay[1]?.size : 0
+                ex?.availableToLay?.length > 0
+                  ? ex?.availableToLay[1]?.size ?? 0
+                  : 0
               )}
               color={"#F2CBCB"}
             />
@@ -208,12 +212,14 @@ const BoxComponent = ({
               align={align}
               value={
                 ex?.availableToLay?.length > 0
-                  ? ex?.availableToLay[2]?.price
+                  ? ex?.availableToLay[2]?.price ?? 0
                   : 0
               }
               lock={lock}
               value2={formatNumber(
-                ex?.availableToLay?.length > 0 ? ex?.availableToLay[2]?.size : 0
+                ex?.availableToLay?.length > 0
+                  ? ex?.availableToLay[2]?.size ?? 0
+                  : 0
               )}
               color={"#ECD6D6"}
             />
