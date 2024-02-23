@@ -94,7 +94,8 @@ const MenutItemsComponent = ({
                       return (
                         <Box
                           key={element.id}
-                          onClick={() => {
+                          onClick={(e: any) => {
+                            e.stopPropagation();
                             navigate(`/expert/live/${element?.id}`, {
                               state: {
                                 createSession: false,
@@ -125,7 +126,8 @@ const MenutItemsComponent = ({
             })}
           {(getProfile?.allPrivilege || getProfile?.sessionMatchPrivilege) && (
             <Box
-              onClick={() => {
+              onClick={(e: any) => {
+                e.stopPropagation();
                 dispatch(sessionByIdReset());
                 dispatch(resetPlacedBets());
                 navigate("/expert/live", {
@@ -138,7 +140,9 @@ const MenutItemsComponent = ({
               }}
               sx={{ marginTop: "5px", display: "flex", alignItems: "center" }}
             >
-              <Typography sx={{ fontSize: "12px", fontWeight: "600" }}>
+              <Typography
+                sx={{ fontSize: "12px", fontWeight: "600", cursor: "pointer" }}
+              >
                 Create Session
               </Typography>
               <StyledImage
@@ -170,7 +174,8 @@ const MenutItemsComponent = ({
                       return (
                         <Box
                           key={element.id}
-                          onClick={() => {
+                          onClick={(e: any) => {
+                            e.stopPropagation();
                             navigate("/expert/add_book_maker", {
                               state: {
                                 id: element.id,
