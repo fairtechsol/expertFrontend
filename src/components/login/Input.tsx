@@ -29,6 +29,7 @@ const Input: React.FC<any> = (props) => {
     name,
     touched,
     error,
+    onBlur
   } = props;
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.down("md"));
@@ -74,6 +75,7 @@ const Input: React.FC<any> = (props) => {
           type={type === "password" && showPass ? "text" : type}
           required={required}
           name={name}
+          onBlur={onBlur}
           InputProps={{
             autoComplete: "new-password",
             inputProps: {

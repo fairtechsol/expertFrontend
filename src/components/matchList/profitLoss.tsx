@@ -1,7 +1,7 @@
 import { Box, Typography } from "@mui/material";
 
 const MatchListProfitLoss = (Props: any) => {
-  const { updateMatchStatus, updateMatchStatusLabel, onClick } = Props;
+  const { updateMatchStatus, updateMatchStatusLabel, onClick, showUserModal } = Props;
   return (
     <>
       <Box
@@ -18,6 +18,7 @@ const MatchListProfitLoss = (Props: any) => {
           justifyContent: "space-between",
           alignItems: "center",
           // width: "18%",
+          marginTop: showUserModal ? { xs: "1%", sm: "5%", lg: "0%" } : "0", 
         }}
       >
         <Typography
