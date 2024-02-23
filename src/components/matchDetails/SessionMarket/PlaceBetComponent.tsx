@@ -1,13 +1,22 @@
-import { useState } from "react";
+import { useDispatch } from "react-redux";
 import { UD } from "../../../assets";
 import { Box, Typography } from "@mui/material";
+import { AppDispatch } from "../../../store/store";
+import { getSessionProfitLossMatchDetail } from "../../../store/actions/match/matchAction";
 
-const PlaceBetComponent = ({ newData }: any) => {
-  const [proLoss] = useState(newData?.profitLoss);
+const PlaceBetComponent = ({ profitLossData, newData }: any) => {
+  const dispatch: AppDispatch = useDispatch();
   return (
     <>
       <Box
-        onClick={() => {}}
+        onClick={() => {
+          dispatch(
+            getSessionProfitLossMatchDetail({
+              id: newData?.id,
+              name: newData?.name,
+            })
+          );
+        }}
         sx={{
           background: "#0B4F26",
           flexDirection: "row",
@@ -55,7 +64,7 @@ const PlaceBetComponent = ({ newData }: any) => {
               lineHeight: 1,
             }}
           >
-            {proLoss?.total_bet || 0}
+            {profitLossData?.totalBet || 0}
           </Typography>
         </Box>
         <Box
@@ -70,17 +79,17 @@ const PlaceBetComponent = ({ newData }: any) => {
           <Typography
             sx={{
               fontSize: {
-                lg: !newData?.profitLoss?.max_loss ? "10px" : "10px",
+                lg: !profitLossData?.maxLoss ? "10px" : "10px",
               },
-              fontWeight: !newData?.profitLoss?.max_loss ? "bold" : "bold",
+              fontWeight: !profitLossData?.maxLoss ? "bold" : "bold",
               color: "white",
             }}
           >
-            {newData?.betStatus === 2
-              ? newData?.profitLoss
-              : !newData?.profitLoss?.max_loss
+            {newData?.result
+              ? profitLossData
+              : !profitLossData?.maxLoss
               ? "Profit/Loss"
-              : newData?.profitLoss?.max_loss}
+              : profitLossData?.maxLoss}
           </Typography>
           <img
             src={UD}

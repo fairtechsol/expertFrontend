@@ -17,18 +17,22 @@ import {
   updateMatchBettingStatus,
   updateMatchRates,
   updateSessionAdded,
+  updateSessionProLoss,
 } from "../../store/actions/addMatch/addMatchAction";
-import { updateApiSessionById } from "../../store/actions/addSession";
+import {
+  setCurrentOdd,
+  updateApiSessionById,
+} from "../../store/actions/addSession";
 import {
   getPlacedBetsMatch,
   updateMatchBetsPlace,
+  updateMaxLoss,
   updateSessionBetsPlace,
   updateTeamRates,
 } from "../../store/actions/match/matchAction";
 import { AppDispatch, RootState } from "../../store/store";
 
 const MatchDetails = () => {
-  const data: any = [];
   const { state } = useLocation();
   const navigate = useNavigate();
   const dispatch: AppDispatch = useDispatch();
@@ -38,6 +42,8 @@ const MatchDetails = () => {
   const { placedBetsMatch } = useSelector(
     (state: RootState) => state.matchList
   );
+  const { sessionProLoss } = useSelector((state: RootState) => state.match);
+  const { currentOdd } = useSelector((state: RootState) => state.addSession);
 
   const updateMatchDetailToRedux = (event: any) => {
     try {
@@ -134,6 +140,26 @@ const MatchDetails = () => {
     try {
       if (event?.jobData?.placedBet?.matchId === state?.id) {
         dispatch(updateSessionBetsPlace(event));
+        dispatch(
+          updateSessionProLoss({
+            id: event?.jobData?.placedBet?.betId,
+            betPlaced: event?.redisData?.betPlaced,
+          })
+        );
+        dispatch(
+          updateMaxLoss({
+            id: event?.jobData?.placedBet?.betId,
+            maxLoss: event?.redisData?.maxLoss,
+            totalBet: event?.redisData?.totalBet,
+          })
+        );
+        dispatch(
+          setCurrentOdd({
+            matchId: event?.jobData?.placedBet?.matchId,
+            betId: event?.jobData?.placedBet?.betId,
+            odds: event?.jobData?.placedBet?.odds,
+          })
+        );
       }
     } catch (e) {
       console.log(e);
@@ -197,6 +223,8 @@ const MatchDetails = () => {
       document.removeEventListener("visibilitychange", handleVisibilityChange);
     };
   }, []);
+
+  console.log(sessionProLoss, "sessionProLoss");
 
   return (
     <Box
@@ -265,6 +293,7 @@ const MatchDetails = () => {
                     liveOnly={false}
                     hideTotalBet={false}
                     stopAllHide={false}
+                    profitLossData={matchDetail?.sessionProfitLoss}
                     sessionData={matchDetail?.sessionBettings}
                     hideResult={false}
                     currentMatch={matchDetail}
@@ -273,7 +302,7 @@ const MatchDetails = () => {
               </Box>
             )}
 
-            {data?.length > 0 && (
+            {sessionProLoss?.length > 0 && (
               <Box
                 sx={{
                   display: "flex",
@@ -286,8 +315,16 @@ const MatchDetails = () => {
                   marginTop: "1.25vw",
                 }}
               >
-                {data?.map((v: any) => {
-                  return <RunsBox key={v?.id} item={v} />;
+                {sessionProLoss?.map((v: any) => {
+                  return (
+                    <RunsBox
+                      key={v?.id}
+                      item={v}
+                      currentOdd={
+                        currentOdd?.betId === v?.id ? currentOdd : null
+                      }
+                    />
+                  );
                 })}
               </Box>
             )}

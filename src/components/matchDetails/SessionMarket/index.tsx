@@ -21,6 +21,7 @@ const SessionMarket = ({
   setIObtes,
   setData,
   setLocalSessionExpertOdds,
+  profitLossData,
 }: any) => {
   const dispatch: AppDispatch = useDispatch();
   const [stop, setStop] = useState(true);
@@ -234,6 +235,7 @@ const SessionMarket = ({
                         setStop={setStop}
                         stop={stop}
                         index={index}
+                        profitLossData={profitLossData}
                       />
                       <Divider />
                     </Box>

@@ -2,8 +2,12 @@ import { Box, Typography, useMediaQuery, useTheme } from "@mui/material";
 import { useEffect, useRef } from "react";
 import StyledImage from "../Common/StyledImages";
 import { CANCEL } from "../../assets";
+import { AppDispatch } from "../../store/store";
+import { useDispatch } from "react-redux";
+import { getSessionProfitLossMatchDetailFilter } from "../../store/actions/match/matchAction";
 
-const RunsBox = ({ item, setData, currentOdds }: any) => {
+const RunsBox = ({ item, currentOdd }: any) => {
+  const dispatch: AppDispatch = useDispatch();
   const theme = useTheme();
   const matchesMobile = useMediaQuery(theme.breakpoints.down("lg"));
   const containerRef = useRef(null);
@@ -27,12 +31,12 @@ const RunsBox = ({ item, setData, currentOdds }: any) => {
   };
 
   useEffect(() => {
-    if (currentOdds && currentOdds?.bet_id === item?.id) {
+    if (currentOdd && currentOdd?.betId === item?.id) {
       setTimeout(() => {
-        scrollToElement(`${item?.id}_${currentOdds?.odds}`);
+        scrollToElement(`${item?.id}_${currentOdd?.odds}`);
       }, 500);
     }
-  }, [currentOdds, item?.id]);
+  }, [currentOdd, item?.id]);
 
   return (
     <Box
@@ -65,14 +69,11 @@ const RunsBox = ({ item, setData, currentOdds }: any) => {
             lineHeight: "1",
           }}
         >
-          {item?.bet_condition}
+          {item?.name}
         </Typography>
         <img
           onClick={() => {
-            setData((prev: any) => {
-              const updatedArray = prev?.filter((v: any) => v?.id !== item?.id);
-              return updatedArray;
-            });
+            dispatch(getSessionProfitLossMatchDetailFilter(item?.id));
           }}
           src={CANCEL}
           alt="close"
@@ -119,12 +120,12 @@ const RunsBox = ({ item, setData, currentOdds }: any) => {
         </Box>
       </Box>
       <Box ref={containerRef} sx={{ height: "350px", overflowY: "scroll" }}>
-        {item?.profitLoss?.betData?.length > 0 ? (
-          item?.profitLoss?.betData?.map((v: any) => {
+        {item?.proLoss?.betPlaced?.length > 0 ? (
+          item?.proLoss?.betPlaced?.map((v: any) => {
             const getColor = (value: any) => {
               if (value >= 1) {
                 return "#10DC61";
-              } else if (value === v?.profit_loss && value > 1) {
+              } else if (value === v?.profitLoss && value > 1) {
                 return "#F8C851";
               } else if (value === 0) {
                 return "#F8C851";
@@ -135,7 +136,7 @@ const RunsBox = ({ item, setData, currentOdds }: any) => {
             const getSVG = (value: any) => {
               if (value > 1) {
                 return "https://fontawesomeicons.com/images/svg/trending-up-sharp.svg";
-              } else if (value === v?.profit_loss && value > 1) {
+              } else if (value === v?.profitLoss && value > 1) {
                 return "https://fontawesomeicons.com/images/svg/trending-up-sharp.svg";
               } else if (value === 0) {
                 return "https://fontawesomeicons.com/images/svg/trending-up-sharp.svg";
@@ -176,7 +177,7 @@ const RunsBox = ({ item, setData, currentOdds }: any) => {
                     width: "80%",
                     display: "flex",
                     borderLeft: "1px solid #306A47",
-                    background: getColor(v?.profit_loss),
+                    background: getColor(v?.profitLoss),
 
                     justifyContent: "center",
                     alignItems: "center",
@@ -190,17 +191,17 @@ const RunsBox = ({ item, setData, currentOdds }: any) => {
                       width: "40px",
                     }}
                   >
-                    {Number(v?.profit_loss) >= 0 ? (
+                    {Number(v?.profitLoss) >= 0 ? (
                       <>
                         <span style={{ visibility: "hidden" }}>-</span>
-                        {v?.profit_loss}
+                        {v?.profitLoss}
                       </>
                     ) : (
-                      v?.profit_loss
+                      v?.profitLoss
                     )}
                   </Typography>
                   <StyledImage
-                    src={getSVG(v?.profit_loss)}
+                    src={getSVG(v?.profitLoss)}
                     sx={{
                       height: "15px",
                       marginLeft: "5px",
