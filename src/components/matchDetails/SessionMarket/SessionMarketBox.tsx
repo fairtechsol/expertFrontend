@@ -18,8 +18,8 @@ const SessionMarketBox = ({
   updateSessionData,
   hideResult,
   hideTotalBet,
-  setData,
   setIObtes,
+  profitLossData,
 }: any) => {
   const dispatch: AppDispatch = useDispatch();
   const { success, loading } = useSelector(
@@ -253,7 +253,11 @@ const SessionMarketBox = ({
           </Box>
         )}
         {!hideTotalBet && (
-          <PlaceBetComponent width={7} newData={newData} setData={setData} />
+          <PlaceBetComponent
+            width={7}
+            profitLossData={profitLossData[JSON.parse(newData)?.id]}
+            newData={JSON.parse(newData)}
+          />
         )}
       </Box>
       <Divider />

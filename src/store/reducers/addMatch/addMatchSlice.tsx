@@ -15,7 +15,10 @@ import {
   updateSessionAdded,
 } from "../../actions/addMatch/addMatchAction";
 import { updateApiSessionById } from "../../actions/addSession";
-import { updateTeamRates } from "../../actions/match/matchAction";
+import {
+  updateMaxLoss,
+  updateTeamRates,
+} from "../../actions/match/matchAction";
 
 interface InitialState {
   tournamentList: any;
@@ -267,6 +270,20 @@ const addMatch = createSlice({
         return {
           ...state,
           matchAdded: false,
+        };
+      })
+      .addCase(updateMaxLoss.fulfilled, (state, action) => {
+        const { id, maxLoss, totalBet } = action.payload;
+
+        state.matchDetail = {
+          ...state.matchDetail,
+          sessionProfitLoss: {
+            ...state.matchDetail.sessionProfitLoss,
+            [id]: {
+              maxLoss,
+              totalBet,
+            },
+          },
         };
       })
       .addCase(updateTeamRates.fulfilled, (state, action) => {

@@ -156,6 +156,12 @@ export const updateSessionAdded = createAsyncThunk<any, any>(
     return matchDetails;
   }
 );
+export const updateSessionProLoss = createAsyncThunk<any, any>(
+  "/sessionProLoss/update",
+  async (matchDetails) => {
+    return matchDetails;
+  }
+);
 export const updateMatchBettingStatus = createAsyncThunk<any, any>(
   "/match/bettingtatus",
   async (betting) => {
