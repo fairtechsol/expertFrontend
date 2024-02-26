@@ -124,7 +124,7 @@ const MatchPermissionsModal = (props: any) => {
         />
       </Box>
       <Box sx={{
-        width:  { xs: "auto", sm: "auto" , md: "20%"},
+        width: { xs: "auto", sm: "auto", md: "20%" },
         flex: 1,
         marginRight: "10px",
       }}>
@@ -156,7 +156,7 @@ const MatchPermissionsModal = (props: any) => {
               <CustomButton
                 containerStyle={{
                   minWidth: { xs: "95%", sm: "100px" },
-                  width: { xs: "49%", sm: "100px" ,lg: "100px"},
+                  width: { xs: "49%", sm: "100px", lg: "100px" },
                   marginTop: { xs: "1rem", sm: "1rem", md: 0 },
                 }}
                 title={"Submit"}
