@@ -1,35 +1,44 @@
-import { Box } from "@mui/material";
+import { Box, useMediaQuery } from "@mui/material";
 import BoxButtonWithBettings from "../Common/BoxButtonWithBettings";
 import BoxButtonWithSwitch from "../Common/BoxButtonWithSwitch";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
 import { handleSorting } from "../helper";
+import CustomButton from "../Common/CustomButton";
+import MatchListProfitLoss from "./profitLoss";
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import theme from "../../theme";
 
 const MatchPermissionsModal = (props: any) => {
   const {
     data,
+    showUserModal,
     updateBettings,
     setUpdateBettings,
     updateMatchStatus,
     setUpdateMatchStatus,
+    handleMatchProfitLossClick
   } = props;
 
   const { getProfile } = useSelector((state: RootState) => state.user.profile);
-
+  const navigate = useNavigate();
+  const matchesMobile = useMediaQuery(theme.breakpoints.down("lg"));
   return (
     <Box
       sx={{
         width: "100%",
+        display: "flex",
         background: "#ffe094",
-        height: { xs: "auto", md: "auto", lg: "8rem" }
+        height: { xs: "auto", md: "auto", lg: "7rem" }
       }}
     >
       <Box
         sx={{
           display: "flex",
-          width: "88%",
+          width: "80%",
           flexWrap: "wrap",
-          flex: 1,
+          flex: 3,
           alignItems: "center",
           p: 2,
         }}
@@ -113,6 +122,70 @@ const MatchPermissionsModal = (props: any) => {
           setUpdateMatchStatus={setUpdateMatchStatus}
           place={2}
         />
+      </Box>
+      <Box sx={{
+        width: { xs: "auto", sm: "auto", md: "20%" },
+        flex: 1,
+        marginRight: "10px",
+      }}>
+        {showUserModal && !matchesMobile && (
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "flex-end",
+              alignItems: "center",
+              marginTop: "4rem",
+              flexDirection: { xs: "column", sm: "column", md: "row" },
+
+            }}
+          >
+            {data?.stopAt && (
+              <MatchListProfitLoss
+                containerStyle={{
+                  minWidth: { xs: "4%", sm: "12px" },
+                  width: { xs: "9%", sm: "100px" },
+                  marginBottom: { xs: "1rem", sm: "1rem", md: 0 },
+                }}
+                onClick={() => handleMatchProfitLossClick(data?.id)}
+                updateMatchStatusLabel="Match Profit/Loss"
+                updateMatchStatus={data?.pl && data?.pl?.length > 0 && data?.pl[0]?.totalProfitLoss}
+                place="1"
+              />
+            )}
+            {(getProfile?.allPrivilege || getProfile?.betFairMatchPrivilege) && (
+              <CustomButton
+                containerStyle={{
+                  minWidth: { xs: "95%", sm: "100px" },
+                  width: { xs: "49%", sm: "100px", lg: "100px" },
+                  marginTop: { xs: "1rem", sm: "1rem", md: 0 },
+                }}
+                title={"Submit"}
+                onClick={() => {
+                  navigate(`/expert/betOdds`, {
+                    state: { id: data?.id, marketId: data?.marketId },
+                  });
+                }}
+              />
+            )}
+            {(getProfile?.allPrivilege || getProfile?.addMatchPrivilege) && (
+              <CustomButton
+                containerStyle={{
+                  minWidth: { xs: "95%", sm: "100px" },
+                  width: { xs: "49%", sm: "100px" },
+                  marginTop: { xs: "1rem", sm: "1rem", md: 0 },
+                }}
+                onClick={() => {
+                  navigate(`/expert/edit_match`, {
+                    state: { id: data?.id },
+                  });
+                }}
+                title={"Edit"}
+              />
+            )}
+
+          </Box>
+        )}
+
       </Box>
     </Box>
   );

@@ -9,7 +9,7 @@ const MatchListProfitLoss = (Props: any) => {
         sx={{
           cursor: "pointer",
           height: "35px",
-          minWidth: { xs: "100%", sm: "200px" },
+          minWidth: { xs: "70%", sm: "200px" },
           marginLeft: { xs: "0", sm: "10px" },
           borderRadius: "5px",
           border: "1px solid #0B4F26",
