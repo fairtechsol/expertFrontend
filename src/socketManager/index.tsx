@@ -1,18 +1,22 @@
 import io from "socket.io-client";
-import { baseUrls } from "../utils/Constants";
+import { Constants, baseUrls } from "../utils/Constants";
 import { authSocketService } from "./authSocket";
 import { matchSocketService } from "./matchSocket";
 import { userSocketService } from "./userSocket";
 
 export const matchSocket = io(baseUrls.matchSocket, {
-  transports: ["websocket"],
+  transports: [
+    process.env.NODE_ENV === "production"
+      ? `${Constants.POLLING}`
+      : `${Constants.WEBSOCKET}`,
+  ],
   auth: {
     token: `${sessionStorage.getItem("userToken")}`,
   },
 });
 
 export const socket = io(baseUrls.expertSocket, {
-  transports: ["websocket"],
+  transports: [`${Constants.WEBSOCKET}`],
   auth: {
     token: `${sessionStorage.getItem("userToken")}`,
   },

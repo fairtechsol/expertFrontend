@@ -224,8 +224,6 @@ const MatchDetails = () => {
     };
   }, []);
 
-  console.log(sessionProLoss, "sessionProLoss");
-
   return (
     <Box
       sx={{

@@ -149,11 +149,11 @@ const MatchListTable = (props: any) => {
               width: { xs: "100%", sm: "auto" },
               py: { xs: 1, sm: 0 },
               overflow: "hidden",
-              display: showUserModal && !matchesMobile ? "none" : "flex", 
-              // marginBottom: showUserModal ? { xs: "0%", sm: "-1%", lg: "-20%" } : "0%", 
+              display: showUserModal && !matchesMobile ? "none" : "flex",
+              // marginBottom: showUserModal ? { xs: "0%", sm: "-1%", lg: "-20%" } : "0%",
             }}
           >
-            {data?.stopAt  && (
+            {data?.stopAt && (
               <MatchListProfitLoss
                 onClick={() => handleMatchProfitLossClick(data?.id)}
                 updateMatchStatusLabel="Match Profit/Loss"
@@ -165,7 +165,14 @@ const MatchListTable = (props: any) => {
                 place="1"
               />
             )}
-            <Box display={"flex"}   sx={{ marginY: { xs: 1, sm: 0 , lg: 0}, alignItems: "center", justifyContent: "flex-end" }}>
+            <Box
+              display={"flex"}
+              sx={{
+                marginY: { xs: 1, sm: 0, lg: 0 },
+                alignItems: "center",
+                justifyContent: "flex-end",
+              }}
+            >
               {(getProfile?.allPrivilege ||
                 getProfile?.betFairMatchPrivilege) && (
                 <CustomButton
@@ -201,10 +208,11 @@ const MatchListTable = (props: any) => {
           </Box>
         </Box>
       </Box>
-      {showUserModal&&(
+      {showUserModal && (
         <MatchPermissionsModal
-        showUserModal={showUserModal}
+          showUserModal={showUserModal}
           data={data}
+          handleMatchProfitLossClick={handleMatchProfitLossClick}
           updateBettings={updateBettings}
           setUpdateBettings={setUpdateBettings}
           updateMatchStatus={updateMatchStatus}

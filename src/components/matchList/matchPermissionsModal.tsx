@@ -7,7 +7,6 @@ import { handleSorting } from "../helper";
 import CustomButton from "../Common/CustomButton";
 import MatchListProfitLoss from "./profitLoss";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
 import theme from "../../theme";
 
 const MatchPermissionsModal = (props: any) => {
@@ -18,7 +17,7 @@ const MatchPermissionsModal = (props: any) => {
     setUpdateBettings,
     updateMatchStatus,
     setUpdateMatchStatus,
-    handleMatchProfitLossClick
+    handleMatchProfitLossClick,
   } = props;
 
   const { getProfile } = useSelector((state: RootState) => state.user.profile);
@@ -30,7 +29,7 @@ const MatchPermissionsModal = (props: any) => {
         width: "100%",
         display: "flex",
         background: "#ffe094",
-        height: { xs: "auto", md: "auto", lg: "7rem" }
+        height: { xs: "auto", md: "auto", lg: "7rem" },
       }}
     >
       <Box
@@ -123,11 +122,13 @@ const MatchPermissionsModal = (props: any) => {
           place={2}
         />
       </Box>
-      <Box sx={{
-        width:  { xs: "auto", sm: "auto" , md: "20%"},
-        flex: 1,
-        marginRight: "10px",
-      }}>
+      <Box
+        sx={{
+          width: { xs: "auto", sm: "auto", md: "20%" },
+          flex: 1,
+          marginRight: "10px",
+        }}
+      >
         {showUserModal && !matchesMobile && (
           <Box
             sx={{
@@ -136,7 +137,6 @@ const MatchPermissionsModal = (props: any) => {
               alignItems: "center",
               marginTop: "4rem",
               flexDirection: { xs: "column", sm: "column", md: "row" },
-
             }}
           >
             {data?.stopAt && (
@@ -148,15 +148,20 @@ const MatchPermissionsModal = (props: any) => {
                 }}
                 onClick={() => handleMatchProfitLossClick(data?.id)}
                 updateMatchStatusLabel="Match Profit/Loss"
-                updateMatchStatus={data?.pl && data?.pl?.length > 0 && data?.pl[0]?.totalProfitLoss}
+                updateMatchStatus={
+                  data?.pl &&
+                  data?.pl?.length > 0 &&
+                  data?.pl[0]?.totalProfitLoss
+                }
                 place="1"
               />
             )}
-            {(getProfile?.allPrivilege || getProfile?.betFairMatchPrivilege) && (
+            {(getProfile?.allPrivilege ||
+              getProfile?.betFairMatchPrivilege) && (
               <CustomButton
                 containerStyle={{
                   minWidth: { xs: "95%", sm: "100px" },
-                  width: { xs: "49%", sm: "100px" ,lg: "100px"},
+                  width: { xs: "49%", sm: "100px", lg: "100px" },
                   marginTop: { xs: "1rem", sm: "1rem", md: 0 },
                 }}
                 title={"Submit"}
@@ -182,10 +187,8 @@ const MatchPermissionsModal = (props: any) => {
                 title={"Edit"}
               />
             )}
-
           </Box>
         )}
-
       </Box>
     </Box>
   );
