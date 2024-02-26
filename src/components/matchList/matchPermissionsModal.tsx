@@ -1,13 +1,13 @@
 import { Box, useMediaQuery } from "@mui/material";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { RootState } from "../../store/store";
+import theme from "../../theme";
 import BoxButtonWithBettings from "../Common/BoxButtonWithBettings";
 import BoxButtonWithSwitch from "../Common/BoxButtonWithSwitch";
-import { useSelector } from "react-redux";
-import { RootState } from "../../store/store";
-import { handleSorting } from "../helper";
 import CustomButton from "../Common/CustomButton";
+import { handleSorting } from "../helper";
 import MatchListProfitLoss from "./profitLoss";
-import { useNavigate } from "react-router-dom";
-import theme from "../../theme";
 
 const MatchPermissionsModal = (props: any) => {
   const {

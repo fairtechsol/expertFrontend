@@ -44,6 +44,37 @@ export const handleKeysMatchEvents = (
       return prev;
     });
   } else if (key === "`") {
+    setLocalQuickBookmaker((prev: any) => {
+      if (
+        !prev?.teamA?.suspended ||
+        !prev?.teamB?.suspended ||
+        !prev?.teamC?.suspended ||
+        prev?.teamBall
+      ) {
+        let data = {
+          matchId: match?.id,
+          id: Bid,
+          type: type,
+          backTeamA: 0,
+          backTeamB: 0,
+          backTeamC: 0,
+          layTeamA: 0,
+          layTeamB: 0,
+          layTeamC: 0,
+          statusTeamA: "suspended",
+          statusTeamB: "suspended",
+          statusTeamC: "suspended",
+        };
+        socketService.user.updateMatchBettingRate(data);
+      }
+      return {
+        ...prev,
+        teamA: { ...prev.teamA, suspended: true },
+        teamB: { ...prev.teamB, suspended: true },
+        teamC: { ...prev.teamC, suspended: true },
+        teamBall: false,
+      };
+    });
     setIsTab("");
     if (match?.teamC) {
       if (e.target.name === "teamArate") {
@@ -98,37 +129,6 @@ export const handleKeysMatchEvents = (
         });
       }
     }
-    setLocalQuickBookmaker((prev: any) => {
-      if (
-        !prev?.teamA?.suspended ||
-        !prev?.teamB?.suspended ||
-        !prev?.teamC?.suspended ||
-        prev?.teamBall
-      ) {
-        let data = {
-          matchId: match?.id,
-          id: Bid,
-          type: type,
-          backTeamA: prev.teamA.back ? prev.teamA.back : 0,
-          backTeamB: prev.teamB.back ? prev.teamB.back : 0,
-          backTeamC: prev.teamC.back ? prev.teamC.back : 0,
-          layTeamA: prev.teamA.lay ? prev.teamA.lay : 0,
-          layTeamB: prev.teamB.lay ? prev.teamB.lay : 0,
-          layTeamC: prev.teamC.lay ? prev.teamC.lay : 0,
-          statusTeamA: "suspended",
-          statusTeamB: "suspended",
-          statusTeamC: "suspended",
-        };
-        socketService.user.updateMatchBettingRate(data);
-      }
-      return {
-        ...prev,
-        teamA: { ...prev.teamA, suspended: true },
-        teamB: { ...prev.teamB, suspended: true },
-        teamC: { ...prev.teamC, suspended: true },
-        teamBall: false,
-      };
-    });
   } else if (key === "right") {
     setIsTab("");
     let value = +targetValue ? +targetValue + +incGap : +incGap;
@@ -147,9 +147,15 @@ export const handleKeysMatchEvents = (
         );
         return {
           ...prev,
-          teamA: { ...prev.teamA, back: value, lay: checkValue + +incGap },
-          teamB: { ...prev.teamB, back: 0, lay: 0 },
-          teamC: { ...prev.teamC, back: 0, lay: 0 },
+          teamA: {
+            ...prev.teamA,
+            back: value,
+            lay: checkValue + +incGap,
+            rightBack: value,
+            rightLay: checkValue + +incGap,
+          },
+          teamB: { ...prev.teamB, back: 0, lay: 0, rightBack: 0, rightLay: 0 },
+          teamC: { ...prev.teamC, back: 0, lay: 0, rightBack: 0, rightLay: 0 },
         };
       });
     }
@@ -168,9 +174,15 @@ export const handleKeysMatchEvents = (
         );
         return {
           ...prev,
-          teamB: { ...prev.teamB, back: value, lay: checkValue + +incGap },
-          teamA: { ...prev.teamA, back: 0, lay: 0 },
-          teamC: { ...prev.teamC, back: 0, lay: 0 },
+          teamB: {
+            ...prev.teamB,
+            back: value,
+            lay: checkValue + +incGap,
+            rightBack: value,
+            rightLay: checkValue + +incGap,
+          },
+          teamA: { ...prev.teamA, back: 0, lay: 0, rightBack: 0, rightLay: 0 },
+          teamC: { ...prev.teamC, back: 0, lay: 0, rightBack: 0, rightLay: 0 },
         };
       });
     }
@@ -189,9 +201,15 @@ export const handleKeysMatchEvents = (
         );
         return {
           ...prev,
-          teamC: { ...prev.teamC, back: value, lay: checkValue + +incGap },
-          teamB: { ...prev.teamB, back: 0, lay: 0 },
-          teamA: { ...prev.teamA, back: 0, lay: 0 },
+          teamC: {
+            ...prev.teamC,
+            back: value,
+            lay: checkValue + +incGap,
+            rightBack: value,
+            rightLay: checkValue + +incGap,
+          },
+          teamB: { ...prev.teamB, back: 0, lay: 0, rightBack: 0, rightLay: 0 },
+          teamA: { ...prev.teamA, back: 0, lay: 0, rightBack: 0, rightLay: 0 },
         };
       });
     }
@@ -373,9 +391,15 @@ export const handleKeysMatchEvents = (
         handleSuspend(value, +prev?.teamA?.lay - +incGap, incGap, setIncGap);
         return {
           ...prev,
-          teamA: { ...prev.teamA, back: value, lay: checkValue - +incGap },
-          teamB: { ...prev.teamB, back: 0, lay: 0 },
-          teamC: { ...prev.teamC, back: 0, lay: 0 },
+          teamA: {
+            ...prev.teamA,
+            back: value,
+            lay: checkValue - +incGap,
+            rightBack: value,
+            rightLay: checkValue - +incGap,
+          },
+          teamB: { ...prev.teamB, back: 0, lay: 0, rightBack: 0, rightLay: 0 },
+          teamC: { ...prev.teamC, back: 0, lay: 0, rightBack: 0, rightLay: 0 },
         };
       });
     }
@@ -390,9 +414,15 @@ export const handleKeysMatchEvents = (
         handleSuspend(value, +prev?.teamB?.lay - +incGap, incGap, setIncGap);
         return {
           ...prev,
-          teamB: { ...prev.teamB, back: value, lay: checkValue - +incGap },
-          teamA: { ...prev.teamA, back: 0, lay: 0 },
-          teamC: { ...prev.teamC, back: 0, lay: 0 },
+          teamB: {
+            ...prev.teamB,
+            back: value,
+            lay: checkValue - +incGap,
+            rightBack: value,
+            rightLay: checkValue - +incGap,
+          },
+          teamA: { ...prev.teamA, back: 0, lay: 0, rightBack: 0, rightLay: 0 },
+          teamC: { ...prev.teamC, back: 0, lay: 0, rightBack: 0, rightLay: 0 },
         };
       });
     }
@@ -407,9 +437,15 @@ export const handleKeysMatchEvents = (
         handleSuspend(value, +prev?.teamC?.lay - +incGap, incGap, setIncGap);
         return {
           ...prev,
-          teamC: { ...prev.teamC, back: value, lay: checkValue - +incGap },
-          teamB: { ...prev.teamB, back: 0, lay: 0 },
-          teamA: { ...prev.teamA, back: 0, lay: 0 },
+          teamC: {
+            ...prev.teamC,
+            back: value,
+            lay: checkValue - +incGap,
+            rightBack: value,
+            rightLay: checkValue - +incGap,
+          },
+          teamB: { ...prev.teamB, back: 0, lay: 0, rightBack: 0, rightLay: 0 },
+          teamA: { ...prev.teamA, back: 0, lay: 0, rightBack: 0, rightLay: 0 },
         };
       });
     }
@@ -589,9 +625,17 @@ export const handleKeysMatchEvents = (
                 : value
                 ? value + 1
                 : NaN,
+            rightLay:
+              incGap < 1
+                ? value + incGap
+                : value === 0
+                ? 1
+                : value
+                ? value + 1
+                : NaN,
           },
-          teamB: { ...prev?.teamB, back: 0, lay: 0 },
-          teamC: { ...prev?.teamC, back: 0, lay: 0 },
+          teamB: { ...prev?.teamB, back: 0, lay: 0, rightBack: 0, rightLay: 0 },
+          teamC: { ...prev?.teamC, back: 0, lay: 0, rightBack: 0, rightLay: 0 },
         };
       });
     } else if (e.target.name === "teamBrate") {
@@ -614,9 +658,17 @@ export const handleKeysMatchEvents = (
                 : value
                 ? value + 1
                 : NaN,
+            rightLay:
+              incGap < 1
+                ? value + incGap
+                : value === 0
+                ? 1
+                : value
+                ? value + 1
+                : NaN,
           },
-          teamA: { ...prev?.teamA, back: 0, lay: 0 },
-          teamC: { ...prev?.teamC, back: 0, lay: 0 },
+          teamA: { ...prev?.teamA, back: 0, lay: 0, rightBack: 0, rightLay: 0 },
+          teamC: { ...prev?.teamC, back: 0, lay: 0, rightBack: 0, rightLay: 0 },
         };
       });
     } else if (e.target.name === "teamCrate") {
@@ -639,9 +691,17 @@ export const handleKeysMatchEvents = (
                 : value
                 ? value + 1
                 : NaN,
+            rightLay:
+              incGap < 1
+                ? value + incGap
+                : value === 0
+                ? 1
+                : value
+                ? value + 1
+                : NaN,
           },
-          teamB: { ...prev?.teamB, back: 0, lay: 0 },
-          teamA: { ...prev?.teamA, back: 0, lay: 0 },
+          teamB: { ...prev?.teamB, back: 0, lay: 0, rightBack: 0, rightLay: 0 },
+          teamA: { ...prev?.teamA, back: 0, lay: 0, rightBack: 0, rightLay: 0 },
         };
       });
     }
@@ -842,9 +902,24 @@ export const handleKeysMatchEvents = (
             teamA: {
               ...prev?.teamA,
               lay: prev?.teamA?.lay ? prev?.teamA?.lay - 1 : prev?.teamA?.back,
+              rightLay: prev?.teamA?.lay
+                ? prev?.teamA?.lay - 1
+                : prev?.teamA?.back,
             },
-            teamB: { ...prev?.teamB, back: 0, lay: 0 },
-            teamC: { ...prev?.teamC, back: 0, lay: 0 },
+            teamB: {
+              ...prev?.teamB,
+              back: 0,
+              lay: 0,
+              rightBack: 0,
+              rightLay: 0,
+            },
+            teamC: {
+              ...prev?.teamC,
+              back: 0,
+              lay: 0,
+              rightBack: 0,
+              rightLay: 0,
+            },
           };
         } else return prev;
       });
@@ -865,9 +940,24 @@ export const handleKeysMatchEvents = (
             teamB: {
               ...prev?.teamB,
               lay: prev?.teamB?.lay ? prev?.teamB?.lay - 1 : prev?.teamB?.back,
+              rightLay: prev?.teamB?.lay
+                ? prev?.teamB?.lay - 1
+                : prev?.teamB?.back,
             },
-            teamA: { ...prev?.teamA, back: 0, lay: 0 },
-            teamC: { ...prev?.teamC, back: 0, lay: 0 },
+            teamA: {
+              ...prev?.teamA,
+              back: 0,
+              lay: 0,
+              rightBack: 0,
+              rightLay: 0,
+            },
+            teamC: {
+              ...prev?.teamC,
+              back: 0,
+              lay: 0,
+              rightBack: 0,
+              rightLay: 0,
+            },
           };
         } else return prev;
       });
@@ -888,9 +978,24 @@ export const handleKeysMatchEvents = (
             teamC: {
               ...prev?.teamC,
               lay: prev?.teamC?.lay ? prev?.teamC?.lay - 1 : prev?.teamC?.back,
+              rightLay: prev?.teamC?.lay
+                ? prev?.teamC?.lay - 1
+                : prev?.teamC?.back,
             },
-            teamB: { ...prev?.teamB, back: 0, lay: 0 },
-            teamA: { ...prev?.teamA, back: 0, lay: 0 },
+            teamB: {
+              ...prev?.teamB,
+              back: 0,
+              lay: 0,
+              rightBack: 0,
+              rightLay: 0,
+            },
+            teamA: {
+              ...prev?.teamA,
+              back: 0,
+              lay: 0,
+              rightBack: 0,
+              rightLay: 0,
+            },
           };
         } else return prev;
       });
@@ -1079,9 +1184,15 @@ export const handleKeysMatchEvents = (
         }
         return {
           ...prev,
-          teamA: { ...prev?.teamA, lay: +value + 1, back: +value },
-          teamB: { ...prev?.teamB, lay: 0, back: 0 },
-          teamC: { ...prev?.teamC, lay: 0, back: 0 },
+          teamA: {
+            ...prev?.teamA,
+            lay: +value + 1,
+            back: +value,
+            rightLay: +value + 1,
+            rightBack: +value,
+          },
+          teamB: { ...prev?.teamB, lay: 0, back: 0, rightBack: 0, rightLay: 0 },
+          teamC: { ...prev?.teamC, lay: 0, back: 0, rightBack: 0, rightLay: 0 },
         };
       });
     } else if (e.target.name === "teamBrate") {
@@ -1095,9 +1206,15 @@ export const handleKeysMatchEvents = (
         }
         return {
           ...prev,
-          teamA: { ...prev?.teamA, lay: 0, back: 0 },
-          teamB: { ...prev?.teamB, lay: +value + 1, back: +value },
-          teamC: { ...prev?.teamC, lay: 0, back: 0 },
+          teamA: { ...prev?.teamA, lay: 0, back: 0, rightBack: 0, rightLay: 0 },
+          teamB: {
+            ...prev?.teamB,
+            lay: +value + 1,
+            back: +value,
+            rightBack: +value,
+            rightLay: +value + 1,
+          },
+          teamC: { ...prev?.teamC, lay: 0, back: 0, rightBack: 0, rightLay: 0 },
         };
       });
     } else if (e.target.name === "teamCrate") {
@@ -1111,9 +1228,15 @@ export const handleKeysMatchEvents = (
         }
         return {
           ...prev,
-          teamA: { ...prev?.teamA, lay: 0, back: 0 },
-          teamB: { ...prev?.teamB, lay: 0, back: 0 },
-          teamC: { ...prev?.teamC, lay: +value + 1, back: +value },
+          teamA: { ...prev?.teamA, lay: 0, back: 0, rightBack: 0, rightLay: 0 },
+          teamB: { ...prev?.teamB, lay: 0, back: 0, rightBack: 0, rightLay: 0 },
+          teamC: {
+            ...prev?.teamC,
+            lay: +value + 1,
+            back: +value,
+            rightBack: +value,
+            rightLay: +value + 1,
+          },
         };
       });
     }
@@ -1615,9 +1738,27 @@ export const handleKeysMatchEvents = (
           }
           return {
             ...prev,
-            teamA: { ...prev?.teamA, back: value, lay: value + 1 },
-            teamB: { ...prev?.teamB, lay: 0, back: 0 },
-            teamC: { ...prev?.teamC, lay: 0, back: 0 },
+            teamA: {
+              ...prev?.teamA,
+              back: value,
+              lay: value + 1,
+              backRight: value,
+              layRight: value + 1,
+            },
+            teamB: {
+              ...prev?.teamB,
+              lay: 0,
+              back: 0,
+              backRight: 0,
+              layRight: 0,
+            },
+            teamC: {
+              ...prev?.teamC,
+              lay: 0,
+              back: 0,
+              backRight: 0,
+              layRight: 0,
+            },
           };
         });
       } else if (e.target.name === "teamBrate") {
@@ -1639,9 +1780,27 @@ export const handleKeysMatchEvents = (
           }
           return {
             ...prev,
-            teamB: { ...prev?.teamB, back: value, lay: value + 1 },
-            teamA: { ...prev?.teamA, lay: 0, back: 0 },
-            teamC: { ...prev?.teamC, lay: 0, back: 0 },
+            teamB: {
+              ...prev?.teamB,
+              back: value,
+              lay: value + 1,
+              backRight: value,
+              layRight: value + 1,
+            },
+            teamA: {
+              ...prev?.teamA,
+              lay: 0,
+              back: 0,
+              backRight: 0,
+              layRight: 0,
+            },
+            teamC: {
+              ...prev?.teamC,
+              lay: 0,
+              back: 0,
+              backRight: 0,
+              layRight: 0,
+            },
           };
         });
       } else if (e.target.name === "teamCrate") {
@@ -1663,9 +1822,27 @@ export const handleKeysMatchEvents = (
           }
           return {
             ...prev,
-            teamC: { ...prev?.teamC, back: value, lay: value + 1 },
-            teamB: { ...prev?.teamB, lay: 0, back: 0 },
-            teamA: { ...prev?.teamA, lay: 0, back: 0 },
+            teamC: {
+              ...prev?.teamC,
+              back: value,
+              lay: value + 1,
+              backRight: value,
+              layRight: value + 1,
+            },
+            teamB: {
+              ...prev?.teamB,
+              lay: 0,
+              back: 0,
+              backRight: 0,
+              layRight: 0,
+            },
+            teamA: {
+              ...prev?.teamA,
+              lay: 0,
+              back: 0,
+              backRight: 0,
+              layRight: 0,
+            },
           };
         });
       }
@@ -1684,9 +1861,23 @@ export const handleKeysMatchEvents = (
               ...prev?.teamA,
               lay: value ? value + incGap : incGap,
               back: value ? value : 0,
+              backRight: value ? value : 0,
+              layRight: value ? value + incGap : incGap,
             },
-            teamB: { ...prev?.teamB, lay: 0, back: 0 },
-            teamC: { ...prev?.teamC, lay: 0, back: 0 },
+            teamB: {
+              ...prev?.teamB,
+              lay: 0,
+              back: 0,
+              backRight: 0,
+              layRight: 0,
+            },
+            teamC: {
+              ...prev?.teamC,
+              lay: 0,
+              back: 0,
+              backRight: 0,
+              layRight: 0,
+            },
           };
           return newBody;
         });
@@ -1704,9 +1895,23 @@ export const handleKeysMatchEvents = (
               ...prev?.teamB,
               lay: value ? value + incGap : incGap,
               back: value ? value : 0,
+              backRight: value ? value : 0,
+              layRight: value ? value + incGap : incGap,
             },
-            teamA: { ...prev?.teamA, lay: 0, back: 0 },
-            teamC: { ...prev?.teamC, lay: 0, back: 0 },
+            teamA: {
+              ...prev?.teamA,
+              lay: 0,
+              back: 0,
+              backRight: 0,
+              layRight: 0,
+            },
+            teamC: {
+              ...prev?.teamC,
+              lay: 0,
+              back: 0,
+              backRight: 0,
+              layRight: 0,
+            },
           };
           return newBody;
         });
@@ -1724,9 +1929,23 @@ export const handleKeysMatchEvents = (
               ...prev?.teamC,
               lay: value ? value + incGap : incGap,
               back: value ? value : 0,
+              backRight: value ? value : 0,
+              layRight: value ? value + incGap : incGap,
             },
-            teamB: { ...prev?.teamB, lay: 0, back: 0 },
-            teamA: { ...prev?.teamA, lay: 0, back: 0 },
+            teamB: {
+              ...prev?.teamB,
+              lay: 0,
+              back: 0,
+              backRight: 0,
+              layRight: 0,
+            },
+            teamA: {
+              ...prev?.teamA,
+              lay: 0,
+              back: 0,
+              backRight: 0,
+              layRight: 0,
+            },
           };
           return newBody;
         });
@@ -1771,9 +1990,15 @@ export const handleKeysMatchEvents = (
       setLocalQuickBookmaker((prev: any) => {
         return {
           ...prev,
-          teamA: { ...prev?.teamA, lay: value + 0.5, back: value },
-          teamB: { ...prev?.teamB, back: 0, lay: 0 },
-          teamC: { ...prev?.teamC, back: 0, lay: 0 },
+          teamA: {
+            ...prev?.teamA,
+            lay: value + 0.5,
+            back: value,
+            backRight: value,
+            layRight: value + 0.5,
+          },
+          teamB: { ...prev?.teamB, back: 0, lay: 0, backRight: 0, layRight: 0 },
+          teamC: { ...prev?.teamC, back: 0, lay: 0, backRight: 0, layRight: 0 },
         };
       });
     } else if (e.target.name === "teamBrate") {
@@ -1782,9 +2007,15 @@ export const handleKeysMatchEvents = (
       setLocalQuickBookmaker((prev: any) => {
         return {
           ...prev,
-          teamA: { ...prev?.teamA, back: 0, lay: 0 },
-          teamB: { ...prev?.teamB, lay: value + 0.5, back: value },
-          teamC: { ...prev?.teamC, back: 0, lay: 0 },
+          teamA: { ...prev?.teamA, back: 0, lay: 0, backRight: 0, layRight: 0 },
+          teamB: {
+            ...prev?.teamB,
+            lay: value + 0.5,
+            back: value,
+            backRight: value,
+            layRight: value + 0.5,
+          },
+          teamC: { ...prev?.teamC, back: 0, lay: 0, backRight: 0, layRight: 0 },
         };
       });
     } else if (e.target.name === "teamCrate") {
@@ -1793,9 +2024,15 @@ export const handleKeysMatchEvents = (
       setLocalQuickBookmaker((prev: any) => {
         return {
           ...prev,
-          teamA: { ...prev?.teamA, back: 0, lay: 0 },
-          teamB: { ...prev?.teamB, back: 0, lay: 0 },
-          teamC: { ...prev?.teamC, lay: value + 0.5, back: value },
+          teamA: { ...prev?.teamA, back: 0, lay: 0, backRight: 0, layRight: 0 },
+          teamB: { ...prev?.teamB, back: 0, lay: 0, backRight: 0, layRight: 0 },
+          teamC: {
+            ...prev?.teamC,
+            lay: value + 0.5,
+            back: value,
+            backRight: value,
+            layRight: value + 0.5,
+          },
         };
       });
     }
@@ -1838,9 +2075,15 @@ export const handleKeysMatchEvents = (
       setLocalQuickBookmaker((prev: any) => {
         return {
           ...prev,
-          teamA: { ...prev?.teamA, lay: value + 5, back: value },
-          teamB: { ...prev?.teamB, lay: 0, back: 0 },
-          teamC: { ...prev?.teamC, lay: 0, back: 0 },
+          teamA: {
+            ...prev?.teamA,
+            lay: value + 5,
+            back: value,
+            backRight: value,
+            layRight: value + 5,
+          },
+          teamB: { ...prev?.teamB, lay: 0, back: 0, backRight: 0, layRight: 0 },
+          teamC: { ...prev?.teamC, lay: 0, back: 0, backRight: 0, layRight: 0 },
         };
       });
     } else if (e.target.name === "teamBrate") {
@@ -1848,9 +2091,15 @@ export const handleKeysMatchEvents = (
       setLocalQuickBookmaker((prev: any) => {
         return {
           ...prev,
-          teamA: { ...prev?.teamA, lay: 0, back: 0 },
-          teamB: { ...prev?.teamB, lay: value + 5, back: value },
-          teamC: { ...prev?.teamC, lay: 0, back: 0 },
+          teamA: { ...prev?.teamA, lay: 0, back: 0, backRight: 0, layRight: 0 },
+          teamB: {
+            ...prev?.teamB,
+            lay: value + 5,
+            back: value,
+            backRight: value,
+            layRight: value + 5,
+          },
+          teamC: { ...prev?.teamC, lay: 0, back: 0, backRight: 0, layRight: 0 },
         };
       });
     } else if (e.target.name === "teamCrate") {
@@ -1858,9 +2107,15 @@ export const handleKeysMatchEvents = (
       setLocalQuickBookmaker((prev: any) => {
         return {
           ...prev,
-          teamA: { ...prev?.teamA, lay: 0, back: 0 },
-          teamB: { ...prev?.teamB, lay: 0, back: 0 },
-          teamC: { ...prev?.teamC, lay: value + 5, back: value },
+          teamA: { ...prev?.teamA, lay: 0, back: 0, backRight: 0, layRight: 0 },
+          teamB: { ...prev?.teamB, lay: 0, back: 0, backRight: 0, layRight: 0 },
+          teamC: {
+            ...prev?.teamC,
+            lay: value + 5,
+            back: value,
+            backRight: value,
+            layRight: value + 5,
+          },
         };
       });
     }

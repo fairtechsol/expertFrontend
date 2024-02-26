@@ -157,6 +157,12 @@ const EditBookmaker = (props: any) => {
               ? Number(bookmakerById?.backTeamA)
               : 0,
             lay: Number(bookmakerById?.layTeamA) ? bookmakerById?.layTeamA : 0,
+            rightBack: bookmakerById?.backTeamA
+              ? Number(bookmakerById?.backTeamA)
+              : 0,
+            rightLay: Number(bookmakerById?.layTeamA)
+              ? bookmakerById?.layTeamA
+              : 0,
             suspended: bookmakerById?.statusTeamA !== "active" ? true : false,
           },
           teamB: {
@@ -165,6 +171,12 @@ const EditBookmaker = (props: any) => {
               ? Number(bookmakerById?.backTeamB)
               : 0,
             lay: bookmakerById?.layTeamB ? Number(bookmakerById?.layTeamB) : 0,
+            rightBack: bookmakerById?.backTeamB
+              ? Number(bookmakerById?.backTeamB)
+              : 0,
+            rightLay: bookmakerById?.layTeamB
+              ? Number(bookmakerById?.layTeamB)
+              : 0,
             suspended: bookmakerById?.statusTeamB !== "active" ? true : false,
           },
           teamC: {
@@ -173,6 +185,12 @@ const EditBookmaker = (props: any) => {
               ? Number(bookmakerById?.backTeamC)
               : 0,
             lay: bookmakerById?.layTeamC ? Number(bookmakerById?.layTeamC) : 0,
+            rightBack: bookmakerById?.backTeamC
+              ? Number(bookmakerById?.backTeamC)
+              : 0,
+            rightLay: bookmakerById?.layTeamC
+              ? Number(bookmakerById?.layTeamC)
+              : 0,
             suspended: bookmakerById?.statusTeamC !== "active" ? true : false,
           },
         };
@@ -189,20 +207,20 @@ const EditBookmaker = (props: any) => {
             ...prev,
             teamA: {
               ...prev.teamA,
-              back: data?.backTeamA,
-              lay: data?.layTeamA,
+              rightBack: data?.backTeamA,
+              rightLay: data?.layTeamA,
               suspended: data?.statusTeamA !== "active" ? true : false,
             },
             teamB: {
-              ...prev.teamA,
-              back: data?.backTeamB,
-              lay: data?.layTeamB,
+              ...prev.teamB,
+              rightBack: data?.backTeamB,
+              rightLay: data?.layTeamB,
               suspended: data?.statusTeamB !== "active" ? true : false,
             },
             teamC: {
-              ...prev.teamA,
-              back: data?.backTeamC,
-              lay: data?.layTeamC,
+              ...prev.teamC,
+              rightBack: data?.backTeamC,
+              rightLay: data?.layTeamC,
               suspended: data?.statusTeamC !== "active" ? true : false,
             },
           };
@@ -868,13 +886,13 @@ const EditBookmaker = (props: any) => {
                       }}
                     >
                       {!localQuickBookmaker?.teamA?.suspended &&
-                      localQuickBookmaker?.teamA?.back > 0 ? (
+                      localQuickBookmaker?.teamA?.rightBack > 0 ? (
                         <Typography
                           sx={{ fontWeight: "600", fontSize: "22px" }}
                         >
                           {localQuickBookmaker?.teamA?.suspended
                             ? ""
-                            : +localQuickBookmaker?.teamA?.back}
+                            : +localQuickBookmaker?.teamA?.rightBack}
                         </Typography>
                       ) : (
                         <img
@@ -889,7 +907,7 @@ const EditBookmaker = (props: any) => {
                       sx={{
                         background:
                           localQuickBookmaker?.teamA?.suspended ||
-                          localQuickBookmaker?.teamA?.lay === 0
+                          localQuickBookmaker?.teamA?.rightLay === 0
                             ? "#FDF21A"
                             : "#FFB5B5",
                         width: "50%",
@@ -901,13 +919,13 @@ const EditBookmaker = (props: any) => {
                       }}
                     >
                       {!localQuickBookmaker?.teamA?.suspended &&
-                      localQuickBookmaker?.teamA?.lay ? (
+                      localQuickBookmaker?.teamA?.rightLay ? (
                         <Typography
                           sx={{ fontWeight: "600", fontSize: "22px" }}
                         >
                           {localQuickBookmaker?.teamA?.suspended
                             ? 0
-                            : +localQuickBookmaker?.teamA?.lay}
+                            : +localQuickBookmaker?.teamA?.rightLay}
                         </Typography>
                       ) : (
                         <img
@@ -933,13 +951,13 @@ const EditBookmaker = (props: any) => {
                       }}
                     >
                       {!localQuickBookmaker?.teamB?.suspended &&
-                      localQuickBookmaker?.teamB?.back > 0 ? (
+                      localQuickBookmaker?.teamB?.rightBack > 0 ? (
                         <Typography
                           sx={{ fontWeight: "600", fontSize: "22px" }}
                         >
                           {localQuickBookmaker?.teamB?.suspended
                             ? ""
-                            : +localQuickBookmaker?.teamB?.back}
+                            : +localQuickBookmaker?.teamB?.rightBack}
                         </Typography>
                       ) : (
                         <img
@@ -954,7 +972,7 @@ const EditBookmaker = (props: any) => {
                       sx={{
                         background:
                           localQuickBookmaker?.teamB?.suspended ||
-                          localQuickBookmaker?.teamB?.lay === 0
+                          localQuickBookmaker?.teamB?.rightLay === 0
                             ? "#FDF21A"
                             : "#FFB5B5",
                         width: "50%",
@@ -966,13 +984,13 @@ const EditBookmaker = (props: any) => {
                       }}
                     >
                       {!localQuickBookmaker?.teamB?.suspended &&
-                      localQuickBookmaker?.teamB?.lay > 0 ? (
+                      localQuickBookmaker?.teamB?.rightLay > 0 ? (
                         <Typography
                           sx={{ fontWeight: "600", fontSize: "22px" }}
                         >
                           {localQuickBookmaker?.teamB?.suspended
                             ? 0
-                            : +localQuickBookmaker?.teamB?.lay}
+                            : +localQuickBookmaker?.teamB?.rightLay}
                         </Typography>
                       ) : (
                         <img
@@ -1000,13 +1018,13 @@ const EditBookmaker = (props: any) => {
                           }}
                         >
                           {!localQuickBookmaker?.teamC?.suspended &&
-                          localQuickBookmaker?.teamC?.back > 0 ? (
+                          localQuickBookmaker?.teamC?.rightBack > 0 ? (
                             <Typography
                               sx={{ fontWeight: "600", fontSize: "22px" }}
                             >
                               {localQuickBookmaker?.teamC?.suspended
                                 ? ""
-                                : +localQuickBookmaker?.teamC?.back}
+                                : +localQuickBookmaker?.teamC?.rightBack}
                             </Typography>
                           ) : (
                             <img
@@ -1021,7 +1039,7 @@ const EditBookmaker = (props: any) => {
                           sx={{
                             background:
                               localQuickBookmaker?.teamC?.suspended ||
-                              localQuickBookmaker?.teamC?.lay === 0
+                              localQuickBookmaker?.teamC?.rightLay === 0
                                 ? "#FDF21A"
                                 : "#FFB5B5",
                             width: "50%",
@@ -1033,13 +1051,13 @@ const EditBookmaker = (props: any) => {
                           }}
                         >
                           {!localQuickBookmaker?.teamC?.suspended &&
-                          localQuickBookmaker?.teamC?.lay ? (
+                          localQuickBookmaker?.teamC?.rightLay ? (
                             <Typography
                               sx={{ fontWeight: "600", fontSize: "22px" }}
                             >
                               {localQuickBookmaker?.teamC?.suspended
                                 ? 0
-                                : +localQuickBookmaker?.teamC?.lay}
+                                : +localQuickBookmaker?.teamC?.rightLay}
                             </Typography>
                           ) : (
                             <img

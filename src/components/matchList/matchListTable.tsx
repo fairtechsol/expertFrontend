@@ -211,8 +211,8 @@ const MatchListTable = (props: any) => {
       {showUserModal && (
         <MatchPermissionsModal
           showUserModal={showUserModal}
-          data={data}
           handleMatchProfitLossClick={handleMatchProfitLossClick}
+          data={data}
           updateBettings={updateBettings}
           setUpdateBettings={setUpdateBettings}
           updateMatchStatus={updateMatchStatus}
