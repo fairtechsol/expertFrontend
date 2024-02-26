@@ -18,72 +18,101 @@ const MatchPermissionsModal = (props: any) => {
 
   return (
     <Box
-  sx={{
-    width: "100%",
-    background: "#ffe094",
-  }}
->
-    <Box
       sx={{
-        display: "flex",
-        width: "88%",
-        flexWrap: "wrap",
-        flex: 1,
-        alignItems: "center",
-        p: 2,
+        width: "100%",
+        background: "#ffe094",
       }}
     >
-      {data?.matchBettings
-        .slice()
-        .sort(handleSorting)
-        ?.map((betting: any) => {
-          return (
-            <BoxButtonWithBettings
-              key={betting?.id}
-              title={betting?.name}
-              matchId={data?.id}
-              matchBettingType={"match"}
-              disable={
-                getProfile?.allPrivilege || getProfile?.addMatchPrivilege
-                  ? false
-                  : true
+      <Box
+        sx={{
+          display: "flex",
+          width: "88%",
+          flexWrap: "wrap",
+          flex: 1,
+          alignItems: "center",
+          p: 2,
+        }}
+      >
+        {!data?.eventId.includes("manual") &&
+          data?.matchBettings
+            .slice()
+            .sort(handleSorting)
+            ?.map((betting: any) => {
+              return (
+                <BoxButtonWithBettings
+                  key={betting?.id}
+                  title={betting?.name}
+                  matchId={data?.id}
+                  matchBettingType={"match"}
+                  disable={
+                    getProfile?.allPrivilege || getProfile?.addMatchPrivilege
+                      ? false
+                      : true
+                  }
+                  updateBettings={updateBettings}
+                  setUpdateBettings={setUpdateBettings}
+                  bettingId={betting.id}
+                />
+              );
+            })}
+        {data?.eventId.includes("manual") &&
+          data?.matchBettings
+            .slice()
+            .sort(handleSorting)
+            ?.map((betting: any) => {
+              if (betting?.marketId && betting?.marketId.includes("manual")) {
+                return null;
+              } else {
+                return (
+                  <BoxButtonWithBettings
+                    key={betting?.id}
+                    title={betting?.name}
+                    matchId={data?.id}
+                    matchBettingType={"match"}
+                    disable={
+                      getProfile?.allPrivilege || getProfile?.addMatchPrivilege
+                        ? false
+                        : true
+                    }
+                    updateBettings={updateBettings}
+                    setUpdateBettings={setUpdateBettings}
+                    bettingId={betting.id}
+                  />
+                );
               }
-              updateBettings={updateBettings}
-              setUpdateBettings={setUpdateBettings}
-              bettingId={betting.id}
-            />
-          );
-        })}
-      <BoxButtonWithSwitch
-        title="Session"
-        matchId={data?.id}
-        matchBettingType={"session"}
-        isManualBet={false}
-        disable={
-          getProfile?.allPrivilege || getProfile?.addMatchPrivilege
-            ? false
-            : true
-        }
-        updateMatchStatus={updateMatchStatus}
-        setUpdateMatchStatus={setUpdateMatchStatus}
-        place={1}
-      />
+            })}
+        {!data?.eventId.includes("manual") && (
+          <BoxButtonWithSwitch
+            title="Session"
+            matchId={data?.id}
+            matchBettingType={"session"}
+            isManualBet={false}
+            disable={
+              getProfile?.allPrivilege || getProfile?.addMatchPrivilege
+                ? false
+                : true
+            }
+            updateMatchStatus={updateMatchStatus}
+            setUpdateMatchStatus={setUpdateMatchStatus}
+            place={1}
+          />
+        )}
 
-      <BoxButtonWithSwitch
-        title="Manual Session"
-        matchId={data?.id}
-        matchBettingType={"session"}
-        isManualBet={true}
-        disable={
-          getProfile?.allPrivilege || getProfile?.addMatchPrivilege
-            ? false
-            : true
-        }
-        updateMatchStatus={updateMatchStatus}
-        setUpdateMatchStatus={setUpdateMatchStatus}
-        place={2}
-      />
-    </Box>
+        <BoxButtonWithSwitch
+          title="Manual Session"
+          matchId={data?.id}
+          matchBettingType={"session"}
+          isManualBet={true}
+          disable={
+            getProfile?.allPrivilege || getProfile?.addMatchPrivilege
+              ? false
+              : true
+          }
+          updateMatchStatus={updateMatchStatus}
+          setUpdateMatchStatus={setUpdateMatchStatus}
+          place={2}
+        />
+      </Box>
     </Box>
   );
 };

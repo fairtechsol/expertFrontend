@@ -129,19 +129,22 @@ const SessionAddComponent = ({ createSession, match }: any) => {
   };
 
   const updateUserProfitLoss = (event: any) => {
+    console.log(event, "outside", match, id);
     if (
       match?.id === event?.jobData?.placedBet?.matchId &&
       id === event?.jobData?.placedBet?.betId
-    )
+    ) {
+      console.log(event, "inside");
       dispatch(updateSessionProfitLoss(event?.redisData));
-    dispatch(updateBetsPlaced(event?.jobData));
-    dispatch(
-      setCurrentOdd({
-        matchId: event?.jobData?.placedBet?.matchId,
-        betId: event?.jobData?.placedBet?.betId,
-        odds: event?.jobData?.placedBet?.odds,
-      })
-    );
+      dispatch(updateBetsPlaced(event?.jobData));
+      dispatch(
+        setCurrentOdd({
+          matchId: event?.jobData?.placedBet?.matchId,
+          betId: event?.jobData?.placedBet?.betId,
+          odds: event?.jobData?.placedBet?.odds,
+        })
+      );
+    }
   };
 
   useEffect(() => {
@@ -234,23 +237,29 @@ const SessionAddComponent = ({ createSession, match }: any) => {
   }, [sessionById, isCreateSession, id]);
 
   useEffect(() => {
-    socketService.user.updateSessionRateClient((data: any) => {
-      if (data?.id === id && data?.matchId === match?.id) {
-        setInputDetail((prev: any) => {
-          return {
-            ...prev,
-            noRate: data?.noRate,
-            yesRate: data?.yesRate,
-            yesRatePercent: data?.yesPercent,
-            noRatePercent: data?.noPercent,
-            status: data?.status,
-          };
+    try {
+      if (id) {
+        socketService.user.updateSessionRateClient((data: any) => {
+          if (data?.id === id && data?.matchId === match?.id) {
+            setInputDetail((prev: any) => {
+              return {
+                ...prev,
+                noRate: data?.noRate,
+                yesRate: data?.yesRate,
+                yesRatePercent: data?.yesPercent,
+                noRatePercent: data?.noPercent,
+                status: data?.status,
+              };
+            });
+          }
         });
+        socketService.user.sessionResultDeclared(updateResultDeclared);
+        socketService.user.userSessionBetPlaced(updateUserProfitLoss);
       }
-    });
-    socketService.user.sessionResultDeclared(updateResultDeclared);
-    socketService.user.userSessionBetPlaced(updateUserProfitLoss);
-  }, []);
+    } catch (e) {
+      console.log(e);
+    }
+  }, [match, id]);
 
   return (
     <Box
