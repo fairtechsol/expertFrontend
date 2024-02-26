@@ -5,7 +5,7 @@ import { matchSocketService } from "./matchSocket";
 import { userSocketService } from "./userSocket";
 
 export const matchSocket = io(baseUrls.matchSocket, {
-  transports: ["websocket"],
+  transports: ["polling"],
   auth: {
     token: `${sessionStorage.getItem("userToken")}`,
   },
