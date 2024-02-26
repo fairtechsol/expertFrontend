@@ -1,4 +1,4 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Typography, useMediaQuery } from "@mui/material";
 import ModalMUI from "@mui/material/Modal";
 import moment from "moment";
 import { useEffect, useState } from "react";
@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store/store";
 import { getMatchListSessionProfitLoss } from "../../store/actions/match/matchAction";
 import SessionResultComponent from "./sessionResultComponent";
+import theme from "../../theme";
 
 const MatchListTable = (props: any) => {
   const { data, index } = props;
@@ -21,7 +22,7 @@ const MatchListTable = (props: any) => {
   const { sessionProLoss } = useSelector((state: RootState) => state.matchList);
   const [showPopup, setShowPopup] = useState(false);
   const [showUserModal, setShowUserModal] = useState(false);
-
+  const matchesMobile = useMediaQuery(theme.breakpoints.down("lg"));
   const [updateBettings, setUpdateBettings] = useState<any>([]);
 
   const [updateMatchStatus, setUpdateMatchStatus] = useState({
@@ -148,10 +149,11 @@ const MatchListTable = (props: any) => {
               width: { xs: "100%", sm: "auto" },
               py: { xs: 1, sm: 0 },
               overflow: "hidden",
-              marginBottom: showUserModal ? { xs: "0%", sm: "-1%", lg: "-20%" } : "0%", 
+              display: showUserModal && !matchesMobile ? "none" : "flex", 
+              // marginBottom: showUserModal ? { xs: "0%", sm: "-1%", lg: "-20%" } : "0%", 
             }}
           >
-            {data?.stopAt && (
+            {data?.stopAt  && (
               <MatchListProfitLoss
                 onClick={() => handleMatchProfitLossClick(data?.id)}
                 updateMatchStatusLabel="Match Profit/Loss"
@@ -199,8 +201,9 @@ const MatchListTable = (props: any) => {
           </Box>
         </Box>
       </Box>
-      {showUserModal && (
+      {showUserModal&&(
         <MatchPermissionsModal
+        showUserModal={showUserModal}
           data={data}
           updateBettings={updateBettings}
           setUpdateBettings={setUpdateBettings}
