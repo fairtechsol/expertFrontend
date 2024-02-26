@@ -72,7 +72,7 @@ const Row = ({ index, values }: any) => {
               fontSize: "10px",
               lineHeight: 1,
               textAlign: "center",
-          
+              overflowWrap: "anywhere"
             }}
           >
               {values.marketType}

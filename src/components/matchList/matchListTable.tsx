@@ -148,8 +148,9 @@ const MatchListTable = (props: any) => {
               width: { xs: "100%", sm: "auto" },
               py: { xs: 1, sm: 0 },
               overflow: "hidden",
+              marginBottom: showUserModal ? { xs: "1%", sm: "5%", lg: "-19%" } : "0%", 
             }}
-          ><Box sx={{   marginTop: showUserModal ? { xs: "1%", sm: "5%", lg: "51%" } : "0", }}>
+          >
             {data?.stopAt && (
               <MatchListProfitLoss
                 onClick={() => handleMatchProfitLossClick(data?.id)}
@@ -162,8 +163,7 @@ const MatchListTable = (props: any) => {
                 place="1"
               />
             )}
-           </Box>
-            <Box display={"flex"} sx={{ marginY: { xs: 1, sm: 0 } }}>
+            <Box display={"flex"}   sx={{ marginY: { xs: 1, sm: 0 , lg: 0}, alignItems: "center", justifyContent: "flex-end" }}>
               {(getProfile?.allPrivilege ||
                 getProfile?.betFairMatchPrivilege) && (
                 <CustomButton
@@ -171,7 +171,6 @@ const MatchListTable = (props: any) => {
                     minWidth: { xs: "49%", sm: "100px" },
                     width: { xs: "49%", sm: "100px" },
                     marginLeft: { xs: "1%", sm: "10px" },
-                    marginTop: showUserModal ? { xs: "1%", sm: "5%", lg: "100%" } : "1%", 
                   }}
                   onClick={() => {
                     navigate(`/expert/betOdds`, {
@@ -187,7 +186,6 @@ const MatchListTable = (props: any) => {
                     minWidth: { xs: "49%", sm: "100px" },
                     width: { xs: "49%", sm: "100px" },
                     marginLeft: { xs: "1%", sm: "10px" },
-                    marginTop: showUserModal ? { xs: "1%", sm: "5%", lg: "100%" } : "1%", 
                   }}
                   onClick={() => {
                     navigate(`/expert/edit_match`, {
