@@ -39,7 +39,13 @@ export const updateLocalQuickBookmaker = (
       teamA: { ...prev?.teamA, back: 0, lay: 0, suspended: true },
       teamB: { ...prev?.teamB, back: 0, lay: 0, suspended: true },
       teamC: { ...prev?.teamC, back: 0, lay: 0, suspended: true },
-      [teamKey]: { ...prev?.[teamKey], back: +back, lay: +lay },
+      [teamKey]: {
+        ...prev?.[teamKey],
+        back: +back,
+        lay: +lay,
+        rightBack: +back,
+        rightLay: +lay,
+      },
     };
     return newBody;
   });
