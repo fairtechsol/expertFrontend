@@ -148,7 +148,7 @@ const MatchListTable = (props: any) => {
               width: { xs: "100%", sm: "auto" },
               py: { xs: 1, sm: 0 },
               overflow: "hidden",
-              marginBottom: showUserModal ? { xs: "1%", sm: "5%", lg: "-19%" } : "0%", 
+              marginBottom: showUserModal ? { xs: "0%", sm: "-1%", lg: "-20%" } : "0%", 
             }}
           >
             {data?.stopAt && (
