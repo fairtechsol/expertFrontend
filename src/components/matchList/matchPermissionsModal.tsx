@@ -21,6 +21,7 @@ const MatchPermissionsModal = (props: any) => {
       sx={{
         width: "100%",
         background: "#ffe094",
+        height: { xs: "auto", md: "auto", lg: "8rem" }
       }}
     >
       <Box
