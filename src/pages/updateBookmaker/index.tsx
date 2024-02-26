@@ -50,6 +50,9 @@ const UpdateBookmaker = () => {
       socketService.user.userMatchBetPlaced(updateBetList);
       socketService.user.matchResultDeclared(resultDeclared);
     }
+    return () => {
+      socketService.user.userMatchBetPlacedOff(updateBetList);
+    };
   }, [state?.id]);
 
   return (

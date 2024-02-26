@@ -32,6 +32,7 @@ import {
 } from "../../store/actions/match/matchAction";
 import { AppDispatch, RootState } from "../../store/store";
 import { addMatchValidation } from "../../utils/Validations/login";
+import { toast } from "react-toastify";
 
 // const useStyles = makeStyles(() => ({
 //   dateTimePicker: {
@@ -265,6 +266,18 @@ const AddMatch = () => {
   };
 
   const handleDateChange = (date: any) => {
+    const currentDate = dayjs();
+
+    if (dayjs(date).isBefore(currentDate)) {
+      toast.error("Selected date cannot be earlier than the current date", {
+        position: "top-right",
+        autoClose: 1500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+      });
+      return;
+    }
     setSelected((prev: any) => {
       return {
         ...prev,
