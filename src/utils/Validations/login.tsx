@@ -1,4 +1,5 @@
 import * as Yup from "yup";
+import { eventWiseMatchData } from "../Constants";
 
 export const loginValidationSchema = Yup.object({
   userName: Yup.string().required("Username is required"),
@@ -24,17 +25,28 @@ export const changePasswordSchema = Yup.object({
     .required("Confirm Password is required"),
 });
 
-export const addMatchValidation = () => {
+export const addMatchValidation = (isManual:boolean,gameType:any) => {
+  
   return Yup.object({
     minBet: Yup.string().required("Min Bet is required"),
-    betfairMatchMaxBet: Yup.string().test(
-      "moreThanMinBet",
-      "must be more than Min Bet",
-      function (value) {
-        const minBet = this.parent.minBet;
-        return minBet && value && parseFloat(value) > parseFloat(minBet);
-      }
-    ),
+    ...(gameType?Object.fromEntries(
+      
+        Object.entries(eventWiseMatchData[gameType]).flatMap(([keys, items]) =>
+          items.map(item => [item.matchType, Yup.object({maxBet:Yup.string().test(
+            "moreThanMinBet",
+            "must be more than Min Bet",
+            function (value,context) {
+
+              const minBet = context?.from?.[1]?.value?.minBet;
+              if(isManual&&keys=="market"){
+                return true;
+              }
+              return minBet && value && parseFloat(value) > parseFloat(minBet);
+            }
+          )})])
+        )
+      
+    ):{}),
     betfairSessionMaxBet: Yup.string().test(
       "moreThanMinBet",
       "must be more than Min Bet",
@@ -43,37 +55,6 @@ export const addMatchValidation = () => {
         return minBet && value && parseFloat(value) > parseFloat(minBet);
       }
     ),
-    betfairBookmakerMaxBet: Yup.string().test(
-      "moreThanMinBet",
-      "must be more than Min Bet",
-      function (value) {
-        const minBet = this.parent.minBet;
-        return minBet && value && parseFloat(value) > parseFloat(minBet);
-      }
-    ),
-    marketTiedMatchMaxBet: Yup.string().test(
-      "moreThanMinBet",
-      "must be more than Min Bet",
-      function (value) {
-        const minBet = this.parent.minBet;
-        return minBet && value && parseFloat(value) > parseFloat(minBet);
-      }
-    ),
-    manualTiedMatchMaxBet: Yup.string().test(
-      "moreThanMinBet",
-      "must be more than Min Bet",
-      function (value) {
-        const minBet = this.parent.minBet;
-        return minBet && value && parseFloat(value) > parseFloat(minBet);
-      }
-    ),
-    completeMatchMaxBet: Yup.string().test(
-      "moreThanMinBet",
-      "must be more than Min Bet",
-      function (value) {
-        const minBet = this.parent.minBet;
-        return minBet && value && parseFloat(value) > parseFloat(minBet);
-      }
-    ),
+    
   });
 };
