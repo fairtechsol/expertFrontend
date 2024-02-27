@@ -9,6 +9,7 @@ import { useFormik } from "formik";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import CustomErrorMessage from "../../components/Common/CustomErrorMessage";
 import DropDown from "../../components/Common/DropDown";
 import BoxButtonManualMatch from "../../components/addMatch/ButtonSwitchManualMatch";
@@ -31,8 +32,8 @@ import {
   editSuccessReset,
 } from "../../store/actions/match/matchAction";
 import { AppDispatch, RootState } from "../../store/store";
+import { eventWiseMatchData, matchBettingType } from "../../utils/Constants";
 import { addMatchValidation } from "../../utils/Validations/login";
-import { toast } from "react-toastify";
 
 // const useStyles = makeStyles(() => ({
 //   dateTimePicker: {
@@ -44,12 +45,22 @@ import { toast } from "react-toastify";
 
 const initialFormikValues = {
   minBet: "",
-  betfairMatchMaxBet: "",
+  [matchBettingType.matchOdd]: {
+    maxBet: "",
+  },
   betfairSessionMaxBet: "",
-  betfairBookmakerMaxBet: "",
-  marketTiedMatchMaxBet: "",
-  manualTiedMatchMaxBet: "",
-  completeMatchMaxBet: "",
+  [matchBettingType.bookmaker]: {
+    maxBet: "",
+  },
+  [matchBettingType.tiedMatch1]: {
+    maxBet: "",
+  },
+  [matchBettingType.completeMatch]: {
+    maxBet: "",
+  },
+  [matchBettingType.tiedMatch2]: {
+    maxBet: "",
+  },
   marketName1: "",
   marketMaxBet1: "",
   marketId1: "",
@@ -107,9 +118,8 @@ const AddMatch = () => {
   const selectionData = [1, 2, 3];
 
   const { editSuccess } = useSelector((state: RootState) => state.matchList);
-
   const formik = useFormik({
-    validationSchema: addMatchValidation,
+    validationSchema: addMatchValidation(manualMatchToggle, selected.gameType),
     initialValues: initialFormikValues,
     onSubmit: (value: any) => {
       if (state?.id) {
@@ -149,17 +159,29 @@ const AddMatch = () => {
             },
           ];
         }
-        let payload = {
+        const payload: any = {
           id: state?.id,
           minBet: value.minBet,
-          matchOddMaxBet: value.betfairMatchMaxBet,
+          marketData: [],
           betFairSessionMaxBet: value.betfairSessionMaxBet,
-          betFairBookmakerMaxBet: value.betfairBookmakerMaxBet,
-          marketTiedMatchMaxBet: value.marketTiedMatchMaxBet,
-          manualTiedMatchMaxBet: value.manualTiedMatchMaxBet,
-          completeMatchMaxBet: value.completeMatchMaxBet,
           bookmakers: bookmakers,
         };
+
+        eventWiseMatchData[selected.gameType]?.manual?.forEach((item) => {
+          payload.marketData.push({
+            maxBet: value?.[item?.matchType]?.maxBet,
+            type: item?.matchType,
+          });
+        });
+
+        if (!manualMatchToggle) {
+          eventWiseMatchData[selected.gameType]?.market?.forEach((item) => {
+            payload.marketData.push({
+              maxBet: value?.[item?.matchType]?.maxBet,
+              type: item?.matchType,
+            });
+          });
+        }
         dispatch(editMatch(payload));
       } else {
         let bookmakers;
@@ -214,7 +236,7 @@ const AddMatch = () => {
           });
           return;
         }
-        let addMatchpayload = {
+        const addMatchpayload: any = {
           matchType: selected.gameType,
           competitionId: selected.tournamentId,
           competitionName: selected.competitionName,
@@ -226,20 +248,32 @@ const AddMatch = () => {
           teamC: selected.teamC,
           startAt: selected.startAt,
           minBet: value.minBet,
-          matchOddMaxBet: value.betfairMatchMaxBet,
+          marketData: [],
+
           betFairSessionMaxBet: value.betfairSessionMaxBet,
-          betFairBookmakerMaxBet: value.betfairBookmakerMaxBet,
-          marketTiedMatchMaxBet: value.marketTiedMatchMaxBet,
-          manualTiedMatchMaxBet: value.manualTiedMatchMaxBet,
-          completeMatchMaxBet: value.completeMatchMaxBet,
           bookmakers: bookmakers,
-          matchOddMarketId: extraMarketList?.matchOdds?.marketId,
-          marketBookmakerId: extraMarketList?.matchOdds?.marketId,
-          tiedMatchMarketId: extraMarketList?.tiedMatch?.marketId,
-          completeMatchMarketId: extraMarketList?.completedMatch?.marketId,
         };
+
+        eventWiseMatchData[selected.gameType]?.manual?.forEach((item) => {
+          addMatchpayload.marketData.push({
+            maxBet: value?.[item?.matchType]?.maxBet,
+            type: item?.matchType,
+          });
+        });
+
+        if (!manualMatchToggle) {
+          eventWiseMatchData[selected.gameType]?.market?.forEach((item) => {
+            if (extraMarketList?.[item?.marketIdKey]?.marketId) {
+              addMatchpayload.marketData.push({
+                maxBet: value?.[item?.matchType]?.maxBet,
+                type: item?.matchType,
+                marketId: extraMarketList?.[item?.marketIdKey]?.marketId,
+              });
+            }
+          });
+        }
         if (manualMatchToggle) {
-          let newPayload = {
+          const newPayload = {
             ...addMatchpayload,
             isManualMatch: true,
           };
@@ -294,7 +328,6 @@ const AddMatch = () => {
   }, [editSuccess]);
 
   const { handleSubmit, values, touched, errors, handleChange } = formik;
-
   useEffect(() => {
     if (!state?.id) {
       setSelected((prev: any) => {
@@ -397,18 +430,10 @@ const AddMatch = () => {
     try {
       if (matchDetail && state?.id) {
         if (success) {
-          formik.setValues({
+          const formikValues = {
             ...values,
             minBet: matchDetail?.betFairSessionMinBet ?? "",
-            betfairMatchMaxBet: matchDetail?.matchOdd?.maxBet ?? "",
             betfairSessionMaxBet: matchDetail?.betFairSessionMaxBet ?? "",
-            betfairBookmakerMaxBet: matchDetail?.bookmaker?.maxBet ?? "",
-            marketTiedMatchMaxBet: matchDetail?.apiTideMatch?.maxBet ?? "",
-            manualTiedMatchMaxBet:
-              matchDetail?.manualTiedMatch?.maxBet ??
-              matchDetail?.manualTideMatch?.maxBet ??
-              "",
-            completeMatchMaxBet: matchDetail?.marketCompleteMatch?.maxBet ?? "",
             marketName1: matchDetail?.quickBookmaker[0].name ?? "",
             marketMaxBet1: matchDetail?.quickBookmaker[0]?.maxBet ?? "",
             marketId1: matchDetail?.quickBookmaker[0]?.id ?? "",
@@ -418,7 +443,31 @@ const AddMatch = () => {
             marketName3: matchDetail?.quickBookmaker[2]?.name ?? "",
             marketMaxBet3: matchDetail?.quickBookmaker[2]?.maxBet ?? "",
             marketId3: matchDetail?.quickBookmaker[2]?.id ?? "",
-          });
+          };
+
+          if (!manualMatchToggle) {
+            eventWiseMatchData[matchDetail?.matchType]?.market?.forEach(
+              (item) => {
+                if (matchDetail[item?.apiKey]) {
+                  formikValues[item?.matchType] = {
+                    maxBet: matchDetail[item?.apiKey].maxBet,
+                  };
+                }
+              }
+            );
+          }
+
+          eventWiseMatchData[matchDetail?.matchType]?.manual?.forEach(
+            (item) => {
+              if (matchDetail[item?.apiKey]) {
+                formikValues[item?.matchType] = {
+                  maxBet: matchDetail[item?.apiKey].maxBet,
+                };
+              }
+            }
+          );
+
+          formik.setValues(formikValues);
           setSelected((prev: any) => {
             return {
               ...prev,
@@ -855,29 +904,6 @@ const AddMatch = () => {
             <Box sx={{ width: { xs: "100%", lg: "18%", md: "24%" } }}>
               <MatchListInput
                 required={true}
-                valueStyle={{}}
-                containerStyle={{ flex: 1, width: "100%" }}
-                label={"Match Odd Max Bet"}
-                type={"Number"}
-                name="betfairMatchMaxBet"
-                id="betfairMatchMaxBet"
-                onBlur={formik.handleBlur}
-                touched={touched.betfairMatchMaxBet}
-                value={values.betfairMatchMaxBet}
-                onChange={handleChange}
-                placeholder="Enter your Match Max Bet..."
-                InputValType={"InputVal"}
-                place={3}
-              />
-              <CustomErrorMessage
-                touched={touched.betfairMatchMaxBet}
-                errors={errors.betfairMatchMaxBet}
-              />
-            </Box>
-
-            <Box sx={{ width: { xs: "100%", lg: "18%", md: "24%" } }}>
-              <MatchListInput
-                required={true}
                 containerStyle={{ flex: 1, width: "100%" }}
                 label={"Betfair Session Max Bet"}
                 type={"Number"}
@@ -896,90 +922,60 @@ const AddMatch = () => {
                 errors={errors.betfairSessionMaxBet}
               />
             </Box>
-            <Box sx={{ width: { xs: "100%", lg: "18%", md: "24%" } }}>
-              <MatchListInput
-                required={true}
-                containerStyle={{ flex: 1, width: "100%" }}
-                label={"Betfair Bookmaker Max Bet"}
-                type={"Number"}
-                touched={touched.betfairBookmakerMaxBet}
-                value={values.betfairBookmakerMaxBet}
-                onChange={handleChange}
-                placeholder="Enter Bookmaker Max Bet..."
-                InputValType={"InputVal"}
-                place={15}
-                id="betfairBookmakerMaxBet"
-                name="betfairBookmakerMaxBet"
-                onBlur={formik.handleBlur}
-              />
-              <CustomErrorMessage
-                touched={touched.betfairBookmakerMaxBet}
-                errors={errors.betfairBookmakerMaxBet}
-              />
-            </Box>
-            <Box sx={{ width: { xs: "100%", lg: "18%", md: "24%" } }}>
-              <MatchListInput
-                required={true}
-                containerStyle={{ flex: 1, width: "100%" }}
-                label={"Market Tied Match Max Bet"}
-                type={"Number"}
-                touched={touched.marketTiedMatchMaxBet}
-                value={values.marketTiedMatchMaxBet}
-                onChange={handleChange}
-                placeholder="Enter Market Tied Match Max Bet..."
-                InputValType={"InputVal"}
-                place={15}
-                id="marketTiedMatchMaxBet"
-                name="marketTiedMatchMaxBet"
-                onBlur={formik.handleBlur}
-              />
-              <CustomErrorMessage
-                touched={touched.marketTiedMatchMaxBet}
-                errors={errors.marketTiedMatchMaxBet}
-              />
-            </Box>
-            <Box sx={{ width: { xs: "100%", lg: "18%", md: "24%" } }}>
-              <MatchListInput
-                required={true}
-                containerStyle={{ flex: 1, width: "100%" }}
-                label={"Manual Tied Match Max Bet"}
-                type={"Number"}
-                touched={touched.manualTiedMatchMaxBet}
-                value={values.manualTiedMatchMaxBet}
-                onChange={handleChange}
-                placeholder="Enter Manual Tied Match Max Bet..."
-                InputValType={"InputVal"}
-                place={15}
-                id="manualTiedMatchMaxBet"
-                name="manualTiedMatchMaxBet"
-                onBlur={formik.handleBlur}
-              />
-              <CustomErrorMessage
-                touched={touched.manualTiedMatchMaxBet}
-                errors={errors.manualTiedMatchMaxBet}
-              />
-            </Box>
-            <Box sx={{ width: { xs: "100%", lg: "18%", md: "24%" } }}>
-              <MatchListInput
-                required={true}
-                containerStyle={{ flex: 1, width: "100%" }}
-                label={"Complete Match Max Bet"}
-                type={"Number"}
-                touched={touched.completeMatchMaxBet}
-                value={values.completeMatchMaxBet}
-                onChange={handleChange}
-                placeholder="Enter Manual Tied Match Max Bet..."
-                InputValType={"InputVal"}
-                place={15}
-                id="completeMatchMaxBet"
-                name="completeMatchMaxBet"
-                onBlur={formik.handleBlur}
-              />
-              <CustomErrorMessage
-                touched={touched.completeMatchMaxBet}
-                errors={errors.completeMatchMaxBet}
-              />
-            </Box>
+
+            {eventWiseMatchData[selected.gameType]?.manual?.map((item: any) => {
+              console.log(touched?.[item?.matchType]);
+              return (
+                <Box sx={{ width: { xs: "100%", lg: "18%", md: "24%" } }}>
+                  <MatchListInput
+                    required={true}
+                    containerStyle={{ flex: 1, width: "100%" }}
+                    label={item?.label}
+                    {...formik.getFieldProps(`${item?.matchType}.maxBet`)}
+                    type={"Number"}
+                    touched={touched?.[item?.matchType]?.maxBet}
+                    value={values?.[item?.matchType]?.maxBet}
+                    // onChange={handleChange}
+                    placeholder={`Enter ${item?.name} Max Bet...`}
+                    InputValType={"InputVal"}
+                    place={15}
+                    onBlur={formik.handleBlur}
+                  />
+                  <CustomErrorMessage
+                    touched={touched?.[item?.matchType]?.maxBet}
+                    errors={errors?.[item?.matchType]?.maxBet}
+                  />
+                </Box>
+              );
+            })}
+
+            {!manualMatchToggle &&
+              eventWiseMatchData[selected.gameType]?.market?.map(
+                (item: any) => {
+                  return (
+                    <Box sx={{ width: { xs: "100%", lg: "18%", md: "24%" } }}>
+                      <MatchListInput
+                        required={true}
+                        containerStyle={{ flex: 1, width: "100%" }}
+                        label={item?.label}
+                        {...formik.getFieldProps(`${item?.matchType}.maxBet`)}
+                        type={"Number"}
+                        touched={touched?.[item?.matchType]?.maxBet}
+                        value={values?.[item?.matchType]?.maxBet}
+                        placeholder={`Enter ${item?.name} Max Bet...`}
+                        InputValType={"InputVal"}
+                        place={15}
+                        onBlur={formik.handleBlur}
+                      />
+                      <CustomErrorMessage
+                        touched={touched?.[item?.matchType]?.maxBet}
+                        errors={errors?.[item?.matchType]?.maxBet}
+                      />
+                    </Box>
+                  );
+                }
+              )}
+
             <Box sx={{ width: "100%" }}>
               <Box
                 sx={{

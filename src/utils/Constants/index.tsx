@@ -1,3 +1,5 @@
+import constants from "../../components/helper/constants";
+
 export const ApiConstants = {
   LOGIN: "auth/login",
   LOGOUT: "auth/logout",
@@ -99,12 +101,66 @@ export const baseUrls = {
       : "http://localhost:5000",
   expertSocket:
     process.env.NODE_ENV === "production"
-      ? `${Constants.expertSocketBasePath}`
-      : "http://localhost:6060",
-  // : `${Constants.thirdParty}`,
-  matchSocket:
+    ? `${Constants.expertSocketBasePath}`
+    : "http://localhost:6060",
+    // : `${Constants.thirdParty}`,
+    matchSocket:
     process.env.NODE_ENV === "production"
-      ? `${Constants.thirdParty}`
-      : "http://localhost:3200",
-  // `${Constants.thirdParty}`,
+    ? `${Constants.thirdParty}`
+    : "http://localhost:3200",
+    // `${Constants.thirdParty}`,
+  };
+  
+  export const matchBettingType = {
+    matchOdd: "matchOdd",
+    bookmaker: "bookmaker",
+    quickbookmaker1: "quickbookmaker1",
+    quickbookmaker2: "quickbookmaker2",
+    quickbookmaker3: "quickbookmaker3",
+    tiedMatch1: "tiedMatch1",
+    tiedMatch2: "tiedMatch2",
+    completeMatch: "completeMatch"
+  };
+
+export const eventWiseMatchData = {
+  [constants.matchType[0]]: {
+    manual: [
+      {
+        matchType: matchBettingType.tiedMatch2,
+        apiKey: "manualTideMatch",
+        label: "Manual Tied Match Max Bet",
+        name: "ManualTide",
+      },
+    ],
+    market: [
+      {
+        matchType: matchBettingType.matchOdd,
+        apiKey: "matchOdd",
+        marketIdKey:"matchOdds",
+        label: "Betfair Match Odd Max Bet",
+        name: "MatchOdd",
+      },
+      {
+        matchType: matchBettingType.bookmaker,
+        apiKey: "bookmaker",
+        label: "Betfair Bookmaker Max Bet",
+        name: "Bookmaker",
+        marketIdKey:"matchOdds",
+      },
+      {
+        matchType: matchBettingType.tiedMatch1,
+        apiKey: "apiTideMatch",
+        label: "Market Tied Match Max Bet",
+        name: "Tied",
+        marketIdKey:"tiedMatch",
+      },
+      {
+        matchType: matchBettingType.completeMatch,
+        apiKey: "marketCompleteMatch",
+        label: "Market Complete Match Max Bet",
+        name: "Complete",
+        marketIdKey:"completedMatch",
+      },
+    ],
+  },
 };
