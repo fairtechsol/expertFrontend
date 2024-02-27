@@ -102,7 +102,7 @@ export const baseUrls = {
   expertSocket:
     process.env.NODE_ENV === "production"
     ? `${Constants.expertSocketBasePath}`
-    : "http://localhost:8000",
+    : "http://localhost:6060",
     // : `${Constants.thirdParty}`,
     matchSocket:
     process.env.NODE_ENV === "production"
