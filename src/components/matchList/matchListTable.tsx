@@ -150,7 +150,7 @@ const MatchListTable = (props: any) => {
               py: { xs: 1, sm: 0 },
               overflow: "hidden",
               display: showUserModal && !matchesMobile ? "none" : "flex",
-              // marginBottom: showUserModal ? { xs: "0%", sm: "-1%", lg: "-20%" } : "0%", 
+              // marginBottom: showUserModal ? { xs: "0%", sm: "-1%", lg: "-20%" } : "0%",
             }}
           >
             {data?.stopAt && (
@@ -165,23 +165,30 @@ const MatchListTable = (props: any) => {
                 place="1"
               />
             )}
-            <Box display={"flex"} sx={{ marginY: { xs: 1, sm: 0, lg: 0 }, alignItems: "center", justifyContent: "flex-end" }}>
+            <Box
+              display={"flex"}
+              sx={{
+                marginY: { xs: 1, sm: 0, lg: 0 },
+                alignItems: "center",
+                justifyContent: "flex-end",
+              }}
+            >
               {(getProfile?.allPrivilege ||
                 getProfile?.betFairMatchPrivilege) && (
-                  <CustomButton
-                    containerStyle={{
-                      minWidth: { xs: "49%", sm: "100px" },
-                      width: { xs: "49%", sm: "100px" },
-                      marginLeft: { xs: "1%", sm: "10px" },
-                    }}
-                    onClick={() => {
-                      navigate(`/expert/betOdds`, {
-                        state: { id: data?.id, marketId: data?.marketId },
-                      });
-                    }}
-                    title={"Submit"}
-                  />
-                )}
+                <CustomButton
+                  containerStyle={{
+                    minWidth: { xs: "49%", sm: "100px" },
+                    width: { xs: "49%", sm: "100px" },
+                    marginLeft: { xs: "1%", sm: "10px" },
+                  }}
+                  onClick={() => {
+                    navigate(`/expert/betOdds`, {
+                      state: { id: data?.id, marketId: data?.marketId },
+                    });
+                  }}
+                  title={"Submit"}
+                />
+              )}
               {(getProfile?.allPrivilege || getProfile?.addMatchPrivilege) && (
                 <CustomButton
                   containerStyle={{

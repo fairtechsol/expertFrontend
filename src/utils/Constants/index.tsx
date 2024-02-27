@@ -63,6 +63,8 @@ export const Constants = {
     betOdds: "betOdds",
     changePassword: "change-password",
   },
+  WEBSOCKET: "websocket",
+  POLLING: "polling",
 };
 
 export const ButtonRatesQuickSessions = [

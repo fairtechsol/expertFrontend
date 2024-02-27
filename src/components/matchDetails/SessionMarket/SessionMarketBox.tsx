@@ -255,7 +255,9 @@ const SessionMarketBox = ({
         {!hideTotalBet && (
           <PlaceBetComponent
             width={7}
-            profitLossData={profitLossData[JSON.parse(newData)?.id]}
+            profitLossData={
+              profitLossData && profitLossData[JSON.parse(newData)?.id]
+            }
             newData={JSON.parse(newData)}
           />
         )}
