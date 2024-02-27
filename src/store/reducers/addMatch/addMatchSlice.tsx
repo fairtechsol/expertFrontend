@@ -186,22 +186,26 @@ const addMatch = createSlice({
         };
       })
       .addCase(updateApiSessionById.fulfilled, (state, action) => {
-        state.matchDetail = {
-          ...state.matchDetail,
-          sessionBettings: state.matchDetail.sessionBettings.map(
-            (item: any) => {
-              const parsedItem = JSON.parse(item);
-              let id = parsedItem?.id;
-              if (id === action.payload.betId) {
-                return JSON.stringify({
-                  ...parsedItem,
-                  activeStatus: action.payload.activeStatus,
-                  result: action.payload.score ? action.payload.score : null,
-                });
-              } else return item;
-            }
-          ),
-        };
+        try {
+          state.matchDetail = {
+            ...state.matchDetail,
+            sessionBettings: state.matchDetail.sessionBettings.map(
+              (item: any) => {
+                const parsedItem = JSON.parse(item);
+                let id = parsedItem?.id;
+                if (id === action.payload.betId) {
+                  return JSON.stringify({
+                    ...parsedItem,
+                    activeStatus: action.payload.activeStatus,
+                    result: action.payload.score ? action.payload.score : null,
+                  });
+                } else return item;
+              }
+            ),
+          };
+        } catch (e) {
+          console.log(e);
+        }
       })
       .addCase(updateSessionAdded.fulfilled, (state, action) => {
         const newSessionBetting = JSON.stringify(action.payload);

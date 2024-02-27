@@ -119,6 +119,19 @@ const MatchDetails = () => {
     try {
       if (state?.id === event?.matchId) {
         dispatch(updateApiSessionById(event));
+        dispatch(
+          updateSessionProLoss({
+            id: event?.betId,
+            betPlaced: event?.profitLossObj?.betPlaced ?? [],
+          })
+        );
+        dispatch(
+          updateMaxLoss({
+            id: event?.betId,
+            maxLoss: event?.profitLossObj?.maxLoss ?? 0,
+            totalBet: event?.profitLossObj?.totalBet ?? 0,
+          })
+        );
       }
     } catch (e) {
       console.log(e);
@@ -194,6 +207,15 @@ const MatchDetails = () => {
         state?.id,
         updateMatchDetailToRedux
       );
+      socketService.user.matchBettingStatusChangeOff(updateBettingStatus);
+      socketService.user.matchResultDeclaredOff(resultDeclared);
+      socketService.user.matchResultUnDeclaredOff(resultUnDeclared);
+      socketService.user.matchDeleteBetOff(matchDeleteBet);
+      socketService.user.sessionDeleteBetOff(matchDeleteBet);
+      socketService.user.sessionAddedOff(handleSessionAdded);
+      socketService.user.userMatchBetPlacedOff(updateMatchBetPlaced);
+      socketService.user.userSessionBetPlacedOff(updateSessionBetPlaced);
+      socketService.user.sessionResultDeclaredOff(updateResultDeclared);
     };
   }, [success]);
 
