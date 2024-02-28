@@ -11,6 +11,7 @@ import { ArrowLeft } from "../../../assets";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../store/store";
 import {
+  addsuccessReset,
   resetPlacedBets,
   sessionByIdReset,
 } from "../../../store/actions/addSession";
@@ -128,6 +129,7 @@ const MenutItemsComponent = ({
             <Box
               onClick={(e: any) => {
                 e.stopPropagation();
+                dispatch(addsuccessReset());
                 dispatch(sessionByIdReset());
                 dispatch(resetPlacedBets());
                 navigate("/expert/live", {
