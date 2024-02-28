@@ -18,6 +18,7 @@ const SessionMarketBoxLive = ({
   hideResult,
 }: any) => {
   const dispatch: AppDispatch = useDispatch();
+
   const [live, setLive] = useState<any>(
     newData?.isActive === false ? true : false
   );
@@ -38,6 +39,7 @@ const SessionMarketBoxLive = ({
     };
     dispatch(addSession(payload));
   };
+
   return (
     <div style={{ position: "relative" }}>
       {live && (
