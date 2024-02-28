@@ -196,8 +196,10 @@ const addMatch = createSlice({
                 if (id === action.payload.betId) {
                   return JSON.stringify({
                     ...parsedItem,
-                    activeStatus: action.payload.activeStatus,
-                    result: action.payload.score ? action.payload.score : null,
+                    activeStatus: action?.payload?.activeStatus,
+                    result: action?.payload?.score
+                      ? action?.payload?.score
+                      : null,
                   });
                 } else return item;
               }
@@ -278,7 +280,6 @@ const addMatch = createSlice({
       })
       .addCase(updateMaxLoss.fulfilled, (state, action) => {
         const { id, maxLoss, totalBet } = action.payload;
-
         state.matchDetail = {
           ...state.matchDetail,
           sessionProfitLoss: {

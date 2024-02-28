@@ -129,7 +129,7 @@ export const updateMatchActiveStatus = createAsyncThunk<any, any>(
   }
 );
 export const betSession = createAsyncThunk<any, any>(
-  "/bet/declare/result/session",
+  "/bet/session",
   async (requestData, thunkApi) => {
     try {
       const response = await service.post(
