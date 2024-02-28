@@ -122,6 +122,11 @@ const AddMatch = () => {
     validationSchema: addMatchValidation(manualMatchToggle, selected.gameType),
     initialValues: initialFormikValues,
     onSubmit: (value: any) => {
+
+      if(!eventWiseMatchData[selected.gameType]){
+        toast.error("This game is not available yet.")
+      }
+
       if (state?.id) {
         let bookmakers;
 

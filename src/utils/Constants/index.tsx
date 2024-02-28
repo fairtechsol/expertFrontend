@@ -119,7 +119,8 @@ export const baseUrls = {
     quickbookmaker3: "quickbookmaker3",
     tiedMatch1: "tiedMatch1",
     tiedMatch2: "tiedMatch2",
-    completeMatch: "completeMatch"
+    completeMatch: "completeMatch",
+    completeManual: "completeManual",
   };
 
 export const eventWiseMatchData = {
@@ -130,6 +131,12 @@ export const eventWiseMatchData = {
         apiKey: "manualTideMatch",
         label: "Manual Tied Match Max Bet",
         name: "ManualTide",
+      },
+      {
+        matchType: matchBettingType.completeManual,
+        apiKey: "completeManual",
+        label: "Complete Manual Match Max Bet",
+        name: "CompleteManual",
       },
     ],
     market: [
