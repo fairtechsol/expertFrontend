@@ -29,6 +29,7 @@ interface InitialState {
   placedBetsMatch: any;
   loading: boolean;
   error: any;
+  dropDownLoading: boolean;
   statusBetLive: boolean;
   sessionProLoss: any;
 }
@@ -38,6 +39,7 @@ const initialState: InitialState = {
   matchListDropdown: [],
   loading: false,
   success: false,
+  dropDownLoading: false,
   editSuccess: false,
   statusSuccess: false,
   statusBetLive: false,
@@ -67,17 +69,18 @@ const matchList = createSlice({
         state.error = action?.error?.message;
       })
       .addCase(getMatchListDropdown.pending, (state) => {
-        state.loading = true;
+        state.dropDownLoading = true;
+        state.matchListDropdown = [];
         state.success = false;
         state.error = null;
       })
       .addCase(getMatchListDropdown.fulfilled, (state, action) => {
         state.matchListDropdown = action.payload;
-        state.loading = false;
+        state.dropDownLoading = false;
         state.success = true;
       })
       .addCase(getMatchListDropdown.rejected, (state, action) => {
-        state.loading = false;
+        state.dropDownLoading = false;
         state.error = action?.error?.message;
       })
       .addCase(updateMatchActiveStatus.pending, (state) => {

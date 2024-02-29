@@ -29,7 +29,7 @@ const Header1 = () => {
   const [currentSelected, setSelected] = useState<any>(4);
   const [anchor, setAnchor] = useState(null);
 
-  const { matchListDropdown } = useSelector(
+  const { matchListDropdown, dropDownLoading } = useSelector(
     (state: RootState) => state.matchList
   );
 
@@ -158,7 +158,7 @@ const Header1 = () => {
                     dispatch(getMatchListDropdown());
                     setAnchor(e?.currentTarget);
                   }}
-                  title={"ALL MATCH"}
+                  title={!dropDownLoading ? "ALL MATCH" : "Loading..."}
                   boxStyle={{
                     backgroundColor:
                       currentSelected == 1 ? "white" : "transparent",
@@ -243,14 +243,16 @@ const Header1 = () => {
         </Box>
       </AppBar>
       <Box sx={{ minHeight: { lg: 66, xs: 60 + 32 + 42 } }} />
-      <DropDownMenu
-        anchorEl={anchor}
-        open={Boolean(anchor)}
-        allMatch={matchListDropdown}
-        handleClose={() => {
-          setAnchor(null);
-        }}
-      />
+      {matchListDropdown?.length > 0 && (
+        <DropDownMenu
+          anchorEl={anchor}
+          open={Boolean(anchor)}
+          allMatch={matchListDropdown}
+          handleClose={() => {
+            setAnchor(null);
+          }}
+        />
+      )}
     </>
   );
 };
