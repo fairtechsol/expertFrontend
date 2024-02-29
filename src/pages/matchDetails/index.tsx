@@ -98,6 +98,7 @@ const MatchDetails = () => {
   const matchDeleteBet = (event: any) => {
     try {
       if (event?.matchId === state?.id) {
+        dispatch(getMatchDetail(state?.id));
         dispatch(getPlacedBetsMatch(state?.id));
       }
     } catch (e) {
