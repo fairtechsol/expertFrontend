@@ -85,7 +85,7 @@ const SessionMarketBox = ({
             top: "4px",
             width: "30%",
             justifyContent: "flex-end",
-            left: { lg: "14vw", md: "24vw" },
+            left: { lg: "14vw", md: "25vw", xs:"13vh" },
             display: "flex",
             zIndex: 100,
           }}
@@ -105,7 +105,7 @@ const SessionMarketBox = ({
                 );
               }}
               textSize={"8px"}
-              width={"33px"}
+              width={{lg: "33px", xs: "20px", md: "25px"}}
               color={
                 JSON.parse(newData)?.activeStatus === "live"
                   ? "#46e080"
@@ -119,7 +119,7 @@ const SessionMarketBox = ({
                 loading={false}
                 hide={false}
                 textSize={"12px"}
-                width={"80px"}
+                width={{lg: "80px", xs: "20px", md: "20px"}}
                 title={`Score : ${JSON.parse(newData)?.result || 0}`}
                 color={"#FFF"}
               />
@@ -224,7 +224,7 @@ const SessionMarketBox = ({
               background: "white",
               height: "30px",
               marginLeft: "4vh",
-              width: { lg: "18.6%", xs: "60%", paddingLeft: "6px" },
+              width: { lg: "18.6%", xs: "40%", paddingLeft: "6px" },
               justifyContent: "center",
               alignItems: "center",
               margin: "auto",
