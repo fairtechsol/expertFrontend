@@ -25,7 +25,7 @@ const PlaceBetComponent = ({ profitLossData, newData }: any) => {
           display: "flex",
           alignItems: "center",
           top: "2px",
-          width: "9vw",
+          width: { lg: "9vw", xs: "12vw" , md: "9vw"  },
           borderRadius: "5px",
           height: "26px",
           right: "8px",
@@ -49,7 +49,7 @@ const PlaceBetComponent = ({ profitLossData, newData }: any) => {
         >
           <Typography
             sx={{
-              fontSize: { lg: "8px" },
+              fontSize: { lg: "8px", xs: "6px" , md: "9px"},
               fontWeight: "bold",
               textAlign: "center",
               color: "#FF4D4D",
@@ -60,7 +60,7 @@ const PlaceBetComponent = ({ profitLossData, newData }: any) => {
           </Typography>
           <Typography
             sx={{
-              fontSize: { lg: ".5vw" },
+              fontSize: { lg: ".5vw", xs: ".8vw" , md: ".5vw"  },
               fontWeight: "bold",
               color: "#0B4F26",
               lineHeight: 1,
@@ -82,6 +82,8 @@ const PlaceBetComponent = ({ profitLossData, newData }: any) => {
             sx={{
               fontSize: {
                 lg: !profitLossData?.maxLoss ? "10px" : "10px",
+                xs: !profitLossData?.maxLoss ? "4px" : "4px",
+                md: !profitLossData?.maxLoss ? "6px" : "6px",
               },
               fontWeight: !profitLossData?.maxLoss ? "bold" : "bold",
               color: "white",
@@ -95,7 +97,7 @@ const PlaceBetComponent = ({ profitLossData, newData }: any) => {
           </Typography>
           <img
             src={UD}
-            style={{ width: "12px", height: "12px", marginLeft: "5px" }}
+            style={{ width: "12px", height: "12px", marginLeft: "0px" }}
           />
         </Box>
       </Box>
