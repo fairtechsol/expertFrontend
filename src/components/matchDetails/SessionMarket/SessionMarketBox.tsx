@@ -1,15 +1,15 @@
-import { useEffect, useState } from "react";
-import Divider from "../../Common/Divider";
 import { Box, Typography } from "@mui/material";
-import Result from "../Result";
-import SmallBox from "../SmallBox";
-import SeparateBox from "../SeparateBox";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { sessionBetLiveStatus } from "../../../store/actions/match/matchAction";
+import { AppDispatch, RootState } from "../../../store/store";
+import Divider from "../../Common/Divider";
 import { formatNumber } from "../../helper";
+import Result from "../Result";
+import SeparateBox from "../SeparateBox";
+import SmallBox from "../SmallBox";
 import CustomSessionResult from "./CustomSessionResult";
 import PlaceBetComponent from "./PlaceBetComponent";
-import { sessionBetLiveStatus } from "../../../store/actions/match/matchAction";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../../../store/store";
 
 const SessionMarketBox = ({
   currentMatch,

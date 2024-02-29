@@ -122,14 +122,18 @@ const MatchDetails = () => {
         dispatch(
           updateSessionProLoss({
             id: event?.betId,
-            betPlaced: event?.profitLossObj?.betPlaced ?? [],
+            betPlaced: event?.profitLossObj
+              ? event?.profitLossObj?.betPlaced
+              : [],
           })
         );
         dispatch(
           updateMaxLoss({
             id: event?.betId,
-            maxLoss: event?.profitLossObj?.maxLoss ?? 0,
-            totalBet: event?.profitLossObj?.totalBet ?? 0,
+            maxLoss: event?.profitLossObj
+              ? event?.profitLossObj?.maxLoss
+              : event?.profitLoss,
+            totalBet: event?.profitLossObj ? event?.profitLossObj?.totalBet : 0,
           })
         );
       }
@@ -200,6 +204,9 @@ const MatchDetails = () => {
     } catch (e) {
       console.log(e);
     }
+  }, [success]);
+
+  useEffect(() => {
     return () => {
       // expertSocketService.match.leaveAllRooms();
       expertSocketService.match.leaveMatchRoom(state?.id);
@@ -217,7 +224,7 @@ const MatchDetails = () => {
       socketService.user.userSessionBetPlacedOff(updateSessionBetPlaced);
       socketService.user.sessionResultDeclaredOff(updateResultDeclared);
     };
-  }, [success]);
+  }, []);
 
   useEffect(() => {
     const handleVisibilityChange = () => {

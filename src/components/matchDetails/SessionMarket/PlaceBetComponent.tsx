@@ -1,10 +1,12 @@
+import { Box, Typography } from "@mui/material";
 import { useDispatch } from "react-redux";
 import { UD } from "../../../assets";
-import { Box, Typography } from "@mui/material";
-import { AppDispatch } from "../../../store/store";
 import { getSessionProfitLossMatchDetail } from "../../../store/actions/match/matchAction";
+import { AppDispatch } from "../../../store/store";
 
 const PlaceBetComponent = ({ profitLossData, newData }: any) => {
+  console.log(profitLossData);
+
   const dispatch: AppDispatch = useDispatch();
   return (
     <>
@@ -64,7 +66,7 @@ const PlaceBetComponent = ({ profitLossData, newData }: any) => {
               lineHeight: 1,
             }}
           >
-            {profitLossData?.totalBet || 0}
+            {profitLossData?.totalBet ?? 0}
           </Typography>
         </Box>
         <Box
@@ -86,7 +88,7 @@ const PlaceBetComponent = ({ profitLossData, newData }: any) => {
             }}
           >
             {newData?.result
-              ? profitLossData
+              ? profitLossData?.maxLoss
               : !profitLossData?.maxLoss
               ? "Profit/Loss"
               : profitLossData?.maxLoss}

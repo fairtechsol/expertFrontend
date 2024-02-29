@@ -184,7 +184,7 @@ export const addSessionReducers = createReducer(initialState, (builder) => {
       return { ...state, success: false };
     })
     .addCase(addsuccessReset, (state) => {
-      return { ...state, success: false };
+      return { ...state, addSuccess: false };
     })
     .addCase(sessionSuccessReset, (state) => {
       return { ...state, getSessionSuccess: false };
