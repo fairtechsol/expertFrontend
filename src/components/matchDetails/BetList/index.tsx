@@ -20,7 +20,7 @@ const BetList = ({ tag, submit, allBetRates }: any) => {
               background: ["NO", "YES"].includes(v?.betType)
                 ? "#319E5B"
                 : "#F1C550",
-              deletedReason: v?.deletedReason,
+              deleteReason: v?.deleteReason,
               width: "12%",
             },
             {
@@ -32,7 +32,7 @@ const BetList = ({ tag, submit, allBetRates }: any) => {
               background: ["NO", "YES"].includes(v?.betType)
                 ? "#319E5B"
                 : "#F1C550",
-              deletedReason: v?.deletedReason,
+              deleteReason: v?.deleteReason,
               width: "20%",
             },
             {
@@ -41,7 +41,7 @@ const BetList = ({ tag, submit, allBetRates }: any) => {
               background: ["YES", "BACK"].includes(v?.betType)
                 ? "#B3E0FF"
                 : "rgb(255, 146, 146)",
-              deletedReason: v?.deletedReason,
+              deleteReason: v?.deleteReason,
               width: "13%",
             },
             {
@@ -52,7 +52,7 @@ const BetList = ({ tag, submit, allBetRates }: any) => {
                 ? "#B3E0FF"
                 : "rgb(255, 146, 146)",
               small: true,
-              deletedReason: v?.deletedReason,
+              deleteReason: v?.deleteReason,
               width: "7%",
               fSize: "13px",
               lHeight: 1,
@@ -64,7 +64,7 @@ const BetList = ({ tag, submit, allBetRates }: any) => {
                 ? "#B3E0FF"
                 : "rgb(255, 146, 146)",
               small: true,
-              deletedReason: v?.deletedReason,
+              deleteReason: v?.deleteReason,
               width: "7%",
             },
             {
@@ -73,7 +73,7 @@ const BetList = ({ tag, submit, allBetRates }: any) => {
               background: ["YES", "BACK"].includes(v?.betType)
                 ? "#B3E0FF"
                 : "rgb(255, 146, 146)",
-              deletedReason: v?.deletedReason,
+              deleteReason: v?.deleteReason,
               width: "17%",
               fSize: "12px",
             },
@@ -81,7 +81,7 @@ const BetList = ({ tag, submit, allBetRates }: any) => {
               name: +v.myStake ? +v.myStake : (+v?.amount * +v?.user?.fwPartnership || 0) / 100,
               color: "white",
               background: "#0B4F26",
-              deletedReason: v?.deletedReason,
+              deleteReason: v?.deleteReason,
               width: "14%",
             },
             {
@@ -92,7 +92,7 @@ const BetList = ({ tag, submit, allBetRates }: any) => {
                 : "rgb(255, 146, 146)",
               time: true,
               date: moment(v?.createdAt).format("L"),
-              deletedReason: v?.deletedReason,
+              deleteReason: v?.deleteReason,
               width: "10%",
             },
           ],
@@ -241,7 +241,7 @@ const BetList = ({ tag, submit, allBetRates }: any) => {
                       </Typography>
                     </Box>
                     <Row index={k} values={i.values} />
-                    {i?.values[0]?.deletedReason && (
+                    {i?.values[0]?.deleteReason && (
                       <Box
                         sx={{
                           background: "rgba(0,0,0,0.5)",
@@ -275,7 +275,7 @@ const BetList = ({ tag, submit, allBetRates }: any) => {
                                 <span style={{ color: "#e41b23" }}>
                                   deleted
                                 </span>{" "}
-                                due to {i?.values[0]?.deletedReason}
+                                due to {i?.values[0]?.deleteReason}
                               </Typography>
                             }
                           </Box>
