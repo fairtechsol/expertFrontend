@@ -1,15 +1,15 @@
-import { useEffect, useRef, useState } from "react";
 import { Box, TextField, Typography } from "@mui/material";
-import { BallStart, Lock } from "../../../assets";
+import { memo, useEffect, useRef, useState } from "react";
 import KeyboardEventHandler from "react-keyboard-event-handler";
-import BookButton from "./BookButton";
-import ResultComponent from "./ResultComponent";
+import { useDispatch, useSelector } from "react-redux";
+import { BallStart, Lock } from "../../../assets";
+import { socketService } from "../../../socketManager";
+import { successReset } from "../../../store/actions/addSession";
+import { AppDispatch, RootState } from "../../../store/store";
 import { handleKeysMatchEvents } from "../../../utils/InputKeys/Bookmaker/BookmakerSessionKeys";
 import { updateLocalQuickBookmaker } from "../../../utils/InputKeys/Bookmaker/Utils";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../../../store/store";
-import { successReset } from "../../../store/actions/addSession";
-import { socketService } from "../../../socketManager";
+import BookButton from "./BookButton";
+import ResultComponent from "./ResultComponent";
 
 const EditBookmaker = (props: any) => {
   const { add, match, Bid, type } = props;
@@ -201,6 +201,7 @@ const EditBookmaker = (props: any) => {
 
   useEffect(() => {
     socketService.user.updateMatchBettingRateClient((data: any) => {
+      console.log(match?.id, "match", data?.matchId);
       if (match?.id === data?.matchId && Bid === data?.id) {
         setLocalQuickBookmaker((prev: any) => {
           return {
@@ -227,6 +228,38 @@ const EditBookmaker = (props: any) => {
         });
       }
     });
+  }, [match]);
+
+  useEffect(() => {
+    return () => {
+      socketService.user.updateMatchBettingRateClientOff((data: any) => {
+        if (match?.id === data?.matchId && Bid === data?.id) {
+          setLocalQuickBookmaker((prev: any) => {
+            return {
+              ...prev,
+              teamA: {
+                ...prev.teamA,
+                rightBack: data?.backTeamA,
+                rightLay: data?.layTeamA,
+                suspended: data?.statusTeamA !== "active" ? true : false,
+              },
+              teamB: {
+                ...prev.teamB,
+                rightBack: data?.backTeamB,
+                rightLay: data?.layTeamB,
+                suspended: data?.statusTeamB !== "active" ? true : false,
+              },
+              teamC: {
+                ...prev.teamC,
+                rightBack: data?.backTeamC,
+                rightLay: data?.layTeamC,
+                suspended: data?.statusTeamC !== "active" ? true : false,
+              },
+            };
+          });
+        }
+      });
+    };
   }, []);
 
   return (
@@ -1203,4 +1236,4 @@ const EditBookmaker = (props: any) => {
   );
 };
 
-export default EditBookmaker;
+export default memo(EditBookmaker);

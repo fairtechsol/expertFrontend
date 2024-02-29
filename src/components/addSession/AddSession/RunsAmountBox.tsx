@@ -85,28 +85,28 @@ const RunsAmountBox = ({ currentOdds, betId, proLoss }: any) => {
         <Box ref={containerRef} sx={{ maxHeight: "42vh", overflowY: "auto" }}>
           {proLoss?.betPlaced?.length > 0
             ? proLoss?.betPlaced?.map((v: any) => {
-              const getColor = (value: any) => {
-                if (value >= 1) {
-                  return "#10DC61";
-                } else if (value === v?.profitLoss && value > 1) {
-                  return "#F8C851";
-                } else if (value === 0) {
-                  return "#F8C851";
-                } else {
-                  return "#DC3545";
-                }
-              };
-              const getSVG = (value: any) => {
-                if (value > 1) {
-                  return "https://fontawesomeicons.com/images/svg/trending-up-sharp.svg";
-                } else if (value === v?.profitLoss && value > 1) {
-                  return "https://fontawesomeicons.com/images/svg/trending-up-sharp.svg";
-                } else if (value === 0) {
-                  return "https://fontawesomeicons.com/images/svg/trending-up-sharp.svg";
-                } else {
-                  return "https://fontawesomeicons.com/images/svg/trending-down-sharp.svg";
-                }
-              };
+                const getColor = (value: any) => {
+                  if (value >= 1) {
+                    return "#10DC61";
+                  } else if (value === v?.profitLoss && value > 1) {
+                    return "#F8C851";
+                  } else if (value === 0) {
+                    return "#F8C851";
+                  } else {
+                    return "#DC3545";
+                  }
+                };
+                const getSVG = (value: any) => {
+                  if (value > 1) {
+                    return "https://fontawesomeicons.com/images/svg/trending-up-sharp.svg";
+                  } else if (value === v?.profitLoss && value > 1) {
+                    return "https://fontawesomeicons.com/images/svg/trending-up-sharp.svg";
+                  } else if (value === 0) {
+                    return "https://fontawesomeicons.com/images/svg/trending-up-sharp.svg";
+                  } else {
+                    return "https://fontawesomeicons.com/images/svg/trending-down-sharp.svg";
+                  }
+                };
                 return (
                   <Box
                     id={`${betId}_${v?.odds}`}
@@ -141,7 +141,7 @@ const RunsAmountBox = ({ currentOdds, betId, proLoss }: any) => {
                         width: "65%",
                         display: "flex",
                         borderLeft: `1px solid #306A47`,
-                        background: getColor(v?.profitLoss),
+                        background: getColor(+v?.profitLoss),
                         justifyContent: "space-between",
                         alignItems: "center",
                         paddingRight: "7px",
