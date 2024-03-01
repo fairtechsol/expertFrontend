@@ -1410,6 +1410,7 @@ export const handleKeysMatchEvents = (
             back: +targetValue,
             suspended: false,
           },
+          teamBall: false,
         };
       });
       setLocalQuickBookmaker((prev: any) => {
@@ -1460,7 +1461,7 @@ export const handleKeysMatchEvents = (
             teamB: { ...prev?.teamB, back: 0, lay: 0 },
             teamC: { ...prev?.teamC, lay: 0, back: 0 },
           };
-        }
+        } else return prev;
       });
       setLocalQuickBookmaker((prev: any) => {
         let data = {
@@ -1504,7 +1505,7 @@ export const handleKeysMatchEvents = (
             teamA: { ...prev?.teamA, back: 0, lay: 0 },
             teamC: { ...prev?.teamC, lay: 0, back: 0 },
           };
-        }
+        } else return prev;
       });
       setLocalQuickBookmaker((prev: any) => {
         let data = {
@@ -1548,7 +1549,7 @@ export const handleKeysMatchEvents = (
             teamB: { ...prev?.teamB, back: 0, lay: 0 },
             teamC: { ...prev?.teamC, lay: value + 1, back: value - 0.5 },
           };
-        }
+        } else return prev;
       });
       setLocalQuickBookmaker((prev: any) => {
         let data = {
