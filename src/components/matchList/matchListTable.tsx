@@ -165,6 +165,18 @@ const MatchListTable = (props: any) => {
                 place="1"
               />
             )}
+            {data?.stopAt && (
+              <MatchListProfitLoss
+                // onClick={() => handleMatchProfitLossClick(data?.id)}
+                updateMatchStatusLabel="Session Profit/Loss"
+                updateMatchStatus={
+                  data?.pl &&
+                  data?.pl?.length > 0 &&
+                  data?.pl[0]?.sessionTotalProfitLoss
+                }
+                place="1"
+              />
+            )}
             <Box
               display={"flex"}
               sx={{
