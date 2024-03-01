@@ -129,12 +129,10 @@ const SessionAddComponent = ({ createSession, match }: any) => {
   };
 
   const updateUserProfitLoss = (event: any) => {
-    console.log(event, "outside", match, id);
     if (
       match?.id === event?.jobData?.placedBet?.matchId &&
       id === event?.jobData?.placedBet?.betId
     ) {
-      console.log(event, "inside");
       dispatch(updateSessionProfitLoss(event?.redisData));
       dispatch(updateBetsPlaced(event?.jobData));
       dispatch(
