@@ -352,13 +352,17 @@ const MatchDetails = () => {
                 }}
               >
                 {sessionProLoss?.map((v: any) => {
-                  if (v?.proLoss?.betPlaced
-                    && v?.proLoss?.betPlaced.length > 0) {
+                  if (
+                    v?.proLoss?.betPlaced &&
+                    v?.proLoss?.betPlaced.length > 0
+                  ) {
                     return (
                       <RunsBox
                         key={v?.id}
                         item={v}
-                        currentOdd={currentOdd?.betId === v?.id ? currentOdd : null}
+                        currentOdd={
+                          currentOdd?.betId === v?.id ? currentOdd : null
+                        }
                       />
                     );
                   }
@@ -374,7 +378,6 @@ const MatchDetails = () => {
               paddingLeft: "5px",
             }}
           >
-            {console.log('matchDetail',matchDetail)}
             {matchDetail?.matchOdd?.isActive && (
               <MatchOdds
                 showHeader={true}
