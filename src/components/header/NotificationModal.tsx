@@ -1,5 +1,5 @@
 import { Box, Button, Modal, TextField, Typography } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { CancelDark } from "../../assets";
 import { notificationvalidationSchema } from "../../utils/Validations/login";
 import { useFormik } from "formik";
@@ -166,7 +166,6 @@ const NotificationModal = ({
                   // "&:hover": { backgroundColor: "#0B4F26" },
                 }}
               >
-
                 {loadingDeleteBet ? "Loading..." : "Submit"}
               </Button>
             </Box>

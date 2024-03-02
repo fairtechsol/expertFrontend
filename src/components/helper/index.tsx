@@ -36,3 +36,30 @@ export const handleSorting = (a: any, b: any) => {
     console.log(e);
   }
 };
+
+export const customSort = (a: any, b: any) => {
+  console.log(a, "abc", b);
+  // betStatus 1 should come before betStatus 2
+  const betStatusOrder: any = { 1: "live", 0: "save", 2: "result" };
+  const aStatus = betStatusOrder[JSON.parse(a)?.activeStatus] || 0;
+  const bStatus = betStatusOrder[JSON.parse(b)?.activeStatus] || 0;
+  if (aStatus === bStatus) {
+    // If both have the same status, maintain their current order
+    return 0;
+  } else if (aStatus === "live") {
+    // "live" should come before other statuses
+    return -1;
+  } else if (bStatus === "live") {
+    // Other statuses should come after "live"
+    return 1;
+  } else if (aStatus === "save") {
+    // "save" should come before "result"
+    return -1;
+  } else if (bStatus === "save") {
+    // "result" should come after "save"
+    return 1;
+  } else {
+    // Default case: compare based on their numeric order
+    return aStatus - bStatus;
+  }
+};
