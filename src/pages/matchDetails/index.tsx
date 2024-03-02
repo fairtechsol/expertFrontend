@@ -374,7 +374,6 @@ const MatchDetails = () => {
               paddingLeft: "5px",
             }}
           >
-            {console.log('matchDetail',matchDetail)}
             {matchDetail?.matchOdd?.isActive && (
               <MatchOdds
                 showHeader={true}

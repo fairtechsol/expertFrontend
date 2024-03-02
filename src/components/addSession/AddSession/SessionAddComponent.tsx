@@ -13,6 +13,7 @@ import {
   resetPlacedBets,
   setCurrentOdd,
   updateBetsPlaced,
+  updateProLossSession,
   updateSessionById,
   updateSessionProfitLoss,
 } from "../../../store/actions/addSession";
@@ -121,13 +122,13 @@ const SessionAddComponent = ({ createSession, match }: any) => {
       dispatch(getMatchListSessionProfitLoss(match?.id));
       if (event?.activeStatus === "result") {
         dispatch(resetPlacedBets());
+        navigate('/match')
       } else if (event?.activeStatus === "live") {
         dispatch(getSessionProfitLoss(id));
         dispatch(getPlacedBets(id));
       }
     }
   };
-
   const updateUserProfitLoss = (event: any) => {
     if (
       match?.id === event?.jobData?.placedBet?.matchId &&
@@ -142,6 +143,16 @@ const SessionAddComponent = ({ createSession, match }: any) => {
           odds: event?.jobData?.placedBet?.odds,
         })
       );
+    }
+  };
+  const sessionDeleteBet = (event: any) => {
+    try {
+      if (event?.matchId === match?.id) {
+        dispatch(getPlacedBets(id));
+        dispatch(updateProLossSession(event));
+      }
+    } catch (e) {
+      console.log(e);
     }
   };
 
@@ -253,6 +264,7 @@ const SessionAddComponent = ({ createSession, match }: any) => {
         });
         socketService.user.sessionResultDeclared(updateResultDeclared);
         socketService.user.userSessionBetPlaced(updateUserProfitLoss);
+        socketService.user.sessionDeleteBet(sessionDeleteBet);
       }
     } catch (e) {
       console.log(e);
