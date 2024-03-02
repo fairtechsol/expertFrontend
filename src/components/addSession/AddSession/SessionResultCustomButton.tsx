@@ -18,9 +18,9 @@ const SessionResultCustomButton = (props: any) => {
         alignItems: "center",
         display: "flex",
         textTransform: "none",
-      }}
+             }}
     >
-      <Typography sx={{ fontSize: "12px", fontWeight: "500", color: "white" }}>
+      <Typography sx={{ fontSize: "12px", fontWeight: "500", color: "white", lineHeight: "0.7" }}>
         {loading?.id === id ? (
           <CircularProgress
             sx={{

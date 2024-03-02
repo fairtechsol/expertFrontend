@@ -2,7 +2,7 @@ import { Box, Typography } from "@mui/material";
 import { getExtraMarketList } from "../../../store/actions/addMatch/addMatchAction";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../../store/store";
-
+import moment from "moment";
 const DropDownItem = (props: any) => {
   const {
     i,
@@ -39,7 +39,7 @@ const DropDownItem = (props: any) => {
                   teamA: allrunners[0],
                   teamB: allrunners[1],
                   teamC: allrunners[2] ? allrunners[2] : undefined,
-                  startAt: new Date(eventDetail?.EventDate),
+                  startAt: moment(eventDetail?.EventDate),
                   eventId: EventId,
                   marketId: mId,
                   competitionName: CompetitionName,
