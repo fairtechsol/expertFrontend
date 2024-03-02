@@ -316,28 +316,25 @@ const addMatch = createSlice({
         }
       })
       .addCase(updateRates.fulfilled, (state, action) => {
-        const { redisObject } = action.payload;
-        if (
-          action.payload?.matchBetType === "tiedMatch2" ||
-          action.payload?.matchBetType === "tiedMatch"
-        ) {
+        const { redisObject, matchBetType } = action.payload;
+        if (["tiedMatch2", "tiedMatch"].includes(matchBetType)) {
           state.matchDetail.teamRates = {
             ...state.matchDetail.teamRates,
-            yesRateTie: redisObject?.action.payload?.teamArateRedisKey,
-            noRateTie: redisObject?.action.payload?.teamBrateRedisKey,
+            yesRateTie: redisObject[action.payload.teamArateRedisKey],
+            noRateTie: redisObject[action.payload.teamBrateRedisKey],
           };
-        } else if (action.payload?.matchBetType === "completeMatch") {
+        } else if (["completeMatch"].includes(matchBetType)) {
           state.matchDetail.teamRates = {
             ...state.matchDetail.teamRates,
-            yesRateComplete: redisObject?.action.payload?.teamArateRedisKey,
-            noRateComplete: redisObject?.action.payload?.teamBrateRedisKey,
+            yesRateComplete: redisObject[action.payload.teamArateRedisKey],
+            noRateComplete: redisObject[action.payload.teamBrateRedisKey],
           };
         } else {
           state.matchDetail.teamRates = {
             ...state.matchDetail.teamRates,
-            teamARate: redisObject?.action.payload?.teamArateRedisKey,
-            teamBRate: redisObject?.action.payload?.teamBrateRedisKey,
-            teamCRate: redisObject?.action.payload?.teamCrateRedisKey ?? "",
+            teamARate: redisObject[action.payload.teamArateRedisKey],
+            teamBRate: redisObject[action.payload.teamBrateRedisKey],
+            teamCRate: redisObject[action.payload.teamCrateRedisKey],
           };
         }
       });
