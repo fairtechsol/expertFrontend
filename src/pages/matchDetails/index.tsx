@@ -16,6 +16,7 @@ import {
   getMatchDetail,
   updateMatchBettingStatus,
   updateMatchRates,
+  updateRates,
   updateSessionAdded,
   updateSessionProLoss,
 } from "../../store/actions/addMatch/addMatchAction";
@@ -98,7 +99,7 @@ const MatchDetails = () => {
   const matchDeleteBet = (event: any) => {
     try {
       if (event?.matchId === state?.id) {
-        dispatch(getMatchDetail(state?.id));
+        dispatch(updateRates(event));
         dispatch(getPlacedBetsMatch(state?.id));
       }
     } catch (e) {
@@ -120,6 +121,7 @@ const MatchDetails = () => {
     try {
       if (state?.id === event?.matchId) {
         dispatch(updateApiSessionById(event));
+        dispatch(getPlacedBetsMatch(state?.id));
         dispatch(
           updateSessionProLoss({
             id: event?.betId,
@@ -344,15 +346,16 @@ const MatchDetails = () => {
                 }}
               >
                 {sessionProLoss?.map((v: any) => {
-                  return (
-                    <RunsBox
-                      key={v?.id}
-                      item={v}
-                      currentOdd={
-                        currentOdd?.betId === v?.id ? currentOdd : null
-                      }
-                    />
-                  );
+                  if (v?.proLoss?.betPlaced
+                    && v?.proLoss?.betPlaced.length > 0) {
+                    return (
+                      <RunsBox
+                        key={v?.id}
+                        item={v}
+                        currentOdd={currentOdd?.betId === v?.id ? currentOdd : null}
+                      />
+                    );
+                  }
                 })}
               </Box>
             )}
@@ -365,6 +368,7 @@ const MatchDetails = () => {
               paddingLeft: "5px",
             }}
           >
+            {console.log('matchDetail',matchDetail)}
             {matchDetail?.matchOdd?.isActive && (
               <MatchOdds
                 showHeader={true}

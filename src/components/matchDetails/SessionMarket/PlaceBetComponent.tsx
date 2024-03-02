@@ -5,7 +5,6 @@ import { getSessionProfitLossMatchDetail } from "../../../store/actions/match/ma
 import { AppDispatch } from "../../../store/store";
 
 const PlaceBetComponent = ({ profitLossData, newData }: any) => {
-  console.log(profitLossData);
 
   const dispatch: AppDispatch = useDispatch();
   return (
