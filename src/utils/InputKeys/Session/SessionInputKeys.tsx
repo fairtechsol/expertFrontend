@@ -16,14 +16,6 @@ export const handleKeysMatchEvents = (
 ) => {
   e.preventDefault();
   setLock((prev: any) => {
-    if (
-      !prev?.isNo ||
-      !prev?.isYes ||
-      !prev?.isNoPercent ||
-      !prev?.isYesPercent
-    ) {
-      setIsBall(false);
-    }
     return {
       ...prev,
       isNo: true,
@@ -60,6 +52,7 @@ export const handleKeysMatchEvents = (
       });
     }
   } else if (key === "up" || key === "w") {
+    setIsBall(false);
     setInputDetail((prev: any) => {
       if (isPercent === "percent") {
         if (+prev.leftYesRatePercent - incGap < 5) {
@@ -95,6 +88,7 @@ export const handleKeysMatchEvents = (
       return prev;
     });
   } else if (key === "down" || key === "z") {
+    setIsBall(false);
     setInputDetail((prev: any) => {
       if (isPercent === "percent") {
         if (prev.leftNoRatePercent - incGap < 5) {
@@ -136,6 +130,7 @@ export const handleKeysMatchEvents = (
   } else if (key === "right") {
     setIncGap(1);
     setIsPercent("");
+    setIsBall(false);
     setInputDetail((prev: any) => {
       if (+prev.leftYesRate + 1 <= 1000) {
         if (+prev.leftNoRate === +prev.leftYesRate) {
@@ -183,6 +178,7 @@ export const handleKeysMatchEvents = (
   } else if (key === "left") {
     setIncGap(1);
     setIsPercent("");
+    setIsBall(false);
     setInputDetail((prev: any) => {
       if (+prev.leftNoRate - 1 >= 0) {
         if (+prev.leftNoRate === +prev.leftYesRate) {
@@ -230,6 +226,7 @@ export const handleKeysMatchEvents = (
   } else if (key === "d") {
     setIncGap(1);
     setIsPercent("");
+    setIsBall(false);
     setInputDetail((prev: any) => {
       if (+prev.leftYesRate + 1 <= 1000) {
         if (+prev.leftNoRate === +prev.leftYesRate) {
@@ -288,6 +285,7 @@ export const handleKeysMatchEvents = (
   } else if (key === "a") {
     setIncGap(1);
     setIsPercent("");
+    setIsBall(false);
     setInputDetail((prev: any) => {
       if (+prev.leftNoRate - 1 >= 0) {
         if (+prev.leftNoRate === +prev.leftYesRate) {
@@ -344,6 +342,7 @@ export const handleKeysMatchEvents = (
       });
     }
   } else if (key === "esc") {
+    setIsBall(false);
     setInputDetail((prev: any) => {
       return {
         ...prev,
@@ -388,6 +387,7 @@ export const handleKeysMatchEvents = (
   } else if (key === ",") {
     setIsPercent("percent");
     setIncGap(5);
+    setIsBall(false);
     setInputDetail((prev: any) => {
       if (+prev.leftNoRate - 1 >= 0) {
         return {
@@ -421,6 +421,7 @@ export const handleKeysMatchEvents = (
   } else if (key === ".") {
     setIsPercent("percent");
     setIncGap(5);
+    setIsBall(false);
     setInputDetail((prev: any) => {
       if (+prev.leftNoRate + 1 <= 1000) {
         return {
@@ -454,6 +455,7 @@ export const handleKeysMatchEvents = (
   } else if (key === "q") {
     setIsPercent("percent");
     setIncGap(5);
+    setIsBall(false);
     setInputDetail((prev: any) => {
       if (+prev.leftNoRate - 1 >= 0) {
         return {
@@ -498,6 +500,7 @@ export const handleKeysMatchEvents = (
   } else if (key === "e") {
     setIsPercent("percent");
     setIncGap(5);
+    setIsBall(false);
     setInputDetail((prev: any) => {
       if (+prev.leftNoRate + 1 <= 1000) {
         return {
