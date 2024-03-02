@@ -17,7 +17,7 @@ export const getMatchList = createAsyncThunk<any, any>(
           requestData.keyword ? requestData.keyword : ""
         }&page=${
           requestData?.currentPage ? requestData?.currentPage : 1
-        }&limit=${Constants.pageLimit}`
+        }&limit=${Constants.pageLimit}&sort=match.createdAt:DESC`
       );
       if (response) {
         return response?.data;

@@ -155,12 +155,24 @@ const MatchListTable = (props: any) => {
           >
             {data?.stopAt && (
               <MatchListProfitLoss
-                onClick={() => handleMatchProfitLossClick(data?.id)}
-                updateMatchStatusLabel="Match Profit/Loss"
+                // onClick={() => handleMatchProfitLossClick(data?.id)}
+                updateMatchStatusLabel="Total Profit/Loss"
                 updateMatchStatus={
                   data?.pl &&
                   data?.pl?.length > 0 &&
                   data?.pl[0]?.totalProfitLoss
+                }
+                place="1"
+              />
+            )}
+            {data?.stopAt && (
+              <MatchListProfitLoss
+                onClick={() => handleMatchProfitLossClick(data?.id)}
+                updateMatchStatusLabel="Session Profit/Loss"
+                updateMatchStatus={
+                  data?.pl &&
+                  data?.pl?.length > 0 &&
+                  data?.pl[0]?.sessionTotalProfitLoss
                 }
                 place="1"
               />

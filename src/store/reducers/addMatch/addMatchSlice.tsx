@@ -25,6 +25,7 @@ interface InitialState {
   eventsList: any;
   extraMarketList: any;
   matchDetail: any;
+  selectionIds: any;
   success: boolean;
   matchAdded: boolean;
   loading: boolean;
@@ -43,6 +44,7 @@ const initialState: InitialState = {
     },
   ],
   extraMarketList: [],
+  selectionIds: {},
   matchDetail: null,
   loading: false,
   matchAdded: false,
@@ -122,6 +124,13 @@ const addMatch = createSlice({
         state.matchDetail = action.payload;
         state.success = true;
         state.loading = false;
+
+        action.payload?.sessionBettings?.forEach((item: any) => {
+          item = JSON.parse(item);
+          if (item.selectionId) {
+            state.selectionIds[item.selectionId] = 1;
+          }
+        });
       })
       .addCase(getMatchDetail.rejected, (state, action) => {
         state.loading = false;
@@ -140,7 +149,9 @@ const addMatch = createSlice({
         } = action.payload;
         state.matchDetail = {
           ...state.matchDetail,
-          apiSession: apiSession,
+          apiSession: apiSession?.filter(
+            (item: any) => state.selectionIds[item?.SelectionId] == null
+          ),
           apiTideMatch: { ...state.matchDetail?.apiTideMatch, ...apiTiedMatch },
           bookmaker: { ...state.matchDetail?.bookmaker, ...bookmaker },
           marketCompleteMatch: {
