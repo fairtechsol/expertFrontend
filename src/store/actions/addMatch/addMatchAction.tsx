@@ -186,7 +186,12 @@ export const updateMatchBettingStatus = createAsyncThunk<any, any>(
     return betting;
   }
 );
-
+export const updateRates = createAsyncThunk<any, any>(
+  "/match/ratesUpdate",
+  async (rates) => {
+    return rates;
+  }
+);
 export const addMatchReset = createAction("add/reset");
 export const editMatchReset = createAction("edit/reset");
 export const matchDetailReset = createAction("matchDetail/reset");

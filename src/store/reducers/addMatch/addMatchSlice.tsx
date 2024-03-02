@@ -12,6 +12,7 @@ import {
   tournamentListReset,
   updateMatchBettingStatus,
   updateMatchRates,
+  updateRates,
   updateSessionAdded,
 } from "../../actions/addMatch/addMatchAction";
 import { updateApiSessionById } from "../../actions/addSession";
@@ -322,6 +323,29 @@ const addMatch = createSlice({
             teamARate: userRedisObj[jobData?.teamArateRedisKey],
             teamBRate: userRedisObj[jobData?.teamBrateRedisKey],
             teamCRate: userRedisObj[jobData?.teamCrateRedisKey] ?? "",
+          };
+        }
+      })
+      .addCase(updateRates.fulfilled, (state, action) => {
+        const { redisObject, matchBetType } = action.payload;
+        if (["tiedMatch2", "tiedMatch"].includes(matchBetType)) {
+          state.matchDetail.teamRates = {
+            ...state.matchDetail.teamRates,
+            yesRateTie: redisObject[action.payload.teamArateRedisKey],
+            noRateTie: redisObject[action.payload.teamBrateRedisKey],
+          };
+        } else if (["completeMatch"].includes(matchBetType)) {
+          state.matchDetail.teamRates = {
+            ...state.matchDetail.teamRates,
+            yesRateComplete: redisObject[action.payload.teamArateRedisKey],
+            noRateComplete: redisObject[action.payload.teamBrateRedisKey],
+          };
+        } else {
+          state.matchDetail.teamRates = {
+            ...state.matchDetail.teamRates,
+            teamARate: redisObject[action.payload.teamArateRedisKey],
+            teamBRate: redisObject[action.payload.teamBrateRedisKey],
+            teamCRate: redisObject[action.payload.teamCrateRedisKey],
           };
         }
       });
