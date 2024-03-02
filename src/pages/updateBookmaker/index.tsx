@@ -50,10 +50,14 @@ const UpdateBookmaker = () => {
       socketService.user.userMatchBetPlaced(updateBetList);
       socketService.user.matchResultDeclared(resultDeclared);
     }
+  }, [state?.id]);
+
+  useEffect(() => {
     return () => {
       socketService.user.userMatchBetPlacedOff(updateBetList);
+      socketService.user.matchResultDeclaredOff(resultDeclared);
     };
-  }, [state?.id]);
+  }, []);
 
   return (
     <Box display="flex">

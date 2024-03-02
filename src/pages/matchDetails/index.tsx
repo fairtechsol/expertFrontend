@@ -101,6 +101,12 @@ const MatchDetails = () => {
       if (event?.matchId === state?.id) {
         dispatch(updateRates(event));
         dispatch(getPlacedBetsMatch(state?.id));
+        dispatch(
+          updateSessionProLoss({
+            id: event?.betId,
+            betPlaced: event?.profitLoss ? event?.profitLoss?.betPlaced : [],
+          })
+        );
       }
     } catch (e) {
       console.log(e);
