@@ -33,7 +33,7 @@ import {
 import { AppDispatch, RootState } from "../../store/store";
 import { addMatchValidation } from "../../utils/Validations/login";
 import { toast } from "react-toastify";
-
+import moment from "moment";
 // const useStyles = makeStyles(() => ({
 //   dateTimePicker: {
 //     "& .MuiFormControl-root": {
@@ -311,7 +311,7 @@ const AddMatch = () => {
           competitionName: "",
           eventId: "",
           marketId: "",
-          startAt: new Date(),
+          startAt: moment(),
         };
       });
     }
@@ -472,11 +472,11 @@ const AddMatch = () => {
             titleSize={"20px"}
             headColor={"#000000"}
           />
-          <BoxButtonManualMatch
+         {!state?.id && <BoxButtonManualMatch
             title={manualMatchToggle === false ? "Live" : "Manual"}
             manualMatchToggle={manualMatchToggle}
             setManualMatchToggle={setManualMatchToggle}
-          />
+          />}
         </Box>
         <Box
           sx={{

@@ -1,15 +1,19 @@
 import { Box, Typography } from "@mui/material";
-
+import moment from "moment";
 const Row = (props: any) => {
   const { index, values } = props;
 
-  const getTime = (date: any) => {
-    const now = new Date(date);
-    const timeString = now.toLocaleTimeString("en-US", {
-      hour: "numeric",
-      minute: "numeric",
-      hour12: true,
-    });
+  // const getTime = (date: any) => {
+  //   const now = new Date(date);
+  //   const timeString = now.toLocaleTimeString("en-US", {
+  //     hour: "numeric",
+  //     minute: "numeric",
+  //     hour12: true,
+  //   });
+  //   return timeString;
+  // };
+  const getTime = (date:any) => {
+    const timeString = moment(date).format("hh:mm:ss A");
     return timeString;
   };
   return (
