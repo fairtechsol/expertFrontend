@@ -7,6 +7,7 @@ import {
   getBookmakerById,
   getPlacedBets,
   updateMatchBetsPlaced,
+  updateRatesBook,
 } from "../../store/actions/addSession";
 import { AppDispatch, RootState } from "../../store/store";
 import { useDispatch, useSelector } from "react-redux";
@@ -36,6 +37,24 @@ const UpdateBookmaker = () => {
       console.log(e);
     }
   };
+  const matchDeleteBet = (event: any) => {
+    try {
+      if (event?.matchId === state?.match?.id) {
+        dispatch(updateRatesBook(event));
+        if(event?.betId === state?.id){
+          dispatch(getPlacedBets(state?.id));
+        }
+        // dispatch(
+        //   updateSessionProLoss({
+        //     id: event?.betId,
+        //     betPlaced: event?.profitLoss ? event?.profitLoss?.betPlaced : [],
+        //   })
+        // );
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   useEffect(() => {
     if (state?.id) {
@@ -49,6 +68,7 @@ const UpdateBookmaker = () => {
       dispatch(getPlacedBets(state?.id));
       socketService.user.userMatchBetPlaced(updateBetList);
       socketService.user.matchResultDeclared(resultDeclared);
+      socketService.user.matchDeleteBet(matchDeleteBet);
     }
   }, [state?.id]);
 
@@ -56,6 +76,7 @@ const UpdateBookmaker = () => {
     return () => {
       socketService.user.userMatchBetPlacedOff(updateBetList);
       socketService.user.matchResultDeclaredOff(resultDeclared);
+      socketService.user.matchDeleteBetOff(matchDeleteBet);
     };
   }, []);
 

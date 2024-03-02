@@ -12,12 +12,51 @@ const Row = (props: any) => {
   //   });
   //   return timeString;
   // };
-  const getTime = (date:any) => {
+  const getTime = (date: any) => {
     const timeString = moment(date).format("hh:mm:ss A");
     return timeString;
   };
   return (
     <div style={{ display: "flex", position: "relative" }}>
+      {values?.deleteReason && (
+        <Box
+          sx={{
+            background: "rgba(0,0,0,0.5)",
+            width: "100%",
+            height: "100%",
+            position: "absolute",
+            display: "flex",
+            zIndex: 2,
+          }}
+        >
+          <Box sx={{ flex: 1, display: "flex" }}>
+            <Box sx={{ width: "34%", height: "100%" }}></Box>
+            <Box
+              sx={{
+                width: "66%",
+                height: "100%",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "flex-end",
+              }}
+            >
+              {
+                <Typography
+                  sx={{
+                    fontSize: "10px",
+                    fontWeight: "700",
+                    color: "white",
+                    textTransform: "uppercase",
+                  }}
+                >
+                  Bet <span style={{ color: "#e41b23" }}>deleted</span> due to{" "}
+                  {values?.deleteReason}
+                </Typography>
+              }
+            </Box>
+          </Box>
+        </Box>
+      )}
       <Box
         sx={{
           display: "flex",
