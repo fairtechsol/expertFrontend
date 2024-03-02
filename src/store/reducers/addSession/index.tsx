@@ -13,6 +13,8 @@ import {
   successReset,
   updateBetsPlaced,
   updateMatchBetsPlaced,
+  updateProLossSession,
+  updateRatesBook,
   updateSessionById,
   updateSessionByIdForUndeclare,
   updateSessionProfitLoss,
@@ -120,13 +122,17 @@ export const addSessionReducers = createReducer(initialState, (builder) => {
       state.success = false;
     })
     .addCase(updateBetsPlaced.fulfilled, (state, action) => {
+      const { partnership } = action.payload;
+      const fpartnerShip = JSON.parse(partnership);
       let objToUpdate = {
         ...action.payload.placedBet,
         myStake: +action.payload.betPlaceObject.myStack,
         user: {
           userName: action.payload.betPlaceObject.betPlacedData.userName,
+          fwPartnership: Number(fpartnerShip?.fwPartnership),
         },
       };
+
       const id = objToUpdate.id;
 
       if (!state.placedBets.some((item: any) => item.id === id)) {
@@ -194,5 +200,32 @@ export const addSessionReducers = createReducer(initialState, (builder) => {
     })
     .addCase(resetPlacedBets, (state) => {
       return { ...state, placedBets: [], sessionProfitLoss: [] };
+    })
+    .addCase(updateRatesBook.fulfilled, (state, action) => {
+      const { redisObject, matchBetType } = action.payload;
+      if (["tiedMatch2", "tiedMatch"].includes(matchBetType)) {
+        state.bookmakerById.matchRates = {
+          ...state.bookmakerById.matchRates,
+          yesRateTie: redisObject[action.payload.teamArateRedisKey],
+          noRateTie: redisObject[action.payload.teamBrateRedisKey],
+        };
+      } else if (["completeMatch"].includes(matchBetType)) {
+        state.bookmakerById.matchRates = {
+          ...state.bookmakerById.matchRates,
+          yesRateComplete: redisObject[action.payload.teamArateRedisKey],
+          noRateComplete: redisObject[action.payload.teamBrateRedisKey],
+        };
+      } else {
+        state.bookmakerById.matchRates = {
+          ...state.bookmakerById.matchRates,
+          teamARate: redisObject[action.payload.teamArateRedisKey],
+          teamBRate: redisObject[action.payload.teamBrateRedisKey],
+          teamCRate: redisObject[action.payload.teamCrateRedisKey],
+        };
+      }
+    })
+    .addCase(updateProLossSession.fulfilled, (state, action) => {
+      const {profitLoss} =action.payload
+      state.sessionProfitLoss = profitLoss;
     });
 });
