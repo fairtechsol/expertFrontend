@@ -16,7 +16,7 @@ const SmallBox = ({ item }: any) => {
     >
       <Typography
         sx={{
-          fontSize: item?.fSize ? item?.fSize : "11px",
+          fontSize:{lg:"11px", xs:"7px"},
           fontWeight: "600",
           color: item?.color,
           textTransform: "capitalize",
