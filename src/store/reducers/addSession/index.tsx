@@ -12,6 +12,7 @@ import {
   setCurrentOdd,
   successReset,
   updateBetsPlaced,
+  updateDeleteReason,
   updateMatchBetsPlaced,
   updateProLossSession,
   updateRatesBook,
@@ -121,6 +122,20 @@ export const addSessionReducers = createReducer(initialState, (builder) => {
       state.loading = true;
       state.success = false;
     })
+    .addCase(updateDeleteReason.fulfilled, (state, action) => {
+      const { betPlacedId, deleteReason } = action.payload;
+      const updateDeleteReason = (bet: any) => {
+        if (betPlacedId.includes(bet.id)) {
+          bet.deleteReason = deleteReason;
+        }
+
+        return bet;
+      };
+
+      const updatedBetPlaced = state.placedBets.map(updateDeleteReason);
+
+      state.placedBets = Array.from(new Set(updatedBetPlaced));
+    })
     .addCase(updateBetsPlaced.fulfilled, (state, action) => {
       const { partnership } = action.payload;
       const fpartnerShip = JSON.parse(partnership);
@@ -225,7 +240,7 @@ export const addSessionReducers = createReducer(initialState, (builder) => {
       }
     })
     .addCase(updateProLossSession.fulfilled, (state, action) => {
-      const {profitLoss} =action.payload
+      const { profitLoss } = action.payload;
       state.sessionProfitLoss = profitLoss;
     });
 });

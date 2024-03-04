@@ -18,6 +18,7 @@ import {
   sessionBetLiveStatus,
   updateMatchBetsPlace,
   updateSessionBetsPlace,
+  updateMatchBetsReason,
 } from "../../actions/match/matchAction";
 
 interface InitialState {
@@ -187,6 +188,20 @@ const matchList = createSlice({
       .addCase(getPlacedBetsMatch.rejected, (state, action) => {
         state.loading = false;
         state.error = action?.error?.message;
+      })
+      .addCase(updateMatchBetsReason.fulfilled, (state, action) => {
+        const { betPlacedId, deleteReason } = action.payload;
+        const updateDeleteReason = (bet: any) => {
+          if (betPlacedId.includes(bet.id)) {
+            bet.deleteReason = deleteReason;
+          }
+
+          return bet;
+        };
+
+        const updatedBetPlaced = state.placedBetsMatch.map(updateDeleteReason);
+
+        state.placedBetsMatch = Array.from(new Set(updatedBetPlaced));
       })
       .addCase(getMatchListSessionProfitLoss.pending, (state) => {
         state.loading = true;

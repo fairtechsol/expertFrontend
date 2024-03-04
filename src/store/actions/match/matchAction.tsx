@@ -273,6 +273,12 @@ export const updateSessionBetsPlace = createAsyncThunk<any, SessionById>(
     return requestData;
   }
 );
+export const updateMatchBetsReason = createAsyncThunk<any, SessionById>(
+  "update/updateMatchBetsReason",
+  async (requestData) => {
+    return requestData;
+  }
+);
 export const getSessionProfitLossMatchDetailFilter = createAsyncThunk<
   any,
   SessionById

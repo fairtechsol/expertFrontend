@@ -27,6 +27,7 @@ import {
 import {
   getPlacedBetsMatch,
   updateMatchBetsPlace,
+  updateMatchBetsReason,
   updateMaxLoss,
   updateSessionBetsPlace,
   updateTeamRates,
@@ -100,7 +101,7 @@ const MatchDetails = () => {
     try {
       if (event?.matchId === state?.id) {
         dispatch(updateRates(event));
-        dispatch(getPlacedBetsMatch(state?.id));
+        dispatch(updateMatchBetsReason(event));
         dispatch(
           updateSessionProLoss({
             id: event?.betId,
