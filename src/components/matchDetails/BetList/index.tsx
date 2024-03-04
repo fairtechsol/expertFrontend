@@ -206,11 +206,12 @@ const BetList = ({ tag, submit, allBetRates }: any) => {
 
       {visibleImg && (
         <>
-          <HeaderRow tag={tag} />
-          <Box
+         <Box
             className="myScroll"
-            sx={{ maxHeight: submit ? "300px" : "500px", overflowY: "auto" }}
+            sx={{ maxHeight: submit ? "300px" : "500px", overflowY: "auto", width: "100%" }}
           >
+          <HeaderRow tag={tag} />
+         
             {newData?.length > 0 &&
               newData?.map((i: any, k: any) => {
                 const num = newData?.length - k;
@@ -221,7 +222,7 @@ const BetList = ({ tag, submit, allBetRates }: any) => {
                   >
                     <Box
                       sx={{
-                        width: "4%",
+                        width: {lg: "4%", xs: "6%"},
                         border: "1px solid white",
                         background: "black",
                         height: "30px",

@@ -50,7 +50,7 @@ const ResultComponent = ({
   return (
     <Box
       sx={{
-        width: "400px",
+        width: {lg: "100%", xs: "100%"},
         // height: "300px",
         borderRadius: 2,
         boxShadow: "0px 5px 10px #1A568414",
