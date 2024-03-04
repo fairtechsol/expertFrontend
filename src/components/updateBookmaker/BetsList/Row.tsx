@@ -6,6 +6,7 @@ const Row = ({ index, values }: any) => {
     const timeString = now.toLocaleTimeString("en-US", {
       hour: "numeric",
       minute: "numeric",
+      second: "numeric",
       hour12: true,
     });
     return timeString;
