@@ -203,6 +203,25 @@ const EditBookmaker = (props: any) => {
     socketService.user.updateMatchBettingRateClient((data: any) => {
       console.log(match?.id, "match", data?.matchId);
       if (match?.id === data?.matchId && Bid === data?.id) {
+        if (
+          data?.statusTeamA === "ball start" &&
+          data?.statusTeamB === "ball start" &&
+          data?.statusTeamC === "ball start"
+        ) {
+          setLocalQuickBookmaker((prev: any) => {
+            return {
+              ...prev,
+              teamBall: true,
+            };
+          });
+        } else {
+          setLocalQuickBookmaker((prev: any) => {
+            return {
+              ...prev,
+              teamBall: false,
+            };
+          });
+        }
         setLocalQuickBookmaker((prev: any) => {
           return {
             ...prev,
@@ -234,6 +253,25 @@ const EditBookmaker = (props: any) => {
     return () => {
       socketService.user.updateMatchBettingRateClientOff((data: any) => {
         if (match?.id === data?.matchId && Bid === data?.id) {
+          if (
+            data?.statusTeamA === "ball start" &&
+            data?.statusTeamB === "ball start" &&
+            data?.statusTeamC === "ball start"
+          ) {
+            setLocalQuickBookmaker((prev: any) => {
+              return {
+                ...prev,
+                teamBall: true,
+              };
+            });
+          } else {
+            setLocalQuickBookmaker((prev: any) => {
+              return {
+                ...prev,
+                teamBall: false,
+              };
+            });
+          }
           setLocalQuickBookmaker((prev: any) => {
             return {
               ...prev,
