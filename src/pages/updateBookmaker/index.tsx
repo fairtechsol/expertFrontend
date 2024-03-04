@@ -6,6 +6,7 @@ import { useEffect } from "react";
 import {
   getBookmakerById,
   getPlacedBets,
+  updateDeleteReason,
   updateMatchBetsPlaced,
   updateRatesBook,
 } from "../../store/actions/addSession";
@@ -41,8 +42,8 @@ const UpdateBookmaker = () => {
     try {
       if (event?.matchId === state?.match?.id) {
         dispatch(updateRatesBook(event));
-        if(event?.betId === state?.id){
-          dispatch(getPlacedBets(state?.id));
+        if (event?.betId === state?.id) {
+          dispatch(updateDeleteReason(event));
         }
         // dispatch(
         //   updateSessionProLoss({

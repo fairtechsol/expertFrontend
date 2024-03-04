@@ -13,6 +13,7 @@ import {
   resetPlacedBets,
   setCurrentOdd,
   updateBetsPlaced,
+  updateDeleteReason,
   updateProLossSession,
   updateSessionById,
   updateSessionProfitLoss,
@@ -122,7 +123,7 @@ const SessionAddComponent = ({ createSession, match }: any) => {
       dispatch(getMatchListSessionProfitLoss(match?.id));
       if (event?.activeStatus === "result") {
         dispatch(resetPlacedBets());
-        navigate('/match')
+        navigate("/match");
       } else if (event?.activeStatus === "live") {
         dispatch(getSessionProfitLoss(id));
         dispatch(getPlacedBets(id));
@@ -148,7 +149,7 @@ const SessionAddComponent = ({ createSession, match }: any) => {
   const sessionDeleteBet = (event: any) => {
     try {
       if (event?.matchId === match?.id) {
-        dispatch(getPlacedBets(id));
+        dispatch(updateDeleteReason(event));
         dispatch(updateProLossSession(event));
       }
     } catch (e) {
