@@ -305,7 +305,7 @@ const addMatch = createSlice({
       })
       .addCase(updateTeamRates.fulfilled, (state, action) => {
         const { userRedisObj, jobData } = action.payload;
-        if (["tiedMatch2", "tiedMatch"].includes(jobData?.newBet?.marketType)) {
+        if (["tiedMatch2", "tiedMatch1"].includes(jobData?.newBet?.marketType)) {
           state.matchDetail.teamRates = {
             ...state.matchDetail.teamRates,
             yesRateTie: userRedisObj[jobData?.teamArateRedisKey],
@@ -328,7 +328,7 @@ const addMatch = createSlice({
       })
       .addCase(updateRates.fulfilled, (state, action) => {
         const { redisObject, matchBetType } = action.payload;
-        if (["tiedMatch2", "tiedMatch"].includes(matchBetType)) {
+        if (["tiedMatch2", "tiedMatch1"].includes(matchBetType)) {
           state.matchDetail.teamRates = {
             ...state.matchDetail.teamRates,
             yesRateTie: redisObject[action.payload.teamArateRedisKey],

@@ -86,7 +86,6 @@ const SessionAddComponent = ({ createSession, match }: any) => {
       noPercent: inputDetail?.leftNoRatePercent,
     };
     dispatch(addSession(payload));
-    setIsCreateSession(false);
   };
 
   const handleLiveChange = (yesRatePercent: number, noRatePercent: number) => {
@@ -123,7 +122,12 @@ const SessionAddComponent = ({ createSession, match }: any) => {
       dispatch(getMatchListSessionProfitLoss(match?.id));
       if (event?.activeStatus === "result") {
         dispatch(resetPlacedBets());
-        navigate("/match");
+        navigate("/expert/live", {
+          state: {
+            createSession: true,
+            match: match,
+          },
+        });
       } else if (event?.activeStatus === "live") {
         dispatch(getSessionProfitLoss(id));
         dispatch(getPlacedBets(id));
@@ -160,6 +164,7 @@ const SessionAddComponent = ({ createSession, match }: any) => {
   useEffect(() => {
     try {
       if (addSuccess) {
+        setIsCreateSession(false);
         navigate(`/expert/live/${selectedSessionId}`, {
           state: {
             createSession: false,

@@ -168,7 +168,7 @@ export const addSessionReducers = createReducer(initialState, (builder) => {
       if (!state.placedBets.some((item: any) => item.id === id)) {
         state.placedBets = [objToUpdate, ...state.placedBets];
       }
-      if (["tiedMatch2", "tiedMatch"].includes(jobData?.newBet?.marketType)) {
+      if (["tiedMatch2", "tiedMatch1"].includes(jobData?.newBet?.marketType)) {
         state.bookmakerById.matchRates = {
           ...state.bookmakerById.matchRates,
           yesRateTie: userRedisObj[jobData?.teamArateRedisKey],
@@ -218,7 +218,7 @@ export const addSessionReducers = createReducer(initialState, (builder) => {
     })
     .addCase(updateRatesBook.fulfilled, (state, action) => {
       const { redisObject, matchBetType } = action.payload;
-      if (["tiedMatch2", "tiedMatch"].includes(matchBetType)) {
+      if (["tiedMatch2", "tiedMatch1"].includes(matchBetType)) {
         state.bookmakerById.matchRates = {
           ...state.bookmakerById.matchRates,
           yesRateTie: redisObject[action.payload.teamArateRedisKey],
