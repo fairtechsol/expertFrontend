@@ -89,21 +89,21 @@ export const getExtraMarketList = createAsyncThunk<any, string>(
         let extraMarketList: any = {
           matchOdds: {
             marketId: data?.find(
-              (match: any) => match?.marketName === "Match Odds"
+              (match: any) => match?.description?.marketType === "MATCH_ODDS"
             )?.marketId,
           },
           tiedMatch: {
             marketId: data?.find(
-              (match: any) => match?.marketName === "Tied Match"
+              (match: any) => match?.description?.marketType === "TIED_MATCH"
             )?.marketId,
           },
           completedMatch: {
             marketId: data?.find(
-              (match: any) => match?.marketName === "Completed Match"
+              (match: any) =>
+                match?.description?.marketType === "COMPLETED_MATCH"
             )?.marketId,
           },
         };
-
         return extraMarketList;
       }
     } catch (error) {
