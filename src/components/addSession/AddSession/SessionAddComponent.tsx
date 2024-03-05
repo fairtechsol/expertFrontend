@@ -11,6 +11,7 @@ import {
   getPlacedBets,
   getSessionProfitLoss,
   resetPlacedBets,
+  sessionByIdReset,
   setCurrentOdd,
   updateBetsPlaced,
   updateDeleteReason,
@@ -118,17 +119,19 @@ const SessionAddComponent = ({ createSession, match }: any) => {
 
   const updateResultDeclared = (event: any) => {
     if (match?.id === event?.matchId && id === event?.betId) {
-      dispatch(updateSessionById(event));
-      dispatch(getMatchListSessionProfitLoss(match?.id));
       if (event?.activeStatus === "result") {
         dispatch(resetPlacedBets());
+        dispatch(sessionByIdReset());
         navigate("/expert/live", {
           state: {
             createSession: true,
             match: match,
           },
+          replace: true,
         });
       } else if (event?.activeStatus === "live") {
+        dispatch(updateSessionById(event));
+        dispatch(getMatchListSessionProfitLoss(match?.id));
         dispatch(getSessionProfitLoss(id));
         dispatch(getPlacedBets(id));
       }

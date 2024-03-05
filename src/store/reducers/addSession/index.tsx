@@ -202,7 +202,7 @@ export const addSessionReducers = createReducer(initialState, (builder) => {
         ...state,
         success: false,
         sessionById: null,
-        sessionProfitLoss: null,
+        sessionProfitLoss: [],
       };
     })
     .addCase(successReset, (state) => {
