@@ -11,6 +11,7 @@ import {
   getPlacedBets,
   getSessionProfitLoss,
   resetPlacedBets,
+  sessionByIdReset,
   setCurrentOdd,
   updateBetsPlaced,
   updateDeleteReason,
@@ -86,7 +87,6 @@ const SessionAddComponent = ({ createSession, match }: any) => {
       noPercent: inputDetail?.leftNoRatePercent,
     };
     dispatch(addSession(payload));
-    setIsCreateSession(false);
   };
 
   const handleLiveChange = (yesRatePercent: number, noRatePercent: number) => {
@@ -119,12 +119,19 @@ const SessionAddComponent = ({ createSession, match }: any) => {
 
   const updateResultDeclared = (event: any) => {
     if (match?.id === event?.matchId && id === event?.betId) {
-      dispatch(updateSessionById(event));
-      dispatch(getMatchListSessionProfitLoss(match?.id));
       if (event?.activeStatus === "result") {
         dispatch(resetPlacedBets());
-        navigate("/match");
+        dispatch(sessionByIdReset());
+        navigate("/expert/live", {
+          state: {
+            createSession: true,
+            match: match,
+          },
+          replace: true,
+        });
       } else if (event?.activeStatus === "live") {
+        dispatch(updateSessionById(event));
+        dispatch(getMatchListSessionProfitLoss(match?.id));
         dispatch(getSessionProfitLoss(id));
         dispatch(getPlacedBets(id));
       }
@@ -160,6 +167,7 @@ const SessionAddComponent = ({ createSession, match }: any) => {
   useEffect(() => {
     try {
       if (addSuccess) {
+        setIsCreateSession(false);
         navigate(`/expert/live/${selectedSessionId}`, {
           state: {
             createSession: false,
@@ -251,16 +259,50 @@ const SessionAddComponent = ({ createSession, match }: any) => {
       if (id) {
         socketService.user.updateSessionRateClient((data: any) => {
           if (data?.id === id && data?.matchId === match?.id) {
-            setInputDetail((prev: any) => {
-              return {
-                ...prev,
-                noRate: data?.noRate,
-                yesRate: data?.yesRate,
-                yesRatePercent: data?.yesPercent,
-                noRatePercent: data?.noPercent,
-                status: data?.status,
-              };
-            });
+            if (data?.status === "ball start") {
+              setIsBall(true);
+              setLock((prev: any) => {
+                return {
+                  ...prev,
+                  isNo: false,
+                  isYes: false,
+                  isNoPercent: false,
+                  isYesPercent: false,
+                };
+              });
+            } else if (data?.status === "suspended") {
+              setIsBall(false);
+              setLock((prev: any) => {
+                return {
+                  ...prev,
+                  isNo: true,
+                  isYes: true,
+                  isNoPercent: true,
+                  isYesPercent: true,
+                };
+              });
+            } else if (data?.status === "active") {
+              setInputDetail((prev: any) => {
+                return {
+                  ...prev,
+                  noRate: data?.noRate,
+                  yesRate: data?.yesRate,
+                  yesRatePercent: data?.yesPercent,
+                  noRatePercent: data?.noPercent,
+                  status: data?.status,
+                };
+              });
+              setIsBall(false);
+              setLock((prev: any) => {
+                return {
+                  ...prev,
+                  isNo: false,
+                  isYes: false,
+                  isNoPercent: false,
+                  isYesPercent: false,
+                };
+              });
+            }
           }
         });
         socketService.user.sessionResultDeclared(updateResultDeclared);

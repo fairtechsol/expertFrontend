@@ -120,6 +120,12 @@ export const updateMatchBetsPlaced = createAsyncThunk<any, SessionById>(
     return requestData;
   }
 );
+export const updateTeamRatesOnManualMarket = createAsyncThunk<any, SessionById>(
+  "update/updateTeamRatesOnManualMarket",
+  async (requestData) => {
+    return requestData;
+  }
+);
 
 export const getBookmakerById = createAsyncThunk<any, BookmakerById>(
   "get/bookmaker",

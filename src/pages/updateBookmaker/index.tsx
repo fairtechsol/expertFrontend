@@ -9,6 +9,7 @@ import {
   updateDeleteReason,
   updateMatchBetsPlaced,
   updateRatesBook,
+  updateTeamRatesOnManualMarket,
 } from "../../store/actions/addSession";
 import { AppDispatch, RootState } from "../../store/store";
 import { useDispatch, useSelector } from "react-redux";
@@ -21,11 +22,11 @@ const UpdateBookmaker = () => {
   const { placedBets } = useSelector((state: RootState) => state.addSession);
 
   const updateBetList = (event: any) => {
-    if (
-      state?.match?.id === event?.jobData?.newBet?.matchId &&
-      state?.id === event?.jobData?.newBet?.betId
-    ) {
-      dispatch(updateMatchBetsPlaced(event));
+    if (state?.match?.id === event?.jobData?.newBet?.matchId) {
+      dispatch(updateTeamRatesOnManualMarket(event));
+      if (state?.id === event?.jobData?.newBet?.betId) {
+        dispatch(updateMatchBetsPlaced(event));
+      }
     }
   };
 
