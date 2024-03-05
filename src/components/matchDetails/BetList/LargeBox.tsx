@@ -12,12 +12,15 @@ const LargeBox = ({ item, k }: any) => {
         paddingLeft: k == 1 || k == 0 ? "5px" : 0,
         display: "flex",
         flexDirection: "column",
-        width: item?.width ? item?.width : "150px",
+       width: {
+          xs: item?.width ? item?.width : "100px", 
+          lg: item?.width ? item?.width : "150px",
+        },
       }}
     >
       <Typography
         sx={{
-          fontSize: {lg:"11px", xs:"7px"},
+          fontSize: {lg:"11px", xs:"7px", md: "9px"},
           fontWeight: "600",
           color: item?.color,
           wordWrap: "break-word",
