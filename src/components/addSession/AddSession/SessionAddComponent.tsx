@@ -312,6 +312,11 @@ const SessionAddComponent = ({ createSession, match }: any) => {
     } catch (e) {
       console.log(e);
     }
+    return () => {
+      socketService.user.sessionResultDeclaredOff(updateResultDeclared);
+      socketService.user.userSessionBetPlacedOff(updateUserProfitLoss);
+      socketService.user.sessionDeleteBetOff(sessionDeleteBet);
+    };
   }, [match, id]);
 
   return (

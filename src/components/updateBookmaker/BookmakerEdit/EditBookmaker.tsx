@@ -477,7 +477,7 @@ const EditBookmaker = (props: any) => {
                         ? +bookmakerById?.matchRates?.teamARate || 0
                         : +bookmakerById?.matchRates?.yesRateTie || 0) <= 0
                         ? "#FF4D4D"
-                        : "#46e080",
+                        : "#319E5B",
                   }}
                 >
                   {bookmakerById?.type !== "tiedMatch2"
@@ -796,12 +796,12 @@ const EditBookmaker = (props: any) => {
                 >
                   <Typography
                     sx={{
-                      fontSize: "14px",
+                      fontSize: "16px",
                       fontWeight: "bold",
                       color:
                         (+bookmakerById?.matchRates?.teamCRate || 0) <= 0
                           ? "#FF4D4D"
-                          : "#46e080",
+                          : "#319E5B",
                     }}
                   >
                     {bookmakerById?.matchRates?.teamCRate || 0}
