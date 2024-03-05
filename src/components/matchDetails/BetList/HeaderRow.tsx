@@ -6,7 +6,7 @@ const HeaderRow = ({ tag }: any) => {
       <Box sx={{ width: "auto", display: "flex" }}>
         <Box
           sx={{
-            width: {lg:"4%", xs: "6%"},
+            width: {lg:"4%", xs: "6%", md: "5%"},
             border: "1px solid white",
             background: "rgba(0,0,0)",
             height: "20px",
@@ -24,7 +24,7 @@ const HeaderRow = ({ tag }: any) => {
         <Box sx={{ width: "100%", display: "flex" }}>
           <Box
             sx={{
-              width: {lg:"14%", xs: "30%"},
+              width: {lg:"12%", xs: "30%"},
               border: "1px solid white",
               background: "rgba(0,0,0)",
               height: "20px",
@@ -42,7 +42,7 @@ const HeaderRow = ({ tag }: any) => {
           </Box>
           <Box
             sx={{
-              width: {lg:"20%", xs: "35%"},
+              width: {lg:"20%", xs: "45%"},
               border: "1px solid white",
               background: "rgba(0,0,0)",
               height: "20px",
@@ -60,7 +60,7 @@ const HeaderRow = ({ tag }: any) => {
           </Box>
           <Box
             sx={{
-              width: {lg:"13%", xs: "50%"},
+              width: {lg:"13%", xs: "30%"},
               border: "1px solid white",
               background: "rgba(0,0,0)",
               height: "20px",
@@ -77,7 +77,7 @@ const HeaderRow = ({ tag }: any) => {
           </Box>
           <Box
             sx={{
-              width: {lg:"7%", xs: "35%"},
+              width: {lg:"7%", xs: "15%"},
               border: "1px solid white",
               background: "rgba(0,0,0)",
               height: "20px",
@@ -94,7 +94,7 @@ const HeaderRow = ({ tag }: any) => {
           </Box>
           <Box
             sx={{
-              width: {lg:"7%", xs: "35%"},
+              width: {lg:"7%", xs: "15%"},
               border: "1px solid white",
               background: "rgba(0,0,0)",
               height: "20px",
@@ -145,7 +145,7 @@ const HeaderRow = ({ tag }: any) => {
           </Box>
           <Box
             sx={{
-              width: {lg:"10%", xs: "35%"},
+              width: {lg:"10%", xs: "25%"},
               border: "1px solid white",
               borderRight: "0",
               background: "rgba(0,0,0)",
