@@ -8,8 +8,8 @@ const MoneyBox = ({ value }: any) => {
     <>
       <Box
         sx={{
-          minWidth: {lg: "60%", xs: "60%" },
-          width: {lg: "80%", xs: "100%" },
+          minWidth: {lg: "50%", xs: "60%" },
+          width: {lg: "60%", xs: "100%" },
           justifyContent: "center",
           position: matchesMobile ? "absolute" : "relative",
           right: matchesMobile ? "-90%" : "10px",
