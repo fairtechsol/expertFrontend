@@ -51,7 +51,7 @@ const AddSession = () => {
       }
       dispatch(sessionSuccessReset());
     }
-  }, [getSessionSuccess]);
+  }, [getSessionSuccess, id]);
 
   return (
     <Box>
