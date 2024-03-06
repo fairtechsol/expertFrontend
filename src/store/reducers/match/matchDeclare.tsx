@@ -7,6 +7,7 @@ import {
 import {
   getSessionProfitLossMatchDetail,
   getSessionProfitLossMatchDetailFilter,
+  getSessionProfitLossMatchDetailReset,
 } from "../../actions/match/matchAction";
 import { updateSessionProLoss } from "../../actions/addMatch/addMatchAction";
 
@@ -103,6 +104,9 @@ const matchDeclare = createSlice({
             betPlaced: action.payload.betPlaced,
           };
         }
+      })
+      .addCase(getSessionProfitLossMatchDetailReset, (state) => {
+        return { ...state, sessionProLoss: [] };
       })
       .addCase(declareMatchStatusReset, (state) => {
         return { ...state, success: false };

@@ -41,7 +41,20 @@ const CustomSessionResult = ({ onClick, newData }: any) => {
     };
     dispatch(resultDeclare(payload));
   };
-  const handleInputKeyPress = () => {};
+
+  const handleInputKeyPress = (event: any) => {
+    try {
+      if (event.key === "Enter") {
+        if (JSON.parse(newData)?.activeStatus !== "result") {
+          handleDeclare();
+        } else if (JSON.parse(newData)?.activeStatus === "result") {
+          handleUndeclareResult();
+        }
+      }
+    } catch (error) {
+      console.error("Error in handleInputKeyPress:", error);
+    }
+  };
 
   return (
     <Box
