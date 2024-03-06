@@ -115,7 +115,7 @@ const Row = ({ index, values }: any) => {
               overflowWrap: "anywhere",
             }}
           >
-            {values.marketType}
+            {values?.bettingName ?? values.marketType}
           </Typography>
         </Box>
         <Box

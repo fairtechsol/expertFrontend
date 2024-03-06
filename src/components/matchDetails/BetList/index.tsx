@@ -21,19 +21,19 @@ const BetList = ({ tag, submit, allBetRates }: any) => {
                 ? "#319E5B"
                 : "#F1C550",
               deleteReason: v?.deleteReason,
-              width: "12%",
+              width: { lg: "12%", xs: "30%" },
             },
             {
               name:
                 v?.marketType == "MANUAL BOOKMAKER"
                   ? "Quick Bookmaker"
-                  : v?.marketType,
+                  : v?.bettingName ?? v?.marketType,
               color: ["NO", "YES"].includes(v?.betType) ? "#FFF" : "black",
               background: ["NO", "YES"].includes(v?.betType)
                 ? "#319E5B"
                 : "#F1C550",
               deleteReason: v?.deleteReason,
-              width: "20%",
+              width: { lg: "20%", xs: "35%" },
             },
             {
               name: v?.teamName,
@@ -42,7 +42,7 @@ const BetList = ({ tag, submit, allBetRates }: any) => {
                 ? "#B3E0FF"
                 : "rgb(255, 146, 146)",
               deleteReason: v?.deleteReason,
-              width: "13%",
+              width: { lg: "13%", xs: "50%" },
             },
             {
               name: v?.odds,
@@ -53,7 +53,7 @@ const BetList = ({ tag, submit, allBetRates }: any) => {
                 : "rgb(255, 146, 146)",
               small: true,
               deleteReason: v?.deleteReason,
-              width: "7%",
+              width: { lg: "7%", xs: "35%" },
               fSize: "13px",
               lHeight: 1,
             },
@@ -65,7 +65,7 @@ const BetList = ({ tag, submit, allBetRates }: any) => {
                 : "rgb(255, 146, 146)",
               small: true,
               deleteReason: v?.deleteReason,
-              width: "7%",
+              width: { lg: "7%", xs: "35%" },
             },
             {
               name: v?.amount,
@@ -74,15 +74,17 @@ const BetList = ({ tag, submit, allBetRates }: any) => {
                 ? "#B3E0FF"
                 : "rgb(255, 146, 146)",
               deleteReason: v?.deleteReason,
-              width: "17%",
+              width: { lg: "17%", xs: "35%" },
               fSize: "12px",
             },
             {
-              name: +v.myStake ? +v.myStake : (+v?.amount * +v?.user?.fwPartnership || 0) / 100,
+              name: +v.myStake
+                ? +v.myStake
+                : (+v?.amount * +v?.user?.fwPartnership || 0) / 100,
               color: "white",
               background: "#0B4F26",
               deleteReason: v?.deleteReason,
-              width: "14%",
+              width: { lg: "14%", xs: "35%" },
             },
             {
               name: moment(v?.createdAt).format("LTS"),
@@ -93,7 +95,7 @@ const BetList = ({ tag, submit, allBetRates }: any) => {
               time: true,
               date: moment(v?.createdAt).format("L"),
               deleteReason: v?.deleteReason,
-              width: "10%",
+              width: { lg: "10%", xs: "35%" },
             },
           ],
         };
@@ -206,12 +208,16 @@ const BetList = ({ tag, submit, allBetRates }: any) => {
 
       {visibleImg && (
         <>
-         <Box
+          <Box
             className="myScroll"
-            sx={{ maxHeight: submit ? "300px" : "500px", overflowY: "auto", width: "100%" }}
+            sx={{
+              maxHeight: submit ? "300px" : "500px",
+              overflowY: "auto",
+              width: "100%",
+            }}
           >
-          <HeaderRow tag={tag} />
-         
+            <HeaderRow tag={tag} />
+
             {newData?.length > 0 &&
               newData?.map((i: any, k: any) => {
                 const num = newData?.length - k;
@@ -222,7 +228,7 @@ const BetList = ({ tag, submit, allBetRates }: any) => {
                   >
                     <Box
                       sx={{
-                        width: {lg: "4%", xs: "6%"},
+                        width: { lg: "4%", xs: "6%" },
                         border: "1px solid white",
                         background: "black",
                         height: "30px",

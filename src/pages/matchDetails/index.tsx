@@ -70,7 +70,7 @@ const MatchDetails = () => {
     try {
       if (event?.matchId === state?.id) {
         dispatch(getMatchDetail(state?.id));
-        dispatch(getPlacedBetsMatch(state?.id))
+        dispatch(getPlacedBetsMatch(state?.id));
       }
     } catch (e) {
       console.log(e);
@@ -406,7 +406,9 @@ const MatchDetails = () => {
               />
             )}
 
-            {matchDetail?.id && <BetList allBetRates={placedBetsMatch} />}
+            {matchDetail?.id && (
+              <BetList allBetRates={placedBetsMatch} tag={true} />
+            )}
           </Box>
         </>
       )}

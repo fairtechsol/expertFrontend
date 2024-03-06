@@ -17,7 +17,7 @@ const SmallBox = ({
         onClick={onClick}
         sx={[
           {
-            width: { lg: width ? width : "70px", xs: width ? width :"25%" },
+            width: { lg: width ? width : "70px", xs: "25%" },
             display: "flex",
             marginRight: "10px",
             justifyContent: "space-between",
@@ -33,11 +33,10 @@ const SmallBox = ({
       >
         <Typography
           sx={{
-            fontSize: { lg: textSize ? textSize : "10px", xs: "10px" },
+            fontSize: { lg: textSize ? textSize : "11px", xs: "10px" },
             fontWeight: "600",
             color: color !== "#FFF" ? "white" : "",
-            lineHeight: 0.8,
-            overflow: "hidden"
+            lineHeight: 1,
           }}
         >
           {loading ? (
