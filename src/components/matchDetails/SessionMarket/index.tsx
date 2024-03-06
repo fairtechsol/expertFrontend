@@ -7,6 +7,7 @@ import SessionMarketBox from "./SessionMarketBox";
 import { sessionBetLiveStatus } from "../../../store/actions/match/matchAction";
 import { AppDispatch } from "../../../store/store";
 import { useDispatch } from "react-redux";
+import { customSort } from "../../../helpers";
 
 const SessionMarket = ({
   currentMatch,
@@ -217,33 +218,36 @@ const SessionMarket = ({
             }}
           >
             {sessionData?.length > 0 &&
-              sessionData?.map((match: any, index: any) => {
-                if (JSON.parse(match).selectionId) {
-                  return (
-                    <Box key={index}>
-                      <SessionMarketBox
-                        liveOnly={liveOnly}
-                        setIObtes={setIObtes}
-                        setData={setData}
-                        hideResult={hideResult}
-                        hideTotalBet={hideTotalBet}
-                        setMatchSessionData={setLocalSessionExpertOdds}
-                        setLocalState={(val: any) => setLocalState(val)}
-                        currentMatch={currentMatch}
-                        setCurrentMatch={setCurrentMatch}
-                        newData={match}
-                        setStop={setStop}
-                        stop={stop}
-                        index={index}
-                        profitLossData={profitLossData}
-                      />
-                      <Divider />
-                    </Box>
-                  );
-                } else {
-                  return null;
-                }
-              })}
+              sessionData
+                ?.slice()
+                .sort(customSort)
+                ?.map((match: any, index: any) => {
+                  if (JSON.parse(match).selectionId) {
+                    return (
+                      <Box key={index}>
+                        <SessionMarketBox
+                          liveOnly={liveOnly}
+                          setIObtes={setIObtes}
+                          setData={setData}
+                          hideResult={hideResult}
+                          hideTotalBet={hideTotalBet}
+                          setMatchSessionData={setLocalSessionExpertOdds}
+                          setLocalState={(val: any) => setLocalState(val)}
+                          currentMatch={currentMatch}
+                          setCurrentMatch={setCurrentMatch}
+                          newData={match}
+                          setStop={setStop}
+                          stop={stop}
+                          index={index}
+                          profitLossData={profitLossData}
+                        />
+                        <Divider />
+                      </Box>
+                    );
+                  } else {
+                    return null;
+                  }
+                })}
           </Box>
         </Box>
       )}
