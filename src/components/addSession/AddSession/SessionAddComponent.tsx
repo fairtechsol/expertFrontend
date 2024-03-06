@@ -313,6 +313,54 @@ const SessionAddComponent = ({ createSession, match }: any) => {
       console.log(e);
     }
     return () => {
+      socketService.user.updateSessionRateClientOff((data: any) => {
+        if (data?.id === id && data?.matchId === match?.id) {
+          if (data?.status === "ball start") {
+            setIsBall(true);
+            setLock((prev: any) => {
+              return {
+                ...prev,
+                isNo: false,
+                isYes: false,
+                isNoPercent: false,
+                isYesPercent: false,
+              };
+            });
+          } else if (data?.status === "suspended") {
+            setIsBall(false);
+            setLock((prev: any) => {
+              return {
+                ...prev,
+                isNo: true,
+                isYes: true,
+                isNoPercent: true,
+                isYesPercent: true,
+              };
+            });
+          } else if (data?.status === "active") {
+            setInputDetail((prev: any) => {
+              return {
+                ...prev,
+                noRate: data?.noRate,
+                yesRate: data?.yesRate,
+                yesRatePercent: data?.yesPercent,
+                noRatePercent: data?.noPercent,
+                status: data?.status,
+              };
+            });
+            setIsBall(false);
+            setLock((prev: any) => {
+              return {
+                ...prev,
+                isNo: false,
+                isYes: false,
+                isNoPercent: false,
+                isYesPercent: false,
+              };
+            });
+          }
+        }
+      });
       socketService.user.sessionResultDeclaredOff(updateResultDeclared);
       socketService.user.userSessionBetPlacedOff(updateUserProfitLoss);
       socketService.user.sessionDeleteBetOff(sessionDeleteBet);
