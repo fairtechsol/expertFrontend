@@ -5,7 +5,6 @@ import { getSessionProfitLossMatchDetail } from "../../../store/actions/match/ma
 import { AppDispatch } from "../../../store/store";
 
 const PlaceBetComponent = ({ profitLossData, newData }: any) => {
-
   const dispatch: AppDispatch = useDispatch();
   return (
     <>
@@ -89,10 +88,10 @@ const PlaceBetComponent = ({ profitLossData, newData }: any) => {
             }}
           >
             {newData?.result
-              ? newData?.resultData?.profitLoss
+              ? newData?.resultData?.profitLoss ?? 0
               : !profitLossData?.maxLoss
               ? "Profit/Loss"
-              : profitLossData?.maxLoss}
+              : profitLossData?.maxLoss ?? 0}
           </Typography>
           <img
             src={UD}

@@ -26,6 +26,7 @@ import {
 } from "../../store/actions/addSession";
 import {
   getPlacedBetsMatch,
+  getSessionProfitLossMatchDetailReset,
   updateMatchBetsPlace,
   updateMatchBetsReason,
   updateMaxLoss,
@@ -87,17 +88,6 @@ const MatchDetails = () => {
     }
   };
 
-  useEffect(() => {
-    try {
-      if (state?.id) {
-        dispatch(getMatchDetail(state?.id));
-        dispatch(getPlacedBetsMatch(state?.id));
-      }
-    } catch (e) {
-      console.log(e);
-    }
-  }, [state?.id]);
-
   const matchDeleteBet = (event: any) => {
     try {
       if (event?.matchId === state?.id) {
@@ -125,7 +115,7 @@ const MatchDetails = () => {
     }
   };
 
-  const updateResultDeclared = (event: any) => {
+  const updateSessionResultDeclared = (event: any) => {
     try {
       if (state?.id === event?.matchId) {
         dispatch(updateApiSessionById(event));
@@ -196,6 +186,18 @@ const MatchDetails = () => {
 
   useEffect(() => {
     try {
+      if (state?.id) {
+        dispatch(getSessionProfitLossMatchDetailReset());
+        dispatch(getMatchDetail(state?.id));
+        dispatch(getPlacedBetsMatch(state?.id));
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  }, [state?.id]);
+
+  useEffect(() => {
+    try {
       if (success) {
         expertSocketService.match.joinMatchRoom(state?.id, "expert");
         expertSocketService.match.getMatchRates(
@@ -210,7 +212,7 @@ const MatchDetails = () => {
         socketService.user.sessionAdded(handleSessionAdded);
         socketService.user.userMatchBetPlaced(updateMatchBetPlaced);
         socketService.user.userSessionBetPlaced(updateSessionBetPlaced);
-        socketService.user.sessionResultDeclared(updateResultDeclared);
+        socketService.user.sessionResultDeclared(updateSessionResultDeclared);
       }
     } catch (e) {
       console.log(e);
@@ -233,7 +235,7 @@ const MatchDetails = () => {
       socketService.user.sessionAddedOff(handleSessionAdded);
       socketService.user.userMatchBetPlacedOff(updateMatchBetPlaced);
       socketService.user.userSessionBetPlacedOff(updateSessionBetPlaced);
-      socketService.user.sessionResultDeclaredOff(updateResultDeclared);
+      socketService.user.sessionResultDeclaredOff(updateSessionResultDeclared);
     };
   }, []);
 

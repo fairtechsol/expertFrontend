@@ -212,6 +212,12 @@ const addMatch = createSlice({
                     result: action?.payload?.score
                       ? action?.payload?.score
                       : null,
+                    resultData: action?.payload?.score
+                      ? {
+                          result: action?.payload?.score,
+                          profitLoss: action.payload.profitLoss,
+                        }
+                      : null,
                   });
                 } else return item;
               }
@@ -305,7 +311,9 @@ const addMatch = createSlice({
       })
       .addCase(updateTeamRates.fulfilled, (state, action) => {
         const { userRedisObj, jobData } = action.payload;
-        if (["tiedMatch2", "tiedMatch1"].includes(jobData?.newBet?.marketType)) {
+        if (
+          ["tiedMatch2", "tiedMatch1"].includes(jobData?.newBet?.marketType)
+        ) {
           state.matchDetail.teamRates = {
             ...state.matchDetail.teamRates,
             yesRateTie: userRedisObj[jobData?.teamArateRedisKey],

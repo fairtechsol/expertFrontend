@@ -22,16 +22,25 @@ const SessionMarketBox = ({
   profitLossData,
 }: any) => {
   const dispatch: AppDispatch = useDispatch();
-  const { success, loading } = useSelector(
+  const { statusBetLive, error, success } = useSelector(
     (state: RootState) => state.matchList
   );
+  const [loading, setLoading] = useState(false);
   const [visible, setVisible] = useState(false);
   // const [live, setLive] = useState<boolean>(false);
 
   useEffect(() => {
+    if (statusBetLive) {
+      setLoading(false);
+    }
+    if (error) {
+      setLoading(false);
+    }
+  }, [statusBetLive, error]);
+
+  useEffect(() => {
     if (success) {
       setVisible(false);
-      // dispatch(matchListReset());
     }
   }, [success]);
 
@@ -85,7 +94,7 @@ const SessionMarketBox = ({
             top: "4px",
             width: "30%",
             justifyContent: "flex-end",
-            left: { lg: "14vw", md: "25vw", xs:"13vh" },
+            left: { lg: "14vw", md: "25vw", xs: "13vh" },
             display: "flex",
             zIndex: 100,
           }}
@@ -96,6 +105,7 @@ const SessionMarketBox = ({
               hide={true}
               onClick={(e: any) => {
                 e.preventDefault();
+                setLoading(true);
                 // setLive(false);
                 dispatch(
                   sessionBetLiveStatus({
@@ -105,7 +115,7 @@ const SessionMarketBox = ({
                 );
               }}
               textSize={"8px"}
-              width={{lg: "33px", xs: "20px", md: "25px"}}
+              width={{ lg: "33px", xs: "20px", md: "25px" }}
               color={
                 JSON.parse(newData)?.activeStatus === "live"
                   ? "#46e080"
@@ -119,7 +129,7 @@ const SessionMarketBox = ({
                 loading={false}
                 hide={false}
                 textSize={"12px"}
-                width={{lg: "80px", xs: "20px", md: "20px"}}
+                width={{ lg: "80px", xs: "20px", md: "20px" }}
                 title={`Score : ${JSON.parse(newData)?.result || 0}`}
                 color={"#FFF"}
               />
@@ -130,6 +140,7 @@ const SessionMarketBox = ({
               loading={loading}
               onClick={(e: any) => {
                 e.preventDefault();
+                setLoading(true);
                 dispatch(
                   sessionBetLiveStatus({
                     status: "live",
