@@ -111,7 +111,7 @@ const SessionResultOvers = (props: any) => {
                       color: "white",
                     }}
                   >
-                    {profit_loss}
+                    {profit_loss?.toFixed(2)}
                     <StyledImage
                       src="https://fontawesomeicons.com/images/svg/trending-up-sharp.svg"
                       sx={{
