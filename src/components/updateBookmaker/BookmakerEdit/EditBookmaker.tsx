@@ -1246,6 +1246,7 @@ const EditBookmaker = (props: any) => {
                 zIndex: 999,
                 top: "40px",
                 right: 0,
+                width:  {lg:"50vh", xs:"30vh"}
               }}
             >
               {visible && (
