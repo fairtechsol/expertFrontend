@@ -111,32 +111,30 @@ const SessionAddComponent = ({ createSession, match }: any) => {
     socketService.user.updateSessionRate(data);
   };
 
-  // useImperativeHandle(ref, () => ({
-  //   childFunction(item: any) {
-  //     // setIsDisable(true);
-  //   },
-  // }));
-
   const updateResultDeclared = (event: any) => {
-    if (match?.id === event?.matchId && id === event?.betId) {
-      if (event?.activeStatus === "result") {
-        dispatch(resetPlacedBets());
-        dispatch(sessionByIdReset());
-        navigate("/expert/live", {
-          state: {
-            createSession: true,
-            match: match,
-          },
-          replace: true,
-        });
-      } else if (event?.activeStatus === "live") {
-        dispatch(updateSessionById(event));
-        dispatch(getMatchListSessionProfitLoss(match?.id));
-        dispatch(getSessionProfitLoss(id));
-        dispatch(getPlacedBets(id));
+    try {
+      if (match?.id === event?.matchId && id === event?.betId) {
+        if (event?.activeStatus === "result") {
+          dispatch(resetPlacedBets());
+          dispatch(sessionByIdReset());
+          navigate("/expert/live", {
+            state: {
+              createSession: true,
+              match: match,
+            },
+            replace: true,
+          });
+        } else if (event?.activeStatus === "live") {
+          dispatch(updateSessionById(event));
+          dispatch(getSessionProfitLoss(id));
+          dispatch(getPlacedBets(id));
+        }
       }
+    } catch (e) {
+      console.log(e);
     }
   };
+
   const updateUserProfitLoss = (event: any) => {
     if (
       match?.id === event?.jobData?.placedBet?.matchId &&
