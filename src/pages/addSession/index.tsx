@@ -14,6 +14,7 @@ import {
   sessionSuccessReset,
 } from "../../store/actions/addSession";
 import { getMatchListSessionProfitLoss } from "../../store/actions/match/matchAction";
+import { socketService } from "../../socketManager";
 
 const AddSession = () => {
   const { state } = useLocation();
@@ -52,6 +53,19 @@ const AddSession = () => {
       dispatch(sessionSuccessReset());
     }
   }, [getSessionSuccess, id]);
+
+  const getSessionProLoss = (event: any) => {
+    if (state?.match?.id === event?.matchId) {
+      dispatch(getMatchListSessionProfitLoss(state?.match?.id));
+    }
+  };
+
+  useEffect(() => {
+    socketService.user.sessionResultDeclared(getSessionProLoss);
+    return () => {
+      socketService.user.sessionResultDeclaredOff(getSessionProLoss);
+    };
+  }, [state?.match?.id]);
 
   return (
     <Box>
