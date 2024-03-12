@@ -26,6 +26,7 @@ import {
 } from "../../../store/actions/match/matchAction";
 import { ButtonRatesQuickSessions } from "../../../utils/Constants";
 import { useNavigate, useParams } from "react-router-dom";
+import SessionLimit from "./SessionLimit";
 
 const stateDetail = {
   match_id: "",
@@ -68,6 +69,8 @@ const SessionAddComponent = ({ createSession, match }: any) => {
   const [visible, setVisible] = useState(false);
   const [visible1, setVisible1] = useState(false);
   const [visible2, setVisible2] = useState(false);
+  const [visible3, setVisible3] = useState(false);
+  const [maxBetValue, setMaxBetValue] = useState(sessionById ? sessionById?.maxBet : null)
   const [lock, setLock] = useState<any>({
     isNo: true,
     isYes: true,
@@ -364,7 +367,9 @@ const SessionAddComponent = ({ createSession, match }: any) => {
       socketService.user.sessionDeleteBetOff(sessionDeleteBet);
     };
   }, [match, id]);
-
+  const handleValue = (v: any) => {
+    setMaxBetValue(v)
+  };
   return (
     <Box
       sx={{
@@ -380,8 +385,73 @@ const SessionAddComponent = ({ createSession, match }: any) => {
       <Typography
         sx={{ color: "#0B4F26", fontSize: "20px", fontWeight: "600" }}
       >
-        {match?.title && match.title}
+        {match?.title && match.title}(max:
+        { maxBetValue ? maxBetValue : sessionById ? sessionById?.maxBet : match?.betFairSessionMaxBet})
       </Typography>
+      <Box
+        onClick={(e) => {
+          // setShowUndeclare(true);
+          setVisible3(true);
+          e.stopPropagation();
+        }}
+        sx={{
+          width: "30%",
+          position: "relative",
+          display: "flex",
+          background: "#0B4F26",
+          // marginLeft: "5px",
+          // maxWidth: "120px",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "35px",
+          borderRadius: "5px",
+          cursor: "pointer",
+        }}
+      >
+        <Typography
+          sx={{
+            color: "white",
+            fontWeight: "400",
+            fontSize: "12px",
+          }}
+        >
+          Set session max limit
+        </Typography>
+        <Box
+          sx={{
+            position: "absolute",
+            zIndex: 999,
+            top: "40px",
+            left: 0,
+          }}
+        >
+          {visible3 && (
+            <SessionLimit
+              newData={{
+                id: id,
+                matchId: match?.id,
+                betStatus: 0,
+                minBet: sessionById?.minBet
+                  ? sessionById?.minBet
+                  : match?.minBet,
+                maxBet: maxBetValue ? maxBetValue : sessionById?.maxBet
+                  ? sessionById?.maxBet
+                  : match?.betFairSessionMaxBet,
+              }}
+              maxValue={handleValue}
+              // setResultPending={setResultPending}
+              onClick={() => {
+                setVisible3(false);
+                setIsDisable(true);
+                // getSessionResult(match?.id);
+              }}
+              onClickCancel={() => {
+                setVisible3(false);
+              }}
+            />
+          )}
+        </Box>
+      </Box>
       <Box sx={{ display: "flex", marginTop: "6px" }}>
         <Box
           sx={{
@@ -499,7 +569,7 @@ const SessionAddComponent = ({ createSession, match }: any) => {
                       display: "flex",
                       background: "#FF4D4D",
                       maxWidth: "120px",
-                      marginLeft: "5px",
+                      // marginLeft: "5px",
                       justifyContent: "center",
                       alignItems: "center",
                       height: "35px",
@@ -556,7 +626,7 @@ const SessionAddComponent = ({ createSession, match }: any) => {
                       position: "relative",
                       display: "flex",
                       background: "#0B4F26",
-                      marginLeft: "5px",
+                      // marginLeft: "5px",
                       maxWidth: "120px",
                       justifyContent: "center",
                       alignItems: "center",
