@@ -15,7 +15,11 @@ interface SessionData {
   noPercent: number;
   selectionId?: string;
 }
-
+interface updateSession {
+  maxBet?: number;
+  minBet?: number;
+  id:any;
+}
 interface SessionById {
   matchId: string;
   id?: string | any;
@@ -32,6 +36,23 @@ export const addSession = createAsyncThunk<any, SessionData>(
     try {
       const resp = await service.post(
         `${ApiConstants.SESSION.ADD}`,
+        requestData
+      );
+      if (resp?.data) {
+        return resp?.data;
+      }
+    } catch (error) {
+      const err = error as AxiosError;
+      return thunkApi.rejectWithValue(err.response?.status);
+    }
+  }
+);
+export const updateSession = createAsyncThunk<any, updateSession>(
+  "update/sessionBet",
+  async (requestData, thunkApi) => {
+    try {
+      const resp = await service.post(
+        `${ApiConstants.SESSION.UPDATE}`,
         requestData
       );
       if (resp?.data) {

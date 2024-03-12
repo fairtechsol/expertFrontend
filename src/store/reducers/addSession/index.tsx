@@ -16,6 +16,7 @@ import {
   updateMatchBetsPlaced,
   updateProLossSession,
   updateRatesBook,
+  updateSession,
   updateSessionById,
   updateSessionByIdForUndeclare,
   updateSessionProfitLoss,
@@ -246,5 +247,23 @@ export const addSessionReducers = createReducer(initialState, (builder) => {
     .addCase(updateProLossSession.fulfilled, (state, action) => {
       const { profitLoss } = action.payload;
       state.sessionProfitLoss = profitLoss;
+    })
+    .addCase(updateSession.pending, (state) => {
+      state.loading = true;
+    })
+    .addCase(updateSession.fulfilled, (state, action) => {
+      const { maxBet, id } = action.payload;
+      const updatedSession = { ...state.sessionById };
+      if (id === updatedSession?.id) {
+        updatedSession.maxBet = maxBet;
+      }
+      return {
+        ...state,
+        sessionById: updatedSession,
+        loading: false
+      };
+    })
+    .addCase(updateSession.rejected, (state) => {
+      state.loading = false;
     });
 });
