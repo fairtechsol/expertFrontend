@@ -382,10 +382,11 @@ const SessionAddComponent = ({ createSession, match }: any) => {
       <Typography
         sx={{ color: "#0B4F26", fontSize: "20px", fontWeight: "600" }}
       >
-        {match?.title && match.title}(max:
-        { maxBetValue ? maxBetValue : sessionById ? sessionById?.maxBet : match?.betFairSessionMaxBet})
+        {match?.title && match.title}
+        {/* (max:
+        { maxBetValue ? maxBetValue : sessionById ? sessionById?.maxBet : match?.betFairSessionMaxBet}) */}
       </Typography>
-      <Box
+      {/* <Box
         onClick={(e) => {
           // setShowUndeclare(true);
           setVisible3(true);
@@ -448,7 +449,7 @@ const SessionAddComponent = ({ createSession, match }: any) => {
             />
           )}
         </Box>
-      </Box>
+      </Box> */}
       <Box sx={{ display: "flex", marginTop: "6px" }}>
         <Box
           sx={{
