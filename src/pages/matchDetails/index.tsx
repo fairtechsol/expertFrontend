@@ -18,6 +18,7 @@ import {
 } from "../../socketManager";
 import {
   getMatchDetail,
+  removeSessionProLoss,
   updateMatchBettingStatus,
   updateMatchRates,
   updateRates,
@@ -124,14 +125,22 @@ const MatchDetails = () => {
       if (state?.id === event?.matchId) {
         dispatch(updateApiSessionById(event));
         dispatch(getPlacedBetsMatch(state?.id));
-        dispatch(
-          updateSessionProLoss({
-            id: event?.betId,
-            betPlaced: event?.profitLossObj
-              ? event?.profitLossObj?.betPlaced
-              : [],
-          })
-        );
+        if (event?.activeStatus === "result") {
+          dispatch(
+            removeSessionProLoss({
+              id: event?.betId,
+            })
+          );
+        } else {
+          dispatch(
+            updateSessionProLoss({
+              id: event?.betId,
+              betPlaced: event?.profitLossObj
+                ? event?.profitLossObj?.betPlaced
+                : [],
+            })
+          );
+        }
         dispatch(
           updateMaxLoss({
             id: event?.betId,
@@ -204,10 +213,10 @@ const MatchDetails = () => {
     try {
       if (socket?.connected && success) {
         expertSocketService.match.joinMatchRoom(state?.id, "expert");
-        expertSocketService.match.getMatchRates(
-          state?.id,
-          updateMatchDetailToRedux
-        );
+        expertSocketService.match.getMatchRates(state?.id, (event: any) => {
+          console.log("hanvi");
+          updateMatchDetailToRedux(event);
+        });
         socketService.user.matchBettingStatusChange(updateBettingStatus);
         socketService.user.matchResultDeclared(resultDeclared);
         socketService.user.matchResultUnDeclared(resultUnDeclared);
@@ -249,7 +258,7 @@ const MatchDetails = () => {
           dispatch(getPlacedBetsMatch(state?.id));
         }
       } else if (document.visibilityState === "hidden") {
-        // expertSocketService.match.leaveMatchRoom(state?.id);
+        expertSocketService.match.leaveMatchRoom(state?.id);
         expertSocketService.match.getMatchRatesOff(
           state?.id,
           updateMatchDetailToRedux

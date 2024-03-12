@@ -179,6 +179,13 @@ export const updateSessionProLoss = createAsyncThunk<any, any>(
     return matchDetails;
   }
 );
+export const removeSessionProLoss = createAsyncThunk<any, any>(
+  "/removesessionProLoss/update",
+  async (matchDetails) => {
+    return matchDetails;
+  }
+);
+
 export const updateMatchBettingStatus = createAsyncThunk<any, any>(
   "/match/bettingtatus",
   async (betting) => {

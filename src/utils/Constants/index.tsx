@@ -49,7 +49,7 @@ export const Constants = {
   localPathExpert: "http://localhost:6060",
   addMatchThirdParty:
     process.env.NODE_ENV === "production"
-      ? "http://107.23.165.155:3200"
+      ? "https://serviceapi.fairgame7.com"
       : "http://107.23.165.155:3200",
 
   ///Routes Constants
@@ -104,34 +104,34 @@ export const ButtonRatesQuickSessions = [
 
 // use below baseUrl for testing build
 
-export const baseUrls = {
-  socket:
-    process.env.NODE_ENV === "production"
-      ? `${Constants.apiBasePath}`
-      : `${Constants.localPath}`,
-  expertSocket:
-    process.env.NODE_ENV === "production"
-      ? `${Constants.expertSocketBasePath}`
-      : `${Constants.localPathExpert}`,
-  matchSocket:
-    process.env.NODE_ENV === "production"
-      ? `${Constants.thirdParty}`
-      : `${Constants.localPathThird}`,
-};
-
-// use below baseUrl for live build
-
 // export const baseUrls = {
 //   socket:
 //     process.env.NODE_ENV === "production"
-//       ? `${Constants.apiBasePathLive}`
+//       ? `${Constants.apiBasePath}`
 //       : `${Constants.localPath}`,
 //   expertSocket:
 //     process.env.NODE_ENV === "production"
-//       ? `${Constants.expertSocketBasePathLive}`
+//       ? `${Constants.expertSocketBasePath}`
 //       : `${Constants.localPathExpert}`,
 //   matchSocket:
 //     process.env.NODE_ENV === "production"
-//       ? `${Constants.thirdPartyLive}`
+//       ? `${Constants.thirdParty}`
 //       : `${Constants.localPathThird}`,
 // };
+
+// use below baseUrl for live build
+
+export const baseUrls = {
+  socket:
+    process.env.NODE_ENV === "production"
+      ? `${Constants.apiBasePathLive}`
+      : `${Constants.localPath}`,
+  expertSocket:
+    process.env.NODE_ENV === "production"
+      ? `${Constants.expertSocketBasePathLive}`
+      : `${Constants.localPathExpert}`,
+  matchSocket:
+    process.env.NODE_ENV === "production"
+      ? `${Constants.thirdPartyLive}`
+      : `${Constants.localPathThird}`,
+};
