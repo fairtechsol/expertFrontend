@@ -15,7 +15,11 @@ interface SessionData {
   noPercent: number;
   selectionId?: string;
 }
-
+interface updateSession {
+  maxBet?: number;
+  minBet?: number;
+  id:any;
+}
 interface SessionById {
   matchId: string;
   id?: string | any;
@@ -32,6 +36,23 @@ export const addSession = createAsyncThunk<any, SessionData>(
     try {
       const resp = await service.post(
         `${ApiConstants.SESSION.ADD}`,
+        requestData
+      );
+      if (resp?.data) {
+        return resp?.data;
+      }
+    } catch (error) {
+      const err = error as AxiosError;
+      return thunkApi.rejectWithValue(err.response?.status);
+    }
+  }
+);
+export const updateSession = createAsyncThunk<any, updateSession>(
+  "update/sessionBet",
+  async (requestData, thunkApi) => {
+    try {
+      const resp = await service.post(
+        `${ApiConstants.SESSION.UPDATE}`,
         requestData
       );
       if (resp?.data) {
@@ -120,6 +141,12 @@ export const updateMatchBetsPlaced = createAsyncThunk<any, SessionById>(
     return requestData;
   }
 );
+export const updateTeamRatesOnManualMarket = createAsyncThunk<any, SessionById>(
+  "update/updateTeamRatesOnManualMarket",
+  async (requestData) => {
+    return requestData;
+  }
+);
 
 export const getBookmakerById = createAsyncThunk<any, BookmakerById>(
   "get/bookmaker",
@@ -145,7 +172,12 @@ export const getPlacedBets = createAsyncThunk<any, any>(
   async (requestData, thunkApi) => {
     try {
       const resp = await service.get(
-        `${ApiConstants.SESSION.GET_PLACED_BETS}?betPlaced.betId=${requestData}&deleteReason=isNull&result=eqPENDING`
+        `${
+          ApiConstants.SESSION.GET_PLACED_BETS
+        }?betPlaced.betId=${requestData}&result=inArr${JSON.stringify([
+          "PENDING",
+          "UNDECLARE",
+        ])}`
       );
       if (resp?.data) {
         return resp?.data;
@@ -156,7 +188,24 @@ export const getPlacedBets = createAsyncThunk<any, any>(
     }
   }
 );
-
+export const updateRatesBook = createAsyncThunk<any, any>(
+  "/bookmaker/ratesUpdate",
+  async (rates) => {
+    return rates;
+  }
+);
+export const updateProLossSession = createAsyncThunk<any, any>(
+  "/session/prolossupdate",
+  async (bets) => {
+    return bets;
+  }
+);
+export const updateDeleteReason = createAsyncThunk<any, any>(
+  "/deleteReason/update",
+  async (detail) => {
+    return detail;
+  }
+);
 export const sessionByIdReset = createAction("sessionById/reset");
 export const successReset = createAction("success/reset");
 export const addsuccessReset = createAction("addsuccess/reset");

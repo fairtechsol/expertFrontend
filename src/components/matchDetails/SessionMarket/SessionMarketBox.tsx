@@ -1,15 +1,15 @@
-import { useEffect, useState } from "react";
-import Divider from "../../Common/Divider";
 import { Box, Typography } from "@mui/material";
-import Result from "../Result";
-import SmallBox from "../SmallBox";
-import SeparateBox from "../SeparateBox";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { sessionBetLiveStatus } from "../../../store/actions/match/matchAction";
+import { AppDispatch, RootState } from "../../../store/store";
+import Divider from "../../Common/Divider";
 import { formatNumber } from "../../helper";
+import Result from "../Result";
+import SeparateBox from "../SeparateBox";
+import SmallBox from "../SmallBox";
 import CustomSessionResult from "./CustomSessionResult";
 import PlaceBetComponent from "./PlaceBetComponent";
-import { sessionBetLiveStatus } from "../../../store/actions/match/matchAction";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../../../store/store";
 
 const SessionMarketBox = ({
   currentMatch,
@@ -22,16 +22,25 @@ const SessionMarketBox = ({
   profitLossData,
 }: any) => {
   const dispatch: AppDispatch = useDispatch();
-  const { success, loading } = useSelector(
+  const { statusBetLive, error, success } = useSelector(
     (state: RootState) => state.matchList
   );
+  const [loading, setLoading] = useState(false);
   const [visible, setVisible] = useState(false);
   // const [live, setLive] = useState<boolean>(false);
 
   useEffect(() => {
+    if (statusBetLive) {
+      setLoading(false);
+    }
+    if (error) {
+      setLoading(false);
+    }
+  }, [statusBetLive, error]);
+
+  useEffect(() => {
     if (success) {
       setVisible(false);
-      // dispatch(matchListReset());
     }
   }, [success]);
 
@@ -85,7 +94,7 @@ const SessionMarketBox = ({
             top: "4px",
             width: "30%",
             justifyContent: "flex-end",
-            left: { lg: "14vw", md: "24vw" },
+            left: { lg: "14vw", md: "25vw", xs: "13vh" },
             display: "flex",
             zIndex: 100,
           }}
@@ -96,6 +105,7 @@ const SessionMarketBox = ({
               hide={true}
               onClick={(e: any) => {
                 e.preventDefault();
+                setLoading(true);
                 // setLive(false);
                 dispatch(
                   sessionBetLiveStatus({
@@ -105,7 +115,7 @@ const SessionMarketBox = ({
                 );
               }}
               textSize={"8px"}
-              width={"33px"}
+              width={{ lg: "33px", xs: "20px", md: "25px" }}
               color={
                 JSON.parse(newData)?.activeStatus === "live"
                   ? "#46e080"
@@ -119,7 +129,7 @@ const SessionMarketBox = ({
                 loading={false}
                 hide={false}
                 textSize={"12px"}
-                width={"80px"}
+                width={{ lg: "80px", xs: "20px", md: "20px" }}
                 title={`Score : ${JSON.parse(newData)?.result || 0}`}
                 color={"#FFF"}
               />
@@ -130,6 +140,7 @@ const SessionMarketBox = ({
               loading={loading}
               onClick={(e: any) => {
                 e.preventDefault();
+                setLoading(true);
                 dispatch(
                   sessionBetLiveStatus({
                     status: "live",
@@ -191,9 +202,9 @@ const SessionMarketBox = ({
               margin: "1px",
               background: "rgba(0,0,0,1)",
               height: "32px",
-              right: "20.5%",
+              right: { lg: "20.5%", xs: "19%", md: "20%" },
               position: "absolute",
-              width: { lg: "18%", xs: "18%" },
+              width: { lg: "18%", xs: "20%" },
               justifyContent: { xs: "center", lg: "center" },
               alignItems: "center",
               display: "flex",
@@ -224,7 +235,7 @@ const SessionMarketBox = ({
               background: "white",
               height: "30px",
               marginLeft: "4vh",
-              width: { lg: "18.6%", xs: "60%", paddingLeft: "6px" },
+              width: { lg: "18.6%", xs: "40%", paddingLeft: "6px" },
               justifyContent: "center",
               alignItems: "center",
               margin: "auto",
@@ -255,7 +266,9 @@ const SessionMarketBox = ({
         {!hideTotalBet && (
           <PlaceBetComponent
             width={7}
-            profitLossData={profitLossData[JSON.parse(newData)?.id]}
+            profitLossData={
+              profitLossData && profitLossData[JSON.parse(newData)?.id]
+            }
             newData={JSON.parse(newData)}
           />
         )}

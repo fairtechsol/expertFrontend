@@ -1,15 +1,15 @@
-import { useEffect, useRef, useState } from "react";
 import { Box, TextField, Typography } from "@mui/material";
-import { BallStart, Lock } from "../../../assets";
+import { memo, useEffect, useRef, useState } from "react";
 import KeyboardEventHandler from "react-keyboard-event-handler";
-import BookButton from "./BookButton";
-import ResultComponent from "./ResultComponent";
+import { useDispatch, useSelector } from "react-redux";
+import { BallStart, Lock } from "../../../assets";
+import { socketService } from "../../../socketManager";
+import { successReset } from "../../../store/actions/addSession";
+import { AppDispatch, RootState } from "../../../store/store";
 import { handleKeysMatchEvents } from "../../../utils/InputKeys/Bookmaker/BookmakerSessionKeys";
 import { updateLocalQuickBookmaker } from "../../../utils/InputKeys/Bookmaker/Utils";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../../../store/store";
-import { successReset } from "../../../store/actions/addSession";
-import { socketService } from "../../../socketManager";
+import BookButton from "./BookButton";
+import ResultComponent from "./ResultComponent";
 
 const EditBookmaker = (props: any) => {
   const { add, match, Bid, type } = props;
@@ -201,7 +201,27 @@ const EditBookmaker = (props: any) => {
 
   useEffect(() => {
     socketService.user.updateMatchBettingRateClient((data: any) => {
+      console.log(match?.id, "match", data?.matchId);
       if (match?.id === data?.matchId && Bid === data?.id) {
+        if (
+          data?.statusTeamA === "ball start" &&
+          data?.statusTeamB === "ball start" &&
+          data?.statusTeamC === "ball start"
+        ) {
+          setLocalQuickBookmaker((prev: any) => {
+            return {
+              ...prev,
+              teamBall: true,
+            };
+          });
+        } else {
+          setLocalQuickBookmaker((prev: any) => {
+            return {
+              ...prev,
+              teamBall: false,
+            };
+          });
+        }
         setLocalQuickBookmaker((prev: any) => {
           return {
             ...prev,
@@ -227,6 +247,57 @@ const EditBookmaker = (props: any) => {
         });
       }
     });
+  }, [match]);
+
+  useEffect(() => {
+    return () => {
+      socketService.user.updateMatchBettingRateClientOff((data: any) => {
+        if (match?.id === data?.matchId && Bid === data?.id) {
+          if (
+            data?.statusTeamA === "ball start" &&
+            data?.statusTeamB === "ball start" &&
+            data?.statusTeamC === "ball start"
+          ) {
+            setLocalQuickBookmaker((prev: any) => {
+              return {
+                ...prev,
+                teamBall: true,
+              };
+            });
+          } else {
+            setLocalQuickBookmaker((prev: any) => {
+              return {
+                ...prev,
+                teamBall: false,
+              };
+            });
+          }
+          setLocalQuickBookmaker((prev: any) => {
+            return {
+              ...prev,
+              teamA: {
+                ...prev.teamA,
+                rightBack: data?.backTeamA,
+                rightLay: data?.layTeamA,
+                suspended: data?.statusTeamA !== "active" ? true : false,
+              },
+              teamB: {
+                ...prev.teamB,
+                rightBack: data?.backTeamB,
+                rightLay: data?.layTeamB,
+                suspended: data?.statusTeamB !== "active" ? true : false,
+              },
+              teamC: {
+                ...prev.teamC,
+                rightBack: data?.backTeamC,
+                rightLay: data?.layTeamC,
+                suspended: data?.statusTeamC !== "active" ? true : false,
+              },
+            };
+          });
+        }
+      });
+    };
   }, []);
 
   return (
@@ -406,7 +477,7 @@ const EditBookmaker = (props: any) => {
                         ? +bookmakerById?.matchRates?.teamARate || 0
                         : +bookmakerById?.matchRates?.yesRateTie || 0) <= 0
                         ? "#FF4D4D"
-                        : "#46e080",
+                        : "#319E5B",
                   }}
                 >
                   {bookmakerById?.type !== "tiedMatch2"
@@ -725,12 +796,12 @@ const EditBookmaker = (props: any) => {
                 >
                   <Typography
                     sx={{
-                      fontSize: "14px",
+                      fontSize: "16px",
                       fontWeight: "bold",
                       color:
                         (+bookmakerById?.matchRates?.teamCRate || 0) <= 0
                           ? "#FF4D4D"
-                          : "#46e080",
+                          : "#319E5B",
                     }}
                   >
                     {bookmakerById?.matchRates?.teamCRate || 0}
@@ -1175,6 +1246,7 @@ const EditBookmaker = (props: any) => {
                 zIndex: 999,
                 top: "40px",
                 right: 0,
+                width:  {lg:"50vh", xs:"30vh"}
               }}
             >
               {visible && (
@@ -1203,4 +1275,4 @@ const EditBookmaker = (props: any) => {
   );
 };
 
-export default EditBookmaker;
+export default memo(EditBookmaker);

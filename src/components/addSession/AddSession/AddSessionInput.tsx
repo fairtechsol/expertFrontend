@@ -4,6 +4,7 @@ import KeyboardEventHandler from "react-keyboard-event-handler";
 import { BallStart, LiveOff, Lock } from "../../../assets";
 import CustomDisableInput from "../../Common/CustomDisableInput";
 import { handleKeysMatchEvents } from "../../../utils/InputKeys/Session/SessionInputKeys";
+import { socketService } from "../../../socketManager";
 
 const AddSessionInput = (props: any) => {
   const {
@@ -39,6 +40,7 @@ const AddSessionInput = (props: any) => {
         isYesPercent: true,
       };
     });
+    setIsBall(false);
     if (targetValue >= 0 && targetValue <= 999) {
       setInputDetail((prev: any) => {
         return {
@@ -52,6 +54,19 @@ const AddSessionInput = (props: any) => {
           leftYesRatePercent: targetValue >= 0 ? 100 : "",
           leftNoRatePercent: targetValue >= 0 ? 100 : "",
         };
+      });
+      setInputDetail((prev: any) => {
+        let data = {
+          matchId: match?.id,
+          id: betId,
+          noRate: prev?.leftNoRate,
+          yesRate: prev?.leftYesRate,
+          noPercent: prev?.leftNoRatePercent,
+          yesPercent: prev?.leftYesRatePercent,
+          status: "suspended",
+        };
+        socketService.user.updateSessionRate(data);
+        return prev;
       });
     } else return;
     // handleSuspend();

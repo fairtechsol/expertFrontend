@@ -16,6 +16,7 @@ import {
   getMatchDetail,
   updateMatchBettingStatus,
   updateMatchRates,
+  updateRates,
   updateSessionAdded,
   updateSessionProLoss,
 } from "../../store/actions/addMatch/addMatchAction";
@@ -25,7 +26,9 @@ import {
 } from "../../store/actions/addSession";
 import {
   getPlacedBetsMatch,
+  getSessionProfitLossMatchDetailReset,
   updateMatchBetsPlace,
+  updateMatchBetsReason,
   updateMaxLoss,
   updateSessionBetsPlace,
   updateTeamRates,
@@ -68,6 +71,7 @@ const MatchDetails = () => {
     try {
       if (event?.matchId === state?.id) {
         dispatch(getMatchDetail(state?.id));
+        dispatch(getPlacedBetsMatch(state?.id));
       }
     } catch (e) {
       console.log(e);
@@ -84,21 +88,17 @@ const MatchDetails = () => {
     }
   };
 
-  useEffect(() => {
-    try {
-      if (state?.id) {
-        dispatch(getMatchDetail(state?.id));
-        dispatch(getPlacedBetsMatch(state?.id));
-      }
-    } catch (e) {
-      console.log(e);
-    }
-  }, [state?.id]);
-
   const matchDeleteBet = (event: any) => {
     try {
       if (event?.matchId === state?.id) {
-        dispatch(getPlacedBetsMatch(state?.id));
+        dispatch(updateRates(event));
+        dispatch(updateMatchBetsReason(event));
+        dispatch(
+          updateSessionProLoss({
+            id: event?.betId,
+            betPlaced: event?.profitLoss ? event?.profitLoss?.betPlaced : [],
+          })
+        );
       }
     } catch (e) {
       console.log(e);
@@ -115,10 +115,28 @@ const MatchDetails = () => {
     }
   };
 
-  const updateResultDeclared = (event: any) => {
+  const updateSessionResultDeclared = (event: any) => {
     try {
       if (state?.id === event?.matchId) {
         dispatch(updateApiSessionById(event));
+        dispatch(getPlacedBetsMatch(state?.id));
+        dispatch(
+          updateSessionProLoss({
+            id: event?.betId,
+            betPlaced: event?.profitLossObj
+              ? event?.profitLossObj?.betPlaced
+              : [],
+          })
+        );
+        dispatch(
+          updateMaxLoss({
+            id: event?.betId,
+            maxLoss: event?.profitLossObj
+              ? event?.profitLossObj?.maxLoss
+              : event?.profitLoss,
+            totalBet: event?.profitLossObj ? event?.profitLossObj?.totalBet : 0,
+          })
+        );
       }
     } catch (e) {
       console.log(e);
@@ -168,6 +186,18 @@ const MatchDetails = () => {
 
   useEffect(() => {
     try {
+      if (state?.id) {
+        dispatch(getSessionProfitLossMatchDetailReset());
+        dispatch(getMatchDetail(state?.id));
+        dispatch(getPlacedBetsMatch(state?.id));
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  }, [state?.id]);
+
+  useEffect(() => {
+    try {
       if (success) {
         expertSocketService.match.joinMatchRoom(state?.id, "expert");
         expertSocketService.match.getMatchRates(
@@ -182,11 +212,14 @@ const MatchDetails = () => {
         socketService.user.sessionAdded(handleSessionAdded);
         socketService.user.userMatchBetPlaced(updateMatchBetPlaced);
         socketService.user.userSessionBetPlaced(updateSessionBetPlaced);
-        socketService.user.sessionResultDeclared(updateResultDeclared);
+        socketService.user.sessionResultDeclared(updateSessionResultDeclared);
       }
     } catch (e) {
       console.log(e);
     }
+  }, [success]);
+
+  useEffect(() => {
     return () => {
       // expertSocketService.match.leaveAllRooms();
       expertSocketService.match.leaveMatchRoom(state?.id);
@@ -194,8 +227,17 @@ const MatchDetails = () => {
         state?.id,
         updateMatchDetailToRedux
       );
+      socketService.user.matchBettingStatusChangeOff(updateBettingStatus);
+      socketService.user.matchResultDeclaredOff(resultDeclared);
+      socketService.user.matchResultUnDeclaredOff(resultUnDeclared);
+      socketService.user.matchDeleteBetOff(matchDeleteBet);
+      socketService.user.sessionDeleteBetOff(matchDeleteBet);
+      socketService.user.sessionAddedOff(handleSessionAdded);
+      socketService.user.userMatchBetPlacedOff(updateMatchBetPlaced);
+      socketService.user.userSessionBetPlacedOff(updateSessionBetPlaced);
+      socketService.user.sessionResultDeclaredOff(updateSessionResultDeclared);
     };
-  }, [success]);
+  }, []);
 
   useEffect(() => {
     const handleVisibilityChange = () => {
@@ -223,8 +265,6 @@ const MatchDetails = () => {
       document.removeEventListener("visibilitychange", handleVisibilityChange);
     };
   }, []);
-
-  console.log(sessionProLoss, "sessionProLoss");
 
   return (
     <Box
@@ -363,7 +403,9 @@ const MatchDetails = () => {
               />
             )}
 
-            {matchDetail?.id && <BetList allBetRates={placedBetsMatch} />}
+            {matchDetail?.id && (
+              <BetList allBetRates={placedBetsMatch} tag={true} />
+            )}
           </Box>
         </>
       )}

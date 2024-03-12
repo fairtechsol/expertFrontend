@@ -1,11 +1,12 @@
 import { Box, Button, Modal, TextField, Typography } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { CancelDark } from "../../assets";
-
+import { notificationvalidationSchema } from "../../utils/Validations/login";
 import { useFormik } from "formik";
 import { useDispatch } from "react-redux";
 import { headerAddNotification } from "../../store/actions/user/userAction";
 import { AppDispatch } from "../../store/store";
+import CustomErrorMessage from "../Common/CustomErrorMessage";
 // import { depositAmountValidations } from "../../../utils/Validations";
 
 const NotificationModal = ({
@@ -15,7 +16,6 @@ const NotificationModal = ({
   loadingDeleteBet,
 }: any) => {
   // const [value, setValue] = useState("");
-  const [error] = useState(false);
   const dispatch: AppDispatch = useDispatch();
   const initialValues: any = {
     value: "",
@@ -23,7 +23,7 @@ const NotificationModal = ({
 
   const formik = useFormik({
     initialValues: initialValues,
-    // validationSchema: depositAmountValidations,
+    validationSchema: notificationvalidationSchema,
     onSubmit: (values: any) => {
       let payload = {
         value: values.value,
@@ -33,7 +33,7 @@ const NotificationModal = ({
     },
   });
 
-  const { handleSubmit } = formik;
+  const { handleSubmit, errors, touched } = formik;
 
   useEffect(() => {
     formik.resetForm();
@@ -134,18 +134,19 @@ const NotificationModal = ({
                   height: "100px",
                   marginTop: "10px",
                 }}
+                // error={touched.value && Boolean(errors.value)}
+                onBlur={formik.handleBlur}
               />
             </Box>
             <Box
               sx={{
-                marginX: "2%",
+                marginX: "6%",
               }}
             >
-              {error && (
-                <Typography sx={{ fontSize: "12px", color: "#ff0000" }}>
-                  Field Required !
-                </Typography>
-              )}
+              <CustomErrorMessage
+                touched={touched.value}
+                errors={errors.value}
+              />
             </Box>
             <Box
               sx={{

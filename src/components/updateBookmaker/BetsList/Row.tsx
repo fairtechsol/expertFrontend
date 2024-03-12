@@ -6,12 +6,52 @@ const Row = ({ index, values }: any) => {
     const timeString = now.toLocaleTimeString("en-US", {
       hour: "numeric",
       minute: "numeric",
+      second: "numeric",
       hour12: true,
     });
     return timeString;
   };
   return (
     <div style={{ display: "flex", position: "relative" }}>
+      {values?.deleteReason && (
+        <Box
+          sx={{
+            background: "rgba(0,0,0,0.5)",
+            width: "100%",
+            height: "100%",
+            position: "absolute",
+            display: "flex",
+            zIndex: 2,
+          }}
+        >
+          <Box sx={{ flex: 1, display: "flex" }}>
+            <Box sx={{ width: "34%", height: "100%" }}></Box>
+            <Box
+              sx={{
+                width: "66%",
+                height: "100%",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "flex-end",
+              }}
+            >
+              {
+                <Typography
+                  sx={{
+                    fontSize: "10px",
+                    fontWeight: "700",
+                    color: "white",
+                    textTransform: "uppercase",
+                  }}
+                >
+                  Bet <span style={{ color: "#e41b23" }}>deleted</span> due to{" "}
+                  {values?.deleteReason}
+                </Typography>
+              }
+            </Box>
+          </Box>
+        </Box>
+      )}
       <Box
         sx={{
           display: "flex",
@@ -72,10 +112,10 @@ const Row = ({ index, values }: any) => {
               fontSize: "10px",
               lineHeight: 1,
               textAlign: "center",
-              overflowWrap: "anywhere"
+              overflowWrap: "anywhere",
             }}
           >
-              {values.marketType}
+            {values?.bettingName ?? values.marketType}
           </Typography>
         </Box>
         <Box
@@ -188,7 +228,7 @@ const Row = ({ index, values }: any) => {
           <Typography
             sx={{ fontWeight: "600", fontSize: "12px", color: "white" }}
           >
-            {values?.myStake 
+            {values?.myStake
               ? values?.myStake
               : (
                   (+values?.amount * (+values?.user?.fwPartnership || 0)) /

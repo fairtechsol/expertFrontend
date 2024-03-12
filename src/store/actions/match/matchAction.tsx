@@ -17,7 +17,7 @@ export const getMatchList = createAsyncThunk<any, any>(
           requestData.keyword ? requestData.keyword : ""
         }&page=${
           requestData?.currentPage ? requestData?.currentPage : 1
-        }&limit=${Constants.pageLimit}`
+        }&limit=${Constants.pageLimit}&sort=match.createdAt:DESC`
       );
       if (response) {
         return response?.data;
@@ -99,7 +99,12 @@ export const getPlacedBetsMatch = createAsyncThunk<any, any>(
   async (requestData, thunkApi) => {
     try {
       const response = await service.get(
-        `${ApiConstants.MATCH.GET_BETS}?betPlaced.matchId=${requestData}&deleteReason=isNull&result=eqPENDING`
+        `${
+          ApiConstants.MATCH.GET_BETS
+        }?betPlaced.matchId=${requestData}&result=inArr${JSON.stringify([
+          "PENDING",
+          "UNDECLARE",
+        ])}`
       );
       if (response?.data) {
         return response?.data;
@@ -129,7 +134,7 @@ export const updateMatchActiveStatus = createAsyncThunk<any, any>(
   }
 );
 export const betSession = createAsyncThunk<any, any>(
-  "/bet/declare/result/session",
+  "/bet/session",
   async (requestData, thunkApi) => {
     try {
       const response = await service.post(
@@ -264,6 +269,12 @@ export const updateMatchBetsPlace = createAsyncThunk<any, SessionById>(
 );
 export const updateSessionBetsPlace = createAsyncThunk<any, SessionById>(
   "update/sessionBetsPlace",
+  async (requestData) => {
+    return requestData;
+  }
+);
+export const updateMatchBetsReason = createAsyncThunk<any, SessionById>(
+  "update/updateMatchBetsReason",
   async (requestData) => {
     return requestData;
   }

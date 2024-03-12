@@ -23,6 +23,7 @@ export const ApiConstants = {
   },
   SESSION: {
     ADD: "session/add",
+    UPDATE: "session/update",
     GET: "session",
     BETTING_STATUS: "/session/status",
     RESULTDECLARE: "/bet/declare/result/session",
@@ -42,6 +43,9 @@ export const Constants = {
   apiBasePath: "http://107.23.165.155:5000",
   expertSocketBasePath: "http://107.23.165.155:6060",
   thirdParty: "http://107.23.165.155:3200",
+  apiBasePathLive: "https://betfairapi.fairgame7.com",
+  expertSocketBasePathLive: "https://expertapi.fairgame7.com",
+  thirdPartyLive: "https://serviceapi.fairgame7.com",
   localPath: "http://localhost:5000",
   localPathThird: "http://localhost:3200",
   localPathExpert: "http://localhost:6060",
@@ -65,6 +69,8 @@ export const Constants = {
     betOdds: "betOdds",
     changePassword: "change-password",
   },
+  WEBSOCKET: "websocket",
+  POLLING: "polling",
 };
 
 export const ButtonRatesQuickSessions = [
@@ -94,34 +100,36 @@ export const ButtonRatesQuickSessions = [
   { name: "250-400", value: "250-400" },
 ];
 
+// use below baseUrl for testing build
+
 export const baseUrls = {
   socket:
     process.env.NODE_ENV === "production"
       ? `${Constants.apiBasePath}`
-      : "http://localhost:5000",
+      : `${Constants.localPath}`,
   expertSocket:
     process.env.NODE_ENV === "production"
-    ? `${Constants.expertSocketBasePath}`
-    : "http://localhost:6060",
-    // : `${Constants.thirdParty}`,
-    matchSocket:
+      ? `${Constants.expertSocketBasePath}`
+      : "http://localhost:6060",
+  // : `${Constants.thirdParty}`,
+  matchSocket:
     process.env.NODE_ENV === "production"
-    ? `${Constants.thirdParty}`
-    : "http://localhost:3200",
-    // `${Constants.thirdParty}`,
-  };
-  
-  export const matchBettingType = {
-    matchOdd: "matchOdd",
-    bookmaker: "bookmaker",
-    quickbookmaker1: "quickbookmaker1",
-    quickbookmaker2: "quickbookmaker2",
-    quickbookmaker3: "quickbookmaker3",
-    tiedMatch1: "tiedMatch1",
-    tiedMatch2: "tiedMatch2",
-    completeMatch: "completeMatch",
-    completeManual: "completeManual",
-  };
+      ? `${Constants.thirdParty}`
+      : "http://localhost:3200",
+  // `${Constants.thirdParty}`,
+};
+
+export const matchBettingType = {
+  matchOdd: "matchOdd",
+  bookmaker: "bookmaker",
+  quickbookmaker1: "quickbookmaker1",
+  quickbookmaker2: "quickbookmaker2",
+  quickbookmaker3: "quickbookmaker3",
+  tiedMatch1: "tiedMatch1",
+  tiedMatch2: "tiedMatch2",
+  completeMatch: "completeMatch",
+  completeManual: "completeManual",
+};
 
 export const eventWiseMatchData = {
   [constants.matchType[0]]: {
@@ -143,7 +151,7 @@ export const eventWiseMatchData = {
       {
         matchType: matchBettingType.matchOdd,
         apiKey: "matchOdd",
-        marketIdKey:"matchOdds",
+        marketIdKey: "matchOdds",
         label: "Betfair Match Odd Max Bet",
         name: "MatchOdd",
       },
@@ -152,22 +160,85 @@ export const eventWiseMatchData = {
         apiKey: "bookmaker",
         label: "Betfair Bookmaker Max Bet",
         name: "Bookmaker",
-        marketIdKey:"matchOdds",
+        marketIdKey: "matchOdds",
       },
       {
         matchType: matchBettingType.tiedMatch1,
         apiKey: "apiTideMatch",
         label: "Market Tied Match Max Bet",
         name: "Tied",
-        marketIdKey:"tiedMatch",
+        marketIdKey: "tiedMatch",
       },
       {
         matchType: matchBettingType.completeMatch,
         apiKey: "marketCompleteMatch",
         label: "Market Complete Match Max Bet",
         name: "Complete",
-        marketIdKey:"completedMatch",
+        marketIdKey: "completedMatch",
+      },
+    ],
+  },
+  [constants.matchType[2]]: {
+    manual: [
+      {
+        matchType: matchBettingType.tiedMatch2,
+        apiKey: "manualTideMatch",
+        label: "Manual Tied Match Max Bet",
+        name: "ManualTide",
+      },
+      {
+        matchType: matchBettingType.completeManual,
+        apiKey: "completeManual",
+        label: "Complete Manual Match Max Bet",
+        name: "CompleteManual",
+      },
+    ],
+    market: [
+      {
+        matchType: matchBettingType.matchOdd,
+        apiKey: "matchOdd",
+        marketIdKey: "matchOdds",
+        label: "Betfair Match Odd Max Bet",
+        name: "MatchOdd",
+      },
+      {
+        matchType: matchBettingType.bookmaker,
+        apiKey: "bookmaker",
+        label: "Betfair Bookmaker Max Bet",
+        name: "Bookmaker",
+        marketIdKey: "matchOdds",
+      },
+      {
+        matchType: matchBettingType.tiedMatch1,
+        apiKey: "apiTideMatch",
+        label: "Market Tied Match Max Bet",
+        name: "Tied",
+        marketIdKey: "tiedMatch",
+      },
+      {
+        matchType: matchBettingType.completeMatch,
+        apiKey: "marketCompleteMatch",
+        label: "Market Complete Match Max Bet",
+        name: "Complete",
+        marketIdKey: "completedMatch",
       },
     ],
   },
 };
+
+// use below baseUrl for live build
+
+// export const baseUrls = {
+//   socket:
+//     process.env.NODE_ENV === "production"
+//       ? `${Constants.apiBasePathLive}`
+//       : `${Constants.localPath}`,
+//   expertSocket:
+//     process.env.NODE_ENV === "production"
+//       ? `${Constants.expertSocketBasePathLive}`
+//       : `${Constants.localPathExpert}`,
+//   matchSocket:
+//     process.env.NODE_ENV === "production"
+//       ? `${Constants.thirdPartyLive}`
+//       : `${Constants.localPathThird}`,
+// };

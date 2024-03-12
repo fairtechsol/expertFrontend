@@ -222,6 +222,7 @@ const MatchOdds = ({ currentMatch, matchOddsLive }: any) => {
             zIndex: 999,
             top: "26%",
             right: "100px",
+            width:  {lg:"50vh", xs:"30vh"}
           }}
         >
           {visible && (

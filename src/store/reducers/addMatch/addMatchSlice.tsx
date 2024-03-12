@@ -12,6 +12,7 @@ import {
   tournamentListReset,
   updateMatchBettingStatus,
   updateMatchRates,
+  updateRates,
   updateSessionAdded,
 } from "../../actions/addMatch/addMatchAction";
 import { updateApiSessionById } from "../../actions/addSession";
@@ -25,6 +26,7 @@ interface InitialState {
   eventsList: any;
   extraMarketList: any;
   matchDetail: any;
+  selectionIds: any;
   success: boolean;
   matchAdded: boolean;
   loading: boolean;
@@ -43,6 +45,7 @@ const initialState: InitialState = {
     },
   ],
   extraMarketList: [],
+  selectionIds: {},
   matchDetail: null,
   loading: false,
   matchAdded: false,
@@ -122,6 +125,13 @@ const addMatch = createSlice({
         state.matchDetail = action.payload;
         state.success = true;
         state.loading = false;
+
+        action.payload?.sessionBettings?.forEach((item: any) => {
+          item = JSON.parse(item);
+          if (item.selectionId) {
+            state.selectionIds[item.selectionId] = 1;
+          }
+        });
       })
       .addCase(getMatchDetail.rejected, (state, action) => {
         state.loading = false;
@@ -140,7 +150,9 @@ const addMatch = createSlice({
         } = action.payload;
         state.matchDetail = {
           ...state.matchDetail,
-          apiSession: apiSession,
+          apiSession: apiSession?.filter(
+            (item: any) => state.selectionIds[item?.SelectionId] == null
+          ),
           apiTideMatch: { ...state.matchDetail?.apiTideMatch, ...apiTiedMatch },
           bookmaker: { ...state.matchDetail?.bookmaker, ...bookmaker },
           marketCompleteMatch: {
@@ -186,22 +198,34 @@ const addMatch = createSlice({
         };
       })
       .addCase(updateApiSessionById.fulfilled, (state, action) => {
-        state.matchDetail = {
-          ...state.matchDetail,
-          sessionBettings: state.matchDetail.sessionBettings.map(
-            (item: any) => {
-              const parsedItem = JSON.parse(item);
-              let id = parsedItem?.id;
-              if (id === action.payload.betId) {
-                return JSON.stringify({
-                  ...parsedItem,
-                  activeStatus: action.payload.activeStatus,
-                  result: action.payload.score ? action.payload.score : null,
-                });
-              } else return item;
-            }
-          ),
-        };
+        try {
+          state.matchDetail = {
+            ...state.matchDetail,
+            sessionBettings: state.matchDetail.sessionBettings.map(
+              (item: any) => {
+                const parsedItem = JSON.parse(item);
+                let id = parsedItem?.id;
+                if (id === action.payload.betId) {
+                  return JSON.stringify({
+                    ...parsedItem,
+                    activeStatus: action?.payload?.activeStatus,
+                    result: action?.payload?.score
+                      ? action?.payload?.score
+                      : null,
+                    resultData: action?.payload?.score
+                      ? {
+                          result: action?.payload?.score,
+                          profitLoss: action.payload.profitLoss,
+                        }
+                      : null,
+                  });
+                } else return item;
+              }
+            ),
+          };
+        } catch (e) {
+          console.log(e);
+        }
       })
       .addCase(updateSessionAdded.fulfilled, (state, action) => {
         const newSessionBetting = JSON.stringify(action.payload);
@@ -274,7 +298,6 @@ const addMatch = createSlice({
       })
       .addCase(updateMaxLoss.fulfilled, (state, action) => {
         const { id, maxLoss, totalBet } = action.payload;
-
         state.matchDetail = {
           ...state.matchDetail,
           sessionProfitLoss: {
@@ -288,7 +311,9 @@ const addMatch = createSlice({
       })
       .addCase(updateTeamRates.fulfilled, (state, action) => {
         const { userRedisObj, jobData } = action.payload;
-        if (["tiedMatch2", "tiedMatch"].includes(jobData?.newBet?.marketType)) {
+        if (
+          ["tiedMatch2", "tiedMatch1"].includes(jobData?.newBet?.marketType)
+        ) {
           state.matchDetail.teamRates = {
             ...state.matchDetail.teamRates,
             yesRateTie: userRedisObj[jobData?.teamArateRedisKey],
@@ -306,6 +331,29 @@ const addMatch = createSlice({
             teamARate: userRedisObj[jobData?.teamArateRedisKey],
             teamBRate: userRedisObj[jobData?.teamBrateRedisKey],
             teamCRate: userRedisObj[jobData?.teamCrateRedisKey] ?? "",
+          };
+        }
+      })
+      .addCase(updateRates.fulfilled, (state, action) => {
+        const { redisObject, matchBetType } = action.payload;
+        if (["tiedMatch2", "tiedMatch1"].includes(matchBetType)) {
+          state.matchDetail.teamRates = {
+            ...state.matchDetail.teamRates,
+            yesRateTie: redisObject[action.payload.teamArateRedisKey],
+            noRateTie: redisObject[action.payload.teamBrateRedisKey],
+          };
+        } else if (["completeMatch"].includes(matchBetType)) {
+          state.matchDetail.teamRates = {
+            ...state.matchDetail.teamRates,
+            yesRateComplete: redisObject[action.payload.teamArateRedisKey],
+            noRateComplete: redisObject[action.payload.teamBrateRedisKey],
+          };
+        } else {
+          state.matchDetail.teamRates = {
+            ...state.matchDetail.teamRates,
+            teamARate: redisObject[action.payload.teamArateRedisKey],
+            teamBRate: redisObject[action.payload.teamBrateRedisKey],
+            teamCRate: redisObject[action.payload.teamCrateRedisKey],
           };
         }
       });

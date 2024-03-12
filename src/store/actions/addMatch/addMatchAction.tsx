@@ -89,21 +89,21 @@ export const getExtraMarketList = createAsyncThunk<any, string>(
         let extraMarketList: any = {
           matchOdds: {
             marketId: data?.find(
-              (match: any) => match?.marketName === "Match Odds"
+              (match: any) => match?.description?.marketType === "MATCH_ODDS"
             )?.marketId,
           },
           tiedMatch: {
             marketId: data?.find(
-              (match: any) => match?.marketName === "Tied Match"
+              (match: any) => match?.description?.marketType === "TIED_MATCH"
             )?.marketId,
           },
           completedMatch: {
             marketId: data?.find(
-              (match: any) => match?.marketName === "Completed Match"
+              (match: any) =>
+                match?.description?.marketType === "COMPLETED_MATCH"
             )?.marketId,
           },
         };
-
         return extraMarketList;
       }
     } catch (error) {
@@ -135,7 +135,25 @@ export const getMatchDetail = createAsyncThunk<any, any>(
         `${ApiConstants.MATCH.GETDETAIL}/${requestData}`
       );
       if (resp) {
-        return resp?.data;
+        let sessionBetting = resp?.data?.sessionBettings;
+        const updatedData = sessionBetting.map((item: any) => {
+          const parsedItem = JSON.parse(item);
+
+          if (
+            parsedItem.selectionId &&
+            parsedItem.yesPercent === 0 &&
+            parsedItem.noPercent === 0
+          ) {
+            parsedItem.yesRate = 0;
+            parsedItem.noRate = 0;
+          }
+
+          return JSON.stringify(parsedItem);
+        });
+        return {
+          ...resp?.data,
+          sessionBettings: updatedData,
+        };
       }
     } catch (error) {
       const err = error as AxiosError;
@@ -168,7 +186,12 @@ export const updateMatchBettingStatus = createAsyncThunk<any, any>(
     return betting;
   }
 );
-
+export const updateRates = createAsyncThunk<any, any>(
+  "/match/ratesUpdate",
+  async (rates) => {
+    return rates;
+  }
+);
 export const addMatchReset = createAction("add/reset");
 export const editMatchReset = createAction("edit/reset");
 export const matchDetailReset = createAction("matchDetail/reset");

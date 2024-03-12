@@ -34,7 +34,7 @@ import {
 import { AppDispatch, RootState } from "../../store/store";
 import { eventWiseMatchData, matchBettingType } from "../../utils/Constants";
 import { addMatchValidation } from "../../utils/Validations/login";
-
+import moment from "moment";
 // const useStyles = makeStyles(() => ({
 //   dateTimePicker: {
 //     "& .MuiFormControl-root": {
@@ -122,9 +122,8 @@ const AddMatch = () => {
     validationSchema: addMatchValidation(manualMatchToggle, selected.gameType),
     initialValues: initialFormikValues,
     onSubmit: (value: any) => {
-
-      if(!eventWiseMatchData[selected.gameType]){
-        toast.error("This game is not available yet.")
+      if (!eventWiseMatchData[selected.gameType]) {
+        toast.error("This game is not available yet.");
       }
 
       if (state?.id) {
@@ -349,7 +348,7 @@ const AddMatch = () => {
           competitionName: "",
           eventId: "",
           marketId: "",
-          startAt: new Date(),
+          startAt: moment(),
         };
       });
     }
@@ -526,11 +525,13 @@ const AddMatch = () => {
             titleSize={"20px"}
             headColor={"#000000"}
           />
-          <BoxButtonManualMatch
-            title={manualMatchToggle === false ? "Live" : "Manual"}
-            manualMatchToggle={manualMatchToggle}
-            setManualMatchToggle={setManualMatchToggle}
-          />
+          {!state?.id && (
+            <BoxButtonManualMatch
+              title={manualMatchToggle === false ? "Live" : "Manual"}
+              manualMatchToggle={manualMatchToggle}
+              setManualMatchToggle={setManualMatchToggle}
+            />
+          )}
         </Box>
         <Box
           sx={{
