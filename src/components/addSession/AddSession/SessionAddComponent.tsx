@@ -20,10 +20,7 @@ import {
   updateSessionProfitLoss,
 } from "../../../store/actions/addSession";
 import { socketService } from "../../../socketManager";
-import {
-  getMatchListSessionProfitLoss,
-  sessionResultSuccessReset,
-} from "../../../store/actions/match/matchAction";
+import { sessionResultSuccessReset } from "../../../store/actions/match/matchAction";
 import { ButtonRatesQuickSessions } from "../../../utils/Constants";
 import { useNavigate, useParams } from "react-router-dom";
 

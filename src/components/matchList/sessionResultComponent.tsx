@@ -215,7 +215,7 @@ const SessionResultComponent = (props: any) => {
                             color: "white",
                           }}
                         >
-                          {profitLoss?.toFixed(2)}
+                          {profitLoss}
                           <StyledImage
                             src="https://fontawesomeicons.com/images/svg/trending-up-sharp.svg"
                             sx={{
