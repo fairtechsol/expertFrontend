@@ -11,9 +11,14 @@ import RunsBox from "../../components/matchDetails/RunsBox";
 import SessionMarket from "../../components/matchDetails/SessionMarket";
 import SessionMarketLive from "../../components/matchDetails/SessionMarketLive";
 import TiedMatchMarket from "../../components/matchDetails/TiedMatchMarket";
-import { expertSocketService, socketService } from "../../socketManager";
+import {
+  expertSocketService,
+  socket,
+  socketService,
+} from "../../socketManager";
 import {
   getMatchDetail,
+  removeSessionProLoss,
   updateMatchBettingStatus,
   updateMatchRates,
   updateRates,
@@ -120,14 +125,22 @@ const MatchDetails = () => {
       if (state?.id === event?.matchId) {
         dispatch(updateApiSessionById(event));
         dispatch(getPlacedBetsMatch(state?.id));
-        dispatch(
-          updateSessionProLoss({
-            id: event?.betId,
-            betPlaced: event?.profitLossObj
-              ? event?.profitLossObj?.betPlaced
-              : [],
-          })
-        );
+        if (event?.activeStatus === "result") {
+          dispatch(
+            removeSessionProLoss({
+              id: event?.betId,
+            })
+          );
+        } else {
+          dispatch(
+            updateSessionProLoss({
+              id: event?.betId,
+              betPlaced: event?.profitLossObj
+                ? event?.profitLossObj?.betPlaced
+                : [],
+            })
+          );
+        }
         dispatch(
           updateMaxLoss({
             id: event?.betId,
@@ -198,12 +211,12 @@ const MatchDetails = () => {
 
   useEffect(() => {
     try {
-      if (success) {
+      if (socket?.connected && success) {
         expertSocketService.match.joinMatchRoom(state?.id, "expert");
-        expertSocketService.match.getMatchRates(
-          state?.id,
-          updateMatchDetailToRedux
-        );
+        expertSocketService.match.getMatchRates(state?.id, (event: any) => {
+          console.log("hanvi");
+          updateMatchDetailToRedux(event);
+        });
         socketService.user.matchBettingStatusChange(updateBettingStatus);
         socketService.user.matchResultDeclared(resultDeclared);
         socketService.user.matchResultUnDeclared(resultUnDeclared);
@@ -213,31 +226,29 @@ const MatchDetails = () => {
         socketService.user.userMatchBetPlaced(updateMatchBetPlaced);
         socketService.user.userSessionBetPlaced(updateSessionBetPlaced);
         socketService.user.sessionResultDeclared(updateSessionResultDeclared);
+        return () => {
+          expertSocketService.match.leaveMatchRoom(state?.id);
+          expertSocketService.match.getMatchRatesOff(
+            state?.id,
+            updateMatchDetailToRedux
+          );
+          socketService.user.matchBettingStatusChangeOff(updateBettingStatus);
+          socketService.user.matchResultDeclaredOff(resultDeclared);
+          socketService.user.matchResultUnDeclaredOff(resultUnDeclared);
+          socketService.user.matchDeleteBetOff(matchDeleteBet);
+          socketService.user.sessionDeleteBetOff(matchDeleteBet);
+          socketService.user.sessionAddedOff(handleSessionAdded);
+          socketService.user.userMatchBetPlacedOff(updateMatchBetPlaced);
+          socketService.user.userSessionBetPlacedOff(updateSessionBetPlaced);
+          socketService.user.sessionResultDeclaredOff(
+            updateSessionResultDeclared
+          );
+        };
       }
     } catch (e) {
       console.log(e);
     }
-  }, [success]);
-
-  useEffect(() => {
-    return () => {
-      // expertSocketService.match.leaveAllRooms();
-      expertSocketService.match.leaveMatchRoom(state?.id);
-      expertSocketService.match.getMatchRatesOff(
-        state?.id,
-        updateMatchDetailToRedux
-      );
-      socketService.user.matchBettingStatusChangeOff(updateBettingStatus);
-      socketService.user.matchResultDeclaredOff(resultDeclared);
-      socketService.user.matchResultUnDeclaredOff(resultUnDeclared);
-      socketService.user.matchDeleteBetOff(matchDeleteBet);
-      socketService.user.sessionDeleteBetOff(matchDeleteBet);
-      socketService.user.sessionAddedOff(handleSessionAdded);
-      socketService.user.userMatchBetPlacedOff(updateMatchBetPlaced);
-      socketService.user.userSessionBetPlacedOff(updateSessionBetPlaced);
-      socketService.user.sessionResultDeclaredOff(updateSessionResultDeclared);
-    };
-  }, []);
+  }, [socket?.connected, success]);
 
   useEffect(() => {
     const handleVisibilityChange = () => {
@@ -245,11 +256,6 @@ const MatchDetails = () => {
         if (state?.id) {
           dispatch(getMatchDetail(state?.id));
           dispatch(getPlacedBetsMatch(state?.id));
-          expertSocketService.match.joinMatchRoom(state?.id, "expert");
-          expertSocketService.match.getMatchRates(
-            state?.id,
-            updateMatchDetailToRedux
-          );
         }
       } else if (document.visibilityState === "hidden") {
         expertSocketService.match.leaveMatchRoom(state?.id);
