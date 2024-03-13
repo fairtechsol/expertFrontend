@@ -53,7 +53,6 @@ const SessionMarketBox = ({
     setVisible3(false);
   };
 
-  console.log(newData)
   return (
     <div style={{ position: "relative" }}>
       {!["live"].includes(newData?.activeStatus) && (
