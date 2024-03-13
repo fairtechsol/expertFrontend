@@ -47,3 +47,4 @@ export { default as UD } from "./images/UD.png";
 export { default as CANCEL } from "./images/cancel.png";
 export { default as ArrowDownRed } from "./images/arrowdownred.png";
 export { default as ArrowUpGreen } from "./images/arrowupgreen.png";
+export { default as edit } from "./images/edit.png";

@@ -7,8 +7,8 @@ interface SessionData {
   matchId: string;
   type: string;
   name: string;
-  minBet?: string;
-  maxBet?: string;
+  minBet?: number;
+  maxBet?: number;
   yesRate: number;
   noRate: number;
   yesPercent: number;

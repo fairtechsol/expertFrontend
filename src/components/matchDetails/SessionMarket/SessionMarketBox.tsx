@@ -10,6 +10,9 @@ import SeparateBox from "../SeparateBox";
 import SmallBox from "../SmallBox";
 import CustomSessionResult from "./CustomSessionResult";
 import PlaceBetComponent from "./PlaceBetComponent";
+import { edit } from "../../../assets";
+import SessionLimitEdit from "./SessionLimitEdit";
+import ModalMUI from "@mui/material/Modal";
 
 const SessionMarketBox = ({
   currentMatch,
@@ -27,6 +30,9 @@ const SessionMarketBox = ({
   );
   const [loading, setLoading] = useState(false);
   const [visible, setVisible] = useState(false);
+  const [visible3, setVisible3] = useState(false);
+  const [maxBetValue, setMaxBetValue] = useState(null);
+
   // const [live, setLive] = useState<boolean>(false);
 
   useEffect(() => {
@@ -43,7 +49,11 @@ const SessionMarketBox = ({
       setVisible(false);
     }
   }, [success]);
+  const handleClose = () => {
+    setVisible3(false);
+  };
 
+  // console.log(JSON.parse(newData))
   return (
     <div style={{ position: "relative" }}>
       {!["live"].includes(JSON.parse(newData)?.activeStatus) && (
@@ -63,7 +73,7 @@ const SessionMarketBox = ({
         sx={{
           display: "flex",
           background: "white",
-          height: "30px",
+          height: "40px",
           width: "100%",
         }}
       >
@@ -76,16 +86,46 @@ const SessionMarketBox = ({
             alignItems: "center",
           }}
         >
-          <Typography
-            sx={{
-              color: "black",
-              fontSize: { lg: "10px", md: "10px", xs: "8px" },
-              marginLeft: "7px",
-              fontWeight: "600",
-            }}
-          >
-            {JSON.parse(newData)?.name}
-          </Typography>
+          <Box sx={{paddingTop:'5px'}}>
+            <Typography
+              sx={{
+                color: "black",
+                fontSize: { lg: "12px", md: "10px", xs: "8px" },
+                marginLeft: "7px",
+                fontWeight: "600",
+              }}
+            >
+              {JSON.parse(newData)?.name}
+            </Typography>
+            <Box sx={{ display: "flex", flexDirection: "row" }}>
+              <Typography
+                sx={{
+                  color: "black",
+                  fontSize: { lg: "10px", md: "10px", xs: "8px" },
+                  marginLeft: "7px",
+                  fontWeight: "600",
+                }}
+              >
+                MAX : {maxBetValue ? maxBetValue : JSON.parse(newData)?.maxBet}
+              </Typography>
+              <Box
+                sx={{
+                  width: "30px",
+                  height: "18px",
+                  backgroundColor: "#0B4F26",
+                  marginLeft: "8px",
+                  borderRadius: "3px",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  paddingY: "2px",
+                }}
+                onClick={() => setVisible3(true)}
+              >
+                <img src={edit} style={{ width: "18px", height: "12px" }} />
+              </Box>
+            </Box>
+          </Box>
         </Box>
 
         <Box
@@ -233,7 +273,7 @@ const SessionMarketBox = ({
               display: "flex",
               position: "relative",
               background: "white",
-              height: "30px",
+              height: "40px",
               marginLeft: "4vh",
               width: { lg: "18.6%", xs: "40%", paddingLeft: "6px" },
               justifyContent: "center",
@@ -273,7 +313,41 @@ const SessionMarketBox = ({
           />
         )}
       </Box>
+
       <Divider />
+      {/* {visible3 && (
+           
+          )} */}
+      <ModalMUI
+        open={visible3}
+        // onClose={handleClose}
+        aria-labelledby="parent-modal-title"
+        aria-describedby="parent-modal-description"
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <SessionLimitEdit
+          // newData={JSON.parse(newData)}
+          newData={{
+            id: JSON.parse(newData).id,
+            minBet: JSON.parse(newData)?.minBet,
+            maxBet: maxBetValue ? maxBetValue : JSON.parse(newData).maxBet
+          }}
+          maxValue={setMaxBetValue}
+          // setResultPending={setResultPending}
+          onClick={() => {
+            setVisible3(false);
+            // setIsDisable(true);
+            // getSessionResult(match?.id);
+          }}
+          onClickCancel={() => {
+            setVisible3(false);
+          }}
+        />
+      </ModalMUI>
     </div>
   );
 };
