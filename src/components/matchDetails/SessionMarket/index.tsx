@@ -235,7 +235,7 @@ const SessionMarket = ({
                           setLocalState={(val: any) => setLocalState(val)}
                           currentMatch={currentMatch}
                           setCurrentMatch={setCurrentMatch}
-                          newData={match}
+                          newData={JSON.parse(match)}
                           setStop={setStop}
                           stop={stop}
                           index={index}
