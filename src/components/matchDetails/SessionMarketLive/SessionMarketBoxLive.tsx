@@ -59,7 +59,7 @@ const SessionMarketBoxLive = ({
         sx={{
           display: "flex",
           background: "white",
-          height: "30px",
+          height: "38px",
           width: "100%",
         }}
       >
