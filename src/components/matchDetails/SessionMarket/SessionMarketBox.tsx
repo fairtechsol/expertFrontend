@@ -43,7 +43,6 @@ const SessionMarketBox = ({
       setVisible(false);
     }
   }, [success]);
-
   return (
     <div style={{ position: "relative" }}>
       {!["live"].includes(JSON.parse(newData)?.activeStatus) && (
@@ -76,6 +75,18 @@ const SessionMarketBox = ({
             alignItems: "center",
           }}
         >
+         
+          <Typography>
+          <Typography
+            sx={{
+              color: "black",
+              fontSize: { lg: "12px", md: "10px", xs: "8px" },
+              marginLeft: "7px",
+              fontWeight: "600",
+            }}
+          >
+            {JSON.parse(newData)?.name}
+          </Typography>
           <Typography
             sx={{
               color: "black",
@@ -84,7 +95,8 @@ const SessionMarketBox = ({
               fontWeight: "600",
             }}
           >
-            {JSON.parse(newData)?.name}
+            MAX : {JSON.parse(newData)?.maxBet}
+          </Typography>
           </Typography>
         </Box>
 
