@@ -98,6 +98,7 @@ const SessionMarketBox = ({
               }}
             >
               {JSON.parse(newData)?.name}
+            
             </Typography>
             <Box sx={{ display: "flex", flexDirection: "row" }}>
               <Typography
@@ -114,13 +115,13 @@ const SessionMarketBox = ({
                 sx={{
                   width: "30px",
                   height: "18px",
-                  backgroundColor: "#0B4F26",
-                  marginLeft: "8px",
-                  borderRadius: "3px",
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  paddingY: "2px",
+                  background: "transparent",
+                  marginLeft: "5px",
+                  // borderRadius: "3px",
+                  // display: "flex",
+                  // justifyContent: "center",
+                  // alignItems: "center",
+                  // paddingY: "2px",
                 }}
                 onClick={() => setVisible3(true)}
               >
