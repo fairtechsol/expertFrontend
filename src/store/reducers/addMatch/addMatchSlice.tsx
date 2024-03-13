@@ -186,7 +186,6 @@ const addMatch = createSlice({
                   yesRate: 0,
                   yesPercent: 0,
                   noPercent: 0,
-                  // status: matchingApiSession.GameStatus,
                   activeStatus:
                     parsedItem.activeStatus === "live"
                       ? "save"
@@ -199,23 +198,21 @@ const addMatch = createSlice({
       })
       .addCase(updateApiSessionById.fulfilled, (state, action) => {
         try {
+          const { betId, activeStatus, score, profitLoss } = action.payload;
           state.matchDetail = {
             ...state.matchDetail,
             sessionBettings: state.matchDetail.sessionBettings.map(
               (item: any) => {
                 const parsedItem = JSON.parse(item);
-                let id = parsedItem?.id;
-                if (id === action.payload.betId) {
+                if (parsedItem?.id === betId) {
                   return JSON.stringify({
                     ...parsedItem,
-                    activeStatus: action?.payload?.activeStatus,
-                    result: action?.payload?.score
-                      ? action?.payload?.score
-                      : null,
-                    resultData: action?.payload?.score
+                    activeStatus: activeStatus,
+                    result: score ? score : null,
+                    resultData: score
                       ? {
-                          result: action?.payload?.score,
-                          profitLoss: action.payload.profitLoss,
+                          result: score,
+                          profitLoss: profitLoss,
                         }
                       : null,
                   });

@@ -53,10 +53,10 @@ const SessionMarketBox = ({
     setVisible3(false);
   };
 
-  // console.log(JSON.parse(newData))
+  // console.log(newData)
   return (
     <div style={{ position: "relative" }}>
-      {!["live"].includes(JSON.parse(newData)?.activeStatus) && (
+      {!["live"].includes(newData?.activeStatus) && (
         <Box
           sx={{
             margin: "1px",
@@ -142,7 +142,7 @@ const SessionMarketBox = ({
             zIndex: 100,
           }}
         >
-          {JSON.parse(newData)?.activeStatus === "live" && (
+          {newData?.activeStatus === "live" && (
             <SmallBox
               loading={loading}
               hide={true}
@@ -153,31 +153,26 @@ const SessionMarketBox = ({
                 dispatch(
                   sessionBetLiveStatus({
                     status: "save",
-                    betId: JSON.parse(newData)?.id,
+                    betId: newData?.id,
                   })
                 );
               }}
               textSize={"8px"}
               width={{ lg: "33px", xs: "20px", md: "25px" }}
-              color={
-                JSON.parse(newData)?.activeStatus === "live"
-                  ? "#46e080"
-                  : "#FF4D4D"
-              }
+              color={newData?.activeStatus === "live" ? "#46e080" : "#FF4D4D"}
             />
           )}
-          {JSON.parse(newData)?.activeStatus === "result" &&
-            JSON.parse(newData)?.result && (
-              <SmallBox
-                loading={false}
-                hide={false}
-                textSize={"12px"}
-                width={{ lg: "80px", xs: "20px", md: "20px" }}
-                title={`Score : ${JSON.parse(newData)?.result || 0}`}
-                color={"#FFF"}
-              />
-            )}
-          {JSON.parse(newData)?.activeStatus === "save" && (
+          {newData?.activeStatus === "result" && newData?.result && (
+            <SmallBox
+              loading={false}
+              hide={false}
+              textSize={"12px"}
+              width={{ lg: "80px", xs: "20px", md: "20px" }}
+              title={`Score : ${newData?.result || 0}`}
+              color={"#FFF"}
+            />
+          )}
+          {newData?.activeStatus === "save" && (
             <SmallBox
               hide={true}
               loading={loading}
@@ -187,18 +182,14 @@ const SessionMarketBox = ({
                 dispatch(
                   sessionBetLiveStatus({
                     status: "live",
-                    betId: JSON.parse(newData)?.id,
+                    betId: newData?.id,
                   })
                 );
               }}
               textSize={"8px"}
               // width={"80px"}
               width={"33px"}
-              color={
-                JSON.parse(newData)?.activeStatus === "live"
-                  ? "#46e080"
-                  : "#FF4D4D"
-              }
+              color={newData?.activeStatus === "live" ? "#46e080" : "#FF4D4D"}
               // title={"Live"}
             />
           )}
@@ -224,7 +215,7 @@ const SessionMarketBox = ({
             }}
           >
             <CustomSessionResult
-              newData={newData}
+              newData={JSON.stringify(newData)}
               visible={visible}
               setIObtes={setIObtes}
               setLocalState={setLocalState}
@@ -238,8 +229,8 @@ const SessionMarketBox = ({
           </Box>
         )}
         {!["ACTIVE", "active", "", undefined, null, 0].includes(
-          JSON.parse(newData)?.status
-        ) || JSON.parse(newData)?.activeStatus === "result" ? (
+          newData?.status
+        ) || newData?.activeStatus === "result" ? (
           <Box
             sx={{
               margin: "1px",
@@ -264,10 +255,9 @@ const SessionMarketBox = ({
                 fontWeight: "400",
               }}
             >
-              {JSON.parse(newData)?.activeStatus === "result" &&
-              JSON.parse(newData)?.result
+              {newData?.activeStatus === "result" && newData?.result
                 ? `Result Declared`
-                : JSON.parse(newData)?.status}
+                : newData?.status}
             </h6>
           </Box>
         ) : (
@@ -287,9 +277,9 @@ const SessionMarketBox = ({
             <SeparateBox
               session={true}
               back={true}
-              value={formatNumber(JSON.parse(newData)?.noRate)}
-              value2={formatNumber(JSON.parse(newData)?.noPercent)}
-              lock={JSON.parse(newData)?.status === "SUSPENDED"}
+              value={formatNumber(newData?.noRate)}
+              value2={formatNumber(newData?.noPercent)}
+              lock={newData?.status === "SUSPENDED"}
               color={"#F6D0CB"}
             />
 
@@ -299,9 +289,9 @@ const SessionMarketBox = ({
 
             <SeparateBox
               session={true}
-              value={formatNumber(JSON.parse(newData)?.yesRate)}
-              value2={formatNumber(JSON.parse(newData)?.yesPercent)}
-              lock={JSON.parse(newData)?.status === "SUSPENDED"}
+              value={formatNumber(newData?.yesRate)}
+              value2={formatNumber(newData?.yesPercent)}
+              lock={newData?.status === "SUSPENDED"}
               color={"#B3E0FF"}
             />
           </Box>
@@ -309,10 +299,8 @@ const SessionMarketBox = ({
         {!hideTotalBet && (
           <PlaceBetComponent
             width={7}
-            profitLossData={
-              profitLossData && profitLossData[JSON.parse(newData)?.id]
-            }
-            newData={JSON.parse(newData)}
+            profitLossData={profitLossData && profitLossData[newData?.id]}
+            newData={newData}
           />
         )}
       </Box>
@@ -333,11 +321,11 @@ const SessionMarketBox = ({
         }}
       >
         <SessionLimitEdit
-          // newData={JSON.parse(newData)}
+          // newData={newData}
           newData={{
-            id: JSON.parse(newData).id,
-            minBet: JSON.parse(newData)?.minBet,
-            maxBet: maxBetValue ? maxBetValue : JSON.parse(newData).maxBet
+            id: newData.id,
+            minBet: newData?.minBet,
+            maxBet: maxBetValue ? maxBetValue : newData.maxBet,
           }}
           maxValue={setMaxBetValue}
           // setResultPending={setResultPending}

@@ -13,7 +13,7 @@ const BookmakerEditSection = ({ add, match, bookmakerId, type }: Props) => {
       sx={{
         flex: 1,
         background: "#0B4F26",
-        borderRadius: "5px",
+        // borderRadius: "5px",
         position: "relative",
         minHeight: "300px",
         py: "20px",

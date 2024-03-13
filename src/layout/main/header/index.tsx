@@ -142,7 +142,7 @@ const Header1 = () => {
                 }}
                 sx={{
                   cursor: "pointer",
-                  height: { lg: "45px", xs: "40px" },
+                  height: { lg: "55px", xs: "45px" },
                   width: "auto",
                   marginLeft: { lg: "20px", xs: "10px" },
                 }}

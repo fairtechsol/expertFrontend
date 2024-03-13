@@ -158,10 +158,10 @@ const RunsAmountBox = ({ currentOdds, betId, proLoss }: any) => {
                         {Number(parseFloat(v?.profitLoss)) >= 0 ? (
                           <>
                             <span style={{ visibility: "hidden" }}>-</span>
-                            {(parseFloat(v?.profitLoss))?.toFixed(2)}
+                            {v?.profitLoss}
                           </>
                         ) : (
-                          parseFloat(v?.profitLoss).toFixed(2)
+                          v?.profitLoss
                         )}
                       </Typography>
                       <StyledImage

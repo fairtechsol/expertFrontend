@@ -20,13 +20,10 @@ import {
   updateSessionProfitLoss,
 } from "../../../store/actions/addSession";
 import { socketService } from "../../../socketManager";
-import {
-  getMatchListSessionProfitLoss,
-  sessionResultSuccessReset,
-} from "../../../store/actions/match/matchAction";
+import { sessionResultSuccessReset } from "../../../store/actions/match/matchAction";
 import { ButtonRatesQuickSessions } from "../../../utils/Constants";
 import { useNavigate, useParams } from "react-router-dom";
-import SessionLimit from "./SessionLimit";
+// import SessionLimit from "./SessionLimit";
 
 const stateDetail = {
   match_id: "",
@@ -69,8 +66,8 @@ const SessionAddComponent = ({ createSession, match }: any) => {
   const [visible, setVisible] = useState(false);
   const [visible1, setVisible1] = useState(false);
   const [visible2, setVisible2] = useState(false);
-  const [visible3, setVisible3] = useState(false);
-  const [maxBetValue, setMaxBetValue] = useState(sessionById ? sessionById?.maxBet : null)
+  // const [visible3, setVisible3] = useState(false);
+  const [maxBetValue] = useState(sessionById ? sessionById?.maxBet : null);
   const [lock, setLock] = useState<any>({
     isNo: true,
     isYes: true,
@@ -369,9 +366,9 @@ const SessionAddComponent = ({ createSession, match }: any) => {
       socketService.user.sessionDeleteBetOff(sessionDeleteBet);
     };
   }, [match, id]);
-  const handleValue = (v: any) => {
-    setMaxBetValue(v)
-  };
+  // const handleValue = (v: any) => {
+  //   setMaxBetValue(v);
+  // };
   return (
     <Box
       sx={{
@@ -388,9 +385,14 @@ const SessionAddComponent = ({ createSession, match }: any) => {
         sx={{ color: "#0B4F26", fontSize: "20px", fontWeight: "600" }}
       >
         {match?.title && match.title}(max:
-        { maxBetValue ? maxBetValue : sessionById ? sessionById?.maxBet : match?.betFairSessionMaxBet})
+        {maxBetValue
+          ? maxBetValue
+          : sessionById
+          ? sessionById?.maxBet
+          : match?.betFairSessionMaxBet}
+        )
       </Typography>
-      <Box
+      {/* <Box
         onClick={(e) => {
           // setShowUndeclare(true);
           setVisible3(true);
@@ -436,7 +438,9 @@ const SessionAddComponent = ({ createSession, match }: any) => {
                 minBet: sessionById?.minBet
                   ? sessionById?.minBet
                   : match?.minBet,
-                maxBet: maxBetValue ? maxBetValue : sessionById?.maxBet
+                maxBet: maxBetValue
+                  ? maxBetValue
+                  : sessionById?.maxBet
                   ? sessionById?.maxBet
                   : match?.betFairSessionMaxBet,
               }}
@@ -453,7 +457,7 @@ const SessionAddComponent = ({ createSession, match }: any) => {
             />
           )}
         </Box>
-      </Box>
+      </Box> */}
       <Box sx={{ display: "flex", marginTop: "6px" }}>
         <Box
           sx={{

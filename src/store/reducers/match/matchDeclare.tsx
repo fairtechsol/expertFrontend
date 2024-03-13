@@ -9,7 +9,10 @@ import {
   getSessionProfitLossMatchDetailFilter,
   getSessionProfitLossMatchDetailReset,
 } from "../../actions/match/matchAction";
-import { updateSessionProLoss } from "../../actions/addMatch/addMatchAction";
+import {
+  removeSessionProLoss,
+  updateSessionProLoss,
+} from "../../actions/addMatch/addMatchAction";
 
 interface InitialState {
   sessionProLoss: any;
@@ -104,6 +107,13 @@ const matchDeclare = createSlice({
             betPlaced: action.payload.betPlaced,
           };
         }
+      })
+      .addCase(removeSessionProLoss.fulfilled, (state, action) => {
+        const idToRemove = action.payload.id;
+
+        state.sessionProLoss = state.sessionProLoss.filter(
+          (item: any) => item?.id !== idToRemove
+        );
       })
       .addCase(getSessionProfitLossMatchDetailReset, (state) => {
         return { ...state, sessionProLoss: [] };

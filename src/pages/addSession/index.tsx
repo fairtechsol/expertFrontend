@@ -70,7 +70,7 @@ const AddSession = () => {
   return (
     <Box>
       <Grid container spacing={2}>
-        <Grid item xs={12} sm={6}>
+        <Grid item xs={12} sm={8} md={6}>
           <Paper style={{ margin: "10px" }}>
             <SessionInputFields
               createSession={state?.createSession}
@@ -85,7 +85,7 @@ const AddSession = () => {
             />
           </Paper>
         </Grid>
-        <Grid item xs={12} sm={6}>
+        <Grid item xs={12} sm={8} md={6}>
           <Paper style={{ margin: "10px" }}>
             {true && (
               <BetsList
