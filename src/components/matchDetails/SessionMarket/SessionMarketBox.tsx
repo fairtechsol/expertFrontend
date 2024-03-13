@@ -81,21 +81,54 @@ const SessionMarketBox = ({
           sx={{
             display: "flex",
             background: "white",
-            height: "30px",
+            height: "39px",
             width: "40%",
             alignItems: "center",
+            // backgroundColor:'red'
           }}
         >
-          <Typography
-            sx={{
-              color: "black",
-              fontSize: { lg: "10px", md: "10px", xs: "8px" },
-              marginLeft: "7px",
-              fontWeight: "600",
-            }}
-          >
-            {newData?.name}
-          </Typography>
+          <Box sx={{paddingTop:'3px'}}>
+            <Typography
+              sx={{
+                color: "black",
+                fontSize: { lg: "11px", md: "10px", xs: "8px" },
+                marginLeft: "3px",
+                fontWeight: "600",
+                lineHeight:'11px'
+              }}
+            >
+              {JSON.parse(newData)?.name}
+            
+            </Typography>
+            <Box sx={{ display: "flex", flexDirection: "row" }}>
+              <Typography
+                sx={{
+                  color: "black",
+                  fontSize: { lg: "9px", md: "9px", xs: "8px" },
+                  marginLeft: "7px",
+                  fontWeight: "500",
+                }}
+              >
+                MAX : {maxBetValue ? maxBetValue : JSON.parse(newData)?.maxBet}
+              </Typography>
+              <Box
+                sx={{
+                  width: "30px",
+                  height: "18px",
+                  background: "transparent",
+                  marginLeft: "5px",
+                  // borderRadius: "3px",
+                  // display: "flex",
+                  // justifyContent: "center",
+                  // alignItems: "center",
+                  // paddingY: "2px",
+                }}
+                onClick={() => setVisible3(true)}
+              >
+                <img src={edit} style={{ width: "18px", height: "12px" }} />
+              </Box>
+            </Box>
+          </Box>
         </Box>
 
         <Box
@@ -202,7 +235,7 @@ const SessionMarketBox = ({
             sx={{
               margin: "1px",
               background: "rgba(0,0,0,1)",
-              height: "32px",
+              height: "40px",
               right: { lg: "20.5%", xs: "19%", md: "20%" },
               position: "absolute",
               width: { lg: "18%", xs: "20%" },
@@ -234,8 +267,8 @@ const SessionMarketBox = ({
               position: "relative",
               background: "white",
               height: "40px",
-              marginLeft: "4vh",
-              width: { lg: "18.6%", xs: "40%", paddingLeft: "6px" },
+              // marginLeft: "2vh",
+              width: { lg: "18.6%", xs: "40%", paddingLeft: "0px" },
               justifyContent: "center",
               alignItems: "center",
               margin: "auto",
