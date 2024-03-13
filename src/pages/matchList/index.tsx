@@ -45,6 +45,10 @@ const MatchList = ({}) => {
   useEffect(() => {
     expertSocketService.match.matchAdded(getMatchListService);
     socketService.user.matchResultUnDeclared(getMatchListService);
+    return () => {
+      expertSocketService.match.matchAddedOff(getMatchListService);
+      socketService.user.matchResultUnDeclaredOff(getMatchListService);
+    };
   }, []);
 
   return (
