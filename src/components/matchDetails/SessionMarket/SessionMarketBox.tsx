@@ -49,9 +49,6 @@ const SessionMarketBox = ({
       setVisible(false);
     }
   }, [success]);
-  const handleClose = () => {
-    setVisible3(false);
-  };
 
   return (
     <div style={{ position: "relative" }}>

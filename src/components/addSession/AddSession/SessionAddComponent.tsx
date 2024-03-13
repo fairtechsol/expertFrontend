@@ -23,7 +23,7 @@ import { socketService } from "../../../socketManager";
 import { sessionResultSuccessReset } from "../../../store/actions/match/matchAction";
 import { ButtonRatesQuickSessions } from "../../../utils/Constants";
 import { useNavigate, useParams } from "react-router-dom";
-// import SessionLimit from "./SessionLimit";
+import SessionLimit from "./SessionLimit";
 
 const stateDetail = {
   match_id: "",
@@ -66,8 +66,10 @@ const SessionAddComponent = ({ createSession, match }: any) => {
   const [visible, setVisible] = useState(false);
   const [visible1, setVisible1] = useState(false);
   const [visible2, setVisible2] = useState(false);
-  // const [visible3, setVisible3] = useState(false);
-  const [maxBetValue] = useState(sessionById ? sessionById?.maxBet : null);
+  const [visible3, setVisible3] = useState(false);
+  const [maxBetValue, setMaxBetValue] = useState(
+    sessionById ? sessionById?.maxBet : null
+  );
   const [lock, setLock] = useState<any>({
     isNo: true,
     isYes: true,
@@ -85,8 +87,8 @@ const SessionAddComponent = ({ createSession, match }: any) => {
       noRate: inputDetail?.leftNoRate,
       yesPercent: inputDetail?.leftYesRatePercent,
       noPercent: inputDetail?.leftNoRatePercent,
-      maxBet : maxBetValue ?  parseInt(maxBetValue) : match?.betFairSessionMaxBet,
-      minBet : match?.betFairSessionMinBet,
+      maxBet: maxBetValue ? parseInt(maxBetValue) : match?.betFairSessionMaxBet,
+      minBet: match?.betFairSessionMinBet,
     };
     dispatch(addSession(payload));
   };
@@ -366,9 +368,11 @@ const SessionAddComponent = ({ createSession, match }: any) => {
       socketService.user.sessionDeleteBetOff(sessionDeleteBet);
     };
   }, [match, id]);
-  // const handleValue = (v: any) => {
-  //   setMaxBetValue(v);
-  // };
+
+  const handleValue = (v: any) => {
+    setMaxBetValue(v);
+  };
+
   return (
     <Box
       sx={{
@@ -392,7 +396,7 @@ const SessionAddComponent = ({ createSession, match }: any) => {
           : match?.betFairSessionMaxBet}
         )
       </Typography>
-      {/* <Box
+      <Box
         onClick={(e) => {
           // setShowUndeclare(true);
           setVisible3(true);
@@ -457,7 +461,7 @@ const SessionAddComponent = ({ createSession, match }: any) => {
             />
           )}
         </Box>
-      </Box> */}
+      </Box>
       <Box sx={{ display: "flex", marginTop: "6px" }}>
         <Box
           sx={{
