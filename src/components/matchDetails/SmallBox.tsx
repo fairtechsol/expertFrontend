@@ -23,7 +23,7 @@ const SmallBox = ({
             justifyContent: "space-between",
             paddingX: 1,
             alignItems: "center",
-            height: "25px",
+            height: "35px",
             background: color ? color : "#46e080",
             borderRadius: "3px",
             cursor: "pointer",

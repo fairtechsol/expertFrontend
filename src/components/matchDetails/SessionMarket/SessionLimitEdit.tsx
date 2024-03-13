@@ -1,12 +1,12 @@
 import { Box, TextField, Typography } from "@mui/material";
 import { useEffect, useRef, useState } from "react";
-import SessionResultCustomButton from "../AddSession/SessionResultCustomButton";
+import SessionResultCustomButton from "../../../components/addSession/AddSession/SessionResultCustomButton";
 import { CancelDark } from "../../../assets";
 import { AppDispatch } from "../../../store/store";
 import { useDispatch } from "react-redux";
 import { updateSession } from "../../../store/actions/addSession";
 
-const SessionLimit = (props: any) => {
+const SessionLimitEdit = (props: any) => {
   const { newData, visible, onClickCancel, maxValue } = props;
   const dispatch: AppDispatch = useDispatch();
   const [loading] = useState({ id: "", value: false });
@@ -23,16 +23,16 @@ const SessionLimit = (props: any) => {
   const handleSubmit = (e: any) => {
     e.stopPropagation();
     try {
-      if (newData?.id) {
+      
         const payload = {
           id: newData?.id,
           maxBet: parseInt(value),
           minBet: newData?.minBet,
         };
         dispatch(updateSession(payload));
-      } else {
+      
         maxValue(value);
-      }
+      
     } catch (error) {
       console.log("error", error);
     } finally {
@@ -44,7 +44,7 @@ const SessionLimit = (props: any) => {
     scrollToBottom();
   }, [visible]);
 
-  
+//   console.log(newData)
 
   return (
     <Box
@@ -172,4 +172,4 @@ const SessionLimit = (props: any) => {
   );
 };
 
-export default SessionLimit;
+export default SessionLimitEdit;
