@@ -214,7 +214,6 @@ const MatchDetails = () => {
       if (socket?.connected && success) {
         expertSocketService.match.joinMatchRoom(state?.id, "expert");
         expertSocketService.match.getMatchRates(state?.id, (event: any) => {
-          console.log("hanvi");
           updateMatchDetailToRedux(event);
         });
         socketService.user.matchBettingStatusChange(updateBettingStatus);
