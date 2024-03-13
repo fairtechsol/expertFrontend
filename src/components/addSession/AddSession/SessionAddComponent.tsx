@@ -85,6 +85,8 @@ const SessionAddComponent = ({ createSession, match }: any) => {
       noRate: inputDetail?.leftNoRate,
       yesPercent: inputDetail?.leftYesRatePercent,
       noPercent: inputDetail?.leftNoRatePercent,
+      maxBet : maxBetValue ?  parseInt(maxBetValue) : match?.betFairSessionMaxBet,
+      minBet : match?.betFairSessionMinBet,
     };
     dispatch(addSession(payload));
   };

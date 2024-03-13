@@ -139,8 +139,9 @@ const SessionMarketLive = ({
                     marginLeft: "7px",
                   }}
                 >
-                  MIN: {currentMatch?.betFairSessionMinBet} MAX:
-                  {currentMatch?.betFairSessionMaxBet}
+                  MIN: {currentMatch?.betFairSessionMinBet} 
+                  {/* MAX:
+                  {currentMatch?.betFairSessionMaxBet} */}
                 </Typography>
               </Box>
               <Box

@@ -1,17 +1,17 @@
 import { Box, TextField, Typography } from "@mui/material";
 import { useEffect, useRef, useState } from "react";
-import SessionResultCustomButton from "../AddSession/SessionResultCustomButton";
+import SessionResultCustomButton from "../../../components/addSession/AddSession/SessionResultCustomButton";
 import { CancelDark } from "../../../assets";
 import { AppDispatch } from "../../../store/store";
 import { useDispatch } from "react-redux";
 import { updateSession } from "../../../store/actions/addSession";
 
-const SessionLimit = (props: any) => {
+const SessionLimitEdit = (props: any) => {
   const { newData, visible, onClickCancel, maxValue } = props;
   const dispatch: AppDispatch = useDispatch();
   const [loading] = useState({ id: "", value: false });
   const myDivRef: any = useRef(null);
-  const [value, setValue] = useState(newData?.maxBet ? newData?.maxBet :  "");
+  const [value, setValue] = useState(newData?.maxBet ? newData?.maxBet : "");
 
   const scrollToBottom = () => {
     myDivRef.current?.scrollIntoView({
@@ -23,16 +23,14 @@ const SessionLimit = (props: any) => {
   const handleSubmit = (e: any) => {
     e.stopPropagation();
     try {
-      if (newData?.id) {
-        const payload = {
-          id: newData?.id,
-          maxBet: parseInt(value),
-          minBet: newData?.minBet,
-        };
-        dispatch(updateSession(payload));
-      } else {
-        maxValue(value);
-      }
+      const payload = {
+        id: newData?.id,
+        maxBet: parseInt(value),
+        minBet: newData?.minBet,
+      };
+      dispatch(updateSession(payload));
+
+      maxValue(value);
     } catch (error) {
       console.log("error", error);
     } finally {
@@ -44,7 +42,7 @@ const SessionLimit = (props: any) => {
     scrollToBottom();
   }, [visible]);
 
-  
+  //   console.log(newData)
 
   return (
     <Box
@@ -55,6 +53,9 @@ const SessionLimit = (props: any) => {
         borderRadius: 2,
         boxShadow: "0px 5px 10px #1A568414",
         background: "white",
+        display: "flex",
+        justifyContent: "space-between",
+        flexDirection: "column",
       }}
     >
       <Box
@@ -93,13 +94,15 @@ const SessionLimit = (props: any) => {
       <Box
         sx={{
           width: "100%",
-          flexWrap: "wrap",
+          //   flexWrap: "wrap",
           padding: "8px",
-          flexDirection: "row",
           display: "flex",
-          alignSelf: "center",
-          alignItems: "center",
-          justifyContent: "center",
+          flexDirection: "column",
+          //   alignSelf: "center",
+          //   alignItems: "center",
+          gap: 1,
+          justifyContent: "space-between",
+          //   backgroundColor:'red'
         }}
         ref={myDivRef}
       >
@@ -128,7 +131,7 @@ const SessionLimit = (props: any) => {
             },
           }}
           onKeyDown={(e) => {
-            if (e.key === 'Enter') {
+            if (e.key === "Enter") {
               // Call your function here
               handleSubmit(e);
             }
@@ -141,8 +144,8 @@ const SessionLimit = (props: any) => {
             paddingY: "5px",
             width: "100%",
             gap: 1,
-            marginTop: 2,
-            marginBottom: 2,
+            marginTop: 3,
+            // marginBottom: 2,
           }}
         >
           <SessionResultCustomButton
@@ -172,4 +175,4 @@ const SessionLimit = (props: any) => {
   );
 };
 
-export default SessionLimit;
+export default SessionLimitEdit;

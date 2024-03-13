@@ -10,6 +10,9 @@ import SeparateBox from "../SeparateBox";
 import SmallBox from "../SmallBox";
 import CustomSessionResult from "./CustomSessionResult";
 import PlaceBetComponent from "./PlaceBetComponent";
+import { edit } from "../../../assets";
+import SessionLimitEdit from "./SessionLimitEdit";
+import ModalMUI from "@mui/material/Modal";
 
 const SessionMarketBox = ({
   currentMatch,
@@ -27,6 +30,9 @@ const SessionMarketBox = ({
   );
   const [loading, setLoading] = useState(false);
   const [visible, setVisible] = useState(false);
+  const [visible3, setVisible3] = useState(false);
+  const [maxBetValue, setMaxBetValue] = useState(null);
+
   // const [live, setLive] = useState<boolean>(false);
 
   useEffect(() => {
@@ -43,7 +49,11 @@ const SessionMarketBox = ({
       setVisible(false);
     }
   }, [success]);
+  const handleClose = () => {
+    setVisible3(false);
+  };
 
+  // console.log(newData)
   return (
     <div style={{ position: "relative" }}>
       {!["live"].includes(newData?.activeStatus) && (
@@ -63,7 +73,7 @@ const SessionMarketBox = ({
         sx={{
           display: "flex",
           background: "white",
-          height: "30px",
+          height: "40px",
           width: "100%",
         }}
       >
@@ -223,7 +233,7 @@ const SessionMarketBox = ({
               display: "flex",
               position: "relative",
               background: "white",
-              height: "30px",
+              height: "40px",
               marginLeft: "4vh",
               width: { lg: "18.6%", xs: "40%", paddingLeft: "6px" },
               justifyContent: "center",
@@ -261,7 +271,41 @@ const SessionMarketBox = ({
           />
         )}
       </Box>
+
       <Divider />
+      {/* {visible3 && (
+           
+          )} */}
+      <ModalMUI
+        open={visible3}
+        // onClose={handleClose}
+        aria-labelledby="parent-modal-title"
+        aria-describedby="parent-modal-description"
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <SessionLimitEdit
+          // newData={newData}
+          newData={{
+            id: newData.id,
+            minBet: newData?.minBet,
+            maxBet: maxBetValue ? maxBetValue : newData.maxBet,
+          }}
+          maxValue={setMaxBetValue}
+          // setResultPending={setResultPending}
+          onClick={() => {
+            setVisible3(false);
+            // setIsDisable(true);
+            // getSessionResult(match?.id);
+          }}
+          onClickCancel={() => {
+            setVisible3(false);
+          }}
+        />
+      </ModalMUI>
     </div>
   );
 };
