@@ -190,7 +190,7 @@ const MatchOdds = ({ currentMatch, matchOddsLive }: any) => {
                   );
                   setLive(!live);
                 }}
-                width={"80px"}
+                // width={{lg: "80px", xs: "40px"}}
                 title={live ? "Live" : "Go Live"}
                 color={live ? "#46e080" : "#FF4D4D"}
                 customStyle={{
