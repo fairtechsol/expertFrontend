@@ -320,7 +320,7 @@ const SessionMarketBox = ({
           )} */}
       <ModalMUI
         open={visible3}
-        onClose={handleClose}
+        // onClose={handleClose}
         aria-labelledby="parent-modal-title"
         aria-describedby="parent-modal-description"
         style={{
