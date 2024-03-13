@@ -53,7 +53,7 @@ const SessionMarketBox = ({
     setVisible3(false);
   };
 
-  // console.log(newData)
+  console.log(newData)
   return (
     <div style={{ position: "relative" }}>
       {!["live"].includes(newData?.activeStatus) && (
@@ -97,7 +97,7 @@ const SessionMarketBox = ({
                 lineHeight:'11px'
               }}
             >
-              {JSON.parse(newData)?.name}
+              {newData?.name}
             
             </Typography>
             <Box sx={{ display: "flex", flexDirection: "row" }}>
@@ -109,7 +109,7 @@ const SessionMarketBox = ({
                   fontWeight: "500",
                 }}
               >
-                MAX : {maxBetValue ? maxBetValue : JSON.parse(newData)?.maxBet}
+                MAX : {maxBetValue ? maxBetValue : newData?.maxBet}
               </Typography>
               <Box
                 sx={{
