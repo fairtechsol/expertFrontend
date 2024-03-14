@@ -24,7 +24,7 @@ const SessionResultOvers = (props: any) => {
           }}
         >
           <Typography
-            sx={{ color: "white", fontWeight: "600", fontSize: "12px" }}
+            sx={{ color: "white", fontWeight: "600", fontSize: {lg:"12px", xs: "10px"}  }}
           >
             RESULT
           </Typography>
@@ -40,7 +40,7 @@ const SessionResultOvers = (props: any) => {
           }}
         >
           <Typography
-            sx={{ color: "white", fontWeight: "600", fontSize: "12px" }}
+            sx={{ color: "white", fontWeight: "600", fontSize: {lg:"12px", xs: "10px"} }}
           >
             PROFIT/LOSS
           </Typography>

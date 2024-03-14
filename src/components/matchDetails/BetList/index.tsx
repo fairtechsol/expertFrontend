@@ -4,6 +4,7 @@ import { ARROWUP } from "../../../assets";
 import moment from "moment";
 import HeaderRow from "./HeaderRow";
 import Row from "./Row";
+import { formatToINR } from "../../helper";
 
 const BetList = ({ tag, submit, allBetRates }: any) => {
   const [newData, setNewBets] = useState([]);
@@ -68,7 +69,7 @@ const BetList = ({ tag, submit, allBetRates }: any) => {
               width: { lg: "7%", xs: "35%" },
             },
             {
-              name: v?.amount,
+              name: formatToINR(v?.amount),
               color: "black",
               background: ["YES", "BACK"].includes(v?.betType)
                 ? "#B3E0FF"

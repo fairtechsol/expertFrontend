@@ -155,7 +155,7 @@ const AddSessionInput = (props: any) => {
               <Box
                 sx={{
                   background: "#FFB5B5",
-                  width: "50%",
+                  width: {lg:"50%", xs: "60%"},
                   display: "flex",
                   height: "45px",
                   justifyContent: "center",
@@ -230,7 +230,7 @@ const AddSessionInput = (props: any) => {
               <Box
                 sx={{
                   background: "#A7DCFF",
-                  width: "50%",
+                  width: {lg:"50%", xs: "60%"},
                   borderLeft: "2px solid white",
                   display: "flex",
                   height: "45px",

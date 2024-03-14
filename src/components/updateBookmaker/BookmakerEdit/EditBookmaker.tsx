@@ -1,4 +1,4 @@
-import { Box, TextField, Typography } from "@mui/material";
+import { Box, TextField, Typography, useMediaQuery } from "@mui/material";
 import { memo, useEffect, useRef, useState } from "react";
 import KeyboardEventHandler from "react-keyboard-event-handler";
 import { useDispatch, useSelector } from "react-redux";
@@ -10,11 +10,12 @@ import { handleKeysMatchEvents } from "../../../utils/InputKeys/Bookmaker/Bookma
 import { updateLocalQuickBookmaker } from "../../../utils/InputKeys/Bookmaker/Utils";
 import BookButton from "./BookButton";
 import ResultComponent from "./ResultComponent";
+import theme from "../../../theme";
 
 const EditBookmaker = (props: any) => {
   const { add, match, Bid, type } = props;
   const dispatch: AppDispatch = useDispatch();
-
+  const matchesMobile = useMediaQuery(theme.breakpoints.down("lg"));
   const { bookmakerById, success } = useSelector(
     (state: RootState) => state.addSession
   );
@@ -465,7 +466,6 @@ const EditBookmaker = (props: any) => {
                   height: "50px",
                   background: "#F6F6F6",
                   borderRadius: "7px",
-                  zIndex: 100,
                 }}
               >
                 <Typography
@@ -630,7 +630,6 @@ const EditBookmaker = (props: any) => {
                   height: "50px",
                   background: "#F6F6F6",
                   borderRadius: "7px",
-                  zIndex: 100,
                 }}
               >
                 <Typography
@@ -791,7 +790,6 @@ const EditBookmaker = (props: any) => {
                     height: "55px",
                     background: "#F6F6F6",
                     borderRadius: "7px",
-                    zIndex: 100,
                   }}
                 >
                   <Typography
@@ -1146,6 +1144,9 @@ const EditBookmaker = (props: any) => {
           </Box>
         </Box>
       </Box>
+    
+
+{!matchesMobile &&
       <Box
         sx={{
           display: "flex",
@@ -1271,6 +1272,7 @@ const EditBookmaker = (props: any) => {
           </Box>
         )}
       </Box>
+}
     </>
   );
 };

@@ -126,6 +126,7 @@ const ResultComponent = ({
                       fontSize: "14px",
                       fontWeight: "700",
                       color: selected === i ? "white" : "black",
+                      lineHeight: 1
                     }}
                   >
                     {i}

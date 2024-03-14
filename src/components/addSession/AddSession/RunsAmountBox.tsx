@@ -1,6 +1,7 @@
 import { useRef, useEffect } from "react";
 import StyledImage from "../../Common/StyledImages";
 import { Box, Typography } from "@mui/material";
+import { formatToINR } from "../../helper";
 
 const RunsAmountBox = ({ currentOdds, betId, proLoss }: any) => {
   const containerRef = useRef(null);
@@ -150,7 +151,7 @@ const RunsAmountBox = ({ currentOdds, betId, proLoss }: any) => {
                       <Typography
                         sx={{
                           fontWeight: "500",
-                          fontSize: "16px",
+                          fontSize: {lg:"16px", xs:"10px", md: "12px"},
                           color: "white",
                           width: "40px",
                         }}
@@ -158,10 +159,10 @@ const RunsAmountBox = ({ currentOdds, betId, proLoss }: any) => {
                         {Number(parseFloat(v?.profitLoss)) >= 0 ? (
                           <>
                             <span style={{ visibility: "hidden" }}>-</span>
-                            {v?.profitLoss}
+                            {formatToINR(v?.profitLoss)}
                           </>
                         ) : (
-                          v?.profitLoss
+                          formatToINR(v?.profitLoss)
                         )}
                       </Typography>
                       <StyledImage

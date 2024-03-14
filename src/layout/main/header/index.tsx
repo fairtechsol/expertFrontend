@@ -164,7 +164,7 @@ const Header1 = () => {
                       currentSelected == 1 ? "white" : "transparent",
                     py: "5px",
                     borderRadius: "5px",
-                    marginLeft: "15px",
+                    marginLeft: {lg:"15px", xs: "1px"},
                     cursor: "pointer",
                   }}
                   titleStyle={{
@@ -186,7 +186,7 @@ const Header1 = () => {
                         : "transparent",
                     py: "5px",
                     borderRadius: "5px",
-                    marginLeft: "15px",
+                    marginLeft: {lg:"15px", xs: "1px"},
                     cursor: "pointer",
                   }}
                   titleStyle={{
