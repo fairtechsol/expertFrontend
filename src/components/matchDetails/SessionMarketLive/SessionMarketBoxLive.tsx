@@ -94,7 +94,8 @@ const SessionMarketBoxLive = ({
           }}
         >
           {live && (
-            <SmallBox
+           
+              <SmallBox
               hide={true}
               onClick={(e: any) => {
                 e.preventDefault();
@@ -105,6 +106,8 @@ const SessionMarketBoxLive = ({
               width={"33px"}
               color={"#FF4D4D"}
             />
+            
+            
           )}
           {newData?.betStatus === 2 && newData?.betRestult && (
             <SmallBox
@@ -164,7 +167,7 @@ const SessionMarketBoxLive = ({
             sx={{
               margin: "1px",
               background: "rgba(0,0,0,1)",
-              height: "30px",
+              height: "38px",
               right: "0vh",
               position: "absolute",
               width: { lg: "27%", xs: "27%" },
