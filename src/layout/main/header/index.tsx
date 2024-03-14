@@ -97,7 +97,7 @@ const Header1 = () => {
               width: "100%",
               minHeight: { lg: 66, md: 80, xs: 60 },
               display: "flex",
-              flexDirection: matchesMobile ? "column" : "row",
+              flexDirection: { lg: "row", xs: "column", sm: "row" },
               alignItems: !matchesMobile ? "center" : "flex-start",
               justifyContent: "space-between",
               paddingX: { lg: "0.5%", xs: "1%" },
@@ -164,7 +164,7 @@ const Header1 = () => {
                       currentSelected == 1 ? "white" : "transparent",
                     py: "5px",
                     borderRadius: "5px",
-                    marginLeft: {lg:"15px", xs: "1px"},
+                    marginLeft: { lg: "15px", xs: "1px" },
                     cursor: "pointer",
                   }}
                   titleStyle={{
@@ -186,7 +186,7 @@ const Header1 = () => {
                         : "transparent",
                     py: "5px",
                     borderRadius: "5px",
-                    marginLeft: {lg:"15px", xs: "1px"},
+                    marginLeft: { lg: "15px", xs: "1px" },
                     cursor: "pointer",
                   }}
                   titleStyle={{
@@ -203,9 +203,7 @@ const Header1 = () => {
             sx={{
               display: "flex",
               justifyContent: "space-between",
-              minWidth: matchesMobile ? "100%" : "0px",
               alignItems: "center",
-              marginTop: matchesMobile ? "15px" : "0px",
             }}
           >
             <Box
@@ -242,7 +240,7 @@ const Header1 = () => {
           </Box>
         </Box>
       </AppBar>
-      <Box sx={{ minHeight: { lg: 66, xs: 60 + 32 + 42 } }} />
+      <Box sx={{ minHeight: { lg: 66, sm: 70, md: 80, xs: 115 } }} />
       {matchListDropdown?.length > 0 && (
         <DropDownMenu
           anchorEl={anchor}
