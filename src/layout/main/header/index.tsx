@@ -98,7 +98,7 @@ const Header1 = () => {
               minHeight: { lg: 66, md: 80, xs: 60 },
               display: "flex",
               flexDirection: { lg: "row", xs: "column", sm: "row" },
-              alignItems: !matchesMobile ? "center" : "flex-start",
+              alignItems: !matchesMobile ? "center" : "flex-stretch",
               justifyContent: "space-between",
               paddingX: { lg: "0.5%", xs: "1%" },
               paddingY: matchesMobile ? "15px" : "0px",
