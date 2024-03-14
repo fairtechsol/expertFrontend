@@ -8,6 +8,7 @@ import { sessionBetLiveStatus } from "../../../store/actions/match/matchAction";
 import { AppDispatch } from "../../../store/store";
 import { useDispatch } from "react-redux";
 import { customSort } from "../../../helpers";
+import { formatToINR } from "../../helper";
 
 const SessionMarket = ({
   currentMatch,
@@ -156,8 +157,8 @@ const SessionMarket = ({
                     marginLeft: "7px",
                   }}
                 >
-                  MIN: {currentMatch?.betFairSessionMinBet} MAX:
-                  {currentMatch?.betFairSessionMaxBet}
+                  MIN: {formatToINR(currentMatch?.betFairSessionMinBet)} MAX:
+                  {formatToINR(currentMatch?.betFairSessionMaxBet)}
                 </Typography>
               </Box>
               <Box
