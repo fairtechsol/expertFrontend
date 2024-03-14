@@ -380,8 +380,7 @@ const SessionAddComponent = ({ createSession, match }: any) => {
         background: "#F8C851",
         borderRadius: "5px",
         minHeight: "42vh",
-        py: "25px",
-        pt: "5px",
+        py: "3px",
         px: "20px",
       }}
     >
@@ -488,7 +487,7 @@ const SessionAddComponent = ({ createSession, match }: any) => {
             inputRef={inputRef}
             match={match}
           />
-          <Box sx={{ mt: 2, border: "1px solid black", p: 1 }}>
+          <Box sx={{ border: "1px solid black", p: 1 }}>
             <Box
               sx={{
                 display: "grid",
