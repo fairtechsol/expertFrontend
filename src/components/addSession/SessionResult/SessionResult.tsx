@@ -36,13 +36,14 @@ const SessionResult = (props: any) => {
   };
 
   return (
+    <>
+   {sessionProLoss?.length > 0 &&
     <Box
       sx={{
         flex: 1,
         background: "#F8C851",
         marginTop: "5px",
         borderRadius: "5px",
-        minHeight: "300px",
         py: "30px",
         px: "20px",
         pt: "5px",
@@ -115,7 +116,10 @@ const SessionResult = (props: any) => {
           </Box>
         </Box>
       </Box>
+      
     </Box>
+}
+      </>
   );
 };
 
