@@ -204,7 +204,7 @@ const RunsBox = ({ item, currentOdd }: any) => {
                     src={getSVG(v?.profitLoss)}
                     sx={{
                       height: "15px",
-                      marginLeft: "5px",
+                      marginLeft: "1rem",
                       filter:
                         "invert(.9) sepia(1) saturate(5) hue-rotate(175deg);",
                       width: "15px",

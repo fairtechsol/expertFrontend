@@ -87,7 +87,7 @@ const SessionMarketBox = ({
             <Typography
               sx={{
                 color: "black",
-                fontSize: { lg: "11px", md: "10px", xs: "8px" },
+                fontSize: { lg: "11px", md: "10px", xs: "9px" },
                 marginLeft: "3px",
                 fontWeight: "600",
                 lineHeight:'11px'
@@ -100,12 +100,12 @@ const SessionMarketBox = ({
               <Typography
                 sx={{
                   color: "black",
-                  fontSize: { lg: "9px", md: "9px", xs: "8px" },
+                  fontSize: { lg: "9px", md: "9px", xs: "7px" },
                   marginLeft: "7px",
                   fontWeight: "500",
                 }}
               >
-                MAX : {maxBetValue ? maxBetValue : newData?.maxBet}
+                max : {maxBetValue ? maxBetValue : newData?.maxBet}
               </Typography>
               <Box
                 sx={{
