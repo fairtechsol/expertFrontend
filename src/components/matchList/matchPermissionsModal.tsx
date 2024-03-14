@@ -122,6 +122,7 @@ const MatchPermissionsModal = (props: any) => {
           place={2}
         />
       </Box>
+      {showUserModal && !matchesMobile && (
       <Box
         sx={{
           width: { xs: "auto", sm: "auto", md: "20%" },
@@ -129,7 +130,7 @@ const MatchPermissionsModal = (props: any) => {
           marginRight: "10px",
         }}
       >
-        {showUserModal && !matchesMobile && (
+  
           <Box
             sx={{
               display: "flex",
@@ -188,8 +189,9 @@ const MatchPermissionsModal = (props: any) => {
               />
             )}
           </Box>
-        )}
+      
       </Box>
+        )}
     </Box>
   );
 };

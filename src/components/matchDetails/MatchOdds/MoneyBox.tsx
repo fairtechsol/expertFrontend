@@ -1,5 +1,6 @@
 import { Box, Typography, useMediaQuery, useTheme } from "@mui/material";
 import { ArrowDownRed, ArrowUpGreen } from "../../../assets";
+import { formatToINR } from "../../helper";
 
 const MoneyBox = ({ value }: any) => {
   const theme = useTheme();
@@ -27,7 +28,7 @@ const MoneyBox = ({ value }: any) => {
             color: Number(value) > 0 ? "#319E5B" : "#FF4D4D",
           }}
         >
-          {value === 0 ? "" : value}
+          {formatToINR(value === 0 ? "" : value)}
         </Typography>
         {value ? (
           <img

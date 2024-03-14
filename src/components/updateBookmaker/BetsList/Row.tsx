@@ -1,4 +1,5 @@
 import { Box, Typography } from "@mui/material";
+import { formatToINR } from "../../helper";
 
 const Row = ({ index, values }: any) => {
   const getTime = (date: any) => {
@@ -212,7 +213,7 @@ const Row = ({ index, values }: any) => {
           <Typography
             sx={{ fontWeight: "600", fontSize: { xs: "8px", lg: "12px" }, color: "black" }}
           >
-            {values.amount || values.stake}
+            {formatToINR(values.amount || values.stake)}
           </Typography>
         </Box>
         <Box
@@ -228,12 +229,12 @@ const Row = ({ index, values }: any) => {
           <Typography
             sx={{ fontWeight: "600", fontSize: { xs: "8px", lg: "12px" }, color: "white" }}
           >
-            {values?.myStake
+            {formatToINR(values?.myStake
               ? values?.myStake
               : (
                   (+values?.amount * (+values?.user?.fwPartnership || 0)) /
                   100
-                ).toFixed()}
+                ).toFixed())}
           </Typography>
         </Box>
       </Box>

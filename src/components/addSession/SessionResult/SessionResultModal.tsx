@@ -75,7 +75,7 @@ const SessionResultModal = (props: any) => {
   return (
     <Box
       sx={{
-        width: "250px",
+        width: {lg:"250px", xs: "12rem"},
         height: "180px",
         padding: 0.2,
         borderRadius: 2,
