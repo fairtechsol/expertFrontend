@@ -96,6 +96,7 @@ const DropDown = (props: any) => {
                 lg: "14px !important",
                 xs: "12px !important",
               },
+              lineHeight : 0.9
             }}
           >
             {valueToShow}
