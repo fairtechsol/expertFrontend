@@ -26,7 +26,6 @@ const BookmakerEditSection = ({ add, match, bookmakerId, type }: Props) => {
         background: "#0B4F26",
         // borderRadius: "5px",
         position: "relative",
-        minHeight: "300px",
         py: "20px",
         px: "10px",
         pt: "5px",
@@ -68,7 +67,6 @@ const BookmakerEditSection = ({ add, match, bookmakerId, type }: Props) => {
           position: "relative",
           justifyContent: "center",
           width: "100%",
-          marginTop: "2%",
           alignSelf: "center",
         }}
       >
@@ -91,8 +89,8 @@ const BookmakerEditSection = ({ add, match, bookmakerId, type }: Props) => {
           alignItems: "center", 
           zIndex: 2,
           position: "relative",
-          justifyContent: "center",
-          width: "100%",
+          justifyContent: "flex-end",
+          width: "50%",
           marginTop: "2%",
           alignSelf: "center",
         }}
@@ -166,7 +164,6 @@ const BookmakerEditSection = ({ add, match, bookmakerId, type }: Props) => {
               position: "relative",
               display: "flex",
               background: "white",
-              marginLeft: "70%",
               marginBottom: "10px",
               maxWidth: "150px",
               justifyContent: "center",

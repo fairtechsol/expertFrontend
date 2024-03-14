@@ -93,7 +93,7 @@ const UpdateBookmaker = () => {
           </Paper>
         </Grid>
         <Grid item xs={12}  md={12} lg={6}>
-          <Paper style={{ margin: "10px",}}>
+          <Paper style={{ margin: "1px",}}>
             <BetsList
               betData={placedBets && placedBets.length > 0 ? placedBets : []}
             />
