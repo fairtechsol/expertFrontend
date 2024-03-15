@@ -8,6 +8,7 @@ import BoxComponent from "../MatchOdds/BoxComponent";
 import { betLiveStatus } from "../../../store/actions/match/matchAction";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../../store/store";
+import { formatToINR } from "../../helper";
 
 const CompleteMatchMarket = ({ currentMatch, liveData }: any) => {
   const [visibleImg, setVisibleImg] = useState(true);
@@ -154,8 +155,8 @@ const CompleteMatchMarket = ({ currentMatch, liveData }: any) => {
                   marginLeft: "7px",
                 }}
               >
-                MIN: {currentMatch?.marketCompleteMatch?.minBet} MAX:{" "}
-                {currentMatch?.marketCompleteMatch?.maxBet}
+                MIN: {formatToINR(currentMatch?.marketCompleteMatch?.minBet)}{" "}
+                MAX: {formatToINR(currentMatch?.marketCompleteMatch?.maxBet)}
               </Typography>
             </Box>
             <Box

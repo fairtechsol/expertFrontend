@@ -8,6 +8,7 @@ import BoxComponent from "../MatchOdds/BoxComponent";
 import { betLiveStatus } from "../../../store/actions/match/matchAction";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../../store/store";
+import { formatToINR } from "../../helper";
 
 const BookMarket = ({ currentMatch, liveData }: any) => {
   const dispatch: AppDispatch = useDispatch();
@@ -153,8 +154,8 @@ const BookMarket = ({ currentMatch, liveData }: any) => {
                   marginLeft: "7px",
                 }}
               >
-                MIN: {currentMatch?.bookmaker?.minBet} MAX:{" "}
-                {currentMatch?.bookmaker?.maxBet}
+                MIN: {formatToINR(currentMatch?.bookmaker?.minBet)} MAX:{" "}
+                {formatToINR(currentMatch?.bookmaker?.maxBet)}
               </Typography>
             </Box>
             <Box

@@ -11,6 +11,7 @@ import SmallBox2 from "./SmallBox2";
 import { betLiveStatus } from "../../../store/actions/match/matchAction";
 import { AppDispatch } from "../../../store/store";
 import { useDispatch } from "react-redux";
+import { formatToINR } from "../../helper";
 
 const MatchOdds = ({ currentMatch, matchOddsLive }: any) => {
   const [visible, setVisible] = useState(false);
@@ -222,7 +223,7 @@ const MatchOdds = ({ currentMatch, matchOddsLive }: any) => {
             zIndex: 999,
             top: "26%",
             right: "100px",
-            width:  {lg:"50vh", xs:"30vh"}
+            width: { lg: "50vh", xs: "30vh" },
           }}
         >
           {visible && (
@@ -319,8 +320,8 @@ const MatchOdds = ({ currentMatch, matchOddsLive }: any) => {
                     marginLeft: "7px",
                   }}
                 >
-                  MIN: {currentMatch?.matchOdd?.minBet} MAX:
-                  {currentMatch?.matchOdd?.maxBet}
+                  MIN: {formatToINR(currentMatch?.matchOdd?.minBet)} MAX:
+                  {formatToINR(currentMatch?.matchOdd?.maxBet)}
                 </Typography>
               </Box>
               <Box

@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { sessionBetLiveStatus } from "../../../store/actions/match/matchAction";
 import { AppDispatch, RootState } from "../../../store/store";
 import Divider from "../../Common/Divider";
-import { formatNumber } from "../../helper";
+import { formatNumber, formatToINR } from "../../helper";
 import Result from "../Result";
 import SeparateBox from "../SeparateBox";
 import SmallBox from "../SmallBox";
@@ -105,7 +105,7 @@ const SessionMarketBox = ({
                   fontWeight: "500",
                 }}
               >
-                max : {maxBetValue ? maxBetValue : newData?.maxBet}
+                max : {maxBetValue ? formatToINR(maxBetValue) : formatToINR(newData?.maxBet)}
               </Typography>
               <Box
                 sx={{
