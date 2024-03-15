@@ -71,14 +71,14 @@ const AddSession = () => {
     <Box>
       <Grid container >
         <Grid item xs={12} md={12} lg={6}>
-          <Paper style={{ margin: "10px" }}>
+          <Paper style={{ margin: "4px" }}>
             <SessionInputFields
               createSession={state?.createSession}
               sessionEvent={state?.sessionEvent}
               match={state?.match}
             />
           </Paper>
-          <Paper style={{ margin: "10px" }}>
+          <Paper style={{ margin: "4px" }}>
             <SessionResult
               sessionProLoss={sessionProLoss}
               matchId={state?.match}
@@ -86,7 +86,7 @@ const AddSession = () => {
           </Paper>
         </Grid>
         <Grid item xs={12} md={12} lg={6}>
-          <Paper style={{ margin: "10px" }}>
+          <Paper style={{ margin: "4px" }}>
             {true && (
               <BetsList
                 sessionEvent={sessionById && sessionById}
