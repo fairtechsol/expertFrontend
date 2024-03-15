@@ -8,12 +8,16 @@ import { useEffect } from "react";
 const AuthLayout = () => {
   const navigate = useNavigate();
   useEffect(() => {
-    if (sessionStorage.getItem("userToken")) {
-      if (sessionStorage.getItem("forceChangePassword") == "true") {
-        navigate("/change-password");
-      } else {
-        navigate("/expert/match");
+    try {
+      if (sessionStorage.getItem("userToken")) {
+        if (sessionStorage.getItem("forceChangePassword") == "true") {
+          navigate("/change-password");
+        } else {
+          navigate("/expert/match");
+        }
       }
+    } catch (error) {
+      console.log(error);
     }
   }, []);
 

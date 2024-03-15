@@ -4,26 +4,31 @@ import { authSocketService } from "./authSocket";
 import { matchSocketService } from "./matchSocket";
 import { userSocketService } from "./userSocket";
 
-export const matchSocket = io(baseUrls.matchSocket, {
-  transports: [
-    process.env.NODE_ENV === "production"
-      ? `${Constants.POLLING}`
-      : `${Constants.WEBSOCKET}`,
-  ],
-  auth: {
-    token: `${sessionStorage.getItem("userToken")}`,
-  },
-});
+export let matchSocket: any = null;
+export let socket: any = null;
 
-export const socket = io(baseUrls.expertSocket, {
-  transports: [`${Constants.WEBSOCKET}`],
-  auth: {
-    token: `${sessionStorage.getItem("userToken")}`,
-  },
-});
+export const initialiseSocket = () => {
+  matchSocket = io(baseUrls.matchSocket, {
+    transports: [`${Constants.WEBSOCKET}`],
+    auth: {
+      token: `${sessionStorage.getItem("userToken")}`,
+    },
+  });
+  socket = io(baseUrls.expertSocket, {
+    transports: [
+      process.env.NODE_ENV === "production"
+        ? `${Constants.POLLING}`
+        : `${Constants.WEBSOCKET}`,
+    ],
+    auth: {
+      token: `${sessionStorage.getItem("userToken")}`,
+    },
+  });
+};
 
 export const socketService = {
   connect: () => {
+    initialiseSocket();
     // Connect to the socket server
     socket.connect();
     matchSocket.connect();
