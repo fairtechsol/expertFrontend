@@ -4,6 +4,7 @@ import { Box, Typography } from "@mui/material";
 import Divider from "../../Common/Divider";
 import { ARROWUP } from "../../../assets";
 import SessionMarketBoxLive from "./SessionMarketBoxLive";
+import { formatToINR } from "../../helper";
 
 const SessionMarketLive = ({
   currentMatch,
@@ -139,7 +140,7 @@ const SessionMarketLive = ({
                     marginLeft: "7px",
                   }}
                 >
-                  MIN: {currentMatch?.betFairSessionMinBet} 
+                  MIN: {formatToINR(currentMatch?.betFairSessionMinBet)} 
                   {/* MAX:
                   {currentMatch?.betFairSessionMaxBet} */}
                 </Typography>

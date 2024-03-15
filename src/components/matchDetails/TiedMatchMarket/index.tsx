@@ -8,6 +8,7 @@ import BoxComponent from "../MatchOdds/BoxComponent";
 import { betLiveStatus } from "../../../store/actions/match/matchAction";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../../store/store";
+import { formatToINR } from "../../helper";
 
 const TiedMatchMarket = ({ currentMatch, liveData }: any) => {
   const dispatch: AppDispatch = useDispatch();
@@ -156,8 +157,8 @@ const TiedMatchMarket = ({ currentMatch, liveData }: any) => {
                   marginLeft: "7px",
                 }}
               >
-                MIN: {currentMatch?.apiTideMatch?.minBet} MAX:{" "}
-                {currentMatch?.apiTideMatch?.maxBet}
+                MIN: {formatToINR(currentMatch?.apiTideMatch?.minBet)} MAX:{" "}
+                {formatToINR(currentMatch?.apiTideMatch?.maxBet)}
               </Typography>
             </Box>
             <Box
