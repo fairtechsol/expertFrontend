@@ -49,7 +49,7 @@ const BookmakerEditSection = ({ add, match, bookmakerId, type }: Props) => {
           <Typography
         sx={{
           color: "white",
-          fontSize: {lg:"25px", xs: "1rem"},
+          fontSize: {lg:"25px", xs: "1rem", md: "20px"},
           fontWeight: "600",
           zIndex: 2,
           position: "relative",
@@ -76,7 +76,7 @@ const BookmakerEditSection = ({ add, match, bookmakerId, type }: Props) => {
         sx={{
           width: "100%",
           color: "white",
-          fontSize: {lg:"20px", xs: "1rem"},
+          fontSize: {lg:"20px", xs: "14px", md: "18px"},
           fontWeight: "600",
           zIndex: 2,
           position: "relative",
