@@ -278,9 +278,9 @@ const Header1 = () => {
               flexDirection: { lg: "row", xs: "column", sm: "row" },
               alignItems: !matchesMobile ? "center" : "flex-start",
               justifyContent: "space-between",
-              paddingX: { lg: "0.5%", xs: "1%" },
-              paddingY: matchesMobile ? "15px" : "0px",
-              paddingBottom: matchesMobile ? "10px" : "0px",
+              paddingX: { lg: "0.5%", xs: "2%" },
+              paddingY: "6px",
+              paddingBottom: "4px",
             },
             (theme: any) => ({
               backgroundImage: `${theme.palette.primary.headerGradient}`,
@@ -293,6 +293,7 @@ const Header1 = () => {
               alignItems: "center",
               width: "100%",
               flex: 1,
+              justifyContent: "space-between",
             }}
           >
             <Box
@@ -308,7 +309,7 @@ const Header1 = () => {
                 }}
                 src={Draw}
                 sx={{
-                  height: { lg: "24px", xs: "20px" },
+                  height: { lg: "24px", xs: "15px" },
                   width: "auto",
                 }}
               />
@@ -320,13 +321,16 @@ const Header1 = () => {
                 }}
                 sx={{
                   cursor: "pointer",
-                  height: { lg: "55px", xs: "45px" },
+                  height: { lg: "55px", xs: "35px" },
                   width: "auto",
                   marginLeft: { lg: "20px", xs: "10px" },
                 }}
               />
             </Box>
             <>
+            <Box
+            sx={{display: "flex"}}
+            >
               {(getProfile?.bookmakerMatchPrivilege ||
                 getProfile?.sessionMatchPrivilege ||
                 getProfile?.allPrivilege) && (
@@ -342,7 +346,7 @@ const Header1 = () => {
                       currentSelected == 1 ? "white" : "transparent",
                     py: "5px",
                     borderRadius: "5px",
-                    marginLeft: { lg: "15px", xs: "1px" },
+                    marginLeft: { lg: "15px", xs: "15px" },
                     cursor: "pointer",
                   }}
                   titleStyle={{
@@ -375,15 +379,15 @@ const Header1 = () => {
                   }}
                 />
               </NavLink>
+              </Box>
             </>
           </Box>
           <Box
             sx={{
               display: "flex",
-              justifyContent: "flex-end",
+              justifyContent: "space-between",
               flex: 1,
               alignItems: "center",
-              marginTop: matchesMobile ? "1px" : "0px",
               flexDirection:  "row",
             }}
           >
@@ -392,7 +396,7 @@ const Header1 = () => {
                 setVisible(true);
               }}
               sx={{
-                height: "45px",
+                height: {lg:"45px", xs: "35px"},
                 width: "45px",
                 borderRadius: "35px",
                 display: "flex",
@@ -406,7 +410,7 @@ const Header1 = () => {
                 sx={{ height: "25px", width: "25px" }}
               />
             </Box>
-            <Box sx={{ display: "flex", alignItems: "center",  marginLeft: {lg:"0px",xs : "140px"}  }}>
+            <Box sx={{ display: "flex", marginLeft: {lg:"0px",xs : "140px"}  }}>
               <ActiveUsers
                 containerStyle={{}}
                 image={Users}
@@ -431,7 +435,7 @@ const Header1 = () => {
       )}
         </Box>
       </AppBar>
-      <Box sx={{ minHeight: { lg: 66, sm: 70, md: 80, xs: 115 } }} />
+      <Box sx={{ minHeight: { lg: 66, sm: 70, md: 80, xs: 80 } }} />
    
         </>
       )}
