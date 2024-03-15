@@ -18,7 +18,7 @@ import { getLoggedUserCount } from "../../../store/actions/user/userAction";
 
 const Header1 = () => {
   const theme = useTheme();
-  const matchesMobile = useMediaQuery(theme.breakpoints.down("lg"));
+  const matchesMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const navigate = useNavigate();
   const dispatch: AppDispatch = useDispatch();
   const { getProfile, loggedUserCount } = useSelector(
@@ -85,6 +85,8 @@ const Header1 = () => {
         <Loader />
       </ModalMUI>
       {/* <SessionTimeOut /> */}
+      {!matchesMobile && (
+        <>
       <AppBar
         position="fixed"
         sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
@@ -95,10 +97,186 @@ const Header1 = () => {
           sx={[
             {
               width: "100%",
+              display: "flex",
+              flexDirection: "row",
+              alignItems: !matchesMobile ? "center" : "flex-start",
+              justifyContent: "space-between",
+              paddingX: { lg: "0.5%", xs: "1%" },
+              // paddingY: matchesMobile ? "15px" : "0px",
+              paddingBottom: matchesMobile ? "10px" : "0px",
+            },
+            (theme: any) => ({
+              backgroundImage: `${theme.palette.primary.headerGradient}`,
+            }),
+          ]}
+        >
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              width: "100%",
+              flex: 1,
+            }}
+          >
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                marginRight: "12px",
+              }}
+            >
+              <StyledImage
+                onClick={() => {
+                  //   setMobileOpen(!mobileOpen);
+                }}
+                src={Draw}
+                sx={{
+                  height: { lg: "24px", xs: "20px" },
+                  width: "auto",
+                }}
+              />
+              <StyledImage
+                src={FgLogo}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  navigate(`/expert/match`);
+                }}
+                sx={{
+                  cursor: "pointer",
+                  height: { lg: "55px", xs: "45px" },
+                  width: "auto",
+                  marginLeft: { lg: "20px", xs: "10px" },
+                }}
+              />
+            </Box>
+            <>
+              {(getProfile?.bookmakerMatchPrivilege ||
+                getProfile?.sessionMatchPrivilege ||
+                getProfile?.allPrivilege) && (
+                  <ButtonHead
+                    onClick={(e: any) => {
+                      setSelected(1);
+                      dispatch(getMatchListDropdown());
+                      setAnchor(e?.currentTarget);
+                    }}
+                    title={!dropDownLoading ? "ALL MATCH" : "Loading..."}
+                    boxStyle={{
+                      backgroundColor:
+                        currentSelected == 1 ? "white" : "transparent",
+                      py: "5px",
+                      borderRadius: "5px",
+                      marginLeft: { lg: "15px", xs: "1px" },
+                      cursor: "pointer",
+                    }}
+                    titleStyle={{
+                      color: currentSelected == 1 ? "green" : "white",
+                    }}
+                  />
+                )}
+
+              <NavLink to={"/expert/match"} style={{ textDecoration: "none" }}>
+                <ButtonHead
+                  onClick={() => {
+                    setSelected(4);
+                  }}
+                  title={"MATCH LIST"}
+                  boxStyle={{
+                    backgroundColor:
+                      window.location.pathname.split("/")[2] == "match"
+                        ? "white"
+                        : "transparent",
+                    py: "5px",
+                    borderRadius: "5px",
+                    marginLeft: { lg: "15px", xs: "1px" },
+                    cursor: "pointer",
+                  }}
+                  titleStyle={{
+                    color:
+                      window.location.pathname.split("/")[2] == "match"
+                        ? "green"
+                        : "white",
+                  }}
+                />
+              </NavLink>
+            </>
+            <Box sx={{ minHeight: { lg: 66, xs: 40 + 42 } }} />
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: matchesMobile ? "flex-end" : "flex-end",
+                flex: 1,
+                minWidth: matchesMobile ? "0%" : "0px",
+                alignItems: matchesMobile ? "center" : "center",
+                marginTop: matchesMobile ? "0px" : "0px",
+                flexDirection: matchesMobile ? "row" : "row", 
+              
+              }}
+            >
+              <Box
+                onClick={() => {
+                  setVisible(true);
+                }}
+                sx={{
+                  height: "45px",
+                  width: "45px",
+                  borderRadius: "35px",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  background: "white",
+                  marginTop: {xs: "10px"}
+                }}
+              >
+                <StyledImage
+                  src={NotiBadge}
+                  sx={{ height: "25px", width: "25px" }}
+                />
+              </Box>
+              <Box sx={{ display: "flex", alignItems: "center" ,marginTop: {xs: "10px"}}}>
+                <ActiveUsers
+                  containerStyle={{}}
+                  image={Users}
+                  value={userCount}
+                />
+                <BoxProfile
+                  containerStyle={{ marginTop:{xs: "0px"},  alignItems: "center" }}
+                  image={"https://picsum.photos/200/300"}
+                  value1={getProfile?.userName}
+                />
+              </Box>
+            </Box>
+          </Box>
+          {matchListDropdown?.length > 0 && (
+            <DropDownMenu
+            sx={{ alignItems: "center" }}
+              anchorEl={anchor}
+              open={Boolean(anchor)}
+              allMatch={matchListDropdown}
+              handleClose={() => {
+                setAnchor(null);
+              }}
+            />
+          )}
+        </Box>
+      </AppBar>
+      <Box sx={{ minHeight: { lg: 66, xs: 60 + 20 } }} />
+      </>
+)}
+      {matchesMobile && (
+        <>
+          <AppBar
+        position="fixed"
+        sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
+      >
+        <NotificationModal setVisible={setVisible} visible={visible} />
+        <Box
+          sx={[
+            {
+              width: "100%",
               minHeight: { lg: 66, md: 80, xs: 60 },
               display: "flex",
               flexDirection: { lg: "row", xs: "column", sm: "row" },
-              alignItems: !matchesMobile ? "center" : "flex-stretch",
+              alignItems: !matchesMobile ? "center" : "flex-start",
               justifyContent: "space-between",
               paddingX: { lg: "0.5%", xs: "1%" },
               paddingY: matchesMobile ? "15px" : "0px",
@@ -202,8 +380,11 @@ const Header1 = () => {
           <Box
             sx={{
               display: "flex",
-              justifyContent: "space-between",
+              justifyContent: "flex-end",
+              flex: 1,
               alignItems: "center",
+              marginTop: matchesMobile ? "1px" : "0px",
+              flexDirection:  "row",
             }}
           >
             <Box
@@ -225,7 +406,7 @@ const Header1 = () => {
                 sx={{ height: "25px", width: "25px" }}
               />
             </Box>
-            <Box sx={{ display: "flex", alignItems: "center" }}>
+            <Box sx={{ display: "flex", alignItems: "center",  marginLeft: {lg:"0px",xs : "140px"}  }}>
               <ActiveUsers
                 containerStyle={{}}
                 image={Users}
@@ -238,10 +419,7 @@ const Header1 = () => {
               />
             </Box>
           </Box>
-        </Box>
-      </AppBar>
-      <Box sx={{ minHeight: { lg: 66, sm: 70, md: 80, xs: 115 } }} />
-      {matchListDropdown?.length > 0 && (
+          {matchListDropdown?.length > 0 && (
         <DropDownMenu
           anchorEl={anchor}
           open={Boolean(anchor)}
@@ -251,7 +429,15 @@ const Header1 = () => {
           }}
         />
       )}
+        </Box>
+      </AppBar>
+      <Box sx={{ minHeight: { lg: 66, sm: 70, md: 80, xs: 115 } }} />
+   
+        </>
+      )}
+    
     </>
+    
   );
 };
 

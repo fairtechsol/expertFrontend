@@ -55,7 +55,7 @@ const ActiveUsers = (props: any) => {
           </Box>
           <Box style={{ flex: 1, marginLeft: "5px" }}>
             <Typography
-              sx={{ fontSize: "8px", color: "text.primary", fontWeight: "500" }}
+              sx={{ fontSize: "8px", color: "text.primary", fontWeight: "500", lineHeight: "0.8" }}
             >
               Active Users
             </Typography>
