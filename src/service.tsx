@@ -3,7 +3,7 @@ import { toast } from "react-toastify";
 import { Constants } from "./utils/Constants";
 
 const toastOptions = {
-  autoClose: 1500,
+  autoClose: 3000,
   hideProgressBar: false,
   closeOnClick: true,
   pauseOnHover: true,

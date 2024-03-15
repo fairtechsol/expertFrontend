@@ -2,7 +2,7 @@ import { toast } from "react-toastify";
 import { socket } from ".";
 
 const toastOptions = {
-  autoClose: 1500,
+  autoClose: 2000,
   hideProgressBar: false,
   closeOnClick: true,
   pauseOnHover: true,
