@@ -177,6 +177,8 @@ const addMatch = createSlice({
                   yesRate: matchingApiSession.BackPrice1 ?? 0,
                   yesPercent: matchingApiSession.BackSize1 ?? 0,
                   activeStatus: matchingApiSession.activeStatus,
+                  maxBet: matchingApiSession.max,
+                  minBet: matchingApiSession.min,
                   status: matchingApiSession.GameStatus,
                 });
               } else {
