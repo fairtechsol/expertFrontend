@@ -406,8 +406,6 @@ const SessionAddComponent = ({ createSession, match }: any) => {
           position: "relative",
           display: "flex",
           background: "#0B4F26",
-          // marginLeft: "5px",
-          // maxWidth: "120px",
           justifyContent: "center",
           alignItems: "center",
           height: "35px",
