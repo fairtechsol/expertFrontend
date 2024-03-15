@@ -251,7 +251,7 @@ const SessionMarketBox = ({
                 fontWeight: "400",
               }}
             >
-              {newData?.activeStatus === "result" && newData?.result
+              {newData?.result
                 ? `Result Declared`
                 : newData?.status}
             </h6>
