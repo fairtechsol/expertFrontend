@@ -26,7 +26,7 @@ const ButtonHead = ({
       <Typography
         sx={[
           {
-            fontSize: "11px",
+            fontSize: {lg:"11px", xs:"10px"},
             fontWeight: "bold",
             fontFamily: "Poppins,sans-serif",
           },

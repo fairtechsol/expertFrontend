@@ -127,7 +127,9 @@ const MatchPermissionsModal = (props: any) => {
         sx={{
           width: { xs: "auto", sm: "auto", md: "20%" },
           flex: 1,
+          display: "flex",
           marginRight: "10px",
+          justifyContent: "flex-end"
         }}
       >
   
@@ -136,19 +138,27 @@ const MatchPermissionsModal = (props: any) => {
               display: "flex",
               justifyContent: "flex-end",
               alignItems: "center",
-              marginTop: "4rem",
-              flexDirection: { xs: "column", sm: "column", md: "row" },
+              // marginTop: "4rem",
+
+              flexDirection: { xs: "column", md: "row" },
             }}
           >
+            <Box
+             sx={{
+              width: { xs: "14%", lg: "36%"},
+            
+             }}
+             >
             {data?.stopAt && (
               <MatchListProfitLoss
                 containerStyle={{
-                  minWidth: { xs: "4%", sm: "12px" },
-                  width: { xs: "9%", sm: "100px" },
+                  // minWidth: { xs: "4%", sm: "12px" },
+                  width: { xs: "4%", lg: "2%"},
                   marginBottom: { xs: "1rem", sm: "1rem", md: 0 },
+                  marginTop: { xs: "1rem", sm: "1rem", md: 1 },
                 }}
                 onClick={() => handleMatchProfitLossClick(data?.id)}
-                updateMatchStatusLabel="Match Profit/Loss"
+                updateMatchStatusLabel="Total Profit/Loss"
                 updateMatchStatus={
                   data?.pl &&
                   data?.pl?.length > 0 &&
@@ -163,7 +173,9 @@ const MatchPermissionsModal = (props: any) => {
                 containerStyle={{
                   minWidth: { xs: "95%", sm: "100px" },
                   width: { xs: "49%", sm: "100px", lg: "100px" },
-                  marginTop: { xs: "1rem", sm: "1rem", md: 0 },
+                  marginTop: { xs: "1rem", sm: "1rem", md: 1 },
+                  justifyContent: "flex-end",
+                  marginLeft: "60px"
                 }}
                 title={"Submit"}
                 onClick={() => {
@@ -173,12 +185,36 @@ const MatchPermissionsModal = (props: any) => {
                 }}
               />
             )}
+            </Box>
+            <Box
+             sx={{
+              width: { xs: "14%", lg: "36%"},
+            
+             }}
+            >
+             {data?.stopAt && (
+              <MatchListProfitLoss
+                containerStyle={{
+                  minWidth: { xs: "4%", sm: "12px" },
+                  width: { xs: "9%", sm: "100px" },
+                  marginBottom: { xs: "1rem", sm: "1rem", md: 0 },
+                }}
+                onClick={() => handleMatchProfitLossClick(data?.id)}
+                updateMatchStatusLabel="Session Profit/Loss"
+                updateMatchStatus={
+                  data?.pl &&
+                  data?.pl?.length > 0 &&
+                  data?.pl[0]?.sessionTotalProfitLoss
+                }
+                place="1"
+              />
+            )}
             {(getProfile?.allPrivilege || getProfile?.addMatchPrivilege) && (
               <CustomButton
                 containerStyle={{
                   minWidth: { xs: "95%", sm: "100px" },
                   width: { xs: "49%", sm: "100px" },
-                  marginTop: { xs: "1rem", sm: "1rem", md: 0 },
+                  marginTop: { xs: "1rem", sm: "1rem", md: 1 },
                 }}
                 onClick={() => {
                   navigate(`/expert/edit_match`, {
@@ -189,7 +225,7 @@ const MatchPermissionsModal = (props: any) => {
               />
             )}
           </Box>
-      
+          </Box>
       </Box>
         )}
     </Box>

@@ -385,7 +385,7 @@ const SessionAddComponent = ({ createSession, match }: any) => {
       }}
     >
       <Typography
-        sx={{ color: "#0B4F26", fontSize: "20px", fontWeight: "600" }}
+        sx={{ color: "#0B4F26", fontSize: {lg:"20px", xs: "16px", md: "18px"}, fontWeight: "600" }}
       >
         {match?.title && match.title}(max:
         {maxBetValue
@@ -418,6 +418,7 @@ const SessionAddComponent = ({ createSession, match }: any) => {
             color: "white",
             fontWeight: "400",
             fontSize: "12px",
+            lineHeight: "0.9"
           }}
         >
           Set session max limit
