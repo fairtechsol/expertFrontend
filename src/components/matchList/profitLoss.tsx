@@ -17,7 +17,7 @@ const MatchListProfitLoss = (Props: any) => {
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
-          // width: { xs: "70%", md: "65%" },
+          width: { xs: "70%", md: "65%", lg: "40%" },
           marginTop: showUserModal ? { xs: "1%", sm: "5%", lg: "0%" } : "0",
         }}
       >
@@ -27,7 +27,7 @@ const MatchListProfitLoss = (Props: any) => {
             fontFamily: "Poppins, sans-serif",
             fontWeight: "700",
             fontSize: { lg: "12px", md: "10px", xs: "9px" },
-            lineHeight: "0.9",
+            lineHeight: "1.2",
             color: "#575757",
             marginLeft: "1vw",
             overflow: "hidden",
