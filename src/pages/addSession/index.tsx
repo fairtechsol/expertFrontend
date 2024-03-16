@@ -63,13 +63,13 @@ const AddSession = () => {
   useEffect(() => {
     socketService.user.sessionResultDeclared(getSessionProLoss);
     return () => {
-      socketService.user.sessionResultDeclaredOff(getSessionProLoss);
+      socketService.user.sessionResultDeclaredOff();
     };
   }, [state?.match?.id]);
 
   return (
     <Box>
-      <Grid container >
+      <Grid container>
         <Grid item xs={12} md={12} lg={6}>
           <Paper style={{ margin: "4px" }}>
             <SessionInputFields

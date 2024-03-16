@@ -472,11 +472,13 @@ const AddMatch = () => {
             titleSize={"20px"}
             headColor={"#000000"}
           />
-         {!state?.id && <BoxButtonManualMatch
-            title={manualMatchToggle === false ? "Live" : "Manual"}
-            manualMatchToggle={manualMatchToggle}
-            setManualMatchToggle={setManualMatchToggle}
-          />}
+          {!state?.id && (
+            <BoxButtonManualMatch
+              title={manualMatchToggle === false ? "Live" : "Manual"}
+              manualMatchToggle={manualMatchToggle}
+              setManualMatchToggle={setManualMatchToggle}
+            />
+          )}
         </Box>
         <Box
           sx={{
@@ -832,6 +834,7 @@ const AddMatch = () => {
               <MatchListInput
                 required={true}
                 valueStyle={{}}
+                disable={state?.id}
                 containerStyle={{ flex: 1, width: "100%" }}
                 label={"Min Bet"}
                 type={"Number"}

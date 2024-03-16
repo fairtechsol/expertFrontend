@@ -252,52 +252,7 @@ const EditBookmaker = (props: any) => {
 
   useEffect(() => {
     return () => {
-      socketService.user.updateMatchBettingRateClientOff((data: any) => {
-        if (match?.id === data?.matchId && Bid === data?.id) {
-          if (
-            data?.statusTeamA === "ball start" &&
-            data?.statusTeamB === "ball start" &&
-            data?.statusTeamC === "ball start"
-          ) {
-            setLocalQuickBookmaker((prev: any) => {
-              return {
-                ...prev,
-                teamBall: true,
-              };
-            });
-          } else {
-            setLocalQuickBookmaker((prev: any) => {
-              return {
-                ...prev,
-                teamBall: false,
-              };
-            });
-          }
-          setLocalQuickBookmaker((prev: any) => {
-            return {
-              ...prev,
-              teamA: {
-                ...prev.teamA,
-                rightBack: data?.backTeamA,
-                rightLay: data?.layTeamA,
-                suspended: data?.statusTeamA !== "active" ? true : false,
-              },
-              teamB: {
-                ...prev.teamB,
-                rightBack: data?.backTeamB,
-                rightLay: data?.layTeamB,
-                suspended: data?.statusTeamB !== "active" ? true : false,
-              },
-              teamC: {
-                ...prev.teamC,
-                rightBack: data?.backTeamC,
-                rightLay: data?.layTeamC,
-                suspended: data?.statusTeamC !== "active" ? true : false,
-              },
-            };
-          });
-        }
-      });
+      socketService.user.updateMatchBettingRateClientOff();
     };
   }, []);
 
@@ -1144,135 +1099,134 @@ const EditBookmaker = (props: any) => {
           </Box>
         </Box>
       </Box>
-    
 
-{!matchesMobile &&
-      <Box
-        sx={{
-          display: "flex",
-          zIndex: 2,
-          position: "relative",
-          justifyContent: "center",
-          width: "100%",
-          marginTop: "2%",
-          alignSelf: "center",
-        }}
-      >
-        <Box sx={{ width: "2%" }}></Box>
-        {bookmakerById?.stopAt ? (
-          <Box
-            onClick={(e) => {
-              setVisible1(true);
-              setVisible(false);
-              e.stopPropagation();
-            }}
-            sx={{
-              position: "relative",
-              width: "100%",
-              display: "flex",
-              background: "#FF4D4D",
-              maxWidth: "150px",
-              marginLeft: "5px",
-              justifyContent: "center",
-              alignItems: "center",
-              height: "45px",
-              borderRadius: "5px",
-              cursor: "pointer",
-            }}
-          >
-            <Typography
-              sx={{ color: "white", fontWeight: "500", fontSize: "12px" }}
-            >
-              Un Declare
-            </Typography>
+      {!matchesMobile && (
+        <Box
+          sx={{
+            display: "flex",
+            zIndex: 2,
+            position: "relative",
+            justifyContent: "center",
+            width: "100%",
+            marginTop: "2%",
+            alignSelf: "center",
+          }}
+        >
+          <Box sx={{ width: "2%" }}></Box>
+          {bookmakerById?.stopAt ? (
             <Box
+              onClick={(e) => {
+                setVisible1(true);
+                setVisible(false);
+                e.stopPropagation();
+              }}
               sx={{
-                position: "absolute",
-                zIndex: 999,
-                top: "40px",
-                left: "-120%",
+                position: "relative",
+                width: "100%",
+                display: "flex",
+                background: "#FF4D4D",
+                maxWidth: "150px",
+                marginLeft: "5px",
+                justifyContent: "center",
+                alignItems: "center",
+                height: "45px",
+                borderRadius: "5px",
+                cursor: "pointer",
               }}
             >
-              {visible1 && (
-                <ResultComponent
-                  onClick={() => {
-                    setVisible1(false);
-                  }}
-                  currentMatch={match}
-                  teamA={match?.teamA}
-                  teamB={match?.teamB}
-                  tie={"Tie"}
-                  draw={
-                    match?.teamC && !"tiedMatch2".includes(type)
-                      ? match?.teamC
-                      : ""
-                  }
-                  stopAt={match?.stopAt}
-                  // betStatus={localSelectedBookmaker?.betStatus}
-                />
-              )}
+              <Typography
+                sx={{ color: "white", fontWeight: "500", fontSize: "12px" }}
+              >
+                Un Declare
+              </Typography>
+              <Box
+                sx={{
+                  position: "absolute",
+                  zIndex: 999,
+                  top: "40px",
+                  left: "-120%",
+                }}
+              >
+                {visible1 && (
+                  <ResultComponent
+                    onClick={() => {
+                      setVisible1(false);
+                    }}
+                    currentMatch={match}
+                    teamA={match?.teamA}
+                    teamB={match?.teamB}
+                    tie={"Tie"}
+                    draw={
+                      match?.teamC && !"tiedMatch2".includes(type)
+                        ? match?.teamC
+                        : ""
+                    }
+                    stopAt={match?.stopAt}
+                    // betStatus={localSelectedBookmaker?.betStatus}
+                  />
+                )}
+              </Box>
             </Box>
-          </Box>
-        ) : (
-          /* <Box sx={{ width: '2%' }} ></Box> */
+          ) : (
+            /* <Box sx={{ width: '2%' }} ></Box> */
 
-          <Box
-            onClick={(e) => {
-              setVisible(true);
-              setVisible1(false);
-              e.stopPropagation();
-            }}
-            sx={{
-              width: "100%",
-              position: "relative",
-              display: "flex",
-              background: "white",
-              marginLeft: "5px",
-              maxWidth: "150px",
-              justifyContent: "center",
-              alignItems: "center",
-              height: "45px",
-              borderRadius: "5px",
-              cursor: "pointer",
-            }}
-          >
-            <Typography
-              sx={{ color: "#0B4F26", fontWeight: "500", fontSize: "12px" }}
-            >
-              Declare
-            </Typography>
             <Box
+              onClick={(e) => {
+                setVisible(true);
+                setVisible1(false);
+                e.stopPropagation();
+              }}
               sx={{
-                position: "absolute",
-                zIndex: 999,
-                top: "40px",
-                right: 0,
-                width:  {lg:"50vh", xs:"30vh"}
+                width: "100%",
+                position: "relative",
+                display: "flex",
+                background: "white",
+                marginLeft: "5px",
+                maxWidth: "150px",
+                justifyContent: "center",
+                alignItems: "center",
+                height: "45px",
+                borderRadius: "5px",
+                cursor: "pointer",
               }}
             >
-              {visible && (
-                <ResultComponent
-                  onClick={() => {
-                    setVisible(false);
-                  }}
-                  currentMatch={match}
-                  stopAt={match?.stopAt}
-                  teamA={match?.teamA}
-                  teamB={match?.teamB}
-                  tie={"Tie"}
-                  draw={
-                    match?.teamC && !"tiedMatch2".includes(type)
-                      ? match?.teamC
-                      : ""
-                  }
-                  // betStatus={localSelectedBookmaker?.betStatus}
-                />
-              )}
+              <Typography
+                sx={{ color: "#0B4F26", fontWeight: "500", fontSize: "12px" }}
+              >
+                Declare
+              </Typography>
+              <Box
+                sx={{
+                  position: "absolute",
+                  zIndex: 999,
+                  top: "40px",
+                  right: 0,
+                  width: { lg: "50vh", xs: "30vh" },
+                }}
+              >
+                {visible && (
+                  <ResultComponent
+                    onClick={() => {
+                      setVisible(false);
+                    }}
+                    currentMatch={match}
+                    stopAt={match?.stopAt}
+                    teamA={match?.teamA}
+                    teamB={match?.teamB}
+                    tie={"Tie"}
+                    draw={
+                      match?.teamC && !"tiedMatch2".includes(type)
+                        ? match?.teamC
+                        : ""
+                    }
+                    // betStatus={localSelectedBookmaker?.betStatus}
+                  />
+                )}
+              </Box>
             </Box>
-          </Box>
-        )}
-      </Box>
-}
+          )}
+        </Box>
+      )}
     </>
   );
 };

@@ -157,8 +157,9 @@ const SessionMarket = ({
                     marginLeft: "7px",
                   }}
                 >
-                  MIN: {formatToINR(currentMatch?.betFairSessionMinBet)} MAX:
-                  {formatToINR(currentMatch?.betFairSessionMaxBet)}
+                  MIN: {formatToINR(currentMatch?.betFairSessionMinBet)} 
+                  {/* MAX:
+                  {formatToINR(currentMatch?.betFairSessionMaxBet)} */}
                 </Typography>
               </Box>
               <Box

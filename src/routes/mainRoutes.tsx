@@ -3,7 +3,8 @@ import { Navigate } from "react-router-dom";
 import Loadable from "../utils/loadable";
 import { Constants } from "../utils/Constants";
 
-const MainLayout = Loadable(lazy(() => import("../layout/main")));
+import MainLayout from "../layout/main";
+
 const MatchList = Loadable(lazy(() => import("../pages/matchList")));
 const AddMatch = Loadable(lazy(() => import("../pages/addMatch")));
 const AddSession = Loadable(lazy(() => import("../pages/addSession")));
