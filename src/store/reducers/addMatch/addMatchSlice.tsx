@@ -7,6 +7,7 @@ import {
   getAllEventsList,
   getAllLiveTournaments,
   getExtraMarketList,
+  getFootballExtraMarketList,
   getMatchDetail,
   matchDetailReset,
   tournamentListReset,
@@ -99,6 +100,21 @@ const addMatch = createSlice({
         state.success = true;
       })
       .addCase(getExtraMarketList.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action?.error?.message;
+      })
+      .addCase(getFootballExtraMarketList.pending, (state) => {
+        state.loading = true;
+        state.success = false;
+        state.error = null;
+      })
+      .addCase(getFootballExtraMarketList.fulfilled, (state, action) => {
+        console.log('action.payload',action.payload)
+        // state.extraMarketList = action.payload;
+        state.loading = false;
+        state.success = true;
+      })
+      .addCase(getFootballExtraMarketList.rejected, (state, action) => {
         state.loading = false;
         state.error = action?.error?.message;
       })

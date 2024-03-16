@@ -1,5 +1,5 @@
 import { Box, Typography } from "@mui/material";
-import { getExtraMarketList } from "../../../store/actions/addMatch/addMatchAction";
+import { getExtraMarketList, getFootballExtraMarketList } from "../../../store/actions/addMatch/addMatchAction";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../../store/store";
 import moment from "moment";
@@ -17,9 +17,12 @@ const DropDownItem = (props: any) => {
     dropDownTextStyle,
     setSelected,
     name,
+    gameType
   } = props;
 
   const dispatch: AppDispatch = useDispatch();
+
+// console.log('gameType>>>',gameType)
 
   return (
     <Box
@@ -28,7 +31,11 @@ const DropDownItem = (props: any) => {
           setValue(i);
           if (eventDetail) {
             function setDetailWithRunners() {
-              dispatch(getExtraMarketList(EventId));
+              if(gameType==='football'){
+                dispatch(getExtraMarketList(EventId));
+              }else{
+                dispatch(getExtraMarketList(EventId));
+              }
               let allrunners: any = [];
               eventDetail.Runners.map((runner: any) => {
                 allrunners.push(runner?.runnerName);

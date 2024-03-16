@@ -692,7 +692,7 @@ const AddMatch = () => {
                     borderRadius: "5px",
                   }}
                   // touched={touched.competitionName}
-
+                  gameType={selected.gameType}
                   // onBlur={formik.handleBlur}
                   // error={touched.competitionName}
                   value={values.competitionName}
@@ -906,28 +906,29 @@ const AddMatch = () => {
                 errors={errors.minBet}
               />
             </Box>
-
-            <Box sx={{ width: { xs: "100%", lg: "18%", md: "24%" } }}>
-              <MatchListInput
-                required={true}
-                containerStyle={{ flex: 1, width: "100%" }}
-                label={"Betfair Session Max Bet"}
-                type={"Number"}
-                placeholder="Betfair Session Max Bet..."
-                InputValType={"InputVal"}
-                place={11}
-                name="betfairSessionMaxBet"
-                id="betfairSessionMaxBet"
-                touched={touched.betfairSessionMaxBet}
-                value={values.betfairSessionMaxBet}
-                onChange={handleChange}
-                onBlur={formik.handleBlur}
-              />
-              <CustomErrorMessage
-                touched={touched.betfairSessionMaxBet}
-                errors={errors.betfairSessionMaxBet}
-              />
-            </Box>
+            {selected.gameType === "cricket" && (
+              <Box sx={{ width: { xs: "100%", lg: "18%", md: "24%" } }}>
+                <MatchListInput
+                  required={true}
+                  containerStyle={{ flex: 1, width: "100%" }}
+                  label={"Betfair Session Max Bet"}
+                  type={"Number"}
+                  placeholder="Betfair Session Max Bet..."
+                  InputValType={"InputVal"}
+                  place={11}
+                  name="betfairSessionMaxBet"
+                  id="betfairSessionMaxBet"
+                  touched={touched.betfairSessionMaxBet}
+                  value={values.betfairSessionMaxBet}
+                  onChange={handleChange}
+                  onBlur={formik.handleBlur}
+                />
+                <CustomErrorMessage
+                  touched={touched.betfairSessionMaxBet}
+                  errors={errors.betfairSessionMaxBet}
+                />
+              </Box>
+            )}
 
             {eventWiseMatchData[selected.gameType]?.manual?.map((item: any) => {
               console.log(touched?.[item?.matchType]);

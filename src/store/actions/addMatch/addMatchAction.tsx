@@ -112,6 +112,21 @@ export const getExtraMarketList = createAsyncThunk<any, string>(
     }
   }
 );
+export const getFootballExtraMarketList = createAsyncThunk<any, string>(
+  "addMatch/FootballExtraMarketList",
+  async (requestData, thunkApi) => {
+    try {
+      const { data } = await axios.get(
+        `${constants.microServiceApiPath}/betfair/under_over_goal_market_list/${requestData}`
+      );
+     
+      return data;
+    } catch (error) {
+      const err = error as AxiosError;
+      return thunkApi.rejectWithValue(err.response?.status);
+    }
+  }
+);
 
 export const addMatchExpert = createAsyncThunk<any, any>(
   "addMatchExpert",
