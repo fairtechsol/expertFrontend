@@ -310,27 +310,29 @@ const addMatch = createSlice({
       })
       .addCase(updateTeamRates.fulfilled, (state, action) => {
         const { userRedisObj, jobData } = action.payload;
-        if (
-          ["tiedMatch2", "tiedMatch1"].includes(jobData?.newBet?.marketType)
-        ) {
-          state.matchDetail.teamRates = {
-            ...state.matchDetail.teamRates,
-            yesRateTie: userRedisObj[jobData?.teamArateRedisKey],
-            noRateTie: userRedisObj[jobData?.teamBrateRedisKey],
-          };
-        } else if (["completeMatch"].includes(jobData?.newBet?.marketType)) {
-          state.matchDetail.teamRates = {
-            ...state.matchDetail.teamRates,
-            yesRateComplete: userRedisObj[jobData?.teamArateRedisKey],
-            noRateComplete: userRedisObj[jobData?.teamBrateRedisKey],
-          };
-        } else {
-          state.matchDetail.teamRates = {
-            ...state.matchDetail.teamRates,
-            teamARate: userRedisObj[jobData?.teamArateRedisKey],
-            teamBRate: userRedisObj[jobData?.teamBrateRedisKey],
-            teamCRate: userRedisObj[jobData?.teamCrateRedisKey] ?? "",
-          };
+        if (jobData?.newBet?.matchId === state.matchDetail?.id) {
+          if (
+            ["tiedMatch2", "tiedMatch1"].includes(jobData?.newBet?.marketType)
+          ) {
+            state.matchDetail.teamRates = {
+              ...state.matchDetail.teamRates,
+              yesRateTie: userRedisObj[jobData?.teamArateRedisKey],
+              noRateTie: userRedisObj[jobData?.teamBrateRedisKey],
+            };
+          } else if (["completeMatch"].includes(jobData?.newBet?.marketType)) {
+            state.matchDetail.teamRates = {
+              ...state.matchDetail.teamRates,
+              yesRateComplete: userRedisObj[jobData?.teamArateRedisKey],
+              noRateComplete: userRedisObj[jobData?.teamBrateRedisKey],
+            };
+          } else {
+            state.matchDetail.teamRates = {
+              ...state.matchDetail.teamRates,
+              teamARate: userRedisObj[jobData?.teamArateRedisKey],
+              teamBRate: userRedisObj[jobData?.teamBrateRedisKey],
+              teamCRate: userRedisObj[jobData?.teamCrateRedisKey] ?? "",
+            };
+          }
         }
       })
       .addCase(updateRates.fulfilled, (state, action) => {

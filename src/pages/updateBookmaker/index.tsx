@@ -73,9 +73,9 @@ const UpdateBookmaker = () => {
       socketService.user.matchDeleteBet(matchDeleteBet);
     }
     return () => {
-      socketService.user.userMatchBetPlacedOff(updateBetList);
-      socketService.user.matchResultDeclaredOff(resultDeclared);
-      socketService.user.matchDeleteBetOff(matchDeleteBet);
+      socketService.user.userMatchBetPlacedOff();
+      socketService.user.matchResultDeclaredOff();
+      socketService.user.matchDeleteBetOff();
     };
   }, [state?.id]);
 
@@ -83,7 +83,7 @@ const UpdateBookmaker = () => {
     <Box display="flex">
       <Grid container>
         <Grid item xs={12} md={12} lg={6}>
-          <Paper style={{ margin: "2px", }}>
+          <Paper style={{ margin: "2px" }}>
             <BookmakerEditSection
               add={true}
               match={state?.match}
@@ -92,8 +92,8 @@ const UpdateBookmaker = () => {
             />
           </Paper>
         </Grid>
-        <Grid item xs={12}  md={12} lg={6}>
-          <Paper style={{ margin: "2px",}}>
+        <Grid item xs={12} md={12} lg={6}>
+          <Paper style={{ margin: "2px" }}>
             <BetsList
               betData={placedBets && placedBets.length > 0 ? placedBets : []}
             />

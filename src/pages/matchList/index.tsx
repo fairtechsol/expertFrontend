@@ -46,8 +46,8 @@ const MatchList = ({}) => {
     expertSocketService.match.matchAdded(getMatchListService);
     socketService.user.matchResultUnDeclared(getMatchListService);
     return () => {
-      expertSocketService.match.matchAddedOff(getMatchListService);
-      socketService.user.matchResultUnDeclaredOff(getMatchListService);
+      expertSocketService.match.matchAddedOff();
+      socketService.user.matchResultUnDeclaredOff();
     };
   }, []);
 

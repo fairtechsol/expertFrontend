@@ -12,9 +12,6 @@ export const userSocketService = {
   updateSessionRateClient: (callback: any) => {
     socket.on("updateSessionRateClient", callback);
   },
-  updateSessionRateClientOff: (callback: any) => {
-    socket.off("updateSessionRateClient", callback);
-  },
   updateMatchBettingRate: (data: any) => {
     socket.emit("updateMatchBettingRate", data);
   },
@@ -48,34 +45,37 @@ export const userSocketService = {
   sessionAdded: (callback: any) => {
     socket.on("sessionAdded", callback);
   },
-  updateMatchBettingRateClientOff: (callback: any) => {
-    socket.off("updateMatchBettingRateClient", callback);
+  updateSessionRateClientOff: () => {
+    socket.off("updateSessionRateClient");
   },
-  sessionResultDeclaredOff: (callback: any) => {
-    socket.off("sessionResultDeclared", callback);
+  updateMatchBettingRateClientOff: () => {
+    socket.off("updateMatchBettingRateClient");
   },
-  userSessionBetPlacedOff: (callBack: any) => {
-    socket.off("userSessionBetPlaced", callBack);
+  sessionResultDeclaredOff: () => {
+    socket.off("sessionResultDeclared");
   },
-  userMatchBetPlacedOff: (callBack: any) => {
-    socket.off("userMatchBetPlaced", callBack);
+  userSessionBetPlacedOff: () => {
+    socket.off("userSessionBetPlaced");
   },
-  matchBettingStatusChangeOff: (callback: any) => {
-    socket.off("matchBettingStatusChange", callback);
+  userMatchBetPlacedOff: () => {
+    socket.off("userMatchBetPlaced");
   },
-  matchResultDeclaredOff: (callback: any) => {
-    socket.off("matchResultDeclared", callback);
+  matchBettingStatusChangeOff: () => {
+    socket.off("matchBettingStatusChange");
   },
-  matchResultUnDeclaredOff: (callback: any) => {
-    socket.off("matchResultUnDeclared", callback);
+  matchResultDeclaredOff: () => {
+    socket.off("matchResultDeclared");
   },
-  matchDeleteBetOff: (callback: any) => {
-    socket.off("matchDeleteBet", callback);
+  matchResultUnDeclaredOff: () => {
+    socket.off("matchResultUnDeclared");
   },
-  sessionDeleteBetOff: (callback: any) => {
-    socket.off("sessionDeleteBet", callback);
+  matchDeleteBetOff: () => {
+    socket.off("matchDeleteBet");
   },
-  sessionAddedOff: (callback: any) => {
-    socket.off("sessionAdded", callback);
+  sessionDeleteBetOff: () => {
+    socket.off("sessionDeleteBet");
+  },
+  sessionAddedOff: () => {
+    socket.off("sessionAdded");
   },
 };

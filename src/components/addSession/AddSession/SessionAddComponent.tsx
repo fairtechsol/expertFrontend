@@ -315,57 +315,10 @@ const SessionAddComponent = ({ createSession, match }: any) => {
       console.log(e);
     }
     return () => {
-      socketService.user.updateSessionRateClientOff((data: any) => {
-        if (data?.id === id && data?.matchId === match?.id) {
-          if (data?.status === "ball start") {
-            setIsBall(true);
-            setLock((prev: any) => {
-              return {
-                ...prev,
-                isNo: false,
-                isYes: false,
-                isNoPercent: false,
-                isYesPercent: false,
-              };
-            });
-          } else if (data?.status === "suspended") {
-            setIsBall(false);
-            setLock((prev: any) => {
-              return {
-                ...prev,
-                isNo: true,
-                isYes: true,
-                isNoPercent: true,
-                isYesPercent: true,
-              };
-            });
-          } else if (data?.status === "active") {
-            setInputDetail((prev: any) => {
-              return {
-                ...prev,
-                noRate: data?.noRate,
-                yesRate: data?.yesRate,
-                yesRatePercent: data?.yesPercent,
-                noRatePercent: data?.noPercent,
-                status: data?.status,
-              };
-            });
-            setIsBall(false);
-            setLock((prev: any) => {
-              return {
-                ...prev,
-                isNo: false,
-                isYes: false,
-                isNoPercent: false,
-                isYesPercent: false,
-              };
-            });
-          }
-        }
-      });
-      socketService.user.sessionResultDeclaredOff(updateResultDeclared);
-      socketService.user.userSessionBetPlacedOff(updateUserProfitLoss);
-      socketService.user.sessionDeleteBetOff(sessionDeleteBet);
+      socketService.user.updateSessionRateClientOff();
+      socketService.user.sessionResultDeclaredOff();
+      socketService.user.userSessionBetPlacedOff();
+      socketService.user.sessionDeleteBetOff();
     };
   }, [match, id]);
 
@@ -385,7 +338,11 @@ const SessionAddComponent = ({ createSession, match }: any) => {
       }}
     >
       <Typography
-        sx={{ color: "#0B4F26", fontSize: {lg:"20px", xs: "16px", md: "18px"}, fontWeight: "600" }}
+        sx={{
+          color: "#0B4F26",
+          fontSize: { lg: "20px", xs: "16px", md: "18px" },
+          fontWeight: "600",
+        }}
       >
         {match?.title && match.title}(max:
         {maxBetValue
@@ -418,7 +375,7 @@ const SessionAddComponent = ({ createSession, match }: any) => {
             color: "white",
             fontWeight: "400",
             fontSize: "12px",
-            lineHeight: "0.9"
+            lineHeight: "0.9",
           }}
         >
           Set session max limit
