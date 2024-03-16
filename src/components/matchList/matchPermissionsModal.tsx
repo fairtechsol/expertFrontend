@@ -137,10 +137,17 @@ const MatchPermissionsModal = (props: any) => {
               justifyContent: "flex-end",
               alignItems: "center",
               // marginTop: "4rem",
-              flexDirection: { xs: "column", md: "row" , lg: "column"},
+              flexDirection: { xs: "column", md: "row", lg: "column" },
             }}
           >
-            <Box sx={{ display: "flex", alignItems: "center", justifyContent: "flex-end", marginRight: "1px"}}>
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "flex-end",
+                marginRight: "1px",
+              }}
+            >
               {data?.stopAt && (
                 <MatchListProfitLoss
                   onClick={() => handleMatchProfitLossClick(data?.id)}
@@ -171,12 +178,19 @@ const MatchPermissionsModal = (props: any) => {
                 />
               )}
             </Box>
-            <Box sx={{ display: "flex", alignItems: "center", marginLeft: "160px", marginBottom: "10px" }} >
-               {(getProfile?.allPrivilege ||
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                marginLeft: "160px",
+                marginBottom: "10px",
+              }}
+            >
+              {(getProfile?.allPrivilege ||
                 getProfile?.betFairMatchPrivilege) && (
                 <CustomButton
                   containerStyle={{
-                    minWidth: { xs: "95%", sm: "100px" , lg: "100px"},
+                    minWidth: { xs: "95%", sm: "100px", lg: "100px" },
                     width: { xs: "49%", sm: "100px", lg: "100px" },
                     marginTop: { xs: "1rem", sm: "1rem", md: 1 },
                     // justifyContent: "flex-end",
@@ -184,7 +198,9 @@ const MatchPermissionsModal = (props: any) => {
                   }}
                   title={"Submit"}
                   onClick={() => {
-                    navigate(`/expert/betOdds/${data?.id}`);
+                    navigate(`/expert/betOdds`, {
+                      state: { id: data?.id, marketId: data?.marketId },
+                    });
                   }}
                 />
               )}
