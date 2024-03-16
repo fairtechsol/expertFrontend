@@ -128,7 +128,6 @@ const MatchPermissionsModal = (props: any) => {
             width: { xs: "auto", sm: "auto", md: "20%" },
             flex: 1,
             display: "flex",
-            marginRight: "10px",
             justifyContent: "flex-end",
           }}
         >
@@ -138,23 +137,12 @@ const MatchPermissionsModal = (props: any) => {
               justifyContent: "flex-end",
               alignItems: "center",
               // marginTop: "4rem",
-
-              flexDirection: { xs: "column", md: "row" },
+              flexDirection: { xs: "column", md: "row" , lg: "column"},
             }}
           >
-            <Box
-              sx={{
-                width: { xs: "14%", lg: "36%" },
-              }}
-            >
+            <Box sx={{ display: "flex", alignItems: "center", justifyContent: "flex-end", marginRight: "1px"}}>
               {data?.stopAt && (
                 <MatchListProfitLoss
-                  containerStyle={{
-                    // minWidth: { xs: "4%", sm: "12px" },
-                    width: { xs: "4%", lg: "2%" },
-                    marginBottom: { xs: "1rem", sm: "1rem", md: 0 },
-                    marginTop: { xs: "1rem", sm: "1rem", md: 1 },
-                  }}
                   onClick={() => handleMatchProfitLossClick(data?.id)}
                   updateMatchStatusLabel="Total Profit/Loss"
                   updateMatchStatus={
@@ -165,28 +153,6 @@ const MatchPermissionsModal = (props: any) => {
                   place="1"
                 />
               )}
-              {(getProfile?.allPrivilege ||
-                getProfile?.betFairMatchPrivilege) && (
-                <CustomButton
-                  containerStyle={{
-                    minWidth: { xs: "95%", sm: "100px" },
-                    width: { xs: "49%", sm: "100px", lg: "100px" },
-                    marginTop: { xs: "1rem", sm: "1rem", md: 1 },
-                    justifyContent: "flex-end",
-                    marginLeft: "60px",
-                  }}
-                  title={"Submit"}
-                  onClick={() => {
-                    navigate(`/expert/betOdds/${data?.id}`);
-                  }}
-                />
-              )}
-            </Box>
-            <Box
-              sx={{
-                width: { xs: "14%", lg: "36%" },
-              }}
-            >
               {data?.stopAt && (
                 <MatchListProfitLoss
                   containerStyle={{
@@ -204,12 +170,31 @@ const MatchPermissionsModal = (props: any) => {
                   place="1"
                 />
               )}
+            </Box>
+            <Box sx={{ display: "flex", alignItems: "center", marginLeft: "160px", marginBottom: "10px" }} >
+               {(getProfile?.allPrivilege ||
+                getProfile?.betFairMatchPrivilege) && (
+                <CustomButton
+                  containerStyle={{
+                    minWidth: { xs: "95%", sm: "100px" , lg: "100px"},
+                    width: { xs: "49%", sm: "100px", lg: "100px" },
+                    marginTop: { xs: "1rem", sm: "1rem", md: 1 },
+                    // justifyContent: "flex-end",
+                    // marginRight: "1px",
+                  }}
+                  title={"Submit"}
+                  onClick={() => {
+                    navigate(`/expert/betOdds/${data?.id}`);
+                  }}
+                />
+              )}
               {(getProfile?.allPrivilege || getProfile?.addMatchPrivilege) && (
                 <CustomButton
                   containerStyle={{
-                    minWidth: { xs: "95%", sm: "100px" },
-                    width: { xs: "49%", sm: "100px" },
+                    minWidth: { xs: "95%", sm: "100px", lg: "100px" },
+                    width: { xs: "49%", sm: "100px", lg: "100px" },
                     marginTop: { xs: "1rem", sm: "1rem", md: 1 },
+                    marginRight: "10px",
                   }}
                   onClick={() => {
                     navigate(`/expert/edit_match`, {
