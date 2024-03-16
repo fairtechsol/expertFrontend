@@ -128,7 +128,6 @@ const MatchPermissionsModal = (props: any) => {
             width: { xs: "auto", sm: "auto", md: "20%" },
             flex: 1,
             display: "flex",
-            // marginLeft: "100px",
             justifyContent: "flex-end",
           }}
         >
@@ -141,11 +140,7 @@ const MatchPermissionsModal = (props: any) => {
               flexDirection: { xs: "column", md: "row" },
             }}
           >
-            <Box
-              sx={{
-                width: { xs: "14%", lg: "40%" },
-              }}
-            >
+            <Box>
               {data?.stopAt && (
                 <MatchListProfitLoss
                   onClick={() => handleMatchProfitLossClick(data?.id)}
@@ -176,9 +171,9 @@ const MatchPermissionsModal = (props: any) => {
               )}
             </Box>
             <Box
-              sx={{
-                width: { xs: "14%", lg: "40%" },
-              }}
+              // sx={{
+              //   width: { xs: "14%", lg: "40%" },
+              // }}
             >
               {data?.stopAt && (
                 <MatchListProfitLoss
@@ -200,10 +195,10 @@ const MatchPermissionsModal = (props: any) => {
               {(getProfile?.allPrivilege || getProfile?.addMatchPrivilege) && (
                 <CustomButton
                   containerStyle={{
-                    minWidth: { xs: "95%", sm: "100px", lg: "100" },
+                    minWidth: { xs: "95%", sm: "100px", lg: "100px" },
                     width: { xs: "49%", sm: "100px", lg: "100px" },
                     marginTop: { xs: "1rem", sm: "1rem", md: 1 },
-                    marginRight: "90px",
+                    marginRight: "10px",
                   }}
                   onClick={() => {
                     navigate(`/expert/edit_match`, {
