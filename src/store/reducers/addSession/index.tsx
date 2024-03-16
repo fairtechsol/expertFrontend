@@ -113,7 +113,6 @@ export const addSessionReducers = createReducer(initialState, (builder) => {
     .addCase(getPlacedBets.pending, (state) => {
       state.loading = true;
       state.success = false;
-      state.placedBets = [];
     })
     .addCase(getPlacedBets.fulfilled, (state, action) => {
       state.loading = false;
@@ -260,7 +259,7 @@ export const addSessionReducers = createReducer(initialState, (builder) => {
       return {
         ...state,
         sessionById: updatedSession,
-        loading: false
+        loading: false,
       };
     })
     .addCase(updateSession.rejected, (state) => {
