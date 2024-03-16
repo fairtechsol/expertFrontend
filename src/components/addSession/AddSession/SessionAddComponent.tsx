@@ -20,7 +20,10 @@ import {
   updateSessionProfitLoss,
 } from "../../../store/actions/addSession";
 import { socketService } from "../../../socketManager";
-import { sessionResultSuccessReset } from "../../../store/actions/match/matchAction";
+import {
+  getMatchListSessionProfitLoss,
+  sessionResultSuccessReset,
+} from "../../../store/actions/match/matchAction";
 import { ButtonRatesQuickSessions } from "../../../utils/Constants";
 import { useNavigate, useParams } from "react-router-dom";
 import SessionLimit from "./SessionLimit";
@@ -117,6 +120,10 @@ const SessionAddComponent = ({ createSession, match }: any) => {
 
   const updateResultDeclared = (event: any) => {
     try {
+      if (match?.id === event?.matchId) {
+        dispatch(getMatchListSessionProfitLoss(match?.id));
+      }
+
       if (match?.id === event?.matchId && id === event?.betId) {
         if (event?.activeStatus === "result") {
           dispatch(resetPlacedBets());
