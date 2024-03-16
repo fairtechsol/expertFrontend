@@ -137,10 +137,10 @@ const MatchPermissionsModal = (props: any) => {
               justifyContent: "flex-end",
               alignItems: "center",
               // marginTop: "4rem",
-              flexDirection: { xs: "column", md: "row" },
+              flexDirection: { xs: "column", md: "row" , lg: "column"},
             }}
           >
-            <Box>
+            <Box sx={{ display: "flex", alignItems: "center", justifyContent: "flex-end", marginRight: "1px"}}>
               {data?.stopAt && (
                 <MatchListProfitLoss
                   onClick={() => handleMatchProfitLossClick(data?.id)}
@@ -153,28 +153,6 @@ const MatchPermissionsModal = (props: any) => {
                   place="1"
                 />
               )}
-              {(getProfile?.allPrivilege ||
-                getProfile?.betFairMatchPrivilege) && (
-                <CustomButton
-                  containerStyle={{
-                    minWidth: { xs: "95%", sm: "100px" , lg: "100px"},
-                    width: { xs: "49%", sm: "100px", lg: "100px" },
-                    marginTop: { xs: "1rem", sm: "1rem", md: 1 },
-                    // justifyContent: "flex-end",
-                    // marginRight: "1px",
-                  }}
-                  title={"Submit"}
-                  onClick={() => {
-                    navigate(`/expert/betOdds/${data?.id}`);
-                  }}
-                />
-              )}
-            </Box>
-            <Box
-              // sx={{
-              //   width: { xs: "14%", lg: "40%" },
-              // }}
-            >
               {data?.stopAt && (
                 <MatchListProfitLoss
                   containerStyle={{
@@ -190,6 +168,24 @@ const MatchPermissionsModal = (props: any) => {
                     data?.pl[0]?.sessionTotalProfitLoss
                   }
                   place="1"
+                />
+              )}
+            </Box>
+            <Box sx={{ display: "flex", alignItems: "center", marginLeft: "160px", marginBottom: "10px" }} >
+               {(getProfile?.allPrivilege ||
+                getProfile?.betFairMatchPrivilege) && (
+                <CustomButton
+                  containerStyle={{
+                    minWidth: { xs: "95%", sm: "100px" , lg: "100px"},
+                    width: { xs: "49%", sm: "100px", lg: "100px" },
+                    marginTop: { xs: "1rem", sm: "1rem", md: 1 },
+                    // justifyContent: "flex-end",
+                    // marginRight: "1px",
+                  }}
+                  title={"Submit"}
+                  onClick={() => {
+                    navigate(`/expert/betOdds/${data?.id}`);
+                  }}
                 />
               )}
               {(getProfile?.allPrivilege || getProfile?.addMatchPrivilege) && (
