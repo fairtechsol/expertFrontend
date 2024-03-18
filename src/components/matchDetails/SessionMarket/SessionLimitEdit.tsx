@@ -47,7 +47,7 @@ const SessionLimitEdit = (props: any) => {
   return (
     <Box
       sx={{
-        width: { lg: "20%", xs: "40%", md: "20%" },
+        width: { lg: "20%", xs: "60%", md: "20%" },
         // height: "180px",
 
         padding: 0.2,
