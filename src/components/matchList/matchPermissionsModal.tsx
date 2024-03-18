@@ -160,6 +160,18 @@ const MatchPermissionsModal = (props: any) => {
                   place="1"
                 />
               )}
+               {data?.stopAt && (
+              <MatchListProfitLoss
+                // onClick={() => handleMatchProfitLossClick(data?.id)}
+                updateMatchStatusLabel="Commission"
+                updateMatchStatus={
+                  data?.pl &&
+                  data?.pl?.length > 0 &&
+                  data?.pl[0]?.commission
+                }
+                place="1"
+              />
+            )}
               {data?.stopAt && (
                 <MatchListProfitLoss
                   containerStyle={{
