@@ -125,7 +125,7 @@ const MatchListTable = (props: any) => {
             >
               {data?.title}
             </Typography>
-            <StyledImage
+           <StyledImage
               onClick={() => {
                 setShowUserModal((prev) => !prev);
               }}
@@ -167,6 +167,18 @@ const MatchListTable = (props: any) => {
             )}
             {data?.stopAt && (
               <MatchListProfitLoss
+                // onClick={() => handleMatchProfitLossClick(data?.id)}
+                updateMatchStatusLabel="Commission"
+                updateMatchStatus={
+                  data?.pl &&
+                  data?.pl?.length > 0 &&
+                  data?.pl[0]?.commission
+                }
+                place="1"
+              />
+            )}
+            {data?.stopAt && (
+              <MatchListProfitLoss
                 onClick={() => handleMatchProfitLossClick(data?.id)}
                 updateMatchStatusLabel="Session Profit/Loss"
                 updateMatchStatus={
@@ -177,6 +189,7 @@ const MatchListTable = (props: any) => {
                 place="1"
               />
             )}
+             
             <Box
               display={"flex"}
               sx={{

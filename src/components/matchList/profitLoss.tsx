@@ -11,6 +11,7 @@ const MatchListProfitLoss = (Props: any) => {
           height: "35px",
           minWidth: { xs: "10%", md: "18%", lg: "12%" },
           marginLeft: { xs: "2px" },
+          marginBottom: {xs: "2px" },
           borderRadius: "5px",
           border: "1px solid #0B4F26",
           background: "#FFF",
