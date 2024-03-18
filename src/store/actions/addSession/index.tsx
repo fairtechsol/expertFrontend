@@ -18,7 +18,7 @@ interface SessionData {
 interface updateSession {
   maxBet?: number;
   minBet?: number;
-  id:any;
+  id: any;
 }
 interface SessionById {
   matchId: string;
