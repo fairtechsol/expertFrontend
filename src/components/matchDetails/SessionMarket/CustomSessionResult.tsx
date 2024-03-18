@@ -1,9 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { CancelDark } from "../../../assets";
 import { Box, TextField, Typography } from "@mui/material";
 import SessionResultCustomButton from "../../addSession/AddSession/SessionResultCustomButton";
-import { AppDispatch } from "../../../store/store";
-import { useDispatch } from "react-redux";
+import { AppDispatch, RootState } from "../../../store/store";
+import { useDispatch, useSelector } from "react-redux";
 import {
   noResultDeclare,
   resultDeclare,
@@ -12,8 +12,9 @@ import {
 
 const CustomSessionResult = ({ onClick, newData }: any) => {
   const dispatch: AppDispatch = useDispatch();
+  const { declareLoading } = useSelector((state: RootState) => state.matchList);
   const [selected, setSelected] = useState("");
-  const [loading] = useState({ id: "", value: false });
+  const [loader, setLoading] = useState({ id: "", value: false });
   const [confirmNoResult, setConfirmNoResults] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
 
@@ -55,6 +56,15 @@ const CustomSessionResult = ({ onClick, newData }: any) => {
       console.error("Error in handleInputKeyPress:", error);
     }
   };
+
+  useEffect(() => {
+    setLoading((prev: any) => {
+      return {
+        ...prev,
+        value: declareLoading,
+      };
+    });
+  }, [declareLoading]);
 
   return (
     <Box
@@ -108,7 +118,7 @@ const CustomSessionResult = ({ onClick, newData }: any) => {
                 <SessionResultCustomButton
                   color={"#FF4D4D"}
                   title={"Un Declare"}
-                  loading={loading}
+                  loading={loader}
                   id="UD"
                   session={true}
                   onClick={(e: any) => {
@@ -124,8 +134,15 @@ const CustomSessionResult = ({ onClick, newData }: any) => {
                       id="DR"
                       session={true}
                       title={"Declare"}
-                      loading={loading}
-                      onClick={handleDeclare}
+                      loading={loader}
+                      onClick={() => {
+                        if (loader?.value) {
+                          return false;
+                        } else {
+                          setLoading({ id: "DR", value: true });
+                          handleDeclare();
+                        }
+                      }}
                     />
                   ) : null}
                 </>
@@ -149,14 +166,16 @@ const CustomSessionResult = ({ onClick, newData }: any) => {
                 <SessionResultCustomButton
                   color={"rgb(106 90 90)"}
                   title={"Yes"}
-                  loading={loading}
-                  id="NR"
+                  loading={loader}
+                  id="UD"
                   session={true}
                   onClick={() => {
-                    if (loading?.value) {
+                    if (loader?.value) {
                       return false;
+                    } else {
+                      setLoading({ id: "UD", value: true });
+                      handleUndeclareResult();
                     }
-                    handleUndeclareResult();
                   }}
                 />
               )}
@@ -167,7 +186,7 @@ const CustomSessionResult = ({ onClick, newData }: any) => {
             <SessionResultCustomButton
               color={"rgb(106 90 90)"}
               title={"No Result"}
-              loading={loading}
+              loading={loader}
               id="NR"
               session={true}
               onClick={(e: any) => {
@@ -195,14 +214,16 @@ const CustomSessionResult = ({ onClick, newData }: any) => {
             <SessionResultCustomButton
               color={"rgb(106 90 90)"}
               title={"Yes"}
-              loading={loading}
+              loading={loader}
               id="NR"
               session={true}
               onClick={() => {
-                if (loading?.value) {
+                if (loader?.value) {
                   return false;
+                } else {
+                  setLoading({ id: "NR", value: true });
+                  handleNoResultDeclare();
                 }
-                handleNoResultDeclare();
               }}
             />
           )}

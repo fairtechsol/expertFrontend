@@ -30,6 +30,7 @@ interface InitialState {
   placedBetsMatch: any;
   loading: boolean;
   error: any;
+  declareLoading: boolean;
   dropDownLoading: boolean;
   statusBetLive: boolean;
   sessionProLoss: any;
@@ -45,6 +46,7 @@ const initialState: InitialState = {
   statusSuccess: false,
   statusBetLive: false,
   error: null,
+  declareLoading: false,
   placedBetsMatch: [],
   sessionProLoss: [],
 };
@@ -124,42 +126,42 @@ const matchList = createSlice({
         state.error = action?.error?.message;
       })
       .addCase(resultDeclare.pending, (state) => {
-        state.loading = true;
+        state.declareLoading = true;
         state.success = false;
         state.error = null;
       })
       .addCase(resultDeclare.fulfilled, (state) => {
         state.success = true;
-        state.loading = false;
+        state.declareLoading = false;
       })
       .addCase(resultDeclare.rejected, (state, action) => {
-        state.loading = false;
+        state.declareLoading = false;
         state.error = action?.error?.message;
       })
       .addCase(undeclareResult.pending, (state) => {
-        state.loading = true;
+        state.declareLoading = true;
         state.success = false;
         state.error = null;
       })
       .addCase(undeclareResult.fulfilled, (state) => {
         state.success = true;
-        state.loading = false;
+        state.declareLoading = false;
       })
       .addCase(undeclareResult.rejected, (state, action) => {
-        state.loading = false;
+        state.declareLoading = false;
         state.error = action?.error?.message;
       })
       .addCase(noResultDeclare.pending, (state) => {
-        state.loading = true;
+        state.declareLoading = true;
         state.success = false;
         state.error = null;
       })
       .addCase(noResultDeclare.fulfilled, (state) => {
         state.success = true;
-        state.loading = false;
+        state.declareLoading = false;
       })
       .addCase(noResultDeclare.rejected, (state, action) => {
-        state.loading = false;
+        state.declareLoading = false;
         state.error = action?.error?.message;
       })
       .addCase(editMatch.pending, (state) => {
