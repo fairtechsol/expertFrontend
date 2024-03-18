@@ -2,16 +2,22 @@ import { Box, TextField, Typography } from "@mui/material";
 import { useEffect, useRef, useState } from "react";
 import SessionResultCustomButton from "../AddSession/SessionResultCustomButton";
 import { CancelDark } from "../../../assets";
-import { AppDispatch } from "../../../store/store";
-import { useDispatch } from "react-redux";
-import { updateSession } from "../../../store/actions/addSession";
+import { AppDispatch, RootState } from "../../../store/store";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  resetSessionMaxLimitSuccess,
+  updateSession,
+} from "../../../store/actions/addSession";
 
 const SessionLimit = (props: any) => {
-  const { newData, visible, onClickCancel, maxValue } = props;
+  const { newData, visible, onClickCancel } = props;
   const dispatch: AppDispatch = useDispatch();
-  const [loading] = useState({ id: "", value: false });
+  const { loading, maxLimitUpdateSuccess } = useSelector(
+    (state: RootState) => state.addSession
+  );
   const myDivRef: any = useRef(null);
-  const [value, setValue] = useState(newData?.maxBet ? newData?.maxBet :  "");
+  const [error, setError] = useState(false);
+  const [value, setValue] = useState(newData?.maxBet ? newData?.maxBet : "");
 
   const scrollToBottom = () => {
     myDivRef.current?.scrollIntoView({
@@ -24,27 +30,34 @@ const SessionLimit = (props: any) => {
     e.stopPropagation();
     try {
       if (newData?.id) {
-        const payload = {
-          id: newData?.id,
-          maxBet: parseInt(value),
-          minBet: newData?.minBet,
-        };
-        dispatch(updateSession(payload));
+        if (value > newData?.minBet) {
+          setError(false);
+          const payload = {
+            id: newData?.id,
+            maxBet: parseInt(value),
+            minBet: newData?.minBet,
+          };
+          dispatch(updateSession(payload));
+        } else {
+          setError(true);
+        }
       } else {
-        maxValue(value);
       }
     } catch (error) {
       console.log("error", error);
-    } finally {
-      onClickCancel();
     }
   };
 
   useEffect(() => {
+    if (maxLimitUpdateSuccess) {
+      onClickCancel();
+      dispatch(resetSessionMaxLimitSuccess());
+    }
+  }, [maxLimitUpdateSuccess]);
+
+  useEffect(() => {
     scrollToBottom();
   }, [visible]);
-
-  
 
   return (
     <Box
@@ -114,6 +127,7 @@ const SessionLimit = (props: any) => {
           name="score"
           onChange={(e) => {
             setValue(e?.target.value);
+            setError(false);
           }}
           // touched={touched.score}
           // error={Boolean(errors.score)}
@@ -128,12 +142,23 @@ const SessionLimit = (props: any) => {
             },
           }}
           onKeyDown={(e) => {
-            if (e.key === 'Enter') {
+            if (e.key === "Enter") {
               // Call your function here
               handleSubmit(e);
             }
           }}
         />
+        {error && (
+          <Box
+            sx={{
+              color: "red",
+              marging: "2px",
+              fontSize: "12px",
+            }}
+          >
+            Max Bet Should be Greater Than Min Bet
+          </Box>
+        )}
 
         <Box
           sx={{

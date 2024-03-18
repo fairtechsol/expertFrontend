@@ -7,6 +7,7 @@ import {
   getSessionById,
   getSessionProfitLoss,
   resetPlacedBets,
+  resetSessionMaxLimitSuccess,
   sessionByIdReset,
   sessionSuccessReset,
   setCurrentOdd,
@@ -35,6 +36,7 @@ interface InitialState {
   success: boolean;
   addSuccess: boolean;
   getSessionSuccess: boolean;
+  maxLimitUpdateSuccess: boolean;
   loading: boolean;
 }
 
@@ -49,6 +51,7 @@ const initialState: InitialState = {
   success: false,
   addSuccess: false,
   getSessionSuccess: false,
+  maxLimitUpdateSuccess: false,
   loading: false,
 };
 
@@ -250,33 +253,44 @@ export const addSessionReducers = createReducer(initialState, (builder) => {
     })
     .addCase(updateSession.pending, (state) => {
       state.loading = true;
+      state.maxLimitUpdateSuccess = false;
     })
     .addCase(updateSession.fulfilled, (state, action) => {
       const { maxBet, id } = action.payload;
-      const updatedSession = { ...state.sessionById };
-      if (id === updatedSession?.id) {
-        updatedSession.maxBet = maxBet;
-      }
-      return {
-        ...state,
-        sessionById: updatedSession,
-        loading: false,
-      };
+      const { sessionById } = state;
+
+      if (id === sessionById?.id) {
+        return {
+          ...state,
+          sessionById: {
+            ...sessionById,
+            maxBet,
+          },
+          loading: false,
+          maxLimitUpdateSuccess: true,
+        };
+      } else return { ...state, maxLimitUpdateSuccess: true, loading: false };
     })
     .addCase(updateSession.rejected, (state) => {
       state.loading = false;
     })
     .addCase(updateSessionMaxLimit.fulfilled, (state, action) => {
       const { maxBet, id } = action.payload;
+      const { sessionById } = state;
 
-      const updatedSession = { ...state.sessionById };
-      if (id === updatedSession?.id) {
-        updatedSession.maxBet = maxBet;
+      if (id === sessionById?.id) {
+        return {
+          ...state,
+          sessionById: {
+            ...sessionById,
+            maxBet,
+          },
+          loading: false,
+          maxLimitUpdateSuccess: true,
+        };
       }
-      return {
-        ...state,
-        sessionById: updatedSession,
-        loading: false,
-      };
+    })
+    .addCase(resetSessionMaxLimitSuccess, (state) => {
+      return { ...state, maxLimitUpdateSuccess: false };
     });
 });

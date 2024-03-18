@@ -423,8 +423,6 @@ const SessionAddComponent = ({ createSession, match }: any) => {
                     ? sessionById?.maxBet
                     : match?.betFairSessionMaxBet,
               }}
-              maxValue={handleValue}
-              // setResultPending={setResultPending}
               onClick={() => {
                 setVisible3(false);
                 setIsDisable(true);
