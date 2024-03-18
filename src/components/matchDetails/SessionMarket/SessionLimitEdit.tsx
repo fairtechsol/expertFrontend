@@ -47,8 +47,9 @@ const SessionLimitEdit = (props: any) => {
   return (
     <Box
       sx={{
-        width: "250px",
-        height: "180px",
+        width: { lg: "20%", xs: "40%", md: "20%" },
+        // height: "180px",
+
         padding: 0.2,
         borderRadius: 2,
         boxShadow: "0px 5px 10px #1A568414",
@@ -64,8 +65,9 @@ const SessionLimitEdit = (props: any) => {
             width: "100%",
             justifyContent: "space-between",
             paddingX: "20px",
+            paddingY: "10px",
             display: "flex",
-            alignItems: "center",
+            alignItems: "flex-start",
             height: "40px",
             background: "white",
             borderRadius: 2,
@@ -76,7 +78,7 @@ const SessionLimitEdit = (props: any) => {
         ]}
       >
         <Typography
-          sx={{ fontWeight: "bold", color: "white", fontSize: "14px" }}
+          sx={{ fontWeight: "bold", color: "white", fontSize: "14px",lineHeight: "1" }}
         >
           Session max limit
         </Typography>
@@ -90,6 +92,19 @@ const SessionLimitEdit = (props: any) => {
         />
       </Box>
 
+      <Typography
+        sx={{
+          color: "black",
+          fontSize: { lg: "11px", md: "10px", xs: "9px" },
+          marginLeft: "5px",
+          fontWeight: "600",
+          lineHeight: '11px',
+          padding: 1
+        }}
+      >SESSION NAME: {" "}{newData?.name}
+      </Typography>
+
+
       {/* <form> */}
       <Box
         sx={{
@@ -98,8 +113,8 @@ const SessionLimitEdit = (props: any) => {
           padding: "8px",
           display: "flex",
           flexDirection: "column",
-          //   alignSelf: "center",
-          //   alignItems: "center",
+          // alignSelf: "flex-start",
+          alignItems: "center",
           gap: 1,
           justifyContent: "space-between",
           //   backgroundColor:'red'
@@ -154,19 +169,19 @@ const SessionLimitEdit = (props: any) => {
             title={"submit"}
             loading={loading}
             onClick={(e: any) => handleSubmit(e)}
-            // onClick={() => {
-            //   if (loading?.value) {
-            //     return false;
-            //   }
-            //   if (selected !== "" && /^\d+$/.test(selected)) {
-            //     declareResult();
-            //   } else if (selected === "") {
-            //     setError("Please enter score");
-            //   } else {
-            //     // toast.warn("Please enter score");
-            //     setError("Input field should contain numbers only");
-            //   }
-            // }}
+          // onClick={() => {
+          //   if (loading?.value) {
+          //     return false;
+          //   }
+          //   if (selected !== "" && /^\d+$/.test(selected)) {
+          //     declareResult();
+          //   } else if (selected === "") {
+          //     setError("Please enter score");
+          //   } else {
+          //     // toast.warn("Please enter score");
+          //     setError("Input field should contain numbers only");
+          //   }
+          // }}
           />
         </Box>
       </Box>

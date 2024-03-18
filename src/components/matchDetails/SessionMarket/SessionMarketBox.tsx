@@ -320,6 +320,7 @@ const SessionMarketBox = ({
           // newData={newData}
           newData={{
             id: newData.id,
+            name: newData.name,
             minBet: newData?.minBet,
             maxBet: maxBetValue ? maxBetValue : newData.maxBet,
           }}
