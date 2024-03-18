@@ -14,7 +14,7 @@ const Row = (props: any) => {
   //   return timeString;
   // };
   const getTime = (date: any) => {
-    const timeString = moment(date).format("hh:mm:ss A");
+    const timeString = moment.utc(date).utcOffset('+05:30').format("hh:mm:ss A");
     return timeString;
   };
   return (
