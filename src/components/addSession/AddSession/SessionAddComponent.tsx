@@ -83,6 +83,9 @@ const SessionAddComponent = ({ createSession, match }: any) => {
   const [live] = useState(true);
 
   const addSessions = () => {
+    if(!inputDetail?.betCondition && !inputDetail?.leftYesRatePercent  && !inputDetail?.leftNoRatePercent){
+      return true;
+    }
     const payload = {
       matchId: match?.id,
       type: "session",
