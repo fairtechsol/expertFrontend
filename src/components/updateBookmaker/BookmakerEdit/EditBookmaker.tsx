@@ -202,7 +202,6 @@ const EditBookmaker = (props: any) => {
 
   useEffect(() => {
     socketService.user.updateMatchBettingRateClient((data: any) => {
-      console.log(match?.id, "match", data?.matchId);
       if (match?.id === data?.matchId && Bid === data?.id) {
         if (
           data?.statusTeamA === "ball start" &&

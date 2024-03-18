@@ -129,6 +129,13 @@ export const updateSessionByIdForUndeclare = createAsyncThunk<any, SessionById>(
     return requestData;
   }
 );
+
+export const updateSessionMaxLimit = createAsyncThunk<any, SessionById>(
+  "updateSessionMaxLimit",
+  async (requestData) => {
+    return requestData;
+  }
+);
 export const updateBetsPlaced = createAsyncThunk<any, SessionById>(
   "update/betsPlaced",
   async (requestData) => {

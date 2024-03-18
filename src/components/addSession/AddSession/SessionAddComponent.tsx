@@ -17,6 +17,7 @@ import {
   updateDeleteReason,
   updateProLossSession,
   updateSessionById,
+  updateSessionMaxLimit,
   updateSessionProfitLoss,
 } from "../../../store/actions/addSession";
 import { socketService } from "../../../socketManager";
@@ -162,6 +163,16 @@ const SessionAddComponent = ({ createSession, match }: any) => {
       );
     }
   };
+
+  const updatedSessionMaxLmit = (event: any) => {
+    if (
+      match?.id === event?.matchId &&
+      id === event?.id
+    ) {
+      dispatch(updateSessionMaxLimit(event));
+    }
+  }
+
   const sessionDeleteBet = (event: any) => {
     try {
       if (event?.matchId === match?.id) {
@@ -317,6 +328,7 @@ const SessionAddComponent = ({ createSession, match }: any) => {
         socketService.user.sessionResultDeclared(updateResultDeclared);
         socketService.user.userSessionBetPlaced(updateUserProfitLoss);
         socketService.user.sessionDeleteBet(sessionDeleteBet);
+        socketService.user.sessionUpdated(updatedSessionMaxLmit);
       }
     } catch (e) {
       console.log(e);
@@ -326,6 +338,7 @@ const SessionAddComponent = ({ createSession, match }: any) => {
       socketService.user.sessionResultDeclaredOff();
       socketService.user.userSessionBetPlacedOff();
       socketService.user.sessionDeleteBetOff();
+      socketService.user.sessionUpdatedOff();
     };
   }, [match, id]);
 
@@ -355,8 +368,8 @@ const SessionAddComponent = ({ createSession, match }: any) => {
         {maxBetValue
           ? maxBetValue
           : sessionById
-          ? sessionById?.maxBet
-          : match?.betFairSessionMaxBet}
+            ? sessionById?.maxBet
+            : match?.betFairSessionMaxBet}
         )
       </Typography>
       <Box
@@ -407,8 +420,8 @@ const SessionAddComponent = ({ createSession, match }: any) => {
                 maxBet: maxBetValue
                   ? maxBetValue
                   : sessionById?.maxBet
-                  ? sessionById?.maxBet
-                  : match?.betFairSessionMaxBet,
+                    ? sessionById?.maxBet
+                    : match?.betFairSessionMaxBet,
               }}
               maxValue={handleValue}
               // setResultPending={setResultPending}
@@ -495,8 +508,8 @@ const SessionAddComponent = ({ createSession, match }: any) => {
                     display: "flex",
                     background:
                       !isCreateSession &&
-                      !sessionById?.result &&
-                      sessionById?.activeStatus === "live"
+                        !sessionById?.result &&
+                        sessionById?.activeStatus === "live"
                         ? "#0B4F26"
                         : "#696969",
                     justifyContent: "center",
