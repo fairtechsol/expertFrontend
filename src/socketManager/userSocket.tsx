@@ -45,6 +45,9 @@ export const userSocketService = {
   sessionAdded: (callback: any) => {
     socket.on("sessionAdded", callback);
   },
+  sessionUpdated: (callback: any) => {
+    socket.on("sessionUpdated", callback);
+  },
   updateSessionRateClientOff: () => {
     socket.off("updateSessionRateClient");
   },
@@ -77,5 +80,8 @@ export const userSocketService = {
   },
   sessionAddedOff: () => {
     socket.off("sessionAdded");
+  },
+  sessionUpdatedOff: () => {
+    socket.off("sessionUpdated");
   },
 };

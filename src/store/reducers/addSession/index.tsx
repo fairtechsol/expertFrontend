@@ -19,6 +19,7 @@ import {
   updateSession,
   updateSessionById,
   updateSessionByIdForUndeclare,
+  updateSessionMaxLimit,
   updateSessionProfitLoss,
   updateTeamRatesOnManualMarket,
 } from "../../actions/addSession";
@@ -264,5 +265,18 @@ export const addSessionReducers = createReducer(initialState, (builder) => {
     })
     .addCase(updateSession.rejected, (state) => {
       state.loading = false;
+    })
+    .addCase(updateSessionMaxLimit.fulfilled, (state, action) => {
+      const { maxBet, id } = action.payload;
+
+      const updatedSession = { ...state.sessionById };
+      if (id === updatedSession?.id) {
+        updatedSession.maxBet = maxBet;
+      }
+      return {
+        ...state,
+        sessionById: updatedSession,
+        loading: false,
+      };
     });
 });
