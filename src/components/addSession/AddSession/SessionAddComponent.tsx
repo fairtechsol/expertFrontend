@@ -71,9 +71,7 @@ const SessionAddComponent = ({ createSession, match }: any) => {
   const [visible1, setVisible1] = useState(false);
   const [visible2, setVisible2] = useState(false);
   const [visible3, setVisible3] = useState(false);
-  const [maxBetValue, setMaxBetValue] = useState(
-    sessionById ? sessionById?.maxBet : null
-  );
+  const [maxBetValue] = useState(sessionById ? sessionById?.maxBet : null);
   const [lock, setLock] = useState<any>({
     isNo: true,
     isYes: true,
@@ -165,13 +163,10 @@ const SessionAddComponent = ({ createSession, match }: any) => {
   };
 
   const updatedSessionMaxLmit = (event: any) => {
-    if (
-      match?.id === event?.matchId &&
-      id === event?.id
-    ) {
+    if (match?.id === event?.matchId && id === event?.id) {
       dispatch(updateSessionMaxLimit(event));
     }
-  }
+  };
 
   const sessionDeleteBet = (event: any) => {
     try {
@@ -342,10 +337,6 @@ const SessionAddComponent = ({ createSession, match }: any) => {
     };
   }, [match, id]);
 
-  const handleValue = (v: any) => {
-    setMaxBetValue(v);
-  };
-
   return (
     <Box
       sx={{
@@ -368,15 +359,16 @@ const SessionAddComponent = ({ createSession, match }: any) => {
         {maxBetValue
           ? maxBetValue
           : sessionById
-            ? sessionById?.maxBet
-            : match?.betFairSessionMaxBet}
+          ? sessionById?.maxBet
+          : match?.betFairSessionMaxBet}
         )
       </Typography>
       <Box
         onClick={(e) => {
-          // setShowUndeclare(true);
-          setVisible3(true);
           e.stopPropagation();
+          if (!createSession) {
+            setVisible3(true);
+          }
         }}
         sx={{
           width: "30%",
@@ -420,8 +412,8 @@ const SessionAddComponent = ({ createSession, match }: any) => {
                 maxBet: maxBetValue
                   ? maxBetValue
                   : sessionById?.maxBet
-                    ? sessionById?.maxBet
-                    : match?.betFairSessionMaxBet,
+                  ? sessionById?.maxBet
+                  : match?.betFairSessionMaxBet,
               }}
               onClick={() => {
                 setVisible3(false);
@@ -506,8 +498,8 @@ const SessionAddComponent = ({ createSession, match }: any) => {
                     display: "flex",
                     background:
                       !isCreateSession &&
-                        !sessionById?.result &&
-                        sessionById?.activeStatus === "live"
+                      !sessionById?.result &&
+                      sessionById?.activeStatus === "live"
                         ? "#0B4F26"
                         : "#696969",
                     justifyContent: "center",
