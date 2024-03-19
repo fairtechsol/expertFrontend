@@ -11,6 +11,7 @@ import { updateLocalQuickBookmaker } from "../../../utils/InputKeys/Bookmaker/Ut
 import BookButton from "./BookButton";
 import ResultComponent from "./ResultComponent";
 import theme from "../../../theme";
+import { numberInputOnWheelPreventChange } from "../../../helpers";
 
 const EditBookmaker = (props: any) => {
   const { add, match, Bid, type } = props;
@@ -496,6 +497,7 @@ const EditBookmaker = (props: any) => {
                     onChange={(e) => {
                       handleChange(e);
                     }}
+                    onWheel={numberInputOnWheelPreventChange}
                     name={"teamArate"}
                     inputRef={innerRefTeamA}
                     // onFocus={() => handleFocus(innerRefTeamA)}
@@ -661,6 +663,7 @@ const EditBookmaker = (props: any) => {
                     variant="standard"
                     value={+localQuickBookmaker?.teamB?.back}
                     onChange={(e) => handleChange(e)}
+                    onWheel={numberInputOnWheelPreventChange}
                     name={"teamBrate"}
                     inputRef={innerRefTeamB}
                     type="text"
@@ -816,6 +819,7 @@ const EditBookmaker = (props: any) => {
                       variant="standard"
                       value={+localQuickBookmaker?.teamC?.back}
                       onChange={(e) => handleChange(e)}
+                      onWheel={numberInputOnWheelPreventChange}
                       name={"teamCrate"}
                       inputRef={innerRefTeamC}
                       type="text"

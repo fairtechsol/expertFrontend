@@ -1,5 +1,6 @@
 import { Input, Typography } from "@mui/material";
 import { Box } from "@mui/system";
+import { numberInputOnWheelPreventChange } from "../../helpers";
 
 const MatchListInput = (props: any) => {
   const {
@@ -73,6 +74,7 @@ const MatchListInput = (props: any) => {
           // inputContainerStyle={inputContainerStyle}
           {...prop}
           required={required}
+          onWheel={numberInputOnWheelPreventChange}
           type={type}
           value={value}
           onKeyDown={(e) => {
