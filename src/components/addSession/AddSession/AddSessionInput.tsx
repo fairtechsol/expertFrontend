@@ -5,6 +5,7 @@ import { BallStart, LiveOff, Lock } from "../../../assets";
 import CustomDisableInput from "../../Common/CustomDisableInput";
 import { handleKeysMatchEvents } from "../../../utils/InputKeys/Session/SessionInputKeys";
 import { socketService } from "../../../socketManager";
+import { numberInputOnWheelPreventChange } from "../../../helpers";
 
 const AddSessionInput = (props: any) => {
   const {
@@ -155,7 +156,7 @@ const AddSessionInput = (props: any) => {
               <Box
                 sx={{
                   background: "#FFB5B5",
-                  width: {lg:"50%", xs: "60%"},
+                  width: { lg: "50%", xs: "60%" },
                   display: "flex",
                   height: "45px",
                   justifyContent: "center",
@@ -208,6 +209,7 @@ const AddSessionInput = (props: any) => {
                     <TextField
                       disabled={isDisable}
                       onChange={(e) => handleChange(e)}
+                      onWheel={numberInputOnWheelPreventChange}
                       type="Number"
                       autoComplete="off"
                       inputRef={inputRef}
@@ -230,7 +232,7 @@ const AddSessionInput = (props: any) => {
               <Box
                 sx={{
                   background: "#A7DCFF",
-                  width: {lg:"50%", xs: "60%"},
+                  width: { lg: "50%", xs: "60%" },
                   borderLeft: "2px solid white",
                   display: "flex",
                   height: "45px",
