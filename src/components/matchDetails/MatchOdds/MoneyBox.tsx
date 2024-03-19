@@ -13,7 +13,7 @@ const MoneyBox = ({ value }: any) => {
           width: {lg: "60%", xs: "70%" },
           justifyContent: "center",
           position: matchesMobile ? "absolute" : "relative",
-          right: matchesMobile ? "-100%" : "10px",
+          right: matchesMobile ? "-90%" : "10px",
           alignItems: "center",
           display: "flex",
           height: "35px",
