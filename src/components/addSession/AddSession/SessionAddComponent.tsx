@@ -46,7 +46,7 @@ const stateDetail = {
   status: "active",
 };
 
-const SessionAddComponent = ({ createSession, match }: any) => {
+const SessionAddComponent = ({ createSession, match, setMode }: any) => {
   const { id } = useParams();
   const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
@@ -128,6 +128,7 @@ const SessionAddComponent = ({ createSession, match }: any) => {
     try {
       if (match?.id === event?.matchId) {
         dispatch(getMatchListSessionProfitLoss(match?.id));
+        setMode("0");
       }
       if (match?.id === event?.matchId && id === event?.betId) {
         if (event?.activeStatus === "result") {
@@ -364,12 +365,7 @@ const SessionAddComponent = ({ createSession, match }: any) => {
         }}
       >
         {match?.title && match.title}(max:
-        {maxBetValue
-          ? maxBetValue
-          : sessionById
-          ? sessionById?.maxBet
-          : match?.betFairSessionMaxBet}
-        )
+        {sessionById ? sessionById?.maxBet : match?.betFairSessionMaxBet})
       </Typography>
       <Box
         onClick={(e) => {
@@ -417,9 +413,7 @@ const SessionAddComponent = ({ createSession, match }: any) => {
                 minBet: sessionById?.minBet
                   ? sessionById?.minBet
                   : match?.minBet,
-                maxBet: maxBetValue
-                  ? maxBetValue
-                  : sessionById?.maxBet
+                maxBet: sessionById?.maxBet
                   ? sessionById?.maxBet
                   : match?.betFairSessionMaxBet,
               }}

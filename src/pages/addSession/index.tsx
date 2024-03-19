@@ -83,6 +83,7 @@ const AddSession = () => {
               createSession={state?.createSession}
               sessionEvent={state?.sessionEvent}
               match={state?.match}
+              setMode={setMode}
             />
           </Paper>
           <Paper style={{ margin: "4px" }}>
