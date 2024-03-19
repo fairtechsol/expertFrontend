@@ -30,10 +30,7 @@ const SessionMarketBox = ({
   );
   const [loading, setLoading] = useState(false);
   const [visible, setVisible] = useState(false);
-  const [visible3, setVisible3] = useState(false);
-  const [maxBetValue, setMaxBetValue] = useState(null);
-
-  // const [live, setLive] = useState<boolean>(false);
+  const [maxLimitModal, setShowMaxLimitModal] = useState(false);
 
   useEffect(() => {
     if (statusBetLive) {
@@ -83,18 +80,17 @@ const SessionMarketBox = ({
             // backgroundColor:'red'
           }}
         >
-          <Box sx={{paddingTop:'3px'}}>
+          <Box sx={{ paddingTop: "3px" }}>
             <Typography
               sx={{
                 color: "black",
                 fontSize: { lg: "11px", md: "10px", xs: "9px" },
                 marginLeft: "3px",
                 fontWeight: "600",
-                lineHeight:'11px'
+                lineHeight: "11px",
               }}
             >
               {newData?.name}
-            
             </Typography>
             <Box sx={{ display: "flex", flexDirection: "row" }}>
               <Typography
@@ -105,7 +101,7 @@ const SessionMarketBox = ({
                   fontWeight: "500",
                 }}
               >
-                max : {maxBetValue ? formatToINR(maxBetValue) : formatToINR(newData?.maxBet)}
+                max : {formatToINR(newData?.maxBet)}
               </Typography>
               <Box
                 sx={{
@@ -119,7 +115,7 @@ const SessionMarketBox = ({
                   // alignItems: "center",
                   // paddingY: "2px",
                 }}
-                onClick={() => setVisible3(true)}
+                onClick={() => setShowMaxLimitModal(true)}
               >
                 <img src={edit} style={{ width: "18px", height: "12px" }} />
               </Box>
@@ -251,9 +247,7 @@ const SessionMarketBox = ({
                 fontWeight: "400",
               }}
             >
-              {newData?.result
-                ? `Result Declared`
-                : newData?.status}
+              {newData?.result ? `Result Declared` : newData?.status}
             </h6>
           </Box>
         ) : (
@@ -300,14 +294,9 @@ const SessionMarketBox = ({
           />
         )}
       </Box>
-
       <Divider />
-      {/* {visible3 && (
-           
-          )} */}
       <ModalMUI
-        open={visible3}
-        // onClose={handleClose}
+        open={maxLimitModal}
         aria-labelledby="parent-modal-title"
         aria-describedby="parent-modal-description"
         style={{
@@ -317,22 +306,14 @@ const SessionMarketBox = ({
         }}
       >
         <SessionLimitEdit
-          // newData={newData}
           newData={{
             id: newData.id,
             name: newData.name,
             minBet: newData?.minBet,
-            maxBet: maxBetValue ? maxBetValue : newData.maxBet,
-          }}
-          maxValue={setMaxBetValue}
-          // setResultPending={setResultPending}
-          onClick={() => {
-            setVisible3(false);
-            // setIsDisable(true);
-            // getSessionResult(match?.id);
+            maxBet: newData?.maxBet,
           }}
           onClickCancel={() => {
-            setVisible3(false);
+            setShowMaxLimitModal(false);
           }}
         />
       </ModalMUI>
