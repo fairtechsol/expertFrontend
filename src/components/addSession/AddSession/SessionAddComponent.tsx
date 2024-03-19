@@ -365,12 +365,7 @@ const SessionAddComponent = ({ createSession, match, setMode }: any) => {
         }}
       >
         {match?.title && match.title}(max:
-        {maxBetValue
-          ? maxBetValue
-          : sessionById
-          ? sessionById?.maxBet
-          : match?.betFairSessionMaxBet}
-        )
+        {sessionById ? sessionById?.maxBet : match?.betFairSessionMaxBet})
       </Typography>
       <Box
         onClick={(e) => {
@@ -418,9 +413,7 @@ const SessionAddComponent = ({ createSession, match, setMode }: any) => {
                 minBet: sessionById?.minBet
                   ? sessionById?.minBet
                   : match?.minBet,
-                maxBet: maxBetValue
-                  ? maxBetValue
-                  : sessionById?.maxBet
+                maxBet: sessionById?.maxBet
                   ? sessionById?.maxBet
                   : match?.betFairSessionMaxBet,
               }}
