@@ -61,6 +61,7 @@ const CustomSessionResult = ({ onClick, newData }: any) => {
     setLoading((prev: any) => {
       return {
         ...prev,
+        id: declareLoading === false ? "" : prev?.id,
         value: declareLoading,
       };
     });
