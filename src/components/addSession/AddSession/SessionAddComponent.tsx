@@ -81,7 +81,11 @@ const SessionAddComponent = ({ createSession, match }: any) => {
   const [live] = useState(true);
 
   const addSessions = () => {
-    if(!inputDetail?.betCondition && !inputDetail?.leftYesRatePercent  && !inputDetail?.leftNoRatePercent){
+    if (
+      !inputDetail?.betCondition &&
+      !inputDetail?.leftYesRatePercent &&
+      !inputDetail?.leftNoRatePercent
+    ) {
       return true;
     }
     const payload = {
@@ -125,7 +129,6 @@ const SessionAddComponent = ({ createSession, match }: any) => {
       if (match?.id === event?.matchId) {
         dispatch(getMatchListSessionProfitLoss(match?.id));
       }
-
       if (match?.id === event?.matchId && id === event?.betId) {
         if (event?.activeStatus === "result") {
           dispatch(resetPlacedBets());
@@ -323,10 +326,12 @@ const SessionAddComponent = ({ createSession, match }: any) => {
             }
           }
         });
-        socketService.user.sessionResultDeclared(updateResultDeclared);
         socketService.user.userSessionBetPlaced(updateUserProfitLoss);
         socketService.user.sessionDeleteBet(sessionDeleteBet);
         socketService.user.sessionUpdated(updatedSessionMaxLmit);
+      }
+      if (match?.id || id) {
+        socketService.user.sessionResultDeclared(updateResultDeclared);
       }
     } catch (e) {
       console.log(e);

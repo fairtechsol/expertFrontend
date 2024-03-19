@@ -4,7 +4,7 @@ import SessionInputFields from "../../components/addSession/AddSession/SessionAd
 import DailogModal from "../../components/helper/DailogModal";
 import BetsList from "../../components/addSession/BetList";
 import { useLocation, useParams } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store/store";
 import {
@@ -19,6 +19,7 @@ import { getMatchListSessionProfitLoss } from "../../store/actions/match/matchAc
 const AddSession = () => {
   const { state } = useLocation();
   const { id } = useParams();
+  const [mode, setMode] = useState("0");
   const { sessionById, getSessionSuccess } = useSelector(
     (state: RootState) => state.addSession
   );
@@ -54,6 +55,12 @@ const AddSession = () => {
     }
   }, [getSessionSuccess, id]);
 
+  useEffect(() => {
+    if (state.createSession) {
+      setMode("0");
+    }
+  }, [state.createSession]);
+
   // const getSessionProLoss = (event: any) => {
   //   if (state?.match?.id === event?.matchId) {
   //     dispatch(getMatchListSessionProfitLoss(state?.match?.id));
@@ -80,6 +87,8 @@ const AddSession = () => {
           </Paper>
           <Paper style={{ margin: "4px" }}>
             <SessionResult
+              setMode={setMode}
+              mode={mode}
               sessionProLoss={sessionProLoss}
               matchId={state?.match}
             />
