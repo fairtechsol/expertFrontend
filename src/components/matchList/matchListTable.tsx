@@ -109,6 +109,7 @@ const MatchListTable = (props: any) => {
             alignItems="center"
             sx={{
               order: { xs: "2", sm: "1" },
+              marginY: {xs: 1}
             }}
           >
             <Typography
@@ -202,8 +203,8 @@ const MatchListTable = (props: any) => {
                 getProfile?.betFairMatchPrivilege) && (
                 <CustomButton
                   containerStyle={{
-                    minWidth: { xs: "49%", sm: "100px" },
-                    width: { xs: "49%", sm: "100px" },
+                    minWidth: { xs: "40%", sm: "100px" },
+                    width: { xs: "40%", sm: "100px" },
                     marginLeft: { xs: "1%", sm: "10px" },
                   }}
                   onClick={() => {
@@ -217,8 +218,8 @@ const MatchListTable = (props: any) => {
               {(getProfile?.allPrivilege || getProfile?.addMatchPrivilege) && (
                 <CustomButton
                   containerStyle={{
-                    minWidth: { xs: "49%", sm: "100px" },
-                    width: { xs: "49%", sm: "100px" },
+                    minWidth: { xs: "40%", sm: "100px" },
+                    width: { xs: "40%", sm: "100px" },
                     marginLeft: { xs: "1%", sm: "10px" },
                   }}
                   onClick={() => {
