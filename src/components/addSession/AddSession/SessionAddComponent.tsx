@@ -542,7 +542,7 @@ const SessionAddComponent = ({ createSession, match, setMode }: any) => {
                     }}
                     sx={{
                       position: "relative",
-                      width: "30%",
+                      width: {lg:"30%", md: "30%",xs: "45%"},
                       display: "flex",
                       background: "#FF4D4D",
                       maxWidth: "120px",
