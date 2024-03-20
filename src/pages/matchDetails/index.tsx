@@ -267,6 +267,7 @@ const MatchDetails = () => {
           dispatch(getPlacedBetsMatch(state?.id));
         }
       } else if (document.visibilityState === "hidden") {
+        expertSocketService.match.leaveMatchRoom(state?.id);
         expertSocketService.match.getMatchRatesOff(state?.id);
       }
     };

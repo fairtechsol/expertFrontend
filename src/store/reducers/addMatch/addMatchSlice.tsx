@@ -152,13 +152,10 @@ const addMatch = createSlice({
           apiSession: apiSession?.filter(
             (item: any) => state.selectionIds[item?.SelectionId] == null
           ),
-          apiTideMatch: { ...state.matchDetail?.apiTideMatch, ...apiTiedMatch },
-          bookmaker: { ...state.matchDetail?.bookmaker, ...bookmaker },
-          marketCompleteMatch: {
-            ...state.matchDetail?.marketCompleteMatch,
-            ...marketCompleteMatch,
-          },
-          matchOdd: { ...state.matchDetail?.matchOdd, ...matchOdd },
+          apiTideMatch: apiTiedMatch,
+          bookmaker: bookmaker,
+          marketCompleteMatch: marketCompleteMatch,
+          matchOdd: matchOdd,
           sessionBettings: state.matchDetail?.sessionBettings?.map(
             (item: any) => {
               const parsedItem = JSON.parse(item);
