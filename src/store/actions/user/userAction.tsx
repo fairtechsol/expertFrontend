@@ -15,7 +15,12 @@ export const getProfile = createAsyncThunk<any>(
     try {
       const resp = await service.get(`${ApiConstants.USER.PROFILE}`);
       if (resp) {
-        return resp?.data;
+        if (resp?.data?.loginAt === null) {
+          window.location.replace("/expert/login");
+          sessionStorage.clear();
+        } else {
+          return resp?.data;
+        }
       }
     } catch (error: any) {
       const err = error as AxiosError;

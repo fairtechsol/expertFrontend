@@ -1,5 +1,5 @@
 import { Box, Typography } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Stop from "../SessionMarket/Stop";
 import SmallBox from "../SmallBox";
 import { ARROWUP } from "../../../assets";
@@ -11,11 +11,16 @@ import { AppDispatch } from "../../../store/store";
 import { formatToINR } from "../../helper";
 
 const CompleteMatchMarket = ({ currentMatch, liveData }: any) => {
+  const dispatch: AppDispatch = useDispatch();
   const [visibleImg, setVisibleImg] = useState(true);
   const [live, setLive] = useState(
     liveData?.activeStatus === "live" ? true : false
   );
-  const dispatch: AppDispatch = useDispatch();
+
+  useEffect(() => {
+    setLive(liveData?.activeStatus === "live" ? true : false);
+  }, [liveData?.activeStatus]);
+
   return (
     <Box
       sx={{

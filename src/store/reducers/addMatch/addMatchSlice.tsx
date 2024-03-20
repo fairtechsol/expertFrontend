@@ -10,7 +10,6 @@ import {
   getMatchDetail,
   matchDetailReset,
   tournamentListReset,
-  updateMatchBettingStatus,
   updateMatchRates,
   updateRates,
   updateSessionAdded,
@@ -245,17 +244,17 @@ const addMatch = createSlice({
           state.matchDetail.sessionBettings.push(newSessionBetting);
         }
       })
-      .addCase(updateMatchBettingStatus.fulfilled, (state, action) => {
-        let matchingObjectKey = Object.keys(state?.matchDetail).find(
-          (key) => state?.matchDetail[key].type === action.payload.type
-        );
-        if (matchingObjectKey) {
-          state.matchDetail[matchingObjectKey] = {
-            ...state.matchDetail[matchingObjectKey],
-            activeStatus: action.payload.activeStatus,
-          };
-        }
-      })
+      // .addCase(updateMatchBettingStatus.fulfilled, (state, action) => {
+      //   let matchingObjectKey = Object.keys(state?.matchDetail).find(
+      //     (key) => state?.matchDetail[key].type === action.payload.type
+      //   );
+      //   if (matchingObjectKey) {
+      //     state.matchDetail[matchingObjectKey] = {
+      //       ...state.matchDetail[matchingObjectKey],
+      //       activeStatus: action.payload.activeStatus,
+      //     };
+      //   }
+      // })
       .addCase(tournamentListReset, (state) => {
         return {
           ...state,

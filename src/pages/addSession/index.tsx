@@ -56,10 +56,10 @@ const AddSession = () => {
   }, [getSessionSuccess, id]);
 
   useEffect(() => {
-    if (state.createSession) {
+    if (state?.createSession) {
       setMode("0");
     }
-  }, [state.createSession]);
+  }, [state?.createSession]);
 
   // const getSessionProLoss = (event: any) => {
   //   if (state?.match?.id === event?.matchId) {
