@@ -23,7 +23,7 @@ const PlaceBetComponent = ({ profitLossData, newData }: any) => {
           display: "flex",
           alignItems: "center",
           top: "2px",
-          width: { lg: "9vw", xs: "12vw", md: "9vw" },
+          width: { lg: "9vw", xs: "16vw", md: "9vw" },
           borderRadius: "5px",
           height: "35px",
           right: "6px",
@@ -58,7 +58,7 @@ const PlaceBetComponent = ({ profitLossData, newData }: any) => {
           </Typography>
           <Typography
             sx={{
-              fontSize: { lg: ".5vw", xs: ".8vw", md: ".5vw" },
+              fontSize: { lg: ".5vw", xs: "1.5vw", md: ".5vw" },
               fontWeight: "bold",
               color: "#0B4F26",
               lineHeight: 1,

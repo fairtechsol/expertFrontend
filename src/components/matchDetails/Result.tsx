@@ -5,9 +5,9 @@ const Result = ({ invert, onClick }: any) => {
     <Box onClick={onClick}>
       <Box
         sx={{
-          width: { lg: "55px", xs: "100%" },
+          width: { lg: "55px", xs: "80%" },
           display: "flex",
-          marginRight: "5px",
+          marginRight: {lg:"5px", xs: "0"},
           justifyContent: "center",
           paddingX: 1,
           alignItems: "center",

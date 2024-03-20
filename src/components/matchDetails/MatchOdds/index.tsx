@@ -138,6 +138,7 @@ const MatchOdds = ({ currentMatch, matchOddsLive }: any) => {
               display: "flex",
               alignItems: "center",
               justifyContent: "flex-end",
+              marginLeft: "0px"
             }}
           >
             <Result
@@ -224,7 +225,7 @@ const MatchOdds = ({ currentMatch, matchOddsLive }: any) => {
             position: "absolute",
             zIndex: 999,
             top: "26%",
-            right: "100px",
+            right: "60px",
             width: { lg: "50vh", xs: "30vh" },
           }}
         >

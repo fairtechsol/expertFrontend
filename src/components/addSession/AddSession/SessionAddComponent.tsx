@@ -392,6 +392,7 @@ const SessionAddComponent = ({ createSession, match, setMode }: any) => {
             fontWeight: "400",
             fontSize: "12px",
             lineHeight: "0.9",
+            paddingX: "6px"
           }}
         >
           Set session max limit
