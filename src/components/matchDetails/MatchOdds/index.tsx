@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Box, Typography } from "@mui/material";
 import Stop from "../SessionMarket/Stop";
 import Result from "../Result";
@@ -21,8 +21,6 @@ const MatchOdds = ({ currentMatch, matchOddsLive }: any) => {
     matchOddsLive?.activeStatus === "live" ? true : false
   );
   const dispatch: AppDispatch = useDispatch();
-
-  // const teamRates = { teamA: 0, teamB: 0, teamC: 0 };
 
   const valueA = currentMatch?.teamRates?.teamARate;
   const valueB = currentMatch?.teamRates?.teamBRate;
@@ -56,6 +54,10 @@ const MatchOdds = ({ currentMatch, matchOddsLive }: any) => {
       console.log(e);
     }
   })();
+
+  useEffect(() => {
+    setLive(matchOddsLive?.activeStatus === "live" ? true : false);
+  }, [matchOddsLive?.activeStatus]);
 
   return (
     <>

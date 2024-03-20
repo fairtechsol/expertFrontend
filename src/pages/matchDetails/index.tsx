@@ -15,7 +15,6 @@ import { expertSocketService, socketService } from "../../socketManager";
 import {
   getMatchDetail,
   removeSessionProLoss,
-  updateMatchBettingStatus,
   updateMatchRates,
   updateRates,
   updateSessionAdded,
@@ -80,15 +79,15 @@ const MatchDetails = () => {
     }
   };
 
-  const updateBettingStatus = (event: any) => {
-    try {
-      if (state?.id === event?.matchId) {
-        dispatch(updateMatchBettingStatus(event));
-      }
-    } catch (e) {
-      console.log(e);
-    }
-  };
+  // const updateBettingStatus = (event: any) => {
+  //   try {
+  //     if (state?.id === event?.matchId) {
+  //       dispatch(updateMatchBettingStatus(event));
+  //     }
+  //   } catch (e) {
+  //     console.log(e);
+  //   }
+  // };
 
   const matchDeleteBet = (event: any) => {
     try {
@@ -210,7 +209,7 @@ const MatchDetails = () => {
     try {
       if (success) {
         expertSocketService.match.getMatchRatesOff(state?.id);
-        socketService.user.matchBettingStatusChangeOff();
+        // socketService.user.matchBettingStatusChangeOff();
         socketService.user.matchResultDeclaredOff();
         socketService.user.matchResultUnDeclaredOff();
         socketService.user.matchDeleteBetOff();
@@ -223,7 +222,7 @@ const MatchDetails = () => {
         expertSocketService.match.getMatchRates(state?.id, (event: any) => {
           updateMatchDetailToRedux(event);
         });
-        socketService.user.matchBettingStatusChange(updateBettingStatus);
+        // socketService.user.matchBettingStatusChange(updateBettingStatus);
         socketService.user.matchResultDeclared(resultDeclared);
         socketService.user.matchResultUnDeclared(resultUnDeclared);
         socketService.user.matchDeleteBet(matchDeleteBet);
@@ -244,7 +243,7 @@ const MatchDetails = () => {
         return () => {
           expertSocketService.match.leaveMatchRoom(state?.id);
           expertSocketService.match.getMatchRatesOff(state?.id);
-          socketService.user.matchBettingStatusChangeOff();
+          // socketService.user.matchBettingStatusChangeOff();
           socketService.user.matchResultDeclaredOff();
           socketService.user.matchResultUnDeclaredOff();
           socketService.user.matchDeleteBetOff();

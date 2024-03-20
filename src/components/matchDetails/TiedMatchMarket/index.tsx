@@ -1,5 +1,5 @@
 import { Box, Typography } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Stop from "../SessionMarket/Stop";
 import SmallBox from "../SmallBox";
 import { ARROWUP } from "../../../assets";
@@ -17,6 +17,10 @@ const TiedMatchMarket = ({ currentMatch, liveData }: any) => {
   const [live, setLive] = useState(
     liveData?.activeStatus === "live" ? true : false
   );
+
+  useEffect(() => {
+    setLive(liveData?.activeStatus === "live" ? true : false);
+  }, [liveData?.activeStatus]);
 
   return (
     <Box
