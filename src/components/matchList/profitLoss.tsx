@@ -8,7 +8,7 @@ const MatchListProfitLoss = (Props: any) => {
         onClick={onClick}
         sx={{
           cursor: "pointer",
-          height: "35px",
+          height: {xs:"25px", lg: "35px"},
           minWidth: { xs: "10%", md: "18%", lg: "12%" },
           marginLeft: { xs: "2px" },
           marginBottom: {xs: "2px" },
@@ -45,7 +45,7 @@ const MatchListProfitLoss = (Props: any) => {
             marginRight: "10px",
             color: Number(updateMatchStatus) < 0 ? "#FF4D4D" : "#46E080",
             fontWeight: "700",
-            fontSize: "13px",
+            fontSize: "11px",
             marginLeft: "0.3vw",
             lineHeight: "14px",
           }}

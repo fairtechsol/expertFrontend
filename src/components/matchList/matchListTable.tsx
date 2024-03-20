@@ -109,7 +109,7 @@ const MatchListTable = (props: any) => {
             alignItems="center"
             sx={{
               order: { xs: "2", sm: "1" },
-              marginY: {xs: 1}
+              marginBottom: {xs: 2 , lg: 0}
             }}
           >
             <Typography
