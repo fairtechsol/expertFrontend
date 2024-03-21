@@ -17,6 +17,7 @@ import {
 import { updateApiSessionById } from "../../actions/addSession";
 import {
   updateMaxLoss,
+  updateResultStatusOfSession,
   updateTeamRates,
 } from "../../actions/match/matchAction";
 
@@ -207,6 +208,7 @@ const addMatch = createSlice({
                     ...parsedItem,
                     activeStatus: activeStatus,
                     result: score ? score : null,
+                    resultStatus: null,
                     resultData: score
                       ? {
                           result: score,
@@ -353,6 +355,23 @@ const addMatch = createSlice({
             teamCRate: redisObject[action.payload.teamCrateRedisKey],
           };
         }
+      })
+      .addCase(updateResultStatusOfSession.fulfilled, (state, action) => {
+        const updatedSessionBetting = state.matchDetail.sessionBettings.map(
+          (item: any) => {
+            let parsedItem = JSON.parse(item);
+            if (parsedItem?.id === action.payload.betId) {
+              return JSON.stringify({
+                ...parsedItem,
+                resultStatus: action.payload.status,
+              });
+            } else return item;
+          }
+        );
+        state.matchDetail = {
+          ...state.matchDetail,
+          sessionBettings: updatedSessionBetting,
+        };
       });
   },
 });

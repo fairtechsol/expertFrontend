@@ -1,11 +1,11 @@
 import { Box, TextField, Typography } from "@mui/material";
-import StyledImage from "../../Common/StyledImages";
 import KeyboardEventHandler from "react-keyboard-event-handler";
 import { BallStart, LiveOff, Lock } from "../../../assets";
-import CustomDisableInput from "../../Common/CustomDisableInput";
-import { handleKeysMatchEvents } from "../../../utils/InputKeys/Session/SessionInputKeys";
-import { socketService } from "../../../socketManager";
 import { numberInputOnWheelPreventChange } from "../../../helpers";
+import { socketService } from "../../../socketManager";
+import { handleKeysMatchEvents } from "../../../utils/InputKeys/Session/SessionInputKeys";
+import CustomDisableInput from "../../Common/CustomDisableInput";
+import StyledImage from "../../Common/StyledImages";
 
 const AddSessionInput = (props: any) => {
   const {
@@ -132,7 +132,7 @@ const AddSessionInput = (props: any) => {
             }}
             autoComplete="off"
             disabled={!isCreateSession ? true : false}
-            value={inputDetail.betCondition}
+            value={inputDetail?.betCondition}
             variant="standard"
             InputProps={{
               placeholder: "Your Bet Condition Here...",
@@ -151,6 +151,28 @@ const AddSessionInput = (props: any) => {
           display={"flex"}
           sx={{ borderLeft: "2px solid white", width: "60%" }}
         >
+          {!inputDetail?.result && inputDetail?.resultStatus && (
+            <Box
+              sx={{
+                position: "absolute",
+                top: 0,
+                right: 0,
+                width: "60%",
+                height: "100%",
+                backgroundColor: "rgba(0, 0, 0, 0.7)",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                zIndex: 999,
+              }}
+            >
+              <Typography
+                sx={{ color: "#fff", fontWeight: "bold", fontSize: "14px" }}
+              >
+                RESULT {inputDetail?.resultStatus}
+              </Typography>
+            </Box>
+          )}
           <Box sx={{ width: "40%" }}>
             <Box display={"flex"} sx={{ borderTop: "2px solid white" }}>
               <Box

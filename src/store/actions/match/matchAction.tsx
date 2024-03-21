@@ -285,6 +285,12 @@ export const getSessionProfitLossMatchDetailFilter = createAsyncThunk<
 >("getSessionProfitLossMatchDetail/filter", async (requestData) => {
   return requestData;
 });
+export const updateResultStatusOfSession = createAsyncThunk<any, SessionById>(
+  "update/resultStatusSession",
+  async (requestData) => {
+    return requestData;
+  }
+);
 export const matchListReset = createAction("matchList/reset");
 export const editSuccessReset = createAction("editSuccess/reset");
 export const sessionResultSuccessReset = createAction("sessionResult/reset");

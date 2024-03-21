@@ -17,6 +17,7 @@ import {
   updateMatchBetsPlaced,
   updateProLossSession,
   updateRatesBook,
+  updateResultStatusOfSessionById,
   updateSession,
   updateSessionById,
   updateSessionByIdForUndeclare,
@@ -196,6 +197,9 @@ export const addSessionReducers = createReducer(initialState, (builder) => {
         ...state.sessionById,
         activeStatus: action.payload.activeStatus,
         result: action.payload.score,
+        resultStatus: action.payload.resultStatus
+          ? action.payload.resultStatus
+          : null,
       };
     })
     .addCase(updateSessionProfitLoss.fulfilled, (state, action) => {
@@ -292,5 +296,14 @@ export const addSessionReducers = createReducer(initialState, (builder) => {
     })
     .addCase(resetSessionMaxLimitSuccess, (state) => {
       return { ...state, maxLimitUpdateSuccess: false };
+    })
+    .addCase(updateResultStatusOfSessionById.fulfilled, (state, action) => {
+      const { status, betId } = action.payload;
+      if (betId === state.sessionById?.id) {
+        state.sessionById = {
+          ...state.sessionById,
+          resultStatus: status ? status : null,
+        };
+      }
     });
 });
