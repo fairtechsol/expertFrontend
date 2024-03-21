@@ -16,6 +16,7 @@ import {
   updateBetsPlaced,
   updateDeleteReason,
   updateProLossSession,
+  updateResultStatusOfSessionById,
   updateSessionById,
   updateSessionMaxLimit,
   updateSessionProfitLoss,
@@ -186,6 +187,12 @@ const SessionAddComponent = ({ createSession, match, setMode }: any) => {
     }
   };
 
+  const updateSessionResultStatus = (event: any) => {
+    if (event?.matchId === match?.id) {
+      dispatch(updateResultStatusOfSessionById(event));
+    }
+  };
+
   useEffect(() => {
     try {
       if (addSuccess) {
@@ -255,6 +262,10 @@ const SessionAddComponent = ({ createSession, match, setMode }: any) => {
           yesRate: Math.floor(sessionById?.yesRate),
           yesRatePercent: Math.floor(sessionById?.yesPercent),
           noRatePercent: Math.floor(sessionById?.noPercent),
+          result: sessionById?.result,
+          resultStatus: sessionById?.resultStatus
+            ? sessionById?.resultStatus
+            : null,
         };
       });
       if (sessionById?.activeStatus !== "live") {
@@ -330,6 +341,7 @@ const SessionAddComponent = ({ createSession, match, setMode }: any) => {
         socketService.user.userSessionBetPlaced(updateUserProfitLoss);
         socketService.user.sessionDeleteBet(sessionDeleteBet);
         socketService.user.sessionUpdated(updatedSessionMaxLmit);
+        socketService.user.updateInResultDeclare(updateSessionResultStatus);
       }
       if (match?.id || id) {
         socketService.user.sessionResultDeclared(updateResultDeclared);
@@ -343,6 +355,7 @@ const SessionAddComponent = ({ createSession, match, setMode }: any) => {
       socketService.user.userSessionBetPlacedOff();
       socketService.user.sessionDeleteBetOff();
       socketService.user.sessionUpdatedOff();
+      socketService.user.updateInResultDeclareOff();
     };
   }, [match, id]);
 
@@ -392,7 +405,7 @@ const SessionAddComponent = ({ createSession, match, setMode }: any) => {
             fontWeight: "400",
             fontSize: "12px",
             lineHeight: "0.9",
-            paddingX: "6px"
+            paddingX: "6px",
           }}
         >
           Set session max limit
@@ -543,7 +556,7 @@ const SessionAddComponent = ({ createSession, match, setMode }: any) => {
                     }}
                     sx={{
                       position: "relative",
-                      width: {lg:"30%", md: "30%",xs: "45%"},
+                      width: { lg: "30%", md: "30%", xs: "45%" },
                       display: "flex",
                       background: "#FF4D4D",
                       maxWidth: "120px",

@@ -30,6 +30,7 @@ import {
   updateMatchBetsPlace,
   updateMatchBetsReason,
   updateMaxLoss,
+  updateResultStatusOfSession,
   updateSessionBetsPlace,
   updateTeamRates,
 } from "../../store/actions/match/matchAction";
@@ -193,6 +194,12 @@ const MatchDetails = () => {
     }
   };
 
+  const updateSessionResultStatus = (event: any) => {
+    if (event?.matchId === state?.id) {
+      dispatch(updateResultStatusOfSession(event));
+    }
+  };
+
   useEffect(() => {
     try {
       if (state?.id) {
@@ -218,6 +225,7 @@ const MatchDetails = () => {
         socketService.user.userMatchBetPlacedOff();
         socketService.user.userSessionBetPlacedOff();
         socketService.user.sessionResultDeclaredOff();
+        socketService.user.updateInResultDeclareOff();
         expertSocketService.match.joinMatchRoom(state?.id, "expert");
         expertSocketService.match.getMatchRates(state?.id, (event: any) => {
           updateMatchDetailToRedux(event);
@@ -231,6 +239,7 @@ const MatchDetails = () => {
         socketService.user.userMatchBetPlaced(updateMatchBetPlaced);
         socketService.user.userSessionBetPlaced(updateSessionBetPlaced);
         socketService.user.sessionResultDeclared(updateSessionResultDeclared);
+        socketService.user.updateInResultDeclare(updateSessionResultStatus);
       }
     } catch (e) {
       console.log(e);
@@ -252,6 +261,7 @@ const MatchDetails = () => {
           socketService.user.userMatchBetPlacedOff();
           socketService.user.userSessionBetPlacedOff();
           socketService.user.sessionResultDeclaredOff();
+          socketService.user.updateInResultDeclareOff();
         };
       }
     } catch (error) {

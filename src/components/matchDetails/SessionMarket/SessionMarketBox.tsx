@@ -250,6 +250,33 @@ const SessionMarketBox = ({
               {newData?.result ? `Result Declared` : newData?.status}
             </h6>
           </Box>
+        ) : newData?.resultStatus ? (
+          <Box
+            sx={{
+              margin: "1px",
+              background: "rgba(0,0,0,1)",
+              height: "40px",
+              right: { lg: "20.5%", xs: "19%", md: "20%" },
+              position: "absolute",
+              width: { lg: "18%", xs: "20%" },
+              justifyContent: { xs: "center", lg: "center" },
+              alignItems: "center",
+              display: "flex",
+            }}
+          >
+            <h6
+              style={{
+                textTransform: "uppercase",
+                fontSize: "12px",
+                textAlign: "center",
+                lineHeight: "11px",
+                color: "#FFF",
+                fontWeight: "400",
+              }}
+            >
+              Result {newData?.resultStatus}
+            </h6>
+          </Box>
         ) : (
           <Box
             sx={{
