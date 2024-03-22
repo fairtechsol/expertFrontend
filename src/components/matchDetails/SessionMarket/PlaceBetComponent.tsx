@@ -74,13 +74,14 @@ const PlaceBetComponent = ({ profitLossData, newData }: any) => {
             alignItems: "center",
             justifyContent: "center",
             display: "flex",
+            overflowWrap: "anywhere"
           }}
         >
           <Typography
             sx={{
               fontSize: {
                 lg: !profitLossData?.maxLoss ? "10px" : "10px",
-                xs: !profitLossData?.maxLoss ? "4px" : "4px",
+                xs: !profitLossData?.maxLoss ? "6px" : "6px",
                 md: !profitLossData?.maxLoss ? "6px" : "6px",
               },
               fontWeight: !profitLossData?.maxLoss ? "bold" : "bold",
