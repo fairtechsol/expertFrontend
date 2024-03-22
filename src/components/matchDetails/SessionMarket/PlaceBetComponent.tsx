@@ -81,7 +81,7 @@ const PlaceBetComponent = ({ profitLossData, newData }: any) => {
             sx={{
               fontSize: {
                 lg: !profitLossData?.maxLoss ? "10px" : "10px",
-                xs: !profitLossData?.maxLoss ? "6px" : "6px",
+                xs: !profitLossData?.maxLoss ? "7px" : "7px",
                 md: !profitLossData?.maxLoss ? "6px" : "6px",
               },
               fontWeight: !profitLossData?.maxLoss ? "bold" : "bold",
@@ -96,7 +96,7 @@ const PlaceBetComponent = ({ profitLossData, newData }: any) => {
           </Typography>
           <img
             src={UD}
-            style={{ width: "12px", height: "12px", marginLeft: "0px" }}
+            style={{ width: "10px", height: "10px", marginLeft: "0px" }}
           />
         </Box>
       </Box>
