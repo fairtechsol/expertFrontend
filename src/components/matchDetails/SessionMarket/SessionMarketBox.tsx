@@ -272,6 +272,7 @@ const SessionMarketBox = ({
                 lineHeight: "11px",
                 color: "#FFF",
                 fontWeight: "400",
+                overflowWrap: "anywhere"
               }}
             >
               Result {newData?.resultStatus}
