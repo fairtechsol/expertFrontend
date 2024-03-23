@@ -195,6 +195,12 @@ const EditBookmaker = (props: any) => {
               : 0,
             suspended: bookmakerById?.statusTeamC !== "active" ? true : false,
           },
+          teamBall:
+            bookmakerById?.statusTeamA === "ball start" &&
+            bookmakerById?.statusTeamB === "ball start" &&
+            bookmakerById?.statusTeamC === "ball start"
+              ? true
+              : false,
         };
       });
       dispatch(successReset());
