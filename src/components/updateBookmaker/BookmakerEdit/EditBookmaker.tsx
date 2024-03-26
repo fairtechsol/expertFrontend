@@ -203,6 +203,15 @@ const EditBookmaker = (props: any) => {
               : false,
         };
       });
+      if (
+        bookmakerById?.statusTeamA === "active" &&
+        bookmakerById?.statusTeamB === "active" &&
+        bookmakerById?.statusTeamC === "active"
+      ) {
+        setIsTab("tab");
+      } else {
+        setIsTab("");
+      }
       dispatch(successReset());
     }
   }, [bookmakerById, success]);
