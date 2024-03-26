@@ -1376,6 +1376,25 @@ export const handleKeysMatchEvents = (
           return prev;
         });
       }
+    } else {
+      setLocalQuickBookmaker((prev: any) => {
+        let data = {
+          matchId: match?.id,
+          id: Bid,
+          type: type,
+          backTeamA: prev.teamA.back ? prev.teamA.back : 0,
+          backTeamB: prev.teamB.back ? prev.teamB.back : 0,
+          backTeamC: prev.teamC.back ? prev.teamC.back : 0,
+          layTeamA: prev.teamA.lay ? prev.teamA.lay : 0,
+          layTeamB: prev.teamB.lay ? prev.teamB.lay : 0,
+          layTeamC: prev.teamC.lay ? prev.teamC.lay : 0,
+          statusTeamA: "active",
+          statusTeamB: "active",
+          statusTeamC: "active",
+        };
+        socketService.user.updateMatchBettingRate(data);
+        return prev;
+      });
     }
     setLocalQuickBookmaker((prev: any) => {
       return {

@@ -35,9 +35,10 @@ const MatchList = ({}) => {
   }, [success]);
 
   const getMatchListService = () => {
+    setCurrentPage(1);
     dispatch(
       getMatchList({
-        currentPage: currentPage,
+        currentPage: 1,
       })
     );
   };
