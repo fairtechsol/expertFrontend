@@ -155,7 +155,7 @@ const Row = ({ index, values }: any) => {
           }}
         >
           <Typography
-            sx={{ fontWeight: "600", fontSize: { xs: "8px",md: "10px", lg: "12px" }, color: "black" }}
+            sx={{ fontWeight: "600", fontSize: { xs: "10px",md: "10px", lg: "12px" }, color: "black" }}
           >
             {values.odds}
           </Typography>
@@ -212,7 +212,7 @@ const Row = ({ index, values }: any) => {
           }}
         >
           <Typography
-            sx={{ fontWeight: "600", fontSize: { xs: "8px",md: "10px", lg: "12px" }, color: "black" }}
+            sx={{ fontWeight: "600", fontSize: { xs: "10px",md: "10px", lg: "12px" }, color: "black" }}
           >
             {formatToINR(values.amount || values.stake)}
           </Typography>
@@ -228,7 +228,7 @@ const Row = ({ index, values }: any) => {
           }}
         >
           <Typography
-            sx={{ fontWeight: "600", fontSize: { xs: "8px",md: "10px", lg: "12px" }, color: "white" }}
+            sx={{ fontWeight: "600", fontSize: { xs: "10px",md: "10px", lg: "12px" }, color: "white" }}
           >
             {formatToINR(values?.myStake
               ? values?.myStake
