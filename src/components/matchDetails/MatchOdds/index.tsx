@@ -339,7 +339,7 @@ const MatchOdds = ({ currentMatch, matchOddsLive }: any) => {
                 <Box
                   sx={{
                     background: "#00C0F9",
-                    width: { lg: "16.5%", xs: "25%" },
+                    width: { lg: "16.5%", xs: "26%" },
                     height: "100%",
                     display: "flex",
                     justifyContent: "center",
