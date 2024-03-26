@@ -103,7 +103,7 @@ const BoxComponent = ({
               display: "flex",
               background: "white",
               height: "40px",
-              width: { lg: "65%", xs: "80%" },
+              width: { lg: "65%", xs: "78%" },
               justifyContent: { xs: "flex-end", lg: "center" },
               alignItems: "center",
             }}

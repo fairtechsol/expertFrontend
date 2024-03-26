@@ -175,7 +175,7 @@ const Row = ({ index, values }: any) => {
           <Typography
             sx={{
               fontWeight: "600",
-              fontSize: { xs: "8px",md: "10px", lg: "12px" },
+              fontSize: { xs: "8px",md: "10px", lg: "10px" },
               color: "black",
               position: "inhert",
               top: 5,
