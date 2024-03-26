@@ -204,9 +204,9 @@ const EditBookmaker = (props: any) => {
         };
       });
       if (
-        bookmakerById?.statusTeamA === "active" &&
-        bookmakerById?.statusTeamB === "active" &&
-        bookmakerById?.statusTeamC === "active"
+        Number(bookmakerById?.backTeamA) &&
+        Number(bookmakerById?.backTeamB) &&
+        Number(bookmakerById?.backTeamC)
       ) {
         setIsTab("tab");
       } else {
