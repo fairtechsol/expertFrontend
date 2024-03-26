@@ -134,7 +134,7 @@ const DropDown = (props: any) => {
         >
           {matchesSelect
             ? data?.map((i: any, idx: any) => {
-                return (
+                              return (
                   <DropDownItem
                     key={idx}
                     i={i?.EventName}

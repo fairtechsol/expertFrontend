@@ -78,12 +78,12 @@ export const getAllEventsList = createAsyncThunk<any, string>(
   }
 );
 
-export const getExtraMarketList = createAsyncThunk<any, string>(
+export const getExtraMarketList = createAsyncThunk<any, any>(
   "addMatch/extraMarketList",
   async (requestData, thunkApi) => {
-    try {
+        try {
       const { data } = await axios.get(
-        `${constants.microServiceApiPath}/extraMarketList/${requestData}`
+        `${constants.microServiceApiPath}/extraMarketList/${requestData?.id}?eventType=${requestData?.eventType}`
       );
       if (data) {
         let extraMarketList: any = {
@@ -97,10 +97,30 @@ export const getExtraMarketList = createAsyncThunk<any, string>(
               (match: any) => match?.description?.marketType === "TIED_MATCH"
             )?.marketId,
           },
-          completedMatch: {
+                    completedMatch: {
             marketId: data?.find(
               (match: any) =>
                 match?.description?.marketType === "COMPLETED_MATCH"
+            )?.marketId,
+          },
+          ...(Array.from({ length: 20 }, (_, index :any) => index).reduce((prev, curr) => {
+            prev[`overUnder${curr}.5`] = { marketId: data?.find(
+              (match: any) =>
+                match?.description?.marketType === `OVER_UNDER_${curr}5`
+            )?.marketId,}
+            return prev;
+          }, {})),
+          ...(Array.from({ length: 20 }, (_, index:any) => index).reduce((prev, curr) => {
+            prev[`firstHalfGoal${curr}.5`] = { marketId: data?.find(
+              (match: any) =>
+                match?.description?.marketType === `FIRST_HALF_GOALS_${curr}5`
+            )?.marketId,}
+            return prev;
+          }, {})),
+          halfTime: {
+            marketId: data?.find(
+              (match: any) =>
+                match?.description?.marketType === "HALF_TIME"
             )?.marketId,
           },
         };
@@ -112,21 +132,7 @@ export const getExtraMarketList = createAsyncThunk<any, string>(
     }
   }
 );
-export const getFootballExtraMarketList = createAsyncThunk<any, string>(
-  "addMatch/FootballExtraMarketList",
-  async (requestData, thunkApi) => {
-    try {
-      const { data } = await axios.get(
-        `${constants.microServiceApiPath}/betfair/under_over_goal_market_list/${requestData}`
-      );
-     
-      return data;
-    } catch (error) {
-      const err = error as AxiosError;
-      return thunkApi.rejectWithValue(err.response?.status);
-    }
-  }
-);
+
 
 export const addMatchExpert = createAsyncThunk<any, any>(
   "addMatchExpert",

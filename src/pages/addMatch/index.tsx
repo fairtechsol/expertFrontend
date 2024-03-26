@@ -119,7 +119,7 @@ const AddMatch = () => {
 
   const { editSuccess } = useSelector((state: RootState) => state.matchList);
   const formik = useFormik({
-    validationSchema: addMatchValidation(manualMatchToggle, selected.gameType),
+    // validationSchema: addMatchValidation(manualMatchToggle, selected.gameType),
     initialValues: initialFormikValues,
     onSubmit: (value: any) => {
       if (!eventWiseMatchData[selected.gameType]) {
@@ -254,7 +254,7 @@ const AddMatch = () => {
           minBet: value.minBet,
           marketData: [],
 
-          betFairSessionMaxBet: value.betfairSessionMaxBet,
+          betFairSessionMaxBet: value.minBet +1,
           bookmakers: bookmakers,
         };
 
@@ -829,11 +829,11 @@ const AddMatch = () => {
                           border: "none",
                         },
                         "& .css-nxo287-MuiInputBase-input-MuiOutlinedInput-input":
-                          {
-                            // cursor: "not-allowed",
-                            paddingBottom: "8px",
-                            paddingTop: "8px",
-                          },
+                        {
+                          // cursor: "not-allowed",
+                          paddingBottom: "8px",
+                          paddingTop: "8px",
+                        },
                       }}
                       // className={classes.dateTimePicker}
                       // label="Basic date picker"
@@ -930,8 +930,8 @@ const AddMatch = () => {
               </Box>
             )}
 
-            {eventWiseMatchData[selected.gameType]?.manual?.map((item: any) => {
-              console.log(touched?.[item?.matchType]);
+            { eventWiseMatchData[selected.gameType]?.manual?.map((item: any) => {
+
               return (
                 <Box sx={{ width: { xs: "100%", lg: "18%", md: "24%" } }}>
                   <MatchListInput
@@ -956,8 +956,8 @@ const AddMatch = () => {
               );
             })}
 
-            {!manualMatchToggle &&
-              eventWiseMatchData[selected.gameType]?.market?.map(
+            {!manualMatchToggle  &&
+              eventWiseMatchData[selected.gameType]?.market?.filter((item:any) =>extraMarketList[item.marketIdKey]?.marketId != null && extraMarketList[item.marketIdKey]?.marketId != undefined)?.map(
                 (item: any) => {
                   return (
                     <Box sx={{ width: { xs: "100%", lg: "18%", md: "24%" } }}>
@@ -966,6 +966,11 @@ const AddMatch = () => {
                         containerStyle={{ flex: 1, width: "100%" }}
                         label={item?.label}
                         {...formik.getFieldProps(`${item?.matchType}.maxBet`)}
+                        onChange={(e:any)=>{
+                          formik.setValues({...values,[item.matchType]:{
+                            ...values[item.matchType],maxBet: e.target.value
+                          }})
+                        }}
                         type={"Number"}
                         touched={touched?.[item?.matchType]?.maxBet}
                         value={values?.[item?.matchType]?.maxBet}
@@ -974,7 +979,7 @@ const AddMatch = () => {
                         place={15}
                         onBlur={formik.handleBlur}
                       />
-                      <CustomErrorMessage
+                                            <CustomErrorMessage
                         touched={touched?.[item?.matchType]?.maxBet}
                         errors={errors?.[item?.matchType]?.maxBet}
                       />

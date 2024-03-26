@@ -129,6 +129,15 @@ export const matchBettingType = {
   tiedMatch2: "tiedMatch2",
   completeMatch: "completeMatch",
   completeManual: "completeManual",
+  ...(Array.from({ length: 20 }, (_, index :any) => index).reduce((prev, curr) => {
+    prev[`overUnder${curr}.5`] = `overUnder${curr}.5`
+    return prev;
+  }, {})),
+  ...(Array.from({ length: 20 }, (_, index:any) => index).reduce((prev, curr) => {
+    prev[`firstHalfGoal${curr}.5`] = `firstHalfGoal${curr}.5`
+    return prev;
+  }, {})),
+  halfTime: "halfTime"
 };
 
 export const eventWiseMatchData = {
@@ -179,20 +188,7 @@ export const eventWiseMatchData = {
     ],
   },
   [constants.matchType[2]]: {
-    manual: [
-      {
-        matchType: matchBettingType.tiedMatch2,
-        apiKey: "manualTideMatch",
-        label: "Manual Tied Match Max Bet",
-        name: "ManualTide",
-      },
-      {
-        matchType: matchBettingType.completeManual,
-        apiKey: "completeManual",
-        label: "Complete Manual Match Max Bet",
-        name: "CompleteManual",
-      },
-    ],
+    manual: [ ],
     market: [
       {
         matchType: matchBettingType.matchOdd,
@@ -201,26 +197,33 @@ export const eventWiseMatchData = {
         label: "Betfair Match Odd Max Bet",
         name: "MatchOdd",
       },
+      
+      ...(Array.from({ length: 20 }, (_, index:any) => index).map(( curr) => {
+        // prev[`overUnder${curr}.5`] = `overUnder${curr}.5`
+        return {
+          matchType: matchBettingType[`overUnder${curr}.5`],
+          apiKey: `overUnder${curr}.5`,
+          label: `Over Under ${curr}.5 Max Bet`,
+          name: "Over Under",
+          marketIdKey: `overUnder${curr}.5`,
+        };
+      })),
+      ...(Array.from({ length: 20 }, (_, index:any) => index).map(( curr) => {
+        // prev[`firstHalfGoal${curr}.5`] = `firstHalfGoal${curr}.5`
+        return {
+          matchType: matchBettingType[`firstHalfGoal${curr}.5`],
+          apiKey: `firstHalfGoal${curr}.5`,
+          label: `First Half ${curr}.5 Max Bet`,
+          name: "First Half",
+          marketIdKey: `firstHalfGoal${curr}.5`,
+        };
+      })),
       {
-        matchType: matchBettingType.bookmaker,
-        apiKey: "bookmaker",
-        label: "Betfair Bookmaker Max Bet",
-        name: "Bookmaker",
-        marketIdKey: "matchOdds",
-      },
-      {
-        matchType: matchBettingType.tiedMatch1,
-        apiKey: "apiTideMatch",
-        label: "Market Tied Match Max Bet",
-        name: "Tied",
-        marketIdKey: "tiedMatch",
-      },
-      {
-        matchType: matchBettingType.completeMatch,
-        apiKey: "marketCompleteMatch",
-        label: "Market Complete Match Max Bet",
-        name: "Complete",
-        marketIdKey: "completedMatch",
+        matchType: matchBettingType.halfTime,
+        apiKey: "halfTime",
+        label: "Half Time Max Bet",
+        name: "Half Time",
+        marketIdKey: "halfTime",
       },
     ],
   },
