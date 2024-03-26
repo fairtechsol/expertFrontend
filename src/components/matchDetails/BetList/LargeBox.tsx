@@ -17,7 +17,7 @@ const LargeBox = ({ item, k }: any) => {
     >
       <Typography
         sx={{
-          fontSize: { lg: "9px", xs: "9px", md: "10px" },
+          fontSize: { lg: "11px", xs: "9px", md: "10px" },
           fontWeight: "600",
           color: item?.color,
           wordWrap: "break-word",
