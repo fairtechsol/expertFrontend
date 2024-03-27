@@ -47,3 +47,6 @@ export { default as UD } from "./images/UD.png";
 export { default as CANCEL } from "./images/cancel.png";
 export { default as ArrowDownRed } from "./images/arrowdownred.png";
 export { default as ArrowUpGreen } from "./images/arrowupgreen.png";
+export { default as Football } from "./images/football.png";
+export { default as Cricket } from "./images/cricket.png";
+export { default as Tennis } from "./images/tennis.png";

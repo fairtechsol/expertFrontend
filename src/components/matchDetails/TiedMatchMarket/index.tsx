@@ -9,7 +9,7 @@ import { betLiveStatus } from "../../../store/actions/match/matchAction";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../../store/store";
 
-const TiedMatchMarket = ({ currentMatch, liveData }: any) => {
+const TiedMatchMarket = ({ currentMatch, liveData, title }: any) => {
   const dispatch: AppDispatch = useDispatch();
 
   const [visibleImg, setVisibleImg] = useState(true);
@@ -59,7 +59,7 @@ const TiedMatchMarket = ({ currentMatch, liveData }: any) => {
               marginLeft: "7px",
             }}
           >
-            Tied Match Market
+            {title}
           </Typography>
           {/* <img src={LOCKED} style={{ width: '14px', height: '20px' }} /> */}
           <Stop

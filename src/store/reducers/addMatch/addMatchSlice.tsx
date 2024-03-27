@@ -149,6 +149,9 @@ const addMatch = createSlice({
           bookmaker,
           marketCompleteMatch,
           matchOdd,
+          firstHalfGoal,
+          overUnder,
+          halfTime,
         } = action.payload;
         state.matchDetail = {
           ...state.matchDetail,
@@ -162,6 +165,9 @@ const addMatch = createSlice({
             ...marketCompleteMatch,
           },
           matchOdd: { ...state.matchDetail?.matchOdd, ...matchOdd },
+          firstHalfGoal,
+          overUnder,
+          halfTime,
           sessionBettings: state.matchDetail?.sessionBettings?.map(
             (item: any) => {
               const parsedItem = JSON.parse(item);

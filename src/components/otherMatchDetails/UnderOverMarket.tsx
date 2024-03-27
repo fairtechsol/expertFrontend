@@ -1,18 +1,19 @@
 import { Box, Typography } from "@mui/material";
 import { useState } from "react";
-import Stop from "../SessionMarket/Stop";
-import SmallBox from "../SmallBox";
-import { ARROWUP } from "../../../assets";
-import Divider from "../../Common/Divider";
-import BoxComponent from "../MatchOdds/BoxComponent";
-import { betLiveStatus } from "../../../store/actions/match/matchAction";
 import { useDispatch } from "react-redux";
-import { AppDispatch } from "../../../store/store";
+import Divider from "../Common/Divider";
+import BoxComponent from "../matchDetails/MatchOdds/BoxComponent";
+import { ARROWUP } from "../../assets";
+import { betLiveStatus } from "../../store/actions/match/matchAction";
+import SmallBox from "../matchDetails/SmallBox";
+import Stop from "../matchDetails/SessionMarket/Stop";
+import { AppDispatch } from "../../store/store";
 
-const BookMarket = ({ currentMatch, liveData, title }: any) => {
+const UnderOverMarket = ({ currentMatch, liveData, title }: any) => {
   const dispatch: AppDispatch = useDispatch();
-  const [visibleImg, setVisibleImg] = useState<boolean>(true);
-  const [live, setLive] = useState<boolean>(
+
+  const [visibleImg, setVisibleImg] = useState(true);
+  const [live, setLive] = useState(
     liveData?.activeStatus === "live" ? true : false
   );
 
@@ -92,23 +93,25 @@ const BookMarket = ({ currentMatch, liveData, title }: any) => {
             justifyContent: "flex-end",
           }}
         >
-          <SmallBox
-            onClick={() => {
-              dispatch(
-                betLiveStatus({
-                  isStop: live,
-                  betId: liveData?.id,
-                })
-              );
-              setLive(!live);
-            }}
-            width={"80px"}
-            title={live ? "Live" : "Go Live"}
-            color={live ? "#46e080" : "#FF4D4D"}
-            customStyle={{
-              justifyContent: "center",
-            }}
-          />
+          <>
+            <SmallBox
+              onClick={() => {
+                dispatch(
+                  betLiveStatus({
+                    isStop: live,
+                    betId: liveData?.id,
+                  })
+                );
+                setLive(!live);
+              }}
+              width={"80px"}
+              title={live ? "Live" : "Go Live"}
+              color={live ? "#46e080" : "#FF4D4D"}
+              customStyle={{
+                justifyContent: "center",
+              }}
+            />
+          </>
           <img
             onClick={() => {
               setVisibleImg(!visibleImg);
@@ -153,8 +156,8 @@ const BookMarket = ({ currentMatch, liveData, title }: any) => {
                   marginLeft: "7px",
                 }}
               >
-                MIN: {currentMatch?.bookmaker?.minBet} MAX:{" "}
-                {currentMatch?.bookmaker?.maxBet}
+                MIN: {currentMatch?.apiTideMatch?.minBet} MAX:{" "}
+                {currentMatch?.apiTideMatch?.maxBet}
               </Typography>
             </Box>
             <Box
@@ -205,52 +208,39 @@ const BookMarket = ({ currentMatch, liveData, title }: any) => {
           <Box sx={{ position: "relative" }}>
             <BoxComponent
               teamRates={
-                currentMatch?.teamRates?.teamARate
-                  ? currentMatch?.teamRates?.teamARate
+                currentMatch?.teamRates?.yesRateTie
+                  ? currentMatch?.teamRates?.yesRateTie
                   : 0
               }
-              // teamImage={currentMatch?.bookmaker?.teamA_Image}
-              livestatus={liveData?.status === "live" ? true : false}
+              teamImage={currentMatch?.apiTideMatch?.teamA_Image}
+              livestatus={liveData?.status === "SUSPENDED" ? true : false}
               data={liveData?.runners?.length > 0 ? liveData?.runners[0] : []}
               lock={liveData?.runners?.length > 0 ? false : true}
-              name={currentMatch?.teamA}
+              name={`Under ${
+                title?.match(/\d+(\.\d+)?/g).length > 0
+                  ? title?.match(/\d+(\.\d+)?/g)[0]
+                  : ""
+              }`}
             />
 
             <Divider />
             <BoxComponent
-              livestatus={liveData?.status === "live" ? true : false}
+              livestatus={liveData?.status === "SUSPENDED" ? true : false}
               teamRates={
-                currentMatch?.teamRates?.teamBRate
-                  ? currentMatch?.teamRates?.teamBRate
+                currentMatch?.teamRates?.noRateTie
+                  ? currentMatch?.teamRates?.noRateTie
                   : 0
               }
-              teamImage={currentMatch?.bookmaker?.teamB_Image}
+              teamImage={currentMatch?.apiTideMatch?.teamB_Image}
               lock={liveData?.runners?.length > 0 ? false : true}
-              name={currentMatch?.teamB}
+              name={`Over ${
+                title?.match(/\d+(\.\d+)?/g).length > 0
+                  ? title?.match(/\d+(\.\d+)?/g)[0]
+                  : ""
+              }`}
               data={liveData?.runners?.length > 0 ? liveData?.runners[1] : []}
               align="end"
             />
-            {currentMatch?.teamC && (
-              <>
-                <Divider />
-                <BoxComponent
-                  color={"#FF4D4D"}
-                  livestatus={liveData?.status === "live" ? true : false}
-                  teamRates={
-                    currentMatch?.teamRates?.teamCRate
-                      ? currentMatch?.teamRates?.teamCRate
-                      : 0
-                  }
-                  teamImage={null}
-                  lock={liveData?.runners?.length > 0 ? false : true}
-                  name={currentMatch?.teamC}
-                  data={
-                    liveData?.runners?.length > 0 ? liveData?.runners[2] : []
-                  }
-                  align="end"
-                />
-              </>
-            )}
 
             <Divider />
             {!live && (
@@ -271,4 +261,4 @@ const BookMarket = ({ currentMatch, liveData, title }: any) => {
   );
 };
 
-export default BookMarket;
+export default UnderOverMarket;

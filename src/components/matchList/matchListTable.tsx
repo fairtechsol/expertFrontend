@@ -13,6 +13,7 @@ import { AppDispatch, RootState } from "../../store/store";
 import { getMatchListSessionProfitLoss } from "../../store/actions/match/matchAction";
 import SessionResultComponent from "./sessionResultComponent";
 import theme from "../../theme";
+import { IconConstants } from "../helper/gameConstants";
 
 const MatchListTable = (props: any) => {
   const { data, index } = props;
@@ -111,6 +112,10 @@ const MatchListTable = (props: any) => {
               order: { xs: "2", sm: "1" },
             }}
           >
+            <StyledImage
+              src={IconConstants[data?.matchType]}
+              sx={{ height: "20px", width: "20px", margin: "1rem" }}
+            />
             <Typography
               variant="h5"
               // color="primary.main"
@@ -194,9 +199,15 @@ const MatchListTable = (props: any) => {
                     marginLeft: { xs: "1%", sm: "10px" },
                   }}
                   onClick={() => {
-                    navigate(`/expert/betOdds`, {
-                      state: { id: data?.id, marketId: data?.marketId },
-                    });
+                    if (data?.matchType === "cricket") {
+                      navigate(`/expert/betOdds`, {
+                        state: { id: data?.id, marketId: data?.marketId },
+                      });
+                    } else {
+                      navigate(`/expert/betOdds/otherGames`, {
+                        state: { id: data?.id, marketId: data?.marketId },
+                      });
+                    }
                   }}
                   title={"Submit"}
                 />

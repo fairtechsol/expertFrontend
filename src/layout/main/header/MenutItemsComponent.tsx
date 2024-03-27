@@ -77,81 +77,95 @@ const MenutItemsComponent = ({
             paddingY: "5px",
           }}
         >
-          {(getProfile?.allPrivilege || getProfile?.sessionMatchPrivilege) &&
-            matchListDropdown?.length > 0 &&
-            matchListDropdown?.map((event: any, index: number) => {
-              if (event?.id == x?.id) {
-                return (
-                  <div key={index}>
-                    {event?.sessions?.length > 0 && (
-                      <Typography
-                        key={event?.id}
-                        sx={{ fontSize: "12px", fontWeight: "600" }}
-                      >
-                        {"Current Live Session"}
-                      </Typography>
-                    )}
-                    {event?.sessions?.map((element: any) => {
-                      return (
-                        <Box
-                          key={element.id}
-                          onClick={(e: any) => {
-                            e.stopPropagation();
-                            navigate(`/expert/live/${element?.id}`, {
-                              state: {
-                                createSession: false,
-                                match: x,
-                                sessionEvent: element,
-                                betId: element?.id,
-                              },
-                            });
-                            handleClose();
-                          }}
-                          sx={{ marginLeft: "10px", marginTop: "3px" }}
-                        >
+          {x?.matchType === "cricket" && (
+            <>
+              {(getProfile?.allPrivilege ||
+                getProfile?.sessionMatchPrivilege) &&
+                matchListDropdown?.length > 0 &&
+                matchListDropdown?.map((event: any, index: number) => {
+                  if (event?.id == x?.id) {
+                    return (
+                      <div key={index}>
+                        {event?.sessions?.length > 0 && (
                           <Typography
-                            sx={{
-                              fontSize: "12px",
-                              marginTop: "3px",
-                              cursor: "pointer",
-                            }}
+                            key={event?.id}
+                            sx={{ fontSize: "12px", fontWeight: "600" }}
                           >
-                            {element?.name}
+                            {"Current Live Session"}
                           </Typography>
-                        </Box>
-                      );
-                    })}
-                  </div>
-                );
-              } else return null;
-            })}
-          {(getProfile?.allPrivilege || getProfile?.sessionMatchPrivilege) && (
-            <Box
-              onClick={(e: any) => {
-                e.stopPropagation();
-                dispatch(addsuccessReset());
-                dispatch(sessionByIdReset());
-                dispatch(resetPlacedBets());
-                navigate("/expert/live", {
-                  state: {
-                    createSession: true,
-                    match: x,
-                  },
-                });
-                handleClose();
-              }}
-              sx={{ marginTop: "5px", display: "flex", alignItems: "center" }}
-            >
-              <Typography
-                sx={{ fontSize: "12px", fontWeight: "600", cursor: "pointer" }}
-              >
-                Create Session
-              </Typography>
-              <StyledImage
-                src={ArrowLeft}
-                sx={{ width: "15px", height: "10px", marginLeft: "10px" }}
-              />
-            </Box>
+                        )}
+                        {event?.sessions?.map((element: any) => {
+                          return (
+                            <Box
+                              key={element.id}
+                              onClick={(e: any) => {
+                                e.stopPropagation();
+                                navigate(`/expert/live/${element?.id}`, {
+                                  state: {
+                                    createSession: false,
+                                    match: x,
+                                    sessionEvent: element,
+                                    betId: element?.id,
+                                  },
+                                });
+                                handleClose();
+                              }}
+                              sx={{ marginLeft: "10px", marginTop: "3px" }}
+                            >
+                              <Typography
+                                sx={{
+                                  fontSize: "12px",
+                                  marginTop: "3px",
+                                  cursor: "pointer",
+                                }}
+                              >
+                                {element?.name}
+                              </Typography>
+                            </Box>
+                          );
+                        })}
+                      </div>
+                    );
+                  } else return null;
+                })}
+              {(getProfile?.allPrivilege ||
+                getProfile?.sessionMatchPrivilege) && (
+                <Box
+                  onClick={(e: any) => {
+                    e.stopPropagation();
+                    dispatch(addsuccessReset());
+                    dispatch(sessionByIdReset());
+                    dispatch(resetPlacedBets());
+                    navigate("/expert/live", {
+                      state: {
+                        createSession: true,
+                        match: x,
+                      },
+                    });
+                    handleClose();
+                  }}
+                  sx={{
+                    marginTop: "5px",
+                    display: "flex",
+                    alignItems: "center",
+                  }}
+                >
+                  <Typography
+                    sx={{
+                      fontSize: "12px",
+                      fontWeight: "600",
+                      cursor: "pointer",
+                    }}
+                  >
+                    Create Session
+                  </Typography>
+                  <StyledImage
+                    src={ArrowLeft}
+                    sx={{ width: "15px", height: "10px", marginLeft: "10px" }}
+                  />
+                </Box>
+              )}
+            </>
           )}
           {(getProfile?.allPrivilege ||
             getProfile?.bookmakerMatchPrivilege) && (

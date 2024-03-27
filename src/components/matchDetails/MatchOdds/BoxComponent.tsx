@@ -65,7 +65,7 @@ const BoxComponent = ({
               fontSize: { lg: "10px", xs: "13px" },
               fontWeight: "600",
               marginLeft: "10px",
-              lineHeight: "0.8"
+              lineHeight: "0.8",
             }}
           >
             {name}
@@ -185,9 +185,11 @@ const BoxComponent = ({
               )}
               color={"#FFB5B5"}
             />
-            <Box
-              sx={{ width: ".45%", display: "flex", background: "pink" }}
-            ></Box>
+            {!matchesMobile && (
+              <Box
+                sx={{ width: ".45%", display: "flex", background: "pink" }}
+              ></Box>
+            )}
             {!matchesMobile && (
               <SeparateBox
                 currentMatch={currentMatch}
@@ -207,9 +209,11 @@ const BoxComponent = ({
                 color={"#FFB5B5"}
               />
             )}
-            <Box
-              sx={{ width: ".45%", display: "flex", background: "pink" }}
-            ></Box>
+            {!matchesMobile && (
+              <Box
+                sx={{ width: ".45%", display: "flex", background: "pink" }}
+              ></Box>
+            )}
             {!matchesMobile && (
               <SeparateBox
                 currentMatch={currentMatch}
@@ -228,9 +232,6 @@ const BoxComponent = ({
                 color={"#ECD6D6"}
               />
             )}
-            <Box
-              sx={{ width: ".45%", display: "flex", background: "pink" }}
-            ></Box>
           </Box>
         </>
       )}

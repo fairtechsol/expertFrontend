@@ -67,6 +67,7 @@ export const Constants = {
     live_update: "live/:id",
     addBookMaker: "add_book_maker",
     betOdds: "betOdds",
+    betOddsOtherGames: "betOdds/otherGames",
     changePassword: "change-password",
   },
   WEBSOCKET: "websocket",

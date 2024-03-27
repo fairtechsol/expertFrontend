@@ -9,7 +9,7 @@ import { betLiveStatus } from "../../../store/actions/match/matchAction";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../../store/store";
 
-const CompleteMatchMarket = ({ currentMatch, liveData }: any) => {
+const CompleteMatchMarket = ({ currentMatch, liveData, title }: any) => {
   const [visibleImg, setVisibleImg] = useState(true);
   const [live, setLive] = useState(
     liveData?.activeStatus === "live" ? true : false
@@ -57,7 +57,7 @@ const CompleteMatchMarket = ({ currentMatch, liveData }: any) => {
               marginLeft: "7px",
             }}
           >
-            Complete Match Market
+            {title}
           </Typography>
           {/* <img src={LOCKED} style={{ width: '14px', height: '20px' }} /> */}
           <Stop

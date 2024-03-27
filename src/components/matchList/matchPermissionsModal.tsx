@@ -29,7 +29,7 @@ const MatchPermissionsModal = (props: any) => {
         width: "100%",
         display: "flex",
         background: "#ffe094",
-        height: { xs: "auto", md: "auto", lg: "7rem" },
+        minHeight: { xs: "auto", md: "auto", lg: "7rem" },
       }}
     >
       <Box
@@ -90,7 +90,7 @@ const MatchPermissionsModal = (props: any) => {
                 );
               }
             })}
-        {!data?.eventId.includes("manual") && (
+        {data?.matchType === "cricket" && !data?.eventId.includes("manual") && (
           <BoxButtonWithSwitch
             title="Session"
             matchId={data?.id}
@@ -107,20 +107,22 @@ const MatchPermissionsModal = (props: any) => {
           />
         )}
 
-        <BoxButtonWithSwitch
-          title="Manual Session"
-          matchId={data?.id}
-          matchBettingType={"session"}
-          isManualBet={true}
-          disable={
-            getProfile?.allPrivilege || getProfile?.addMatchPrivilege
-              ? false
-              : true
-          }
-          updateMatchStatus={updateMatchStatus}
-          setUpdateMatchStatus={setUpdateMatchStatus}
-          place={2}
-        />
+        {data?.matchType === "cricket" && (
+          <BoxButtonWithSwitch
+            title="Manual Session"
+            matchId={data?.id}
+            matchBettingType={"session"}
+            isManualBet={true}
+            disable={
+              getProfile?.allPrivilege || getProfile?.addMatchPrivilege
+                ? false
+                : true
+            }
+            updateMatchStatus={updateMatchStatus}
+            setUpdateMatchStatus={setUpdateMatchStatus}
+            place={2}
+          />
+        )}
       </Box>
       <Box
         sx={{
@@ -166,9 +168,15 @@ const MatchPermissionsModal = (props: any) => {
                 }}
                 title={"Submit"}
                 onClick={() => {
-                  navigate(`/expert/betOdds`, {
-                    state: { id: data?.id, marketId: data?.marketId },
-                  });
+                  if (data?.matchType === "cricket") {
+                    navigate(`/expert/betOdds`, {
+                      state: { id: data?.id, marketId: data?.marketId },
+                    });
+                  } else {
+                    navigate(`/expert/betOdds/otherGames`, {
+                      state: { id: data?.id, marketId: data?.marketId },
+                    });
+                  }
                 }}
               />
             )}

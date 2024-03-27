@@ -3,7 +3,7 @@ const constants = {
   microServiceApiPath:
     process.env.NODE_ENV === "production"
       ? "http://107.23.165.155:3200"
-      : "http://107.23.165.155:3200",
+      : "http://localhost:3200",
 
   //---------------------------------------User Roles--------------------------------------------------\\
 
