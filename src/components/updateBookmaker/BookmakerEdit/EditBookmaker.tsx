@@ -203,6 +203,15 @@ const EditBookmaker = (props: any) => {
               : false,
         };
       });
+      if (
+        Number(bookmakerById?.backTeamA) &&
+        Number(bookmakerById?.backTeamB) &&
+        Number(bookmakerById?.backTeamC)
+      ) {
+        setIsTab("tab");
+      } else {
+        setIsTab("");
+      }
       dispatch(successReset());
     }
   }, [bookmakerById, success]);

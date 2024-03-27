@@ -2,17 +2,17 @@ import { Box, Typography, useMediaQuery } from "@mui/material";
 import ModalMUI from "@mui/material/Modal";
 import moment from "moment";
 import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { DownGIcon } from "../../assets";
+import { getMatchListSessionProfitLoss } from "../../store/actions/match/matchAction";
+import { AppDispatch, RootState } from "../../store/store";
+import theme from "../../theme";
 import CustomButton from "../Common/CustomButton";
 import StyledImage from "../Common/StyledImages";
-import MatchListProfitLoss from "./profitLoss";
 import MatchPermissionsModal from "./matchPermissionsModal";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../../store/store";
-import { getMatchListSessionProfitLoss } from "../../store/actions/match/matchAction";
+import MatchListProfitLoss from "./profitLoss";
 import SessionResultComponent from "./sessionResultComponent";
-import theme from "../../theme";
 
 const MatchListTable = (props: any) => {
   const { data, index } = props;
@@ -109,7 +109,7 @@ const MatchListTable = (props: any) => {
             alignItems="center"
             sx={{
               order: { xs: "2", sm: "1" },
-              marginBottom: {xs: 2 , lg: 0}
+              marginBottom: { xs: 2, lg: 0 },
             }}
           >
             <Typography
@@ -126,7 +126,7 @@ const MatchListTable = (props: any) => {
             >
               {data?.title}
             </Typography>
-           <StyledImage
+            <StyledImage
               onClick={() => {
                 setShowUserModal((prev) => !prev);
               }}
@@ -145,7 +145,7 @@ const MatchListTable = (props: any) => {
           <Box
             display={"flex"}
             sx={{
-              flexDirection: { xs: "column", sm: "row", md: "row" },
+              flexDirection: { xs: "column", sm: "column", md: "row" },
               order: { xs: "1", sm: "2", md: "3" },
               width: { xs: "100%", sm: "auto" },
               py: { xs: 1, sm: 0 },
@@ -171,9 +171,7 @@ const MatchListTable = (props: any) => {
                 // onClick={() => handleMatchProfitLossClick(data?.id)}
                 updateMatchStatusLabel="Commission"
                 updateMatchStatus={
-                  data?.pl &&
-                  data?.pl?.length > 0 &&
-                  data?.pl[0]?.commission
+                  data?.pl && data?.pl?.length > 0 && data?.pl[0]?.commission
                 }
                 place="1"
               />
@@ -190,7 +188,7 @@ const MatchListTable = (props: any) => {
                 place="1"
               />
             )}
-             
+
             <Box
               display={"flex"}
               sx={{
