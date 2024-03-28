@@ -89,6 +89,7 @@ const AddMatch = () => {
     matchDetail,
     success,
     matchAdded,
+    loading,
   } = useSelector((state: RootState) => state.addMatch.addMatch);
 
   const [selected, setSelected] = useState(initialValues);
@@ -112,6 +113,9 @@ const AddMatch = () => {
     validationSchema: addMatchValidation,
     initialValues: initialFormikValues,
     onSubmit: (value: any) => {
+      if (loading) {
+        return;
+      }
       if (state?.id) {
         let bookmakers;
 
