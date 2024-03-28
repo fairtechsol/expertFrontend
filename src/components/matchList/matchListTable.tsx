@@ -121,6 +121,7 @@ const MatchListTable = (props: any) => {
                   alignItems: "center",
                   marginRight: { lg: "10px", xs: "6px" },
                   justifyContent: "space-between",
+                  maxWidth: "200px",
                 },
               ]}
             >
@@ -141,7 +142,7 @@ const MatchListTable = (props: any) => {
               }}
             />
           </Box>
-
+          
           <Box
             display={"flex"}
             sx={{
@@ -149,6 +150,7 @@ const MatchListTable = (props: any) => {
               order: { xs: "1", sm: "2", md: "3" },
               width: { xs: "100%", sm: "auto" },
               py: { xs: 1, sm: 0 },
+              // px: "10px",
               overflow: "hidden",
               display: showUserModal && !matchesMobile ? "none" : "flex",
               // marginBottom: showUserModal ? { xs: "0%", sm: "-1%", lg: "-20%" } : "0%",
