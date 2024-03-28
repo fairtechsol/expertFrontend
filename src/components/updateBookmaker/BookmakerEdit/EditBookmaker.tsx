@@ -270,23 +270,25 @@ const EditBookmaker = (props: any) => {
       socketService.user.updateMatchBettingRateClientOff();
     };
   }, []);
-  console.log(bookmakerById?.matchRates?.teamARate, "decimal")
 
   const rateA = bookmakerById?.type !== "tiedMatch2"
     ? +bookmakerById?.matchRates?.teamARate || 0
     : +bookmakerById?.matchRates?.yesRateTie || 0;
 
-    const rateB = bookmakerById?.type !== "tiedMatch2"
+  const rateB = bookmakerById?.type !== "tiedMatch2"
     ? +bookmakerById?.matchRates?.teamARate || 0
     : +bookmakerById?.matchRates?.yesRateTie || 0;
 
-    const formattedRateB = rateB.toFixed(2);
-    const [integerPartB, decimalPartB] = formattedRateB.split('.');
+  const formattedRateB = rateB.toFixed(2);
+  const [integerPartB, decimalPartB] = formattedRateB.split('.');
 
   const formattedRate = rateA.toFixed(2);
   const [integerPart, decimalPart] = formattedRate.split('.');
 
+  const rateC = +bookmakerById?.matchRates?.teamCRate || 0;
 
+  const formattedRateC = rateC.toFixed(2); 
+  const [integerPartC, decimalPartC] = formattedRateC.split('.');
   return (
     <>
       <Box
@@ -470,7 +472,7 @@ const EditBookmaker = (props: any) => {
                     ? +bookmakerById?.matchRates?.teamARate || 0
                     : +bookmakerById?.matchRates?.yesRateTie || 0} */}
                   <span>{integerPart}</span>
-                  <span style={{fontSize: "0.8em", fontWeight: 'normal'}}>{`.${decimalPart}`}</span>
+                  <span style={{ fontSize: "0.8em", fontWeight: 'normal' }}>{`.${decimalPart}`}</span>
                 </Typography>
               </Box>
               <Box
@@ -636,8 +638,8 @@ const EditBookmaker = (props: any) => {
                   {/* {bookmakerById?.type !== "tiedMatch2"
                     ? +bookmakerById?.matchRates?.teamBRate || 0
                     : +bookmakerById?.matchRates?.noRateTie || 0} */}
-                        <span>{integerPartB}</span>
-                  <span style={{fontSize: "0.8em", fontWeight: 'normal'}}>{`.${decimalPartB}`}</span>
+                  <span>{integerPartB}</span>
+                  <span style={{ fontSize: "0.8em", fontWeight: 'normal' }}>{`.${decimalPartB}`}</span>
                 </Typography>
               </Box>
               <Box
@@ -794,7 +796,9 @@ const EditBookmaker = (props: any) => {
                           : "#319E5B",
                     }}
                   >
-                    {bookmakerById?.matchRates?.teamCRate || 0}
+                    {/* {bookmakerById?.matchRates?.teamCRate || 0} */}
+                    <span>{integerPartC}</span>
+                    <span style={{ fontSize: "0.8em", fontWeight: 'normal' }}>{`.${decimalPartC}`}</span>
                   </Typography>
                 </Box>
                 <Box
