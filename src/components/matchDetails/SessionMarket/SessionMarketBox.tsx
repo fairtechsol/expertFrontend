@@ -228,9 +228,9 @@ const SessionMarketBox = ({
               margin: "1px",
               background: "rgba(0,0,0,1)",
               height: "40px",
-              right: { lg: "20.5%", xs: "19%", md: "20%" },
+              right: { lg: "20.5%", xs: "20%", md: "20%" },
               position: "absolute",
-              width: { lg: "18%", xs: "20%" },
+              width: { lg: "18.6%", xs: "20%" },
               justifyContent: { xs: "center", lg: "center" },
               alignItems: "center",
               display: "flex",
@@ -258,7 +258,7 @@ const SessionMarketBox = ({
               height: "40px",
               right: { lg: "20.5%", xs: "19%", md: "20%" },
               position: "absolute",
-              width: { lg: "18%", xs: "20%" },
+              width: { lg: "18.6%", xs: "20%" },
               justifyContent: { xs: "center", lg: "center" },
               alignItems: "center",
               display: "flex",
@@ -272,7 +272,7 @@ const SessionMarketBox = ({
                 lineHeight: "11px",
                 color: "#FFF",
                 fontWeight: "400",
-                overflowWrap: "anywhere"
+                overflowWrap: "anywhere",
               }}
             >
               Result {newData?.resultStatus}
@@ -286,7 +286,8 @@ const SessionMarketBox = ({
               background: "white",
               height: "40px",
               // marginLeft: "2vh",
-              width: { lg: "18.6%", xs: "40%", paddingLeft: "0px" },
+              width: { lg: "18.6%", xs: "40%" },
+              paddingLeft: "0px",
               justifyContent: "center",
               alignItems: "center",
               margin: "auto",

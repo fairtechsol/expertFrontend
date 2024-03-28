@@ -29,7 +29,7 @@ const MatchPermissionsModal = (props: any) => {
         width: "100%",
         display: "flex",
         background: "#ffe094",
-        height: { xs: "auto", md: "auto", lg: "7rem" },
+        minHeight: { xs: "auto", md: "auto", lg: "7rem" },
       }}
     >
       <Box
@@ -160,18 +160,16 @@ const MatchPermissionsModal = (props: any) => {
                   place="1"
                 />
               )}
-               {data?.stopAt && (
-              <MatchListProfitLoss
-                // onClick={() => handleMatchProfitLossClick(data?.id)}
-                updateMatchStatusLabel="Commission"
-                updateMatchStatus={
-                  data?.pl &&
-                  data?.pl?.length > 0 &&
-                  data?.pl[0]?.commission
-                }
-                place="1"
-              />
-            )}
+              {data?.stopAt && (
+                <MatchListProfitLoss
+                  // onClick={() => handleMatchProfitLossClick(data?.id)}
+                  updateMatchStatusLabel="Commission"
+                  updateMatchStatus={
+                    data?.pl && data?.pl?.length > 0 && data?.pl[0]?.commission
+                  }
+                  place="1"
+                />
+              )}
               {data?.stopAt && (
                 <MatchListProfitLoss
                   containerStyle={{
