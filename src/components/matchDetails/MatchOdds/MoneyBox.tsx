@@ -38,8 +38,12 @@ const MoneyBox = ({ value }: any) => {
           }}
         >
           {/* {formatToINR(value === 0 ? "" : value)} */}
-          <span>{integerPart}</span>
-          <span style={{ fontSize: "0.8em", fontWeight: 'normal' }}>{`.${decimalPart}`}</span>
+          {value !== 0 && (
+            <>
+              <span>{integerPart}</span>
+              <span style={{ fontSize: "0.8em", fontWeight: 'normal' }}>{`.${decimalPart}`}</span>
+            </>
+          )}
         </Typography>
         {value ? (
           <img
