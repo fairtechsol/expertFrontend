@@ -6,6 +6,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DemoContainer, DemoItem } from "@mui/x-date-pickers/internals/demo";
 import dayjs from "dayjs";
 import { useFormik } from "formik";
+import moment from "moment";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -26,6 +27,7 @@ import {
   getMatchDetail,
   matchDetailReset,
   tournamentListReset,
+  updateExtraMarketListOnEdit,
 } from "../../store/actions/addMatch/addMatchAction";
 import {
   editMatch,
@@ -33,7 +35,7 @@ import {
 } from "../../store/actions/match/matchAction";
 import { AppDispatch, RootState } from "../../store/store";
 import { eventWiseMatchData, matchBettingType } from "../../utils/Constants";
-import moment from "moment";
+import { addMatchValidation } from "../../utils/Validations/login";
 // const useStyles = makeStyles(() => ({
 //   dateTimePicker: {
 //     "& .MuiFormControl-root": {
@@ -41,6 +43,22 @@ import moment from "moment";
 //     },
 //   },
 // }));
+
+function flattenObject(obj: any) {
+  if (obj) {
+    return Object.keys(obj).reduce((acc: any, key) => {
+      if (Array.isArray(obj[key])) {
+        obj[key].forEach((item: any) => {
+          acc[item?.type] = item;
+        });
+      } else {
+        acc[key] = obj[key];
+      }
+      return acc;
+    }, {});
+  }
+  return {};
+}
 
 const initialFormikValues = {
   minBet: "",
@@ -179,10 +197,12 @@ const AddMatch = () => {
 
         if (!manualMatchToggle) {
           eventWiseMatchData[selected.gameType]?.market?.forEach((item) => {
-            payload.marketData.push({
-              maxBet: value?.[item?.matchType]?.maxBet,
-              type: item?.matchType,
-            });
+            if (value?.[item?.matchType]?.maxBet) {
+              payload.marketData.push({
+                maxBet: value?.[item?.matchType]?.maxBet,
+                type: item?.matchType,
+              });
+            }
           });
         }
         dispatch(editMatch(payload));
@@ -469,6 +489,25 @@ const AddMatch = () => {
               }
             }
           );
+          let extraMarketListArray = {};
+          eventWiseMatchData[matchDetail?.matchType]?.market?.forEach(
+            (item) => {
+              let updatedMatchDetail: any = flattenObject(matchDetail);
+              if (updatedMatchDetail[item?.apiKey]) {
+                formikValues[item?.matchType] = {
+                  maxBet: updatedMatchDetail[item?.apiKey].maxBet,
+                };
+                extraMarketListArray = {
+                  ...extraMarketListArray,
+                  [item?.apiKey]: {
+                    marketId: updatedMatchDetail[item?.apiKey].marketId,
+                  },
+                };
+              }
+            }
+          );
+
+          dispatch(updateExtraMarketListOnEdit(extraMarketListArray));
 
           formik.setValues(formikValues);
           setSelected((prev: any) => {
@@ -958,8 +997,8 @@ const AddMatch = () => {
               eventWiseMatchData[selected.gameType]?.market
                 ?.filter(
                   (item: any) =>
-                    extraMarketList[item.marketIdKey]?.marketId != null &&
-                    extraMarketList[item.marketIdKey]?.marketId != undefined
+                    extraMarketList[item.marketIdKey]?.marketId !== null &&
+                    extraMarketList[item.marketIdKey]?.marketId !== undefined
                 )
                 ?.map((item: any) => {
                   return (

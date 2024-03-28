@@ -10,6 +10,7 @@ import {
   getMatchDetail,
   matchDetailReset,
   tournamentListReset,
+  updateExtraMarketListOnEdit,
   updateMatchBettingStatus,
   updateMatchRates,
   updateRates,
@@ -364,6 +365,9 @@ const addMatch = createSlice({
             teamCRate: redisObject[action.payload.teamCrateRedisKey],
           };
         }
+      })
+      .addCase(updateExtraMarketListOnEdit.fulfilled, (state, action) => {
+        state.extraMarketList = action.payload;
       });
   },
 });

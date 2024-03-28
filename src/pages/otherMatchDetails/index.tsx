@@ -293,11 +293,13 @@ const OtherMatchDetails = () => {
               </Grid>
             )}
             {matchDetail?.bookmaker?.isActive && (
-              <BookMarket
-                currentMatch={matchDetail}
-                liveData={matchDetail?.bookmaker}
-                title={"Bookmaker Market"}
-              />
+              <Grid item md={12} lg={6} xs={12}>
+                <BookMarket
+                  currentMatch={matchDetail}
+                  liveData={matchDetail?.bookmaker}
+                  title={"Bookmaker Market"}
+                />
+              </Grid>
             )}
             {matchDetail?.halfTime?.isActive && (
               <Grid item md={12} lg={6} xs={12}>

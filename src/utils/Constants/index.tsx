@@ -130,15 +130,21 @@ export const matchBettingType = {
   tiedMatch2: "tiedMatch2",
   completeMatch: "completeMatch",
   completeManual: "completeManual",
-  ...(Array.from({ length: 20 }, (_, index :any) => index).reduce((prev, curr) => {
-    prev[`overUnder${curr}.5`] = `overUnder${curr}.5`
-    return prev;
-  }, {})),
-  ...(Array.from({ length: 20 }, (_, index:any) => index).reduce((prev, curr) => {
-    prev[`firstHalfGoal${curr}.5`] = `firstHalfGoal${curr}.5`
-    return prev;
-  }, {})),
-  halfTime: "halfTime"
+  ...Array.from({ length: 20 }, (_, index: any) => index).reduce(
+    (prev, curr) => {
+      prev[`overUnder${curr}.5`] = `overUnder${curr}.5`;
+      return prev;
+    },
+    {}
+  ),
+  ...Array.from({ length: 20 }, (_, index: any) => index).reduce(
+    (prev, curr) => {
+      prev[`firstHalfGoal${curr}.5`] = `firstHalfGoal${curr}.5`;
+      return prev;
+    },
+    {}
+  ),
+  halfTime: "halfTime",
 };
 
 export const eventWiseMatchData = {
@@ -161,7 +167,7 @@ export const eventWiseMatchData = {
       {
         matchType: matchBettingType.matchOdd,
         apiKey: "matchOdd",
-        marketIdKey: "matchOdds",
+        marketIdKey: "matchOdd",
         label: "Betfair Match Odd Max Bet",
         name: "MatchOdd",
       },
@@ -170,36 +176,43 @@ export const eventWiseMatchData = {
         apiKey: "bookmaker",
         label: "Betfair Bookmaker Max Bet",
         name: "Bookmaker",
-        marketIdKey: "matchOdds",
+        marketIdKey: "matchOdd",
       },
       {
         matchType: matchBettingType.tiedMatch1,
         apiKey: "apiTideMatch",
         label: "Market Tied Match Max Bet",
         name: "Tied",
-        marketIdKey: "tiedMatch",
+        marketIdKey: "apiTideMatch",
       },
       {
         matchType: matchBettingType.completeMatch,
         apiKey: "marketCompleteMatch",
         label: "Market Complete Match Max Bet",
         name: "Complete",
-        marketIdKey: "completedMatch",
+        marketIdKey: "marketCompleteMatch",
       },
     ],
   },
   [constants.matchType[2]]: {
-    manual: [ ],
+    manual: [],
     market: [
       {
         matchType: matchBettingType.matchOdd,
         apiKey: "matchOdd",
-        marketIdKey: "matchOdds",
+        marketIdKey: "matchOdd",
         label: "Betfair Match Odd Max Bet",
         name: "MatchOdd",
       },
-      
-      ...(Array.from({ length: 20 }, (_, index:any) => index).map(( curr) => {
+      {
+        matchType: matchBettingType.bookmaker,
+        apiKey: "bookmaker",
+        label: "Betfair Bookmaker Max Bet",
+        name: "Bookmaker",
+        marketIdKey: "matchOdd",
+      },
+
+      ...Array.from({ length: 20 }, (_, index: any) => index).map((curr) => {
         // prev[`overUnder${curr}.5`] = `overUnder${curr}.5`
         return {
           matchType: matchBettingType[`overUnder${curr}.5`],
@@ -208,8 +221,8 @@ export const eventWiseMatchData = {
           name: "Over Under",
           marketIdKey: `overUnder${curr}.5`,
         };
-      })),
-      ...(Array.from({ length: 20 }, (_, index:any) => index).map(( curr) => {
+      }),
+      ...Array.from({ length: 20 }, (_, index: any) => index).map((curr) => {
         // prev[`firstHalfGoal${curr}.5`] = `firstHalfGoal${curr}.5`
         return {
           matchType: matchBettingType[`firstHalfGoal${curr}.5`],
@@ -218,7 +231,7 @@ export const eventWiseMatchData = {
           name: "First Half",
           marketIdKey: `firstHalfGoal${curr}.5`,
         };
-      })),
+      }),
       {
         matchType: matchBettingType.halfTime,
         apiKey: "halfTime",

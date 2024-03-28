@@ -6,9 +6,8 @@ export const loginValidationSchema = Yup.object({
   password: Yup.string().required("Password is required"),
 });
 export const notificationvalidationSchema = Yup.object({
-  value: Yup.string()
-     .required('Field is required'),
- });
+  value: Yup.string().required("Field is required"),
+});
 export const changePasswordSchema = Yup.object({
   oldPassword: Yup.string().required("Old Password is required"),
   newPassword: Yup.string()
