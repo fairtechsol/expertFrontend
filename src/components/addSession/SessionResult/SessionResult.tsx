@@ -5,10 +5,11 @@ import SessionResultModal from "./SessionResultModal";
 import { useNavigate } from "react-router-dom";
 import { resetPlacedBets } from "../../../store/actions/addSession";
 import { useDispatch } from "react-redux";
+import { AppDispatch } from "../../../store/store";
 
 const SessionResult = (props: any) => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
   const { sessionProLoss, matchId } = props;
   const [mode, setMode] = useState("0");
   const [selected, setSelected] = useState<any>([]);

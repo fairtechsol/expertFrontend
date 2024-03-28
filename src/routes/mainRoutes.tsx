@@ -2,6 +2,7 @@ import { lazy } from "react";
 import { Navigate } from "react-router-dom";
 import Loadable from "../utils/loadable";
 import { Constants } from "../utils/Constants";
+import OtherMatchDetails from "../pages/otherMatchDetails";
 
 const MainLayout = Loadable(lazy(() => import("../layout/main")));
 const MatchList = Loadable(lazy(() => import("../pages/matchList")));
@@ -44,6 +45,10 @@ const MainRoutes = {
     {
       path: Constants.MainPaths.betOdds,
       element: <MatchDetails />,
+    },
+    {
+      path: Constants.MainPaths.betOddsOtherGames,
+      element: <OtherMatchDetails />,
     },
     {
       path: Constants.MainPaths.changePassword,

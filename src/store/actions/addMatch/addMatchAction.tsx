@@ -78,38 +78,75 @@ export const getAllEventsList = createAsyncThunk<any, string>(
   }
 );
 
-export const getExtraMarketList = createAsyncThunk<any, string>(
+export const getExtraMarketList = createAsyncThunk<any, any>(
   "addMatch/extraMarketList",
   async (requestData, thunkApi) => {
     try {
       const { data } = await axios.get(
-        `${constants.microServiceApiPath}/extraMarketList/${requestData}`
+        `${constants.microServiceApiPath}/extraMarketList/${requestData?.id}?eventType=${requestData?.eventType}`
       );
       if (data) {
         let extraMarketList: any = {
-          matchOdds: {
+          matchOdd: {
             marketId: data?.find(
-              (match: any) => match?.marketName === "Match Odds"
+              (match: any) => match?.description?.marketType === "MATCH_ODDS"
             )?.marketId,
           },
-          tiedMatch: {
+          apiTideMatch: {
             marketId: data?.find(
-              (match: any) => match?.marketName === "Tied Match"
+              (match: any) => match?.description?.marketType === "TIED_MATCH"
             )?.marketId,
           },
-          completedMatch: {
+          marketCompleteMatch: {
             marketId: data?.find(
-              (match: any) => match?.marketName === "Completed Match"
+              (match: any) =>
+                match?.description?.marketType === "COMPLETED_MATCH"
+            )?.marketId,
+          },
+          ...Array.from({ length: 20 }, (_, index: any) => index).reduce(
+            (prev, curr) => {
+              prev[`overUnder${curr}.5`] = {
+                marketId: data?.find(
+                  (match: any) =>
+                    match?.description?.marketType === `OVER_UNDER_${curr}5`
+                )?.marketId,
+              };
+              return prev;
+            },
+            {}
+          ),
+          ...Array.from({ length: 20 }, (_, index: any) => index).reduce(
+            (prev, curr) => {
+              prev[`firstHalfGoal${curr}.5`] = {
+                marketId: data?.find(
+                  (match: any) =>
+                    match?.description?.marketType ===
+                    `FIRST_HALF_GOALS_${curr}5`
+                )?.marketId,
+              };
+              return prev;
+            },
+            {}
+          ),
+          halfTime: {
+            marketId: data?.find(
+              (match: any) => match?.description?.marketType === "HALF_TIME"
             )?.marketId,
           },
         };
-
         return extraMarketList;
       }
     } catch (error) {
       const err = error as AxiosError;
       return thunkApi.rejectWithValue(err.response?.status);
     }
+  }
+);
+
+export const updateExtraMarketListOnEdit = createAsyncThunk<any, any>(
+  "UpdateExtraMarketListOnEdit",
+  async (requestData) => {
+    return requestData;
   }
 );
 
@@ -135,7 +172,25 @@ export const getMatchDetail = createAsyncThunk<any, any>(
         `${ApiConstants.MATCH.GETDETAIL}/${requestData}`
       );
       if (resp) {
-        return resp?.data;
+        let sessionBetting = resp?.data?.sessionBettings;
+        const updatedData = sessionBetting.map((item: any) => {
+          const parsedItem = JSON.parse(item);
+
+          if (
+            parsedItem.selectionId &&
+            parsedItem.yesPercent === 0 &&
+            parsedItem.noPercent === 0
+          ) {
+            parsedItem.yesRate = 0;
+            parsedItem.noRate = 0;
+          }
+
+          return JSON.stringify(parsedItem);
+        });
+        return {
+          ...resp?.data,
+          sessionBettings: updatedData,
+        };
       }
     } catch (error) {
       const err = error as AxiosError;
@@ -168,7 +223,12 @@ export const updateMatchBettingStatus = createAsyncThunk<any, any>(
     return betting;
   }
 );
-
+export const updateRates = createAsyncThunk<any, any>(
+  "/match/ratesUpdate",
+  async (rates) => {
+    return rates;
+  }
+);
 export const addMatchReset = createAction("add/reset");
 export const editMatchReset = createAction("edit/reset");
 export const matchDetailReset = createAction("matchDetail/reset");

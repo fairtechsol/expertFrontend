@@ -194,10 +194,10 @@ const RunsBox = ({ item, currentOdd }: any) => {
                     {Number(v?.profitLoss) >= 0 ? (
                       <>
                         <span style={{ visibility: "hidden" }}>-</span>
-                        {v?.profitLoss}
+                        {v?.profitLoss?.toFixed(2)}
                       </>
                     ) : (
-                      v?.profitLoss
+                      v?.profitLoss?.toFixed(2)
                     )}
                   </Typography>
                   <StyledImage

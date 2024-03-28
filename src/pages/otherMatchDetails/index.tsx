@@ -1,16 +1,11 @@
-import { Box } from "@mui/material";
+import { Box, Grid } from "@mui/material";
 import { memo, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import Loader from "../../components/Loader";
 import BetList from "../../components/matchDetails/BetList";
 import BookMarket from "../../components/matchDetails/Bookmarket";
-import CompleteMatchMarket from "../../components/matchDetails/CompleteMatchMarket";
 import MatchOdds from "../../components/matchDetails/MatchOdds";
-import RunsBox from "../../components/matchDetails/RunsBox";
-import SessionMarket from "../../components/matchDetails/SessionMarket";
-import SessionMarketLive from "../../components/matchDetails/SessionMarketLive";
-import TiedMatchMarket from "../../components/matchDetails/TiedMatchMarket";
 import { expertSocketService, socketService } from "../../socketManager";
 import {
   getMatchDetail,
@@ -34,8 +29,9 @@ import {
   updateTeamRates,
 } from "../../store/actions/match/matchAction";
 import { AppDispatch, RootState } from "../../store/store";
+import UnderOverMarket from "../../components/otherMatchDetails/UnderOverMarket";
 
-const MatchDetails = () => {
+const OtherMatchDetails = () => {
   const { state } = useLocation();
   const navigate = useNavigate();
   const dispatch: AppDispatch = useDispatch();
@@ -45,8 +41,6 @@ const MatchDetails = () => {
   const { placedBetsMatch } = useSelector(
     (state: RootState) => state.matchList
   );
-  const { sessionProLoss } = useSelector((state: RootState) => state.match);
-  const { currentOdd } = useSelector((state: RootState) => state.addSession);
 
   const updateMatchDetailToRedux = (event: any) => {
     try {
@@ -288,132 +282,66 @@ const MatchDetails = () => {
         <Loader text="" />
       ) : (
         <>
-          <Box
-            sx={{
-              width: { lg: "50%", xs: "100%", md: "100%" },
-            }}
-          >
-            {(matchDetail?.apiSessionActive ||
-              matchDetail?.manualSessionActive) && (
-              <Box
-                sx={{
-                  width: { lg: "100%", xs: "100%", md: "100%" },
-                  display: "flex",
-                  gap: 0.1,
-                  flexDirection: "column",
-                }}
-              >
-                <Box
-                  sx={{
-                    width: { lg: "100%", xs: "100%", md: "100%" },
-                    flexDirection: "column",
-                    display: "flex",
-                  }}
-                >
-                  <SessionMarketLive
-                    title={"Session API Market"}
-                    hideTotalBet={true}
-                    liveOnly={true}
-                    stopAllHide={true}
-                    hideResult={true}
-                    sessionData={matchDetail?.apiSession}
-                    currentMatch={matchDetail}
-                  />
-                </Box>
-                <Box
-                  sx={{
-                    width: { lg: "100%", xs: "100%", md: "100%" },
-                    flexDirection: "column",
-                    display: "flex",
-                  }}
-                >
-                  <SessionMarket
-                    setIObtes={() => {}}
-                    title={"Session Market"}
-                    liveOnly={false}
-                    hideTotalBet={false}
-                    stopAllHide={false}
-                    profitLossData={matchDetail?.sessionProfitLoss}
-                    sessionData={matchDetail?.sessionBettings}
-                    hideResult={false}
-                    currentMatch={matchDetail}
-                  />
-                </Box>
-              </Box>
-            )}
-
-            {sessionProLoss?.length > 0 && (
-              <Box
-                sx={{
-                  display: "flex",
-                  flexDirection: "row",
-                  flexWrap: "wrap",
-                  gap: "1px",
-                  rowGap: "5px",
-                  height: "524px",
-                  overflow: "scroll",
-                  marginTop: "1.25vw",
-                }}
-              >
-                {sessionProLoss?.map((v: any) => {
-                  return (
-                    <RunsBox
-                      key={v?.id}
-                      item={v}
-                      currentOdd={
-                        currentOdd?.betId === v?.id ? currentOdd : null
-                      }
-                    />
-                  );
-                })}
-              </Box>
-            )}
-          </Box>
-          <Box
-            sx={{
-              width: { lg: "50%", xs: "100%", md: "100%" },
-              flexDirection: "column",
-              display: "flex",
-              paddingLeft: "5px",
-            }}
-          >
+          <Grid container spacing={2}>
             {matchDetail?.matchOdd?.isActive && (
-              <MatchOdds
-                showHeader={true}
-                currentMatch={matchDetail}
-                matchOddsLive={matchDetail?.matchOdd}
-              />
+              <Grid item md={12} lg={6} xs={12}>
+                <MatchOdds
+                  showHeader={true}
+                  currentMatch={matchDetail}
+                  matchOddsLive={matchDetail?.matchOdd}
+                />
+              </Grid>
             )}
             {matchDetail?.bookmaker?.isActive && (
-              <BookMarket
-                currentMatch={matchDetail}
-                liveData={matchDetail?.bookmaker}
-                title={"Bookmaker Market"}
-              />
+              <Grid item md={12} lg={6} xs={12}>
+                <BookMarket
+                  currentMatch={matchDetail}
+                  liveData={matchDetail?.bookmaker}
+                  title={"Bookmaker Market"}
+                />
+              </Grid>
             )}
-            {matchDetail?.apiTideMatch?.isActive && (
-              <TiedMatchMarket
-                currentMatch={matchDetail}
-                liveData={matchDetail?.apiTideMatch}
-                title={"Tied Match Market"}
-              />
+            {matchDetail?.halfTime?.isActive && (
+              <Grid item md={12} lg={6} xs={12}>
+                <BookMarket
+                  currentMatch={matchDetail}
+                  liveData={matchDetail?.halfTime}
+                  title={matchDetail?.halfTime?.name}
+                />
+              </Grid>
             )}
-            {matchDetail?.marketCompleteMatch?.isActive && (
-              <CompleteMatchMarket
-                currentMatch={matchDetail}
-                liveData={matchDetail?.marketCompleteMatch}
-                title={"Complete Match Market"}
-              />
-            )}
-
+            {matchDetail?.firstHalfGoal
+              ?.filter((item: any) => item?.isActive)
+              ?.map((market: any) => (
+                <Grid item md={12} lg={6} xs={12}>
+                  <UnderOverMarket
+                    currentMatch={matchDetail}
+                    liveData={market}
+                    title={market?.name}
+                  />
+                </Grid>
+              ))}
+            {matchDetail?.overUnder
+              ?.filter((item: any) => item?.isActive)
+              ?.map((market: any) => (
+                <Grid item md={12} lg={6} xs={12}>
+                  <UnderOverMarket
+                    currentMatch={matchDetail}
+                    liveData={market}
+                    title={market?.name}
+                  />
+                </Grid>
+              ))}
             {matchDetail?.id && (
-              <BetList allBetRates={placedBetsMatch} tag={true} />
+              <Grid item md={12} lg={6} xs={12}>
+                <BetList allBetRates={placedBetsMatch} tag={true} />
+              </Grid>
             )}
-          </Box>
+          </Grid>
         </>
       )}
     </Box>
   );
 };
 
-export default memo(MatchDetails);
+export default memo(OtherMatchDetails);

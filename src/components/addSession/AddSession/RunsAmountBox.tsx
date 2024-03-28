@@ -88,7 +88,9 @@ const RunsAmountBox = ({ currentOdds, betId, proLoss }: any) => {
                 const getColor = (value: any) => {
                   if (value >= 1) {
                     return "#10DC61";
-                  } else if (value === v?.profitLoss && value > 1) {
+                  } else if (value === parseFloat(v?.profitLoss) && value > 1) {
+                    return "#F8C851";
+                  } else if (value === 0) {
                     return "#F8C851";
                   } else {
                     return "#DC3545";
@@ -97,7 +99,9 @@ const RunsAmountBox = ({ currentOdds, betId, proLoss }: any) => {
                 const getSVG = (value: any) => {
                   if (value > 1) {
                     return "https://fontawesomeicons.com/images/svg/trending-up-sharp.svg";
-                  } else if (value === v?.profitLoss && value > 1) {
+                  } else if (value === parseFloat(v?.profitLoss) && value > 1) {
+                    return "https://fontawesomeicons.com/images/svg/trending-up-sharp.svg";
+                  } else if (value === 0) {
                     return "https://fontawesomeicons.com/images/svg/trending-up-sharp.svg";
                   } else {
                     return "https://fontawesomeicons.com/images/svg/trending-down-sharp.svg";
@@ -137,7 +141,7 @@ const RunsAmountBox = ({ currentOdds, betId, proLoss }: any) => {
                         width: "65%",
                         display: "flex",
                         borderLeft: `1px solid #306A47`,
-                        background: getColor(v?.profitLoss),
+                        background: getColor(parseFloat(v?.profitLoss)),
                         justifyContent: "space-between",
                         alignItems: "center",
                         paddingRight: "7px",
@@ -151,17 +155,17 @@ const RunsAmountBox = ({ currentOdds, betId, proLoss }: any) => {
                           width: "40px",
                         }}
                       >
-                        {Number(v?.profitLoss) >= 0 ? (
+                        {Number(parseFloat(v?.profitLoss)) >= 0 ? (
                           <>
                             <span style={{ visibility: "hidden" }}>-</span>
-                            {v?.profitLoss}
+                            {(parseFloat(v?.profitLoss))?.toFixed(2)}
                           </>
                         ) : (
-                          v?.profitLoss
+                          parseFloat(v?.profitLoss).toFixed(2)
                         )}
                       </Typography>
                       <StyledImage
-                        src={getSVG(v?.profitLoss)}
+                        src={getSVG(parseFloat(v?.profitLoss))}
                         sx={{
                           height: "15px",
                           marginLeft: "5px",

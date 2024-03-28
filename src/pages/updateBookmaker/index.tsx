@@ -6,7 +6,10 @@ import { useEffect } from "react";
 import {
   getBookmakerById,
   getPlacedBets,
+  updateDeleteReason,
   updateMatchBetsPlaced,
+  updateRatesBook,
+  updateTeamRatesOnManualMarket,
 } from "../../store/actions/addSession";
 import { AppDispatch, RootState } from "../../store/store";
 import { useDispatch, useSelector } from "react-redux";
@@ -19,11 +22,11 @@ const UpdateBookmaker = () => {
   const { placedBets } = useSelector((state: RootState) => state.addSession);
 
   const updateBetList = (event: any) => {
-    if (
-      state?.match?.id === event?.jobData?.newBet?.matchId &&
-      state?.id === event?.jobData?.newBet?.betId
-    ) {
-      dispatch(updateMatchBetsPlaced(event));
+    if (state?.match?.id === event?.jobData?.newBet?.matchId) {
+      dispatch(updateTeamRatesOnManualMarket(event));
+      if (state?.id === event?.jobData?.newBet?.betId) {
+        dispatch(updateMatchBetsPlaced(event));
+      }
     }
   };
 
@@ -31,6 +34,24 @@ const UpdateBookmaker = () => {
     try {
       if (event?.matchId === state?.match?.id) {
         navigate("/expert/match");
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+  const matchDeleteBet = (event: any) => {
+    try {
+      if (event?.matchId === state?.match?.id) {
+        dispatch(updateRatesBook(event));
+        if (event?.betId === state?.id) {
+          dispatch(updateDeleteReason(event));
+        }
+        // dispatch(
+        //   updateSessionProLoss({
+        //     id: event?.betId,
+        //     betPlaced: event?.profitLoss ? event?.profitLoss?.betPlaced : [],
+        //   })
+        // );
       }
     } catch (e) {
       console.log(e);
@@ -49,9 +70,12 @@ const UpdateBookmaker = () => {
       dispatch(getPlacedBets(state?.id));
       socketService.user.userMatchBetPlaced(updateBetList);
       socketService.user.matchResultDeclared(resultDeclared);
+      socketService.user.matchDeleteBet(matchDeleteBet);
     }
     return () => {
       socketService.user.userMatchBetPlacedOff(updateBetList);
+      socketService.user.matchResultDeclaredOff(resultDeclared);
+      socketService.user.matchDeleteBetOff(matchDeleteBet);
     };
   }, [state?.id]);
 

@@ -21,6 +21,7 @@ const DropDown = (props: any) => {
     setSelected,
     name,
     valued,
+    gameType
   } = props;
 
   const [value, setValue] = useState(valued);
@@ -133,7 +134,7 @@ const DropDown = (props: any) => {
         >
           {matchesSelect
             ? data?.map((i: any, idx: any) => {
-                return (
+                              return (
                   <DropDownItem
                     key={idx}
                     i={i?.EventName}
@@ -149,6 +150,7 @@ const DropDown = (props: any) => {
                     setOpen={setOpen}
                     dropDownTextStyle={dropDownTextStyle}
                     name={name}
+                    gameType={gameType}
                   />
                 );
               })
@@ -163,6 +165,7 @@ const DropDown = (props: any) => {
                     setOpen={setOpen}
                     dropDownTextStyle={dropDownTextStyle}
                     name={name}
+                    gameType={gameType}
                   />
                 );
               })}
