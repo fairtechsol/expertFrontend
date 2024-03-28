@@ -22,7 +22,7 @@ const Header = () => {
       <Box
         sx={{
           background: "#262626",
-          width:{lg:"20%", xs:"22%"},
+          width:{lg:"20%", xs:"23%"},
           borderLeft: "2px solid white",
           display: "flex",
           justifyContent: "center",
@@ -35,7 +35,7 @@ const Header = () => {
           User
         </Typography>
       </Box>
-      <Box
+      {/* <Box
         sx={{
           background: "#262626",
           width: {lg:"20%", xs:"24%"},
@@ -50,7 +50,7 @@ const Header = () => {
         >
           Market
         </Typography>
-      </Box>
+      </Box> */}
       <Box
         sx={{
           background: "#262626",
@@ -86,7 +86,7 @@ const Header = () => {
       <Box
         sx={{
           background: "#262626",
-          width: {lg:"14%", xs:"12%"},
+          width: {lg:"14%", xs:"14%"},
           borderLeft: "2px solid white",
           display: "flex",
           justifyContent: "center",
@@ -102,7 +102,7 @@ const Header = () => {
       <Box
         sx={{
           background: "#262626",
-          width: {lg:"15%", xs:"12%"},
+          width: {lg:"15%", xs:"14%"},
           borderLeft: "2px solid white",
           display: "flex",
           justifyContent: "center",
@@ -119,7 +119,7 @@ const Header = () => {
       <Box
         sx={{
           background: "#262626",
-          width: {lg:"20%", xs: "17%"},
+          width: {lg:"20%", xs: "16%"},
           borderLeft: "2px solid white",
           display: "flex",
           justifyContent: "center",
@@ -135,7 +135,7 @@ const Header = () => {
       <Box
         sx={{
           background: "#262626",
-          width: {lg:"20%", xs: "17%"},
+          width: {lg:"20%", xs: "16%"},
           borderLeft: "2px solid white",
           display: "flex",
           justifyContent: "center",

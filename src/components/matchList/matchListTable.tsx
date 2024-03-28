@@ -154,10 +154,15 @@ const MatchListTable = (props: any) => {
               // marginBottom: showUserModal ? { xs: "0%", sm: "-1%", lg: "-20%" } : "0%",
             }}
           >
+            {/* <Box sx={{
+            width: { xs: "90%", sm: "auto", lg: "100%" },
+               display: "flex",
+               flexDirection: "row"
+            }}> */}
             {data?.stopAt && (
               <MatchListProfitLoss
                 // onClick={() => handleMatchProfitLossClick(data?.id)}
-                updateMatchStatusLabel="Total Profit/Loss"
+                updateMatchStatusLabel="Total P/L"
                 updateMatchStatus={
                   data?.pl &&
                   data?.pl?.length > 0 &&
@@ -179,7 +184,7 @@ const MatchListTable = (props: any) => {
             {data?.stopAt && (
               <MatchListProfitLoss
                 onClick={() => handleMatchProfitLossClick(data?.id)}
-                updateMatchStatusLabel="Session Profit/Loss"
+                updateMatchStatusLabel="Session P/L"
                 updateMatchStatus={
                   data?.pl &&
                   data?.pl?.length > 0 &&
@@ -188,7 +193,7 @@ const MatchListTable = (props: any) => {
                 place="1"
               />
             )}
-
+  {/* </Box> */}
             <Box
               display={"flex"}
               sx={{

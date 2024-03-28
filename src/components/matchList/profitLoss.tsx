@@ -24,7 +24,7 @@ const [integerPart, decimalPart] = parseFloat(updateMatchStatus||0.00).toFixed(2
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
-          width: { xs: "70%", md: "65%", lg: "40%" },
+          width: { xs: "90%", md: "65%", lg: "160px" },
           marginTop: showUserModal ? { xs: "1%", sm: "5%", lg: "0%" } : "0",
         }}
       >

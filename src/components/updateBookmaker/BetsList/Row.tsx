@@ -81,7 +81,7 @@ const Row = ({ index, values }: any) => {
         <Box
           sx={{
             background: "#0B4F26",
-            width: {lg:"20%", xs:"18%"},
+            width: {lg:"20%", xs:"20%"},
             borderLeft: "2px solid white",
             display: "flex",
             justifyContent: "center",
@@ -94,7 +94,7 @@ const Row = ({ index, values }: any) => {
             {values?.user?.userName || values?.userName}
           </Typography>
         </Box>
-        <Box
+        {/* <Box
           sx={{
             background: "#F8C851",
             width: "20%",
@@ -119,7 +119,7 @@ const Row = ({ index, values }: any) => {
           >
             {values?.bettingName ?? values.marketType}
           </Typography>
-        </Box>
+        </Box> */}
         <Box
           sx={{
             background: "#F8C851",
@@ -145,7 +145,7 @@ const Row = ({ index, values }: any) => {
         <Box
           sx={{
             background: values.betType === "BACK" ? "#B3E0FF" : "#FFB5B5",
-            width:{ lg:"10%", xs: "8%"},
+            width:{ lg:"10%", xs: "9%"},
             borderLeft: "2px solid white",
             display: "flex",
             justifyContent: "center",
@@ -163,7 +163,7 @@ const Row = ({ index, values }: any) => {
         <Box
           sx={{
             background: values.betType === "BACK" ? "#B3E0FF" : "#FFB5B5",
-            width: { lg:"14%", xs: "10%"},
+            width: { lg:"14%", xs: "12%"},
             borderLeft: "2px solid white",
             display: "flex",
             justifyContent: "center",
@@ -188,7 +188,7 @@ const Row = ({ index, values }: any) => {
         <Box
           sx={{
             background: values.betType === "BACK" ? "#B3E0FF" : "#FFB5B5",
-            width: { lg:"15%", xs: "10%"},
+            width: { lg:"15%", xs: "12%"},
             borderLeft: "2px solid white",
             display: "flex",
             justifyContent: "center",
