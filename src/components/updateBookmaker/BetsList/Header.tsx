@@ -86,7 +86,7 @@ const Header = () => {
       <Box
         sx={{
           background: "#262626",
-          width: "14%",
+          width: {lg:"14%", xs:"12%"},
           borderLeft: "2px solid white",
           display: "flex",
           justifyContent: "center",
@@ -119,7 +119,7 @@ const Header = () => {
       <Box
         sx={{
           background: "#262626",
-          width: "20%",
+          width: {lg:"20%", xs: "17%"},
           borderLeft: "2px solid white",
           display: "flex",
           justifyContent: "center",
@@ -135,7 +135,7 @@ const Header = () => {
       <Box
         sx={{
           background: "#262626",
-          width: "20%",
+          width: {lg:"20%", xs: "17%"},
           borderLeft: "2px solid white",
           display: "flex",
           justifyContent: "center",

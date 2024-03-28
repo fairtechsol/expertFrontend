@@ -3,6 +3,7 @@ import StyledImage from "../Common/StyledImages";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../store/store";
 import { resetMatchListSessionProLoss } from "../../store/actions/match/matchAction";
+import { formatToINR } from "../helper";
 
 const SessionResultComponent = (props: any) => {
   const { setShowPopup, sessionResults } = props;
@@ -247,7 +248,7 @@ const SessionResultComponent = (props: any) => {
                             color: "white",
                           }}
                         >
-                          {profitLoss}
+                          {formatToINR(profitLoss)}
                           <StyledImage
                             src="https://fontawesomeicons.com/images/svg/trending-down-sharp.svg"
                             sx={{
