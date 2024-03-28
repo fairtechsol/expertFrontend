@@ -197,8 +197,8 @@ const EditBookmaker = (props: any) => {
           },
           teamBall:
             bookmakerById?.statusTeamA === "ball start" &&
-            bookmakerById?.statusTeamB === "ball start" &&
-            bookmakerById?.statusTeamC === "ball start"
+              bookmakerById?.statusTeamB === "ball start" &&
+              bookmakerById?.statusTeamC === "ball start"
               ? true
               : false,
         };
@@ -270,6 +270,22 @@ const EditBookmaker = (props: any) => {
       socketService.user.updateMatchBettingRateClientOff();
     };
   }, []);
+  console.log(bookmakerById?.matchRates?.teamARate, "decimal")
+
+  const rateA = bookmakerById?.type !== "tiedMatch2"
+    ? +bookmakerById?.matchRates?.teamARate || 0
+    : +bookmakerById?.matchRates?.yesRateTie || 0;
+
+    const rateB = bookmakerById?.type !== "tiedMatch2"
+    ? +bookmakerById?.matchRates?.teamARate || 0
+    : +bookmakerById?.matchRates?.yesRateTie || 0;
+
+    const formattedRateB = rateB.toFixed(2);
+    const [integerPartB, decimalPartB] = formattedRateB.split('.');
+
+  const formattedRate = rateA.toFixed(2);
+  const [integerPart, decimalPart] = formattedRate.split('.');
+
 
   return (
     <>
@@ -419,9 +435,9 @@ const EditBookmaker = (props: any) => {
                 {type === "tiedMatch2"
                   ? "Yes"
                   : match?.teamA
-                  ? match?.teamA.slice(0, 4) +
+                    ? match?.teamA.slice(0, 4) +
                     (match?.teamA.length > 4 ? "..." : "")
-                  : ""}
+                    : ""}
               </Typography>
               <Box
                 sx={{
@@ -450,9 +466,11 @@ const EditBookmaker = (props: any) => {
                         : "#319E5B",
                   }}
                 >
-                  {bookmakerById?.type !== "tiedMatch2"
+                  {/* {bookmakerById?.type !== "tiedMatch2"
                     ? +bookmakerById?.matchRates?.teamARate || 0
-                    : +bookmakerById?.matchRates?.yesRateTie || 0}
+                    : +bookmakerById?.matchRates?.yesRateTie || 0} */}
+                  <span>{integerPart}</span>
+                  <span style={{fontSize: "0.8em", fontWeight: 'normal'}}>{`.${decimalPart}`}</span>
                 </Typography>
               </Box>
               <Box
@@ -586,9 +604,9 @@ const EditBookmaker = (props: any) => {
                 {type === "tiedMatch2"
                   ? "No"
                   : match?.teamB
-                  ? match?.teamB.slice(0, 4) +
+                    ? match?.teamB.slice(0, 4) +
                     (match?.teamB.length > 4 ? "..." : "")
-                  : ""}
+                    : ""}
               </Typography>
               <Box
                 sx={{
@@ -615,9 +633,11 @@ const EditBookmaker = (props: any) => {
                         : "#319E5B",
                   }}
                 >
-                  {bookmakerById?.type !== "tiedMatch2"
+                  {/* {bookmakerById?.type !== "tiedMatch2"
                     ? +bookmakerById?.matchRates?.teamBRate || 0
-                    : +bookmakerById?.matchRates?.noRateTie || 0}
+                    : +bookmakerById?.matchRates?.noRateTie || 0} */}
+                        <span>{integerPartB}</span>
+                  <span style={{fontSize: "0.8em", fontWeight: 'normal'}}>{`.${decimalPartB}`}</span>
                 </Typography>
               </Box>
               <Box
@@ -928,7 +948,7 @@ const EditBookmaker = (props: any) => {
                       }}
                     >
                       {!localQuickBookmaker?.teamA?.suspended &&
-                      localQuickBookmaker?.teamA?.rightBack > 0 ? (
+                        localQuickBookmaker?.teamA?.rightBack > 0 ? (
                         <Typography
                           sx={{ fontWeight: "600", fontSize: "22px" }}
                         >
@@ -949,7 +969,7 @@ const EditBookmaker = (props: any) => {
                       sx={{
                         background:
                           localQuickBookmaker?.teamA?.suspended ||
-                          localQuickBookmaker?.teamA?.rightLay === 0
+                            localQuickBookmaker?.teamA?.rightLay === 0
                             ? "#FDF21A"
                             : "#FFB5B5",
                         width: "50%",
@@ -961,7 +981,7 @@ const EditBookmaker = (props: any) => {
                       }}
                     >
                       {!localQuickBookmaker?.teamA?.suspended &&
-                      localQuickBookmaker?.teamA?.rightLay ? (
+                        localQuickBookmaker?.teamA?.rightLay ? (
                         <Typography
                           sx={{ fontWeight: "600", fontSize: "22px" }}
                         >
@@ -993,7 +1013,7 @@ const EditBookmaker = (props: any) => {
                       }}
                     >
                       {!localQuickBookmaker?.teamB?.suspended &&
-                      localQuickBookmaker?.teamB?.rightBack > 0 ? (
+                        localQuickBookmaker?.teamB?.rightBack > 0 ? (
                         <Typography
                           sx={{ fontWeight: "600", fontSize: "22px" }}
                         >
@@ -1014,7 +1034,7 @@ const EditBookmaker = (props: any) => {
                       sx={{
                         background:
                           localQuickBookmaker?.teamB?.suspended ||
-                          localQuickBookmaker?.teamB?.rightLay === 0
+                            localQuickBookmaker?.teamB?.rightLay === 0
                             ? "#FDF21A"
                             : "#FFB5B5",
                         width: "50%",
@@ -1026,7 +1046,7 @@ const EditBookmaker = (props: any) => {
                       }}
                     >
                       {!localQuickBookmaker?.teamB?.suspended &&
-                      localQuickBookmaker?.teamB?.rightLay > 0 ? (
+                        localQuickBookmaker?.teamB?.rightLay > 0 ? (
                         <Typography
                           sx={{ fontWeight: "600", fontSize: "22px" }}
                         >
@@ -1060,7 +1080,7 @@ const EditBookmaker = (props: any) => {
                           }}
                         >
                           {!localQuickBookmaker?.teamC?.suspended &&
-                          localQuickBookmaker?.teamC?.rightBack > 0 ? (
+                            localQuickBookmaker?.teamC?.rightBack > 0 ? (
                             <Typography
                               sx={{ fontWeight: "600", fontSize: "22px" }}
                             >
@@ -1081,7 +1101,7 @@ const EditBookmaker = (props: any) => {
                           sx={{
                             background:
                               localQuickBookmaker?.teamC?.suspended ||
-                              localQuickBookmaker?.teamC?.rightLay === 0
+                                localQuickBookmaker?.teamC?.rightLay === 0
                                 ? "#FDF21A"
                                 : "#FFB5B5",
                             width: "50%",
@@ -1093,7 +1113,7 @@ const EditBookmaker = (props: any) => {
                           }}
                         >
                           {!localQuickBookmaker?.teamC?.suspended &&
-                          localQuickBookmaker?.teamC?.rightLay ? (
+                            localQuickBookmaker?.teamC?.rightLay ? (
                             <Typography
                               sx={{ fontWeight: "600", fontSize: "22px" }}
                             >
@@ -1180,7 +1200,7 @@ const EditBookmaker = (props: any) => {
                         : ""
                     }
                     stopAt={match?.stopAt}
-                    // betStatus={localSelectedBookmaker?.betStatus}
+                  // betStatus={localSelectedBookmaker?.betStatus}
                   />
                 )}
               </Box>
@@ -1237,7 +1257,7 @@ const EditBookmaker = (props: any) => {
                         ? match?.teamC
                         : ""
                     }
-                    // betStatus={localSelectedBookmaker?.betStatus}
+                  // betStatus={localSelectedBookmaker?.betStatus}
                   />
                 )}
               </Box>

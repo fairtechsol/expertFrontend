@@ -134,7 +134,7 @@ const Row = ({ index, values }: any) => {
             sx={{
               color: "black",
               fontWeight: "600",
-              fontSize: { xs: "8px",md: "10px", lg: "12px" },
+              fontSize: { xs: "10px",md: "10px", lg: "12px" },
               lineHeight: 1,
               textAlign: "center",
             }}
@@ -175,7 +175,7 @@ const Row = ({ index, values }: any) => {
           <Typography
             sx={{
               fontWeight: "600",
-              fontSize: { xs: "8px",md: "10px", lg: "10px" },
+              fontSize: { xs: "10px",md: "10px", lg: "10px" },
               color: "black",
               position: "inhert",
               top: 5,
@@ -196,7 +196,7 @@ const Row = ({ index, values }: any) => {
           }}
         >
           <Typography
-            sx={{ fontWeight: "600", fontSize: { xs: "8px",md: "10px", lg: "12px" }, color: "black" }}
+            sx={{ fontWeight: "600", fontSize: { xs: "10px",md: "10px", lg: "12px" }, color: "black" }}
           >
             {values.betType == "BACK" ? "Back" : "Lay"}
           </Typography>

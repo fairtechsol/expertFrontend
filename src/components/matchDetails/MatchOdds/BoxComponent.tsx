@@ -228,9 +228,9 @@ const BoxComponent = ({
                 color={"#ECD6D6"}
               />
             )}
-            <Box
+            {/* <Box
               sx={{ width: ".45%", display: "flex", background: "pink" }}
-            ></Box>
+            ></Box> */}
           </Box>
         </>
       )}
