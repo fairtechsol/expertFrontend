@@ -174,7 +174,7 @@ const BookMarket = ({ currentMatch, liveData }: any) => {
               <Box
                 sx={{
                   background: "#00C0F9",
-                  width: { lg: "16.5%", xs: "24.5%" },
+                  width: { lg: "16.5%", xs: "25%" },
                   height: "100%",
                   display: "flex",
                   justifyContent: "center",
