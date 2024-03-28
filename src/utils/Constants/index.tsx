@@ -49,6 +49,10 @@ export const Constants = {
   localPath: "http://localhost:5000",
   localPathThird: "http://localhost:3200",
   localPathExpert: "http://localhost:6060",
+  addMatchThirdParty:
+    process.env.NODE_ENV === "production"
+      ? "http://107.23.165.155:3200"
+      : "http://107.23.165.155:3200",
 
   ///Routes Constants
 
@@ -106,19 +110,37 @@ export const ButtonRatesQuickSessions = [
 export const baseUrls = {
   socket:
     process.env.NODE_ENV === "production"
-      ? `${Constants.apiBasePath}`
-      : `${Constants.localPath}`,
+      ? Constants.apiBasePath
+      : Constants.localPath,
   expertSocket:
     process.env.NODE_ENV === "production"
-      ? `${Constants.expertSocketBasePath}`
-      : "http://localhost:6060",
+      ? Constants.expertSocketBasePath
+      : Constants.localPathExpert,
   // : `${Constants.thirdParty}`,
   matchSocket:
     process.env.NODE_ENV === "production"
-      ? `${Constants.thirdParty}`
-      : "http://localhost:3200",
+      ? Constants.thirdParty
+      : Constants.localPathThird,
   // `${Constants.thirdParty}`,
 };
+
+// use below baseUrl for live build
+
+// export const baseUrls = {
+//   socket:
+//     process.env.NODE_ENV === "production"
+//       ? Constants.apiBasePathLive
+//       : Constants.localPath,
+//   expertSocket:
+//     process.env.NODE_ENV === "production"
+//       ? Constants.expertSocketBasePathLive
+//       : Constants.localPathExpert,
+//   matchSocket:
+//     process.env.NODE_ENV === "production"
+//       ? Constants.thirdPartyLive
+//       : Constants.localPathThird,
+// };
+
 
 export const matchBettingType = {
   matchOdd: "matchOdd",
@@ -242,20 +264,3 @@ export const eventWiseMatchData = {
     ],
   },
 };
-
-// use below baseUrl for live build
-
-// export const baseUrls = {
-//   socket:
-//     process.env.NODE_ENV === "production"
-//       ? `${Constants.apiBasePathLive}`
-//       : `${Constants.localPath}`,
-//   expertSocket:
-//     process.env.NODE_ENV === "production"
-//       ? `${Constants.expertSocketBasePathLive}`
-//       : `${Constants.localPathExpert}`,
-//   matchSocket:
-//     process.env.NODE_ENV === "production"
-//       ? `${Constants.thirdPartyLive}`
-//       : `${Constants.localPathThird}`,
-// };
