@@ -276,7 +276,7 @@ const EditBookmaker = (props: any) => {
     : +bookmakerById?.matchRates?.yesRateTie || 0;
 
   const rateB = bookmakerById?.type !== "tiedMatch2"
-    ? +bookmakerById?.matchRates?.teamARate || 0
+    ? +bookmakerById?.matchRates?.teamBRate || 0
     : +bookmakerById?.matchRates?.yesRateTie || 0;
 
   const formattedRateB = rateB.toFixed(2);
