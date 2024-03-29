@@ -8,7 +8,6 @@ import BookMarket from "../../components/matchDetails/Bookmarket";
 import MatchOdds from "../../components/matchDetails/MatchOdds";
 import { expertSocketService, socketService } from "../../socketManager";
 import {
-  getMatchDetail,
   updateMatchBettingStatus,
   updateMatchRates,
   updateRates,
@@ -30,6 +29,7 @@ import {
 } from "../../store/actions/match/matchAction";
 import { AppDispatch, RootState } from "../../store/store";
 import UnderOverMarket from "../../components/otherMatchDetails/UnderOverMarket";
+import { getOtherGamesMatchDetail } from "../../store/actions/otherGamesAction/matchDetailActions";
 
 const OtherMatchDetails = () => {
   const { state } = useLocation();
@@ -64,7 +64,7 @@ const OtherMatchDetails = () => {
   const resultUnDeclared = (event: any) => {
     try {
       if (event?.matchId === state?.id) {
-        dispatch(getMatchDetail(state?.id));
+        dispatch(getOtherGamesMatchDetail(state?.id));
         dispatch(getPlacedBetsMatch(state?.id));
       }
     } catch (e) {
@@ -182,7 +182,7 @@ const OtherMatchDetails = () => {
     try {
       if (state?.id) {
         dispatch(getSessionProfitLossMatchDetailReset());
-        dispatch(getMatchDetail(state?.id));
+        dispatch(getOtherGamesMatchDetail(state?.id));
         dispatch(getPlacedBetsMatch(state?.id));
       }
     } catch (e) {
@@ -237,7 +237,7 @@ const OtherMatchDetails = () => {
     const handleVisibilityChange = () => {
       if (document.visibilityState === "visible") {
         if (state?.id) {
-          dispatch(getMatchDetail(state?.id));
+          dispatch(getOtherGamesMatchDetail(state?.id));
           dispatch(getPlacedBetsMatch(state?.id));
           expertSocketService.match.joinMatchRoom(state?.id, "expert");
           expertSocketService.match.getMatchRates(
