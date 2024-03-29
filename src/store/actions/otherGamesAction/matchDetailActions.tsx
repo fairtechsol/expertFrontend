@@ -11,24 +11,24 @@ export const getOtherGamesMatchDetail = createAsyncThunk<any, any>(
         `${ApiConstants.MATCH.OTHER_MATCH_DETAIL}/${requestData}`
       );
       if (resp) {
-        let sessionBetting = resp?.data?.sessionBettings;
-        const updatedData = sessionBetting.map((item: any) => {
-          const parsedItem = JSON.parse(item);
+        // let sessionBetting = resp?.data?.sessionBettings;
+        // const updatedData = sessionBetting.map((item: any) => {
+        //   const parsedItem = JSON.parse(item);
 
-          if (
-            parsedItem.selectionId &&
-            parsedItem.yesPercent === 0 &&
-            parsedItem.noPercent === 0
-          ) {
-            parsedItem.yesRate = 0;
-            parsedItem.noRate = 0;
-          }
+        //   if (
+        //     parsedItem.selectionId &&
+        //     parsedItem.yesPercent === 0 &&
+        //     parsedItem.noPercent === 0
+        //   ) {
+        //     parsedItem.yesRate = 0;
+        //     parsedItem.noRate = 0;
+        //   }
 
-          return JSON.stringify(parsedItem);
-        });
+        //   return JSON.stringify(parsedItem);
+        // });
         return {
           ...resp?.data,
-          sessionBettings: updatedData,
+          // sessionBettings: updatedData,
         };
       }
     } catch (error) {
