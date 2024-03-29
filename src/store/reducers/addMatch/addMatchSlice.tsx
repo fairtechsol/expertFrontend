@@ -21,6 +21,7 @@ import {
   updateMaxLoss,
   updateTeamRates,
 } from "../../actions/match/matchAction";
+import { getOtherGamesMatchDetail } from "../../actions/otherGamesAction/matchDetailActions";
 
 interface InitialState {
   tournamentList: any;
@@ -137,6 +138,28 @@ const addMatch = createSlice({
         });
       })
       .addCase(getMatchDetail.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action?.error?.message;
+      })
+      .addCase(getOtherGamesMatchDetail.pending, (state) => {
+        state.loading = true;
+        state.success = false;
+        state.error = null;
+        state.matchDetail = null;
+      })
+      .addCase(getOtherGamesMatchDetail.fulfilled, (state, action) => {
+        state.matchDetail = action.payload;
+        state.success = true;
+        state.loading = false;
+
+        action.payload?.sessionBettings?.forEach((item: any) => {
+          item = JSON.parse(item);
+          if (item.selectionId) {
+            state.selectionIds[item.selectionId] = 1;
+          }
+        });
+      })
+      .addCase(getOtherGamesMatchDetail.rejected, (state, action) => {
         state.loading = false;
         state.error = action?.error?.message;
       })

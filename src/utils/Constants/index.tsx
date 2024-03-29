@@ -10,6 +10,7 @@ export const ApiConstants = {
     LIST_SESSION_PRO_LOSS: "session/result",
     DROPDOWNLIST: "/match/listWithManualBetting",
     GETDETAIL: "match",
+    OTHER_MATCH_DETAIL: "match/otherMatch",
     UPDATEACTIVESTATUS: "match/updateActiveStatus",
     DECLARE: "bet/declare/result/match",
     UNDECLARE: "bet/unDeclare/result/match",
@@ -140,7 +141,6 @@ export const baseUrls = {
 //       ? Constants.thirdPartyLive
 //       : Constants.localPathThird,
 // };
-
 
 export const matchBettingType = {
   matchOdd: "matchOdd",
