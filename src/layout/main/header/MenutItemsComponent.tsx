@@ -15,6 +15,7 @@ import {
   resetPlacedBets,
   sessionByIdReset,
 } from "../../../store/actions/addSession";
+import { IconConstants } from "../../../components/helper/gameConstants";
 
 const MenutItemsComponent = ({
   x,
@@ -41,7 +42,7 @@ const MenutItemsComponent = ({
           fontSize: matchesMobile ? "10px" : "12px",
           fontWeight: "500",
           marginX: "0px",
-          width: { lg: "240px", xs: "210px" },
+          width: { lg: "240px", xs: "240px" },
           borderBottomWidth: 0,
           borderColor: "#EAEFEC",
           paddingY: "0px",
@@ -64,7 +65,10 @@ const MenutItemsComponent = ({
           }
         }}
       >
-        {x.title}
+       <StyledImage
+              src={IconConstants[x?.matchType]}
+              sx={{ height: "12px", width: "12px",marginRight:'2px' }}
+            /> {x.title}
       </MenuItem>
       {selected == index && (
         <Box

@@ -9,7 +9,7 @@ import { getMatchListDropdown } from "../../../store/actions/match/matchAction";
 const allMatchg =[
     {title : 'Cricket',value:'cricket'},
     {title : 'Football',value:'football'},
-    {title : 'Tennis',value:'tennis'},
+    // {title : 'Tennis',value:'tennis'},
 ]
 const GameTypeDropdown = ({ anchorEl, open, handleClose,anchorrr }: any) => {
     const theme = useTheme();
