@@ -136,7 +136,7 @@ const AddMatch = () => {
 
   const { editSuccess } = useSelector((state: RootState) => state.matchList);
   const formik = useFormik({
-    // validationSchema: addMatchValidation(manualMatchToggle, selected.gameType),
+    validationSchema: addMatchValidation(manualMatchToggle, selected.gameType,extraMarketList),
     initialValues: initialFormikValues,
     onSubmit: (value: any) => {
       if (!eventWiseMatchData[selected.gameType]) {
@@ -1025,11 +1025,11 @@ const AddMatch = () => {
                         place={15}
                         onBlur={formik.handleBlur}
                       />
-                      <CustomErrorMessage
+                                            <CustomErrorMessage
                         touched={(touched?.[item?.matchType] as any)?.maxBet}
                         errors={(errors?.[item?.matchType] as any)?.maxBet}
                       />
-                    </Box>
+                                          </Box>
                   );
                 })}
 
