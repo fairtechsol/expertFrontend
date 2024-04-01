@@ -30,43 +30,49 @@ export const changePasswordSchema = Yup.object({
     .required("Confirm Password is required"),
 });
 
-export const addMatchValidation = (isManual: boolean, gameType: any) => {
+export const addMatchValidation = (isManual: boolean, gameType: any, matchTypeList: any) => {
   return Yup.object({
     minBet: Yup.string().required("Min Bet is required"),
     ...(gameType && eventWiseMatchData[gameType]
       ? Object.fromEntries(
-          Object.entries(eventWiseMatchData[gameType]).flatMap(
-            ([keys, items]) =>
-              items.map((item) => [
-                item.matchType,
+          Object.entries(eventWiseMatchData[gameType]).flatMap(([keys, items]) =>
+            items
+              .filter((item: any) =>
+                matchTypeList[item.marketIdKey]?.marketId !== null &&
+                matchTypeList[item.marketIdKey]?.marketId !== undefined
+              )
+              .map((item) => {
+                return([
+                item.matchType.toString(),
                 Yup.object({
                   maxBet: Yup.string().test(
                     "moreThanMinBet",
                     "must be more than Min Bet",
                     function (value, context) {
-                      const minBet = context?.from?.[1]?.value?.minBet;
-                      if (isManual && keys == "market") {
+                                            const minBet = context?.from?.[1]?.value?.minBet;
+                      if (isManual && keys === "market") {
                         return true;
                       }
-                      return (
-                        minBet &&
-                        value &&
-                        parseFloat(value) > parseFloat(minBet)
-                      );
+                      return minBet && value && parseFloat(value) > parseFloat(minBet);
                     }
                   ),
                 }),
-              ])
+              ])})
           )
         )
       : {}),
-    betfairSessionMaxBet: Yup.string().test(
-      "moreThanMinBet",
-      "must be more than Min Bet",
-      function (value) {
-        const minBet = this.parent.minBet;
-        return minBet && value && parseFloat(value) > parseFloat(minBet);
-      }
-    ),
+      ...(gameType === "cricket"
+      ? {
+          betfairSessionMaxBet: Yup.string().test(
+            "moreThanMinBet",
+            "must be more than Min Bet",
+            function (value, context) {
+              const minBet = this.parent.minBet;
+              return minBet && value && parseFloat(value) > parseFloat(minBet);
+            }
+          ),
+        }
+      : {}),
   });
 };
+

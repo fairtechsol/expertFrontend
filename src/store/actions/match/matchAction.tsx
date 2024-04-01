@@ -44,11 +44,11 @@ export const getMatchListSessionProfitLoss = createAsyncThunk<any, any>(
     }
   }
 );
-export const getMatchListDropdown = createAsyncThunk<any>(
+export const getMatchListDropdown = createAsyncThunk<any,any>(
   "/match/listDropdown",
-  async (_, thunkApi) => {
+  async (requestData, thunkApi) => {
     try {
-      const response = await service.get(`${ApiConstants.MATCH.DROPDOWNLIST}`);
+      const response = await service.get(`${ApiConstants.MATCH.DROPDOWNLIST}?matchType=${requestData}`);
       if (response) {
         return response?.data?.matches;
       }
