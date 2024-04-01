@@ -16,7 +16,6 @@ const UnderOverMarket = ({ currentMatch, liveData, title }: any) => {
   const [live, setLive] = useState(
     liveData?.activeStatus === "live" ? true : false
   );
-
   return (
     <Box
       sx={{
@@ -156,8 +155,8 @@ const UnderOverMarket = ({ currentMatch, liveData, title }: any) => {
                   marginLeft: "7px",
                 }}
               >
-                MIN: {currentMatch?.apiTideMatch?.minBet} MAX:{" "}
-                {currentMatch?.apiTideMatch?.maxBet}
+                MIN: {liveData?.minBet} MAX:{" "}
+                {liveData?.maxBet}
               </Typography>
             </Box>
             <Box
