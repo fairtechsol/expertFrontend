@@ -15,6 +15,7 @@ import DropDownMenu from "./DropDownMenu";
 import { getMatchListDropdown } from "../../../store/actions/match/matchAction";
 import { socketService } from "../../../socketManager";
 import { getLoggedUserCount } from "../../../store/actions/user/userAction";
+import GameTypeDropdown from "./GameTypeDropdown";
 
 const Header1 = () => {
   const theme = useTheme();
@@ -28,6 +29,8 @@ const Header1 = () => {
   const [userCount, setUserCount] = useState<number>(0);
   const [currentSelected, setSelected] = useState<any>(4);
   const [anchor, setAnchor] = useState(null);
+  const [anchor1, setAnchor1] = useState(null);
+  const [gameType, setGameType] = useState(false)
 
   const { matchListDropdown, dropDownLoading } = useSelector(
     (state: RootState) => state.matchList
@@ -154,9 +157,9 @@ const Header1 = () => {
                 getProfile?.allPrivilege) && (
                 <ButtonHead
                   onClick={(e: any) => {
+                    setGameType(true)
                     setSelected(1);
-                    dispatch(getMatchListDropdown());
-                    setAnchor(e?.currentTarget);
+                    setAnchor1(e?.currentTarget);
                   }}
                   title={!dropDownLoading ? "ALL MATCH" : "Loading..."}
                   boxStyle={{
@@ -250,6 +253,18 @@ const Header1 = () => {
           allMatch={matchListDropdown}
           handleClose={() => {
             setAnchor(null);
+          }}
+        />
+      )}
+      {gameType && (
+        <GameTypeDropdown
+          anchorEl={anchor1}
+          open={Boolean(anchor1)}
+          // allMatch={matchListDropdown}
+          anchorrr={setAnchor}
+          handleClose={() => {
+            setAnchor1(null);
+            setGameType(false);
           }}
         />
       )}
