@@ -264,3 +264,72 @@ export const eventWiseMatchData = {
     ],
   },
 };
+
+export const profitLossDataForMatchConstants = {
+  [matchBettingType.matchOdd]: {
+    A: "teamARate",
+    B: "teamBRate",
+    C: "teamCRate",
+  },
+  [matchBettingType.bookmaker]: {
+    A: "teamARate",
+    B: "teamBRate",
+    C: "teamCRate",
+  },
+  [matchBettingType.quickbookmaker1]: {
+    A: "teamARate",
+    B: "teamBRate",
+    C: "teamCRate",
+  },
+  [matchBettingType.quickbookmaker2]: {
+    A: "teamARate",
+    B: "teamBRate",
+    C: "teamCRate",
+  },
+  [matchBettingType.quickbookmaker3]: {
+    A: "teamARate",
+    B: "teamBRate",
+    C: "teamCRate",
+  },
+  [matchBettingType.tiedMatch1]: {
+    A: "yesRateTie",
+    B: "noRateTie",
+  },
+  [matchBettingType.tiedMatch2]: {
+    A: "yesRateTie",
+    B: "noRateTie",
+  },
+  [matchBettingType.completeMatch]: {
+    A: "yesRateComplete",
+    B: "noRateComplete",
+  },
+  [matchBettingType.completeManual]: {
+    A: "yesRateComplete",
+    B: "noRateComplete",
+  },
+  ...Array.from({ length: 20 }, (_, index) => index).reduce(
+    (prev: any, curr) => {
+      prev[`overUnder${curr}.5`] = {
+        A: `yesRateUnderOver${curr}.5`,
+        B: `noRateUnderOver${curr}.5`,
+      };
+      return prev;
+    },
+    {}
+  ),
+  ...Array.from({ length: 20 }, (_, index) => index).reduce(
+    (prev: any, curr) => {
+      prev[`firstHalfGoal${curr}.5`] = {
+        A: `yesRateFirstHalfGoal${curr}.5`,
+        B: `noRateFirstHalfGoal${curr}.5`,
+      };
+      return prev;
+    },
+    {}
+  ),
+  [matchBettingType.halfTime]: {
+    A: "userTeamARateHalfTime",
+    B: "userTeamBRateHalfTime",
+    C: "userTeamCRateHalfTime",
+  },
+};

@@ -104,7 +104,7 @@ export const getPlacedBetsMatch = createAsyncThunk<any, any>(
         }?betPlaced.matchId=${requestData}&result=inArr${JSON.stringify([
           "PENDING",
           "UNDECLARE",
-        ])}`
+        ])}&sort=betPlaced.createdAt:DESC`
       );
       if (response?.data) {
         return response?.data;
@@ -255,6 +255,7 @@ export const updateTeamRates = createAsyncThunk<any, any>(
     return data;
   }
 );
+
 export const updateMaxLoss = createAsyncThunk<any, any>(
   "/updateMaxLoss/update",
   async (data) => {

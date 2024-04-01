@@ -1,7 +1,10 @@
 import { Box, Grid } from "@mui/material";
 import { memo, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useLocation, useNavigate } from "react-router-dom";
+import {
+  useLocation,
+  //  useNavigate
+} from "react-router-dom";
 import Loader from "../../components/Loader";
 import BetList from "../../components/matchDetails/BetList";
 import BookMarket from "../../components/matchDetails/Bookmarket";
@@ -10,21 +13,21 @@ import { expertSocketService, socketService } from "../../socketManager";
 import {
   updateMatchBettingStatus,
   updateMatchRates,
-  updateRates,
-  updateSessionAdded,
-  updateSessionProLoss,
+  // updateRates,
+  // updateSessionAdded,
+  // updateSessionProLoss,
 } from "../../store/actions/addMatch/addMatchAction";
-import {
-  setCurrentOdd,
-  updateApiSessionById,
-} from "../../store/actions/addSession";
+// import {
+//   setCurrentOdd,
+//   updateApiSessionById,
+// } from "../../store/actions/addSession";
 import {
   getPlacedBetsMatch,
   getSessionProfitLossMatchDetailReset,
   updateMatchBetsPlace,
-  updateMatchBetsReason,
-  updateMaxLoss,
-  updateSessionBetsPlace,
+  // updateMatchBetsReason,
+  // updateMaxLoss,
+  // updateSessionBetsPlace,
   updateTeamRates,
 } from "../../store/actions/match/matchAction";
 import { AppDispatch, RootState } from "../../store/store";
@@ -33,7 +36,7 @@ import { getOtherGamesMatchDetail } from "../../store/actions/otherGamesAction/m
 
 const OtherMatchDetails = () => {
   const { state } = useLocation();
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const dispatch: AppDispatch = useDispatch();
   const { matchDetail, loading, success } = useSelector(
     (state: RootState) => state.addMatch.addMatch
@@ -52,25 +55,25 @@ const OtherMatchDetails = () => {
     }
   };
 
-  const resultDeclared = (event: any) => {
-    try {
-      if (event?.matchId === state?.id) {
-        navigate("/expert/match");
-      }
-    } catch (e) {
-      console.log(e);
-    }
-  };
-  const resultUnDeclared = (event: any) => {
-    try {
-      if (event?.matchId === state?.id) {
-        dispatch(getOtherGamesMatchDetail(state?.id));
-        dispatch(getPlacedBetsMatch(state?.id));
-      }
-    } catch (e) {
-      console.log(e);
-    }
-  };
+  // const resultDeclared = (event: any) => {
+  //   try {
+  //     if (event?.matchId === state?.id) {
+  //       navigate("/expert/match");
+  //     }
+  //   } catch (e) {
+  //     console.log(e);
+  //   }
+  // };
+  // const resultUnDeclared = (event: any) => {
+  //   try {
+  //     if (event?.matchId === state?.id) {
+  //       dispatch(getOtherGamesMatchDetail(state?.id));
+  //       dispatch(getPlacedBetsMatch(state?.id));
+  //     }
+  //   } catch (e) {
+  //     console.log(e);
+  //   }
+  // };
 
   const updateBettingStatus = (event: any) => {
     try {
@@ -82,60 +85,60 @@ const OtherMatchDetails = () => {
     }
   };
 
-  const matchDeleteBet = (event: any) => {
-    try {
-      if (event?.matchId === state?.id) {
-        dispatch(updateRates(event));
-        dispatch(updateMatchBetsReason(event));
-        dispatch(
-          updateSessionProLoss({
-            id: event?.betId,
-            betPlaced: event?.profitLoss ? event?.profitLoss?.betPlaced : [],
-          })
-        );
-      }
-    } catch (e) {
-      console.log(e);
-    }
-  };
+  // const matchDeleteBet = (event: any) => {
+  //   try {
+  //     if (event?.matchId === state?.id) {
+  //       dispatch(updateRates(event));
+  //       dispatch(updateMatchBetsReason(event));
+  //       dispatch(
+  //         updateSessionProLoss({
+  //           id: event?.betId,
+  //           betPlaced: event?.profitLoss ? event?.profitLoss?.betPlaced : [],
+  //         })
+  //       );
+  //     }
+  //   } catch (e) {
+  //     console.log(e);
+  //   }
+  // };
 
-  const handleSessionAdded = (event: any) => {
-    try {
-      if (event?.matchId === state?.id) {
-        dispatch(updateSessionAdded(event));
-      }
-    } catch (e) {
-      console.log(e);
-    }
-  };
+  // const handleSessionAdded = (event: any) => {
+  //   try {
+  //     if (event?.matchId === state?.id) {
+  //       dispatch(updateSessionAdded(event));
+  //     }
+  //   } catch (e) {
+  //     console.log(e);
+  //   }
+  // };
 
-  const updateSessionResultDeclared = (event: any) => {
-    try {
-      if (state?.id === event?.matchId) {
-        dispatch(updateApiSessionById(event));
-        dispatch(getPlacedBetsMatch(state?.id));
-        dispatch(
-          updateSessionProLoss({
-            id: event?.betId,
-            betPlaced: event?.profitLossObj
-              ? event?.profitLossObj?.betPlaced
-              : [],
-          })
-        );
-        dispatch(
-          updateMaxLoss({
-            id: event?.betId,
-            maxLoss: event?.profitLossObj
-              ? event?.profitLossObj?.maxLoss
-              : event?.profitLoss,
-            totalBet: event?.profitLossObj ? event?.profitLossObj?.totalBet : 0,
-          })
-        );
-      }
-    } catch (e) {
-      console.log(e);
-    }
-  };
+  // const updateSessionResultDeclared = (event: any) => {
+  //   try {
+  //     if (state?.id === event?.matchId) {
+  //       dispatch(updateApiSessionById(event));
+  //       dispatch(getPlacedBetsMatch(state?.id));
+  //       dispatch(
+  //         updateSessionProLoss({
+  //           id: event?.betId,
+  //           betPlaced: event?.profitLossObj
+  //             ? event?.profitLossObj?.betPlaced
+  //             : [],
+  //         })
+  //       );
+  //       dispatch(
+  //         updateMaxLoss({
+  //           id: event?.betId,
+  //           maxLoss: event?.profitLossObj
+  //             ? event?.profitLossObj?.maxLoss
+  //             : event?.profitLoss,
+  //           totalBet: event?.profitLossObj ? event?.profitLossObj?.totalBet : 0,
+  //         })
+  //       );
+  //     }
+  //   } catch (e) {
+  //     console.log(e);
+  //   }
+  // };
 
   const updateMatchBetPlaced = (event: any) => {
     try {
@@ -148,35 +151,35 @@ const OtherMatchDetails = () => {
     }
   };
 
-  const updateSessionBetPlaced = (event: any) => {
-    try {
-      if (event?.jobData?.placedBet?.matchId === state?.id) {
-        dispatch(updateSessionBetsPlace(event));
-        dispatch(
-          updateSessionProLoss({
-            id: event?.jobData?.placedBet?.betId,
-            betPlaced: event?.redisData?.betPlaced,
-          })
-        );
-        dispatch(
-          updateMaxLoss({
-            id: event?.jobData?.placedBet?.betId,
-            maxLoss: event?.redisData?.maxLoss,
-            totalBet: event?.redisData?.totalBet,
-          })
-        );
-        dispatch(
-          setCurrentOdd({
-            matchId: event?.jobData?.placedBet?.matchId,
-            betId: event?.jobData?.placedBet?.betId,
-            odds: event?.jobData?.placedBet?.odds,
-          })
-        );
-      }
-    } catch (e) {
-      console.log(e);
-    }
-  };
+  // const updateSessionBetPlaced = (event: any) => {
+  //   try {
+  //     if (event?.jobData?.placedBet?.matchId === state?.id) {
+  //       dispatch(updateSessionBetsPlace(event));
+  //       dispatch(
+  //         updateSessionProLoss({
+  //           id: event?.jobData?.placedBet?.betId,
+  //           betPlaced: event?.redisData?.betPlaced,
+  //         })
+  //       );
+  //       dispatch(
+  //         updateMaxLoss({
+  //           id: event?.jobData?.placedBet?.betId,
+  //           maxLoss: event?.redisData?.maxLoss,
+  //           totalBet: event?.redisData?.totalBet,
+  //         })
+  //       );
+  //       dispatch(
+  //         setCurrentOdd({
+  //           matchId: event?.jobData?.placedBet?.matchId,
+  //           betId: event?.jobData?.placedBet?.betId,
+  //           odds: event?.jobData?.placedBet?.odds,
+  //         })
+  //       );
+  //     }
+  //   } catch (e) {
+  //     console.log(e);
+  //   }
+  // };
 
   useEffect(() => {
     try {
@@ -199,14 +202,14 @@ const OtherMatchDetails = () => {
           updateMatchDetailToRedux
         );
         socketService.user.matchBettingStatusChange(updateBettingStatus);
-        socketService.user.matchResultDeclared(resultDeclared);
-        socketService.user.matchResultUnDeclared(resultUnDeclared);
-        socketService.user.matchDeleteBet(matchDeleteBet);
-        socketService.user.sessionDeleteBet(matchDeleteBet);
-        socketService.user.sessionAdded(handleSessionAdded);
+        // socketService.user.matchResultDeclared(resultDeclared);
+        // socketService.user.matchResultUnDeclared(resultUnDeclared);
+        // socketService.user.matchDeleteBet(matchDeleteBet);
+        // socketService.user.sessionDeleteBet(matchDeleteBet);
+        // socketService.user.sessionAdded(handleSessionAdded);
         socketService.user.userMatchBetPlaced(updateMatchBetPlaced);
-        socketService.user.userSessionBetPlaced(updateSessionBetPlaced);
-        socketService.user.sessionResultDeclared(updateSessionResultDeclared);
+        // socketService.user.userSessionBetPlaced(updateSessionBetPlaced);
+        // socketService.user.sessionResultDeclared(updateSessionResultDeclared);
       }
     } catch (e) {
       console.log(e);
@@ -217,19 +220,16 @@ const OtherMatchDetails = () => {
     return () => {
       // expertSocketService.match.leaveAllRooms();
       expertSocketService.match.leaveMatchRoom(state?.id);
-      expertSocketService.match.getMatchRatesOff(
-        state?.id,
-        updateMatchDetailToRedux
-      );
-      socketService.user.matchBettingStatusChangeOff(updateBettingStatus);
-      socketService.user.matchResultDeclaredOff(resultDeclared);
-      socketService.user.matchResultUnDeclaredOff(resultUnDeclared);
-      socketService.user.matchDeleteBetOff(matchDeleteBet);
-      socketService.user.sessionDeleteBetOff(matchDeleteBet);
-      socketService.user.sessionAddedOff(handleSessionAdded);
-      socketService.user.userMatchBetPlacedOff(updateMatchBetPlaced);
-      socketService.user.userSessionBetPlacedOff(updateSessionBetPlaced);
-      socketService.user.sessionResultDeclaredOff(updateSessionResultDeclared);
+      expertSocketService.match.getMatchRatesOff(state?.id);
+      socketService.user.matchBettingStatusChangeOff();
+      socketService.user.matchResultDeclaredOff();
+      socketService.user.matchResultUnDeclaredOff();
+      socketService.user.matchDeleteBetOff();
+      socketService.user.sessionDeleteBetOff();
+      socketService.user.sessionAddedOff();
+      socketService.user.userMatchBetPlacedOff();
+      socketService.user.userSessionBetPlacedOff();
+      socketService.user.sessionResultDeclaredOff();
     };
   }, []);
 
@@ -247,10 +247,7 @@ const OtherMatchDetails = () => {
         }
       } else if (document.visibilityState === "hidden") {
         expertSocketService.match.leaveMatchRoom(state?.id);
-        expertSocketService.match.getMatchRatesOff(
-          state?.id,
-          updateMatchDetailToRedux
-        );
+        expertSocketService.match.getMatchRatesOff(state?.id);
       }
     };
 

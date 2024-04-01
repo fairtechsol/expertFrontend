@@ -73,9 +73,9 @@ const UpdateBookmaker = () => {
       socketService.user.matchDeleteBet(matchDeleteBet);
     }
     return () => {
-      socketService.user.userMatchBetPlacedOff(updateBetList);
-      socketService.user.matchResultDeclaredOff(resultDeclared);
-      socketService.user.matchDeleteBetOff(matchDeleteBet);
+      socketService.user.userMatchBetPlacedOff();
+      socketService.user.matchResultDeclaredOff();
+      socketService.user.matchDeleteBetOff();
     };
   }, [state?.id]);
 

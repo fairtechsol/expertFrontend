@@ -223,19 +223,16 @@ const MatchDetails = () => {
     return () => {
       // expertSocketService.match.leaveAllRooms();
       expertSocketService.match.leaveMatchRoom(state?.id);
-      expertSocketService.match.getMatchRatesOff(
-        state?.id,
-        updateMatchDetailToRedux
-      );
-      socketService.user.matchBettingStatusChangeOff(updateBettingStatus);
-      socketService.user.matchResultDeclaredOff(resultDeclared);
-      socketService.user.matchResultUnDeclaredOff(resultUnDeclared);
-      socketService.user.matchDeleteBetOff(matchDeleteBet);
-      socketService.user.sessionDeleteBetOff(matchDeleteBet);
-      socketService.user.sessionAddedOff(handleSessionAdded);
-      socketService.user.userMatchBetPlacedOff(updateMatchBetPlaced);
-      socketService.user.userSessionBetPlacedOff(updateSessionBetPlaced);
-      socketService.user.sessionResultDeclaredOff(updateSessionResultDeclared);
+      expertSocketService.match.getMatchRatesOff(state?.id);
+      socketService.user.matchBettingStatusChangeOff();
+      socketService.user.matchResultDeclaredOff();
+      socketService.user.matchResultUnDeclaredOff();
+      socketService.user.matchDeleteBetOff();
+      socketService.user.sessionDeleteBetOff();
+      socketService.user.sessionAddedOff();
+      socketService.user.userMatchBetPlacedOff();
+      socketService.user.userSessionBetPlacedOff();
+      socketService.user.sessionResultDeclaredOff();
     };
   }, []);
 
@@ -253,10 +250,7 @@ const MatchDetails = () => {
         }
       } else if (document.visibilityState === "hidden") {
         expertSocketService.match.leaveMatchRoom(state?.id);
-        expertSocketService.match.getMatchRatesOff(
-          state?.id,
-          updateMatchDetailToRedux
-        );
+        expertSocketService.match.getMatchRatesOff(state?.id);
       }
     };
 

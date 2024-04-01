@@ -8,6 +8,7 @@ import { betLiveStatus } from "../../store/actions/match/matchAction";
 import SmallBox from "../matchDetails/SmallBox";
 import Stop from "../matchDetails/SessionMarket/Stop";
 import { AppDispatch } from "../../store/store";
+import { profitLossDataForMatchConstants } from "../../utils/Constants";
 
 const UnderOverMarket = ({ currentMatch, liveData, title }: any) => {
   const dispatch: AppDispatch = useDispatch();
@@ -208,9 +209,9 @@ const UnderOverMarket = ({ currentMatch, liveData, title }: any) => {
           <Box sx={{ position: "relative" }}>
             <BoxComponent
               teamRates={
-                currentMatch?.teamRates?.yesRateTie
-                  ? currentMatch?.teamRates?.yesRateTie
-                  : 0
+                currentMatch?.teamRates[
+                  profitLossDataForMatchConstants[liveData?.type]?.A
+                ] ?? 0
               }
               teamImage={currentMatch?.apiTideMatch?.teamA_Image}
               livestatus={liveData?.status === "SUSPENDED" ? true : false}
@@ -227,9 +228,9 @@ const UnderOverMarket = ({ currentMatch, liveData, title }: any) => {
             <BoxComponent
               livestatus={liveData?.status === "SUSPENDED" ? true : false}
               teamRates={
-                currentMatch?.teamRates?.noRateTie
-                  ? currentMatch?.teamRates?.noRateTie
-                  : 0
+                currentMatch?.teamRates[
+                  profitLossDataForMatchConstants[liveData?.type]?.B
+                ] ?? 0
               }
               teamImage={currentMatch?.apiTideMatch?.teamB_Image}
               lock={liveData?.runners?.length > 0 ? false : true}
