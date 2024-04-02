@@ -109,7 +109,7 @@ const MatchListTable = (props: any) => {
             alignItems="center"
             sx={{
               order: { xs: "2", sm: "1" },
-              marginBottom: { xs: 2, lg: 0 },
+              marginY: {xs: 1}
             }}
           >
             <Typography
@@ -127,7 +127,7 @@ const MatchListTable = (props: any) => {
             >
               {data?.title}
             </Typography>
-            <StyledImage
+           <StyledImage
               onClick={() => {
                 setShowUserModal((prev) => !prev);
               }}
@@ -178,7 +178,9 @@ const MatchListTable = (props: any) => {
                 // onClick={() => handleMatchProfitLossClick(data?.id)}
                 updateMatchStatusLabel="Commission"
                 updateMatchStatus={
-                  data?.pl && data?.pl?.length > 0 && data?.pl[0]?.commission
+                  data?.pl &&
+                  data?.pl?.length > 0 &&
+                  data?.pl[0]?.commission
                 }
                 place="1"
               />
@@ -195,7 +197,7 @@ const MatchListTable = (props: any) => {
                 place="1"
               />
             )}
-  {/* </Box> */}
+             
             <Box
               display={"flex"}
               sx={{
