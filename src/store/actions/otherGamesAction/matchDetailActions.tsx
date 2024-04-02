@@ -37,3 +37,10 @@ export const getOtherGamesMatchDetail = createAsyncThunk<any, any>(
     }
   }
 );
+
+export const updateTeamRatesOtherGames = createAsyncThunk<any, any>(
+  "/teamRates/updateOtherGames",
+  async (data) => {
+    return data;
+  }
+);

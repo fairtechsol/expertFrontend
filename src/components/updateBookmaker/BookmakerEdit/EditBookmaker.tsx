@@ -251,52 +251,7 @@ const EditBookmaker = (props: any) => {
 
   useEffect(() => {
     return () => {
-      socketService.user.updateMatchBettingRateClientOff((data: any) => {
-        if (match?.id === data?.matchId && Bid === data?.id) {
-          if (
-            data?.statusTeamA === "ball start" &&
-            data?.statusTeamB === "ball start" &&
-            data?.statusTeamC === "ball start"
-          ) {
-            setLocalQuickBookmaker((prev: any) => {
-              return {
-                ...prev,
-                teamBall: true,
-              };
-            });
-          } else {
-            setLocalQuickBookmaker((prev: any) => {
-              return {
-                ...prev,
-                teamBall: false,
-              };
-            });
-          }
-          setLocalQuickBookmaker((prev: any) => {
-            return {
-              ...prev,
-              teamA: {
-                ...prev.teamA,
-                rightBack: data?.backTeamA,
-                rightLay: data?.layTeamA,
-                suspended: data?.statusTeamA !== "active" ? true : false,
-              },
-              teamB: {
-                ...prev.teamB,
-                rightBack: data?.backTeamB,
-                rightLay: data?.layTeamB,
-                suspended: data?.statusTeamB !== "active" ? true : false,
-              },
-              teamC: {
-                ...prev.teamC,
-                rightBack: data?.backTeamC,
-                rightLay: data?.layTeamC,
-                suspended: data?.statusTeamC !== "active" ? true : false,
-              },
-            };
-          });
-        }
-      });
+      socketService.user.updateMatchBettingRateClientOff();
     };
   }, []);
 
@@ -1246,7 +1201,7 @@ const EditBookmaker = (props: any) => {
                 zIndex: 999,
                 top: "40px",
                 right: 0,
-                width:  {lg:"50vh", xs:"30vh"}
+                width: { lg: "50vh", xs: "30vh" },
               }}
             >
               {visible && (

@@ -48,34 +48,34 @@ export const userSocketService = {
   sessionAdded: (callback: any) => {
     socket.on("sessionAdded", callback);
   },
-  updateMatchBettingRateClientOff: (callback: any) => {
-    socket.off("updateMatchBettingRateClient", callback);
+  updateMatchBettingRateClientOff: () => {
+    socket.off("updateMatchBettingRateClient");
   },
-  sessionResultDeclaredOff: (callback: any) => {
-    socket.off("sessionResultDeclared", callback);
+  sessionResultDeclaredOff: () => {
+    socket.off("sessionResultDeclared");
   },
-  userSessionBetPlacedOff: (callBack: any) => {
-    socket.off("userSessionBetPlaced", callBack);
+  userSessionBetPlacedOff: () => {
+    socket.off("userSessionBetPlaced");
   },
-  userMatchBetPlacedOff: (callBack: any) => {
-    socket.off("userMatchBetPlaced", callBack);
+  userMatchBetPlacedOff: () => {
+    socket.off("userMatchBetPlaced");
   },
-  matchBettingStatusChangeOff: (callback: any) => {
-    socket.off("matchBettingStatusChange", callback);
+  matchBettingStatusChangeOff: () => {
+    socket.off("matchBettingStatusChange");
   },
-  matchResultDeclaredOff: (callback: any) => {
-    socket.off("matchResultDeclared", callback);
+  matchResultDeclaredOff: () => {
+    socket.off("matchResultDeclared");
   },
-  matchResultUnDeclaredOff: (callback: any) => {
-    socket.off("matchResultUnDeclared", callback);
+  matchResultUnDeclaredOff: () => {
+    socket.off("matchResultUnDeclared");
   },
-  matchDeleteBetOff: (callback: any) => {
-    socket.off("matchDeleteBet", callback);
+  matchDeleteBetOff: () => {
+    socket.off("matchDeleteBet");
   },
-  sessionDeleteBetOff: (callback: any) => {
-    socket.off("sessionDeleteBet", callback);
+  sessionDeleteBetOff: () => {
+    socket.off("sessionDeleteBet");
   },
-  sessionAddedOff: (callback: any) => {
-    socket.off("sessionAdded", callback);
+  sessionAddedOff: () => {
+    socket.off("sessionAdded");
   },
 };

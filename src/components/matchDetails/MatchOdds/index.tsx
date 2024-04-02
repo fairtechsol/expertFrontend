@@ -11,6 +11,7 @@ import SmallBox2 from "./SmallBox2";
 import { betLiveStatus } from "../../../store/actions/match/matchAction";
 import { AppDispatch } from "../../../store/store";
 import { useDispatch } from "react-redux";
+import { profitLossDataForMatchConstants } from "../../../utils/Constants";
 
 const MatchOdds = ({ currentMatch, matchOddsLive }: any) => {
   const [visible, setVisible] = useState(false);
@@ -222,7 +223,7 @@ const MatchOdds = ({ currentMatch, matchOddsLive }: any) => {
             zIndex: 999,
             top: "26%",
             right: "100px",
-            width:  {lg:"50vh", xs:"30vh"}
+            width: { lg: "50vh", xs: "30vh" },
           }}
         >
           {visible && (
@@ -389,17 +390,17 @@ const MatchOdds = ({ currentMatch, matchOddsLive }: any) => {
                 name={currentMatch?.teamA}
                 currentMatch={currentMatch}
                 teamRates={
-                  currentMatch?.teamRates?.teamARate
-                    ? currentMatch?.teamRates?.teamARate
-                    : 0
+                  currentMatch?.teamRates[
+                    profitLossDataForMatchConstants[matchOddsLive?.type]?.A
+                  ] ?? 0
                 }
               />
               <Divider />
               <BoxComponent
                 teamRates={
-                  currentMatch?.teamRates?.teamBRate
-                    ? currentMatch?.teamRates?.teamBRate
-                    : 0
+                  currentMatch?.teamRates[
+                    profitLossDataForMatchConstants[matchOddsLive?.type]?.B
+                  ] ?? 0
                 }
                 lock={
                   matchOddsLive?.runners !== undefined &&
@@ -420,9 +421,9 @@ const MatchOdds = ({ currentMatch, matchOddsLive }: any) => {
                   <Divider />
                   <BoxComponent
                     teamRates={
-                      currentMatch?.teamRates?.teamCRate
-                        ? currentMatch?.teamRates?.teamCRate
-                        : 0
+                      currentMatch?.teamRates[
+                        profitLossDataForMatchConstants[matchOddsLive?.type]?.C
+                      ] ?? 0
                     }
                     lock={
                       matchOddsLive?.runners !== undefined &&

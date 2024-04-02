@@ -63,7 +63,7 @@ const AddSession = () => {
   useEffect(() => {
     socketService.user.sessionResultDeclared(getSessionProLoss);
     return () => {
-      socketService.user.sessionResultDeclaredOff(getSessionProLoss);
+      socketService.user.sessionResultDeclaredOff();
     };
   }, [state?.match?.id]);
 
