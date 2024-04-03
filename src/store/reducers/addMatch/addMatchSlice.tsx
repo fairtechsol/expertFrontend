@@ -177,6 +177,7 @@ const addMatch = createSlice({
                   maxBet: matchingApiSession.max,
                   minBet: matchingApiSession.min,
                   status: matchingApiSession.GameStatus,
+                  updatedAt: matchingApiSession.updatedAt,
                 });
               } else {
                 return JSON.stringify({
@@ -227,19 +228,20 @@ const addMatch = createSlice({
       .addCase(updateSessionAdded.fulfilled, (state, action) => {
         const newSessionBetting = JSON.stringify(action.payload);
 
-        const isIdAlreadyPresent = state.matchDetail.sessionBettings.some(
+        if (state.matchDetail.sessionBettings.length === 0) {
+          state.matchDetail.sessionBettings.push(newSessionBetting);
+          return;
+        }
+
+        const existingIds = state.matchDetail.sessionBettings.map(
           (existingSession: any) => {
-            try {
-              const existingId = JSON.parse(existingSession).id;
-              const newId = JSON.parse(newSessionBetting).id;
-              return existingId === newId;
-            } catch (error) {
-              return false;
-            }
+            return JSON.parse(existingSession).id;
           }
         );
 
-        if (!isIdAlreadyPresent) {
+        const newId = JSON.parse(newSessionBetting).id;
+
+        if (!existingIds.includes(newId)) {
           state.matchDetail.sessionBettings.push(newSessionBetting);
         }
       })
