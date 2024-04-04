@@ -258,7 +258,7 @@ const SessionMarketBox = ({
                 fontWeight: "400",
               }}
             >
-              {newData?.result ? ` Declared` : newData?.status}
+              {newData?.result ? `Declared` : newData?.status}
             </h6>
           </Box>
         ) : newData?.resultStatus ? (
