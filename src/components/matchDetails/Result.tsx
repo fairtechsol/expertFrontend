@@ -19,7 +19,7 @@ const Result = ({ invert, onClick }: any) => {
       >
         <Typography
           sx={{
-            fontSize: { lg: "9px", xs: "10px" },
+            fontSize: { lg: "8px", xs: "10px" },
             fontWeight: "600",
             color: invert ? "0B4F26" : "white",
           }}
