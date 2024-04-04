@@ -28,7 +28,7 @@ const SeparateBox = ({ color, empty, value, width, value2, lock }: any) => {
             background: lock || [0, "0"].includes(value) ? "#FDF21A" : color,
             border:
               color != "white" ? "1px solid #2626264D" : "0px solid white",
-            width: { xs: "25%", lg: width ? width : "50%" },
+            width: { xs: "25%", lg: width ? width : "45%" },
             height: "94%",
             display: "flex",
             justifyContent: "center",
@@ -40,7 +40,7 @@ const SeparateBox = ({ color, empty, value, width, value2, lock }: any) => {
             <Box sx={{ alignItems: "center", justifyContent: "space-around" }}>
               <Typography
                 sx={{
-                  fontSize: "13px",
+                  fontSize: "13px", 
                   color: color == "white" ? "white" : "black",
                   fontWeight: "700",
                   textAlign: "center",
@@ -65,6 +65,7 @@ const SeparateBox = ({ color, empty, value, width, value2, lock }: any) => {
             <img src={Lock} style={{ width: "10px", height: "15px" }} />
           )}
         </Box>
+ 
       </Popover>
     </>
   );

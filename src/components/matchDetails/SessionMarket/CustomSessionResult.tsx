@@ -70,7 +70,7 @@ const CustomSessionResult = ({ onClick, newData }: any) => {
   return (
     <Box
       sx={{
-        width: {lg:"38%", xs: "70%"},
+        width: {lg:"65%", xs: "70%"},
 
         marginRight: "8px",
         // height: "180px",
