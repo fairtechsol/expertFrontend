@@ -23,7 +23,7 @@ const SessionMarketBox = ({
   hideTotalBet,
   setIObtes,
   profitLossData,
-  index
+  index,
 }: any) => {
   const dispatch: AppDispatch = useDispatch();
   const { statusBetLive, error, success } = useSelector(
@@ -69,6 +69,7 @@ const SessionMarketBox = ({
           background: index % 2 === 0 ? "#FFE094" : "#ECECEC",
           height: "40px",
           width: "100%",
+          boxShadow: visible ? 3 : 0,
         }}
       >
         <Box
@@ -78,6 +79,7 @@ const SessionMarketBox = ({
             height: "39px",
             width: "40%",
             alignItems: "center",
+            boxShadow: visible ? 3 : 0,
             // backgroundColor:'red'
           }}
         >
@@ -94,8 +96,8 @@ const SessionMarketBox = ({
                 textOverflow: "ellipsis",
                 // whiteSpace: "nowrap",
                 display: "-webkit-box",
-                WebkitLineClamp: '2',
-                WebkitBoxOrient: 'vertical',
+                WebkitLineClamp: "2",
+                WebkitBoxOrient: "vertical",
               }}
             >
               {newData?.name}
@@ -137,10 +139,10 @@ const SessionMarketBox = ({
             top: "4px",
             width: "29%",
             justifyContent: "flex-end",
-            left: { lg: "9vw", md: "25vw", xs: "12vh" },
+            left: { lg: "8vw", md: "25vw", xs: "12vh" },
             display: "flex",
             zIndex: 100,
-            gap: 0
+            gap: 0,
           }}
         >
           {newData?.activeStatus === "live" && (
@@ -191,7 +193,7 @@ const SessionMarketBox = ({
               // width={"80px"}
               width={"33px"}
               color={newData?.activeStatus === "live" ? "#46e080" : "#FF4D4D"}
-            // title={"Live"}
+              // title={"Live"}
             />
           )}
           {!hideResult && (
@@ -254,7 +256,6 @@ const SessionMarketBox = ({
                 lineHeight: "11px",
                 color: "#FFF",
                 fontWeight: "400",
-               
               }}
             >
               {newData?.result ? `Result Declared` : newData?.status}
@@ -286,7 +287,6 @@ const SessionMarketBox = ({
                 overflowWrap: "anywhere",
               }}
             >
-             
               Result {newData?.resultStatus}
             </h6>
           </Box>
@@ -303,7 +303,7 @@ const SessionMarketBox = ({
               justifyContent: "center",
               alignItems: "center",
               margin: "auto",
-              right: 20
+              right: 20,
             }}
           >
             <SeparateBox

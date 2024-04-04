@@ -37,7 +37,7 @@ const SessionMarket = ({
         flexDirection: "column",
         marginY: { lg: ".5vh" },
         width: "100%",
-        height: {lg:"98%", xs: "50%"},
+        height: { lg: "98%", xs: "50%" },
         alignSelf: {
           xs: "center",
           md: "center",
@@ -140,7 +140,7 @@ const SessionMarket = ({
                 height: "25px",
                 width: "99.7%",
                 alignSelf: "center",
-                zIndex: "999"
+                zIndex: "999",
               }}
             >
               <Box
@@ -172,7 +172,7 @@ const SessionMarket = ({
                   // marginLeft: "0vw",
                   width: { lg: "40%", xs: "80%", marginLeft: "10px" },
                   justifyContent: { lg: "flex-start", xs: "flex-end" },
-                  marginRight: {xs: "23%", lg: "7%"}
+                  marginRight: { xs: "23%", lg: "7%" },
                 }}
               >
                 <Box
@@ -217,7 +217,7 @@ const SessionMarket = ({
               flexDirection: "column",
               width: "100%",
               position: "relative",
-              maxHeight: {lg:"85vh", xs: "40vh"},
+              maxHeight: { lg: "85vh", xs: "40vh" },
               overflowY: "auto",
               // maxHeight: "300px",
               // overflowY: "scroll",
@@ -227,7 +227,7 @@ const SessionMarket = ({
               sessionData
                 ?.slice()
                 .sort(customSort)
-                ?.map((match: any) => {
+                ?.map((match: any, index: number) => {
                   if (JSON.parse(match).selectionId) {
                     return (
                       <Box key={JSON.parse(match)?.id}>
@@ -245,6 +245,7 @@ const SessionMarket = ({
                           setStop={setStop}
                           stop={stop}
                           profitLossData={profitLossData}
+                          index={index}
                         />
                         <Divider />
                       </Box>

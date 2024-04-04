@@ -80,7 +80,7 @@ const EditBookmaker = (props: any) => {
     let { name, value } = event.target;
 
     const decimalValue = value.split(".");
-    if (decimalValue[1] && decimalValue[1].length > 2) {
+    if (decimalValue[1]) {
       return true;
     }
 
