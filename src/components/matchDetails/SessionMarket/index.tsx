@@ -159,7 +159,7 @@ const SessionMarket = ({
                     marginLeft: "7px",
                   }}
                 >
-                  MIN: {formatToINR(currentMatch?.betFairSessionMinBet)} 
+                  MIN: {formatToINR(currentMatch?.betFairSessionMinBet)}
                   {/* MAX:
                   {formatToINR(currentMatch?.betFairSessionMaxBet)} */}
                 </Typography>
@@ -170,7 +170,7 @@ const SessionMarket = ({
                   background: "#319E5B",
                   height: "25px",
                   // marginLeft: "0vw",
-                  width: { lg: "40%", xs: "80%", marginLeft: "10px"},
+                  width: { lg: "40%", xs: "80%", marginLeft: "10px" },
                   justifyContent: { lg: "flex-start", xs: "flex-end" },
                   marginRight: {xs: "23%", lg: "7%"}
                 }}
@@ -227,10 +227,10 @@ const SessionMarket = ({
               sessionData
                 ?.slice()
                 .sort(customSort)
-                ?.map((match: any, index: any) => {
+                ?.map((match: any) => {
                   if (JSON.parse(match).selectionId) {
                     return (
-                      <Box key={index}>
+                      <Box key={JSON.parse(match)?.id}>
                         <SessionMarketBox
                           liveOnly={liveOnly}
                           setIObtes={setIObtes}
@@ -244,7 +244,6 @@ const SessionMarket = ({
                           newData={JSON.parse(match)}
                           setStop={setStop}
                           stop={stop}
-                          index={index}
                           profitLossData={profitLossData}
                         />
                         <Divider />
