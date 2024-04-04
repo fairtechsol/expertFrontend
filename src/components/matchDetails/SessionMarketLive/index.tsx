@@ -31,7 +31,8 @@ const SessionMarketLive = ({
         backgroundColor: "white",
         flexDirection: "column",
         marginY: { lg: "2px" },
-        width: "100%",
+        width: {lg:"50%", xs: "100%"},
+        height: {lg:"98%", xs: "50%"},
         alignSelf: {
           xs: "center",
           md: "center",
@@ -43,7 +44,7 @@ const SessionMarketLive = ({
       <Box
         sx={{
           display: "flex",
-          height: 38,
+          height: "35px",
           flexDirection: "row",
           width: "99.7%",
           alignSelf: "center",
@@ -56,6 +57,7 @@ const SessionMarketLive = ({
             alignItems: "center",
             display: "flex",
             justifyContent: "space-between",
+            height: "40px",
           }}
         >
           <Typography
@@ -122,6 +124,7 @@ const SessionMarketLive = ({
                 height: "25px",
                 width: "99.7%",
                 alignSelf: "center",
+                zIndex: "999"
               }}
             >
               <Box
@@ -150,7 +153,7 @@ const SessionMarketLive = ({
                   display: "flex",
                   background: "#319E5B",
                   height: "25px",
-                  paddingRight: "17px",
+                  // paddingRight: "17px",
                   width: { lg: "62%", xs: "80%" },
                   justifyContent: "flex-end",
                 }}
@@ -158,7 +161,7 @@ const SessionMarketLive = ({
                 <Box
                   sx={{
                     background: "#FF9292",
-                    width: "26.5%",
+                    width: {lg:"26.5%", xs: "24.5%"},
                     height: "100%",
                     display: "flex",
                     justifyContent: "center",
@@ -175,7 +178,7 @@ const SessionMarketLive = ({
                 <Box
                   sx={{
                     background: "#00C0F9",
-                    width: "27%",
+                    width: {lg:"26.5%", xs: "22.5%"},
                     height: "100%",
                     display: "flex",
                     justifyContent: "center",
@@ -197,8 +200,8 @@ const SessionMarketLive = ({
               flexDirection: "column",
               width: "100%",
               position: "relative",
-              height: "auto",
-              maxHeight: "200px",
+              // height: "auto",
+              maxHeight: {lg:"85vh", xs: "40vh"},
               overflowY: "auto",
             }}
           >

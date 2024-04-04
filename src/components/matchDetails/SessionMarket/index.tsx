@@ -37,6 +37,7 @@ const SessionMarket = ({
         flexDirection: "column",
         marginY: { lg: ".5vh" },
         width: "100%",
+        height: { lg: "98%", xs: "50%" },
         alignSelf: {
           xs: "center",
           md: "center",
@@ -48,7 +49,7 @@ const SessionMarket = ({
       <Box
         sx={{
           display: "flex",
-          height: 38,
+          height: "35px",
           flexDirection: "row",
           width: "99.7%",
           alignSelf: "center",
@@ -139,6 +140,7 @@ const SessionMarket = ({
                 height: "25px",
                 width: "99.7%",
                 alignSelf: "center",
+                zIndex: "999",
               }}
             >
               <Box
@@ -157,7 +159,7 @@ const SessionMarket = ({
                     marginLeft: "7px",
                   }}
                 >
-                  MIN: {formatToINR(currentMatch?.betFairSessionMinBet)} 
+                  MIN: {formatToINR(currentMatch?.betFairSessionMinBet)}
                   {/* MAX:
                   {formatToINR(currentMatch?.betFairSessionMaxBet)} */}
                 </Typography>
@@ -168,15 +170,15 @@ const SessionMarket = ({
                   background: "#319E5B",
                   height: "25px",
                   // marginLeft: "0vw",
-                  width: { lg: "40%", xs: "80%", marginLeft: "10px"},
+                  width: { lg: "40%", xs: "80%", marginLeft: "10px" },
                   justifyContent: { lg: "flex-start", xs: "flex-end" },
-                  marginRight: {xs: "20%", lg: "0"}
+                  marginRight: { xs: "23%", lg: "7%" },
                 }}
               >
                 <Box
                   sx={{
                     background: "#FF9292",
-                    width: { lg: "24%", xs: "22%" },
+                    width: { lg: "24%", xs: "22.5%" },
                     height: "100%",
                     display: "flex",
                     justifyContent: "center",
@@ -193,7 +195,7 @@ const SessionMarket = ({
                 <Box
                   sx={{
                     background: "#00C0F9",
-                    width: { lg: "23%", xs: "22%" },
+                    width: { lg: "23%", xs: "22.5%" },
                     height: "100%",
                     display: "flex",
                     justifyContent: "center",
@@ -215,19 +217,20 @@ const SessionMarket = ({
               flexDirection: "column",
               width: "100%",
               position: "relative",
-              height: "auto",
-              maxHeight: "300px",
-              overflowY: "scroll",
+              maxHeight: { lg: "85vh", xs: "40vh" },
+              overflowY: "auto",
+              // maxHeight: "300px",
+              // overflowY: "scroll",
             }}
           >
             {sessionData?.length > 0 &&
               sessionData
                 ?.slice()
                 .sort(customSort)
-                ?.map((match: any, index: any) => {
+                ?.map((match: any, index: number) => {
                   if (JSON.parse(match).selectionId) {
                     return (
-                      <Box key={index}>
+                      <Box key={JSON.parse(match)?.id}>
                         <SessionMarketBox
                           liveOnly={liveOnly}
                           setIObtes={setIObtes}
@@ -241,8 +244,8 @@ const SessionMarket = ({
                           newData={JSON.parse(match)}
                           setStop={setStop}
                           stop={stop}
-                          index={index}
                           profitLossData={profitLossData}
+                          index={index}
                         />
                         <Divider />
                       </Box>

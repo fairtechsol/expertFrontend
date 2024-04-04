@@ -5,7 +5,7 @@ const Result = ({ invert, onClick }: any) => {
     <Box onClick={onClick}>
       <Box
         sx={{
-          width: { lg: "55px", xs: "80%" },
+          width: { lg: "36px", xs: "80%" },
           display: "flex",
           marginRight: {lg:"5px", xs: "0"},
           justifyContent: "center",
@@ -19,7 +19,7 @@ const Result = ({ invert, onClick }: any) => {
       >
         <Typography
           sx={{
-            fontSize: { lg: "11px", xs: "10px" },
+            fontSize: { lg: "8px", xs: "10px" },
             fontWeight: "600",
             color: invert ? "0B4F26" : "white",
           }}

@@ -23,6 +23,7 @@ const SessionMarketBox = ({
   hideTotalBet,
   setIObtes,
   profitLossData,
+  index,
 }: any) => {
   const dispatch: AppDispatch = useDispatch();
   const { statusBetLive, error, success } = useSelector(
@@ -46,7 +47,7 @@ const SessionMarketBox = ({
       setVisible(false);
     }
   }, [success]);
-
+  // console.log(newData?.resultStatus)
   return (
     <div style={{ position: "relative" }}>
       {!["live"].includes(newData?.activeStatus) && (
@@ -65,29 +66,38 @@ const SessionMarketBox = ({
       <Box
         sx={{
           display: "flex",
-          background: "white",
+          background: index % 2 === 0 ? "#FFE094" : "#ECECEC",
           height: "40px",
           width: "100%",
+          boxShadow: visible ? 3 : 0,
         }}
       >
         <Box
           sx={{
             display: "flex",
-            background: "white",
+            background: index % 2 === 0 ? "#FFE094" : "#ECECEC",
             height: "39px",
             width: "40%",
             alignItems: "center",
+            boxShadow: visible ? 3 : 0,
             // backgroundColor:'red'
           }}
         >
-          <Box sx={{ paddingTop: "3px" }}>
+          <Box sx={{ paddingTop: "3px", width: {lg:"80%"} }}>
             <Typography
               sx={{
                 color: "black",
+                maxHeight: "30px",
                 fontSize: { lg: "11px", md: "10px", xs: "9px" },
                 marginLeft: "3px",
                 fontWeight: "600",
                 lineHeight: "11px",
+                overflow: "hidden",
+                // textOverflow: "ellipsis",
+                // whiteSpace: "nowrap",
+                display: "-webkit-box",
+                WebkitLineClamp: "2",
+                WebkitBoxOrient: "vertical",
               }}
             >
               {newData?.name}
@@ -127,11 +137,12 @@ const SessionMarketBox = ({
           sx={{
             position: "absolute",
             top: "4px",
-            width: "30%",
+            width: "29%",
             justifyContent: "flex-end",
-            left: { lg: "14vw", md: "25vw", xs: "13vh" },
+            left: { lg: "8vw", md: "25vw", xs: "12vh" },
             display: "flex",
             zIndex: 100,
+            gap: 0,
           }}
         >
           {newData?.activeStatus === "live" && (
@@ -158,7 +169,7 @@ const SessionMarketBox = ({
             <SmallBox
               loading={false}
               hide={false}
-              textSize={"12px"}
+              textSize={"10px"}
               width={{ lg: "80px", xs: "20px", md: "20px" }}
               title={`Score : ${newData?.result || 0}`}
               color={"#FFF"}
@@ -228,9 +239,9 @@ const SessionMarketBox = ({
               margin: "1px",
               background: "rgba(0,0,0,1)",
               height: "40px",
-              right: { lg: "20.5%", xs: "20%", md: "20%" },
+              right: { lg: "26.5%", xs: "22.5%", md: "20%" },
               position: "absolute",
-              width: { lg: "18.6%", xs: "20%" },
+              width: { lg: "16%", xs: "20%" },
               justifyContent: { xs: "center", lg: "center" },
               alignItems: "center",
               display: "flex",
@@ -240,14 +251,14 @@ const SessionMarketBox = ({
             <h6
               style={{
                 textTransform: "uppercase",
-                fontSize: "12px",
+                fontSize: "10px",
                 textAlign: "center",
                 lineHeight: "11px",
                 color: "#FFF",
                 fontWeight: "400",
               }}
             >
-              {newData?.result ? `Result Declared` : newData?.status}
+              {newData?.result ? `Declared` : newData?.status}
             </h6>
           </Box>
         ) : newData?.resultStatus ? (
@@ -256,9 +267,9 @@ const SessionMarketBox = ({
               margin: "1px",
               background: "rgba(0,0,0,1)",
               height: "40px",
-              right: { lg: "20.5%", xs: "19%", md: "20%" },
+              right: { lg: "26.5%", xs: "22.5%", md: "20%" },
               position: "absolute",
-              width: { lg: "18.6%", xs: "20%" },
+              width: { lg: "16%", xs: "20%" },
               justifyContent: { xs: "center", lg: "center" },
               alignItems: "center",
               display: "flex",
@@ -267,15 +278,17 @@ const SessionMarketBox = ({
             <h6
               style={{
                 textTransform: "uppercase",
-                fontSize: "12px",
+                fontSize: "9px",
                 textAlign: "center",
                 lineHeight: "11px",
-                color: "#FFF",
+                color: "#FF0000",
+                // color={newData?.resultStatus === "PENDING" ? "red" : "#FFF"}
                 fontWeight: "400",
                 overflowWrap: "anywhere",
               }}
             >
-              Result {newData?.resultStatus}
+             
+             {newData?.resultStatus}
             </h6>
           </Box>
         ) : (
@@ -283,7 +296,7 @@ const SessionMarketBox = ({
             sx={{
               display: "flex",
               position: "relative",
-              background: "white",
+              // background: "white",
               height: "40px",
               // marginLeft: "2vh",
               width: { lg: "18.6%", xs: "40%" },
@@ -291,6 +304,7 @@ const SessionMarketBox = ({
               justifyContent: "center",
               alignItems: "center",
               margin: "auto",
+              right: 20,
             }}
           >
             <SeparateBox

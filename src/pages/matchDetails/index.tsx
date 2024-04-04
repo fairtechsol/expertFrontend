@@ -1,4 +1,4 @@
-import { Box } from "@mui/material";
+import { Box,useMediaQuery } from "@mui/material";
 import { memo, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -35,6 +35,7 @@ import {
   updateTeamRates,
 } from "../../store/actions/match/matchAction";
 import { AppDispatch, RootState } from "../../store/store";
+import theme from "../../theme";
 
 const MatchDetails = () => {
   const { state } = useLocation();
@@ -44,6 +45,7 @@ const MatchDetails = () => {
   const { matchDetail, loading, success } = useSelector(
     (state: RootState) => state.addMatch.addMatch
   );
+  const matchesMobile = useMediaQuery(theme.breakpoints.down("lg"));
   const { placedBetsMatch } = useSelector(
     (state: RootState) => state.matchList
   );
@@ -288,86 +290,6 @@ const MatchDetails = () => {
     };
   }, []);
 
-  // useEffect(() => {
-  //   try {
-  //     if (state?.id) {
-  //       let interval: any;
-
-  //       // Function to handle setting up interval and joining match room
-  //       const setupIntervalAndJoinMatchRoom = () => {
-  //         interval = setInterval(() => {
-  //           expertSocketService.match.joinMatchRoom(state?.id, "expert");
-  //         }, 1000);
-  //         setDataReceiving(false);
-  //       };
-
-  //       // Function to handle clearing interval and setting data receiving flag
-  //       const clearIntervalAndSetDataReceiving = () => {
-  //         clearInterval(interval);
-  //         setDataReceiving(true);
-  //       };
-
-  //       // Check match rates initially
-  //       expertSocketService.match.getMatchRatesOff(state?.id, (event: any) => {
-  //         if (event) {
-  //           clearInterval(interval);
-  //           setDataReceiving(true);
-  //         } else {
-  //           setupIntervalAndJoinMatchRoom();
-  //         }
-  //       });
-
-  //       // Check match rates again
-  //       expertSocketService.match.getMatchRates(state?.id, (event: any) => {
-  //         if (event) {
-  //           clearIntervalAndSetDataReceiving();
-  //         } else {
-  //           setupIntervalAndJoinMatchRoom();
-  //         }
-  //       });
-
-  //       // Clean up interval on unmount
-  //       return () => clearInterval(interval);
-  //     }
-  //   } catch (e) {
-  //     console.log(e);
-  //   }
-  // }, [state?.id]);
-
-  // useEffect(() => {
-  //   try {
-  //     if (state?.id) {
-  //       let interval: any;
-  //       expertSocketService.match.getMatchRatesOff(state?.id, (event: any) => {
-  //         if (event) {
-  //           clearInterval(interval);
-  //           setDataReceiving(true);
-  //         } else {
-  //           interval = setInterval(() => {
-  //             expertSocketService.match.joinMatchRoom(state?.id, "expert");
-  //           }, 1000);
-  //           setDataReceiving(false);
-  //         }
-  //       });
-  //       expertSocketService.match.getMatchRates(state?.id, (event: any) => {
-  //         if (!event) {
-  //           clearInterval(interval);
-  //           setDataReceiving(true);
-  //         } else {
-  //           interval = setInterval(() => {
-  //             expertSocketService.match.joinMatchRoom(state?.id, "expert");
-  //           }, 1000);
-  //           setDataReceiving(false);
-  //         }
-  //       });
-
-  //       return () => clearInterval(interval);
-  //     }
-  //   } catch (e) {
-  //     console.log(e);
-  //   }
-  // }, [state?.id]);
-
   return (
     <Box
       sx={{
@@ -389,8 +311,90 @@ const MatchDetails = () => {
       {loading ? (
         <Loader text="" />
       ) : (
-        <>
+        <>{matchesMobile &&
           <Box
+          sx={{
+            width: { lg: "100%", xs: "100%", md: "100%" },
+          }}
+        >
+          {(matchDetail?.apiSessionActive ||
+            matchDetail?.manualSessionActive) && (
+            <Box
+              sx={{
+                width: { lg: "100%", xs: "100%", md: "100%" },
+                display: "flex",
+                gap: 1,
+                flexDirection: "column",
+              }}
+            >
+              <Box
+                sx={{
+                  width: { lg: "100%", xs: "100%", md: "100%" },
+                  flexDirection: "column",
+                  display: "flex",
+                }}
+              >
+                <SessionMarketLive
+                  title={"Session API Market"}
+                  hideTotalBet={true}
+                  liveOnly={true}
+                  stopAllHide={true}
+                  hideResult={true}
+                  sessionData={matchDetail?.apiSession}
+                  currentMatch={matchDetail}
+                />
+              </Box>
+              <Box
+                sx={{
+                  width: { lg: "100%", xs: "100%", md: "100%" },
+                  flexDirection: "column",
+                  display: "flex",
+                }}
+              >
+                <SessionMarket
+                  setIObtes={() => {}}
+                  title={"Session Market"}
+                  liveOnly={false}
+                  hideTotalBet={false}
+                  stopAllHide={false}
+                  profitLossData={matchDetail?.sessionProfitLoss}
+                  sessionData={matchDetail?.sessionBettings}
+                  hideResult={false}
+                  currentMatch={matchDetail}
+                />
+              </Box>
+            </Box>
+          )}
+
+          {sessionProLoss?.length > 0 && (
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "row",
+                flexWrap: "wrap",
+                gap: "1px",
+                rowGap: "5px",
+                height: "524px",
+                overflow: "scroll",
+                marginTop: "1.25vw",
+              }}
+            >
+              {sessionProLoss?.map((v: any) => {
+                return (
+                  <RunsBox
+                    key={v?.id}
+                    item={v}
+                    currentOdd={
+                      currentOdd?.betId === v?.id ? currentOdd : null
+                    }
+                  />
+                );
+              })}
+            </Box>
+          )}
+        </Box>
+        }
+          {!matchesMobile &&<Box
             sx={{
               width: { lg: "50%", xs: "100%", md: "100%" },
             }}
@@ -408,8 +412,10 @@ const MatchDetails = () => {
                 <Box
                   sx={{
                     width: { lg: "100%", xs: "100%", md: "100%" },
-                    flexDirection: "column",
+                    flexDirection: "row",
                     display: "flex",
+                    gap: 1,
+                    height: "100vh",
                   }}
                 >
                   <SessionMarketLive
@@ -421,16 +427,16 @@ const MatchDetails = () => {
                     sessionData={matchDetail?.apiSession}
                     currentMatch={matchDetail}
                   />
-                </Box>
+                {/* </Box>
                 <Box
                   sx={{
-                    width: { lg: "100%", xs: "100%", md: "100%" },
+                    width: { lg: "50%", xs: "100%", md: "100%" },
                     flexDirection: "column",
                     display: "flex",
                   }}
-                >
+                > */}
                   <SessionMarket
-                    setIObtes={() => {}}
+                    setIObtes={() => {}}  
                     title={"Session Market"}
                     liveOnly={false}
                     hideTotalBet={false}
@@ -470,13 +476,14 @@ const MatchDetails = () => {
                 })}
               </Box>
             )}
-          </Box>
+          </Box>}
           <Box
             sx={{
               width: { lg: "50%", xs: "100%", md: "100%" },
               flexDirection: "column",
               display: "flex",
               paddingLeft: "5px",
+              marginTop: {xs:"10px", lg: "0"}
             }}
           >
             {matchDetail?.matchOdd?.isActive && (
