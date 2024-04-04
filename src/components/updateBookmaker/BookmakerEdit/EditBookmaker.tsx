@@ -450,10 +450,10 @@ const EditBookmaker = (props: any) => {
               </Typography>
               <Box
                 sx={{
-                  width: "120px",
+                  width: {lg:"220px", xs: "120px"},
                   // my: "5px",
 
-                  marginRight: "15px",
+                  marginRight: "10px",
                   border: "1px solid #2626264D",
                   justifyContent: "center",
                   alignItems: "center",
@@ -552,7 +552,7 @@ const EditBookmaker = (props: any) => {
                       disableUnderline: true,
                       sx: {
                         height: "55px",
-                        width: "98%",
+                        width: "90%",
                         background: "#F6F6F6",
                         alignSelf: "flex-end",
                         textAlign: "center",
@@ -621,8 +621,8 @@ const EditBookmaker = (props: any) => {
               </Typography>
               <Box
                 sx={{
-                  width: "120px",
-                  marginRight: "15px",
+                  width: {lg:"220px", xs: "120px"},
+                  marginRight: "10px",
                   border: "1px solid #2626264D",
                   justifyContent: "center",
                   alignItems: "center",
@@ -720,7 +720,7 @@ const EditBookmaker = (props: any) => {
                       disableUnderline: true,
                       sx: {
                         height: "55px",
-                        width: "98%",
+                        width: "90%",
                         background: "#F6F6F6",
                         alignSelf: "flex-end",
                         textAlign: "center",
@@ -786,8 +786,8 @@ const EditBookmaker = (props: any) => {
                 </Typography>
                 <Box
                   sx={{
-                    width: "120px",
-                    marginRight: "15px",
+                    width: {lg:"220px", xs: "120px"},
+                    marginRight: "10px",
                     border: "1px solid #2626264D",
                     justifyContent: "center",
                     alignItems: "center",
@@ -879,7 +879,7 @@ const EditBookmaker = (props: any) => {
                         disableUnderline: true,
                         sx: {
                           height: "55px",
-                          width: "98%",
+                          width: "90%",
                           background: "#F6F6F6",
                           alignSelf: "flex-end",
                           textAlign: "center",
