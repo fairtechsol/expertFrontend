@@ -486,7 +486,8 @@ const SessionAddComponent = ({ createSession, match, setMode }: any) => {
                     if (
                       !isCreateSession &&
                       !sessionById?.result &&
-                      sessionById?.activeStatus === "live"
+                      sessionById?.activeStatus === "live" &&
+                      !sessionById?.resultStatus
                     ) {
                       const [yesRatePercent, noRatePercent] =
                         item?.value?.split("-");
@@ -515,7 +516,8 @@ const SessionAddComponent = ({ createSession, match, setMode }: any) => {
                     background:
                       !isCreateSession &&
                       !sessionById?.result &&
-                      sessionById?.activeStatus === "live"
+                      sessionById?.activeStatus === "live" &&
+                      !sessionById?.resultStatus
                         ? "#0B4F26"
                         : "#696969",
                     justifyContent: "center",
