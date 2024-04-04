@@ -9,17 +9,17 @@ export let socket: any = null;
 
 export const initialiseSocket = () => {
   matchSocket = io(baseUrls.matchSocket, {
-    transports: [`${Constants.WEBSOCKET}`],
-    auth: {
-      token: `${sessionStorage.getItem("userToken")}`,
-    },
-  });
-  socket = io(baseUrls.expertSocket, {
     transports: [
       process.env.NODE_ENV === "production"
         ? `${Constants.POLLING}`
         : `${Constants.WEBSOCKET}`,
     ],
+    auth: {
+      token: `${sessionStorage.getItem("userToken")}`,
+    },
+  });
+  socket = io(baseUrls.expertSocket, {
+    transports: [`${Constants.WEBSOCKET}`],
     auth: {
       token: `${sessionStorage.getItem("userToken")}`,
     },
