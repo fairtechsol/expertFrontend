@@ -268,7 +268,7 @@ const SessionAddComponent = ({ createSession, match, setMode }: any) => {
             : null,
         };
       });
-      if (sessionById?.activeStatus !== "live") {
+      if (sessionById?.activeStatus === "result") {
         setShowUndeclare(true);
         setIsDisable(true);
       } else if (sessionById?.activeStatus !== "result") {
