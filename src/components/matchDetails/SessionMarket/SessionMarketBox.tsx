@@ -83,7 +83,7 @@ const SessionMarketBox = ({
             // backgroundColor:'red'
           }}
         >
-          <Box sx={{ paddingTop: "3px", width: "65%" }}>
+          <Box sx={{ paddingTop: "3px", width: {lg:"80%"} }}>
             <Typography
               sx={{
                 color: "black",
@@ -93,7 +93,7 @@ const SessionMarketBox = ({
                 fontWeight: "600",
                 lineHeight: "11px",
                 overflow: "hidden",
-                textOverflow: "ellipsis",
+                // textOverflow: "ellipsis",
                 // whiteSpace: "nowrap",
                 display: "-webkit-box",
                 WebkitLineClamp: "2",
@@ -251,14 +251,14 @@ const SessionMarketBox = ({
             <h6
               style={{
                 textTransform: "uppercase",
-                fontSize: "12px",
+                fontSize: "10px",
                 textAlign: "center",
                 lineHeight: "11px",
                 color: "#FFF",
                 fontWeight: "400",
               }}
             >
-              {newData?.result ? `Result Declared` : newData?.status}
+              {newData?.result ? ` Declared` : newData?.status}
             </h6>
           </Box>
         ) : newData?.resultStatus ? (
@@ -278,7 +278,7 @@ const SessionMarketBox = ({
             <h6
               style={{
                 textTransform: "uppercase",
-                fontSize: "12px",
+                fontSize: "9px",
                 textAlign: "center",
                 lineHeight: "11px",
                 color: "#FF0000",
@@ -287,7 +287,8 @@ const SessionMarketBox = ({
                 overflowWrap: "anywhere",
               }}
             >
-              Result {newData?.resultStatus}
+             
+             {newData?.resultStatus}
             </h6>
           </Box>
         ) : (
