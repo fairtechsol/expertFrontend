@@ -206,27 +206,25 @@ export const addSessionReducers = createReducer(initialState, (builder) => {
       state.sessionProfitLoss = action.payload;
     })
     .addCase(sessionByIdReset, (state) => {
-      return {
-        ...state,
-        success: false,
-        sessionById: null,
-        sessionProfitLoss: [],
-      };
+      state.success = false;
+      state.sessionById = null;
+      state.sessionProfitLoss = [null];
     })
     .addCase(successReset, (state) => {
-      return { ...state, success: false };
+      state.success = false;
     })
     .addCase(addsuccessReset, (state) => {
-      return { ...state, addSuccess: false };
+      state.addSuccess = false;
     })
     .addCase(sessionSuccessReset, (state) => {
-      return { ...state, getSessionSuccess: false };
+      state.getSessionSuccess = false;
     })
     .addCase(updateSessionByIdForUndeclare.fulfilled, (state, action) => {
-      return { ...state, selectedSessionId: action.payload };
+      state.selectedSessionId = action.payload;
     })
     .addCase(resetPlacedBets, (state) => {
-      return { ...state, placedBets: [], sessionProfitLoss: [] };
+      state.placedBets = [];
+      state.sessionProfitLoss = [];
     })
     .addCase(updateRatesBook.fulfilled, (state, action) => {
       const { redisObject, matchBetType } = action.payload;
@@ -264,16 +262,16 @@ export const addSessionReducers = createReducer(initialState, (builder) => {
       const { sessionById } = state;
 
       if (id === sessionById?.id) {
-        return {
-          ...state,
-          sessionById: {
-            ...sessionById,
-            maxBet,
-          },
-          loading: false,
-          maxLimitUpdateSuccess: true,
+        state.sessionById = {
+          ...sessionById,
+          maxBet,
         };
-      } else return { ...state, maxLimitUpdateSuccess: true, loading: false };
+        state.loading = false;
+        state.maxLimitUpdateSuccess = true;
+      } else {
+        state.maxLimitUpdateSuccess = true;
+        state.loading = false;
+      }
     })
     .addCase(updateSession.rejected, (state) => {
       state.loading = false;
@@ -283,19 +281,16 @@ export const addSessionReducers = createReducer(initialState, (builder) => {
       const { sessionById } = state;
 
       if (id === sessionById?.id) {
-        return {
-          ...state,
-          sessionById: {
-            ...sessionById,
-            maxBet,
-          },
-          loading: false,
-          maxLimitUpdateSuccess: true,
+        state.sessionById = {
+          ...sessionById,
+          maxBet,
         };
+        state.loading = false;
+        state.maxLimitUpdateSuccess = true;
       }
     })
     .addCase(resetSessionMaxLimitSuccess, (state) => {
-      return { ...state, maxLimitUpdateSuccess: false };
+      state.maxLimitUpdateSuccess = false;
     })
     .addCase(updateResultStatusOfSessionById.fulfilled, (state, action) => {
       const { status, betId } = action.payload;

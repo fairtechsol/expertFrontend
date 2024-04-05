@@ -70,7 +70,8 @@ const profileSlice = createSlice({
         state.error = action?.error?.message;
       })
       .addCase(changePasswordReset, (state) => {
-        return { ...state, success: false, transactionPassword: "" };
+        state.success = false;
+        state.transactionPassword = "";
       });
   },
 });
