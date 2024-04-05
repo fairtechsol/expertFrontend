@@ -291,6 +291,12 @@ export const updateResultStatusOfSession = createAsyncThunk<any, SessionById>(
     return requestData;
   }
 );
+export const updateResultStatusOfMatch = createAsyncThunk<any, SessionById>(
+  "update/resultStatusMatch",
+  async (requestData) => {
+    return requestData;
+  }
+);
 export const matchListReset = createAction("matchList/reset");
 export const editSuccessReset = createAction("editSuccess/reset");
 export const sessionResultSuccessReset = createAction("sessionResult/reset");

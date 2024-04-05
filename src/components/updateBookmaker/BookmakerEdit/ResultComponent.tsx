@@ -50,7 +50,7 @@ const ResultComponent = ({
   return (
     <Box
       sx={{
-        width: {lg: "100%", xs: "100%"},
+        width: { lg: "100%", xs: "100%" },
         // height: "300px",
         borderRadius: 2,
         boxShadow: "0px 5px 10px #1A568414",
@@ -72,7 +72,12 @@ const ResultComponent = ({
         ]}
       >
         <Typography
-          sx={{ fontWeight: "bold", color: "white", fontSize: "18px" , lineHeight: "0.9"}}
+          sx={{
+            fontWeight: "bold",
+            color: "white",
+            fontSize: "18px",
+            lineHeight: "0.9",
+          }}
         >
           Match Result
         </Typography>
@@ -119,7 +124,7 @@ const ResultComponent = ({
                     height: "50px",
                     cursor: "pointer",
                     background: selected === i ? "#0B4F26" : "#F8C851",
-                    overflow: "hidden"
+                    overflow: "hidden",
                   }}
                 >
                   <Typography
@@ -128,7 +133,7 @@ const ResultComponent = ({
                       fontWeight: "700",
                       color: selected === i ? "white" : "black",
                       lineHeight: 1,
-                      overflowWrap: "anywhere"
+                      overflowWrap: "anywhere",
                     }}
                   >
                     {i}

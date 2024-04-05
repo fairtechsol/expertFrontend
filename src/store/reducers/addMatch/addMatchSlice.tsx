@@ -17,6 +17,7 @@ import {
 import { updateApiSessionById } from "../../actions/addSession";
 import {
   updateMaxLoss,
+  updateResultStatusOfMatch,
   updateResultStatusOfSession,
   updateTeamRates,
 } from "../../actions/match/matchAction";
@@ -374,6 +375,20 @@ const addMatch = createSlice({
           ...state.matchDetail,
           sessionBettings: updatedSessionBetting,
         };
+      })
+      .addCase(updateResultStatusOfMatch.fulfilled, (state, action) => {
+        const { status, betId } = action.payload;
+        const index = state.matchDetail?.quickBookmaker.findIndex(
+          (item: any) => item.type === "quickbookmaker1"
+        );
+        if (index !== -1) {
+          if (betId === state.matchDetail?.quickBookmaker[index]?.id) {
+            state.matchDetail = {
+              ...state.matchDetail,
+              resultStatus: status ? status : null,
+            };
+          }
+        }
       });
   },
 });
