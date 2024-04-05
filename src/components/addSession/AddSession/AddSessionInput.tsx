@@ -143,6 +143,7 @@ const AddSessionInput = (props: any) => {
                 height: "45px",
                 fontWeight: "600",
                 color: "black",
+                cursor: !isCreateSession ? "not-allowed" : "auto", 
               },
             }}
           />
