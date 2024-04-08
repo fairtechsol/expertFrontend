@@ -1,5 +1,5 @@
 import { Box, Typography } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Stop from "../SessionMarket/Stop";
 import SmallBox from "../SmallBox";
 import { ARROWUP } from "../../../assets";
@@ -8,13 +8,19 @@ import BoxComponent from "../MatchOdds/BoxComponent";
 import { betLiveStatus } from "../../../store/actions/match/matchAction";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../../store/store";
+import { formatToINR } from "../../helper";
 
-const CompleteMatchMarket = ({ currentMatch, liveData, title }: any) => {
+const CompleteMatchMarket = ({ currentMatch, liveData,title }: any) => {
+  const dispatch: AppDispatch = useDispatch();
   const [visibleImg, setVisibleImg] = useState(true);
   const [live, setLive] = useState(
     liveData?.activeStatus === "live" ? true : false
   );
-  const dispatch: AppDispatch = useDispatch();
+
+  useEffect(() => {
+    setLive(liveData?.activeStatus === "live" ? true : false);
+  }, [liveData?.activeStatus]);
+
   return (
     <Box
       sx={{
@@ -154,8 +160,8 @@ const CompleteMatchMarket = ({ currentMatch, liveData, title }: any) => {
                   marginLeft: "7px",
                 }}
               >
-                MIN: {currentMatch?.marketCompleteMatch?.minBet} MAX:{" "}
-                {currentMatch?.marketCompleteMatch?.maxBet}
+                MIN: {formatToINR(currentMatch?.marketCompleteMatch?.minBet)}{" "}
+                MAX: {formatToINR(currentMatch?.marketCompleteMatch?.maxBet)}
               </Typography>
             </Box>
             <Box
@@ -170,7 +176,7 @@ const CompleteMatchMarket = ({ currentMatch, liveData, title }: any) => {
               <Box
                 sx={{
                   background: "#00C0F9",
-                  width: { lg: "16.5%", xs: "25%" },
+                  width: { lg: "16.5%", xs: "24.7%" },
                   height: "100%",
                   display: "flex",
                   justifyContent: "center",
@@ -187,7 +193,7 @@ const CompleteMatchMarket = ({ currentMatch, liveData, title }: any) => {
               <Box
                 sx={{
                   background: "#FF9292",
-                  width: { lg: "16.5%", xs: "25%" },
+                  width: { lg: "16.5%", xs: "24.7%" },
                   height: "100%",
                   display: "flex",
                   justifyContent: "center",

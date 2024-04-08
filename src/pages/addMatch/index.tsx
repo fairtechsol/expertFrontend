@@ -117,6 +117,7 @@ const AddMatch = () => {
     matchDetail,
     success,
     matchAdded,
+    loading,
   } = useSelector((state: RootState) => state.addMatch.addMatch);
 
   const [selected, setSelected] = useState(initialValues);
@@ -136,13 +137,16 @@ const AddMatch = () => {
 
   const { editSuccess } = useSelector((state: RootState) => state.matchList);
   const formik = useFormik({
-    validationSchema: addMatchValidation(manualMatchToggle, selected.gameType,extraMarketList),
+    // validationSchema: addMatchValidation(manualMatchToggle, selected.gameType,extraMarketList),
     initialValues: initialFormikValues,
     onSubmit: (value: any) => {
       if (!eventWiseMatchData[selected.gameType]) {
         toast.error("This game is not available yet.");
       }
 
+      if (loading) {
+        return;
+      }
       if (state?.id) {
         let bookmakers;
 
@@ -448,7 +452,7 @@ const AddMatch = () => {
       dispatch(addMatchReset());
     }
   }, [state?.id, matchAdded]);
-
+console.log('matchDetail',matchDetail)
   useEffect(() => {
     try {
       if (matchDetail && state?.id) {
@@ -925,6 +929,7 @@ const AddMatch = () => {
               <MatchListInput
                 required={true}
                 valueStyle={{}}
+                disable={state?.id}
                 containerStyle={{ flex: 1, width: "100%" }}
                 label={"Min Bet"}
                 type={"Number"}

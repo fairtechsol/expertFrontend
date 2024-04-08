@@ -2,17 +2,17 @@ import { Box, Typography, useMediaQuery } from "@mui/material";
 import ModalMUI from "@mui/material/Modal";
 import moment from "moment";
 import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { DownGIcon } from "../../assets";
+import { getMatchListSessionProfitLoss } from "../../store/actions/match/matchAction";
+import { AppDispatch, RootState } from "../../store/store";
+import theme from "../../theme";
 import CustomButton from "../Common/CustomButton";
 import StyledImage from "../Common/StyledImages";
-import MatchListProfitLoss from "./profitLoss";
 import MatchPermissionsModal from "./matchPermissionsModal";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../../store/store";
-import { getMatchListSessionProfitLoss } from "../../store/actions/match/matchAction";
+import MatchListProfitLoss from "./profitLoss";
 import SessionResultComponent from "./sessionResultComponent";
-import theme from "../../theme";
 import { IconConstants } from "../helper/gameConstants";
 
 const MatchListTable = (props: any) => {
@@ -110,6 +110,7 @@ const MatchListTable = (props: any) => {
             alignItems="center"
             sx={{
               order: { xs: "2", sm: "1" },
+              marginY: {xs: 1}
             }}
           >
             <StyledImage
@@ -125,12 +126,13 @@ const MatchListTable = (props: any) => {
                   alignItems: "center",
                   marginRight: { lg: "10px", xs: "6px" },
                   justifyContent: "space-between",
+                  maxWidth: "200px",
                 },
               ]}
             >
               {data?.title}
             </Typography>
-            <StyledImage
+           <StyledImage
               onClick={() => {
                 setShowUserModal((prev) => !prev);
               }}
@@ -145,23 +147,29 @@ const MatchListTable = (props: any) => {
               }}
             />
           </Box>
-
+          
           <Box
             display={"flex"}
             sx={{
-              flexDirection: { xs: "column", sm: "row" },
-              order: { xs: "1", sm: "2" },
+              flexDirection: { xs: "column", sm: "column", md: "row" },
+              order: { xs: "1", sm: "2", md: "3" },
               width: { xs: "100%", sm: "auto" },
               py: { xs: 1, sm: 0 },
+              // px: "10px",
               overflow: "hidden",
               display: showUserModal && !matchesMobile ? "none" : "flex",
               // marginBottom: showUserModal ? { xs: "0%", sm: "-1%", lg: "-20%" } : "0%",
             }}
           >
+            {/* <Box sx={{
+            width: { xs: "90%", sm: "auto", lg: "100%" },
+               display: "flex",
+               flexDirection: "row"
+            }}> */}
             {data?.stopAt && (
               <MatchListProfitLoss
                 // onClick={() => handleMatchProfitLossClick(data?.id)}
-                updateMatchStatusLabel="Total Profit/Loss"
+                updateMatchStatusLabel="Total P/L"
                 updateMatchStatus={
                   data?.pl &&
                   data?.pl?.length > 0 &&
@@ -172,8 +180,20 @@ const MatchListTable = (props: any) => {
             )}
             {data?.stopAt && (
               <MatchListProfitLoss
+                // onClick={() => handleMatchProfitLossClick(data?.id)}
+                updateMatchStatusLabel="Commission"
+                updateMatchStatus={
+                  data?.pl &&
+                  data?.pl?.length > 0 &&
+                  data?.pl[0]?.commission
+                }
+                place="1"
+              />
+            )}
+            {data?.stopAt && (
+              <MatchListProfitLoss
                 onClick={() => handleMatchProfitLossClick(data?.id)}
-                updateMatchStatusLabel="Session Profit/Loss"
+                updateMatchStatusLabel="Session P/L"
                 updateMatchStatus={
                   data?.pl &&
                   data?.pl?.length > 0 &&
@@ -182,6 +202,7 @@ const MatchListTable = (props: any) => {
                 place="1"
               />
             )}
+             
             <Box
               display={"flex"}
               sx={{
@@ -194,8 +215,8 @@ const MatchListTable = (props: any) => {
                 getProfile?.betFairMatchPrivilege) && (
                 <CustomButton
                   containerStyle={{
-                    minWidth: { xs: "49%", sm: "100px" },
-                    width: { xs: "49%", sm: "100px" },
+                    minWidth: { xs: "40%", sm: "100px" },
+                    width: { xs: "40%", sm: "100px" },
                     marginLeft: { xs: "1%", sm: "10px" },
                   }}
                   onClick={() => {
@@ -215,8 +236,8 @@ const MatchListTable = (props: any) => {
               {(getProfile?.allPrivilege || getProfile?.addMatchPrivilege) && (
                 <CustomButton
                   containerStyle={{
-                    minWidth: { xs: "49%", sm: "100px" },
-                    width: { xs: "49%", sm: "100px" },
+                    minWidth: { xs: "40%", sm: "100px" },
+                    width: { xs: "40%", sm: "100px" },
                     marginLeft: { xs: "1%", sm: "10px" },
                   }}
                   onClick={() => {

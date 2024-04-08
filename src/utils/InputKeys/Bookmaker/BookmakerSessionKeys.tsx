@@ -1376,6 +1376,25 @@ export const handleKeysMatchEvents = (
           return prev;
         });
       }
+    } else {
+      setLocalQuickBookmaker((prev: any) => {
+        let data = {
+          matchId: match?.id,
+          id: Bid,
+          type: type,
+          backTeamA: prev.teamA.back ? prev.teamA.back : 0,
+          backTeamB: prev.teamB.back ? prev.teamB.back : 0,
+          backTeamC: prev.teamC.back ? prev.teamC.back : 0,
+          layTeamA: prev.teamA.lay ? prev.teamA.lay : 0,
+          layTeamB: prev.teamB.lay ? prev.teamB.lay : 0,
+          layTeamC: prev.teamC.lay ? prev.teamC.lay : 0,
+          statusTeamA: "active",
+          statusTeamB: "active",
+          statusTeamC: "active",
+        };
+        socketService.user.updateMatchBettingRate(data);
+        return prev;
+      });
     }
     setLocalQuickBookmaker((prev: any) => {
       return {
@@ -1724,7 +1743,7 @@ export const handleKeysMatchEvents = (
         setLocalQuickBookmaker((prev: any) => {
           let result = handleZeroValue(+targetValue, prev?.teamA?.lay);
           if (result) {
-            return;
+            return prev;
           }
           let teamARateDecimal = prev?.teamA?.back % 1;
           let value: any;
@@ -1735,7 +1754,7 @@ export const handleKeysMatchEvents = (
           }
 
           if (!value) {
-            return;
+            return prev;
           }
           return {
             ...prev,
@@ -1766,7 +1785,7 @@ export const handleKeysMatchEvents = (
         setLocalQuickBookmaker((prev: any) => {
           let result = handleZeroValue(+targetValue, prev?.teamB?.lay);
           if (result) {
-            return;
+            return prev;
           }
           let teamARateDecimal = prev?.teamB?.back % 1;
           let value: any;
@@ -1777,7 +1796,7 @@ export const handleKeysMatchEvents = (
           }
 
           if (!value) {
-            return;
+            return prev;
           }
           return {
             ...prev,
@@ -1808,7 +1827,7 @@ export const handleKeysMatchEvents = (
         setLocalQuickBookmaker((prev: any) => {
           let result = handleZeroValue(+targetValue, prev?.teamC?.lay);
           if (result) {
-            return;
+            return prev;
           }
           let teamARateDecimal = prev?.teamC?.back % 1;
           let value: any;
@@ -1819,7 +1838,7 @@ export const handleKeysMatchEvents = (
           }
 
           if (!value) {
-            return;
+            return prev;
           }
           return {
             ...prev,
@@ -1852,7 +1871,7 @@ export const handleKeysMatchEvents = (
         setLocalQuickBookmaker((prev: any) => {
           let result = handleZeroValue(+targetValue, prev?.teamA?.lay);
           if (result) {
-            return;
+            return prev;
           }
           let value = Math.round(prev?.teamA?.back) - incGap;
 
@@ -1886,7 +1905,7 @@ export const handleKeysMatchEvents = (
         setLocalQuickBookmaker((prev: any) => {
           let result = handleZeroValue(+targetValue, prev?.teamB?.lay);
           if (result) {
-            return;
+            return prev;
           }
           let value = Math.round(prev?.teamB?.back) - incGap;
 
@@ -1920,7 +1939,7 @@ export const handleKeysMatchEvents = (
         setLocalQuickBookmaker((prev: any) => {
           let result = handleZeroValue(+targetValue, prev?.teamC?.lay);
           if (result) {
-            return;
+            return prev;
           }
           let value = Math.round(prev?.teamC?.back) - incGap;
 
@@ -1963,12 +1982,12 @@ export const handleKeysMatchEvents = (
           matchId: match?.id,
           id: Bid,
           type: type,
-          backTeamA: prev.teamA.back ? prev.teamA.back : 0,
-          backTeamB: prev.teamB.back ? prev.teamB.back : 0,
-          backTeamC: prev.teamC.back ? prev.teamC.back : 0,
-          layTeamA: prev.teamA.lay ? prev.teamA.lay : 0,
-          layTeamB: prev.teamB.lay ? prev.teamB.lay : 0,
-          layTeamC: prev.teamC.lay ? prev.teamC.lay : 0,
+          backTeamA: prev?.teamA?.back ? prev?.teamA?.back : 0,
+          backTeamB: prev?.teamB?.back ? prev?.teamB?.back : 0,
+          backTeamC: prev?.teamC?.back ? prev?.teamC?.back : 0,
+          layTeamA: prev?.teamA?.lay ? prev.teamA?.lay : 0,
+          layTeamB: prev?.teamB?.lay ? prev.teamB?.lay : 0,
+          layTeamC: prev?.teamC?.lay ? prev.teamC?.lay : 0,
           statusTeamA: "suspended",
           statusTeamB: "suspended",
           statusTeamC: "suspended",
@@ -1986,9 +2005,12 @@ export const handleKeysMatchEvents = (
   } else if (key === "*" || key === "l") {
     setIsTab("");
     if (e.target.name === "teamArate") {
-      let value = e.target.value ? ++targetValue + 0.5 : 0;
+      let value = e.target.value ? +targetValue + 0.5 : 0;
       setIncGap(0.25);
       setLocalQuickBookmaker((prev: any) => {
+        if (prev?.teamA?.lay > 99.5) {
+          return prev;
+        }
         return {
           ...prev,
           teamA: {
@@ -2003,9 +2025,12 @@ export const handleKeysMatchEvents = (
         };
       });
     } else if (e.target.name === "teamBrate") {
-      let value = e.target.value ? ++targetValue + 0.5 : 0;
+      let value = e.target.value ? +targetValue + 0.5 : 0;
       setIncGap(0.25);
       setLocalQuickBookmaker((prev: any) => {
+        if (prev?.teamB?.lay > 99.5) {
+          return prev;
+        }
         return {
           ...prev,
           teamA: { ...prev?.teamA, back: 0, lay: 0, backRight: 0, layRight: 0 },
@@ -2020,9 +2045,12 @@ export const handleKeysMatchEvents = (
         };
       });
     } else if (e.target.name === "teamCrate") {
-      let value = e.target.value ? ++targetValue + 0.5 : 0;
+      let value = e.target.value ? +targetValue + 0.5 : 0;
       setIncGap(0.25);
       setLocalQuickBookmaker((prev: any) => {
+        if (prev?.teamC?.lay > 99.5) {
+          return prev;
+        }
         return {
           ...prev,
           teamA: { ...prev?.teamA, back: 0, lay: 0, backRight: 0, layRight: 0 },
@@ -2072,8 +2100,11 @@ export const handleKeysMatchEvents = (
     setIncGap(5);
     setIsTab("");
     if (e.target.name === "teamArate") {
-      let value = e.target.value ? ++targetValue : 0;
+      let value = e.target.value ? +targetValue : 0;
       setLocalQuickBookmaker((prev: any) => {
+        if (prev?.teamA?.lay > 99.5) {
+          return prev;
+        }
         return {
           ...prev,
           teamA: {
@@ -2088,8 +2119,11 @@ export const handleKeysMatchEvents = (
         };
       });
     } else if (e.target.name === "teamBrate") {
-      let value = e.target.value ? ++targetValue : 0;
+      let value = e.target.value ? +targetValue : 0;
       setLocalQuickBookmaker((prev: any) => {
+        if (prev?.teamB?.lay > 99.5) {
+          return prev;
+        }
         return {
           ...prev,
           teamA: { ...prev?.teamA, lay: 0, back: 0, backRight: 0, layRight: 0 },
@@ -2104,8 +2138,11 @@ export const handleKeysMatchEvents = (
         };
       });
     } else if (e.target.name === "teamCrate") {
-      let value = e.target.value ? ++targetValue : 0;
+      let value = e.target.value ? +targetValue : 0;
       setLocalQuickBookmaker((prev: any) => {
+        if (prev?.teamC?.lay > 99.5) {
+          return prev;
+        }
         return {
           ...prev,
           teamA: { ...prev?.teamA, lay: 0, back: 0, backRight: 0, layRight: 0 },

@@ -4,6 +4,7 @@ import { ARROWUP } from "../../../assets";
 import moment from "moment";
 import HeaderRow from "./HeaderRow";
 import Row from "./Row";
+import { formatToINR } from "../../helper";
 
 const BetList = ({ tag, submit, allBetRates }: any) => {
   const [newData, setNewBets] = useState([]);
@@ -68,7 +69,7 @@ const BetList = ({ tag, submit, allBetRates }: any) => {
               width: { lg: "7%", xs: "35%" },
             },
             {
-              name: v?.amount,
+              name: formatToINR(v?.amount),
               color: "black",
               background: ["YES", "BACK"].includes(v?.betType)
                 ? "#B3E0FF"
@@ -87,13 +88,13 @@ const BetList = ({ tag, submit, allBetRates }: any) => {
               width: { lg: "14%", xs: "35%" },
             },
             {
-              name: moment(v?.createdAt).format("LTS"),
+              name:moment.utc(v?.createdAt).utcOffset('+05:30').format('LTS'),
               color: "black",
               background: ["YES", "BACK"].includes(v?.betType)
                 ? "#B3E0FF"
                 : "rgb(255, 146, 146)",
               time: true,
-              date: moment(v?.createdAt).format("L"),
+              date: moment.utc(v?.createdAt).utcOffset('+05:30').format("L"),
               deleteReason: v?.deleteReason,
               width: { lg: "10%", xs: "35%" },
             },

@@ -4,7 +4,7 @@ import SessionInputFields from "../../components/addSession/AddSession/SessionAd
 import DailogModal from "../../components/helper/DailogModal";
 import BetsList from "../../components/addSession/BetList";
 import { useLocation, useParams } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store/store";
 import {
@@ -14,11 +14,12 @@ import {
   sessionSuccessReset,
 } from "../../store/actions/addSession";
 import { getMatchListSessionProfitLoss } from "../../store/actions/match/matchAction";
-import { socketService } from "../../socketManager";
+// import { socketService } from "../../socketManager";
 
 const AddSession = () => {
   const { state } = useLocation();
   const { id } = useParams();
+  const [mode, setMode] = useState("0");
   const { sessionById, getSessionSuccess } = useSelector(
     (state: RootState) => state.addSession
   );
@@ -54,39 +55,48 @@ const AddSession = () => {
     }
   }, [getSessionSuccess, id]);
 
-  const getSessionProLoss = (event: any) => {
-    if (state?.match?.id === event?.matchId) {
-      dispatch(getMatchListSessionProfitLoss(state?.match?.id));
-    }
-  };
-
   useEffect(() => {
-    socketService.user.sessionResultDeclared(getSessionProLoss);
-    return () => {
-      socketService.user.sessionResultDeclaredOff();
-    };
-  }, [state?.match?.id]);
+    if (state?.createSession) {
+      setMode("0");
+    }
+  }, [state?.createSession]);
+
+  // const getSessionProLoss = (event: any) => {
+  //   if (state?.match?.id === event?.matchId) {
+  //     dispatch(getMatchListSessionProfitLoss(state?.match?.id));
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   socketService.user.sessionResultDeclared(getSessionProLoss);
+  //   return () => {
+  //     socketService.user.sessionResultDeclaredOff();
+  //   };
+  // }, [state?.match?.id]);
 
   return (
     <Box>
-      <Grid container spacing={2}>
-        <Grid item xs={12} sm={6}>
-          <Paper style={{ margin: "10px" }}>
+      <Grid container>
+        <Grid item xs={12} md={12} lg={6}>
+          <Paper style={{ margin: "4px" }}>
             <SessionInputFields
               createSession={state?.createSession}
               sessionEvent={state?.sessionEvent}
               match={state?.match}
+              setMode={setMode}
             />
           </Paper>
-          <Paper style={{ margin: "10px" }}>
+          <Paper style={{ margin: "4px" }}>
             <SessionResult
+              setMode={setMode}
+              mode={mode}
               sessionProLoss={sessionProLoss}
               matchId={state?.match}
             />
           </Paper>
         </Grid>
-        <Grid item xs={12} sm={6}>
-          <Paper style={{ margin: "10px" }}>
+        <Grid item xs={12} md={12} lg={6}>
+          <Paper style={{ margin: "4px" }}>
             {true && (
               <BetsList
                 sessionEvent={sessionById && sessionById}

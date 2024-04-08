@@ -124,80 +124,124 @@ const MatchPermissionsModal = (props: any) => {
           />
         )}
       </Box>
-      <Box
-        sx={{
-          width: { xs: "auto", sm: "auto", md: "20%" },
-          flex: 1,
-          marginRight: "10px",
-        }}
-      >
-        {showUserModal && !matchesMobile && (
+      {showUserModal && !matchesMobile && (
+        <Box
+          sx={{
+            width: { xs: "auto", sm: "auto", md: "20%" },
+            flex: 1,
+            display: "flex",
+            justifyContent: "flex-end",
+          }}
+        >
           <Box
             sx={{
               display: "flex",
               justifyContent: "flex-end",
               alignItems: "center",
-              marginTop: "4rem",
-              flexDirection: { xs: "column", sm: "column", md: "row" },
+              // marginTop: "4rem",
+              flexDirection: { xs: "column", md: "row", lg: "column" },
             }}
           >
-            {data?.stopAt && (
-              <MatchListProfitLoss
-                containerStyle={{
-                  minWidth: { xs: "4%", sm: "12px" },
-                  width: { xs: "9%", sm: "100px" },
-                  marginBottom: { xs: "1rem", sm: "1rem", md: 0 },
-                }}
-                onClick={() => handleMatchProfitLossClick(data?.id)}
-                updateMatchStatusLabel="Match Profit/Loss"
-                updateMatchStatus={
-                  data?.pl &&
-                  data?.pl?.length > 0 &&
-                  data?.pl[0]?.totalProfitLoss
-                }
-                place="1"
-              />
-            )}
-            {(getProfile?.allPrivilege ||
-              getProfile?.betFairMatchPrivilege) && (
-              <CustomButton
-                containerStyle={{
-                  minWidth: { xs: "95%", sm: "100px" },
-                  width: { xs: "49%", sm: "100px", lg: "100px" },
-                  marginTop: { xs: "1rem", sm: "1rem", md: 0 },
-                }}
-                title={"Submit"}
-                onClick={() => {
-                  if (data?.matchType === "cricket") {
-                    navigate(`/expert/betOdds`, {
-                      state: { id: data?.id, marketId: data?.marketId },
-                    });
-                  } else {
-                    navigate(`/expert/betOdds/otherGames`, {
-                      state: { id: data?.id, marketId: data?.marketId },
-                    });
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "flex-end",
+                marginRight: "1px",
+              }}
+            >
+              {data?.stopAt && (
+                <MatchListProfitLoss
+                  onClick={() => handleMatchProfitLossClick(data?.id)}
+                  updateMatchStatusLabel="Total Profit/Loss"
+                  updateMatchStatus={
+                    data?.pl &&
+                    data?.pl?.length > 0 &&
+                    data?.pl[0]?.totalProfitLoss
                   }
-                }}
-              />
-            )}
-            {(getProfile?.allPrivilege || getProfile?.addMatchPrivilege) && (
-              <CustomButton
-                containerStyle={{
-                  minWidth: { xs: "95%", sm: "100px" },
-                  width: { xs: "49%", sm: "100px" },
-                  marginTop: { xs: "1rem", sm: "1rem", md: 0 },
-                }}
-                onClick={() => {
-                  navigate(`/expert/edit_match`, {
-                    state: { id: data?.id },
-                  });
-                }}
-                title={"Edit"}
-              />
-            )}
+                  place="1"
+                />
+              )}
+              {data?.stopAt && (
+                <MatchListProfitLoss
+                  // onClick={() => handleMatchProfitLossClick(data?.id)}
+                  updateMatchStatusLabel="Commission"
+                  updateMatchStatus={
+                    data?.pl && data?.pl?.length > 0 && data?.pl[0]?.commission
+                  }
+                  place="1"
+                />
+              )}
+              {data?.stopAt && (
+                <MatchListProfitLoss
+                  containerStyle={{
+                    minWidth: { xs: "4%", sm: "12px" },
+                    width: { xs: "9%", sm: "100px" },
+                    marginBottom: { xs: "1rem", sm: "1rem", md: 0 },
+                  }}
+                  onClick={() => handleMatchProfitLossClick(data?.id)}
+                  updateMatchStatusLabel="Session Profit/Loss"
+                  updateMatchStatus={
+                    data?.pl &&
+                    data?.pl?.length > 0 &&
+                    data?.pl[0]?.sessionTotalProfitLoss
+                  }
+                  place="1"
+                />
+              )}
+            </Box>
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                marginLeft: "160px",
+                marginBottom: "10px",
+              }}
+            >
+              {(getProfile?.allPrivilege ||
+                getProfile?.betFairMatchPrivilege) && (
+                <CustomButton
+                  containerStyle={{
+                    minWidth: { xs: "95%", sm: "100px", lg: "100px" },
+                    width: { xs: "49%", sm: "100px", lg: "100px" },
+                    marginTop: { xs: "1rem", sm: "1rem", md: 1 },
+                    // justifyContent: "flex-end",
+                    // marginRight: "1px",
+                  }}
+                  title={"Submit"}
+                  onClick={() => {
+                    if (data?.matchType === "cricket") {
+                      navigate(`/expert/betOdds`, {
+                        state: { id: data?.id, marketId: data?.marketId },
+                      });
+                    } else {
+                      navigate(`/expert/betOdds/otherGames`, {
+                        state: { id: data?.id, marketId: data?.marketId },
+                      });
+                    }
+                  }}
+                />
+              )}
+              {(getProfile?.allPrivilege || getProfile?.addMatchPrivilege) && (
+                <CustomButton
+                  containerStyle={{
+                    minWidth: { xs: "95%", sm: "100px", lg: "100px" },
+                    width: { xs: "49%", sm: "100px", lg: "100px" },
+                    marginTop: { xs: "1rem", sm: "1rem", md: 1 },
+                    marginRight: "10px",
+                  }}
+                  onClick={() => {
+                    navigate(`/expert/edit_match`, {
+                      state: { id: data?.id },
+                    });
+                  }}
+                  title={"Edit"}
+                />
+              )}
+            </Box>
           </Box>
-        )}
-      </Box>
+        </Box>
+      )}
     </Box>
   );
 };

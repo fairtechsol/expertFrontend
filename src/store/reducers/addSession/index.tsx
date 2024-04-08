@@ -7,6 +7,7 @@ import {
   getSessionById,
   getSessionProfitLoss,
   resetPlacedBets,
+  resetSessionMaxLimitSuccess,
   sessionByIdReset,
   sessionSuccessReset,
   setCurrentOdd,
@@ -16,9 +17,11 @@ import {
   updateMatchBetsPlaced,
   updateProLossSession,
   updateRatesBook,
+  updateResultStatusOfSessionById,
   updateSession,
   updateSessionById,
   updateSessionByIdForUndeclare,
+  updateSessionMaxLimit,
   updateSessionProfitLoss,
   updateTeamRatesOnManualMarket,
 } from "../../actions/addSession";
@@ -34,6 +37,7 @@ interface InitialState {
   success: boolean;
   addSuccess: boolean;
   getSessionSuccess: boolean;
+  maxLimitUpdateSuccess: boolean;
   loading: boolean;
 }
 
@@ -48,6 +52,7 @@ const initialState: InitialState = {
   success: false,
   addSuccess: false,
   getSessionSuccess: false,
+  maxLimitUpdateSuccess: false,
   loading: false,
 };
 
@@ -113,7 +118,6 @@ export const addSessionReducers = createReducer(initialState, (builder) => {
     .addCase(getPlacedBets.pending, (state) => {
       state.loading = true;
       state.success = false;
-      state.placedBets = [];
     })
     .addCase(getPlacedBets.fulfilled, (state, action) => {
       state.loading = false;
@@ -193,33 +197,34 @@ export const addSessionReducers = createReducer(initialState, (builder) => {
         ...state.sessionById,
         activeStatus: action.payload.activeStatus,
         result: action.payload.score,
+        resultStatus: action.payload.resultStatus
+          ? action.payload.resultStatus
+          : null,
       };
     })
     .addCase(updateSessionProfitLoss.fulfilled, (state, action) => {
       state.sessionProfitLoss = action.payload;
     })
     .addCase(sessionByIdReset, (state) => {
-      return {
-        ...state,
-        success: false,
-        sessionById: null,
-        sessionProfitLoss: [],
-      };
+      state.success = false;
+      state.sessionById = null;
+      state.sessionProfitLoss = [null];
     })
     .addCase(successReset, (state) => {
-      return { ...state, success: false };
+      state.success = false;
     })
     .addCase(addsuccessReset, (state) => {
-      return { ...state, addSuccess: false };
+      state.addSuccess = false;
     })
     .addCase(sessionSuccessReset, (state) => {
-      return { ...state, getSessionSuccess: false };
+      state.getSessionSuccess = false;
     })
     .addCase(updateSessionByIdForUndeclare.fulfilled, (state, action) => {
-      return { ...state, selectedSessionId: action.payload };
+      state.selectedSessionId = action.payload;
     })
     .addCase(resetPlacedBets, (state) => {
-      return { ...state, placedBets: [], sessionProfitLoss: [] };
+      state.placedBets = [];
+      state.sessionProfitLoss = [];
     })
     .addCase(updateRatesBook.fulfilled, (state, action) => {
       const { redisObject, matchBetType } = action.payload;
@@ -250,20 +255,50 @@ export const addSessionReducers = createReducer(initialState, (builder) => {
     })
     .addCase(updateSession.pending, (state) => {
       state.loading = true;
+      state.maxLimitUpdateSuccess = false;
     })
     .addCase(updateSession.fulfilled, (state, action) => {
       const { maxBet, id } = action.payload;
-      const updatedSession = { ...state.sessionById };
-      if (id === updatedSession?.id) {
-        updatedSession.maxBet = maxBet;
+      const { sessionById } = state;
+
+      if (id === sessionById?.id) {
+        state.sessionById = {
+          ...sessionById,
+          maxBet,
+        };
+        state.loading = false;
+        state.maxLimitUpdateSuccess = true;
+      } else {
+        state.maxLimitUpdateSuccess = true;
+        state.loading = false;
       }
-      return {
-        ...state,
-        sessionById: updatedSession,
-        loading: false
-      };
     })
     .addCase(updateSession.rejected, (state) => {
       state.loading = false;
+    })
+    .addCase(updateSessionMaxLimit.fulfilled, (state, action) => {
+      const { maxBet, id } = action.payload;
+      const { sessionById } = state;
+
+      if (id === sessionById?.id) {
+        state.sessionById = {
+          ...sessionById,
+          maxBet,
+        };
+        state.loading = false;
+        state.maxLimitUpdateSuccess = true;
+      }
+    })
+    .addCase(resetSessionMaxLimitSuccess, (state) => {
+      state.maxLimitUpdateSuccess = false;
+    })
+    .addCase(updateResultStatusOfSessionById.fulfilled, (state, action) => {
+      const { status, betId } = action.payload;
+      if (betId === state.sessionById?.id) {
+        state.sessionById = {
+          ...state.sessionById,
+          resultStatus: status ? status : null,
+        };
+      }
     });
 });

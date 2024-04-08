@@ -16,8 +16,9 @@ const MainLayout = () => {
       if (!sessionStorage.getItem("userToken")) {
         navigate("/expert/login");
         sessionStorage.clear();
+      } else {
+        dispatch(getProfile());
       }
-      dispatch(getProfile());
     } catch (e) {
       console.log(e);
     }

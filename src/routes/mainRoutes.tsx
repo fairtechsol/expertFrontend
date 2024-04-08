@@ -1,18 +1,16 @@
-import { lazy } from "react";
 import { Navigate } from "react-router-dom";
 import Loadable from "../utils/loadable";
 import { Constants } from "../utils/Constants";
 import OtherMatchDetails from "../pages/otherMatchDetails";
 
-const MainLayout = Loadable(lazy(() => import("../layout/main")));
-const MatchList = Loadable(lazy(() => import("../pages/matchList")));
-const AddMatch = Loadable(lazy(() => import("../pages/addMatch")));
-const AddSession = Loadable(lazy(() => import("../pages/addSession")));
-const MatchDetails = Loadable(lazy(() => import("../pages/matchDetails")));
-const ChangePassword = Loadable(lazy(() => import("../pages/changePassword")));
-const UpdateBookmaker = Loadable(
-  lazy(() => import("../pages/updateBookmaker"))
-);
+import MainLayout from "../layout/main";
+
+const MatchList = Loadable(() => import("../pages/matchList"));
+const AddMatch = Loadable(() => import("../pages/addMatch"));
+const AddSession = Loadable(() => import("../pages/addSession"));
+const MatchDetails = Loadable(() => import("../pages/matchDetails"));
+const ChangePassword = Loadable(() => import("../pages/changePassword"));
+const UpdateBookmaker = Loadable(() => import("../pages/updateBookmaker"));
 
 const MainRoutes = {
   path: Constants.MainPaths.root,

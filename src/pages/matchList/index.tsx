@@ -35,9 +35,10 @@ const MatchList = ({}) => {
   }, [success]);
 
   const getMatchListService = () => {
+    setCurrentPage(1);
     dispatch(
       getMatchList({
-        currentPage: currentPage,
+        currentPage: 1,
       })
     );
   };
@@ -45,6 +46,10 @@ const MatchList = ({}) => {
   useEffect(() => {
     expertSocketService.match.matchAdded(getMatchListService);
     socketService.user.matchResultUnDeclared(getMatchListService);
+    return () => {
+      expertSocketService.match.matchAddedOff();
+      socketService.user.matchResultUnDeclaredOff();
+    };
   }, []);
 
   return (

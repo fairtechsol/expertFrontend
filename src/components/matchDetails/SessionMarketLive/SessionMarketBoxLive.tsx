@@ -16,6 +16,7 @@ const SessionMarketBoxLive = ({
   setLocalState,
   updateSessionData,
   hideResult,
+  index
 }: any) => {
   const dispatch: AppDispatch = useDispatch();
 
@@ -59,14 +60,14 @@ const SessionMarketBoxLive = ({
         sx={{
           display: "flex",
           background: "white",
-          height: "30px",
+          height: "38px",
           width: "100%",
         }}
       >
         <Box
           sx={{
             display: "flex",
-            background: "white",
+            background: index % 2 === 0 ? "#FFE094" : "#ECECEC",
             height: "40px",
             width: "55%",
             alignItems: "center",
@@ -78,6 +79,7 @@ const SessionMarketBoxLive = ({
               fontSize: { lg: "10px", md: "10px", xs: "10px" },
               marginLeft: { lg: "7px", md: "20px", xs: "20px" },
               fontWeight: "600",
+              lineHeight: 1
             }}
           >
             {newData?.RunnerName}
@@ -88,7 +90,7 @@ const SessionMarketBoxLive = ({
           sx={{
             position: "absolute",
             top: "5px",
-            right: { lg: "27%", md: "35%", xs: "45%"},
+            right: { lg: "24%", md: "35%", xs: "30%" },
             display: "flex",
             zIndex: 100,
           }}
@@ -102,7 +104,7 @@ const SessionMarketBoxLive = ({
                 handleLive();
               }}
               textSize={"8px"}
-              width={"33px"}
+              width={"28px"}
               color={"#FF4D4D"}
             />
           )}
@@ -164,7 +166,7 @@ const SessionMarketBoxLive = ({
             sx={{
               margin: "1px",
               background: "rgba(0,0,0,1)",
-              height: "30px",
+              height: "38px",
               right: "0vh",
               position: "absolute",
               width: { lg: "27%", xs: "27%" },
@@ -195,7 +197,7 @@ const SessionMarketBoxLive = ({
             sx={{
               display: "flex",
               position: "relative",
-              background: "white",
+              background: index % 2 === 0 ? "#FFE094" : "#ECECEC",
               height: "38px",
               // marginLeft: "40px",
               width: { lg: "45%", xs: "60%" },

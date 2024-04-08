@@ -13,7 +13,7 @@ import ActiveUsers from "./ActiveUsers";
 import BoxProfile from "./BoxProfile";
 import DropDownMenu from "./DropDownMenu";
 import { getMatchListDropdown } from "../../../store/actions/match/matchAction";
-import { socketService } from "../../../socketManager";
+import { socket, socketService } from "../../../socketManager";
 import { getLoggedUserCount } from "../../../store/actions/user/userAction";
 import GameTypeDropdown from "./GameTypeDropdown";
 
@@ -60,11 +60,13 @@ const Header1 = () => {
 
   useEffect(() => {
     try {
-      socketService.user.userCount(handleUserCount);
+      if (socket?.connected) {
+        socketService.user.userCount(handleUserCount);
+      }
     } catch (e) {
       console.log(e);
     }
-  }, []);
+  }, [socket?.connected]);
 
   return (
     <>
@@ -88,11 +90,200 @@ const Header1 = () => {
         <Loader />
       </ModalMUI>
       {/* <SessionTimeOut /> */}
-      <AppBar
+      {!matchesMobile && (
+        <>
+          <AppBar
+            position="fixed"
+            sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
+          >
+            {/* <IdleTimer role="" /> */}
+            <NotificationModal setVisible={setVisible} visible={visible} />
+            <Box
+              sx={[
+                {
+                  width: "100%",
+                  display: "flex",
+                  flexDirection: "row",
+                  alignItems: !matchesMobile ? "center" : "flex-start",
+                  justifyContent: "space-between",
+                  paddingX: { lg: "0.5%", xs: "1%" },
+                  // paddingY: matchesMobile ? "15px" : "0px",
+                  paddingBottom: matchesMobile ? "10px" : "0px",
+                },
+                (theme: any) => ({
+                  backgroundImage: `${theme.palette.primary.headerGradient}`,
+                }),
+              ]}
+            >
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  width: "100%",
+                  flex: 1,
+                }}
+              >
+                <Box
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    marginRight: "12px",
+                  }}
+                >
+                  <StyledImage
+                    onClick={() => {
+                      //   setMobileOpen(!mobileOpen);
+                    }}
+                    src={Draw}
+                    sx={{
+                      height: { lg: "24px", xs: "20px" },
+                      width: "auto",
+                    }}
+                  />
+                  <StyledImage
+                    src={FgLogo}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      navigate(`/expert/match`);
+                    }}
+                    sx={{
+                      cursor: "pointer",
+                      height: { lg: "55px", xs: "45px" },
+                      width: "auto",
+                      marginLeft: { lg: "20px", xs: "10px" },
+                    }}
+                  />
+                </Box>
+                <>
+                  {(getProfile?.bookmakerMatchPrivilege ||
+                    getProfile?.sessionMatchPrivilege ||
+                    getProfile?.allPrivilege) && (
+                    <ButtonHead
+                      onClick={(e: any) => {
+                        setGameType(true);
+                        setSelected(1);
+                        setAnchor1(e?.currentTarget);
+                      }}
+                      title={!dropDownLoading ? "ALL MATCH" : "Loading..."}
+                      boxStyle={{
+                        backgroundColor:
+                          currentSelected == 1 ? "white" : "transparent",
+                        py: "5px",
+                        borderRadius: "5px",
+                        marginLeft: { lg: "15px", xs: "1px" },
+                        cursor: "pointer",
+                      }}
+                      titleStyle={{
+                        color: currentSelected == 1 ? "green" : "white",
+                      }}
+                    />
+                  )}
+
+                  <NavLink
+                    to={"/expert/match"}
+                    style={{ textDecoration: "none" }}
+                  >
+                    <ButtonHead
+                      onClick={() => {
+                        setSelected(4);
+                      }}
+                      title={"MATCH LIST"}
+                      boxStyle={{
+                        backgroundColor:
+                          window.location.pathname.split("/")[2] == "match"
+                            ? "white"
+                            : "transparent",
+                        py: "5px",
+                        borderRadius: "5px",
+                        marginLeft: { lg: "15px", xs: "1px" },
+                        cursor: "pointer",
+                      }}
+                      titleStyle={{
+                        color:
+                          window.location.pathname.split("/")[2] == "match"
+                            ? "green"
+                            : "white",
+                      }}
+                    />
+                  </NavLink>
+                </>
+                <Box sx={{ minHeight: { lg: 66, xs: 40 + 42 } }} />
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: matchesMobile ? "flex-end" : "flex-end",
+                    flex: 1,
+                    minWidth: matchesMobile ? "0%" : "0px",
+                    alignItems: matchesMobile ? "center" : "center",
+                    marginTop: matchesMobile ? "0px" : "0px",
+                    flexDirection: matchesMobile ? "row" : "row",
+                  }}
+                >
+                  <Box
+                    onClick={() => {
+                      setVisible(true);
+                    }}
+                    sx={{
+                      height: "45px",
+                      width: "45px",
+                      borderRadius: "35px",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      background: "white",
+                      marginTop: { xs: "10px" },
+                    }}
+                  >
+                    <StyledImage
+                      src={NotiBadge}
+                      sx={{ height: "25px", width: "25px" }}
+                    />
+                  </Box>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      marginTop: { xs: "10px" },
+                    }}
+                  >
+                    <ActiveUsers
+                      containerStyle={{}}
+                      image={Users}
+                      value={userCount}
+                    />
+                    <BoxProfile
+                      containerStyle={{
+                        marginTop: { xs: "0px" },
+                        alignItems: "center",
+                      }}
+                      image={"https://picsum.photos/200/300"}
+                      value1={getProfile?.userName}
+                    />
+                  </Box>
+                </Box>
+              </Box>
+              {matchListDropdown?.length > 0 && (
+                <DropDownMenu
+                  sx={{ alignItems: "center" }}
+                  anchorEl={anchor}
+                  open={Boolean(anchor)}
+                  allMatch={matchListDropdown}
+                  handleClose={() => {
+                    setAnchor(null);
+                  }}
+                />
+              )}
+            </Box>
+          </AppBar>
+          <Box sx={{ minHeight: { lg: 66, xs: 60 + 20 } }} />
+        </>
+      )}
+      {matchesMobile && (
+        <>
+          <AppBar
         position="fixed"
         sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
       >
-        {/* <IdleTimer role="" /> */}
         <NotificationModal setVisible={setVisible} visible={visible} />
         <Box
           sx={[
@@ -100,12 +291,12 @@ const Header1 = () => {
               width: "100%",
               minHeight: { lg: 66, md: 80, xs: 60 },
               display: "flex",
-              flexDirection: matchesMobile ? "column" : "row",
+              flexDirection: { lg: "row", xs: "column", sm: "row" },
               alignItems: !matchesMobile ? "center" : "flex-start",
               justifyContent: "space-between",
-              paddingX: { lg: "0.5%", xs: "1%" },
-              paddingY: matchesMobile ? "15px" : "0px",
-              paddingBottom: matchesMobile ? "10px" : "0px",
+              paddingX: { lg: "0.5%", xs: "2%" },
+              paddingY: "6px",
+              paddingBottom: "4px",
             },
             (theme: any) => ({
               backgroundImage: `${theme.palette.primary.headerGradient}`,
@@ -118,6 +309,7 @@ const Header1 = () => {
               alignItems: "center",
               width: "100%",
               flex: 1,
+              justifyContent: "space-between",
             }}
           >
             <Box
@@ -133,7 +325,7 @@ const Header1 = () => {
                 }}
                 src={Draw}
                 sx={{
-                  height: { lg: "24px", xs: "20px" },
+                  height: { lg: "24px", xs: "15px" },
                   width: "auto",
                 }}
               />
@@ -145,13 +337,16 @@ const Header1 = () => {
                 }}
                 sx={{
                   cursor: "pointer",
-                  height: { lg: "45px", xs: "40px" },
+                  height: { lg: "55px", xs: "35px" },
                   width: "auto",
                   marginLeft: { lg: "20px", xs: "10px" },
                 }}
               />
             </Box>
             <>
+            <Box
+            sx={{display: "flex"}}
+            >
               {(getProfile?.bookmakerMatchPrivilege ||
                 getProfile?.sessionMatchPrivilege ||
                 getProfile?.allPrivilege) && (
@@ -167,7 +362,7 @@ const Header1 = () => {
                       currentSelected == 1 ? "white" : "transparent",
                     py: "5px",
                     borderRadius: "5px",
-                    marginLeft: "15px",
+                    marginLeft: { lg: "15px", xs: "15px" },
                     cursor: "pointer",
                   }}
                   titleStyle={{
@@ -189,7 +384,7 @@ const Header1 = () => {
                         : "transparent",
                     py: "5px",
                     borderRadius: "5px",
-                    marginLeft: "15px",
+                    marginLeft: { lg: "15px", xs: "1px" },
                     cursor: "pointer",
                   }}
                   titleStyle={{
@@ -200,15 +395,16 @@ const Header1 = () => {
                   }}
                 />
               </NavLink>
+              </Box>
             </>
           </Box>
           <Box
             sx={{
               display: "flex",
               justifyContent: "space-between",
-              minWidth: matchesMobile ? "100%" : "0px",
+              flex: 1,
               alignItems: "center",
-              marginTop: matchesMobile ? "15px" : "0px",
+              flexDirection:  "row",
             }}
           >
             <Box
@@ -216,7 +412,7 @@ const Header1 = () => {
                 setVisible(true);
               }}
               sx={{
-                height: "45px",
+                height: {lg:"45px", xs: "35px"},
                 width: "45px",
                 borderRadius: "35px",
                 display: "flex",
@@ -230,7 +426,7 @@ const Header1 = () => {
                 sx={{ height: "25px", width: "25px" }}
               />
             </Box>
-            <Box sx={{ display: "flex", alignItems: "center" }}>
+            <Box sx={{ display: "flex", marginLeft: {lg:"0px",xs : "140px"}  }}>
               <ActiveUsers
                 containerStyle={{}}
                 image={Users}
@@ -243,10 +439,14 @@ const Header1 = () => {
               />
             </Box>
           </Box>
+         
         </Box>
       </AppBar>
-      <Box sx={{ minHeight: { lg: 66, xs: 60 + 32 + 42 } }} />
-      {matchListDropdown?.length > 0 && (
+      <Box sx={{ minHeight: { lg: 66, sm: 70, md: 80, xs: 80 } }} />
+     
+        </>
+      )}
+       {matchListDropdown?.length > 0 && (
         <DropDownMenu
           anchorEl={anchor}
           open={Boolean(anchor)}

@@ -3,7 +3,7 @@ import { toast } from "react-toastify";
 import { Constants } from "./utils/Constants";
 
 const toastOptions = {
-  autoClose: 1500,
+  autoClose: 3000,
   hideProgressBar: false,
   closeOnClick: true,
   pauseOnHover: true,
@@ -11,21 +11,21 @@ const toastOptions = {
 
 // use below service for testing build
 
-const service = axios.create({
-  baseURL:
-    process.env.NODE_ENV === "production"
-      ? `${Constants.expertSocketBasePath}`
-      : `${Constants.localPathExpert}`,
-});
-
-// use below service for live build
-
 // const service = axios.create({
 //   baseURL:
 //     process.env.NODE_ENV === "production"
-//       ? `${Constants.expertSocketBasePathLive}`
+//       ? `${Constants.expertSocketBasePath}`
 //       : `${Constants.localPathExpert}`,
 // });
+
+// use below service for live build
+
+const service = axios.create({
+  baseURL:
+    process.env.NODE_ENV === "production"
+      ? `${Constants.expertSocketBasePathLive}`
+      : `${Constants.localPathExpert}`,
+});
 
 service.defaults.timeout = 100000;
 

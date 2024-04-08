@@ -1,4 +1,4 @@
-import { Box, TextField, Typography } from "@mui/material";
+import { Box, TextField, Typography, useMediaQuery } from "@mui/material";
 import { memo, useEffect, useRef, useState } from "react";
 import KeyboardEventHandler from "react-keyboard-event-handler";
 import { useDispatch, useSelector } from "react-redux";
@@ -10,11 +10,13 @@ import { handleKeysMatchEvents } from "../../../utils/InputKeys/Bookmaker/Bookma
 import { updateLocalQuickBookmaker } from "../../../utils/InputKeys/Bookmaker/Utils";
 import BookButton from "./BookButton";
 import ResultComponent from "./ResultComponent";
+import theme from "../../../theme";
+import { numberInputOnWheelPreventChange } from "../../../helpers";
 
 const EditBookmaker = (props: any) => {
   const { add, match, Bid, type } = props;
   const dispatch: AppDispatch = useDispatch();
-
+  const matchesMobile = useMediaQuery(theme.breakpoints.down("lg"));
   const { bookmakerById, success } = useSelector(
     (state: RootState) => state.addSession
   );
@@ -76,6 +78,11 @@ const EditBookmaker = (props: any) => {
 
   const handleChange = (event: any) => {
     let { name, value } = event.target;
+
+    const decimalValue = value.split(".");
+    if (decimalValue[1]) {
+      return true;
+    }
 
     setIsTab("");
     if (value <= 100) {
@@ -193,15 +200,29 @@ const EditBookmaker = (props: any) => {
               : 0,
             suspended: bookmakerById?.statusTeamC !== "active" ? true : false,
           },
+          teamBall:
+            bookmakerById?.statusTeamA === "ball start" &&
+            bookmakerById?.statusTeamB === "ball start" &&
+            bookmakerById?.statusTeamC === "ball start"
+              ? true
+              : false,
         };
       });
+      if (
+        Number(bookmakerById?.backTeamA) &&
+        Number(bookmakerById?.backTeamB) &&
+        Number(bookmakerById?.backTeamC)
+      ) {
+        setIsTab("tab");
+      } else {
+        setIsTab("");
+      }
       dispatch(successReset());
     }
   }, [bookmakerById, success]);
 
   useEffect(() => {
     socketService.user.updateMatchBettingRateClient((data: any) => {
-      console.log(match?.id, "match", data?.matchId);
       if (match?.id === data?.matchId && Bid === data?.id) {
         if (
           data?.statusTeamA === "ball start" &&
@@ -255,6 +276,26 @@ const EditBookmaker = (props: any) => {
     };
   }, []);
 
+  const rateA =
+    bookmakerById?.type !== "tiedMatch2"
+      ? +bookmakerById?.matchRates?.teamARate || 0
+      : +bookmakerById?.matchRates?.yesRateTie || 0;
+
+  const rateB =
+    bookmakerById?.type !== "tiedMatch2"
+      ? +bookmakerById?.matchRates?.teamBRate || 0
+      : +bookmakerById?.matchRates?.yesRateTie || 0;
+
+  const formattedRateB = rateB.toFixed(2);
+  const [integerPartB, decimalPartB] = formattedRateB.split(".");
+
+  const formattedRate = rateA.toFixed(2);
+  const [integerPart, decimalPart] = formattedRate.split(".");
+
+  const rateC = +bookmakerById?.matchRates?.teamCRate || 0;
+
+  const formattedRateC = rateC.toFixed(2);
+  const [integerPartC, decimalPartC] = formattedRateC.split(".");
   return (
     <>
       <Box
@@ -409,10 +450,10 @@ const EditBookmaker = (props: any) => {
               </Typography>
               <Box
                 sx={{
-                  width: "120px",
+                  width: {lg:"220px", xs: "120px"},
                   // my: "5px",
 
-                  marginRight: "15px",
+                  marginRight: "10px",
                   border: "1px solid #2626264D",
                   justifyContent: "center",
                   alignItems: "center",
@@ -420,7 +461,6 @@ const EditBookmaker = (props: any) => {
                   height: "50px",
                   background: "#F6F6F6",
                   borderRadius: "7px",
-                  zIndex: 100,
                 }}
               >
                 <Typography
@@ -435,9 +475,13 @@ const EditBookmaker = (props: any) => {
                         : "#319E5B",
                   }}
                 >
-                  {bookmakerById?.type !== "tiedMatch2"
+                  {/* {bookmakerById?.type !== "tiedMatch2"
                     ? +bookmakerById?.matchRates?.teamARate || 0
-                    : +bookmakerById?.matchRates?.yesRateTie || 0}
+                    : +bookmakerById?.matchRates?.yesRateTie || 0} */}
+                  <span>{integerPart}</span>
+                  <span
+                    style={{ fontSize: "0.8em", fontWeight: "normal" }}
+                  >{`.${decimalPart}`}</span>
                 </Typography>
               </Box>
               <Box
@@ -497,6 +541,7 @@ const EditBookmaker = (props: any) => {
                     onChange={(e) => {
                       handleChange(e);
                     }}
+                    onWheel={numberInputOnWheelPreventChange}
                     name={"teamArate"}
                     inputRef={innerRefTeamA}
                     // onFocus={() => handleFocus(innerRefTeamA)}
@@ -507,7 +552,7 @@ const EditBookmaker = (props: any) => {
                       disableUnderline: true,
                       sx: {
                         height: "55px",
-                        width: "98%",
+                        width: "90%",
                         background: "#F6F6F6",
                         alignSelf: "flex-end",
                         textAlign: "center",
@@ -576,8 +621,8 @@ const EditBookmaker = (props: any) => {
               </Typography>
               <Box
                 sx={{
-                  width: "120px",
-                  marginRight: "15px",
+                  width: {lg:"220px", xs: "120px"},
+                  marginRight: "10px",
                   border: "1px solid #2626264D",
                   justifyContent: "center",
                   alignItems: "center",
@@ -585,7 +630,6 @@ const EditBookmaker = (props: any) => {
                   height: "50px",
                   background: "#F6F6F6",
                   borderRadius: "7px",
-                  zIndex: 100,
                 }}
               >
                 <Typography
@@ -600,9 +644,13 @@ const EditBookmaker = (props: any) => {
                         : "#319E5B",
                   }}
                 >
-                  {bookmakerById?.type !== "tiedMatch2"
+                  {/* {bookmakerById?.type !== "tiedMatch2"
                     ? +bookmakerById?.matchRates?.teamBRate || 0
-                    : +bookmakerById?.matchRates?.noRateTie || 0}
+                    : +bookmakerById?.matchRates?.noRateTie || 0} */}
+                  <span>{integerPartB}</span>
+                  <span
+                    style={{ fontSize: "0.8em", fontWeight: "normal" }}
+                  >{`.${decimalPartB}`}</span>
                 </Typography>
               </Box>
               <Box
@@ -663,6 +711,7 @@ const EditBookmaker = (props: any) => {
                     variant="standard"
                     value={+localQuickBookmaker?.teamB?.back}
                     onChange={(e) => handleChange(e)}
+                    onWheel={numberInputOnWheelPreventChange}
                     name={"teamBrate"}
                     inputRef={innerRefTeamB}
                     type="text"
@@ -671,7 +720,7 @@ const EditBookmaker = (props: any) => {
                       disableUnderline: true,
                       sx: {
                         height: "55px",
-                        width: "98%",
+                        width: "90%",
                         background: "#F6F6F6",
                         alignSelf: "flex-end",
                         textAlign: "center",
@@ -737,8 +786,8 @@ const EditBookmaker = (props: any) => {
                 </Typography>
                 <Box
                   sx={{
-                    width: "120px",
-                    marginRight: "15px",
+                    width: {lg:"220px", xs: "120px"},
+                    marginRight: "10px",
                     border: "1px solid #2626264D",
                     justifyContent: "center",
                     alignItems: "center",
@@ -746,7 +795,6 @@ const EditBookmaker = (props: any) => {
                     height: "55px",
                     background: "#F6F6F6",
                     borderRadius: "7px",
-                    zIndex: 100,
                   }}
                 >
                   <Typography
@@ -759,7 +807,11 @@ const EditBookmaker = (props: any) => {
                           : "#319E5B",
                     }}
                   >
-                    {bookmakerById?.matchRates?.teamCRate || 0}
+                    {/* {bookmakerById?.matchRates?.teamCRate || 0} */}
+                    <span>{integerPartC}</span>
+                    <span
+                      style={{ fontSize: "0.8em", fontWeight: "normal" }}
+                    >{`.${decimalPartC}`}</span>
                   </Typography>
                 </Box>
                 <Box
@@ -819,6 +871,7 @@ const EditBookmaker = (props: any) => {
                       variant="standard"
                       value={+localQuickBookmaker?.teamC?.back}
                       onChange={(e) => handleChange(e)}
+                      onWheel={numberInputOnWheelPreventChange}
                       name={"teamCrate"}
                       inputRef={innerRefTeamC}
                       type="text"
@@ -826,7 +879,7 @@ const EditBookmaker = (props: any) => {
                         disableUnderline: true,
                         sx: {
                           height: "55px",
-                          width: "98%",
+                          width: "90%",
                           background: "#F6F6F6",
                           alignSelf: "flex-end",
                           textAlign: "center",
@@ -1101,131 +1154,134 @@ const EditBookmaker = (props: any) => {
           </Box>
         </Box>
       </Box>
-      <Box
-        sx={{
-          display: "flex",
-          zIndex: 2,
-          position: "relative",
-          justifyContent: "center",
-          width: "100%",
-          marginTop: "2%",
-          alignSelf: "center",
-        }}
-      >
-        <Box sx={{ width: "2%" }}></Box>
-        {bookmakerById?.stopAt ? (
-          <Box
-            onClick={(e) => {
-              setVisible1(true);
-              setVisible(false);
-              e.stopPropagation();
-            }}
-            sx={{
-              position: "relative",
-              width: "100%",
-              display: "flex",
-              background: "#FF4D4D",
-              maxWidth: "150px",
-              marginLeft: "5px",
-              justifyContent: "center",
-              alignItems: "center",
-              height: "45px",
-              borderRadius: "5px",
-              cursor: "pointer",
-            }}
-          >
-            <Typography
-              sx={{ color: "white", fontWeight: "500", fontSize: "12px" }}
-            >
-              Un Declare
-            </Typography>
-            <Box
-              sx={{
-                position: "absolute",
-                zIndex: 999,
-                top: "40px",
-                left: "-120%",
-              }}
-            >
-              {visible1 && (
-                <ResultComponent
-                  onClick={() => {
-                    setVisible1(false);
-                  }}
-                  currentMatch={match}
-                  teamA={match?.teamA}
-                  teamB={match?.teamB}
-                  tie={"Tie"}
-                  draw={
-                    match?.teamC && !"tiedMatch2".includes(type)
-                      ? match?.teamC
-                      : ""
-                  }
-                  stopAt={match?.stopAt}
-                  // betStatus={localSelectedBookmaker?.betStatus}
-                />
-              )}
-            </Box>
-          </Box>
-        ) : (
-          /* <Box sx={{ width: '2%' }} ></Box> */
 
-          <Box
-            onClick={(e) => {
-              setVisible(true);
-              setVisible1(false);
-              e.stopPropagation();
-            }}
-            sx={{
-              width: "100%",
-              position: "relative",
-              display: "flex",
-              background: "white",
-              marginLeft: "5px",
-              maxWidth: "150px",
-              justifyContent: "center",
-              alignItems: "center",
-              height: "45px",
-              borderRadius: "5px",
-              cursor: "pointer",
-            }}
-          >
-            <Typography
-              sx={{ color: "#0B4F26", fontWeight: "500", fontSize: "12px" }}
-            >
-              Declare
-            </Typography>
+      {!matchesMobile && (
+        <Box
+          sx={{
+            display: "flex",
+            zIndex: 2,
+            position: "relative",
+            justifyContent: "center",
+            width: "100%",
+            marginTop: "2%",
+            alignSelf: "center",
+          }}
+        >
+          <Box sx={{ width: "2%" }}></Box>
+          {bookmakerById?.stopAt ? (
             <Box
+              onClick={(e) => {
+                setVisible1(true);
+                setVisible(false);
+                e.stopPropagation();
+              }}
               sx={{
-                position: "absolute",
-                zIndex: 999,
-                top: "40px",
-                right: 0,
-                width: { lg: "50vh", xs: "30vh" },
+                position: "relative",
+                width: "100%",
+                display: "flex",
+                background: "#FF4D4D",
+                maxWidth: "150px",
+                marginLeft: "5px",
+                justifyContent: "center",
+                alignItems: "center",
+                height: "45px",
+                borderRadius: "5px",
+                cursor: "pointer",
               }}
             >
-              {visible && (
-                <ResultComponent
-                  onClick={() => {
-                    setVisible(false);
-                  }}
-                  currentMatch={match}
-                  stopAt={match?.stopAt}
-                  teamA={match?.teamA}
-                  teamB={match?.teamB}
-                  tie={"Tie"}
-                  draw={
-                    match?.teamC && !"tiedMatch2".includes(type)
-                      ? match?.teamC
-                      : ""
-                  }
-                  // betStatus={localSelectedBookmaker?.betStatus}
-                />
-              )}
+              <Typography
+                sx={{ color: "white", fontWeight: "500", fontSize: "12px" }}
+              >
+                Un Declare
+              </Typography>
+              <Box
+                sx={{
+                  position: "absolute",
+                  zIndex: 999,
+                  top: "40px",
+                  left: "-120%",
+                }}
+              >
+                {visible1 && (
+                  <ResultComponent
+                    onClick={() => {
+                      setVisible1(false);
+                    }}
+                    currentMatch={match}
+                    teamA={match?.teamA}
+                    teamB={match?.teamB}
+                    tie={"Tie"}
+                    draw={
+                      match?.teamC && !"tiedMatch2".includes(type)
+                        ? match?.teamC
+                        : ""
+                    }
+                    stopAt={match?.stopAt}
+                    // betStatus={localSelectedBookmaker?.betStatus}
+                  />
+                )}
+              </Box>
             </Box>
-          </Box>
-        )}
-      </Box>
+          ) : (
+            /* <Box sx={{ width: '2%' }} ></Box> */
+
+            <Box
+              onClick={(e) => {
+                setVisible(true);
+                setVisible1(false);
+                e.stopPropagation();
+              }}
+              sx={{
+                width: "100%",
+                position: "relative",
+                display: "flex",
+                background: "white",
+                marginLeft: "5px",
+                maxWidth: "150px",
+                justifyContent: "center",
+                alignItems: "center",
+                height: "45px",
+                borderRadius: "5px",
+                cursor: "pointer",
+              }}
+            >
+              <Typography
+                sx={{ color: "#0B4F26", fontWeight: "500", fontSize: "12px" }}
+              >
+                Declare
+              </Typography>
+              <Box
+                sx={{
+                  position: "absolute",
+                  zIndex: 999,
+                  top: "40px",
+                  right: 0,
+                  width: { lg: "50vh", xs: "30vh" },
+                }}
+              >
+                {visible && (
+                  <ResultComponent
+                    onClick={() => {
+                      setVisible(false);
+                    }}
+                    currentMatch={match}
+                    stopAt={match?.stopAt}
+                    teamA={match?.teamA}
+                    teamB={match?.teamB}
+                    tie={"Tie"}
+                    draw={
+                      match?.teamC && !"tiedMatch2".includes(type)
+                        ? match?.teamC
+                        : ""
+                    }
+                    // betStatus={localSelectedBookmaker?.betStatus}
+                  />
+                )}
+              </Box>
+            </Box>
+          )}
+        </Box>
+      )}
     </>
   );
 };

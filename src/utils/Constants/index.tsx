@@ -52,7 +52,7 @@ export const Constants = {
   localPathExpert: "http://localhost:6060",
   addMatchThirdParty:
     process.env.NODE_ENV === "production"
-      ? "http://107.23.165.155:3200"
+      ? "https://serviceapi.fairgame7.com"
       : "http://107.23.165.155:3200",
 
   ///Routes Constants
@@ -174,7 +174,7 @@ export const eventWiseMatchData = {
     manual: [
       {
         matchType: matchBettingType.tiedMatch2,
-        apiKey: "manualTideMatch",
+        apiKey: "manualTiedMatch",
         label: "Manual Tied Match Max Bet",
         name: "ManualTide",
       },

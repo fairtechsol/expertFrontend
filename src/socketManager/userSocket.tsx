@@ -12,9 +12,6 @@ export const userSocketService = {
   updateSessionRateClient: (callback: any) => {
     socket.on("updateSessionRateClient", callback);
   },
-  updateSessionRateClientOff: (callback: any) => {
-    socket.off("updateSessionRateClient", callback);
-  },
   updateMatchBettingRate: (data: any) => {
     socket.emit("updateMatchBettingRate", data);
   },
@@ -48,6 +45,15 @@ export const userSocketService = {
   sessionAdded: (callback: any) => {
     socket.on("sessionAdded", callback);
   },
+  sessionUpdated: (callback: any) => {
+    socket.on("sessionUpdated", callback);
+  },
+  updateInResultDeclare: (callback: any) => {
+    socket.on("updateInResultDeclare", callback);
+  },
+  updateSessionRateClientOff: () => {
+    socket.off("updateSessionRateClient");
+  },
   updateMatchBettingRateClientOff: () => {
     socket.off("updateMatchBettingRateClient");
   },
@@ -77,5 +83,11 @@ export const userSocketService = {
   },
   sessionAddedOff: () => {
     socket.off("sessionAdded");
+  },
+  sessionUpdatedOff: () => {
+    socket.off("sessionUpdated");
+  },
+  updateInResultDeclareOff: () => {
+    socket.off("updateInResultDeclare");
   },
 };

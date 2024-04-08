@@ -77,24 +77,35 @@ const BoxComponent = ({
       {!["ACTIVE", "", undefined, null].includes(status) || livestatus ? (
         <Box
           sx={{
-            background: "rgba(0,0,0,1)",
-            height: "40px",
-            width: { lg: "65%", xs: "35%" },
-            justifyContent: "center",
-            alignItems: "center",
             display: "flex",
+            background: "white",
+            height: "40px",
+            width: { lg: "65%", xs: "78%" },
+            justifyContent: { xs: "flex-end", lg: "center" },
+            alignItems: "center",
           }}
         >
-          <h4
-            style={{
-              textTransform: "uppercase",
-              color: "#FFF",
-              fontWeight: "400",
-              fontSize: matchesMobile ? "12px" : "22px",
+          <Box
+            sx={{
+              background: "rgba(0,0,0,1)",
+              height: "40px",
+              width: { lg: "100%", xs: "50.4%" },
+              justifyContent: "center",
+              alignItems: "center",
+              display: "flex",
             }}
           >
-            {livestatus ? "SUSPENDED" : status}
-          </h4>
+            <h4
+              style={{
+                textTransform: "uppercase",
+                color: "#FFF",
+                fontWeight: "400",
+                fontSize: matchesMobile ? "12px" : "22px",
+              }}
+            >
+              {livestatus ? "SUSPENDED" : status}
+            </h4>
+          </Box>
         </Box>
       ) : (
         <>
@@ -103,7 +114,7 @@ const BoxComponent = ({
               display: "flex",
               background: "white",
               height: "40px",
-              width: { lg: "65%", xs: "80%" },
+              width: { lg: "65%", xs: "78%" },
               justifyContent: { xs: "flex-end", lg: "center" },
               alignItems: "center",
             }}

@@ -81,9 +81,9 @@ const UpdateBookmaker = () => {
 
   return (
     <Box display="flex">
-      <Grid container spacing={2}>
-        <Grid item xs={12} sm={6}>
-          <Paper style={{ margin: "10px" }}>
+      <Grid container>
+        <Grid item xs={12} md={12} lg={6}>
+          <Paper style={{ margin: "2px" }}>
             <BookmakerEditSection
               add={true}
               match={state?.match}
@@ -92,8 +92,8 @@ const UpdateBookmaker = () => {
             />
           </Paper>
         </Grid>
-        <Grid item xs={12} sm={6}>
-          <Paper style={{ margin: "10px" }}>
+        <Grid item xs={12} md={12} lg={6}>
+          <Paper style={{ margin: "2px" }}>
             <BetsList
               betData={placedBets && placedBets.length > 0 ? placedBets : []}
             />

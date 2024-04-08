@@ -16,8 +16,7 @@ const GameTypeDropdown = ({ anchorEl, open, handleClose,anchorrr }: any) => {
   const [selected, setSelected] = useState(0);
   const dispatch: AppDispatch = useDispatch();
   const [anchor, setAnchor] = useState(null);
-  const matchesMobile = useMediaQuery(theme.breakpoints.down("lg"));
-
+  const matchesMobile = useMediaQuery(theme.breakpoints.down("sm"));
   return (
     <>
     <Menu

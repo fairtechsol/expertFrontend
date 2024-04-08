@@ -8,14 +8,15 @@ import {
   resultDeclare,
   undeclareResult,
 } from "../../../store/actions/match/matchAction";
-import { AppDispatch } from "../../../store/store";
-import { useDispatch } from "react-redux";
+import { AppDispatch, RootState } from "../../../store/store";
+import { useDispatch, useSelector } from "react-redux";
 
 const SessionResultModal = (props: any) => {
   const { newData, visible, onClickCancel } = props;
   const dispatch: AppDispatch = useDispatch();
   const [selected, setSelected] = useState({ betId: "", matchId: "" });
-  const [loading] = useState({ id: "", value: false });
+  const { declareLoading } = useSelector((state: RootState) => state.matchList);
+  const [loading, setLoading] = useState({ id: "", value: declareLoading });
   const myDivRef: any = useRef(null);
 
   const scrollToBottom = () => {
@@ -36,20 +37,29 @@ const SessionResultModal = (props: any) => {
     initialValues: initialValues,
     // validationSchema: changePasswordSchema,
     onSubmit: (values: any) => {
+      if (declareLoading) {
+        return;
+      }
       if (newData?.betStatus === 0) {
+        setLoading({ id: "DR", value: true });
+        if (!values?.score) {
+          return;
+        }
         let payload = {
-          score: values.score,
+          score: values.score.toString(),
           matchId: selected?.matchId,
           betId: selected?.betId,
         };
         dispatch(resultDeclare(payload));
       } else if (newData?.betStatus === 3) {
+        setLoading({ id: "NR", value: true });
         let payload = {
           matchId: selected?.matchId,
           betId: selected?.betId,
         };
         dispatch(noResultDeclare(payload));
       } else if (newData?.betStatus === 2) {
+        setLoading({ id: "UD", value: true });
         let payload = {
           matchId: selected?.matchId,
           betId: selected?.betId,
@@ -72,10 +82,18 @@ const SessionResultModal = (props: any) => {
     });
   }, [newData]);
 
+  useEffect(() => {
+    if (declareLoading) {
+      setLoading({ ...loading, value: true });
+    } else {
+      setLoading({ id: "", value: false });
+    }
+  }, [declareLoading]);
+
   return (
     <Box
       sx={{
-        width: "250px",
+        width: { lg: "250px", xs: "12rem" },
         height: "180px",
         padding: 0.2,
         borderRadius: 2,
@@ -150,6 +168,7 @@ const SessionResultModal = (props: any) => {
                 variant="standard"
                 // value={selected}
                 value={formik.values.score}
+                type="number"
                 id="score"
                 name="score"
                 onChange={formik.handleChange}
@@ -161,6 +180,7 @@ const SessionResultModal = (props: any) => {
                 // error={Boolean(errors.score)}
                 InputProps={{
                   disableUnderline: true,
+                  inputProps: { min: 0, step: 1 },
                   sx: {
                     alignSelf: "center",
                     border: "1px solid #303030",
@@ -220,7 +240,6 @@ const SessionResultModal = (props: any) => {
                 {newData?.betStatus !== 3 ? (
                   <SessionResultCustomButton
                     color={"#0B4F26"}
-             
                     id="DR"
                     title={"Declare"}
                     loading={loading}
@@ -244,7 +263,6 @@ const SessionResultModal = (props: any) => {
 
             {newData?.betStatus !== 2 && newData?.isNoResult && (
               <SessionResultCustomButton
-              
                 color={"rgb(106 90 90)"}
                 title={newData?.betStatus !== 3 ? "No Result" : "Yes"}
                 loading={loading}

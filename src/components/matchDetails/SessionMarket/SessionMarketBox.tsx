@@ -4,12 +4,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { sessionBetLiveStatus } from "../../../store/actions/match/matchAction";
 import { AppDispatch, RootState } from "../../../store/store";
 import Divider from "../../Common/Divider";
-import { formatNumber } from "../../helper";
+import { formatNumber, formatToINR } from "../../helper";
 import Result from "../Result";
 import SeparateBox from "../SeparateBox";
 import SmallBox from "../SmallBox";
 import CustomSessionResult from "./CustomSessionResult";
 import PlaceBetComponent from "./PlaceBetComponent";
+import { edit } from "../../../assets";
+import SessionLimitEdit from "./SessionLimitEdit";
+import ModalMUI from "@mui/material/Modal";
 
 const SessionMarketBox = ({
   currentMatch,
@@ -20,6 +23,7 @@ const SessionMarketBox = ({
   hideTotalBet,
   setIObtes,
   profitLossData,
+  index,
 }: any) => {
   const dispatch: AppDispatch = useDispatch();
   const { statusBetLive, error, success } = useSelector(
@@ -27,7 +31,7 @@ const SessionMarketBox = ({
   );
   const [loading, setLoading] = useState(false);
   const [visible, setVisible] = useState(false);
-  // const [live, setLive] = useState<boolean>(false);
+  const [maxLimitModal, setShowMaxLimitModal] = useState(false);
 
   useEffect(() => {
     if (statusBetLive) {
@@ -43,10 +47,10 @@ const SessionMarketBox = ({
       setVisible(false);
     }
   }, [success]);
-
+  // console.log(newData?.resultStatus)
   return (
     <div style={{ position: "relative" }}>
-      {!["live"].includes(JSON.parse(newData)?.activeStatus) && (
+      {!["live"].includes(newData?.activeStatus) && (
         <Box
           sx={{
             margin: "1px",
@@ -62,44 +66,86 @@ const SessionMarketBox = ({
       <Box
         sx={{
           display: "flex",
-          background: "white",
-          height: "30px",
+          background: index % 2 === 0 ? "#FFE094" : "#ECECEC",
+          height: "40px",
           width: "100%",
+          boxShadow: visible ? 3 : 0,
         }}
       >
         <Box
           sx={{
             display: "flex",
-            background: "white",
-            height: "30px",
+            background: index % 2 === 0 ? "#FFE094" : "#ECECEC",
+            height: "39px",
             width: "40%",
             alignItems: "center",
+            boxShadow: visible ? 3 : 0,
+            // backgroundColor:'red'
           }}
         >
-          <Typography
-            sx={{
-              color: "black",
-              fontSize: { lg: "10px", md: "10px", xs: "8px" },
-              marginLeft: "7px",
-              fontWeight: "600",
-            }}
-          >
-            {JSON.parse(newData)?.name}
-          </Typography>
+          <Box sx={{ paddingTop: "3px", width: {lg:"80%"} }}>
+            <Typography
+              sx={{
+                color: "black",
+                maxHeight: "30px",
+                fontSize: { lg: "11px", md: "10px", xs: "9px" },
+                marginLeft: "3px",
+                fontWeight: "600",
+                lineHeight: "11px",
+                overflow: "hidden",
+                // textOverflow: "ellipsis",
+                // whiteSpace: "nowrap",
+                display: "-webkit-box",
+                WebkitLineClamp: "2",
+                WebkitBoxOrient: "vertical",
+              }}
+            >
+              {newData?.name}
+            </Typography>
+            <Box sx={{ display: "flex", flexDirection: "row" }}>
+              <Typography
+                sx={{
+                  color: "black",
+                  fontSize: { lg: "9px", md: "9px", xs: "7px" },
+                  marginLeft: "7px",
+                  fontWeight: "500",
+                }}
+              >
+                max : {formatToINR(newData?.maxBet)}
+              </Typography>
+              <Box
+                sx={{
+                  width: "30px",
+                  height: "18px",
+                  background: "transparent",
+                  marginLeft: "5px",
+                  // borderRadius: "3px",
+                  // display: "flex",
+                  // justifyContent: "center",
+                  // alignItems: "center",
+                  // paddingY: "2px",
+                }}
+                onClick={() => setShowMaxLimitModal(true)}
+              >
+                <img src={edit} style={{ width: "18px", height: "12px" }} />
+              </Box>
+            </Box>
+          </Box>
         </Box>
 
         <Box
           sx={{
             position: "absolute",
             top: "4px",
-            width: "30%",
+            width: "29%",
             justifyContent: "flex-end",
-            left: { lg: "14vw", md: "25vw", xs: "13vh" },
+            left: { lg: "8vw", md: "25vw", xs: "12vh" },
             display: "flex",
             zIndex: 100,
+            gap: 0,
           }}
         >
-          {JSON.parse(newData)?.activeStatus === "live" && (
+          {newData?.activeStatus === "live" && (
             <SmallBox
               loading={loading}
               hide={true}
@@ -110,31 +156,26 @@ const SessionMarketBox = ({
                 dispatch(
                   sessionBetLiveStatus({
                     status: "save",
-                    betId: JSON.parse(newData)?.id,
+                    betId: newData?.id,
                   })
                 );
               }}
               textSize={"8px"}
               width={{ lg: "33px", xs: "20px", md: "25px" }}
-              color={
-                JSON.parse(newData)?.activeStatus === "live"
-                  ? "#46e080"
-                  : "#FF4D4D"
-              }
+              color={newData?.activeStatus === "live" ? "#46e080" : "#FF4D4D"}
             />
           )}
-          {JSON.parse(newData)?.activeStatus === "result" &&
-            JSON.parse(newData)?.result && (
-              <SmallBox
-                loading={false}
-                hide={false}
-                textSize={"12px"}
-                width={{ lg: "80px", xs: "20px", md: "20px" }}
-                title={`Score : ${JSON.parse(newData)?.result || 0}`}
-                color={"#FFF"}
-              />
-            )}
-          {JSON.parse(newData)?.activeStatus === "save" && (
+          {newData?.activeStatus === "result" && newData?.result && (
+            <SmallBox
+              loading={false}
+              hide={false}
+              textSize={"10px"}
+              width={{ lg: "80px", xs: "20px", md: "20px" }}
+              title={`Score : ${newData?.result || 0}`}
+              color={"#FFF"}
+            />
+          )}
+          {newData?.activeStatus === "save" && (
             <SmallBox
               hide={true}
               loading={loading}
@@ -144,18 +185,14 @@ const SessionMarketBox = ({
                 dispatch(
                   sessionBetLiveStatus({
                     status: "live",
-                    betId: JSON.parse(newData)?.id,
+                    betId: newData?.id,
                   })
                 );
               }}
               textSize={"8px"}
               // width={"80px"}
               width={"33px"}
-              color={
-                JSON.parse(newData)?.activeStatus === "live"
-                  ? "#46e080"
-                  : "#FF4D4D"
-              }
+              color={newData?.activeStatus === "live" ? "#46e080" : "#FF4D4D"}
               // title={"Live"}
             />
           )}
@@ -181,7 +218,7 @@ const SessionMarketBox = ({
             }}
           >
             <CustomSessionResult
-              newData={newData}
+              newData={JSON.stringify(newData)}
               visible={visible}
               setIObtes={setIObtes}
               setLocalState={setLocalState}
@@ -195,16 +232,16 @@ const SessionMarketBox = ({
           </Box>
         )}
         {!["ACTIVE", "active", "", undefined, null, 0].includes(
-          JSON.parse(newData)?.status
-        ) || JSON.parse(newData)?.activeStatus === "result" ? (
+          newData?.status
+        ) || newData?.activeStatus === "result" ? (
           <Box
             sx={{
               margin: "1px",
               background: "rgba(0,0,0,1)",
-              height: "32px",
-              right: { lg: "20.5%", xs: "19%", md: "20%" },
+              height: "40px",
+              right: { lg: "26.5%", xs: "22.5%", md: "20%" },
               position: "absolute",
-              width: { lg: "18%", xs: "20%" },
+              width: { lg: "16%", xs: "20%" },
               justifyContent: { xs: "center", lg: "center" },
               alignItems: "center",
               display: "flex",
@@ -214,17 +251,44 @@ const SessionMarketBox = ({
             <h6
               style={{
                 textTransform: "uppercase",
-                fontSize: "12px",
+                fontSize: "10px",
                 textAlign: "center",
                 lineHeight: "11px",
                 color: "#FFF",
                 fontWeight: "400",
               }}
             >
-              {JSON.parse(newData)?.activeStatus === "result" &&
-              JSON.parse(newData)?.result
-                ? `Result Declared`
-                : JSON.parse(newData)?.status}
+              {newData?.result ? `Declared` : newData?.status}
+            </h6>
+          </Box>
+        ) : newData?.resultStatus ? (
+          <Box
+            sx={{
+              margin: "1px",
+              background: "rgba(0,0,0,1)",
+              height: "40px",
+              right: { lg: "26.5%", xs: "22.5%", md: "20%" },
+              position: "absolute",
+              width: { lg: "16%", xs: "20%" },
+              justifyContent: { xs: "center", lg: "center" },
+              alignItems: "center",
+              display: "flex",
+            }}
+          >
+            <h6
+              style={{
+                textTransform: "uppercase",
+                fontSize: "9px",
+                textAlign: "center",
+                lineHeight: "11px",
+                color: "#FF0000",
+                // color={newData?.resultStatus === "PENDING" ? "red" : "#FFF"}
+                fontWeight: "400",
+                overflowWrap: "anywhere",
+              }}
+            >
+             
+             {newData?.resultStatus}
             </h6>
           </Box>
         ) : (
@@ -232,21 +296,23 @@ const SessionMarketBox = ({
             sx={{
               display: "flex",
               position: "relative",
-              background: "white",
-              height: "30px",
-              marginLeft: "4vh",
-              width: { lg: "18.6%", xs: "40%", paddingLeft: "6px" },
+              // background: "white",
+              height: "40px",
+              // marginLeft: "2vh",
+              width: { lg: "18.6%", xs: "40%" },
+              paddingLeft: "0px",
               justifyContent: "center",
               alignItems: "center",
               margin: "auto",
+              right: 20,
             }}
           >
             <SeparateBox
               session={true}
               back={true}
-              value={formatNumber(JSON.parse(newData)?.noRate)}
-              value2={formatNumber(JSON.parse(newData)?.noPercent)}
-              lock={JSON.parse(newData)?.status === "SUSPENDED"}
+              value={formatNumber(newData?.noRate)}
+              value2={formatNumber(newData?.noPercent)}
+              lock={newData?.status === "SUSPENDED"}
               color={"#F6D0CB"}
             />
 
@@ -256,9 +322,9 @@ const SessionMarketBox = ({
 
             <SeparateBox
               session={true}
-              value={formatNumber(JSON.parse(newData)?.yesRate)}
-              value2={formatNumber(JSON.parse(newData)?.yesPercent)}
-              lock={JSON.parse(newData)?.status === "SUSPENDED"}
+              value={formatNumber(newData?.yesRate)}
+              value2={formatNumber(newData?.yesPercent)}
+              lock={newData?.status === "SUSPENDED"}
               color={"#B3E0FF"}
             />
           </Box>
@@ -266,14 +332,34 @@ const SessionMarketBox = ({
         {!hideTotalBet && (
           <PlaceBetComponent
             width={7}
-            profitLossData={
-              profitLossData && profitLossData[JSON.parse(newData)?.id]
-            }
-            newData={JSON.parse(newData)}
+            profitLossData={profitLossData && profitLossData[newData?.id]}
+            newData={newData}
           />
         )}
       </Box>
       <Divider />
+      <ModalMUI
+        open={maxLimitModal}
+        aria-labelledby="parent-modal-title"
+        aria-describedby="parent-modal-description"
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <SessionLimitEdit
+          newData={{
+            id: newData.id,
+            name: newData.name,
+            minBet: newData?.minBet,
+            maxBet: newData?.maxBet,
+          }}
+          onClickCancel={() => {
+            setShowMaxLimitModal(false);
+          }}
+        />
+      </ModalMUI>
     </div>
   );
 };
