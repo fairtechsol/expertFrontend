@@ -15,13 +15,13 @@ export const initialiseSocket = () => {
         : `${Constants.WEBSOCKET}`,
     ],
     auth: {
-      token: `${sessionStorage.getItem("userToken")}`,
+      token: `${sessionStorage.getItem("jwtExpert")}`,
     },
   });
   socket = io(baseUrls.expertSocket, {
     transports: [`${Constants.WEBSOCKET}`],
     auth: {
-      token: `${sessionStorage.getItem("userToken")}`,
+      token: `${sessionStorage.getItem("jwtExpert")}`,
     },
   });
 };

@@ -49,15 +49,8 @@ const Header1 = () => {
 
   useEffect(() => {
     try {
-      dispatch(getLoggedUserCount());
-    } catch (e) {
-      console.log(e);
-    }
-  }, []);
-
-  useEffect(() => {
-    try {
       if (socket?.connected) {
+        dispatch(getLoggedUserCount());
         socketService.user.userCount(handleUserCount);
       }
     } catch (e) {
@@ -278,178 +271,183 @@ const Header1 = () => {
       {matchesMobile && (
         <>
           <AppBar
-        position="fixed"
-        sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
-      >
-        <NotificationModal setVisible={setVisible} visible={visible} />
-        <Box
-          sx={[
-            {
-              width: "100%",
-              minHeight: { lg: 66, md: 80, xs: 60 },
-              display: "flex",
-              flexDirection: { lg: "row", xs: "column", sm: "row" },
-              alignItems: !matchesMobile ? "center" : "flex-start",
-              justifyContent: "space-between",
-              paddingX: { lg: "0.5%", xs: "2%" },
-              paddingY: "6px",
-              paddingBottom: "4px",
-            },
-            (theme: any) => ({
-              backgroundImage: `${theme.palette.primary.headerGradient}`,
-            }),
-          ]}
-        >
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              width: "100%",
-              flex: 1,
-              justifyContent: "space-between",
-            }}
+            position="fixed"
+            sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
           >
+            <NotificationModal setVisible={setVisible} visible={visible} />
             <Box
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                marginRight: "12px",
-              }}
+              sx={[
+                {
+                  width: "100%",
+                  minHeight: { lg: 66, md: 80, xs: 60 },
+                  display: "flex",
+                  flexDirection: { lg: "row", xs: "column", sm: "row" },
+                  alignItems: !matchesMobile ? "center" : "flex-start",
+                  justifyContent: "space-between",
+                  paddingX: { lg: "0.5%", xs: "2%" },
+                  paddingY: "6px",
+                  paddingBottom: "4px",
+                },
+                (theme: any) => ({
+                  backgroundImage: `${theme.palette.primary.headerGradient}`,
+                }),
+              ]}
             >
-              <StyledImage
-                onClick={() => {
-                  //   setMobileOpen(!mobileOpen);
-                }}
-                src={Draw}
+              <Box
                 sx={{
-                  height: { lg: "24px", xs: "15px" },
-                  width: "auto",
+                  display: "flex",
+                  alignItems: "center",
+                  width: "100%",
+                  flex: 1,
+                  justifyContent: "space-between",
                 }}
-              />
-              <StyledImage
-                src={FgLogo}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  navigate(`/expert/match`);
-                }}
+              >
+                <Box
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    marginRight: "12px",
+                  }}
+                >
+                  <StyledImage
+                    onClick={() => {
+                      //   setMobileOpen(!mobileOpen);
+                    }}
+                    src={Draw}
+                    sx={{
+                      height: { lg: "24px", xs: "15px" },
+                      width: "auto",
+                    }}
+                  />
+                  <StyledImage
+                    src={FgLogo}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      navigate(`/expert/match`);
+                    }}
+                    sx={{
+                      cursor: "pointer",
+                      height: { lg: "55px", xs: "35px" },
+                      width: "auto",
+                      marginLeft: { lg: "20px", xs: "10px" },
+                    }}
+                  />
+                </Box>
+                <>
+                  <Box sx={{ display: "flex" }}>
+                    {(getProfile?.bookmakerMatchPrivilege ||
+                      getProfile?.sessionMatchPrivilege ||
+                      getProfile?.allPrivilege) && (
+                      <ButtonHead
+                        onClick={(e: any) => {
+                          setSelected(1);
+                          dispatch(getMatchListDropdown());
+                          setAnchor(e?.currentTarget);
+                        }}
+                        title={!dropDownLoading ? "ALL MATCH" : "Loading..."}
+                        boxStyle={{
+                          backgroundColor:
+                            currentSelected == 1 ? "white" : "transparent",
+                          py: "5px",
+                          borderRadius: "5px",
+                          marginLeft: { lg: "15px", xs: "15px" },
+                          cursor: "pointer",
+                        }}
+                        titleStyle={{
+                          color: currentSelected == 1 ? "green" : "white",
+                        }}
+                      />
+                    )}
+
+                    <NavLink
+                      to={"/expert/match"}
+                      style={{ textDecoration: "none" }}
+                    >
+                      <ButtonHead
+                        onClick={() => {
+                          setSelected(4);
+                        }}
+                        title={"MATCH LIST"}
+                        boxStyle={{
+                          backgroundColor:
+                            window.location.pathname.split("/")[2] == "match"
+                              ? "white"
+                              : "transparent",
+                          py: "5px",
+                          borderRadius: "5px",
+                          marginLeft: { lg: "15px", xs: "1px" },
+                          cursor: "pointer",
+                        }}
+                        titleStyle={{
+                          color:
+                            window.location.pathname.split("/")[2] == "match"
+                              ? "green"
+                              : "white",
+                        }}
+                      />
+                    </NavLink>
+                  </Box>
+                </>
+              </Box>
+              <Box
                 sx={{
-                  cursor: "pointer",
-                  height: { lg: "55px", xs: "35px" },
-                  width: "auto",
-                  marginLeft: { lg: "20px", xs: "10px" },
+                  display: "flex",
+                  justifyContent: "space-between",
+                  flex: 1,
+                  alignItems: "center",
+                  flexDirection: "row",
                 }}
-              />
-            </Box>
-            <>
-            <Box
-            sx={{display: "flex"}}
-            >
-              {(getProfile?.bookmakerMatchPrivilege ||
-                getProfile?.sessionMatchPrivilege ||
-                getProfile?.allPrivilege) && (
-                <ButtonHead
-                  onClick={(e: any) => {
-                    setSelected(1);
-                    dispatch(getMatchListDropdown());
-                    setAnchor(e?.currentTarget);
+              >
+                <Box
+                  onClick={() => {
+                    setVisible(true);
                   }}
-                  title={!dropDownLoading ? "ALL MATCH" : "Loading..."}
-                  boxStyle={{
-                    backgroundColor:
-                      currentSelected == 1 ? "white" : "transparent",
-                    py: "5px",
-                    borderRadius: "5px",
-                    marginLeft: { lg: "15px", xs: "15px" },
-                    cursor: "pointer",
+                  sx={{
+                    height: { lg: "45px", xs: "35px" },
+                    width: "45px",
+                    borderRadius: "35px",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    background: "white",
                   }}
-                  titleStyle={{
-                    color: currentSelected == 1 ? "green" : "white",
+                >
+                  <StyledImage
+                    src={NotiBadge}
+                    sx={{ height: "25px", width: "25px" }}
+                  />
+                </Box>
+                <Box
+                  sx={{
+                    display: "flex",
+                    marginLeft: { lg: "0px", xs: "140px" },
+                  }}
+                >
+                  <ActiveUsers
+                    containerStyle={{}}
+                    image={Users}
+                    value={userCount}
+                  />
+                  <BoxProfile
+                    containerStyle={{ marginTop: "0" }}
+                    image={"https://picsum.photos/200/300"}
+                    value1={getProfile?.userName}
+                  />
+                </Box>
+              </Box>
+              {matchListDropdown?.length > 0 && (
+                <DropDownMenu
+                  anchorEl={anchor}
+                  open={Boolean(anchor)}
+                  allMatch={matchListDropdown}
+                  handleClose={() => {
+                    setAnchor(null);
                   }}
                 />
               )}
-
-              <NavLink to={"/expert/match"} style={{ textDecoration: "none" }}>
-                <ButtonHead
-                  onClick={() => {
-                    setSelected(4);
-                  }}
-                  title={"MATCH LIST"}
-                  boxStyle={{
-                    backgroundColor:
-                      window.location.pathname.split("/")[2] == "match"
-                        ? "white"
-                        : "transparent",
-                    py: "5px",
-                    borderRadius: "5px",
-                    marginLeft: { lg: "15px", xs: "1px" },
-                    cursor: "pointer",
-                  }}
-                  titleStyle={{
-                    color:
-                      window.location.pathname.split("/")[2] == "match"
-                        ? "green"
-                        : "white",
-                  }}
-                />
-              </NavLink>
-              </Box>
-            </>
-          </Box>
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "space-between",
-              flex: 1,
-              alignItems: "center",
-              flexDirection:  "row",
-            }}
-          >
-            <Box
-              onClick={() => {
-                setVisible(true);
-              }}
-              sx={{
-                height: {lg:"45px", xs: "35px"},
-                width: "45px",
-                borderRadius: "35px",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                background: "white",
-              }}
-            >
-              <StyledImage
-                src={NotiBadge}
-                sx={{ height: "25px", width: "25px" }}
-              />
             </Box>
-            <Box sx={{ display: "flex", marginLeft: {lg:"0px",xs : "140px"}  }}>
-              <ActiveUsers
-                containerStyle={{}}
-                image={Users}
-                value={userCount}
-              />
-              <BoxProfile
-                containerStyle={{ marginTop: "0" }}
-                image={"https://picsum.photos/200/300"}
-                value1={getProfile?.userName}
-              />
-            </Box>
-          </Box>
-          {matchListDropdown?.length > 0 && (
-        <DropDownMenu
-          anchorEl={anchor}
-          open={Boolean(anchor)}
-          allMatch={matchListDropdown}
-          handleClose={() => {
-            setAnchor(null);
-          }}
-        />
-      )}
-        </Box>
-      </AppBar>
-      <Box sx={{ minHeight: { lg: 66, sm: 70, md: 80, xs: 80 } }} />
-   
+          </AppBar>
+          <Box sx={{ minHeight: { lg: 66, sm: 70, md: 80, xs: 80 } }} />
         </>
       )}
     </>
