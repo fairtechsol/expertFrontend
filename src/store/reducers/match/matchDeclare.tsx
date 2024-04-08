@@ -116,10 +116,10 @@ const matchDeclare = createSlice({
         );
       })
       .addCase(getSessionProfitLossMatchDetailReset, (state) => {
-        return { ...state, sessionProLoss: [] };
+        state.sessionProLoss = [];
       })
       .addCase(declareMatchStatusReset, (state) => {
-        return { ...state, success: false };
+        state.success = false;
       });
   },
 });

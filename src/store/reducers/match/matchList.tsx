@@ -249,22 +249,20 @@ const matchList = createSlice({
         }
       })
       .addCase(editSuccessReset, (state) => {
-        return {
-          ...state,
-          editSuccess: false,
-        };
+        state.editSuccess = false;
       })
       .addCase(sessionResultSuccessReset, (state) => {
-        return { ...state, success: false };
+        state.success = false;
       })
       .addCase(matchListReset, (state) => {
-        return { ...state, success: false };
+        state.success = false;
       })
       .addCase(updateMatchActiveStatusReset, (state) => {
-        return { ...state, statusSuccess: false };
+        state.statusSuccess = false;
       })
       .addCase(resetMatchListSessionProLoss, (state) => {
-        return { ...state, success: false, sessionProLoss: [] };
+        state.success = false;
+        state.sessionProLoss = [];
       });
   },
 });
