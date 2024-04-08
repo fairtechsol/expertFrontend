@@ -4,7 +4,7 @@ import KeyboardEventHandler from "react-keyboard-event-handler";
 import { useDispatch, useSelector } from "react-redux";
 import { BallStart, Lock } from "../../../assets";
 import { socketService } from "../../../socketManager";
-import { successReset } from "../../../store/actions/addSession";
+import { successReset, updateResultStatusOfQuickBookmaker } from "../../../store/actions/addSession";
 import { AppDispatch, RootState } from "../../../store/store";
 import { handleKeysMatchEvents } from "../../../utils/InputKeys/Bookmaker/BookmakerSessionKeys";
 import { updateLocalQuickBookmaker } from "../../../utils/InputKeys/Bookmaker/Utils";
@@ -12,8 +12,10 @@ import BookButton from "./BookButton";
 import ResultComponent from "./ResultComponent";
 import theme from "../../../theme";
 import { numberInputOnWheelPreventChange } from "../../../helpers";
+import { useLocation } from "react-router-dom";
 
 const EditBookmaker = (props: any) => {
+  const { state } = useLocation();
   const { add, match, Bid, type } = props;
   const dispatch: AppDispatch = useDispatch();
   const matchesMobile = useMediaQuery(theme.breakpoints.down("lg"));
@@ -152,6 +154,12 @@ const EditBookmaker = (props: any) => {
       return;
     }
   };
+  const updateBookmakerResultStatus = (event: any) => {
+    if (event?.matchId === state?.match?.id) {
+      dispatch(updateResultStatusOfQuickBookmaker(event));
+    }
+  };
+
 
   useEffect(() => {
     if (success) {
@@ -268,6 +276,7 @@ const EditBookmaker = (props: any) => {
         });
       }
     });
+    socketService.user.updateInResultDeclare(updateBookmakerResultStatus);
   }, [match]);
 
   useEffect(() => {
@@ -368,7 +377,29 @@ const EditBookmaker = (props: any) => {
           />
         </Box>
       </Box>
-      <Box sx={{ border: "2px solid #FFFFFF" }}>
+      <Box sx={{ border: "2px solid #FFFFFF",position:'relative' }}>
+      {!bookmakerById?.result && bookmakerById?.resultStatus && (
+            <Box
+              sx={{
+                position: "absolute",
+                // top: 80,
+                // right: 0,
+                width: "100%",
+                height: "100%",
+                backgroundColor: "rgba(203 24 24 / 70%)",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                zIndex: 999,
+              }}
+            >
+              <Typography
+                sx={{ color: "#fff", fontWeight: "bold", fontSize: "14px" }}
+              >
+                RESULT {bookmakerById?.resultStatus}
+              </Typography>
+            </Box>
+          )}
         <Box sx={{ display: "flex" }}>
           <Box sx={{ background: "#319E5B", width: "60%", px: "5px" }}></Box>
           <Box
@@ -484,6 +515,7 @@ const EditBookmaker = (props: any) => {
                   >{`.${decimalPart}`}</span>
                 </Typography>
               </Box>
+             
               <Box
                 sx={{
                   display: "flex",
@@ -1152,7 +1184,9 @@ const EditBookmaker = (props: any) => {
               </>
             )}
           </Box>
+          
         </Box>
+        
       </Box>
 
       {!matchesMobile && (

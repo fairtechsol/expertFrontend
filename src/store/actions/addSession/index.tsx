@@ -219,6 +219,13 @@ export const updateResultStatusOfSessionById = createAsyncThunk<any, any>(
     return detail;
   }
 );
+
+export const updateResultStatusOfQuickBookmaker = createAsyncThunk<any, SessionById>(
+  "update/resultStatusQuickBookmaker",
+  async (requestData) => {
+    return requestData;
+  }
+);
 export const sessionByIdReset = createAction("sessionById/reset");
 export const successReset = createAction("success/reset");
 export const addsuccessReset = createAction("addsuccess/reset");
