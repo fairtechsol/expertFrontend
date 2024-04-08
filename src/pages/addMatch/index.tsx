@@ -527,6 +527,7 @@ const AddMatch = () => {
                   background: "#0B4F26",
                   border: "1px solid #DEDEDE",
                   borderRadius: "5px",
+                  cursor: state?.id ? "not-allowed" : "pointer",
                 }}
                 containerStyle={{
                   width: "100%",
@@ -577,6 +578,7 @@ const AddMatch = () => {
                     background: "#0B4F26",
                     border: "1px solid #DEDEDE",
                     borderRadius: "5px",
+                    cursor: state?.id ? "not-allowed" : "pointer",
                   }}
                   containerStyle={{
                     width: "100%",
@@ -641,6 +643,7 @@ const AddMatch = () => {
                     background: "#0B4F26",
                     border: "1px solid #DEDEDE",
                     borderRadius: "5px",
+                    cursor: state?.id ? "not-allowed" : "pointer",
                   }}
                   // touched={touched.competitionName}
 

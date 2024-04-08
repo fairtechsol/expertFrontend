@@ -467,10 +467,10 @@ const MatchOdds = ({ currentMatch, matchOddsLive }: any) => {
                     height: "100%",
                     bottom: 0,
                     color: "#fff",
-                    background: "rgba(0,0,0,0.7)",
+                    backgroundColor: "rgba(203 24 24 / 70%)"
                   }}
                 >
-                  <Typography sx={{ color: "rgb(255, 0, 0)" }}>
+                  <Typography sx={{ color: "#fff" }}>
                     RESULT {currentMatch?.resultStatus}
                   </Typography>
                 </Box>
