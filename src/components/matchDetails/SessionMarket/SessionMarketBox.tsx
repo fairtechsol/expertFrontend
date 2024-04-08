@@ -250,6 +250,7 @@ const SessionMarketBox = ({
               justifyContent: { xs: "center", lg: "center" },
               alignItems: "center",
               display: "flex",
+      
             }}
           >
             {/* <img src={BallStart} style={{ width: '113px', height: "32px" }} /> */}
@@ -278,6 +279,7 @@ const SessionMarketBox = ({
               justifyContent: { xs: "center", lg: "center" },
               alignItems: "center",
               display: "flex",
+              backgroundColor: "#FF4D4D"
             }}
           >
             <h6
@@ -286,7 +288,7 @@ const SessionMarketBox = ({
                 fontSize: "9px",
                 textAlign: "center",
                 lineHeight: "11px",
-                color: "#FF0000",
+                color: "#FFF",
                 // color={newData?.resultStatus === "PENDING" ? "red" : "#FFF"}
                 fontWeight: "400",
                 overflowWrap: "anywhere",

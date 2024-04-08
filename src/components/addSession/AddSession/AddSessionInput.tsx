@@ -160,7 +160,7 @@ const AddSessionInput = (props: any) => {
                 right: 0,
                 width: "60%",
                 height: "100%",
-                backgroundColor: "rgba(0, 0, 0, 0.7)",
+                backgroundColor: "rgba(203 24 24 / 70%)",
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
