@@ -211,9 +211,11 @@ const BookMarket = ({ currentMatch, liveData, title }: any) => {
           <Box sx={{ position: "relative" }}>
             <BoxComponent
               teamRates={
-                currentMatch?.teamRates[
+                currentMatch?.teamRates ?  currentMatch?.teamRates[
                   profitLossDataForMatchConstants[liveData?.type]?.A
-                ] ?? 0
+                ] ?  currentMatch?.teamRates[
+                  profitLossDataForMatchConstants[liveData?.type]?.A
+                ] :0 : 0
               }
               // teamImage={currentMatch?.bookmaker?.teamA_Image}
               livestatus={liveData?.status === "live" ? true : false}
@@ -226,9 +228,11 @@ const BookMarket = ({ currentMatch, liveData, title }: any) => {
             <BoxComponent
               livestatus={liveData?.status === "live" ? true : false}
               teamRates={
-                currentMatch?.teamRates[
+                currentMatch?.teamRates ?  currentMatch?.teamRates[
                   profitLossDataForMatchConstants[liveData?.type]?.B
-                ] ?? 0
+                ] ? currentMatch?.teamRates[
+                  profitLossDataForMatchConstants[liveData?.type]?.B
+                ] : 0 : 0
               }
               teamImage={currentMatch?.bookmaker?.teamB_Image}
               lock={liveData?.runners?.length > 0 ? false : true}
@@ -242,10 +246,12 @@ const BookMarket = ({ currentMatch, liveData, title }: any) => {
                 <BoxComponent
                   color={"#FF4D4D"}
                   livestatus={liveData?.status === "live" ? true : false}
-                  teamRates={
+                  teamRates={ currentMatch?.teamRates ?
                     currentMatch?.teamRates[
                       profitLossDataForMatchConstants[liveData?.type]?.C
-                    ] ?? 0
+                    ] ?  currentMatch?.teamRates[
+                      profitLossDataForMatchConstants[liveData?.type]?.C
+                    ] : 0 : 0
                   }
                   teamImage={null}
                   lock={liveData?.runners?.length > 0 ? false : true}

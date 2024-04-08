@@ -387,28 +387,34 @@ const MatchOdds = ({ currentMatch, matchOddsLive }: any) => {
                 }
                 lock={
                   matchOddsLive?.runners !== undefined &&
-                  matchOddsLive?.runners?.length > 0
+                    matchOddsLive?.runners?.length > 0
                     ? false
                     : true
                 }
                 name={currentMatch?.teamA}
                 currentMatch={currentMatch}
                 teamRates={
-                  currentMatch?.teamRates[
+                  currentMatch?.teamRates ?
+                    currentMatch?.teamRates[
+                      profitLossDataForMatchConstants[matchOddsLive?.type]?.A
+                    ] ? currentMatch?.teamRates[
                     profitLossDataForMatchConstants[matchOddsLive?.type]?.A
-                  ] ?? 0
+                    ] : 0 : 0
                 }
               />
               <Divider />
               <BoxComponent
                 teamRates={
-                  currentMatch?.teamRates[
+                  currentMatch?.teamRates ?
+                    currentMatch?.teamRates[
+                      profitLossDataForMatchConstants[matchOddsLive?.type]?.B
+                    ] ? currentMatch?.teamRates[
                     profitLossDataForMatchConstants[matchOddsLive?.type]?.B
-                  ] ?? 0
+                    ] : 0 : 0
                 }
                 lock={
                   matchOddsLive?.runners !== undefined &&
-                  matchOddsLive?.runners?.length > 0
+                    matchOddsLive?.runners?.length > 0
                     ? false
                     : true
                 }
@@ -425,13 +431,15 @@ const MatchOdds = ({ currentMatch, matchOddsLive }: any) => {
                   <Divider />
                   <BoxComponent
                     teamRates={
-                      currentMatch?.teamRates[
+                      currentMatch?.teamRates ? currentMatch?.teamRates[
                         profitLossDataForMatchConstants[matchOddsLive?.type]?.C
-                      ] ?? 0
+                      ] ? currentMatch?.teamRates[
+                      profitLossDataForMatchConstants[matchOddsLive?.type]?.C
+                      ] : 0 : 0
                     }
                     lock={
                       matchOddsLive?.runners !== undefined &&
-                      matchOddsLive?.runners?.length > 0
+                        matchOddsLive?.runners?.length > 0
                         ? false
                         : true
                     }
