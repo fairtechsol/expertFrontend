@@ -17,6 +17,7 @@ import {
 import { updateApiSessionById } from "../../actions/addSession";
 import {
   updateMaxLoss,
+  updateResultStatusOfMatch,
   updateResultStatusOfSession,
   updateTeamRates,
 } from "../../actions/match/matchAction";
@@ -138,7 +139,8 @@ const addMatch = createSlice({
         state.error = action?.error?.message;
       })
       .addCase(editMatchReset, (state) => {
-        return { ...state, success: false, matchDetail: null };
+        state.success = false;
+        state.matchDetail = null;
       })
       .addCase(updateMatchRates.fulfilled, (state, action) => {
         const {
@@ -230,7 +232,6 @@ const addMatch = createSlice({
 
         if (state.matchDetail.sessionBettings.length === 0) {
           state.matchDetail.sessionBettings.push(newSessionBetting);
-          return;
         }
 
         const existingIds = state.matchDetail.sessionBettings.map(
@@ -273,27 +274,18 @@ const addMatch = createSlice({
         };
       })
       .addCase(eventListReset, (state) => {
-        return {
-          ...state,
-          eventsList: [
-            {
-              EventName: "No Matches Available",
-            },
-          ],
-          extraMarketList: [],
-        };
+        state.eventsList = [
+          {
+            EventName: "No Matches Available",
+          },
+        ];
+        state.extraMarketList = [];
       })
       .addCase(matchDetailReset, (state) => {
-        return {
-          ...state,
-          success: false,
-        };
+        state.success = false;
       })
       .addCase(addMatchReset, (state) => {
-        return {
-          ...state,
-          matchAdded: false,
-        };
+        state.matchAdded = false;
       })
       .addCase(updateMaxLoss.fulfilled, (state, action) => {
         const { id, maxLoss, totalBet } = action.payload;
@@ -374,6 +366,20 @@ const addMatch = createSlice({
           ...state.matchDetail,
           sessionBettings: updatedSessionBetting,
         };
+      })
+      .addCase(updateResultStatusOfMatch.fulfilled, (state, action) => {
+        const { status, betId } = action.payload;
+        const index = state.matchDetail?.quickBookmaker.findIndex(
+          (item: any) => item.type === "quickbookmaker1"
+        );
+        if (index !== -1) {
+          if (betId === state.matchDetail?.quickBookmaker[index]?.id) {
+            state.matchDetail = {
+              ...state.matchDetail,
+              resultStatus: status ? status : null,
+            };
+          }
+        }
       });
   },
 });
