@@ -1,15 +1,15 @@
-import { Outlet, useNavigate } from "react-router-dom";
-import AuthBackground from "../../pages/auth/AuthBackground";
 import { Box } from "@mui/material";
-import StyledImage from "../../components/Common/StyledImages";
-import { FgLogo } from "../../assets";
 import { useEffect } from "react";
+import { Outlet, useNavigate } from "react-router-dom";
+import { FgLogo } from "../../assets";
+import StyledImage from "../../components/Common/StyledImages";
+import AuthBackground from "../../pages/auth/AuthBackground";
 
 const AuthLayout = () => {
   const navigate = useNavigate();
   useEffect(() => {
     try {
-      if (sessionStorage.getItem("userToken")) {
+      if (sessionStorage.getItem("jwtExpert")) {
         if (sessionStorage.getItem("forceChangePassword") == "true") {
           navigate("/change-password");
         } else {
