@@ -17,6 +17,7 @@ import {
   updateMatchBetsPlaced,
   updateProLossSession,
   updateRatesBook,
+  updateResultStatusOfQuickBookmaker,
   updateResultStatusOfSessionById,
   updateSession,
   updateSessionById,
@@ -300,5 +301,8 @@ export const addSessionReducers = createReducer(initialState, (builder) => {
           resultStatus: status ? status : null,
         };
       }
+    })
+    .addCase(updateResultStatusOfQuickBookmaker.fulfilled, (state, action) => {
+    state.bookmakerById['resultStatus'] = action.payload.status;
     });
 });
