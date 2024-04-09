@@ -46,12 +46,16 @@ const AddSession = () => {
   }, [id]);
 
   useEffect(() => {
-    if (getSessionSuccess) {
-      if (!sessionById?.result) {
-        dispatch(getSessionProfitLoss(id));
-        dispatch(getPlacedBets(id));
+    try {
+      if (getSessionSuccess) {
+        if (!sessionById?.result) {
+          dispatch(getSessionProfitLoss(id));
+          dispatch(getPlacedBets(id));
+        }
+        dispatch(sessionSuccessReset());
       }
-      dispatch(sessionSuccessReset());
+    } catch (error) {
+      console.error(error);
     }
   }, [getSessionSuccess, id]);
 

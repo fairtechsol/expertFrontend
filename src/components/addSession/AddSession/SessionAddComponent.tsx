@@ -82,47 +82,57 @@ const SessionAddComponent = ({ createSession, match, setMode }: any) => {
   const [live] = useState(true);
 
   const addSessions = () => {
-    if (
-      !inputDetail?.betCondition &&
-      !inputDetail?.leftYesRatePercent &&
-      !inputDetail?.leftNoRatePercent
-    ) {
-      return true;
+    try {
+      if (
+        !inputDetail?.betCondition &&
+        !inputDetail?.leftYesRatePercent &&
+        !inputDetail?.leftNoRatePercent
+      ) {
+        return true;
+      }
+      const payload = {
+        matchId: match?.id,
+        type: "session",
+        name: inputDetail?.betCondition,
+        yesRate: inputDetail?.leftYesRate,
+        noRate: inputDetail?.leftNoRate,
+        yesPercent: inputDetail?.leftYesRatePercent,
+        noPercent: inputDetail?.leftNoRatePercent,
+        maxBet: maxBetValue
+          ? parseInt(maxBetValue)
+          : match?.betFairSessionMaxBet,
+        minBet: match?.betFairSessionMinBet,
+      };
+      dispatch(addSession(payload));
+    } catch (error) {
+      console.error(error);
     }
-    const payload = {
-      matchId: match?.id,
-      type: "session",
-      name: inputDetail?.betCondition,
-      yesRate: inputDetail?.leftYesRate,
-      noRate: inputDetail?.leftNoRate,
-      yesPercent: inputDetail?.leftYesRatePercent,
-      noPercent: inputDetail?.leftNoRatePercent,
-      maxBet: maxBetValue ? parseInt(maxBetValue) : match?.betFairSessionMaxBet,
-      minBet: match?.betFairSessionMinBet,
-    };
-    dispatch(addSession(payload));
   };
 
   const handleLiveChange = (yesRatePercent: number, noRatePercent: number) => {
-    let data = {
-      matchId: match?.id,
-      id: id,
-      noRate: inputDetail?.leftNoRate,
-      yesRate: inputDetail?.leftYesRate,
-      noPercent: noRatePercent,
-      yesPercent: yesRatePercent,
-      status: "active",
-    };
+    try {
+      let data = {
+        matchId: match?.id,
+        id: id,
+        noRate: inputDetail?.leftNoRate,
+        yesRate: inputDetail?.leftYesRate,
+        noPercent: noRatePercent,
+        yesPercent: yesRatePercent,
+        status: "active",
+      };
 
-    setLock({
-      ...lock,
-      isNo: inputDetail.leftNoRate > 0 ? false : true,
-      isYes: false,
-      isNoPercent: false,
-      isYesPercent: false,
-    });
-    setIsBall(false);
-    socketService.user.updateSessionRate(data);
+      setLock({
+        ...lock,
+        isNo: inputDetail.leftNoRate > 0 ? false : true,
+        isYes: false,
+        isNoPercent: false,
+        isYesPercent: false,
+      });
+      setIsBall(false);
+      socketService.user.updateSessionRate(data);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const updateResultDeclared = (event: any) => {
@@ -346,17 +356,17 @@ const SessionAddComponent = ({ createSession, match, setMode }: any) => {
       if (match?.id || id) {
         socketService.user.sessionResultDeclared(updateResultDeclared);
       }
+      return () => {
+        socketService.user.updateSessionRateClientOff();
+        socketService.user.sessionResultDeclaredOff();
+        socketService.user.userSessionBetPlacedOff();
+        socketService.user.sessionDeleteBetOff();
+        socketService.user.sessionUpdatedOff();
+        socketService.user.updateInResultDeclareOff();
+      };
     } catch (e) {
       console.log(e);
     }
-    return () => {
-      socketService.user.updateSessionRateClientOff();
-      socketService.user.sessionResultDeclaredOff();
-      socketService.user.userSessionBetPlacedOff();
-      socketService.user.sessionDeleteBetOff();
-      socketService.user.sessionUpdatedOff();
-      socketService.user.updateInResultDeclareOff();
-    };
   }, [match, id]);
 
   return (

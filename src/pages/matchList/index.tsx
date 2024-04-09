@@ -10,7 +10,11 @@ import {
   getMatchList,
   matchListReset,
 } from "../../store/actions/match/matchAction";
-import { expertSocketService, socketService } from "../../socketManager";
+import {
+  expertSocketService,
+  socket,
+  socketService,
+} from "../../socketManager";
 import { Constants } from "../../utils/Constants";
 
 const MatchList = ({}) => {
@@ -44,13 +48,19 @@ const MatchList = ({}) => {
   };
 
   useEffect(() => {
-    expertSocketService.match.matchAdded(getMatchListService);
-    socketService.user.matchResultUnDeclared(getMatchListService);
-    return () => {
-      expertSocketService.match.matchAddedOff();
-      socketService.user.matchResultUnDeclaredOff();
-    };
-  }, []);
+    try {
+      if (socket?.connected) {
+        expertSocketService.match.matchAdded(getMatchListService);
+        socketService.user.matchResultUnDeclared(getMatchListService);
+        return () => {
+          expertSocketService.match.matchAddedOff();
+          socketService.user.matchResultUnDeclaredOff();
+        };
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }, [socket?.connected]);
 
   return (
     <>

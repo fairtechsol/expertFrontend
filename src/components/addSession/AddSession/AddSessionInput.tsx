@@ -30,46 +30,50 @@ const AddSessionInput = (props: any) => {
   // const handleSuspend = () => {};
 
   const handleChange = (event: any) => {
-    const { value } = event.target;
-    let targetValue = +value ? +value : 0;
-    setLock((prev: any) => {
-      return {
-        ...prev,
-        isNo: true,
-        isYes: true,
-        isNoPercent: true,
-        isYesPercent: true,
-      };
-    });
-    setIsBall(false);
-    if (targetValue >= 0 && targetValue <= 999) {
-      setInputDetail((prev: any) => {
+    try {
+      const { value } = event.target;
+      let targetValue = +value ? +value : 0;
+      setLock((prev: any) => {
         return {
           ...prev,
-          noRate: targetValue,
-          yesRate: targetValue + 1,
-          yesRatePercent: targetValue >= 0 ? 100 : "",
-          noRatePercent: targetValue >= 0 ? 100 : "",
-          leftNoRate: targetValue,
-          leftYesRate: targetValue + 1,
-          leftYesRatePercent: targetValue >= 0 ? 100 : "",
-          leftNoRatePercent: targetValue >= 0 ? 100 : "",
+          isNo: true,
+          isYes: true,
+          isNoPercent: true,
+          isYesPercent: true,
         };
       });
-      setInputDetail((prev: any) => {
-        let data = {
-          matchId: match?.id,
-          id: betId,
-          noRate: prev?.leftNoRate,
-          yesRate: prev?.leftYesRate,
-          noPercent: prev?.leftNoRatePercent,
-          yesPercent: prev?.leftYesRatePercent,
-          status: "suspended",
-        };
-        socketService.user.updateSessionRate(data);
-        return prev;
-      });
-    } else return;
+      setIsBall(false);
+      if (targetValue >= 0 && targetValue <= 999) {
+        setInputDetail((prev: any) => {
+          return {
+            ...prev,
+            noRate: targetValue,
+            yesRate: targetValue + 1,
+            yesRatePercent: targetValue >= 0 ? 100 : "",
+            noRatePercent: targetValue >= 0 ? 100 : "",
+            leftNoRate: targetValue,
+            leftYesRate: targetValue + 1,
+            leftYesRatePercent: targetValue >= 0 ? 100 : "",
+            leftNoRatePercent: targetValue >= 0 ? 100 : "",
+          };
+        });
+        setInputDetail((prev: any) => {
+          let data = {
+            matchId: match?.id,
+            id: betId,
+            noRate: prev?.leftNoRate,
+            yesRate: prev?.leftYesRate,
+            noPercent: prev?.leftNoRatePercent,
+            yesPercent: prev?.leftYesRatePercent,
+            status: "suspended",
+          };
+          socketService.user.updateSessionRate(data);
+          return prev;
+        });
+      } else return;
+    } catch (error) {
+      console.error(error);
+    }
     // handleSuspend();
   };
 
@@ -143,7 +147,7 @@ const AddSessionInput = (props: any) => {
                 height: "45px",
                 fontWeight: "600",
                 color: "black",
-                cursor: !isCreateSession ? "not-allowed" : "auto", 
+                cursor: !isCreateSession ? "not-allowed" : "auto",
               },
             }}
           />

@@ -22,11 +22,15 @@ const UpdateBookmaker = () => {
   const { placedBets } = useSelector((state: RootState) => state.addSession);
 
   const updateBetList = (event: any) => {
-    if (state?.match?.id === event?.jobData?.newBet?.matchId) {
-      dispatch(updateTeamRatesOnManualMarket(event));
-      if (state?.id === event?.jobData?.newBet?.betId) {
-        dispatch(updateMatchBetsPlaced(event));
+    try {
+      if (state?.match?.id === event?.jobData?.newBet?.matchId) {
+        dispatch(updateTeamRatesOnManualMarket(event));
+        if (state?.id === event?.jobData?.newBet?.betId) {
+          dispatch(updateMatchBetsPlaced(event));
+        }
       }
+    } catch (error) {
+      console.error(error);
     }
   };
 
@@ -59,24 +63,28 @@ const UpdateBookmaker = () => {
   };
 
   useEffect(() => {
-    if (state?.id) {
-      dispatch(
-        getBookmakerById({
-          matchId: state?.match?.id,
-          id: state?.id,
-          type: state?.type,
-        })
-      );
-      dispatch(getPlacedBets(state?.id));
-      socketService.user.userMatchBetPlaced(updateBetList);
-      socketService.user.matchResultDeclared(resultDeclared);
-      socketService.user.matchDeleteBet(matchDeleteBet);
+    try {
+      if (state?.id) {
+        dispatch(
+          getBookmakerById({
+            matchId: state?.match?.id,
+            id: state?.id,
+            type: state?.type,
+          })
+        );
+        dispatch(getPlacedBets(state?.id));
+        socketService.user.userMatchBetPlaced(updateBetList);
+        socketService.user.matchResultDeclared(resultDeclared);
+        socketService.user.matchDeleteBet(matchDeleteBet);
+      }
+      return () => {
+        socketService.user.userMatchBetPlacedOff();
+        socketService.user.matchResultDeclaredOff();
+        socketService.user.matchDeleteBetOff();
+      };
+    } catch (error) {
+      console.error(error);
     }
-    return () => {
-      socketService.user.userMatchBetPlacedOff();
-      socketService.user.matchResultDeclaredOff();
-      socketService.user.matchDeleteBetOff();
-    };
   }, [state?.id]);
 
   return (
