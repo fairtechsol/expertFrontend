@@ -661,7 +661,7 @@ console.log('matchDetail',matchDetail)
                   disable={state?.id ? true : false}
                   data={tournamentList}
                   valueStyle={{ ...inputStyle, color: "white" }}
-                  title={"Tournament Name"}
+                  title={"Tournament Name*"}
                   valueContainerStyle={{
                     height: "45px",
                     marginX: "0px",
@@ -695,7 +695,7 @@ console.log('matchDetail',matchDetail)
                   required={true}
                   valueStyle={{}}
                   containerStyle={{ flex: 1, width: "100%" }}
-                  label={"Tournament Name"}
+                  label={"Tournament Name*"}
                   type={"text"}
                   onChange={handleInputChange}
                   placeholder="Enter your Tournament Name"
@@ -725,7 +725,7 @@ console.log('matchDetail',matchDetail)
                   }}
                   disable={state?.id ? true : false}
                   valueStyle={{ ...inputStyle, color: "white" }}
-                  title={"Match Name"}
+                  title={"Match Name*"}
                   valueContainerStyle={{
                     height: "45px",
                     marginX: "0px",
@@ -773,7 +773,7 @@ console.log('matchDetail',matchDetail)
                   required={true}
                   valueStyle={{}}
                   containerStyle={{ flex: 1, width: "100%" }}
-                  label={"Match Name"}
+                  label={"Match Name*"}
                   type={"text"}
                   onChange={handleInputChange}
                   placeholder="Enter your Match Name"
@@ -855,7 +855,7 @@ console.log('matchDetail',matchDetail)
                 <DemoContainer components={["DateTimePicker"]}>
                   <DemoItem>
                     <Typography sx={{ fontSize: "12px" }}>
-                      Start Time
+                      Start Time*
                     </Typography>
                     <DateTimePicker
                       disabled={state?.id || !manualMatchToggle}
@@ -931,7 +931,7 @@ console.log('matchDetail',matchDetail)
                 valueStyle={{}}
                 disable={state?.id}
                 containerStyle={{ flex: 1, width: "100%" }}
-                label={"Min Bet"}
+                label={"Min Bet*"}
                 type={"Number"}
                 touched={touched.minBet}
                 errors={errors.minBet}
@@ -954,7 +954,7 @@ console.log('matchDetail',matchDetail)
                 <MatchListInput
                   required={true}
                   containerStyle={{ flex: 1, width: "100%" }}
-                  label={"Betfair Session Max Bet"}
+                  label={"Betfair Session Max Bet*"}
                   type={"Number"}
                   placeholder="Betfair Session Max Bet..."
                   InputValType={"InputVal"}
@@ -979,7 +979,7 @@ console.log('matchDetail',matchDetail)
                   <MatchListInput
                     required={true}
                     containerStyle={{ flex: 1, width: "100%" }}
-                    label={item?.label}
+                    label={`${item?.label}*`}
                     {...formik.getFieldProps(`${item?.matchType}.maxBet`)}
                     type={"Number"}
                     touched={(touched?.[item?.matchType] as any)?.maxBet}
@@ -1011,7 +1011,7 @@ console.log('matchDetail',matchDetail)
                       <MatchListInput
                         required={true}
                         containerStyle={{ flex: 1, width: "100%" }}
-                        label={item?.label}
+                        label={`${item?.label}*`}
                         {...formik.getFieldProps(`${item?.matchType}.maxBet`)}
                         onChange={(e: any) => {
                           formik.setValues({
@@ -1053,7 +1053,7 @@ console.log('matchDetail',matchDetail)
                   }}
                   disable={state?.id ? true : false}
                   valueStyle={{ ...inputStyle, color: "white" }}
-                  title={"Bookmaker"}
+                  title={"Bookmaker*"}
                   valueContainerStyle={{
                     height: "45px",
                     marginX: "0px",
@@ -1105,7 +1105,7 @@ console.log('matchDetail',matchDetail)
                       <MatchListInput
                         required={true}
                         containerStyle={{ flex: 1, width: "100%" }}
-                        label={"Market Name"}
+                        label={"Market Name*"}
                         type={"text"}
                         placeholder="Enter Market Name..."
                         place={11}
@@ -1129,7 +1129,7 @@ console.log('matchDetail',matchDetail)
                       <MatchListInput
                         required={true}
                         containerStyle={{ flex: 1, width: "100%" }}
-                        label={"Max Limit"}
+                        label={"Max Limit*"}
                         type={"number"}
                         placeholder="Enter Max Bet..."
                         place={11}
@@ -1155,7 +1155,7 @@ console.log('matchDetail',matchDetail)
                       <MatchListInput
                         required={true}
                         containerStyle={{ flex: 1, width: "100%" }}
-                        label={"Market Name"}
+                        label={"Market Name*"}
                         type={"text"}
                         placeholder="Enter Market Name..."
                         place={11}
@@ -1179,7 +1179,7 @@ console.log('matchDetail',matchDetail)
                       <MatchListInput
                         required={true}
                         containerStyle={{ flex: 1, width: "100%" }}
-                        label={"Max Limit"}
+                        label={"Max Limit*"}
                         type={"number"}
                         placeholder="Enter Max Bet..."
                         place={11}
@@ -1205,7 +1205,7 @@ console.log('matchDetail',matchDetail)
                       <MatchListInput
                         required={true}
                         containerStyle={{ flex: 1, width: "100%" }}
-                        label={"Market Name"}
+                        label={"Market Name*"}
                         type={"text"}
                         placeholder="Enter Market Name..."
                         place={11}
@@ -1229,7 +1229,7 @@ console.log('matchDetail',matchDetail)
                       <MatchListInput
                         required={true}
                         containerStyle={{ flex: 1, width: "100%" }}
-                        label={"Max Limit"}
+                        label={"Max Limit*"}
                         type={"number"}
                         placeholder="Enter Max Bet..."
                         place={11}
