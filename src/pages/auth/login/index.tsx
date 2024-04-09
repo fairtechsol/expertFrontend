@@ -20,19 +20,21 @@ const Login = () => {
 
   const dispatch: AppDispatch = useDispatch();
 
+  const { success, forceChangePassword, loading } = useSelector(
+    (state: RootState) => state.auth
+  );
   const formik = useFormik({
     initialValues: initialValues,
     validationSchema: loginValidationSchema,
     onSubmit: (values: any) => {
+      if (loading) {
+        return;
+      }
       dispatch(login(values));
     },
   });
 
   const { handleSubmit, touched, errors } = formik;
-
-  const { success, forceChangePassword, loading } = useSelector(
-    (state: RootState) => state.auth
-  );
 
   useEffect(() => {
     if (success) {
