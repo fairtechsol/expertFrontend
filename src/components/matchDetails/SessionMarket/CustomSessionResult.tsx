@@ -71,20 +71,16 @@ const CustomSessionResult = ({ onClick, newData }: any) => {
     <Box
       sx={{
         width: {lg:"65%", xs: "70%"},
-
         marginRight: "8px",
-        // height: "180px",
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
         padding: "4px",
         border: "1px solid",
-        // borderRadius: 2,
-        // boxShadow: "0px 5px 10px #1A568414",
-        background: "white",
+        background: "#FFAF45",
         gap: 1,
       }}
-    >
+          >
       {!confirmNoResult ? (
         <>
           {JSON.parse(newData)?.activeStatus !== "result" && (
@@ -108,6 +104,7 @@ const CustomSessionResult = ({ onClick, newData }: any) => {
                   paddingY: "5px",
                   paddingX: "0.5vw",
                   height: "28px",
+                  backgroundColor: "white"
                 },
               }}
             />
