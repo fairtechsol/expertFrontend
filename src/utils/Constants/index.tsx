@@ -35,12 +35,14 @@ export const ApiConstants = {
     BETTINGSTATUS: "/matchBeting/status/change",
   },
 };
+const thirdParty = "https://devserviceapi.fairgame.club";
+const thirdPartyLive = "https://serviceapi.fairgame7.com";
 
 export const Constants = {
   pageLimit: 15,
-  apiBasePath: "http://107.23.165.155:5000",
-  expertSocketBasePath: "http://107.23.165.155:6060",
-  thirdParty: "http://107.23.165.155:3200",
+  apiBasePath: "https://devmaxbet9api.fairgame.club",
+  expertSocketBasePath: "https://devexpertapi.fairgame.club",
+  thirdParty: thirdParty,
   apiBasePathLive: "https://betfairapi.fairgame7.com",
   expertSocketBasePathLive: "https://expertapi.fairgame7.com",
   thirdPartyLive: "https://serviceapi.fairgame7.com",
@@ -48,9 +50,7 @@ export const Constants = {
   localPathThird: "http://localhost:3200",
   localPathExpert: "http://localhost:6060",
   addMatchThirdParty:
-    process.env.NODE_ENV === "production"
-      ? "https://serviceapi.fairgame7.com"
-      : "http://107.23.165.155:3200",
+    process.env.NODE_ENV === "production" ? thirdPartyLive : thirdParty,
 
   ///Routes Constants
 
