@@ -10,7 +10,7 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks: undefined,
-        chunkFileNames: "[name].js",
+        // chunkFileNames: "[name].js",
       },
     },
   },

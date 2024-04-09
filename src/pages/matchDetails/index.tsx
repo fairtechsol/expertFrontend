@@ -198,9 +198,13 @@ const MatchDetails = () => {
   };
 
   const updateSessionResultStatus = (event: any) => {
-    if (event?.matchId === state?.id) {
-      dispatch(updateResultStatusOfSession(event));
-      dispatch(updateResultStatusOfMatch(event));
+    try {
+      if (event?.matchId === state?.id) {
+        dispatch(updateResultStatusOfSession(event));
+        dispatch(updateResultStatusOfMatch(event));
+      }
+    } catch (error) {
+      console.error(error);
     }
   };
 
@@ -274,22 +278,31 @@ const MatchDetails = () => {
   }, [state?.id]);
 
   useEffect(() => {
-    const handleVisibilityChange = () => {
-      if (document.visibilityState === "visible") {
-        if (state?.id) {
-          dispatch(getMatchDetail(state?.id));
-          dispatch(getPlacedBetsMatch(state?.id));
+    try {
+      const handleVisibilityChange = () => {
+        if (document.visibilityState === "visible") {
+          if (state?.id) {
+            dispatch(getMatchDetail(state?.id));
+            dispatch(getPlacedBetsMatch(state?.id));
+          }
+        } else if (document.visibilityState === "hidden") {
+          if (state?.id) {
+            expertSocketService.match.leaveMatchRoom(state?.id);
+            expertSocketService.match.getMatchRatesOff(state?.id);
+          }
         }
-      } else if (document.visibilityState === "hidden") {
-        expertSocketService.match.leaveMatchRoom(state?.id);
-        expertSocketService.match.getMatchRatesOff(state?.id);
-      }
-    };
+      };
 
-    document.addEventListener("visibilitychange", handleVisibilityChange);
-    return () => {
-      document.removeEventListener("visibilitychange", handleVisibilityChange);
-    };
+      document.addEventListener("visibilitychange", handleVisibilityChange);
+      return () => {
+        document.removeEventListener(
+          "visibilitychange",
+          handleVisibilityChange
+        );
+      };
+    } catch (error) {
+      console.error(error);
+    }
   }, []);
 
   return (

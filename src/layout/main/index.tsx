@@ -33,13 +33,6 @@ const MainLayout = () => {
     } catch (e) {
       console.log(e);
     }
-    return () => {
-      try {
-        socketService.disconnect();
-      } catch (e) {
-        console.log(e);
-      }
-    };
   }, [sessionStorage.getItem("jwtExpert")]);
 
   return (
