@@ -570,7 +570,7 @@ const AddMatch = () => {
                   disable={state?.id ? true : false}
                   data={tournamentList}
                   valueStyle={{ ...inputStyle, color: "white" }}
-                  title={"Tournament Name"}
+                  title={"Tournament Name*"}
                   valueContainerStyle={{
                     height: "45px",
                     marginX: "0px",
@@ -604,7 +604,7 @@ const AddMatch = () => {
                   required={true}
                   valueStyle={{}}
                   containerStyle={{ flex: 1, width: "100%" }}
-                  label={"Tournament Name"}
+                  label={"Tournament Name*"}
                   type={"text"}
                   onChange={handleInputChange}
                   placeholder="Enter your Tournament Name"
@@ -634,7 +634,7 @@ const AddMatch = () => {
                   }}
                   disable={state?.id ? true : false}
                   valueStyle={{ ...inputStyle, color: "white" }}
-                  title={"Match Name"}
+                  title={"Match Name*"}
                   valueContainerStyle={{
                     height: "45px",
                     marginX: "0px",
@@ -682,7 +682,7 @@ const AddMatch = () => {
                   required={true}
                   valueStyle={{}}
                   containerStyle={{ flex: 1, width: "100%" }}
-                  label={"Match Name"}
+                  label={"Match Name*"}
                   type={"text"}
                   onChange={handleInputChange}
                   placeholder="Enter your Match Name"
@@ -764,7 +764,7 @@ const AddMatch = () => {
                 <DemoContainer components={["DateTimePicker"]}>
                   <DemoItem>
                     <Typography sx={{ fontSize: "12px" }}>
-                      Start Time
+                      Start Time*
                     </Typography>
                     <DateTimePicker
                       disabled={state?.id || !manualMatchToggle}
@@ -840,7 +840,7 @@ const AddMatch = () => {
                 valueStyle={{}}
                 disable={state?.id}
                 containerStyle={{ flex: 1, width: "100%" }}
-                label={"Min Bet"}
+                label={"Min Bet*"}
                 type={"Number"}
                 touched={touched.minBet}
                 errors={errors.minBet}
@@ -864,7 +864,7 @@ const AddMatch = () => {
                 required={true}
                 valueStyle={{}}
                 containerStyle={{ flex: 1, width: "100%" }}
-                label={"Match Odd Max Bet"}
+                label={"Match Odd Max Bet*"}
                 type={"Number"}
                 name="betfairMatchMaxBet"
                 id="betfairMatchMaxBet"
@@ -886,7 +886,7 @@ const AddMatch = () => {
               <MatchListInput
                 required={true}
                 containerStyle={{ flex: 1, width: "100%" }}
-                label={"Betfair Session Max Bet"}
+                label={"Betfair Session Max Bet*"}
                 type={"Number"}
                 placeholder="Betfair Session Max Bet..."
                 InputValType={"InputVal"}
@@ -907,7 +907,7 @@ const AddMatch = () => {
               <MatchListInput
                 required={true}
                 containerStyle={{ flex: 1, width: "100%" }}
-                label={"Betfair Bookmaker Max Bet"}
+                label={"Betfair Bookmaker Max Bet*"}
                 type={"Number"}
                 touched={touched.betfairBookmakerMaxBet}
                 value={values.betfairBookmakerMaxBet}
@@ -928,7 +928,7 @@ const AddMatch = () => {
               <MatchListInput
                 required={true}
                 containerStyle={{ flex: 1, width: "100%" }}
-                label={"Market Tied Match Max Bet"}
+                label={"Market Tied Match Max Bet*"}
                 type={"Number"}
                 touched={touched.marketTiedMatchMaxBet}
                 value={values.marketTiedMatchMaxBet}
@@ -949,7 +949,7 @@ const AddMatch = () => {
               <MatchListInput
                 required={true}
                 containerStyle={{ flex: 1, width: "100%" }}
-                label={"Manual Tied Match Max Bet"}
+                label={"Manual Tied Match Max Bet*"}
                 type={"Number"}
                 touched={touched.manualTiedMatchMaxBet}
                 value={values.manualTiedMatchMaxBet}
@@ -970,7 +970,7 @@ const AddMatch = () => {
               <MatchListInput
                 required={true}
                 containerStyle={{ flex: 1, width: "100%" }}
-                label={"Complete Match Max Bet"}
+                label={"Complete Match Max Bet*"}
                 type={"Number"}
                 touched={touched.completeMatchMaxBet}
                 value={values.completeMatchMaxBet}
@@ -1002,7 +1002,7 @@ const AddMatch = () => {
                   }}
                   disable={state?.id ? true : false}
                   valueStyle={{ ...inputStyle, color: "white" }}
-                  title={"Bookmaker"}
+                  title={"Bookmaker*"}
                   valueContainerStyle={{
                     height: "45px",
                     marginX: "0px",
@@ -1054,7 +1054,7 @@ const AddMatch = () => {
                       <MatchListInput
                         required={true}
                         containerStyle={{ flex: 1, width: "100%" }}
-                        label={"Market Name"}
+                        label={"Market Name*"}
                         type={"text"}
                         placeholder="Enter Market Name..."
                         place={11}
@@ -1078,7 +1078,7 @@ const AddMatch = () => {
                       <MatchListInput
                         required={true}
                         containerStyle={{ flex: 1, width: "100%" }}
-                        label={"Max Limit"}
+                        label={"Max Limit*"}
                         type={"number"}
                         placeholder="Enter Max Bet..."
                         place={11}
@@ -1104,7 +1104,7 @@ const AddMatch = () => {
                       <MatchListInput
                         required={true}
                         containerStyle={{ flex: 1, width: "100%" }}
-                        label={"Market Name"}
+                        label={"Market Name*"}
                         type={"text"}
                         placeholder="Enter Market Name..."
                         place={11}
@@ -1128,7 +1128,7 @@ const AddMatch = () => {
                       <MatchListInput
                         required={true}
                         containerStyle={{ flex: 1, width: "100%" }}
-                        label={"Max Limit"}
+                        label={"Max Limit*"}
                         type={"number"}
                         placeholder="Enter Max Bet..."
                         place={11}
@@ -1154,7 +1154,7 @@ const AddMatch = () => {
                       <MatchListInput
                         required={true}
                         containerStyle={{ flex: 1, width: "100%" }}
-                        label={"Market Name"}
+                        label={"Market Name*"}
                         type={"text"}
                         placeholder="Enter Market Name..."
                         place={11}
@@ -1178,7 +1178,7 @@ const AddMatch = () => {
                       <MatchListInput
                         required={true}
                         containerStyle={{ flex: 1, width: "100%" }}
-                        label={"Max Limit"}
+                        label={"Max Limit*"}
                         type={"number"}
                         placeholder="Enter Max Bet..."
                         place={11}
