@@ -82,7 +82,14 @@ const MatchList = ({}) => {
         <MatchListTableHeader />
         {matchList &&
           matchList?.matches?.map((item: any, index: number) => {
-            return <MatchListTable key={item?.id} data={item} index={index} />;
+            return (
+              <MatchListTable
+                key={item?.id}
+                data={item}
+                index={index}
+                currentPage={currentPage}
+              />
+            );
           })}
         <Pagination
           sx={{

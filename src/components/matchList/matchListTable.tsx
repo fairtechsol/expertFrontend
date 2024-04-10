@@ -13,9 +13,10 @@ import StyledImage from "../Common/StyledImages";
 import MatchPermissionsModal from "./matchPermissionsModal";
 import MatchListProfitLoss from "./profitLoss";
 import SessionResultComponent from "./sessionResultComponent";
+import { Constants } from "../../utils/Constants";
 
 const MatchListTable = (props: any) => {
-  const { data, index } = props;
+  const { data, index, currentPage } = props;
   const navigate = useNavigate();
   const dispatch: AppDispatch = useDispatch();
   const { getProfile } = useSelector((state: RootState) => state.user.profile);
@@ -84,7 +85,9 @@ const MatchListTable = (props: any) => {
             borderRight: "2px solid white",
           }}
         >
-          <Typography sx={{ fontSize: "12px" }}>({index + 1})</Typography>
+          <Typography sx={{ fontSize: "12px" }}>
+            ({index + 1 + Constants.pageLimit * (currentPage - 1)})
+          </Typography>
           <Typography
             sx={{ fontSize: "9px", padding: "4px", fontWeight: "700" }}
           >
@@ -109,7 +112,7 @@ const MatchListTable = (props: any) => {
             alignItems="center"
             sx={{
               order: { xs: "2", sm: "1" },
-              marginY: {xs: 1}
+              marginY: { xs: 1 },
             }}
           >
             <Typography
@@ -127,7 +130,7 @@ const MatchListTable = (props: any) => {
             >
               {data?.title}
             </Typography>
-           <StyledImage
+            <StyledImage
               onClick={() => {
                 setShowUserModal((prev) => !prev);
               }}
@@ -142,7 +145,7 @@ const MatchListTable = (props: any) => {
               }}
             />
           </Box>
-          
+
           <Box
             display={"flex"}
             sx={{
@@ -178,9 +181,7 @@ const MatchListTable = (props: any) => {
                 // onClick={() => handleMatchProfitLossClick(data?.id)}
                 updateMatchStatusLabel="Commission"
                 updateMatchStatus={
-                  data?.pl &&
-                  data?.pl?.length > 0 &&
-                  data?.pl[0]?.commission
+                  data?.pl && data?.pl?.length > 0 && data?.pl[0]?.commission
                 }
                 place="1"
               />
@@ -197,7 +198,7 @@ const MatchListTable = (props: any) => {
                 place="1"
               />
             )}
-             
+
             <Box
               display={"flex"}
               sx={{
