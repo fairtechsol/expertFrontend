@@ -9,6 +9,7 @@ import {
   getExtraMarketList,
   getMatchDetail,
   matchDetailReset,
+  matchDetailSuccessReset,
   tournamentListReset,
   updateMatchRates,
   updateRates,
@@ -283,6 +284,9 @@ const addMatch = createSlice({
         state.extraMarketList = [];
       })
       .addCase(matchDetailReset, (state) => {
+        state.matchDetail = null;
+      })
+      .addCase(matchDetailSuccessReset, (state) => {
         state.success = false;
       })
       .addCase(addMatchReset, (state) => {

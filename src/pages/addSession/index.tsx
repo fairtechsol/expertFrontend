@@ -3,7 +3,7 @@ import SessionResult from "../../components/addSession/SessionResult/SessionResu
 import SessionInputFields from "../../components/addSession/AddSession/SessionAddComponent";
 import DailogModal from "../../components/helper/DailogModal";
 import BetsList from "../../components/addSession/BetList";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store/store";
@@ -14,11 +14,14 @@ import {
   sessionSuccessReset,
 } from "../../store/actions/addSession";
 import { getMatchListSessionProfitLoss } from "../../store/actions/match/matchAction";
+import { getMatchDetail } from "../../store/actions/addMatch/addMatchAction";
+import { socketService } from "../../socketManager";
 // import { socketService } from "../../socketManager";
 
 const AddSession = () => {
   const { state } = useLocation();
   const { id } = useParams();
+  const navigate = useNavigate();
   const [mode, setMode] = useState("0");
   const { sessionById, getSessionSuccess } = useSelector(
     (state: RootState) => state.addSession
@@ -26,6 +29,19 @@ const AddSession = () => {
   const dispatch: AppDispatch = useDispatch();
   const { placedBets } = useSelector((state: RootState) => state.addSession);
   const { sessionProLoss } = useSelector((state: RootState) => state.matchList);
+  const { matchDetail } = useSelector(
+    (state: RootState) => state.addMatch.addMatch
+  );
+
+  const resultDeclared = (event: any) => {
+    try {
+      if (event?.matchId === state?.match?.id) {
+        navigate("/expert/match");
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   useEffect(() => {
     try {
@@ -47,6 +63,23 @@ const AddSession = () => {
 
   useEffect(() => {
     try {
+      if (matchDetail) {
+        if (matchDetail?.stopAt) {
+          navigate("/expert/match");
+        }
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }, [matchDetail]);
+
+  useEffect(() => {
+    try {
+      if (state?.createSession) {
+        if (state?.match?.id) {
+          dispatch(getMatchDetail(state?.match?.id));
+        }
+      }
       if (getSessionSuccess) {
         if (!sessionById?.result) {
           dispatch(getSessionProfitLoss(id));
@@ -65,18 +98,38 @@ const AddSession = () => {
     }
   }, [state?.createSession]);
 
-  // const getSessionProLoss = (event: any) => {
-  //   if (state?.match?.id === event?.matchId) {
-  //     dispatch(getMatchListSessionProfitLoss(state?.match?.id));
-  //   }
-  // };
+  useEffect(() => {
+    try {
+      socketService.user.matchResultDeclared(resultDeclared);
 
-  // useEffect(() => {
-  //   socketService.user.sessionResultDeclared(getSessionProLoss);
-  //   return () => {
-  //     socketService.user.sessionResultDeclaredOff();
-  //   };
-  // }, [state?.match?.id]);
+      return () => {
+        socketService.user.matchResultDeclaredOff();
+      };
+    } catch (error) {
+      console.error(error);
+    }
+  }, []);
+
+  useEffect(() => {
+    try {
+      const handleVisibilityChange = () => {
+        if (document.visibilityState === "visible") {
+          if (state?.match?.id) {
+            dispatch(getMatchDetail(state?.match?.id));
+          }
+        }
+      };
+      document.addEventListener("visibilitychange", handleVisibilityChange);
+      return () => {
+        document.removeEventListener(
+          "visibilitychange",
+          handleVisibilityChange
+        );
+      };
+    } catch (error) {
+      console.error(error);
+    }
+  }, []);
 
   return (
     <Box>
