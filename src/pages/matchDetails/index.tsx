@@ -333,8 +333,7 @@ const MatchDetails = () => {
                 width: { lg: "100%", xs: "100%", md: "100%" },
               }}
             >
-              {(matchDetail?.apiSessionActive ||
-                matchDetail?.manualSessionActive) && (
+              {matchDetail?.apiSessionActive && (
                 <Box
                   sx={{
                     width: { lg: "100%", xs: "100%", md: "100%" },
@@ -416,8 +415,7 @@ const MatchDetails = () => {
                 width: { lg: "50%", xs: "100%", md: "100%" },
               }}
             >
-              {(matchDetail?.apiSessionActive ||
-                matchDetail?.manualSessionActive) && (
+              {matchDetail?.apiSessionActive && (
                 <Box
                   sx={{
                     width: { lg: "100%", xs: "100%", md: "100%" },

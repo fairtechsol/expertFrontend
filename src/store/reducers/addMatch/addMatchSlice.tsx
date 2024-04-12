@@ -152,6 +152,7 @@ const addMatch = createSlice({
         } = action.payload;
         state.matchDetail = {
           ...state.matchDetail,
+          apiSessionActive: apiSession ? true : false,
           apiSession: apiSession?.filter(
             (item: any) => state.selectionIds[item?.SelectionId] == null
           ),
