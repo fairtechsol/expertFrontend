@@ -64,7 +64,7 @@ service.interceptors.response.use(
     } else if (error.response.status === 409) {
       toast.error(error.response.data.message, toastOptions);
     } else if (error.response.status === 401) {
-      toast.error(error.response.data.message, toastOptions);
+      // toast.error(error.response.data.message, toastOptions);
       window.location.replace("/expert/login");
       sessionStorage.clear();
     }
