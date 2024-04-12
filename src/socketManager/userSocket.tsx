@@ -2,92 +2,92 @@ import { socket } from ".";
 
 export const userSocketService = {
   userCount: (callback: any) => {
-    socket.on("loginUserCount", (packet: any) => {
+    socket?.on("loginUserCount", (packet: any) => {
       callback(packet?.count);
     });
   },
   updateSessionRate: (data: any) => {
-    socket.emit("updateSessionRate", data);
+    socket?.emit("updateSessionRate", data);
   },
   updateSessionRateClient: (callback: any) => {
-    socket.on("updateSessionRateClient", callback);
+    socket?.on("updateSessionRateClient", callback);
   },
   updateMatchBettingRate: (data: any) => {
-    socket.emit("updateMatchBettingRate", data);
+    socket?.emit("updateMatchBettingRate", data);
   },
   updateMatchBettingRateClient: (callback: any) => {
-    socket.on("updateMatchBettingRateClient", callback);
+    socket?.on("updateMatchBettingRateClient", callback);
   },
   sessionResultDeclared: (callback: any) => {
-    socket.on("sessionResultDeclared", callback);
+    socket?.on("sessionResultDeclared", callback);
   },
   userSessionBetPlaced: (callBack: any) => {
-    socket.on("userSessionBetPlaced", callBack);
+    socket?.on("userSessionBetPlaced", callBack);
   },
   userMatchBetPlaced: (callBack: any) => {
-    socket.on("userMatchBetPlaced", callBack);
+    socket?.on("userMatchBetPlaced", callBack);
   },
   matchBettingStatusChange: (callback: any) => {
-    socket.on("matchBettingStatusChange", callback);
+    socket?.on("matchBettingStatusChange", callback);
   },
   matchResultDeclared: (callback: any) => {
-    socket.on("matchResultDeclared", callback);
+    socket?.on("matchResultDeclared", callback);
   },
   matchResultUnDeclared: (callback: any) => {
-    socket.on("matchResultUnDeclared", callback);
+    socket?.on("matchResultUnDeclared", callback);
   },
   matchDeleteBet: (callback: any) => {
-    socket.on("matchDeleteBet", callback);
+    socket?.on("matchDeleteBet", callback);
   },
   sessionDeleteBet: (callback: any) => {
-    socket.on("sessionDeleteBet", callback);
+    socket?.on("sessionDeleteBet", callback);
   },
   sessionAdded: (callback: any) => {
-    socket.on("sessionAdded", callback);
+    socket?.on("sessionAdded", callback);
   },
   sessionUpdated: (callback: any) => {
-    socket.on("sessionUpdated", callback);
+    socket?.on("sessionUpdated", callback);
   },
   updateInResultDeclare: (callback: any) => {
-    socket.on("updateInResultDeclare", callback);
+    socket?.on("updateInResultDeclare", callback);
   },
   updateSessionRateClientOff: () => {
-    socket.off("updateSessionRateClient");
+    socket?.off("updateSessionRateClient");
   },
   updateMatchBettingRateClientOff: () => {
-    socket.off("updateMatchBettingRateClient");
+    socket?.off("updateMatchBettingRateClient");
   },
   sessionResultDeclaredOff: () => {
-    socket.off("sessionResultDeclared");
+    socket?.off("sessionResultDeclared");
   },
   userSessionBetPlacedOff: () => {
-    socket.off("userSessionBetPlaced");
+    socket?.off("userSessionBetPlaced");
   },
   userMatchBetPlacedOff: () => {
-    socket.off("userMatchBetPlaced");
+    socket?.off("userMatchBetPlaced");
   },
   matchBettingStatusChangeOff: () => {
-    socket.off("matchBettingStatusChange");
+    socket?.off("matchBettingStatusChange");
   },
   matchResultDeclaredOff: () => {
-    socket.off("matchResultDeclared");
+    socket?.off("matchResultDeclared");
   },
   matchResultUnDeclaredOff: () => {
-    socket.off("matchResultUnDeclared");
+    socket?.off("matchResultUnDeclared");
   },
   matchDeleteBetOff: () => {
-    socket.off("matchDeleteBet");
+    socket?.off("matchDeleteBet");
   },
   sessionDeleteBetOff: () => {
-    socket.off("sessionDeleteBet");
+    socket?.off("sessionDeleteBet");
   },
   sessionAddedOff: () => {
-    socket.off("sessionAdded");
+    socket?.off("sessionAdded");
   },
   sessionUpdatedOff: () => {
-    socket.off("sessionUpdated");
+    socket?.off("sessionUpdated");
   },
   updateInResultDeclareOff: () => {
-    socket.off("updateInResultDeclare");
+    socket?.off("updateInResultDeclare");
   },
 };

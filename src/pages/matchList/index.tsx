@@ -29,8 +29,14 @@ const MatchList = ({}) => {
   }
 
   useEffect(() => {
-    dispatch(getMatchList({ currentPage: currentPage }));
-  }, [currentPage]);
+    try {
+      if (sessionStorage.getItem("jwtExpert")) {
+        dispatch(getMatchList({ currentPage: currentPage }));
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }, [currentPage, sessionStorage]);
 
   useEffect(() => {
     if (success) {
