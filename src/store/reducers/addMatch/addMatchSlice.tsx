@@ -9,6 +9,7 @@ import {
   getExtraMarketList,
   getMatchDetail,
   matchDetailReset,
+  matchDetailSuccessReset,
   tournamentListReset,
   updateMatchRates,
   updateRates,
@@ -152,6 +153,7 @@ const addMatch = createSlice({
         } = action.payload;
         state.matchDetail = {
           ...state.matchDetail,
+          apiSessionActive: apiSession ? true : false,
           apiSession: apiSession?.filter(
             (item: any) => state.selectionIds[item?.SelectionId] == null
           ),
@@ -282,6 +284,9 @@ const addMatch = createSlice({
         state.extraMarketList = [];
       })
       .addCase(matchDetailReset, (state) => {
+        state.matchDetail = null;
+      })
+      .addCase(matchDetailSuccessReset, (state) => {
         state.success = false;
       })
       .addCase(addMatchReset, (state) => {

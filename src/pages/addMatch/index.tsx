@@ -6,9 +6,11 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DemoContainer, DemoItem } from "@mui/x-date-pickers/internals/demo";
 import dayjs from "dayjs";
 import { useFormik } from "formik";
+import moment from "moment";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import CustomErrorMessage from "../../components/Common/CustomErrorMessage";
 import DropDown from "../../components/Common/DropDown";
 import BoxButtonManualMatch from "../../components/addMatch/ButtonSwitchManualMatch";
@@ -23,7 +25,7 @@ import {
   getAllEventsList,
   getAllLiveTournaments,
   getMatchDetail,
-  matchDetailReset,
+  matchDetailSuccessReset,
   tournamentListReset,
 } from "../../store/actions/addMatch/addMatchAction";
 import {
@@ -32,8 +34,6 @@ import {
 } from "../../store/actions/match/matchAction";
 import { AppDispatch, RootState } from "../../store/store";
 import { addMatchValidation } from "../../utils/Validations/login";
-import { toast } from "react-toastify";
-import moment from "moment";
 // const useStyles = makeStyles(() => ({
 //   dateTimePicker: {
 //     "& .MuiFormControl-root": {
@@ -440,7 +440,7 @@ const AddMatch = () => {
               startAt: matchDetail?.startAt,
             };
           });
-          dispatch(matchDetailReset());
+          dispatch(matchDetailSuccessReset());
         }
       }
     } catch (e) {
