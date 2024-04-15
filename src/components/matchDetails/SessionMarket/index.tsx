@@ -170,9 +170,10 @@ const SessionMarket = ({
                   background: "#319E5B",
                   height: "25px",
                   // marginLeft: "0vw",
-                  width: { lg: "40%", xs: "80%", marginLeft: "10px" },
+                  width: { lg: "40%", xs: "80%", },
                   justifyContent: { lg: "flex-start", xs: "flex-end" },
-                  marginRight: { xs: "23%", lg: "7%" },
+                  marginRight: { xs: "24%", lg: "7%", md: "23%" },
+                  marginLeft: { xs: "-10%", lg: "7%", md: "2%" },
                 }}
               >
                 <Box
