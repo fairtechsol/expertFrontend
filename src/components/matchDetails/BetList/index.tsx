@@ -206,15 +206,19 @@ const BetList = ({ tag, submit, allBetRates }: any) => {
           />
         </Box>
       </Box>
-
+      <Box
+         sx={{
+          overflowX: {xs:"scroll", lg: "initial"},
+          width: "100%",
+        }}
+      >
       {visibleImg && (
         <>
+       
           <Box
-            className="myScroll"
             sx={{
               maxHeight: submit ? "300px" : "500px",
-              overflowY: "auto",
-              width: "100%",
+              width: {xs:"100vh", lg: "auto", md: "140vh"},
             }}
           >
             <HeaderRow tag={tag} />
@@ -294,8 +298,10 @@ const BetList = ({ tag, submit, allBetRates }: any) => {
                 );
               })}
           </Box>
+
         </>
       )}
+      </Box>
     </Box>
   );
 };

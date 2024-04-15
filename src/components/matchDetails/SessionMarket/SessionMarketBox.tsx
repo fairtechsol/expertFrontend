@@ -87,7 +87,7 @@ const SessionMarketBox = ({
           }}
         // className="example-2"
         >
-          <Box sx={{ paddingTop: "3px", width: { lg: "80%" } }}>
+          <Box sx={{ paddingTop: "3px", width: { lg: "88%" } }}>
             <Typography
               sx={{
                 color: "black",
@@ -141,9 +141,9 @@ const SessionMarketBox = ({
           sx={{
             position: "absolute",
             top: "4px",
-            width: "29%",
+            minWidth: "20%",
             justifyContent: "flex-end",
-            left: { lg: "8vw", md: "25vw", xs: "12vh" },
+            left: { lg: "12vw", md: "25vw", xs: "15vh" },
             display: "flex",
             zIndex: 100,
             gap: 0,
@@ -302,16 +302,14 @@ const SessionMarketBox = ({
           <Box
             sx={{
               display: "flex",
-              position: "relative",
+              // position: "relative",
               // background: "white",
               height: "40px",
               // marginLeft: "2vh",
               width: { lg: "18.6%", xs: "40%" },
-              paddingLeft: "0px",
               justifyContent: "center",
               alignItems: "center",
-              margin: "auto",
-              right: 20,
+              marginLeft: {xs: "1em", lg: "4.5em", md: "3.5em"},
             }}
           >
             <SeparateBox

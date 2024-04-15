@@ -216,7 +216,7 @@ const SessionResultComponent = (props: any) => {
                             color: "white",
                           }}
                         >
-                          {profitLoss}
+                          {formatToINR(profitLoss)}
                           <StyledImage
                             src="https://fontawesomeicons.com/images/svg/trending-up-sharp.svg"
                             sx={{
