@@ -31,8 +31,8 @@ const SessionMarketLive = ({
         backgroundColor: "white",
         flexDirection: "column",
         marginY: { lg: "2px" },
-        width: {lg:"50%", xs: "100%"},
-        height: {lg:"98%", xs: "50%"},
+        width: { lg: "100%", xs: "100%" },
+        height: "100%",
         alignSelf: {
           xs: "center",
           md: "center",
@@ -124,7 +124,7 @@ const SessionMarketLive = ({
                 height: "25px",
                 width: "99.7%",
                 alignSelf: "center",
-                zIndex: "999"
+                zIndex: "999",
               }}
             >
               <Box
@@ -143,7 +143,7 @@ const SessionMarketLive = ({
                     marginLeft: "7px",
                   }}
                 >
-                  MIN: {formatToINR(currentMatch?.betFairSessionMinBet)} 
+                  MIN: {formatToINR(currentMatch?.betFairSessionMinBet)}
                   {/* MAX:
                   {currentMatch?.betFairSessionMaxBet} */}
                 </Typography>
@@ -161,7 +161,7 @@ const SessionMarketLive = ({
                 <Box
                   sx={{
                     background: "#FF9292",
-                    width: {lg:"26.5%", xs: "24.5%"},
+                    width: { lg: "26.5%", xs: "24.5%" },
                     height: "100%",
                     display: "flex",
                     justifyContent: "center",
@@ -178,7 +178,7 @@ const SessionMarketLive = ({
                 <Box
                   sx={{
                     background: "#00C0F9",
-                    width: {lg:"26.5%", xs: "22.5%"},
+                    width: { lg: "26.5%", xs: "22.5%" },
                     height: "100%",
                     display: "flex",
                     justifyContent: "center",
@@ -201,7 +201,7 @@ const SessionMarketLive = ({
               width: "100%",
               position: "relative",
               // height: "auto",
-              maxHeight: {lg:"85vh", xs: "40vh"},
+              maxHeight: { lg: "85vh", xs: "40vh" },
               overflowY: "auto",
             }}
           >

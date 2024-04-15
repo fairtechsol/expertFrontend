@@ -1,4 +1,4 @@
-import { Box, useMediaQuery } from "@mui/material";
+import { Box, useMediaQuery, useTheme } from "@mui/material";
 import { memo, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -36,7 +36,6 @@ import {
   updateTeamRates,
 } from "../../store/actions/match/matchAction";
 import { AppDispatch, RootState } from "../../store/store";
-import theme from "../../theme";
 
 const MatchDetails = () => {
   const { state } = useLocation();
@@ -46,6 +45,7 @@ const MatchDetails = () => {
   const { matchDetail, loading, success } = useSelector(
     (state: RootState) => state.addMatch.addMatch
   );
+  const theme = useTheme();
   const matchesMobile = useMediaQuery(theme.breakpoints.down("lg"));
   const { placedBetsMatch } = useSelector(
     (state: RootState) => state.matchList

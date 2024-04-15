@@ -37,7 +37,7 @@ const SessionMarket = ({
         flexDirection: "column",
         marginY: { lg: ".5vh" },
         width: "100%",
-        height: { lg: "98%", xs: "50%" },
+        height: "100%",
         alignSelf: {
           xs: "center",
           md: "center",
@@ -100,7 +100,6 @@ const SessionMarket = ({
           sx={{
             flex: 1,
             background: "#262626",
-            // '#262626' ,
             display: "flex",
             alignItems: "center",
             justifyContent: "flex-end",

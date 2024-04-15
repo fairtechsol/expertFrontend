@@ -208,6 +208,22 @@ const MatchListTable = (props: any) => {
               }}
             >
               {(getProfile?.allPrivilege ||
+                getProfile?.sessionMatchPrivilege) && (
+                <CustomButton
+                  containerStyle={{
+                    minWidth: { xs: "40%", sm: "100px" },
+                    width: { xs: "40%", sm: "100px" },
+                    marginLeft: { xs: "1%", sm: "10px" },
+                  }}
+                  onClick={() => {
+                    navigate(`/expert/session`, {
+                      state: { id: data?.id, marketId: data?.marketId },
+                    });
+                  }}
+                  title={"Session"}
+                />
+              )}
+              {(getProfile?.allPrivilege ||
                 getProfile?.betFairMatchPrivilege) && (
                 <CustomButton
                   containerStyle={{
@@ -216,11 +232,11 @@ const MatchListTable = (props: any) => {
                     marginLeft: { xs: "1%", sm: "10px" },
                   }}
                   onClick={() => {
-                    navigate(`/expert/betOdds`, {
+                    navigate(`/expert/market`, {
                       state: { id: data?.id, marketId: data?.marketId },
                     });
                   }}
-                  title={"Submit"}
+                  title={"Match"}
                 />
               )}
               {(getProfile?.allPrivilege || getProfile?.addMatchPrivilege) && (
