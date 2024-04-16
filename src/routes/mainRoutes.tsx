@@ -1,15 +1,21 @@
 import { Navigate } from "react-router-dom";
-import Loadable from "../utils/loadable";
+// import Loadable from "../utils/loadable";
 import { Constants } from "../utils/Constants";
 
 import MainLayout from "../layout/main";
+import MatchList from "../pages/matchList";
+import AddMatch from "../pages/addMatch";
+import AddSession from "../pages/addSession";
+import UpdateBookmaker from "../pages/updateBookmaker";
+import MatchDetails from "../pages/matchDetails";
+import ChangePassword from "../pages/changePassword";
 
-const MatchList = Loadable(() => import("../pages/matchList"));
-const AddMatch = Loadable(() => import("../pages/addMatch"));
-const AddSession = Loadable(() => import("../pages/addSession"));
-const MatchDetails = Loadable(() => import("../pages/matchDetails"));
-const ChangePassword = Loadable(() => import("../pages/changePassword"));
-const UpdateBookmaker = Loadable(() => import("../pages/updateBookmaker"));
+// const MatchList = Loadable(() => import("../pages/matchList"));
+// const AddMatch = Loadable(() => import("../pages/addMatch"));
+// const AddSession = Loadable(() => import("../pages/addSession"));
+// const MatchDetails = Loadable(() => import("../pages/matchDetails"));
+// const ChangePassword = Loadable(() => import("../pages/changePassword"));
+// const UpdateBookmaker = Loadable(() => import("../pages/updateBookmaker"));
 
 const MainRoutes = {
   path: Constants.MainPaths.root,
