@@ -42,7 +42,8 @@ const SessionResultModal = (props: any) => {
       }
       if (newData?.betStatus === 0) {
         setLoading({ id: "DR", value: true });
-        if (!values?.score) {
+        if (!values?.score && values?.score !==0) {
+          setLoading({ id: "NR", value: false });
           return;
         }
         let payload = {
