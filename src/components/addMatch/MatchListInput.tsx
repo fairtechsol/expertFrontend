@@ -15,7 +15,7 @@ const MatchListInput = (props: any) => {
 
   const containerStyles: any = {
     width: "100%",
-    // marginTop: "10px",
+    flex: 1,
   };
 
   const titleStyles = {
