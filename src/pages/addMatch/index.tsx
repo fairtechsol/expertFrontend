@@ -694,7 +694,6 @@ const AddMatch = () => {
               ) : (
                 <MatchListInput
                   required={true}
-                  containerStyle={{ flex: 1, width: "100%" }}
                   label={"Tournament Name"}
                   type={"text"}
                   onChange={handleInputChange}
