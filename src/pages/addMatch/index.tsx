@@ -604,13 +604,10 @@ const AddMatch = () => {
               ) : (
                 <MatchListInput
                   required={true}
-                  valueStyle={{}}
-                  containerStyle={{ flex: 1, width: "100%" }}
                   label={"Tournament Name*"}
                   type={"text"}
                   onChange={handleInputChange}
                   placeholder="Enter your Tournament Name"
-                  InputValType={"InputVal"}
                   place={3}
                   id="competitionName"
                   name="competitionName"
@@ -683,13 +680,10 @@ const AddMatch = () => {
               ) : (
                 <MatchListInput
                   required={true}
-                  valueStyle={{}}
-                  containerStyle={{ flex: 1, width: "100%" }}
                   label={"Match Name*"}
                   type={"text"}
                   onChange={handleInputChange}
                   placeholder="Enter your Match Name"
-                  InputValType={"InputVal"}
                   place={3}
                   id="title"
                   name="title"
@@ -801,10 +795,8 @@ const AddMatch = () => {
             {/* <Box sx={{ width: { xs: "100%", lg: "18%", md: "24%" } }}>
               <LabelValueComponent
                 icon={Upload}
-                containerStyle={{ flex: 1, width: "100%" }}
                 title={"Image (Optional)"}
                 value="No File Selected..."
-                InputValType={"FileSelectVal"}
                 place={6}
                 DetailError={{
                   type: "String",
@@ -814,10 +806,8 @@ const AddMatch = () => {
             <Box sx={{ width: { xs: "100%", lg: "18%", md: "24%" } }}>
               <LabelValueComponent
                 icon={Upload}
-                containerStyle={{ flex: 1, width: "100%" }}
                 title={"Team A Image (Optional)"}
                 value="No File Selected..."
-                InputValType={"FileSelectVal"}
                 place={10}
                 DetailError={{
                   type: "String",
@@ -827,10 +817,8 @@ const AddMatch = () => {
             <Box sx={{ width: { xs: "100%", lg: "18%", md: "24%" } }}>
               <LabelValueComponent
                 icon={Upload}
-                containerStyle={{ flex: 1, width: "100%" }}
                 title={"Team B Image (Optional)"}
                 value="No File Selected..."
-                InputValType={"FileSelectVal"}
                 place={14}
                 DetailError={{
                   type: "String",
@@ -840,9 +828,7 @@ const AddMatch = () => {
             <Box sx={{ width: { xs: "100%", lg: "18%", md: "24%" } }}>
               <MatchListInput
                 required={true}
-                valueStyle={{}}
                 disable={state?.id}
-                containerStyle={{ flex: 1, width: "100%" }}
                 label={"Min Bet*"}
                 type={"Number"}
                 touched={touched.minBet}
@@ -850,7 +836,6 @@ const AddMatch = () => {
                 value={values.minBet}
                 onChange={handleChange}
                 placeholder="Enter your Min Bet..."
-                InputValType={"InputVal"}
                 place={3}
                 id="minBet"
                 name="minBet"
@@ -865,8 +850,6 @@ const AddMatch = () => {
             <Box sx={{ width: { xs: "100%", lg: "18%", md: "24%" } }}>
               <MatchListInput
                 required={true}
-                valueStyle={{}}
-                containerStyle={{ flex: 1, width: "100%" }}
                 label={"Match Odd Max Bet*"}
                 type={"Number"}
                 name="betfairMatchMaxBet"
@@ -876,7 +859,6 @@ const AddMatch = () => {
                 value={values.betfairMatchMaxBet}
                 onChange={handleChange}
                 placeholder="Enter your Match Max Bet..."
-                InputValType={"InputVal"}
                 place={3}
               />
               <CustomErrorMessage
@@ -888,11 +870,9 @@ const AddMatch = () => {
             <Box sx={{ width: { xs: "100%", lg: "18%", md: "24%" } }}>
               <MatchListInput
                 required={true}
-                containerStyle={{ flex: 1, width: "100%" }}
                 label={"Betfair Session Max Bet*"}
                 type={"Number"}
                 placeholder="Betfair Session Max Bet..."
-                InputValType={"InputVal"}
                 place={11}
                 name="betfairSessionMaxBet"
                 id="betfairSessionMaxBet"
@@ -909,14 +889,12 @@ const AddMatch = () => {
             <Box sx={{ width: { xs: "100%", lg: "18%", md: "24%" } }}>
               <MatchListInput
                 required={true}
-                containerStyle={{ flex: 1, width: "100%" }}
                 label={"Betfair Bookmaker Max Bet*"}
                 type={"Number"}
                 touched={touched.betfairBookmakerMaxBet}
                 value={values.betfairBookmakerMaxBet}
                 onChange={handleChange}
                 placeholder="Enter Bookmaker Max Bet..."
-                InputValType={"InputVal"}
                 place={15}
                 id="betfairBookmakerMaxBet"
                 name="betfairBookmakerMaxBet"
@@ -930,14 +908,12 @@ const AddMatch = () => {
             <Box sx={{ width: { xs: "100%", lg: "18%", md: "24%" } }}>
               <MatchListInput
                 required={true}
-                containerStyle={{ flex: 1, width: "100%" }}
                 label={"Market Tied Match Max Bet*"}
                 type={"Number"}
                 touched={touched.marketTiedMatchMaxBet}
                 value={values.marketTiedMatchMaxBet}
                 onChange={handleChange}
                 placeholder="Enter Market Tied Match Max Bet..."
-                InputValType={"InputVal"}
                 place={15}
                 id="marketTiedMatchMaxBet"
                 name="marketTiedMatchMaxBet"
@@ -951,14 +927,12 @@ const AddMatch = () => {
             <Box sx={{ width: { xs: "100%", lg: "18%", md: "24%" } }}>
               <MatchListInput
                 required={true}
-                containerStyle={{ flex: 1, width: "100%" }}
                 label={"Manual Tied Match Max Bet*"}
                 type={"Number"}
                 touched={touched.manualTiedMatchMaxBet}
                 value={values.manualTiedMatchMaxBet}
                 onChange={handleChange}
                 placeholder="Enter Manual Tied Match Max Bet..."
-                InputValType={"InputVal"}
                 place={15}
                 id="manualTiedMatchMaxBet"
                 name="manualTiedMatchMaxBet"
@@ -972,14 +946,12 @@ const AddMatch = () => {
             <Box sx={{ width: { xs: "100%", lg: "18%", md: "24%" } }}>
               <MatchListInput
                 required={true}
-                containerStyle={{ flex: 1, width: "100%" }}
                 label={"Complete Match Max Bet*"}
                 type={"Number"}
                 touched={touched.completeMatchMaxBet}
                 value={values.completeMatchMaxBet}
                 onChange={handleChange}
                 placeholder="Enter Manual Tied Match Max Bet..."
-                InputValType={"InputVal"}
                 place={15}
                 id="completeMatchMaxBet"
                 name="completeMatchMaxBet"
@@ -1056,7 +1028,6 @@ const AddMatch = () => {
                     >
                       <MatchListInput
                         required={true}
-                        containerStyle={{ flex: 1, width: "100%" }}
                         label={"Market Name*"}
                         type={"text"}
                         placeholder="Enter Market Name..."
@@ -1080,7 +1051,6 @@ const AddMatch = () => {
                     >
                       <MatchListInput
                         required={true}
-                        containerStyle={{ flex: 1, width: "100%" }}
                         label={"Max Limit*"}
                         type={"number"}
                         placeholder="Enter Max Bet..."
@@ -1106,7 +1076,6 @@ const AddMatch = () => {
                     >
                       <MatchListInput
                         required={true}
-                        containerStyle={{ flex: 1, width: "100%" }}
                         label={"Market Name*"}
                         type={"text"}
                         placeholder="Enter Market Name..."
@@ -1130,7 +1099,6 @@ const AddMatch = () => {
                     >
                       <MatchListInput
                         required={true}
-                        containerStyle={{ flex: 1, width: "100%" }}
                         label={"Max Limit*"}
                         type={"number"}
                         placeholder="Enter Max Bet..."
@@ -1156,7 +1124,6 @@ const AddMatch = () => {
                     >
                       <MatchListInput
                         required={true}
-                        containerStyle={{ flex: 1, width: "100%" }}
                         label={"Market Name*"}
                         type={"text"}
                         placeholder="Enter Market Name..."
@@ -1180,7 +1147,6 @@ const AddMatch = () => {
                     >
                       <MatchListInput
                         required={true}
-                        containerStyle={{ flex: 1, width: "100%" }}
                         label={"Max Limit*"}
                         type={"number"}
                         placeholder="Enter Max Bet..."

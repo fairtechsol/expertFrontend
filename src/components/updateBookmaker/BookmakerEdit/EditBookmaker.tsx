@@ -415,7 +415,7 @@ const EditBookmaker = (props: any) => {
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
-              zIndex: 999,
+              zIndex: 1,
             }}
           >
             <Typography
@@ -426,7 +426,7 @@ const EditBookmaker = (props: any) => {
           </Box>
         )}
         <Box sx={{ display: "flex" }}>
-          <Box sx={{ background: "#319E5B", width: "60%", px: "5px" }}></Box>
+          <Box sx={{ background: "#319E5B", width: "75%", px: "5px" }}></Box>
           <Box
             sx={{
               background: "#00C0F9",
@@ -458,7 +458,7 @@ const EditBookmaker = (props: any) => {
         </Box>
         <Box sx={{ display: "flex" }}>
           <Box
-            sx={{ background: "#FFFFFF", width: "60%", position: "relative" }}
+            sx={{ background: "#FFFFFF", width: "65%", }}
           >
             {!add && (
               <Box
@@ -608,6 +608,7 @@ const EditBookmaker = (props: any) => {
                     InputProps={{
                       disableUnderline: true,
                       sx: {
+                        // position: "relative",
                         height: "55px",
                         width: "90%",
                         background: "#F6F6F6",
@@ -982,7 +983,7 @@ const EditBookmaker = (props: any) => {
             )}
           </Box>
 
-          <Box sx={{ borderLeft: "2px solid white", width: "40%" }}>
+          <Box sx={{ borderLeft: "2px solid white", width: "35%" }}>
             {localQuickBookmaker?.teamBall ? (
               <Box
                 sx={{

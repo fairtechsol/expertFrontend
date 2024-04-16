@@ -149,7 +149,7 @@ const MatchListTable = (props: any) => {
           <Box
             display={"flex"}
             sx={{
-              flexDirection: { xs: "column", sm: "column", md: "row" },
+              flexDirection: { xs: "column", sm: "row", md: "row", lg: "row" },
               order: { xs: "1", sm: "2", md: "3" },
               width: { xs: "100%", sm: "auto" },
               py: { xs: 1, sm: 0 },
@@ -274,10 +274,12 @@ const MatchListTable = (props: any) => {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <SessionResultComponent
-          setShowPopup={setShowPopup}
-          sessionResults={sessionProLoss}
-        />
+        <>
+          <SessionResultComponent
+            setShowPopup={setShowPopup}
+            sessionResults={sessionProLoss}
+          />
+        </>
       </ModalMUI>
     </>
   );

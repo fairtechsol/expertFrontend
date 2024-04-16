@@ -24,7 +24,7 @@ const SessionMarketBox = ({
   setIObtes,
   profitLossData,
   index,
-  }: any) => {
+}: any) => {
   const dispatch: AppDispatch = useDispatch();
   const { statusBetLive, error, success } = useSelector(
     (state: RootState) => state.matchList
@@ -66,18 +66,26 @@ const SessionMarketBox = ({
       <Box
         sx={{
           display: "flex",
-          background: visible ? "#FFAF45" : index % 2 === 0 ? "#FFE094" : "#ECECEC", // Change color based on selected state and index
+          background: visible
+            ? "#FFAF45"
+            : index % 2 === 0
+            ? "#FFE094"
+            : "#ECECEC", // Change color based on selected state and index
 
           height: "40px",
           width: "100%",
           boxShadow: visible ? 3 : 0,
         }}
-      // className="example-2"
+        // className="example-2"
       >
         <Box
           sx={{
             display: "flex",
-            background: visible ? "#FFAF45" : index % 2 === 0 ? "#FFE094" : "#ECECEC", // Change color based on selected state and index
+            background: visible
+              ? "#FFAF45"
+              : index % 2 === 0
+              ? "#FFE094"
+              : "#ECECEC", // Change color based on selected state and index
 
             height: "39px",
             width: "40%",
@@ -85,9 +93,9 @@ const SessionMarketBox = ({
             boxShadow: visible ? 3 : 0,
             // backgroundColor:'red'
           }}
-        // className="example-2"
+          // className="example-2"
         >
-          <Box sx={{ paddingTop: "3px", width: { lg: "80%" } }}>
+          <Box sx={{ paddingTop: "3px", width: { lg: "80%", xs: "70%" } }}>
             <Typography
               sx={{
                 color: "black",
@@ -123,6 +131,7 @@ const SessionMarketBox = ({
                   height: "18px",
                   background: "transparent",
                   marginLeft: "5px",
+                  zIndex: "999",
                   // borderRadius: "3px",
                   // display: "flex",
                   // justifyContent: "center",
@@ -141,9 +150,9 @@ const SessionMarketBox = ({
           sx={{
             position: "absolute",
             top: "4px",
-            width: "29%",
+            minWidth: { lg: "25%", xs: "45%", md: "25%" },
             justifyContent: "flex-end",
-            left: { lg: "8vw", md: "25vw", xs: "12vh" },
+            left: { lg: "10vw", md: "29vw", xs: "10vw" },
             display: "flex",
             zIndex: 100,
             gap: 0,
@@ -197,8 +206,8 @@ const SessionMarketBox = ({
               // width={"80px"}
               width={"33px"}
               color={newData?.activeStatus === "live" ? "#46e080" : "#FF4D4D"}
-            // title={"Live"}
-                       />
+              // title={"Live"}
+            />
           )}
           {!hideResult && (
             <Result
@@ -244,13 +253,12 @@ const SessionMarketBox = ({
               margin: "1px",
               background: "rgba(0,0,0,1)",
               height: "40px",
-              right: { lg: "26.5%", xs: "22.5%", md: "20%" },
+              right: { lg: "25%", xs: "25%", md: "23%" },
               position: "absolute",
               width: { lg: "16%", xs: "20%" },
               justifyContent: { xs: "center", lg: "center" },
               alignItems: "center",
               display: "flex",
-      
             }}
           >
             {/* <img src={BallStart} style={{ width: '113px', height: "32px" }} /> */}
@@ -273,13 +281,13 @@ const SessionMarketBox = ({
               margin: "1px",
               background: "rgba(0,0,0,1)",
               height: "40px",
-              right: { lg: "26.5%", xs: "22.5%", md: "20%" },
+              right: { lg: "25%", xs: "25%", md: "23%" },
               position: "absolute",
               width: { lg: "16%", xs: "20%" },
               justifyContent: { xs: "center", lg: "center" },
               alignItems: "center",
               display: "flex",
-              backgroundColor: "#FF4D4D"
+              backgroundColor: "#FF4D4D",
             }}
           >
             <h6
@@ -294,7 +302,6 @@ const SessionMarketBox = ({
                 overflowWrap: "anywhere",
               }}
             >
-
               {newData?.resultStatus}
             </h6>
           </Box>
@@ -303,15 +310,12 @@ const SessionMarketBox = ({
             sx={{
               display: "flex",
               position: "relative",
+              right: { lg: "-17%", xs: "-5%", md: "-7%" },
               // background: "white",
               height: "40px",
-              // marginLeft: "2vh",
               width: { lg: "18.6%", xs: "40%" },
-              paddingLeft: "0px",
               justifyContent: "center",
               alignItems: "center",
-              margin: "auto",
-              right: 20,
             }}
           >
             <SeparateBox
@@ -355,17 +359,19 @@ const SessionMarketBox = ({
           justifyContent: "center",
         }}
       >
-        <SessionLimitEdit
-          newData={{
-            id: newData.id,
-            name: newData.name,
-            minBet: newData?.minBet,
-            maxBet: newData?.maxBet,
-          }}
-          onClickCancel={() => {
-            setShowMaxLimitModal(false);
-          }}
-        />
+        <>
+          <SessionLimitEdit
+            newData={{
+              id: newData.id,
+              name: newData.name,
+              minBet: newData?.minBet,
+              maxBet: newData?.maxBet,
+            }}
+            onClickCancel={() => {
+              setShowMaxLimitModal(false);
+            }}
+          />
+        </>
       </ModalMUI>
     </div>
   );
