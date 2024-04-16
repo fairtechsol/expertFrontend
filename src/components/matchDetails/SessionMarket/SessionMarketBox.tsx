@@ -24,7 +24,7 @@ const SessionMarketBox = ({
   setIObtes,
   profitLossData,
   index,
-  }: any) => {
+}: any) => {
   const dispatch: AppDispatch = useDispatch();
   const { statusBetLive, error, success } = useSelector(
     (state: RootState) => state.matchList
@@ -49,7 +49,7 @@ const SessionMarketBox = ({
   }, [success]);
   // console.log(newData?.resultStatus)
   return (
-    <div style={{position: "relative"}}>
+    <div style={{ position: "relative" }}>
       {!["live"].includes(newData?.activeStatus) && (
         <Box
           sx={{
@@ -66,18 +66,26 @@ const SessionMarketBox = ({
       <Box
         sx={{
           display: "flex",
-          background: visible ? "#FFAF45" : index % 2 === 0 ? "#FFE094" : "#ECECEC", // Change color based on selected state and index
+          background: visible
+            ? "#FFAF45"
+            : index % 2 === 0
+            ? "#FFE094"
+            : "#ECECEC", // Change color based on selected state and index
 
           height: "40px",
           width: "100%",
           boxShadow: visible ? 3 : 0,
         }}
-      // className="example-2"
+        // className="example-2"
       >
         <Box
           sx={{
             display: "flex",
-            background: visible ? "#FFAF45" : index % 2 === 0 ? "#FFE094" : "#ECECEC", // Change color based on selected state and index
+            background: visible
+              ? "#FFAF45"
+              : index % 2 === 0
+              ? "#FFE094"
+              : "#ECECEC", // Change color based on selected state and index
 
             height: "39px",
             width: "40%",
@@ -85,7 +93,7 @@ const SessionMarketBox = ({
             boxShadow: visible ? 3 : 0,
             // backgroundColor:'red'
           }}
-        // className="example-2"
+          // className="example-2"
         >
           <Box sx={{ paddingTop: "3px", width: { lg: "80%", xs: "70%" } }}>
             <Typography
@@ -123,7 +131,7 @@ const SessionMarketBox = ({
                   height: "18px",
                   background: "transparent",
                   marginLeft: "5px",
-                  zIndex: "999"
+                  zIndex: "999",
                   // borderRadius: "3px",
                   // display: "flex",
                   // justifyContent: "center",
@@ -142,7 +150,7 @@ const SessionMarketBox = ({
           sx={{
             position: "absolute",
             top: "4px",
-            minWidth: {lg:"25%", xs: "45%", md: "25%"},
+            minWidth: { lg: "25%", xs: "45%", md: "25%" },
             justifyContent: "flex-end",
             left: { lg: "10vw", md: "29vw", xs: "10vw" },
             display: "flex",
@@ -198,8 +206,8 @@ const SessionMarketBox = ({
               // width={"80px"}
               width={"33px"}
               color={newData?.activeStatus === "live" ? "#46e080" : "#FF4D4D"}
-            // title={"Live"}
-                       />
+              // title={"Live"}
+            />
           )}
           {!hideResult && (
             <Result
@@ -251,7 +259,6 @@ const SessionMarketBox = ({
               justifyContent: { xs: "center", lg: "center" },
               alignItems: "center",
               display: "flex",
-      
             }}
           >
             {/* <img src={BallStart} style={{ width: '113px', height: "32px" }} /> */}
@@ -280,7 +287,7 @@ const SessionMarketBox = ({
               justifyContent: { xs: "center", lg: "center" },
               alignItems: "center",
               display: "flex",
-              backgroundColor: "#FF4D4D"
+              backgroundColor: "#FF4D4D",
             }}
           >
             <h6
@@ -295,7 +302,6 @@ const SessionMarketBox = ({
                 overflowWrap: "anywhere",
               }}
             >
-
               {newData?.resultStatus}
             </h6>
           </Box>
@@ -353,17 +359,19 @@ const SessionMarketBox = ({
           justifyContent: "center",
         }}
       >
-        <SessionLimitEdit
-          newData={{
-            id: newData.id,
-            name: newData.name,
-            minBet: newData?.minBet,
-            maxBet: newData?.maxBet,
-          }}
-          onClickCancel={() => {
-            setShowMaxLimitModal(false);
-          }}
-        />
+        <>
+          <SessionLimitEdit
+            newData={{
+              id: newData.id,
+              name: newData.name,
+              minBet: newData?.minBet,
+              maxBet: newData?.maxBet,
+            }}
+            onClickCancel={() => {
+              setShowMaxLimitModal(false);
+            }}
+          />
+        </>
       </ModalMUI>
     </div>
   );
