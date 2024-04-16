@@ -203,17 +203,19 @@ const MatchListTable = (props: any) => {
               display={"flex"}
               sx={{
                 marginY: { xs: 1, sm: 0, lg: 0 },
+                marginX: { xs: 1, sm: 1, lg: 1 },
                 alignItems: "center",
                 justifyContent: "flex-end",
+                
               }}
             >
               {(getProfile?.allPrivilege ||
                 getProfile?.betFairMatchPrivilege) && (
                 <CustomButton
                   containerStyle={{
-                    minWidth: { xs: "40%", sm: "100px" },
-                    width: { xs: "40%", sm: "100px" },
-                    marginLeft: { xs: "1%", sm: "10px" },
+                    minWidth: { xs: "40%", sm: "50px" , md: "50px", lg: "100px"},
+                    width: { xs: "40%", sm: "50px", md: "50px", lg: "100px" },
+                    marginLeft: { xs: "1%", sm: "10px", md: "50%",lg: "2%" },
                   }}
                   onClick={() => {
                     navigate(`/expert/betOdds`, {
@@ -226,9 +228,9 @@ const MatchListTable = (props: any) => {
               {(getProfile?.allPrivilege || getProfile?.addMatchPrivilege) && (
                 <CustomButton
                   containerStyle={{
-                    minWidth: { xs: "40%", sm: "100px" },
-                    width: { xs: "40%", sm: "100px" },
-                    marginLeft: { xs: "1%", sm: "10px" },
+                    minWidth: { xs: "40%",  sm: "50px" , md: "50px", lg: "100px" },
+                    width: { xs: "40%",  sm: "50px" , md: "50px", lg: "100px" },
+                    marginLeft: { xs: "1%", sm: "10px",lg: "2%" },
                   }}
                   onClick={() => {
                     navigate(`/expert/edit_match`, {

@@ -39,7 +39,7 @@ const CustomButton = ({
         },
       ]}
     >
-      <Typography sx={{ color: "white", fontSize: "13px", ...inlineStyle }}>
+      <Typography sx={{ color: "white", fontSize: {lg:"13px", xs: "10px", md: "10px"}, ...inlineStyle }}>
         {" "}
         {loading ? (
           <CircularProgress
