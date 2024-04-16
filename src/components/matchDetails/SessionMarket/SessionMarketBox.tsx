@@ -123,6 +123,7 @@ const SessionMarketBox = ({
                   height: "18px",
                   background: "transparent",
                   marginLeft: "5px",
+                  zIndex: "999"
                   // borderRadius: "3px",
                   // display: "flex",
                   // justifyContent: "center",
