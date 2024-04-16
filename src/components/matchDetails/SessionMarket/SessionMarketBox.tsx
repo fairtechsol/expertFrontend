@@ -49,7 +49,7 @@ const SessionMarketBox = ({
   }, [success]);
   // console.log(newData?.resultStatus)
   return (
-    <div style={{ position: "relative" }}>
+    <div style={{position: "relative"}}>
       {!["live"].includes(newData?.activeStatus) && (
         <Box
           sx={{
@@ -141,9 +141,9 @@ const SessionMarketBox = ({
           sx={{
             position: "absolute",
             top: "4px",
-            minWidth: "20%",
+            minWidth: {lg:"25%", xs: "45%", md: "25%"},
             justifyContent: "flex-end",
-            left: { lg: "10vw", md: "29vw", xs: "12vh" },
+            left: { lg: "10vw", md: "29vw", xs: "10vw" },
             display: "flex",
             zIndex: 100,
             gap: 0,
@@ -244,7 +244,7 @@ const SessionMarketBox = ({
               margin: "1px",
               background: "rgba(0,0,0,1)",
               height: "40px",
-              right: { lg: "25%", xs: "26%", md: "24%" },
+              right: { lg: "25%", xs: "25%", md: "23%" },
               position: "absolute",
               width: { lg: "16%", xs: "20%" },
               justifyContent: { xs: "center", lg: "center" },
@@ -273,7 +273,7 @@ const SessionMarketBox = ({
               margin: "1px",
               background: "rgba(0,0,0,1)",
               height: "40px",
-              right: { lg: "25%", xs: "25%", md: "24%" },
+              right: { lg: "25%", xs: "25%", md: "23%" },
               position: "absolute",
               width: { lg: "16%", xs: "20%" },
               justifyContent: { xs: "center", lg: "center" },
@@ -302,14 +302,13 @@ const SessionMarketBox = ({
           <Box
             sx={{
               display: "flex",
-              // position: "relative",
+              position: "relative",
+              right: { lg: "-17%", xs: "-5%", md: "-7%" },
               // background: "white",
               height: "40px",
-              // marginLeft: "2vh",
               width: { lg: "18.6%", xs: "40%" },
               justifyContent: "center",
               alignItems: "center",
-              marginLeft: {xs: "1em", lg: "4.5em", md: "2.5em"},
             }}
           >
             <SeparateBox

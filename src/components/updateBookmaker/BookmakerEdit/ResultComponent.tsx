@@ -51,7 +51,7 @@ const ResultComponent = ({
     <Box
       sx={{
         position: "absolute",
-        width: { lg: "100%", xs: "100%", md: "150%" },
+        width: { lg: "100%", xs: "100%", md: "100%" },
         marginRight: {md: "6em", xs: "4em"},
         // height: "300px",
         borderRadius: 2,
