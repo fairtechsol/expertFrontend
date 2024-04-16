@@ -6,7 +6,7 @@ import HeaderRow from "./HeaderRow";
 import Row from "./Row";
 import { formatToINR } from "../../helper";
 
-const BetList = ({ tag, submit, allBetRates }: any) => {
+const BetList = ({ tag, allBetRates }: any) => {
   const [newData, setNewBets] = useState([]);
   const [visibleImg, setVisibleImg] = useState(true);
 
@@ -88,13 +88,13 @@ const BetList = ({ tag, submit, allBetRates }: any) => {
               width: { lg: "14%", xs: "35%" },
             },
             {
-              name:moment.utc(v?.createdAt).utcOffset('+05:30').format('LTS'),
+              name: moment.utc(v?.createdAt).utcOffset("+05:30").format("LTS"),
               color: "black",
               background: ["YES", "BACK"].includes(v?.betType)
                 ? "#B3E0FF"
                 : "rgb(255, 146, 146)",
               time: true,
-              date: moment.utc(v?.createdAt).utcOffset('+05:30').format("L"),
+              date: moment.utc(v?.createdAt).utcOffset("+05:30").format("L"),
               deleteReason: v?.deleteReason,
               width: { lg: "10%", xs: "35%" },
             },
@@ -112,8 +112,7 @@ const BetList = ({ tag, submit, allBetRates }: any) => {
       sx={{
         width: "100%",
         margin: "0",
-        marginTop: submit ? "10px" : ".25vh",
-
+        marginTop: ".25vh",
         background: "white",
       }}
     >
@@ -207,100 +206,98 @@ const BetList = ({ tag, submit, allBetRates }: any) => {
         </Box>
       </Box>
       <Box
-         sx={{
-          overflowX: {xs:"scroll", lg: "initial"},
+        sx={{
+          overflowX: { xs: "scroll", lg: "initial" },
           width: "100%",
         }}
       >
-      {visibleImg && (
-        <>
-       
-          <Box
-            sx={{
-              maxHeight: submit ? "300px" : "500px",
-              width: {xs:"100vh", lg: "auto", md: "140vh"},
-            }}
-          >
-            <HeaderRow tag={tag} />
+        {visibleImg && (
+          <>
+            <Box
+              sx={{
+                maxHeight: "500px",
+                width: { xs: "100vh", lg: "auto", md: "140vh" },
+              }}
+            >
+              <HeaderRow tag={tag} />
 
-            {newData?.length > 0 &&
-              newData?.map((i: any, k: any) => {
-                const num = newData?.length - k;
-                return (
-                  <div
-                    key={k}
-                    style={{ display: "flex", position: "relative" }}
-                  >
-                    <Box
-                      sx={{
-                        width: { lg: "4%", xs: "6%" },
-                        border: "1px solid white",
-                        background: "black",
-                        height: "30px",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        display: "flex",
-                      }}
+              {newData?.length > 0 &&
+                newData?.map((i: any, k: any) => {
+                  const num = newData?.length - k;
+                  return (
+                    <div
+                      key={k}
+                      style={{ display: "flex", position: "relative" }}
                     >
-                      <Typography
-                        sx={{
-                          fontSize: !tag ? "10px" : "13px",
-                          fontWeight: tag ? "bold" : "600",
-                          color: "white",
-                        }}
-                      >
-                        {num < 10 ? "0" + num : num.toString()}
-                      </Typography>
-                    </Box>
-                    <Row index={k} values={i.values} />
-                    {i?.values[0]?.deleteReason && (
                       <Box
                         sx={{
-                          background: "rgba(0,0,0,0.5)",
-                          width: "100%",
+                          width: { lg: "4%", xs: "6%" },
+                          border: "1px solid white",
+                          background: "black",
                           height: "30px",
-                          position: "absolute",
+                          justifyContent: "center",
+                          alignItems: "center",
                           display: "flex",
                         }}
                       >
-                        <Box sx={{ flex: 1, display: "flex" }}>
-                          <Box sx={{ width: "34%", height: "30px" }}></Box>
-                          <Box
-                            sx={{
-                              width: "66%",
-                              height: "30px",
-                              display: "flex",
-                              justifyContent: "center",
-                              alignItems: "flex-end",
-                            }}
-                          >
-                            {
-                              <Typography
-                                sx={{
-                                  fontSize: "10px",
-                                  fontWeight: "700",
-                                  color: "white",
-                                  textTransform: "uppercase",
-                                }}
-                              >
-                                Bet{" "}
-                                <span style={{ color: "#e41b23" }}>
-                                  deleted
-                                </span>{" "}
-                                due to {i?.values[0]?.deleteReason}
-                              </Typography>
-                            }
+                        <Typography
+                          sx={{
+                            fontSize: !tag ? "10px" : "13px",
+                            fontWeight: tag ? "bold" : "600",
+                            color: "white",
+                          }}
+                        >
+                          {num < 10 ? "0" + num : num.toString()}
+                        </Typography>
+                      </Box>
+                      <Row index={k} values={i.values} />
+                      {i?.values[0]?.deleteReason && (
+                        <Box
+                          sx={{
+                            background: "rgba(0,0,0,0.5)",
+                            width: "100%",
+                            height: "30px",
+                            position: "absolute",
+                            display: "flex",
+                          }}
+                        >
+                          <Box sx={{ flex: 1, display: "flex" }}>
+                            <Box sx={{ width: "34%", height: "30px" }}></Box>
+                            <Box
+                              sx={{
+                                width: "66%",
+                                height: "30px",
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "flex-end",
+                              }}
+                            >
+                              {
+                                <Typography
+                                  sx={{
+                                    fontSize: "10px",
+                                    fontWeight: "700",
+                                    color: "white",
+                                    textTransform: "uppercase",
+                                  }}
+                                >
+                                  Bet{" "}
+                                  <span style={{ color: "#e41b23" }}>
+                                    deleted
+                                  </span>{" "}
+                                  due to {i?.values[0]?.deleteReason}
+                                </Typography>
+                              }
+                            </Box>
                           </Box>
                         </Box>
-                      </Box>
-                    )}
-                  </div>
-                );
-              })}
-          </Box>
-
-        </>
-      )}
+                      )}
+                    </div>
+                  );
+                })}
+            </Box>
+          </>
+        )}
       </Box>
     </Box>
   );

@@ -151,7 +151,7 @@ const MatchPermissionsModal = (props: any) => {
             >
               {data?.stopAt && (
                 <MatchListProfitLoss
-                  onClick={() => handleMatchProfitLossClick(data?.id)}
+                  // onClick={() => handleMatchProfitLossClick(data?.id)}
                   updateMatchStatusLabel="Total Profit/Loss"
                   updateMatchStatus={
                     data?.pl &&
@@ -159,6 +159,7 @@ const MatchPermissionsModal = (props: any) => {
                     data?.pl[0]?.totalProfitLoss
                   }
                   place="1"
+                  cursor="default"
                 />
               )}
               {data?.stopAt && (
@@ -169,6 +170,7 @@ const MatchPermissionsModal = (props: any) => {
                     data?.pl && data?.pl?.length > 0 && data?.pl[0]?.commission
                   }
                   place="1"
+                  cursor="default"
                 />
               )}
               {data?.stopAt && (
@@ -186,6 +188,7 @@ const MatchPermissionsModal = (props: any) => {
                     data?.pl[0]?.sessionTotalProfitLoss
                   }
                   place="1"
+                  cursor="pointer"
                 />
               )}
             </Box>

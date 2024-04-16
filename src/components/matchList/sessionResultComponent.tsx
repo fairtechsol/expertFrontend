@@ -197,71 +197,41 @@ const SessionResultComponent = (props: any) => {
                         {item?.commission ?? "NaN"}
                       </Typography>
                     </Box> */}
-                    {profitLoss > 0 ? (
-                      <Box
+                    <Box
+                      sx={{
+                        background: profitLoss > 0 ? "#10DC61" : "#FF4D4D",
+                        width: "20%",
+                        borderLeft: "2px solid white",
+                        display: "flex",
+                        height: "30px",
+                        justifyContent: "center",
+                        alignItems: "center",
+                      }}
+                    >
+                      <Typography
                         sx={{
-                          background: "#10DC61",
-                          width: "20%",
-                          borderLeft: "2px solid white",
-                          display: "flex",
-                          height: "30px",
-                          justifyContent: "center",
-                          alignItems: "center",
+                          fontWeight: "600",
+                          fontSize: "14px",
+                          color: "white",
                         }}
                       >
-                        <Typography
+                        {formatToINR(profitLoss)}
+                        <StyledImage
+                          src={
+                            profitLoss > 0
+                              ? "https://fontawesomeicons.com/images/svg/trending-up-sharp.svg"
+                              : "https://fontawesomeicons.com/images/svg/trending-down-sharp.svg"
+                          }
                           sx={{
-                            fontWeight: "600",
-                            fontSize: "14px",
-                            color: "white",
+                            height: "15px",
+                            marginLeft: "5px",
+                            filter:
+                              "invert(.9) sepia(1) saturate(5) hue-rotate(175deg);",
+                            width: "15px",
                           }}
-                        >
-                          {formatToINR(profitLoss)}
-                          <StyledImage
-                            src="https://fontawesomeicons.com/images/svg/trending-up-sharp.svg"
-                            sx={{
-                              height: "15px",
-                              marginLeft: "5px",
-                              filter:
-                                "invert(.9) sepia(1) saturate(5) hue-rotate(175deg);",
-                              width: "15px",
-                            }}
-                          />
-                        </Typography>
-                      </Box>
-                    ) : (
-                      <Box
-                        sx={{
-                          background: "#FF4D4D",
-                          width: "20%",
-                          borderLeft: "2px solid white",
-                          display: "flex",
-                          height: "30px",
-                          justifyContent: "center",
-                          alignItems: "center",
-                        }}
-                      >
-                        <Typography
-                          sx={{
-                            fontWeight: "600",
-                            fontSize: "14px",
-                            color: "white",
-                          }}
-                        >
-                          {formatToINR(profitLoss)}
-                          <StyledImage
-                            src="https://fontawesomeicons.com/images/svg/trending-down-sharp.svg"
-                            sx={{
-                              height: "15px",
-                              marginLeft: "5px",
-                              filter:
-                                "invert(.9) sepia(1) saturate(5) hue-rotate(175deg);",
-                              width: "15px",
-                            }}
-                          />
-                        </Typography>
-                      </Box>
-                    )}
+                        />
+                      </Typography>
+                    </Box>
                   </Box>
                 );
               })}

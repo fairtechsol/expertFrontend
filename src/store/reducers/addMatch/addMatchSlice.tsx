@@ -182,6 +182,14 @@ const addMatch = createSlice({
                   minBet: matchingApiSession.min,
                   status: matchingApiSession.GameStatus,
                   updatedAt: matchingApiSession.updatedAt,
+                  isComplete:
+                    (!matchingApiSession?.LayPrice1 &&
+                      !matchingApiSession?.LaySize1 &&
+                      !matchingApiSession?.BackPrice1 &&
+                      !matchingApiSession?.BackSize1) ||
+                    matchingApiSession?.activeStatus !== "live"
+                      ? true
+                      : false,
                 });
               } else {
                 return JSON.stringify({
@@ -194,6 +202,7 @@ const addMatch = createSlice({
                     parsedItem.activeStatus === "live"
                       ? "save"
                       : parsedItem.activeStatus,
+                  isComplete: true,
                 });
               }
             }

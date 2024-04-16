@@ -2,22 +2,28 @@ import { Box, Typography } from "@mui/material";
 import { formatToINR } from "../helper";
 
 const MatchListProfitLoss = (Props: any) => {
-  const { updateMatchStatus, updateMatchStatusLabel, onClick, showUserModal } = Props;
+  const {
+    updateMatchStatus,
+    updateMatchStatusLabel,
+    onClick,
+    showUserModal,
+    cursor,
+  } = Props;
 
-const [integerPart, decimalPart] = parseFloat(updateMatchStatus||0.00).toFixed(2).split('.');
-
-
+  const [integerPart, decimalPart] = parseFloat(updateMatchStatus || 0.0)
+    .toFixed(2)
+    .split(".");
 
   return (
     <>
       <Box
         onClick={onClick}
         sx={{
-          cursor: "pointer",
-          height: {xs:"25px", lg: "35px"},
+          cursor: cursor,
+          height: { xs: "25px", lg: "35px" },
           minWidth: { xs: "10%", md: "18%", lg: "12%" },
           marginLeft: { xs: "2px" },
-          marginBottom: {xs: "2px" },
+          marginBottom: { xs: "2px" },
           borderRadius: "5px",
           border: "1px solid #0B4F26",
           background: "#FFF",
@@ -56,7 +62,10 @@ const [integerPart, decimalPart] = parseFloat(updateMatchStatus||0.00).toFixed(2
             lineHeight: "14px",
           }}
         >
-          <span>{formatToINR(integerPart)}</span>.<span style={{ fontSize: '0.8em', fontWeight: 'normal' }}>{decimalPart}</span>
+          <span>{formatToINR(integerPart)}</span>.
+          <span style={{ fontSize: "0.8em", fontWeight: "normal" }}>
+            {decimalPart}
+          </span>
         </Typography>
       </Box>
     </>

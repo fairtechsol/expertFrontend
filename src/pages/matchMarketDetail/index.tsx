@@ -307,49 +307,54 @@ const MatchMarketDetail = () => {
         <Loader text="" />
       ) : (
         <>
-          <Grid container spacing={2}>
+          <Box
+            sx={{
+              width: { lg: "50%", xs: "100%", md: "100%" },
+              flexDirection: "column",
+              display: "flex",
+              paddingLeft: "5px",
+              marginTop: { xs: "10px", lg: "0" },
+            }}
+          >
             {matchDetail?.matchOdd?.isActive && (
-              <Grid item md={12} lg={6} xs={12}>
-                <MatchOdds
-                  showHeader={true}
-                  currentMatch={matchDetail}
-                  matchOddsLive={matchDetail?.matchOdd}
-                />
-              </Grid>
+              <MatchOdds
+                showHeader={true}
+                currentMatch={matchDetail}
+                matchOddsLive={matchDetail?.matchOdd}
+              />
             )}
             {matchDetail?.bookmaker?.isActive && (
-              <Grid item md={12} lg={6} xs={12}>
-                <BookMarket
-                  currentMatch={matchDetail}
-                  liveData={matchDetail?.bookmaker}
-                  title={"Bookmaker Market"}
-                />
-              </Grid>
+              <BookMarket
+                currentMatch={matchDetail}
+                liveData={matchDetail?.bookmaker}
+              />
             )}
             {matchDetail?.apiTideMatch?.isActive && (
-              <Grid item md={12} lg={6} xs={12}>
-                <TiedMatchMarket
-                  currentMatch={matchDetail}
-                  liveData={matchDetail?.apiTideMatch}
-                />
-              </Grid>
+              <TiedMatchMarket
+                currentMatch={matchDetail}
+                liveData={matchDetail?.apiTideMatch}
+              />
             )}
             {matchDetail?.marketCompleteMatch?.isActive && (
-              <Grid item md={12} lg={6} xs={12}>
-                <CompleteMatchMarket
-                  currentMatch={matchDetail}
-                  liveData={matchDetail?.marketCompleteMatch}
-                />
-              </Grid>
+              <CompleteMatchMarket
+                currentMatch={matchDetail}
+                liveData={matchDetail?.marketCompleteMatch}
+              />
             )}
+          </Box>
+          <Box
+            sx={{
+              width: { lg: "50%", xs: "100%", md: "100%" },
+              flexDirection: "column",
+              display: "flex",
+              paddingLeft: "5px",
+              marginTop: { xs: "10px", lg: "0" },
+            }}
+          >
             {matchDetail?.id && (
-              <Grid item md={12} lg={6} xs={12}>
-                <BetList allBetRates={placedBetsMatch} tag={true} />
-              </Grid>
+              <BetList allBetRates={placedBetsMatch} tag={true} />
             )}
-            <Grid item md={12} lg={6} xs={12}></Grid>
-            <Grid item md={12} lg={6} xs={12}></Grid>
-          </Grid>
+          </Box>
         </>
       )}
     </Box>

@@ -15,13 +15,9 @@ import SessionLimitEdit from "./SessionLimitEdit";
 import ModalMUI from "@mui/material/Modal";
 
 const SessionMarketBox = ({
-  currentMatch,
   newData,
-  setLocalState,
-  updateSessionData,
   hideResult,
   hideTotalBet,
-  setIObtes,
   profitLossData,
   index,
 }: any) => {
@@ -233,12 +229,6 @@ const SessionMarketBox = ({
           >
             <CustomSessionResult
               newData={JSON.stringify(newData)}
-              visible={visible}
-              setIObtes={setIObtes}
-              setLocalState={setLocalState}
-              currentMatch={currentMatch}
-              //   setLive={setLive}
-              updateSessionData={updateSessionData}
               onClick={() => {
                 setVisible(false);
               }}

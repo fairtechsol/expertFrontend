@@ -174,6 +174,7 @@ const MatchListTable = (props: any) => {
                   data?.pl[0]?.totalProfitLoss
                 }
                 place="1"
+                cursor="default"
               />
             )}
             {data?.stopAt && (
@@ -184,6 +185,7 @@ const MatchListTable = (props: any) => {
                   data?.pl && data?.pl?.length > 0 && data?.pl[0]?.commission
                 }
                 place="1"
+                cursor="default"
               />
             )}
             {data?.stopAt && (
@@ -196,6 +198,7 @@ const MatchListTable = (props: any) => {
                   data?.pl[0]?.sessionTotalProfitLoss
                 }
                 place="1"
+                cursor="pointer"
               />
             )}
 

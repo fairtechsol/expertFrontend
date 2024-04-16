@@ -12,21 +12,14 @@ import { formatToINR } from "../../helper";
 
 const SessionMarket = ({
   currentMatch,
-  liveOnly,
-  setCurrentMatch,
-  setLocalState,
   hideResult,
   stopAllHide,
   title,
   hideTotalBet,
   sessionData,
-  setIObtes,
-  setData,
-  setLocalSessionExpertOdds,
   profitLossData,
 }: any) => {
   const dispatch: AppDispatch = useDispatch();
-  const [stop, setStop] = useState(true);
   const [visible, setVisible] = useState(true);
 
   return (
@@ -169,7 +162,7 @@ const SessionMarket = ({
                   background: "#319E5B",
                   height: "25px",
                   // marginLeft: "0vw",
-                  width: { lg: "40%", xs: "80%", },
+                  width: { lg: "40%", xs: "80%" },
                   justifyContent: { lg: "flex-start", xs: "flex-end" },
                   marginRight: { xs: "24%", lg: "7%", md: "23%" },
                   marginLeft: { xs: "-10%", lg: "7%", md: "2%" },
@@ -232,18 +225,9 @@ const SessionMarket = ({
                     return (
                       <Box key={JSON.parse(match)?.id}>
                         <SessionMarketBox
-                          liveOnly={liveOnly}
-                          setIObtes={setIObtes}
-                          setData={setData}
                           hideResult={hideResult}
                           hideTotalBet={hideTotalBet}
-                          setMatchSessionData={setLocalSessionExpertOdds}
-                          setLocalState={(val: any) => setLocalState(val)}
-                          currentMatch={currentMatch}
-                          setCurrentMatch={setCurrentMatch}
                           newData={JSON.parse(match)}
-                          setStop={setStop}
-                          stop={stop}
                           profitLossData={profitLossData}
                           index={index}
                         />

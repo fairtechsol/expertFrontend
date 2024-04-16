@@ -1,4 +1,4 @@
-import { Box, Grid, useMediaQuery, useTheme } from "@mui/material";
+import { Box, Stack } from "@mui/material";
 import SessionMarketLive from "../../components/matchDetails/SessionMarketLive";
 import SessionMarket from "../../components/matchDetails/SessionMarket";
 import RunsBox from "../../components/matchDetails/RunsBox";
@@ -30,8 +30,6 @@ import {
 } from "../../store/actions/addSession";
 
 const SessionMarketDetail = () => {
-  const theme = useTheme();
-  const matchesMobile = useMediaQuery(theme.breakpoints.down("lg"));
   const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
   const { state } = useLocation();
@@ -249,77 +247,67 @@ const SessionMarketDetail = () => {
 
   return (
     <>
-      <Grid container spacing={2}>
-        <Grid item xs={12} lg={4}>
-          <Box sx={{ height: { lg: "95vh", xs: "50vh" } }}>
-            <SessionMarketLive
-              title={"Session API Market"}
-              hideTotalBet={true}
-              liveOnly={true}
-              stopAllHide={true}
-              hideResult={true}
-              sessionData={matchDetail?.apiSession}
-              currentMatch={matchDetail}
-            />
-          </Box>
-        </Grid>
-        <Grid item xs={12} lg={4}>
+      <Stack spacing={2} direction={{ lg: "row", xs: "column" }}>
+        <Box sx={{ height: { lg: "95vh", xs: "50vh" }, width: { lg: "100%" } }}>
+          <SessionMarketLive
+            title={"Session API Market"}
+            hideTotalBet={true}
+            liveOnly={true}
+            stopAllHide={true}
+            hideResult={true}
+            sessionData={matchDetail?.apiSession}
+            currentMatch={matchDetail}
+          />
+        </Box>
+        <Box sx={{ height: { lg: "95vh", xs: "50vh" }, width: { lg: "100%" } }}>
           <SessionMarket
-            setIObtes={() => {}}
             title={"Session Market"}
-            liveOnly={false}
             hideTotalBet={false}
             stopAllHide={false}
             profitLossData={matchDetail?.sessionProfitLoss}
-            sessionData={matchDetail?.sessionBettings}
+            sessionData={matchDetail?.sessionBettings?.filter(
+              (item: any) => !JSON.parse(item)?.isComplete
+            )}
             hideResult={false}
             currentMatch={matchDetail}
           />
-        </Grid>
-        <Grid item xs={12} lg={4}>
+        </Box>
+        <Box sx={{ height: { lg: "95vh", xs: "50vh" }, width: { lg: "100%" } }}>
           <SessionMarket
-            setIObtes={() => {}}
             title={"Session Completed"}
-            liveOnly={false}
             hideTotalBet={false}
             stopAllHide={false}
             profitLossData={matchDetail?.sessionProfitLoss}
-            sessionData={matchDetail?.sessionBettings}
+            sessionData={matchDetail?.sessionBettings?.filter(
+              (item: any) => JSON.parse(item)?.isComplete
+            )}
             hideResult={false}
             currentMatch={matchDetail}
           />
-        </Grid>
-      </Grid>
-      {!matchesMobile && (
+        </Box>
+      </Stack>
+      {sessionProLoss?.length > 0 && (
         <Box
           sx={{
-            width: "100%",
+            display: "flex",
+            flexDirection: "row",
+            flexWrap: "wrap",
+            gap: "1px",
+            rowGap: "5px",
+            height: "524px",
+            overflow: "scroll",
+            marginTop: "1.25vw",
           }}
         >
-          {sessionProLoss?.length > 0 && (
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: "row",
-                flexWrap: "wrap",
-                gap: "1px",
-                rowGap: "5px",
-                height: "524px",
-                overflow: "scroll",
-                marginTop: "1.25vw",
-              }}
-            >
-              {sessionProLoss?.map((v: any) => {
-                return (
-                  <RunsBox
-                    key={v?.id}
-                    item={v}
-                    currentOdd={currentOdd?.betId === v?.id ? currentOdd : null}
-                  />
-                );
-              })}
-            </Box>
-          )}
+          {sessionProLoss?.map((v: any) => {
+            return (
+              <RunsBox
+                key={v?.id}
+                item={v}
+                currentOdd={currentOdd?.betId === v?.id ? currentOdd : null}
+              />
+            );
+          })}
         </Box>
       )}
     </>
