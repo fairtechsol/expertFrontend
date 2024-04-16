@@ -247,10 +247,12 @@ const MatchListTable = (props: any) => {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <SessionResultComponent
-          setShowPopup={setShowPopup}
-          sessionResults={sessionProLoss}
-        />
+        <>
+          <SessionResultComponent
+            setShowPopup={setShowPopup}
+            sessionResults={sessionProLoss}
+          />
+        </>
       </ModalMUI>
     </>
   );
