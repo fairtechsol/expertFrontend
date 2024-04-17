@@ -68,7 +68,7 @@ const MatchListTable = (props: any) => {
         sx={[
           {
             display: "flex",
-            height: { xs: "auto", md: "45px" },
+            // height: { xs: "auto", md: "45px" },
             background: "#FFE094",
             alignItems: { xs: "stretch", md: "center" },
             borderTop: "2px solid white",
@@ -154,7 +154,7 @@ const MatchListTable = (props: any) => {
               width: { xs: "100%", sm: "auto" },
               py: { xs: 1, sm: 0 },
               // px: "10px",
-              overflow: "hidden",
+              // overflow: "hidden",
               display: showUserModal && !matchesMobile ? "none" : "flex",
               // marginBottom: showUserModal ? { xs: "0%", sm: "-1%", lg: "-20%" } : "0%",
             }}
@@ -208,15 +208,17 @@ const MatchListTable = (props: any) => {
                 marginY: { xs: 1, sm: 0, lg: 0 },
                 alignItems: "center",
                 justifyContent: "flex-end",
+                flexWrap: "wrap",
               }}
             >
               {(getProfile?.allPrivilege ||
                 getProfile?.sessionMatchPrivilege) && (
                 <CustomButton
                   containerStyle={{
-                    minWidth: { xs: "40%", sm: "100px" },
-                    width: { xs: "40%", sm: "100px" },
+                    // minWidth: { xs: "40%", sm: "100px" },
+                    // width: { xs: "40%", sm: "100px" },
                     marginLeft: { xs: "1%", sm: "10px" },
+                    marginBottom: { xs: "1%", sm: "10px" },
                   }}
                   onClick={() => {
                     navigate(`/expert/session`, {
@@ -230,9 +232,10 @@ const MatchListTable = (props: any) => {
                 getProfile?.betFairMatchPrivilege) && (
                 <CustomButton
                   containerStyle={{
-                    minWidth: { xs: "40%", sm: "100px" },
-                    width: { xs: "40%", sm: "100px" },
+                    // minWidth: { xs: "40%", sm: "100px" },
+                    // width: { xs: "40%", sm: "100px" },
                     marginLeft: { xs: "1%", sm: "10px" },
+                    marginBottom: { xs: "1%", sm: "10px" },
                   }}
                   onClick={() => {
                     navigate(`/expert/market`, {
@@ -245,9 +248,10 @@ const MatchListTable = (props: any) => {
               {(getProfile?.allPrivilege || getProfile?.addMatchPrivilege) && (
                 <CustomButton
                   containerStyle={{
-                    minWidth: { xs: "40%", sm: "100px" },
-                    width: { xs: "40%", sm: "100px" },
+                    // minWidth: { xs: "40%", sm: "100px" },
+                    // width: { xs: "40%", sm: "100px" },
                     marginLeft: { xs: "1%", sm: "10px" },
+                    marginBottom: { xs: "1%", sm: "10px" },
                   }}
                   onClick={() => {
                     navigate(`/expert/edit_match`, {

@@ -201,18 +201,38 @@ const MatchPermissionsModal = (props: any) => {
               }}
             >
               {(getProfile?.allPrivilege ||
+                getProfile?.sessionMatchPrivilege) && (
+                <CustomButton
+                  containerStyle={{
+                    minWidth: { xs: "95%", sm: "100px", lg: "100px" },
+                    width: { xs: "49%", sm: "100px", lg: "100px" },
+                    marginTop: { xs: "1rem", sm: "1rem", md: 1 },
+                    marginBottom: { xs: "1rem", sm: "1rem", md: 1 },
+                    // justifyContent: "flex-end",
+                    // marginRight: "1px",
+                  }}
+                  onClick={() => {
+                    navigate(`/expert/session`, {
+                      state: { id: data?.id, marketId: data?.marketId },
+                    });
+                  }}
+                  title={"Session"}
+                />
+              )}
+              {(getProfile?.allPrivilege ||
                 getProfile?.betFairMatchPrivilege) && (
                 <CustomButton
                   containerStyle={{
                     minWidth: { xs: "95%", sm: "100px", lg: "100px" },
                     width: { xs: "49%", sm: "100px", lg: "100px" },
                     marginTop: { xs: "1rem", sm: "1rem", md: 1 },
+                    marginBottom: { xs: "1rem", sm: "1rem", md: 1 },
                     // justifyContent: "flex-end",
                     // marginRight: "1px",
                   }}
-                  title={"Submit"}
+                  title={"Match"}
                   onClick={() => {
-                    navigate(`/expert/betOdds`, {
+                    navigate(`/expert/market`, {
                       state: { id: data?.id, marketId: data?.marketId },
                     });
                   }}
@@ -224,6 +244,7 @@ const MatchPermissionsModal = (props: any) => {
                     minWidth: { xs: "95%", sm: "100px", lg: "100px" },
                     width: { xs: "49%", sm: "100px", lg: "100px" },
                     marginTop: { xs: "1rem", sm: "1rem", md: 1 },
+                    marginBottom: { xs: "1rem", sm: "1rem", md: 1 },
                     marginRight: "10px",
                   }}
                   onClick={() => {
