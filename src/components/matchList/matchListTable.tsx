@@ -235,15 +235,8 @@ const MatchListTable = (props: any) => {
                   containerStyle={{
                     // minWidth: { xs: "40%", sm: "100px" },
                     // width: { xs: "40%", sm: "100px" },
+                    marginLeft: { xs: "1%", sm: "10px" },
                     marginBottom: { xs: "1%", sm: "10px" },
-                    minWidth: {
-                      xs: "40%",
-                      sm: "50px",
-                      md: "50px",
-                      lg: "100px",
-                    },
-                    width: { xs: "40%", sm: "50px", md: "50px", lg: "100px" },
-                    marginLeft: { xs: "1%", sm: "10px", md: "50%", lg: "2%" },
                   }}
                   onClick={() => {
                     navigate(`/expert/market`, {
@@ -258,15 +251,8 @@ const MatchListTable = (props: any) => {
                   containerStyle={{
                     // minWidth: { xs: "40%", sm: "100px" },
                     // width: { xs: "40%", sm: "100px" },
+                    marginLeft: { xs: "1%", sm: "10px" },
                     marginBottom: { xs: "1%", sm: "10px" },
-                    minWidth: {
-                      xs: "40%",
-                      sm: "50px",
-                      md: "50px",
-                      lg: "100px",
-                    },
-                    width: { xs: "40%", sm: "50px", md: "50px", lg: "100px" },
-                    marginLeft: { xs: "1%", sm: "10px", lg: "2%" },
                   }}
                   onClick={() => {
                     navigate(`/expert/edit_match`, {
