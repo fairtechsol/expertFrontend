@@ -28,6 +28,7 @@ import {
   setCurrentOdd,
   updateApiSessionById,
 } from "../../store/actions/addSession";
+import { matchSocketService } from "../../socketManager/matchSocket";
 
 const SessionMarketDetail = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -228,6 +229,7 @@ const SessionMarketDetail = () => {
     try {
       if (state?.id) {
         return () => {
+          matchSocketService.leaveAllRooms();
           expertSocketService.match.leaveMatchRoom(state?.id);
           expertSocketService.match.getMatchRatesOff(state?.id);
           // socketService.user.matchBettingStatusChangeOff();
@@ -270,19 +272,21 @@ const SessionMarketDetail = () => {
             )}
             hideResult={false}
             currentMatch={matchDetail}
+            hideEditMaxButton={false}
           />
         </Box>
         <Box sx={{ height: { lg: "95vh", xs: "50vh" }, width: { lg: "100%" } }}>
           <SessionMarket
             title={"Session Completed"}
             hideTotalBet={false}
-            stopAllHide={false}
+            stopAllHide={true}
             profitLossData={matchDetail?.sessionProfitLoss}
             sessionData={matchDetail?.sessionBettings?.filter(
               (item: any) => JSON.parse(item)?.isComplete
             )}
             hideResult={false}
             currentMatch={matchDetail}
+            hideEditMaxButton={true}
           />
         </Box>
       </Stack>

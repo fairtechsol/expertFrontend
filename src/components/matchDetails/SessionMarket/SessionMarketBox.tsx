@@ -20,6 +20,7 @@ const SessionMarketBox = ({
   hideTotalBet,
   profitLossData,
   index,
+  hideEditMaxButton,
 }: any) => {
   const dispatch: AppDispatch = useDispatch();
   const { statusBetLive, error, success } = useSelector(
@@ -121,23 +122,25 @@ const SessionMarketBox = ({
               >
                 max : {formatToINR(newData?.maxBet)}
               </Typography>
-              <Box
-                sx={{
-                  width: "30px",
-                  height: "18px",
-                  background: "transparent",
-                  marginLeft: "5px",
-                  zIndex: "999",
-                  // borderRadius: "3px",
-                  // display: "flex",
-                  // justifyContent: "center",
-                  // alignItems: "center",
-                  // paddingY: "2px",
-                }}
-                onClick={() => setShowMaxLimitModal(true)}
-              >
-                <img src={edit} style={{ width: "18px", height: "12px" }} />
-              </Box>
+              {!hideEditMaxButton && (
+                <Box
+                  sx={{
+                    width: "30px",
+                    height: "18px",
+                    background: "transparent",
+                    marginLeft: "5px",
+                    zIndex: "999",
+                    // borderRadius: "3px",
+                    // display: "flex",
+                    // justifyContent: "center",
+                    // alignItems: "center",
+                    // paddingY: "2px",
+                  }}
+                  onClick={() => setShowMaxLimitModal(true)}
+                >
+                  <img src={edit} style={{ width: "18px", height: "12px" }} />
+                </Box>
+              )}
             </Box>
           </Box>
         </Box>

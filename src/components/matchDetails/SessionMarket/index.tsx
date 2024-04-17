@@ -18,6 +18,7 @@ const SessionMarket = ({
   hideTotalBet,
   sessionData,
   profitLossData,
+  hideEditMaxButton
 }: any) => {
   const dispatch: AppDispatch = useDispatch();
   const [visible, setVisible] = useState(true);
@@ -230,6 +231,7 @@ const SessionMarket = ({
                           newData={JSON.parse(match)}
                           profitLossData={profitLossData}
                           index={index}
+                          hideEditMaxButton={hideEditMaxButton}
                         />
                         <Divider />
                       </Box>
