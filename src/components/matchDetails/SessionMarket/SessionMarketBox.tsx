@@ -150,9 +150,9 @@ const SessionMarketBox = ({
           sx={{
             position: "absolute",
             top: "4px",
-            minWidth: { lg: "25%", xs: "45%", md: "25%" },
+            minWidth: { lg: "36%", xs: "45%", md: "25%" },
             justifyContent: "flex-end",
-            left: { lg: "10vw", md: "29vw", xs: "10vw" },
+            left: { lg: "7vw", md: "29vw", xs: "10vw" },
             display: "flex",
             zIndex: 100,
             gap: 0,
