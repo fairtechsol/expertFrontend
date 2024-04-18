@@ -39,4 +39,21 @@ export const logout = createAsyncThunk<any>(
   }
 );
 
+export const checkOldPass = createAsyncThunk<any,any>(
+  "auth/checkOldPass",
+  async (requestData, thunkApi) => {
+    try {
+      const resp = await service.post(
+        `${ApiConstants.CHANGE_PASS}`,
+        requestData
+      );
+      if (resp) {
+        return resp?.data?.isPasswordMatch;
+      }
+    } catch (error) {
+      const err = error as AxiosError;
+      return thunkApi.rejectWithValue(err.response?.status);
+    }
+  }
+);
 export const authReset = createAction("auth/reset");
