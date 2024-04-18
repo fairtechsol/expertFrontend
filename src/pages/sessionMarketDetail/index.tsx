@@ -271,7 +271,7 @@ const SessionMarketDetail = () => {
               (item: any) =>
                 !JSON.parse(item)?.isComplete && JSON.parse(item)?.showSessions
             )}
-            hideResult={false}
+            hideResult={true}
             currentMatch={matchDetail}
             hideEditMaxButton={false}
           />
