@@ -268,7 +268,8 @@ const SessionMarketDetail = () => {
             stopAllHide={false}
             profitLossData={matchDetail?.sessionProfitLoss}
             sessionData={matchDetail?.sessionBettings?.filter(
-              (item: any) => !JSON.parse(item)?.isComplete
+              (item: any) =>
+                !JSON.parse(item)?.isComplete && JSON.parse(item)?.showSessions
             )}
             hideResult={false}
             currentMatch={matchDetail}
@@ -282,7 +283,8 @@ const SessionMarketDetail = () => {
             stopAllHide={true}
             profitLossData={matchDetail?.sessionProfitLoss}
             sessionData={matchDetail?.sessionBettings?.filter(
-              (item: any) => JSON.parse(item)?.isComplete
+              (item: any) =>
+                JSON.parse(item)?.isComplete && JSON.parse(item)?.showSessions
             )}
             hideResult={false}
             currentMatch={matchDetail}

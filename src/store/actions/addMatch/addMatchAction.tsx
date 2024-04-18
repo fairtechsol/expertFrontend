@@ -145,7 +145,6 @@ export const getMatchDetail = createAsyncThunk<any, any>(
           ) {
             parsedItem.yesRate = 0;
             parsedItem.noRate = 0;
-            parsedItem.isComplete = true;
           }
 
           return JSON.stringify(parsedItem);

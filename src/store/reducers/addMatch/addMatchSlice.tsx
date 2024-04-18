@@ -190,6 +190,7 @@ const addMatch = createSlice({
                     matchingApiSession?.activeStatus !== "live"
                       ? true
                       : false,
+                  showSessions: true,
                 });
               } else {
                 return JSON.stringify({
@@ -203,6 +204,7 @@ const addMatch = createSlice({
                       ? "save"
                       : parsedItem.activeStatus,
                   isComplete: true,
+                  showSessions: true,
                 });
               }
             }
