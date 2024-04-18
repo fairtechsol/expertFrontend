@@ -124,7 +124,7 @@ const AddSessionInput = (props: any) => {
         </Box>
       </Box>
       <Box sx={{ display: "flex" }}>
-        <Box sx={{ background: "#FFFFFF", width: "40%" }}>
+        <Box sx={{ background: "#FFFFFF", width: "30%" }}>
           <TextField
             onChange={(e: any) => {
               setInputDetail((prev: any) => {
@@ -154,7 +154,7 @@ const AddSessionInput = (props: any) => {
         </Box>
         <Box
           display={"flex"}
-          sx={{ borderLeft: "2px solid white", width: "60%" }}
+          sx={{ borderLeft: "2px solid white", width: "70%" }}
         >
           {!inputDetail?.result && inputDetail?.resultStatus && (
             <Box
@@ -178,12 +178,12 @@ const AddSessionInput = (props: any) => {
               </Typography>
             </Box>
           )}
-          <Box sx={{ width: "40%" }}>
+          <Box sx={{ width: "60%" }}>
             <Box display={"flex"} sx={{ borderTop: "2px solid white" }}>
               <Box
                 sx={{
                   background: "#FFB5B5",
-                  width: { lg: "50%", xs: "60%" },
+                  width: { lg: "50%", xs: "80%" },
                   display: "flex",
                   height: "45px",
                   justifyContent: "center",
