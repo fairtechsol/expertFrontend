@@ -2,13 +2,15 @@ import { Box, Button, CircularProgress, Typography } from "@mui/material";
 import Input from "../login/Input";
 import { eye, eyeLock } from "../../assets";
 import { useFormik } from "formik";
-import { changePasswordSchema } from "../../utils/Validations/login";
+import { changePasswordValidation } from "../../utils/Validations/login";
 import { changePassword } from "../../store/actions/user/userAction";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store/store";
-import { useEffect, useState } from "react";
+import { useEffect, useState,useMemo } from "react";
 import CustomModal from "../Common/CustomModal";
 import CustomErrorMessage from "../Common/CustomErrorMessage";
+import { checkOldPass } from "../../store/actions/auth/authAction";
+import _, { debounce } from "lodash";
 
 const initialValues: any = {
   oldPassword: "",
@@ -23,10 +25,11 @@ export const ChangePasswordComponent = ({ passLoader, width }: any) => {
   const { success, transactionPassword, loading } = useSelector(
     (state: RootState) => state.user.profile
   );
+  const { oldPasswordMatched } = useSelector((state: RootState) => state.auth);
 
   const formik = useFormik({
     initialValues: initialValues,
-    validationSchema: changePasswordSchema,
+    validationSchema:  changePasswordValidation(oldPasswordMatched),
     onSubmit: (values: any) => {
       dispatch(changePassword(values));
     },
@@ -40,6 +43,17 @@ export const ChangePasswordComponent = ({ passLoader, width }: any) => {
     }
   }, [loading]);
 
+  const debouncedInputValue = useMemo(() => {
+    return debounce((value) => {
+      dispatch(checkOldPass({'oldPassword':value}));
+    }, 500);
+  }, []);
+
+  const handleOldPass = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const query = e.target.value;
+    formik.handleChange(e);
+    debouncedInputValue(query);
+  };
   return (
     <>
       <form onSubmit={handleSubmit}>
@@ -82,7 +96,7 @@ export const ChangePasswordComponent = ({ passLoader, width }: any) => {
               name={"oldPassword"}
               type="password"
               value={formik.values.oldPassword}
-              onChange={formik.handleChange}
+              onChange={handleOldPass}
               titleStyle={{
                 color: "#222222",
                 marginLeft: "0px",
