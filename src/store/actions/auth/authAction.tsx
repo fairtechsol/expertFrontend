@@ -44,7 +44,7 @@ export const checkOldPass = createAsyncThunk<any,any>(
   async (requestData, thunkApi) => {
     try {
       const resp = await service.post(
-        `${ApiConstants.CHANGE_PASS}`,
+        `${ApiConstants.OLD_PASSWORD}`,
         requestData
       );
       if (resp) {
