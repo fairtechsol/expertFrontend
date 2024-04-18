@@ -1,11 +1,12 @@
 import { createReducer } from "@reduxjs/toolkit";
-import { authReset, login } from "../../actions/auth/authAction";
+import { authReset, checkOldPass, login } from "../../actions/auth/authAction";
 
 interface InitialState {
   success: boolean;
   loading: boolean;
   forceChangePassword: boolean;
   userRole: string;
+  oldPasswordMatched:boolean;
 }
 
 const initialState: InitialState = {
@@ -13,6 +14,7 @@ const initialState: InitialState = {
   loading: false,
   forceChangePassword: false,
   userRole: "",
+  oldPasswordMatched:false,
 };
 
 export const authReducer = createReducer(initialState, (builder) => {
@@ -33,5 +35,16 @@ export const authReducer = createReducer(initialState, (builder) => {
       // Reset the state to initial state
       state.success = false;
       state.forceChangePassword = false;
+    })
+    .addCase(checkOldPass.pending, (state) => {
+      state.loading = true;
+      state.oldPasswordMatched = false;
+    })
+    .addCase(checkOldPass.fulfilled, (state, action) => {
+      state.loading = false;
+      state.oldPasswordMatched = action.payload
+    })
+    .addCase(checkOldPass.rejected, (state) => {
+      state.loading = false;
     });
 });
