@@ -224,6 +224,7 @@ const Header1 = () => {
                       alignItems: "center",
                       background: "white",
                       marginTop: { xs: "10px" },
+                      marginLeft: "10px"
                     }}
                   >
                     <StyledImage
@@ -336,7 +337,55 @@ const Header1 = () => {
                   />
                 </Box>
                 <>
-                  <Box sx={{ display: "flex" }}>
+                  <Box
+                  sx={{
+                    display: "flex",
+                  }}
+                >
+                
+                  <BoxProfile
+                    containerStyle={{ marginTop: "0" }}
+                    image={"https://picsum.photos/200/300"}
+                    value1={getProfile?.userName}
+                  />
+                </Box>
+                </>
+              </Box>
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  flex: 1,
+                  alignItems: "center",
+                  flexDirection: "row",
+                }}
+              >
+                <Box
+                  onClick={() => {
+                    setVisible(true);
+                  }}
+                  sx={{
+                    height: { lg: "45px", xs: "35px" },
+                    width: "45px",
+                    borderRadius: "35px",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    background: "white",
+                  }}
+                >
+                  <StyledImage
+                    src={NotiBadge}
+                    sx={{ height: "25px", width: "25px" }}
+                  />
+                
+                </Box>
+                    <ActiveUsers
+                    containerStyle={{}}
+                    image={Users}
+                    value={userCount}
+                  />
+                 <Box sx={{ display: "flex",       marginLeft: { lg: "0px", xs: "10vh" }, }}>
                     {(getProfile?.bookmakerMatchPrivilege ||
                       getProfile?.sessionMatchPrivilege ||
                       getProfile?.allPrivilege) && (
@@ -389,53 +438,6 @@ const Header1 = () => {
                       />
                     </NavLink>
                   </Box>
-                </>
-              </Box>
-              <Box
-                sx={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  flex: 1,
-                  alignItems: "center",
-                  flexDirection: "row",
-                }}
-              >
-                <Box
-                  onClick={() => {
-                    setVisible(true);
-                  }}
-                  sx={{
-                    height: { lg: "45px", xs: "35px" },
-                    width: "45px",
-                    borderRadius: "35px",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    background: "white",
-                  }}
-                >
-                  <StyledImage
-                    src={NotiBadge}
-                    sx={{ height: "25px", width: "25px" }}
-                  />
-                </Box>
-                <Box
-                  sx={{
-                    display: "flex",
-                    marginLeft: { lg: "0px", xs: "140px" },
-                  }}
-                >
-                  <ActiveUsers
-                    containerStyle={{}}
-                    image={Users}
-                    value={userCount}
-                  />
-                  <BoxProfile
-                    containerStyle={{ marginTop: "0" }}
-                    image={"https://picsum.photos/200/300"}
-                    value1={getProfile?.userName}
-                  />
-                </Box>
               </Box>
               {matchListDropdown?.length > 0 && (
                 <DropDownMenu
