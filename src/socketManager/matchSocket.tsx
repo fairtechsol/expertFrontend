@@ -18,7 +18,7 @@ export const matchSocketService = {
     });
   },
   leaveAllRooms: () => {
-    socket?.emit("leaveAll");
+    matchSocket?.emit("leaveAll");
   },
   matchAdded: (callback: any) => {
     socket?.on("addMatch", callback);
