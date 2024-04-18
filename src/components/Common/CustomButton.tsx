@@ -29,8 +29,8 @@ const CustomButton = ({
         {
           cursor: "pointer",
           height: "35px",
-          minWidth: "100px",
-          marginLeft: "10px",
+          minWidth: "80px",
+          // marginLeft: "10px",
           borderRadius: "5px",
           background: bgColor ? bgColor : "#0B4F26",
           display: "flex",

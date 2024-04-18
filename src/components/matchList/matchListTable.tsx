@@ -156,6 +156,7 @@ const MatchListTable = (props: any) => {
               // px: "10px",
               // overflow: "hidden",
               display: showUserModal && !matchesMobile ? "none" : "flex",
+              alignItems: "center",
               // marginBottom: showUserModal ? { xs: "0%", sm: "-1%", lg: "-20%" } : "0%",
             }}
           >
@@ -205,8 +206,8 @@ const MatchListTable = (props: any) => {
             <Box
               display={"flex"}
               sx={{
-                marginY: { xs: 1, sm: 0, lg: 0 },
-                marginX: { xs: 1, sm: 1, lg: 1 },
+                // marginY: { xs: 1, sm: 0, lg: 0 },
+                // marginX: { xs: 1, sm: 1, lg: 1 },
                 alignItems: "center",
                 justifyContent: "flex-end",
                 flexWrap: "wrap",
@@ -218,8 +219,10 @@ const MatchListTable = (props: any) => {
                   containerStyle={{
                     // minWidth: { xs: "40%", sm: "100px" },
                     // width: { xs: "40%", sm: "100px" },
-                    marginLeft: { xs: "1%", sm: "10px" },
-                    marginBottom: { xs: "1%", sm: "10px" },
+                    // marginLeft: { xs: "1%", sm: "10px" },
+                    // marginBottom: { xs: "1%", sm: "10px" },
+                    // gap: 0.5,
+                    margin: "5px",
                   }}
                   onClick={() => {
                     navigate(`/expert/session`, {
@@ -235,8 +238,10 @@ const MatchListTable = (props: any) => {
                   containerStyle={{
                     // minWidth: { xs: "40%", sm: "100px" },
                     // width: { xs: "40%", sm: "100px" },
-                    marginLeft: { xs: "1%", sm: "10px" },
-                    marginBottom: { xs: "1%", sm: "10px" },
+                    // marginLeft: { xs: "1%", sm: "10px" },
+                    // marginBottom: { xs: "1%", sm: "10px" },
+                    // gap: 0.5,
+                    margin: "5px",
                   }}
                   onClick={() => {
                     navigate(`/expert/market`, {
@@ -251,8 +256,10 @@ const MatchListTable = (props: any) => {
                   containerStyle={{
                     // minWidth: { xs: "40%", sm: "100px" },
                     // width: { xs: "40%", sm: "100px" },
-                    marginLeft: { xs: "1%", sm: "10px" },
-                    marginBottom: { xs: "1%", sm: "10px" },
+                    // gap: 0.5,
+                    margin: "5px",
+                    // marginLeft: { xs: "1%", sm: "10px" },
+                    // marginBottom: { xs: "1%", sm: "10px" },
                   }}
                   onClick={() => {
                     navigate(`/expert/edit_match`, {
