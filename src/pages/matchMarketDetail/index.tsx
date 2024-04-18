@@ -297,8 +297,8 @@ const MatchMarketDetail = () => {
           xs: loading ? "80vh" : "100%",
           lg: loading ? "90vh" : "100%",
         },
-        minHeight: "92vh",
-        background: !loading ? "white" : "",
+        // minHeight: "92vh",
+        // background: !loading ? "white" : "",
         padding: 1,
         gap: 1,
       }}
