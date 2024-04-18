@@ -32,7 +32,6 @@ const SessionMarketLive = ({
         flexDirection: "column",
         marginY: { lg: "2px" },
         width: { lg: "100%", xs: "100%" },
-        height: "100%",
         alignSelf: {
           xs: "center",
           md: "center",

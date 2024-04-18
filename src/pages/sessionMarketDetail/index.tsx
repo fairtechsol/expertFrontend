@@ -250,7 +250,7 @@ const SessionMarketDetail = () => {
   return (
     <>
       <Stack spacing={2} direction={{ lg: "row", xs: "column" }}>
-        <Box sx={{ height: { lg: "95vh", xs: "50vh" }, width: { lg: "100%" } }}>
+        <Box sx={{ width: { lg: "100%" } }}>
           <SessionMarketLive
             title={"Session API Market"}
             hideTotalBet={true}
@@ -261,7 +261,7 @@ const SessionMarketDetail = () => {
             currentMatch={matchDetail}
           />
         </Box>
-        <Box sx={{ height: { lg: "95vh", xs: "50vh" }, width: { lg: "100%" } }}>
+        <Box sx={{ width: { lg: "100%" } }}>
           <SessionMarket
             title={"Session Market"}
             hideTotalBet={false}
@@ -275,7 +275,7 @@ const SessionMarketDetail = () => {
             hideEditMaxButton={false}
           />
         </Box>
-        <Box sx={{ height: { lg: "95vh", xs: "50vh" }, width: { lg: "100%" } }}>
+        <Box sx={{ width: { lg: "100%" } }}>
           <SessionMarket
             title={"Session Completed"}
             hideTotalBet={false}
