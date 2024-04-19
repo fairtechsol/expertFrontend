@@ -241,37 +241,7 @@ const SessionMarketBox = ({
             />
           </Box>
         )}
-        {!["ACTIVE", "active", "", undefined, null, 0].includes(
-          newData?.status
-        ) || newData?.result ? (
-          <Box
-            sx={{
-              margin: "1px",
-              background: "rgba(0,0,0,1)",
-              height: "40px",
-              right: { lg: "25%", xs: "25%", md: "23%" },
-              position: "absolute",
-              width: { lg: "16%", xs: "20%" },
-              justifyContent: { xs: "center", lg: "center" },
-              alignItems: "center",
-              display: "flex",
-            }}
-          >
-            {/* <img src={BallStart} style={{ width: '113px', height: "32px" }} /> */}
-            <h6
-              style={{
-                textTransform: "uppercase",
-                fontSize: "10px",
-                textAlign: "center",
-                lineHeight: "11px",
-                color: "#FFF",
-                fontWeight: "400",
-              }}
-            >
-              {newData?.result ? `Declared` : newData?.status}
-            </h6>
-          </Box>
-        ) : newData?.resultStatus ? (
+        {newData?.resultStatus ? (
           <Box
             sx={{
               margin: "1px",
@@ -299,6 +269,36 @@ const SessionMarketBox = ({
               }}
             >
               {newData?.resultStatus}
+            </h6>
+          </Box>
+        ) : !["ACTIVE", "active", "", undefined, null, 0].includes(
+            newData?.status
+          ) || newData?.result ? (
+          <Box
+            sx={{
+              margin: "1px",
+              background: "rgba(0,0,0,1)",
+              height: "40px",
+              right: { lg: "25%", xs: "25%", md: "23%" },
+              position: "absolute",
+              width: { lg: "16%", xs: "20%" },
+              justifyContent: { xs: "center", lg: "center" },
+              alignItems: "center",
+              display: "flex",
+            }}
+          >
+            {/* <img src={BallStart} style={{ width: '113px', height: "32px" }} /> */}
+            <h6
+              style={{
+                textTransform: "uppercase",
+                fontSize: "10px",
+                textAlign: "center",
+                lineHeight: "11px",
+                color: "#FFF",
+                fontWeight: "400",
+              }}
+            >
+              {newData?.result ? `Declared` : newData?.status}
             </h6>
           </Box>
         ) : (
