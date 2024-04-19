@@ -157,7 +157,7 @@ const SessionMarketBox = ({
             gap: 0,
           }}
         >
-          {newData?.activeStatus === "live" && (
+          {newData?.activeStatus === "live" && !newData?.result && (
             <SmallBox
               loading={loading}
               hide={true}
@@ -190,7 +190,7 @@ const SessionMarketBox = ({
               color={"#FFF"}
             />
           )}
-          {newData?.activeStatus === "save" && (
+          {newData?.activeStatus === "save" && !newData?.result && (
             <SmallBox
               hide={true}
               loading={loading}
