@@ -194,14 +194,14 @@ const matchList = createSlice({
       .addCase(updateMatchBetsReason.fulfilled, (state, action) => {
         const { betPlacedId, deleteReason } = action?.payload;
         const updateDeleteReason = (bet: any) => {
-          if (betPlacedId.includes(bet?.id)) {
+          if (betPlacedId?.includes(bet?.id)) {
             bet.deleteReason = deleteReason;
           }
 
           return bet;
         };
 
-        const updatedBetPlaced = state?.placedBetsMatch.map(updateDeleteReason);
+        const updatedBetPlaced = state?.placedBetsMatch?.map(updateDeleteReason);
 
         state.placedBetsMatch = Array.from(new Set(updatedBetPlaced));
       })
@@ -229,7 +229,7 @@ const matchList = createSlice({
             userName: jobData?.userName,
           };
           obj.myStake = jobData?.myStake || 0;
-          state?.placedBetsMatch.unshift(obj);
+          state?.placedBetsMatch?.unshift(obj);
         }
       })
       .addCase(updateSessionBetsPlace.fulfilled, (state, action) => {
@@ -245,7 +245,7 @@ const matchList = createSlice({
             faPartnership: partnership?.faPartnership,
           };
           obj.myStake = parseFloat(jobData?.betPlaceObject?.myStack || 0);
-          state.placedBetsMatch.unshift(obj);
+          state?.placedBetsMatch?.unshift(obj);
         }
       })
       .addCase(editSuccessReset, (state) => {

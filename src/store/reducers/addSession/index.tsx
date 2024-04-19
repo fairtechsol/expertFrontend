@@ -132,14 +132,14 @@ export const addSessionReducers = createReducer(initialState, (builder) => {
     .addCase(updateDeleteReason.fulfilled, (state, action) => {
       const { betPlacedId, deleteReason } = action?.payload;
       const updateDeleteReason = (bet: any) => {
-        if (betPlacedId.includes(bet?.id)) {
+        if (betPlacedId?.includes(bet?.id)) {
           bet.deleteReason = deleteReason;
         }
 
         return bet;
       };
 
-      const updatedBetPlaced = state.placedBets.map(updateDeleteReason);
+      const updatedBetPlaced = state.placedBets?.map(updateDeleteReason);
 
       state.placedBets = Array.from(new Set(updatedBetPlaced));
     })
@@ -148,16 +148,16 @@ export const addSessionReducers = createReducer(initialState, (builder) => {
       const fpartnerShip = JSON.parse(partnership);
       let objToUpdate = {
         ...action.payload.placedBet,
-        myStake: +action.payload?.betPlaceObject?.myStack,
+        myStake: +action?.payload?.betPlaceObject?.myStack,
         user: {
-          userName: action.payload?.betPlaceObject?.betPlacedData?.userName,
+          userName: action?.payload?.betPlaceObject?.betPlacedData?.userName,
           fwPartnership: Number(fpartnerShip?.fwPartnership),
         },
       };
 
       const id = objToUpdate?.id;
 
-      if (!state?.placedBets.some((item: any) => item?.id === id)) {
+      if (!state?.placedBets?.some((item: any) => item?.id === id)) {
         state.placedBets = [objToUpdate, ...state.placedBets];
       }
     })
@@ -172,7 +172,7 @@ export const addSessionReducers = createReducer(initialState, (builder) => {
       };
       const id = objToUpdate?.id;
 
-      if (!state.placedBets.find((item: any) => item?.id === id)) {
+      if (!state.placedBets?.find((item: any) => item?.id === id)) {
         state.placedBets = [objToUpdate, ...state.placedBets];
       }
     })

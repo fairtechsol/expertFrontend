@@ -216,7 +216,7 @@ const addMatch = createSlice({
           const { betId, activeStatus, score, profitLoss } = action.payload;
           state.matchDetail = {
             ...state.matchDetail,
-            sessionBettings: state.matchDetail?.sessionBettings.map(
+            sessionBettings: state.matchDetail?.sessionBettings?.map(
               (item: any) => {
                 const parsedItem = JSON.parse(item);
                 if (parsedItem?.id === betId) {
@@ -244,19 +244,19 @@ const addMatch = createSlice({
         const newSessionBetting = JSON.stringify(action?.payload);
 
         if (state.matchDetail?.sessionBettings?.length === 0) {
-          state.matchDetail?.sessionBettings.push(newSessionBetting);
+          state.matchDetail?.sessionBettings?.push(newSessionBetting);
         }
 
-        const existingIds = state.matchDetail?.sessionBettings.map(
+        const existingIds = state.matchDetail?.sessionBettings?.map(
           (existingSession: any) => {
-            return JSON.parse(existingSession).id;
+            return JSON.parse(existingSession)?.id;
           }
         );
 
-        const newId = JSON.parse(newSessionBetting).id;
+        const newId = JSON.parse(newSessionBetting)?.id;
 
-        if (!existingIds.includes(newId)) {
-          state.matchDetail?.sessionBettings.push(newSessionBetting);
+        if (!existingIds?.includes(newId)) {
+          state.matchDetail?.sessionBettings?.push(newSessionBetting);
         }
       })
       // .addCase(updateMatchBettingStatus.fulfilled, (state, action) => {
@@ -367,7 +367,7 @@ const addMatch = createSlice({
         }
       })
       .addCase(updateResultStatusOfSession.fulfilled, (state, action) => {
-        const updatedSessionBetting = state.matchDetail?.sessionBettings.map(
+        const updatedSessionBetting = state.matchDetail?.sessionBettings?.map(
           (item: any) => {
             let parsedItem = JSON.parse(item);
             if (parsedItem?.id === action?.payload?.betId) {
@@ -385,7 +385,7 @@ const addMatch = createSlice({
       })
       .addCase(updateResultStatusOfMatch.fulfilled, (state, action) => {
         const { status, betId } = action?.payload;
-        const index = state.matchDetail?.quickBookmaker.findIndex(
+        const index = state.matchDetail?.quickBookmaker?.findIndex(
           (item: any) => item.type === "quickbookmaker1"
         );
         if (index !== -1) {

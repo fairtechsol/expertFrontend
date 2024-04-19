@@ -76,9 +76,9 @@ const matchDeclare = createSlice({
 
         if (
           idToAdd &&
-          !state.sessionProLoss.some((item: any) => item?.id === idToAdd)
+          !state.sessionProLoss?.some((item: any) => item?.id === idToAdd)
         ) {
-          state.sessionProLoss.push(action?.payload);
+          state.sessionProLoss?.push(action?.payload);
         }
       })
       .addCase(getSessionProfitLossMatchDetail.rejected, (state, action) => {
@@ -89,7 +89,7 @@ const matchDeclare = createSlice({
         getSessionProfitLossMatchDetailFilter.fulfilled,
         (state, action) => {
           const idToRemove = action?.payload;
-          state.sessionProLoss = state?.sessionProLoss.filter(
+          state.sessionProLoss = state?.sessionProLoss?.filter(
             (item: any) => item?.id !== idToRemove
           );
         }
@@ -97,7 +97,7 @@ const matchDeclare = createSlice({
       .addCase(updateSessionProLoss.fulfilled, (state, action) => {
         const idToFind = action?.payload?.id;
 
-        const foundItemIndex = state.sessionProLoss.findIndex(
+        const foundItemIndex = state.sessionProLoss?.findIndex(
           (item: any) => item?.id === idToFind
         );
 
@@ -111,7 +111,7 @@ const matchDeclare = createSlice({
       .addCase(removeSessionProLoss.fulfilled, (state, action) => {
         const idToRemove = action?.payload?.id;
 
-        state.sessionProLoss = state.sessionProLoss.filter(
+        state.sessionProLoss = state.sessionProLoss?.filter(
           (item: any) => item?.id !== idToRemove
         );
       })
