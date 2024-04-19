@@ -162,6 +162,9 @@ const SessionMarketBox = ({
               loading={loading}
               hide={true}
               onClick={(e: any) => {
+                if (loading) {
+                  return;
+                }
                 e.preventDefault();
                 setLoading(true);
                 // setLive(false);
@@ -177,7 +180,7 @@ const SessionMarketBox = ({
               color={newData?.activeStatus === "live" ? "#46e080" : "#FF4D4D"}
             />
           )}
-          {newData?.activeStatus === "result" && newData?.result && (
+          {newData?.result && (
             <SmallBox
               loading={false}
               hide={false}
@@ -240,7 +243,7 @@ const SessionMarketBox = ({
         )}
         {!["ACTIVE", "active", "", undefined, null, 0].includes(
           newData?.status
-        ) || newData?.activeStatus === "result" ? (
+        ) || newData?.result ? (
           <Box
             sx={{
               margin: "1px",
