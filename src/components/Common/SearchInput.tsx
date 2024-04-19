@@ -58,6 +58,7 @@ const SearchInput = (props: any) => {
             overflow: "hidden",
             paddingX: "5px",
             borderRadius: "35px",
+            marginRight: "10px",
           },
           inputContainerStyle,
         ]}
