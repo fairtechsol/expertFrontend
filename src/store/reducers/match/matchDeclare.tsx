@@ -72,13 +72,13 @@ const matchDeclare = createSlice({
       .addCase(getSessionProfitLossMatchDetail.fulfilled, (state, action) => {
         state.successProLoss = true;
         state.loadingProLoss = false;
-        const idToAdd = action.payload?.id;
+        const idToAdd = action?.payload?.id;
 
         if (
           idToAdd &&
-          !state.sessionProLoss.some((item: any) => item.id === idToAdd)
+          !state.sessionProLoss.some((item: any) => item?.id === idToAdd)
         ) {
-          state.sessionProLoss.push(action.payload);
+          state.sessionProLoss.push(action?.payload);
         }
       })
       .addCase(getSessionProfitLossMatchDetail.rejected, (state, action) => {
@@ -88,14 +88,14 @@ const matchDeclare = createSlice({
       .addCase(
         getSessionProfitLossMatchDetailFilter.fulfilled,
         (state, action) => {
-          const idToRemove = action.payload;
-          state.sessionProLoss = state.sessionProLoss.filter(
+          const idToRemove = action?.payload;
+          state.sessionProLoss = state?.sessionProLoss.filter(
             (item: any) => item?.id !== idToRemove
           );
         }
       )
       .addCase(updateSessionProLoss.fulfilled, (state, action) => {
-        const idToFind = action.payload.id;
+        const idToFind = action?.payload?.id;
 
         const foundItemIndex = state.sessionProLoss.findIndex(
           (item: any) => item?.id === idToFind
@@ -104,12 +104,12 @@ const matchDeclare = createSlice({
         if (foundItemIndex !== -1) {
           state.sessionProLoss[foundItemIndex].proLoss = {
             ...state.sessionProLoss[foundItemIndex].proLoss,
-            betPlaced: action.payload.betPlaced,
+            betPlaced: action?.payload?.betPlaced,
           };
         }
       })
       .addCase(removeSessionProLoss.fulfilled, (state, action) => {
-        const idToRemove = action.payload.id;
+        const idToRemove = action?.payload?.id;
 
         state.sessionProLoss = state.sessionProLoss.filter(
           (item: any) => item?.id !== idToRemove

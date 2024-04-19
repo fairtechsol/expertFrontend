@@ -63,7 +63,7 @@ const matchList = createSlice({
         state.error = null;
       })
       .addCase(getMatchList.fulfilled, (state, action) => {
-        state.matchList = action.payload;
+        state.matchList = action?.payload;
         state.loading = false;
         state.success = true;
       })
@@ -78,7 +78,7 @@ const matchList = createSlice({
         state.error = null;
       })
       .addCase(getMatchListDropdown.fulfilled, (state, action) => {
-        state.matchListDropdown = action.payload;
+        state.matchListDropdown = action?.payload;
         state.dropDownLoading = false;
         state.success = true;
       })
@@ -185,23 +185,23 @@ const matchList = createSlice({
       .addCase(getPlacedBetsMatch.fulfilled, (state, action) => {
         state.loading = false;
         state.success = true;
-        state.placedBetsMatch = action.payload;
+        state.placedBetsMatch = action?.payload;
       })
       .addCase(getPlacedBetsMatch.rejected, (state, action) => {
         state.loading = false;
         state.error = action?.error?.message;
       })
       .addCase(updateMatchBetsReason.fulfilled, (state, action) => {
-        const { betPlacedId, deleteReason } = action.payload;
+        const { betPlacedId, deleteReason } = action?.payload;
         const updateDeleteReason = (bet: any) => {
-          if (betPlacedId.includes(bet.id)) {
+          if (betPlacedId.includes(bet?.id)) {
             bet.deleteReason = deleteReason;
           }
 
           return bet;
         };
 
-        const updatedBetPlaced = state.placedBetsMatch.map(updateDeleteReason);
+        const updatedBetPlaced = state?.placedBetsMatch.map(updateDeleteReason);
 
         state.placedBetsMatch = Array.from(new Set(updatedBetPlaced));
       })
@@ -213,34 +213,34 @@ const matchList = createSlice({
       .addCase(getMatchListSessionProfitLoss.fulfilled, (state, action) => {
         state.loading = false;
         state.success = true;
-        state.sessionProLoss = action.payload;
+        state.sessionProLoss = action?.payload;
       })
       .addCase(getMatchListSessionProfitLoss.rejected, (state, action) => {
         state.loading = false;
         state.error = action?.error?.message;
       })
       .addCase(updateMatchBetsPlace.fulfilled, (state, action) => {
-        const { jobData } = action.payload;
-        state.placedBetsMatch = state.placedBetsMatch || [];
+        const { jobData } = action?.payload;
+        state.placedBetsMatch = state?.placedBetsMatch || [];
 
-        if (jobData && jobData.newBet) {
-          let obj = jobData.newBet;
+        if (jobData && jobData?.newBet) {
+          let obj = jobData?.newBet;
           obj.user = {
-            userName: jobData.userName,
+            userName: jobData?.userName,
           };
-          obj.myStake = jobData.myStake || 0;
-          state.placedBetsMatch.unshift(obj);
+          obj.myStake = jobData?.myStake || 0;
+          state?.placedBetsMatch.unshift(obj);
         }
       })
       .addCase(updateSessionBetsPlace.fulfilled, (state, action) => {
-        const { jobData } = action.payload;
-        state.placedBetsMatch = state.placedBetsMatch || [];
+        const { jobData } = action?.payload;
+        state.placedBetsMatch = state?.placedBetsMatch || [];
 
         if (jobData && jobData?.placedBet) {
-          let obj = jobData.placedBet;
+          let obj = jobData?.placedBet;
           const partnership = JSON.parse(jobData?.partnership);
           obj.user = {
-            userName: jobData.betPlaceObject?.betPlacedData?.userName,
+            userName: jobData?.betPlaceObject?.betPlacedData?.userName,
             fwPartnership: partnership?.fwPartnership,
             faPartnership: partnership?.faPartnership,
           };
