@@ -80,8 +80,10 @@ const BetList = ({ tag, allBetRates }: any) => {
             },
             {
               name: +v.myStake
-                ? +v.myStake
-                : (+v?.amount * +v?.user?.fwPartnership || 0) / 100,
+                ? formatToINR(+v.myStake)
+                : formatToINR(
+                    (+v?.amount * +v?.user?.fwPartnership || 0) / 100
+                  ),
               color: "white",
               background: "#0B4F26",
               deleteReason: v?.deleteReason,
@@ -250,7 +252,7 @@ const BetList = ({ tag, allBetRates }: any) => {
                           {num < 10 ? "0" + num : num.toString()}
                         </Typography>
                       </Box>
-                      <Row index={k} values={i.values} />
+                      <Row index={k} values={i?.values} />
                       {i?.values[0]?.deleteReason && (
                         <Box
                           sx={{
