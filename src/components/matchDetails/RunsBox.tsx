@@ -48,6 +48,7 @@ const RunsBox = ({ item, currentOdd }: any) => {
         display: "flex",
         marginX: "1px",
         border: "3px solid #0B4F26",
+        width: "15%"
       }}
     >
       <Box
