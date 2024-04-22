@@ -91,7 +91,7 @@ const EditBookmaker = (props: any) => {
       }
 
       setIsTab("");
-      if (value <= 100) {
+      if (value < 100) {
         if (name === "teamArate") {
           updateLocalQuickBookmaker(
             match,
@@ -457,9 +457,7 @@ const EditBookmaker = (props: any) => {
           </Box>
         </Box>
         <Box sx={{ display: "flex" }}>
-          <Box
-            sx={{ background: "#FFFFFF", width: "65%", }}
-          >
+          <Box sx={{ background: "#FFFFFF", width: "65%" }}>
             {!add && (
               <Box
                 sx={{
