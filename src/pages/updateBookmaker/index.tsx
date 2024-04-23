@@ -13,7 +13,7 @@ import {
 } from "../../store/actions/addSession";
 import { AppDispatch, RootState } from "../../store/store";
 import { useDispatch, useSelector } from "react-redux";
-import { socketService } from "../../socketManager";
+import { socket, socketService } from "../../socketManager";
 
 const UpdateBookmaker = () => {
   const { state }: any = useLocation();
@@ -73,19 +73,24 @@ const UpdateBookmaker = () => {
           })
         );
         dispatch(getPlacedBets(state?.id));
-        socketService.user.userMatchBetPlaced(updateBetList);
-        socketService.user.matchResultDeclared(resultDeclared);
-        socketService.user.matchDeleteBet(matchDeleteBet);
       }
+    } catch (error) {
+      console.error(error);
+    }
+  }, [state?.id]);
+
+  useEffect(() => {
+    if (socket?.connected) {
+      socketService.user.userMatchBetPlaced(updateBetList);
+      socketService.user.matchResultDeclared(resultDeclared);
+      socketService.user.matchDeleteBet(matchDeleteBet);
       return () => {
         socketService.user.userMatchBetPlacedOff();
         socketService.user.matchResultDeclaredOff();
         socketService.user.matchDeleteBetOff();
       };
-    } catch (error) {
-      console.error(error);
     }
-  }, [state?.id]);
+  }, [socket?.connected, state?.id]);
 
   return (
     <Box display="flex">

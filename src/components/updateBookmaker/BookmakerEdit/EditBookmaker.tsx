@@ -3,7 +3,7 @@ import { memo, useEffect, useRef, useState } from "react";
 import KeyboardEventHandler from "react-keyboard-event-handler";
 import { useDispatch, useSelector } from "react-redux";
 import { BallStart, Lock } from "../../../assets";
-import { socketService } from "../../../socketManager";
+import { socket, socketService } from "../../../socketManager";
 import {
   successReset,
   updateResultStatusOfQuickBookmaker,
@@ -298,7 +298,7 @@ const EditBookmaker = (props: any) => {
     } catch (error) {
       console.log(error);
     }
-  }, [match]);
+  }, [match, socket?.connected]);
 
   useEffect(() => {
     try {
