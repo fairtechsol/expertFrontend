@@ -110,37 +110,66 @@ const SessionMarketBoxLive = ({ currentMatch, newData, index }: any) => {
           )}
         </Box>
 
-        <Box
-          sx={{
-            display: "flex",
-            position: "relative",
-            background: index % 2 === 0 ? "#FFE094" : "#ECECEC",
-            height: "38px",
-            width: { lg: "45%", xs: "60%" },
-            justifyContent: "flex-end",
-            alignItems: "center",
-          }}
-        >
-          <SeparateBox
-            width="30%"
-            value={newData?.LayPrice1}
-            value2={formatNumber(newData?.LaySize1)}
-            lock={newData?.GameStatus === "SUSPENDED"}
-            color="#F6D0CB"
-          />
-
+        {!["ACTIVE", "", undefined, null].includes(newData?.GameStatus) ? (
           <Box
-            sx={{ width: ".45%", display: "flex", background: "pink" }}
-          ></Box>
+            sx={{
+              margin: "1px",
+              background: "rgba(0,0,0,1)",
+              height: "38px",
+              right: "0vh",
+              position: "absolute",
+              width: { lg: "27%", xs: "27%" },
+              justifyContent: { xs: "center", lg: "center" },
+              alignItems: "center",
+              display: "flex",
+            }}
+          >
+            <Typography
+              style={{
+                fontSize: "10px",
+                textTransform: "uppercase",
+                textAlign: "center",
+                width: "100%",
+                color: "white",
+                fontWeight: "400",
+              }}
+            >
+              {newData?.GameStatus}
+            </Typography>
+          </Box>
+        ) : (
+          <Box
+            sx={{
+              display: "flex",
+              position: "relative",
+              background: index % 2 === 0 ? "#FFE094" : "#ECECEC",
+              height: "38px",
+              width: { lg: "45%", xs: "60%" },
+              justifyContent: "flex-end",
+              alignItems: "center",
+            }}
+          >
+            <SeparateBox
+              width="30%"
+              value={newData?.LayPrice1}
+              value2={formatNumber(newData?.LaySize1)}
+              lock={newData?.GameStatus === "SUSPENDED"}
+              color="#F6D0CB"
+            />
 
-          <SeparateBox
-            width="30%"
-            value={newData?.BackPrice1}
-            value2={formatNumber(newData?.BackSize1)}
-            lock={newData?.GameStatus === "SUSPENDED"}
-            color="#B3E0FF"
-          />
-        </Box>
+            <Box
+              sx={{ width: ".45%", display: "flex", background: "pink" }}
+            ></Box>
+
+            <SeparateBox
+              width="30%"
+              value={newData?.BackPrice1}
+              value2={formatNumber(newData?.BackSize1)}
+              lock={newData?.GameStatus === "SUSPENDED"}
+              color="#B3E0FF"
+            />
+          </Box>
+        )}
       </Box>
       <Divider />
     </div>

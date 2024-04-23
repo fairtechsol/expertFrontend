@@ -256,7 +256,7 @@ const addMatch = createSlice({
         const newId = JSON.parse(newSessionBetting)?.id;
 
         if (!existingIds?.includes(newId)) {
-          state.matchDetail?.sessionBettings?.push(newSessionBetting);
+          state.matchDetail?.sessionBettings?.unshift(newSessionBetting);
         }
       })
       // .addCase(updateMatchBettingStatus.fulfilled, (state, action) => {

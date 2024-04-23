@@ -7,7 +7,6 @@ import { AppDispatch, RootState } from "../../store/store";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import {
-  getPlacedBetsMatch,
   getSessionProfitLossMatchDetailReset,
   updateMatchBetsReason,
   updateMaxLoss,
@@ -63,7 +62,6 @@ const SessionMarketDetail = () => {
     try {
       if (event?.matchId === state?.id) {
         dispatch(getMatchDetail(state?.id));
-        dispatch(getPlacedBetsMatch(state?.id));
       }
     } catch (e) {
       console.log(e);
@@ -111,7 +109,6 @@ const SessionMarketDetail = () => {
     try {
       if (state?.id === event?.matchId) {
         dispatch(updateApiSessionById(event));
-        dispatch(getPlacedBetsMatch(state?.id));
         if (event?.activeStatus === "result") {
           dispatch(
             removeSessionProLoss({
@@ -189,7 +186,6 @@ const SessionMarketDetail = () => {
       if (state?.id) {
         dispatch(getSessionProfitLossMatchDetailReset());
         dispatch(getMatchDetail(state?.id));
-        dispatch(getPlacedBetsMatch(state?.id));
       }
     } catch (e) {
       console.log(e);
@@ -246,6 +242,33 @@ const SessionMarketDetail = () => {
       console.log(error);
     }
   }, [state?.id]);
+
+  useEffect(() => {
+    try {
+      const handleVisibilityChange = () => {
+        if (document.visibilityState === "visible") {
+          if (state?.id) {
+            dispatch(getMatchDetail(state?.id));
+          }
+        } else if (document.visibilityState === "hidden") {
+          if (state?.id) {
+            expertSocketService.match.leaveMatchRoom(state?.id);
+            expertSocketService.match.getMatchRatesOff(state?.id);
+          }
+        }
+      };
+
+      document.addEventListener("visibilitychange", handleVisibilityChange);
+      return () => {
+        document.removeEventListener(
+          "visibilitychange",
+          handleVisibilityChange
+        );
+      };
+    } catch (error) {
+      console.error(error);
+    }
+  }, []);
 
   return (
     <>
