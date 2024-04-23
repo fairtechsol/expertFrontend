@@ -351,10 +351,6 @@ const MatchDetails = () => {
                   >
                     <SessionMarketLive
                       title={"Session API Market"}
-                      hideTotalBet={true}
-                      liveOnly={true}
-                      stopAllHide={true}
-                      hideResult={true}
                       sessionData={matchDetail?.apiSession}
                       currentMatch={matchDetail}
                     />
@@ -435,21 +431,9 @@ const MatchDetails = () => {
                   >
                     <SessionMarketLive
                       title={"Session API Market"}
-                      hideTotalBet={true}
-                      liveOnly={true}
-                      stopAllHide={true}
-                      hideResult={true}
                       sessionData={matchDetail?.apiSession}
                       currentMatch={matchDetail}
                     />
-                    {/* </Box>
-                <Box
-                  sx={{
-                    width: { lg: "50%", xs: "100%", md: "100%" },
-                    flexDirection: "column",
-                    display: "flex",
-                  }}
-                > */}
                     <SessionMarket
                       setIObtes={() => {}}
                       title={"Session Market"}

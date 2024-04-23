@@ -252,18 +252,14 @@ const SessionMarketDetail = () => {
       <Stack spacing={2} direction={{ lg: "row", xs: "column" }}>
         <Box sx={{ width: { lg: "100%" } }}>
           <SessionMarketLive
-            title={"Session API Market"}
-            hideTotalBet={true}
-            liveOnly={true}
-            stopAllHide={true}
-            hideResult={true}
+            title="Session API Market"
             sessionData={matchDetail?.apiSession}
             currentMatch={matchDetail}
           />
         </Box>
         <Box sx={{ width: { lg: "100%" } }}>
           <SessionMarket
-            title={"Session Market"}
+            title="Session Market"
             hideTotalBet={false}
             stopAllHide={false}
             profitLossData={matchDetail?.sessionProfitLoss}
@@ -278,7 +274,7 @@ const SessionMarketDetail = () => {
         </Box>
         <Box sx={{ width: { lg: "100%" } }}>
           <SessionMarket
-            title={"Session Completed"}
+            title="Session Completed"
             hideTotalBet={false}
             stopAllHide={true}
             profitLossData={matchDetail?.sessionProfitLoss}

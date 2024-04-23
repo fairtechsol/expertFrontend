@@ -17,12 +17,14 @@ export const initialiseSocket = () => {
     auth: {
       token: `${sessionStorage.getItem("jwtExpert")}`,
     },
+    reconnectionDelayMax: 10000,
   });
   socket = io(baseUrls.expertSocket, {
     transports: [`${Constants.WEBSOCKET}`],
     auth: {
       token: `${sessionStorage.getItem("jwtExpert")}`,
     },
+    reconnectionDelayMax: 10000,
   });
 };
 

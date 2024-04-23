@@ -4,26 +4,16 @@ import Divider from "../../Common/Divider";
 import SeparateBox from "../SeparateBox";
 import { formatNumber } from "../../helper";
 import SmallBox from "../SmallBox";
-import Result from "../Result";
-import SessionResultModal from "../../addSession/SessionResult/SessionResultModal";
 import { addSession } from "../../../store/actions/addSession";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../../store/store";
 
-const SessionMarketBoxLive = ({
-  newData,
-  currentMatch,
-  setLocalState,
-  updateSessionData,
-  hideResult,
-  index
-}: any) => {
+const SessionMarketBoxLive = ({ currentMatch, newData, index }: any) => {
   const dispatch: AppDispatch = useDispatch();
 
   const [live, setLive] = useState<any>(
     newData?.isActive === false ? true : false
   );
-  const [visible, setVisible] = useState(false);
 
   const handleLive = () => {
     const payload = {
@@ -79,7 +69,7 @@ const SessionMarketBoxLive = ({
               fontSize: { lg: "10px", md: "10px", xs: "10px" },
               marginLeft: { lg: "7px", md: "20px", xs: "20px" },
               fontWeight: "600",
-              lineHeight: 1
+              lineHeight: 1,
             }}
           >
             {newData?.RunnerName}
@@ -103,18 +93,9 @@ const SessionMarketBoxLive = ({
                 setLive(!live);
                 handleLive();
               }}
-              textSize={"8px"}
-              width={"28px"}
-              color={"#FF4D4D"}
-            />
-          )}
-          {newData?.betStatus === 2 && newData?.betRestult && (
-            <SmallBox
-              hide={false}
-              textSize={"12px"}
-              width={"80px"}
-              title={`Score : ${newData?.betRestult || 0}`}
-              color={"#FFF"}
+              textSize="8px"
+              width="28px"
+              color="#FF4D4D"
             />
           )}
           {!live && (
@@ -122,113 +103,44 @@ const SessionMarketBoxLive = ({
               hide={true}
               onClick={(e: any) => {
                 e.preventDefault();
-                // setLive(!live);
-                // handleLive(0);
               }}
-              textSize={"8px"}
-              width={"33px"}
-              // title={"Live"}
-            />
-          )}
-          {!hideResult && (
-            <Result
-              onClick={() => {
-                setVisible(true);
-              }}
+              textSize="8px"
+              width="33px"
             />
           )}
         </Box>
 
-        {visible && (
+        <Box
+          sx={{
+            display: "flex",
+            position: "relative",
+            background: index % 2 === 0 ? "#FFE094" : "#ECECEC",
+            height: "38px",
+            width: { lg: "45%", xs: "60%" },
+            justifyContent: "flex-end",
+            alignItems: "center",
+          }}
+        >
+          <SeparateBox
+            width="30%"
+            value={newData?.LayPrice1}
+            value2={formatNumber(newData?.LaySize1)}
+            lock={newData?.GameStatus === "SUSPENDED"}
+            color="#F6D0CB"
+          />
+
           <Box
-            sx={{
-              position: "absolute",
-              zIndex: 105,
-              top: "100%",
-              right: "0vh",
-            }}
-          >
-            <SessionResultModal
-              newData={newData}
-              setLocalState={setLocalState}
-              //   currentMatch={currentMatch}
-              //   setLive={setLive}
-              updateSessionData={updateSessionData}
-              onClick={() => {
-                setVisible(false);
-              }}
-            />
-          </Box>
-        )}
+            sx={{ width: ".45%", display: "flex", background: "pink" }}
+          ></Box>
 
-        {!["ACTIVE", "", undefined, null].includes(newData?.GameStatus) ? (
-          <Box
-            sx={{
-              margin: "1px",
-              background: "rgba(0,0,0,1)",
-              height: "38px",
-              right: "0vh",
-              position: "absolute",
-              width: { lg: "27%", xs: "27%" },
-              justifyContent: { xs: "center", lg: "center" },
-              alignItems: "center",
-              display: "flex",
-            }}
-          >
-            {/* <img src={BallStart} style={{ width: '113px', height: "32px" }} /> */}
-
-            <Typography
-              style={{
-                fontSize: "10px",
-                textTransform: "uppercase",
-                textAlign: "center",
-                width: "100%",
-                color: "white",
-                fontWeight: "400",
-              }}
-            >
-              {newData?.betStatus === 2
-                ? `Result Declared`
-                : newData?.GameStatus}
-            </Typography>
-          </Box>
-        ) : (
-          <Box
-            sx={{
-              display: "flex",
-              position: "relative",
-              background: index % 2 === 0 ? "#FFE094" : "#ECECEC",
-              height: "38px",
-              // marginLeft: "40px",
-              width: { lg: "45%", xs: "60%" },
-              justifyContent: "flex-end",
-              alignItems: "center",
-            }}
-          >
-            <SeparateBox
-              session={true}
-              back={true}
-              width={"30%"}
-              value={newData?.LayPrice1}
-              value2={formatNumber(newData?.LaySize1)}
-              lock={newData?.GameStatus === "SUSPENDED"}
-              color={"#F6D0CB"}
-            />
-
-            <Box
-              sx={{ width: ".45%", display: "flex", background: "pink" }}
-            ></Box>
-
-            <SeparateBox
-              session={true}
-              width={"30%"}
-              value={newData?.BackPrice1}
-              value2={formatNumber(newData?.BackSize1)}
-              lock={newData?.GameStatus === "SUSPENDED"}
-              color={"#B3E0FF"}
-            />
-          </Box>
-        )}
+          <SeparateBox
+            width="30%"
+            value={newData?.BackPrice1}
+            value2={formatNumber(newData?.BackSize1)}
+            lock={newData?.GameStatus === "SUSPENDED"}
+            color="#B3E0FF"
+          />
+        </Box>
       </Box>
       <Divider />
     </div>

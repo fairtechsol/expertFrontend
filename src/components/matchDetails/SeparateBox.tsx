@@ -40,7 +40,7 @@ const SeparateBox = ({ color, empty, value, width, value2, lock }: any) => {
             <Box sx={{ alignItems: "center", justifyContent: "space-around" }}>
               <Typography
                 sx={{
-                  fontSize: "13px", 
+                  fontSize: "13px",
                   color: color == "white" ? "white" : "black",
                   fontWeight: "700",
                   textAlign: "center",
@@ -65,7 +65,6 @@ const SeparateBox = ({ color, empty, value, width, value2, lock }: any) => {
             <img src={Lock} style={{ width: "10px", height: "15px" }} />
           )}
         </Box>
- 
       </Popover>
     </>
   );

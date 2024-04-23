@@ -7,17 +7,10 @@ import SessionMarketBoxLive from "./SessionMarketBoxLive";
 import { formatToINR } from "../../helper";
 
 const SessionMarketLive = ({
-  currentMatch,
-  liveOnly,
-  setCurrentMatch,
-  setLocalState,
-  hideResult,
   title,
-  hideTotalBet,
-  setMatchLiveSession,
   sessionData,
+  currentMatch,
 }: any) => {
-  const [stop, setStop] = useState(true);
   const [matchSessionData, setMatchSessionData] = useState(sessionData);
   useEffect(() => {
     setMatchSessionData(sessionData);
@@ -199,7 +192,6 @@ const SessionMarketLive = ({
               flexDirection: "column",
               width: "100%",
               position: "relative",
-              // height: "auto",
               maxHeight: { lg: "85vh", xs: "40vh" },
               overflowY: "auto",
             }}
@@ -210,17 +202,8 @@ const SessionMarketLive = ({
                   return (
                     <Box key={index}>
                       <SessionMarketBoxLive
-                        setMatchLiveSession={setMatchLiveSession}
-                        liveOnly={liveOnly}
-                        hideResult={hideResult}
-                        hideTotalBet={hideTotalBet}
-                        setMatchSessionData={setMatchSessionData}
-                        setLocalState={(val: any) => setLocalState(val)}
                         currentMatch={currentMatch}
-                        setCurrentMatch={setCurrentMatch}
                         newData={match}
-                        setStop={setStop}
-                        stop={stop}
                         index={index}
                       />
                       <Divider />

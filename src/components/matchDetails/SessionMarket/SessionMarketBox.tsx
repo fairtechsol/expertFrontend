@@ -184,10 +184,10 @@ const SessionMarketBox = ({
             <SmallBox
               loading={false}
               hide={false}
-              textSize={"10px"}
+              textSize="10px"
               width={{ lg: "80px", xs: "20px", md: "20px" }}
               title={`Score : ${newData?.result || 0}`}
-              color={"#FFF"}
+              color="#FFF"
             />
           )}
           {newData?.activeStatus === "save" && !newData?.result && (
@@ -204,9 +204,9 @@ const SessionMarketBox = ({
                   })
                 );
               }}
-              textSize={"8px"}
+              textSize="8px"
               // width={"80px"}
-              width={"33px"}
+              width="33px"
               color={newData?.activeStatus === "live" ? "#46e080" : "#FF4D4D"}
               // title={"Live"}
             />
@@ -320,7 +320,7 @@ const SessionMarketBox = ({
               value={formatNumber(newData?.noRate)}
               value2={formatNumber(newData?.noPercent)}
               lock={newData?.status === "SUSPENDED"}
-              color={"#F6D0CB"}
+              color="#F6D0CB"
             />
 
             <Box
@@ -332,7 +332,7 @@ const SessionMarketBox = ({
               value={formatNumber(newData?.yesRate)}
               value2={formatNumber(newData?.yesPercent)}
               lock={newData?.status === "SUSPENDED"}
-              color={"#B3E0FF"}
+              color="#B3E0FF"
             />
           </Box>
         )}

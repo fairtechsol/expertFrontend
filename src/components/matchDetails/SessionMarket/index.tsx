@@ -18,7 +18,7 @@ const SessionMarket = ({
   hideTotalBet,
   sessionData,
   profitLossData,
-  hideEditMaxButton
+  hideEditMaxButton,
 }: any) => {
   const dispatch: AppDispatch = useDispatch();
   const [visible, setVisible] = useState(true);
