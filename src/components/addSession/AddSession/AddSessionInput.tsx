@@ -162,7 +162,7 @@ const AddSessionInput = (props: any) => {
                 position: "absolute",
                 top: 0,
                 right: 0,
-                width: "60%",
+                width: "100%",
                 height: "100%",
                 backgroundColor: "rgba(203 24 24 / 70%)",
                 display: "flex",
