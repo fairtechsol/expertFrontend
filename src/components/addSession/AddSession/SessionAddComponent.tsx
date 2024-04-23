@@ -21,7 +21,7 @@ import {
   updateSessionMaxLimit,
   updateSessionProfitLoss,
 } from "../../../store/actions/addSession";
-import { socketService } from "../../../socketManager";
+import { socket, socketService } from "../../../socketManager";
 import {
   getMatchListSessionProfitLoss,
   sessionResultSuccessReset,
@@ -367,7 +367,7 @@ const SessionAddComponent = ({ createSession, match, setMode }: any) => {
     } catch (e) {
       console.log(e);
     }
-  }, [match, id]);
+  }, [match, id, socket?.connected]);
 
   return (
     <Box
