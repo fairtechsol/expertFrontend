@@ -184,7 +184,7 @@ const SessionMarketBox = ({
             <SmallBox
               loading={false}
               hide={false}
-              textSize="10px"
+              textSize={newData?.result === "No Result" ? "0.55em" : "10px"}
               width={{ lg: "80px", xs: "20px", md: "20px" }}
               title={`Score : ${newData?.result || 0}`}
               color="#FFF"
