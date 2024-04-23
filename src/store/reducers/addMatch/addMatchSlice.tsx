@@ -213,7 +213,7 @@ const addMatch = createSlice({
       })
       .addCase(updateApiSessionById.fulfilled, (state, action) => {
         try {
-          const { betId, activeStatus, score, profitLoss } = action.payload;
+          const { betId, score, profitLoss } = action.payload;
           state.matchDetail = {
             ...state.matchDetail,
             sessionBettings: state.matchDetail?.sessionBettings?.map(
@@ -222,7 +222,7 @@ const addMatch = createSlice({
                 if (parsedItem?.id === betId) {
                   return JSON.stringify({
                     ...parsedItem,
-                    activeStatus: activeStatus,
+                    activeStatus: score ? "result" : "save",
                     result: score ? score : null,
                     resultStatus: null,
                     resultData: score
