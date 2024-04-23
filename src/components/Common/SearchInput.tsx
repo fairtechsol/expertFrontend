@@ -1,7 +1,7 @@
 import { TextField, useMediaQuery, useTheme, Box } from "@mui/material";
 import StyledImage from "./StyledImages";
 import { Search } from "../../assets";
-import { MatchListSearchInput } from "../../interface/header";
+import { MatchListSearchInput } from "../../interface/headerInterface";
 
 const SearchInput = ({
   placeholder,
