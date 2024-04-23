@@ -303,6 +303,8 @@ export const addSessionReducers = createReducer(initialState, (builder) => {
       }
     })
     .addCase(updateResultStatusOfQuickBookmaker.fulfilled, (state, action) => {
-    state.bookmakerById['resultStatus'] = action?.payload?.status;
+      if (state.bookmakerById?.id === action.payload?.betId) {
+        state.bookmakerById["resultStatus"] = action?.payload?.status;
+      }
     });
 });
