@@ -1,10 +1,10 @@
 import { Box, Typography } from "@mui/material";
+import moment from "moment";
 import { useEffect, useState } from "react";
 import { ARROWUP } from "../../../assets";
-import moment from "moment";
+import { formatToINR } from "../../helper";
 import HeaderRow from "./HeaderRow";
 import Row from "./Row";
-import { formatToINR } from "../../helper";
 
 const BetList = ({ tag, allBetRates }: any) => {
   const [newData, setNewBets] = useState([]);
@@ -29,7 +29,7 @@ const BetList = ({ tag, allBetRates }: any) => {
                 : v?.marketType === "completeMatch" ||
                   v?.marketType === "tiedMatch2" ||
                   v?.marketType === "tiedMatch1"
-                ? "#30a4f3"
+                ? "#696969"
                 : "#F1C550",
               deleteReason: v?.deleteReason,
               width: { lg: "12%", xs: "30%" },
@@ -51,7 +51,7 @@ const BetList = ({ tag, allBetRates }: any) => {
                 : v?.bettingName === "complete_match" ||
                   v?.bettingName === "tied_manual" ||
                   v?.bettingName === "tied_match"
-                ? "#30a4f3"
+                ? "#696969"
                 : "#F1C550",
               deleteReason: v?.deleteReason,
               width: { lg: "20%", xs: "35%" },
@@ -237,8 +237,9 @@ const BetList = ({ tag, allBetRates }: any) => {
           <>
             <Box
               sx={{
-                maxHeight: "500px",
+                maxHeight: "80vh",
                 width: { xs: "100vh", lg: "auto", md: "140vh" },
+                overflow: "auto",
               }}
             >
               <HeaderRow tag={tag} />
