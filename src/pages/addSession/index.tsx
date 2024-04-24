@@ -15,7 +15,7 @@ import {
 } from "../../store/actions/addSession";
 import { getMatchListSessionProfitLoss } from "../../store/actions/match/matchAction";
 import { getMatchDetail } from "../../store/actions/addMatch/addMatchAction";
-import { socketService } from "../../socketManager";
+import { socket, socketService } from "../../socketManager";
 // import { socketService } from "../../socketManager";
 
 const AddSession = () => {
@@ -101,14 +101,13 @@ const AddSession = () => {
   useEffect(() => {
     try {
       socketService.user.matchResultDeclared(resultDeclared);
-
       return () => {
         socketService.user.matchResultDeclaredOff();
       };
     } catch (error) {
       console.error(error);
     }
-  }, []);
+  }, [socket?.connected]);
 
   useEffect(() => {
     try {
