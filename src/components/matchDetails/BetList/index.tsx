@@ -17,9 +17,19 @@ const BetList = ({ tag, allBetRates }: any) => {
           values: [
             {
               name: v?.user?.userName,
-              color: ["NO", "YES"].includes(v?.betType) ? "#FFF" : "black",
+              color:
+                ["NO", "YES"].includes(v?.betType) ||
+                v?.marketType === "completeMatch" ||
+                v?.marketType === "tiedMatch2" ||
+                v?.marketType === "tiedMatch1"
+                  ? "#FFF"
+                  : "black",
               background: ["NO", "YES"].includes(v?.betType)
                 ? "#319E5B"
+                : v?.marketType === "completeMatch" ||
+                  v?.marketType === "tiedMatch2" ||
+                  v?.marketType === "tiedMatch1"
+                ? "#30a4f3"
                 : "#F1C550",
               deleteReason: v?.deleteReason,
               width: { lg: "12%", xs: "30%" },
@@ -29,9 +39,19 @@ const BetList = ({ tag, allBetRates }: any) => {
                 v?.marketType == "MANUAL BOOKMAKER"
                   ? "Quick Bookmaker"
                   : v?.bettingName ?? v?.marketType,
-              color: ["NO", "YES"].includes(v?.betType) ? "#FFF" : "black",
+              color:
+                ["NO", "YES"].includes(v?.betType) ||
+                v?.bettingName === "complete_match" ||
+                v?.bettingName === "tied_manual" ||
+                v?.bettingName === "tied_match"
+                  ? "#FFF"
+                  : "black",
               background: ["NO", "YES"].includes(v?.betType)
                 ? "#319E5B"
+                : v?.bettingName === "complete_match" ||
+                  v?.bettingName === "tied_manual" ||
+                  v?.bettingName === "tied_match"
+                ? "#30a4f3"
                 : "#F1C550",
               deleteReason: v?.deleteReason,
               width: { lg: "20%", xs: "35%" },
