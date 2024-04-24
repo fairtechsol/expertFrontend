@@ -318,7 +318,7 @@ const EditBookmaker = (props: any) => {
   const rateB =
     bookmakerById?.type !== "tiedMatch2"
       ? +bookmakerById?.matchRates?.teamBRate || 0
-      : +bookmakerById?.matchRates?.yesRateTie || 0;
+      : +bookmakerById?.matchRates?.noRateTie || 0;
 
   const formattedRateB = rateB.toFixed(2);
   const [integerPartB, decimalPartB] = formattedRateB.split(".");
