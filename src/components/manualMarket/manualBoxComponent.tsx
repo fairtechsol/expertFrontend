@@ -61,30 +61,42 @@ const ManualBoxComponent = ({
         <MoneyBox value={teamRates} />
       </Box>
       {ballStatus ? (
-        <Box
-          sx={{
-            background: "#000",
-            height: isTeamC ? "125px" : "82px",
-            position: "absolute",
-            right: 0,
-            top: 0,
-            zIndex: 10,
-            width: { lg: "65%", xs: "34.8%" },
-            justifyContent: { xs: "center", lg: "center" },
-            alignItems: "center",
-            display: "flex",
-          }}
-        >
-          <img
-            src={BallStart}
-            style={{
-              width: "108px",
-              height: "30px",
-              marginBottom: isTeamC ? "45px" : "0",
+        <>
+          <Box
+            sx={{
+              display: "flex",
+              background: "white",
+              height: "40px",
+              width: { lg: "65%", xs: "78%" },
+              justifyContent: { xs: "flex-end", lg: "center" },
+              alignItems: "center",
             }}
-            alt=""
-          />
-        </Box>
+          ></Box>
+          <Box
+            sx={{
+              background: "#000",
+              height: isTeamC ? "125px" : "82px",
+              position: "absolute",
+              right: 0,
+              top: 0,
+              zIndex: 10,
+              width: { lg: "65%", xs: "34.8%" },
+              justifyContent: { xs: "center", lg: "center" },
+              alignItems: "center",
+              display: "flex",
+            }}
+          >
+            <img
+              src={BallStart}
+              style={{
+                width: "108px",
+                height: "30px",
+                marginBottom: isTeamC ? "45px" : "0",
+              }}
+              alt=""
+            />
+          </Box>
+        </>
       ) : livestatus ? (
         <Box
           sx={{

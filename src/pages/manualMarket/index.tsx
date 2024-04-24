@@ -1,17 +1,11 @@
 import { Box, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "../../store/store";
-import Stop from "../../components/matchDetails/SessionMarket/Stop";
-import { betLiveStatus } from "../../store/actions/match/matchAction";
-import SmallBox from "../../components/matchDetails/SmallBox";
 import { ARROWUP } from "../../assets";
 import Divider from "../../components/Common/Divider";
 import { formatToINR } from "../../helpers";
 import ManualBoxComponent from "../../components/manualMarket/manualBoxComponent";
 
 const ManualMarket = ({ currentMatch, liveData, type }: any) => {
-  const dispatch: AppDispatch = useDispatch();
   const [visibleImg, setVisibleImg] = useState<boolean>(true);
   const [live, setLive] = useState<boolean>(
     liveData?.activeStatus === "live" ? true : false
