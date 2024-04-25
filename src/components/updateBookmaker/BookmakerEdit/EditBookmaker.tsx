@@ -605,6 +605,7 @@ const EditBookmaker = (props: any) => {
                     type="text"
                     variant="standard"
                     value={+localQuickBookmaker?.teamA?.back}
+                    autoComplete="off"
                     InputProps={{
                       disableUnderline: true,
                       sx: {
@@ -774,6 +775,7 @@ const EditBookmaker = (props: any) => {
                     inputRef={innerRefTeamB}
                     type="text"
                     // onFocus={() => handleFocus(innerRefTeamB)}
+                    autoComplete="off"
                     InputProps={{
                       disableUnderline: true,
                       sx: {
@@ -933,6 +935,7 @@ const EditBookmaker = (props: any) => {
                       name={"teamCrate"}
                       inputRef={innerRefTeamC}
                       type="text"
+                      autoComplete="off"
                       InputProps={{
                         disableUnderline: true,
                         sx: {
