@@ -69,6 +69,9 @@ const BetsList = ({ betData }: any) => {
             maxHeight: "75vh",
             overflow: "hidden",
             overflowY: "auto",
+            "::-webkit-scrollbar": {
+              display: "none",
+            },
           }}
         >
           {betData?.length > 0 &&

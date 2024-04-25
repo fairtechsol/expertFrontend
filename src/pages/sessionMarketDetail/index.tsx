@@ -22,7 +22,7 @@ import {
   updateSessionAdded,
   updateSessionProLoss,
 } from "../../store/actions/addMatch/addMatchAction";
-import { expertSocketService, socketService } from "../../socketManager";
+import { expertSocketService, socket, socketService } from "../../socketManager";
 import {
   setCurrentOdd,
   updateApiSessionById,
@@ -194,7 +194,7 @@ const SessionMarketDetail = () => {
 
   useEffect(() => {
     try {
-      if (success) {
+      if (success && socket) {
         expertSocketService.match.getMatchRatesOff(state?.id);
         socketService.user.matchResultDeclaredOff();
         socketService.user.matchResultUnDeclaredOff();
@@ -219,7 +219,7 @@ const SessionMarketDetail = () => {
     } catch (e) {
       console.log(e);
     }
-  }, [success]);
+  }, [success, socket]);
 
   useEffect(() => {
     try {
