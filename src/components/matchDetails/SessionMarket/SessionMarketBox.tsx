@@ -24,7 +24,7 @@ const SessionMarketBox = ({
   setIObtes,
   profitLossData,
   index,
-}: any) => {
+  }: any) => {
   const dispatch: AppDispatch = useDispatch();
   const { statusBetLive, error, success } = useSelector(
     (state: RootState) => state.matchList
@@ -66,24 +66,28 @@ const SessionMarketBox = ({
       <Box
         sx={{
           display: "flex",
-          background: index % 2 === 0 ? "#FFE094" : "#ECECEC",
+          background: visible ? "#FFAF45" : index % 2 === 0 ? "#FFE094" : "#ECECEC", // Change color based on selected state and index
+
           height: "40px",
           width: "100%",
           boxShadow: visible ? 3 : 0,
         }}
+      // className="example-2"
       >
         <Box
           sx={{
             display: "flex",
-            background: index % 2 === 0 ? "#FFE094" : "#ECECEC",
+            background: visible ? "#FFAF45" : index % 2 === 0 ? "#FFE094" : "#ECECEC", // Change color based on selected state and index
+
             height: "39px",
             width: "40%",
             alignItems: "center",
             boxShadow: visible ? 3 : 0,
             // backgroundColor:'red'
           }}
+        // className="example-2"
         >
-          <Box sx={{ paddingTop: "3px", width: {lg:"80%"} }}>
+          <Box sx={{ paddingTop: "3px", width: { lg: "80%" } }}>
             <Typography
               sx={{
                 color: "black",
@@ -193,8 +197,8 @@ const SessionMarketBox = ({
               // width={"80px"}
               width={"33px"}
               color={newData?.activeStatus === "live" ? "#46e080" : "#FF4D4D"}
-              // title={"Live"}
-            />
+            // title={"Live"}
+                       />
           )}
           {!hideResult && (
             <Result
@@ -216,6 +220,7 @@ const SessionMarketBox = ({
               display: "flex",
               justifyContent: "end",
             }}
+            className="example-2"
           >
             <CustomSessionResult
               newData={JSON.stringify(newData)}
@@ -245,6 +250,7 @@ const SessionMarketBox = ({
               justifyContent: { xs: "center", lg: "center" },
               alignItems: "center",
               display: "flex",
+      
             }}
           >
             {/* <img src={BallStart} style={{ width: '113px', height: "32px" }} /> */}
@@ -273,6 +279,7 @@ const SessionMarketBox = ({
               justifyContent: { xs: "center", lg: "center" },
               alignItems: "center",
               display: "flex",
+              backgroundColor: "#FF4D4D"
             }}
           >
             <h6
@@ -281,14 +288,14 @@ const SessionMarketBox = ({
                 fontSize: "9px",
                 textAlign: "center",
                 lineHeight: "11px",
-                color: "#FF0000",
+                color: "#FFF",
                 // color={newData?.resultStatus === "PENDING" ? "red" : "#FFF"}
                 fontWeight: "400",
                 overflowWrap: "anywhere",
               }}
             >
-             
-             {newData?.resultStatus}
+
+              {newData?.resultStatus}
             </h6>
           </Box>
         ) : (

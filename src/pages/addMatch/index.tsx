@@ -452,7 +452,7 @@ const AddMatch = () => {
       dispatch(addMatchReset());
     }
   }, [state?.id, matchAdded]);
-console.log('matchDetail',matchDetail)
+// console.log('matchDetail',matchDetail)
   useEffect(() => {
     try {
       if (matchDetail && state?.id) {
@@ -618,6 +618,7 @@ console.log('matchDetail',matchDetail)
                   background: "#0B4F26",
                   border: "1px solid #DEDEDE",
                   borderRadius: "5px",
+                  cursor: state?.id ? "not-allowed" : "pointer",
                 }}
                 containerStyle={{
                   width: "100%",
@@ -668,6 +669,7 @@ console.log('matchDetail',matchDetail)
                     background: "#0B4F26",
                     border: "1px solid #DEDEDE",
                     borderRadius: "5px",
+                    cursor: state?.id ? "not-allowed" : "pointer",
                   }}
                   containerStyle={{
                     width: "100%",
@@ -732,6 +734,7 @@ console.log('matchDetail',matchDetail)
                     background: "#0B4F26",
                     border: "1px solid #DEDEDE",
                     borderRadius: "5px",
+                    cursor: state?.id ? "not-allowed" : "pointer",
                   }}
                   // touched={touched.competitionName}
                   gameType={selected.gameType}

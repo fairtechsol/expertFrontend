@@ -15,7 +15,7 @@ export const login = createAsyncThunk<any, LoginData>(
     try {
       const { data } = await service.post(`${ApiConstants.LOGIN}`, requestData);
       const { token } = data;
-      sessionStorage.setItem("userToken", token);
+      sessionStorage.setItem("jwtExpert", token);
       return data;
     } catch (error) {
       const err = error as AxiosError;

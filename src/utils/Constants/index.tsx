@@ -53,7 +53,7 @@ export const Constants = {
   addMatchThirdParty:
     process.env.NODE_ENV === "production"
       ? "https://serviceapi.fairgame7.com"
-      : "http://107.23.165.155:3200",
+      : "http://localhost:3200",
 
   ///Routes Constants
 
@@ -152,6 +152,8 @@ export const matchBettingType = {
   tiedMatch2: "tiedMatch2",
   completeMatch: "completeMatch",
   completeManual: "completeManual",
+  setWinner1:"setWinner1",
+  setWinner2:"setWinner2",
   ...Array.from({ length: 20 }, (_, index: any) => index).reduce(
     (prev, curr) => {
       prev[`overUnder${curr}.5`] = `overUnder${curr}.5`;
@@ -216,6 +218,25 @@ export const eventWiseMatchData = {
       },
     ],
   },
+  [constants.matchType[1]]: {
+    manual: [],
+    market: [
+      {
+        matchType: matchBettingType.setWinner1,
+        apiKey: "setWinner1",
+        marketIdKey: "setWinner1",
+        label: "Set 1 Winner",
+        name: "setWinner1",
+      },
+      {
+        matchType: matchBettingType.setWinner2,
+        apiKey: "setWinner2",
+        marketIdKey: "setWinner2",
+        label: "Set 2 Winner",
+        name: "setWinner2",
+      },
+    ],
+  },
   [constants.matchType[2]]: {
     manual: [],
     market: [
@@ -263,6 +284,7 @@ export const eventWiseMatchData = {
       },
     ],
   },
+
 };
 
 export const profitLossDataForMatchConstants = {

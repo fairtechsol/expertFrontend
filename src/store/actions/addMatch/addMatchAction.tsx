@@ -103,6 +103,18 @@ export const getExtraMarketList = createAsyncThunk<any, any>(
                 match?.description?.marketType === "COMPLETED_MATCH"
             )?.marketId,
           },
+          setWinner1: {
+            marketId: data?.find(
+              (match: any) =>
+                match?.description?.marketType === "SET_WINNER" && match?.marketName === "Set 1 Winner"
+            )?.marketId,
+          },
+          setWinner2: {
+            marketId: data?.find(
+              (match: any) =>
+                match?.description?.marketType === "SET_WINNER" && match?.marketName === "Set 2 Winner"
+            )?.marketId,
+          },
           ...Array.from({ length: 20 }, (_, index: any) => index).reduce(
             (prev, curr) => {
               prev[`overUnder${curr}.5`] = {

@@ -127,7 +127,7 @@ const MatchPermissionsModal = (props: any) => {
       {showUserModal && !matchesMobile && (
         <Box
           sx={{
-            width: { xs: "auto", sm: "auto", md: "20%" },
+            width: { xs: "auto", sm: "auto", md: "20%", lg: "30%" },
             flex: 1,
             display: "flex",
             justifyContent: "flex-end",
@@ -148,6 +148,7 @@ const MatchPermissionsModal = (props: any) => {
                 alignItems: "center",
                 justifyContent: "flex-end",
                 marginRight: "1px",
+                // flexDirection: "column"
               }}
             >
               {data?.stopAt && (

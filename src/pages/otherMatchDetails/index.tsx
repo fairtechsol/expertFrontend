@@ -32,6 +32,7 @@ import {
 } from "../../store/actions/match/matchAction";
 import { AppDispatch, RootState } from "../../store/store";
 import UnderOverMarket from "../../components/otherMatchDetails/UnderOverMarket";
+import SetWinner from "../../components/matchDetails/SetWinner";
 import { getOtherGamesMatchDetail } from "../../store/actions/otherGamesAction/matchDetailActions";
 
 const OtherMatchDetails = () => {
@@ -329,6 +330,24 @@ const OtherMatchDetails = () => {
                   />
                 </Grid>
               ))}
+              {matchDetail?.setWinner1?.isActive && (
+              <Grid item md={12} lg={6} xs={12}>
+                 <SetWinner
+                  currentMatch={matchDetail}
+                  liveData={matchDetail?.setWinner1}
+                  title={matchDetail?.setWinner1?.name}
+                />
+              </Grid>
+            )}
+             {matchDetail?.setWinner2?.isActive && (
+              <Grid item md={12} lg={6} xs={12}>
+                 <SetWinner
+                  currentMatch={matchDetail}
+                  liveData={matchDetail?.setWinner2}
+                  title={matchDetail?.setWinner2?.name}
+                />
+              </Grid>
+            )}
             {matchDetail?.id && (
               <Grid item md={12} lg={6} xs={12}>
                 <BetList allBetRates={placedBetsMatch} tag={true} />
