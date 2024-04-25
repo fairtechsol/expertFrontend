@@ -40,10 +40,10 @@ const BetList = ({ tag, allBetRates }: any) => {
                   : "black",
               background: ["NO", "YES"].includes(v?.betType)
                 ? "#319E5B"
-                : v?.bettingName === "complete_match" ||
-                  v?.bettingName === "tied_manual" ||
-                  v?.bettingName === "tied_match"
-                ? "#faf11b"
+                : v?.marketType === "completeMatch" ||
+                v?.marketType === "tiedMatch2" ||
+                v?.marketType === "tiedMatch1"
+              ? "#faf11b"
                 : "#F1C550",
               deleteReason: v?.deleteReason,
               width: { lg: "20%", xs: "35%" },
