@@ -11,7 +11,11 @@ import RunsBox from "../../components/matchDetails/RunsBox";
 import SessionMarket from "../../components/matchDetails/SessionMarket";
 import SessionMarketLive from "../../components/matchDetails/SessionMarketLive";
 import TiedMatchMarket from "../../components/matchDetails/TiedMatchMarket";
-import { expertSocketService, socketService } from "../../socketManager";
+import {
+  expertSocketService,
+  socket,
+  socketService,
+} from "../../socketManager";
 import {
   getMatchDetail,
   removeSessionProLoss,
@@ -222,7 +226,7 @@ const MatchDetails = () => {
 
   useEffect(() => {
     try {
-      if (success) {
+      if (success && socket) {
         expertSocketService.match.getMatchRatesOff(state?.id);
         // socketService.user.matchBettingStatusChangeOff();
         socketService.user.matchResultDeclaredOff();
@@ -252,7 +256,7 @@ const MatchDetails = () => {
     } catch (e) {
       console.log(e);
     }
-  }, [success]);
+  }, [success, socket]);
 
   useEffect(() => {
     try {

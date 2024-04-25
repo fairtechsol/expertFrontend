@@ -299,7 +299,7 @@ const SessionAddComponent = ({ createSession, match, setMode }: any) => {
 
   useEffect(() => {
     try {
-      if (id) {
+      if (id && socket) {
         socketService.user.updateSessionRateClient((data: any) => {
           if (data?.id === id && data?.matchId === match?.id) {
             if (data?.status === "ball start") {
@@ -367,7 +367,7 @@ const SessionAddComponent = ({ createSession, match, setMode }: any) => {
     } catch (e) {
       console.log(e);
     }
-  }, [match, id, socket?.connected]);
+  }, [match, id, socket]);
 
   return (
     <Box

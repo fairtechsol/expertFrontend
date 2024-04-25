@@ -49,14 +49,14 @@ const Header1 = () => {
 
   useEffect(() => {
     try {
-      if (socket?.connected) {
-        dispatch(getLoggedUserCount());
+      dispatch(getLoggedUserCount());
+      if (socket) {
         socketService.user.userCount(handleUserCount);
       }
     } catch (e) {
       console.log(e);
     }
-  }, [socket?.connected]);
+  }, [socket]);
 
   return (
     <>
@@ -150,26 +150,26 @@ const Header1 = () => {
                   {(getProfile?.bookmakerMatchPrivilege ||
                     getProfile?.sessionMatchPrivilege ||
                     getProfile?.allPrivilege) && (
-                      <ButtonHead
-                        onClick={(e: any) => {
-                          setSelected(1);
-                          dispatch(getMatchListDropdown());
-                          setAnchor(e?.currentTarget);
-                        }}
-                        title={!dropDownLoading ? "ALL MATCH" : "Loading..."}
-                        boxStyle={{
-                          backgroundColor:
-                            currentSelected == 1 ? "white" : "transparent",
-                          py: "5px",
-                          borderRadius: "5px",
-                          marginLeft: { lg: "15px", xs: "1px" },
-                          cursor: "pointer",
-                        }}
-                        titleStyle={{
-                          color: currentSelected == 1 ? "green" : "white",
-                        }}
-                      />
-                    )}
+                    <ButtonHead
+                      onClick={(e: any) => {
+                        setSelected(1);
+                        dispatch(getMatchListDropdown());
+                        setAnchor(e?.currentTarget);
+                      }}
+                      title={!dropDownLoading ? "ALL MATCH" : "Loading..."}
+                      boxStyle={{
+                        backgroundColor:
+                          currentSelected == 1 ? "white" : "transparent",
+                        py: "5px",
+                        borderRadius: "5px",
+                        marginLeft: { lg: "15px", xs: "1px" },
+                        cursor: "pointer",
+                      }}
+                      titleStyle={{
+                        color: currentSelected == 1 ? "green" : "white",
+                      }}
+                    />
+                  )}
 
                   <NavLink
                     to={"/expert/match"}
@@ -224,7 +224,7 @@ const Header1 = () => {
                       alignItems: "center",
                       background: "white",
                       marginTop: { xs: "10px" },
-                      marginLeft: "10px"
+                      marginLeft: "10px",
                     }}
                   >
                     <StyledImage
@@ -342,7 +342,6 @@ const Header1 = () => {
                       display: "flex",
                     }}
                   >
-
                     <BoxProfile
                       containerStyle={{ marginTop: "0" }}
                       image={"https://picsum.photos/200/300"}
@@ -358,45 +357,43 @@ const Header1 = () => {
                   flex: 1,
                   alignItems: "center",
                   flexDirection: "row",
-                  width: "100%"
+                  width: "100%",
                 }}
               >
-                <Box sx={{display: "flex"}}>
-                <Box
-                  onClick={() => {
-                    setVisible(true);
-                  }}
-                  sx={{
-                    height: { lg: "45px", xs: "35px" },
-                    width: "45px",
-                    borderRadius: "35px",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    background: "white",
-                    // marginLeft: "4vh"
-                  }}
-                >
-                  <StyledImage
-                    src={NotiBadge}
-                    sx={{ height: "25px", width: "25px" }}
-                  />
-
-
-                </Box>
                 <Box sx={{ display: "flex" }}>
-                  <ActiveUsers
-                    containerStyle={{}}
-                    image={Users}
-                    value={userCount}
-                  />
-                </Box>
+                  <Box
+                    onClick={() => {
+                      setVisible(true);
+                    }}
+                    sx={{
+                      height: { lg: "45px", xs: "35px" },
+                      width: "45px",
+                      borderRadius: "35px",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      background: "white",
+                      // marginLeft: "4vh"
+                    }}
+                  >
+                    <StyledImage
+                      src={NotiBadge}
+                      sx={{ height: "25px", width: "25px" }}
+                    />
+                  </Box>
+                  <Box sx={{ display: "flex" }}>
+                    <ActiveUsers
+                      containerStyle={{}}
+                      image={Users}
+                      value={userCount}
+                    />
+                  </Box>
                 </Box>
                 <Box>
-                <Box sx={{ display: "flex", }}>
-                  {(getProfile?.bookmakerMatchPrivilege ||
-                    getProfile?.sessionMatchPrivilege ||
-                    getProfile?.allPrivilege) && (
+                  <Box sx={{ display: "flex" }}>
+                    {(getProfile?.bookmakerMatchPrivilege ||
+                      getProfile?.sessionMatchPrivilege ||
+                      getProfile?.allPrivilege) && (
                       <ButtonHead
                         onClick={(e: any) => {
                           setSelected(1);
@@ -418,46 +415,46 @@ const Header1 = () => {
                       />
                     )}
 
-                  <NavLink
-                    to={"/expert/match"}
-                    style={{ textDecoration: "none" }}
-                  >
-                    <ButtonHead
-                      onClick={() => {
-                        setSelected(4);
-                      }}
-                      title={"MATCH LIST"}
-                      boxStyle={{
-                        backgroundColor:
-                          window.location.pathname.split("/")[2] == "match"
-                            ? "white"
-                            : "transparent",
-                        py: "5px",
-                        borderRadius: "5px",
-                        marginLeft: { lg: "15px", xs: "1px" },
-                        cursor: "pointer",
-                      }}
-                      titleStyle={{
-                        color:
-                          window.location.pathname.split("/")[2] == "match"
-                            ? "green"
-                            : "white",
-                      }}
-                    />
-                  </NavLink>
+                    <NavLink
+                      to={"/expert/match"}
+                      style={{ textDecoration: "none" }}
+                    >
+                      <ButtonHead
+                        onClick={() => {
+                          setSelected(4);
+                        }}
+                        title={"MATCH LIST"}
+                        boxStyle={{
+                          backgroundColor:
+                            window.location.pathname.split("/")[2] == "match"
+                              ? "white"
+                              : "transparent",
+                          py: "5px",
+                          borderRadius: "5px",
+                          marginLeft: { lg: "15px", xs: "1px" },
+                          cursor: "pointer",
+                        }}
+                        titleStyle={{
+                          color:
+                            window.location.pathname.split("/")[2] == "match"
+                              ? "green"
+                              : "white",
+                        }}
+                      />
+                    </NavLink>
+                  </Box>
                 </Box>
+                {matchListDropdown?.length > 0 && (
+                  <DropDownMenu
+                    anchorEl={anchor}
+                    open={Boolean(anchor)}
+                    allMatch={matchListDropdown}
+                    handleClose={() => {
+                      setAnchor(null);
+                    }}
+                  />
+                )}
               </Box>
-              {matchListDropdown?.length > 0 && (
-                <DropDownMenu
-                  anchorEl={anchor}
-                  open={Boolean(anchor)}
-                  allMatch={matchListDropdown}
-                  handleClose={() => {
-                    setAnchor(null);
-                  }}
-                />
-              )}
-            </Box>
             </Box>
           </AppBar>
           <Box sx={{ minHeight: { lg: 66, sm: 70, md: 80, xs: 80 } }} />

@@ -6,7 +6,7 @@ import Loader from "../../components/Loader";
 import BetList from "../../components/matchDetails/BetList";
 import BookMarket from "../../components/matchDetails/Bookmarket";
 import MatchOdds from "../../components/matchDetails/MatchOdds";
-import { expertSocketService, socketService } from "../../socketManager";
+import { expertSocketService, socket, socketService } from "../../socketManager";
 import {
   getMatchDetail,
   removeSessionProLoss,
@@ -205,7 +205,7 @@ const MatchMarketDetail = () => {
 
   useEffect(() => {
     try {
-      if (success) {
+      if (success && socket) {
         expertSocketService.match.getMatchRatesOff(state?.id);
         socketService.user.matchResultDeclaredOff();
         socketService.user.matchResultUnDeclaredOff();
@@ -232,7 +232,7 @@ const MatchMarketDetail = () => {
     } catch (e) {
       console.log(e);
     }
-  }, [success]);
+  }, [success, socket]);
 
   useEffect(() => {
     try {

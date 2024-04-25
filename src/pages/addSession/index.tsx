@@ -100,14 +100,16 @@ const AddSession = () => {
 
   useEffect(() => {
     try {
-      socketService.user.matchResultDeclared(resultDeclared);
-      return () => {
-        socketService.user.matchResultDeclaredOff();
-      };
+      if (socket) {
+        socketService.user.matchResultDeclared(resultDeclared);
+        return () => {
+          socketService.user.matchResultDeclaredOff();
+        };
+      }
     } catch (error) {
       console.error(error);
     }
-  }, [socket?.connected]);
+  }, [socket]);
 
   useEffect(() => {
     try {

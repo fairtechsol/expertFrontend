@@ -55,7 +55,7 @@ const MatchList = ({}) => {
 
   useEffect(() => {
     try {
-      if (socket?.connected) {
+      if (socket) {
         expertSocketService.match.matchAdded(getMatchListService);
         socketService.user.matchResultUnDeclared(getMatchListService);
         return () => {
@@ -66,7 +66,7 @@ const MatchList = ({}) => {
     } catch (error) {
       console.log(error);
     }
-  }, [socket?.connected]);
+  }, [socket]);
 
   return (
     <>
