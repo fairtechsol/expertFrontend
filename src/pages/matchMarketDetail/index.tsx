@@ -6,7 +6,11 @@ import Loader from "../../components/Loader";
 import BetList from "../../components/matchDetails/BetList";
 import BookMarket from "../../components/matchDetails/Bookmarket";
 import MatchOdds from "../../components/matchDetails/MatchOdds";
-import { expertSocketService, socket, socketService } from "../../socketManager";
+import {
+  expertSocketService,
+  socket,
+  socketService,
+} from "../../socketManager";
 import {
   getMatchDetail,
   removeSessionProLoss,

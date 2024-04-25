@@ -8,7 +8,6 @@ const ManualBoxComponent = ({
   data,
   currentMatch,
   align,
-  lock,
   teamRates,
   livestatus,
   ballStatus,
@@ -17,6 +16,54 @@ const ManualBoxComponent = ({
 }: any) => {
   const theme = useTheme();
   const matchesMobile = useMediaQuery(theme.breakpoints.down("lg"));
+
+  const handleDecimal = (value: any, gap: any, type: any) => {
+    let checkDecimal = value % 1;
+    if (checkDecimal >= 0.5) {
+      let getValue =
+        type == "back" ? Math.round(value) - gap : Math.round(value - 1) + gap;
+      let checkZeroHundred =
+        type == "back"
+          ? getValue < 1
+            ? 0
+            : Math.round(getValue)
+          : getValue >= 100
+          ? 100
+          : Math.round(getValue);
+      let returnValue;
+      if (type == "back") {
+        let check = value % 1;
+        returnValue =
+          check >= 0.5
+            ? getValue < 1
+              ? checkZeroHundred
+              : checkZeroHundred - 1
+            : checkZeroHundred;
+      } else {
+        returnValue = checkZeroHundred;
+      }
+      return returnValue;
+    } else {
+      let getValue = type == "back" ? value - gap : value + gap;
+      let checkZeroHundred =
+        type == "back"
+          ? getValue < 1
+            ? 0
+            : Math.round(getValue)
+          : getValue >= 100
+          ? 100
+          : Math.round(getValue);
+      let returnValue;
+      if (type == "back") {
+        let check = value % 1;
+        returnValue = check >= 0.5 ? checkZeroHundred - 1 : checkZeroHundred;
+      } else {
+        returnValue = checkZeroHundred;
+      }
+      return returnValue;
+    }
+  };
+
   return (
     <Box
       sx={{
@@ -146,8 +193,14 @@ const ManualBoxComponent = ({
               <ManualSeparateBox
                 currentMatch={currentMatch}
                 align={align}
-                lock={lock}
-                value={data?.back - 2}
+                lock={
+                  data?.back
+                    ? handleDecimal(+data?.back, 2, "back") > 0
+                      ? false
+                      : true
+                    : true
+                }
+                value={data?.back ? handleDecimal(+data?.back, 2, "back") : 0}
                 color={"#CEEBFF"}
               />
             )}
@@ -158,8 +211,14 @@ const ManualBoxComponent = ({
               <ManualSeparateBox
                 currentMatch={currentMatch}
                 align={align}
-                lock={lock}
-                value={data?.back - 1}
+                lock={
+                  data?.back
+                    ? handleDecimal(+data?.back, 1, "back") > 0
+                      ? false
+                      : true
+                    : true
+                }
+                value={data?.back ? handleDecimal(+data?.back, 1, "back") : 0}
                 color={"#C2E6FF"}
               />
             )}
@@ -169,8 +228,8 @@ const ManualBoxComponent = ({
             <ManualSeparateBox
               currentMatch={currentMatch}
               align={align}
-              value={data?.back}
-              lock={lock}
+              lock={+data?.back > 0 ? false : true}
+              value={+data?.back}
               color={"#A7DCFF"}
             />
             <Box
@@ -179,8 +238,8 @@ const ManualBoxComponent = ({
             <ManualSeparateBox
               currentMatch={currentMatch}
               align={align}
-              value={data?.lay}
-              lock={lock}
+              lock={+data?.lay < 100.25 ? false : true}
+              value={+data?.lay}
               color={"#FFB5B5"}
             />
             {!matchesMobile && (
@@ -193,8 +252,8 @@ const ManualBoxComponent = ({
                 currentMatch={currentMatch}
                 back={true}
                 align={align}
-                lock={lock}
-                value={data?.lay + 1}
+                lock={+data?.lay <= 99.75 ? false : true}
+                value={data?.lay ? handleDecimal(+data?.lay, 1, "") : 0}
                 color={"#FFB5B5"}
               />
             )}
@@ -207,8 +266,8 @@ const ManualBoxComponent = ({
               <ManualSeparateBox
                 currentMatch={currentMatch}
                 align={align}
-                value={data?.lay + 2}
-                lock={lock}
+                lock={+data?.lay <= 98.75 ? false : true}
+                value={data?.lay ? handleDecimal(+data?.lay, 2, "") : 0}
                 color={"#ECD6D6"}
               />
             )}

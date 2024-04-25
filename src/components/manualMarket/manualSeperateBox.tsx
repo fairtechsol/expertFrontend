@@ -3,14 +3,7 @@ import React from "react";
 import { Popover } from "react-tiny-popover";
 import { Lock } from "../../assets";
 
-const ManualSeparateBox = ({
-  color,
-  empty,
-  value,
-  width,
-  value2,
-  lock,
-}: any) => {
+const ManualSeparateBox = ({ color, empty, value, width, lock }: any) => {
   const theme = useTheme();
   const matchesMobile = useMediaQuery(theme.breakpoints.down("lg"));
   const [isPopoverOpen, setIsPopoverOpen] = React.useState(false);
@@ -43,7 +36,7 @@ const ManualSeparateBox = ({
             flexDirection: "column",
           }}
         >
-          {!empty && !lock && ![0, "0"].includes(value) && (
+          {!empty && !lock && ![0, "0", null, undefined].includes(value) && (
             <Box sx={{ alignItems: "center", justifyContent: "space-around" }}>
               <Typography
                 sx={{
@@ -57,8 +50,12 @@ const ManualSeparateBox = ({
               </Typography>
             </Box>
           )}
-          {[0, "0"].includes(value) && (
-            <img src={Lock} style={{ width: "10px", height: "15px" }} />
+          {(lock || [0, "0"].includes(value)) && (
+            <img
+              src={Lock}
+              style={{ width: "10px", height: "15px" }}
+              alt="lock"
+            />
           )}
         </Box>
       </Popover>
