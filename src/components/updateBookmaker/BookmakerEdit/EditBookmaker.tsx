@@ -14,7 +14,7 @@ import { updateLocalQuickBookmaker } from "../../../utils/InputKeys/Bookmaker/Ut
 import BookButton from "./BookButton";
 import ResultComponent from "./ResultComponent";
 import theme from "../../../theme";
-import { numberInputOnWheelPreventChange } from "../../../helpers";
+import { formatToINR, numberInputOnWheelPreventChange } from "../../../helpers";
 import { useLocation } from "react-router-dom";
 
 const EditBookmaker = (props: any) => {
@@ -534,7 +534,7 @@ const EditBookmaker = (props: any) => {
                   {/* {bookmakerById?.type !== "tiedMatch2"
                     ? +bookmakerById?.matchRates?.teamARate || 0
                     : +bookmakerById?.matchRates?.yesRateTie || 0} */}
-                  <span>{integerPart}</span>
+                  <span>{formatToINR(integerPart || 0)}</span>
                   <span
                     style={{ fontSize: "0.8em", fontWeight: "normal" }}
                   >{`.${decimalPart}`}</span>
@@ -706,7 +706,7 @@ const EditBookmaker = (props: any) => {
                   {/* {bookmakerById?.type !== "tiedMatch2"
                     ? +bookmakerById?.matchRates?.teamBRate || 0
                     : +bookmakerById?.matchRates?.noRateTie || 0} */}
-                  <span>{integerPartB}</span>
+                  <span>{formatToINR(integerPartB || 0)}</span>
                   <span
                     style={{ fontSize: "0.8em", fontWeight: "normal" }}
                   >{`.${decimalPartB}`}</span>
