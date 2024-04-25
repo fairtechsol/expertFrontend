@@ -194,6 +194,9 @@ const SessionMarketLive = ({
               position: "relative",
               maxHeight: { lg: "85vh", xs: "40vh" },
               overflowY: "auto",
+              "::-webkit-scrollbar": {
+                display: "none",
+              },
             }}
           >
             {matchSessionData?.length > 0 &&

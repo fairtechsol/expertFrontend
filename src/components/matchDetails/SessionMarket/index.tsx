@@ -212,6 +212,9 @@ const SessionMarket = ({
               position: "relative",
               maxHeight: { lg: "85vh", xs: "40vh" },
               overflowY: "auto",
+              "::-webkit-scrollbar": {
+                display: "none",
+              },
               // maxHeight: "300px",
               // overflowY: "scroll",
             }}
