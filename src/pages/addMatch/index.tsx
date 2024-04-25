@@ -452,7 +452,7 @@ const AddMatch = () => {
       dispatch(addMatchReset());
     }
   }, [state?.id, matchAdded]);
-console.log('matchDetail',matchDetail)
+// console.log('matchDetail',matchDetail)
   useEffect(() => {
     try {
       if (matchDetail && state?.id) {

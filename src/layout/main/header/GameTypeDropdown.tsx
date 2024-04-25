@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Menu ,MenuItem,useMediaQuery,useTheme} from "@mui/material";
-import { AppDispatch, RootState } from "../../../store/store";
-import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch } from "../../../store/store";
+import { useDispatch } from "react-redux";
 import { getMatchListDropdown } from "../../../store/actions/match/matchAction";
 
 
@@ -9,7 +9,7 @@ import { getMatchListDropdown } from "../../../store/actions/match/matchAction";
 const allMatchg =[
     {title : 'Cricket',value:'cricket'},
     {title : 'Football',value:'football'},
-    // {title : 'Tennis',value:'tennis'},
+    {title : 'Tennis',value:'tennis'},
 ]
 const GameTypeDropdown = ({ anchorEl, open, handleClose,anchorrr }: any) => {
     const theme = useTheme();
