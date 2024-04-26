@@ -1,25 +1,25 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {
+  betLiveStatus,
   editMatch,
   editSuccessReset,
   getMatchList,
   getMatchListDropdown,
+  getMatchListSessionProfitLoss,
+  getPlacedBetsForSessionDetail,
+  getPlacedBetsMatch,
   matchListReset,
   noResultDeclare,
+  resetMatchListSessionProLoss,
   resultDeclare,
+  sessionBetLiveStatus,
   sessionResultSuccessReset,
   undeclareResult,
   updateMatchActiveStatus,
   updateMatchActiveStatusReset,
-  betLiveStatus,
-  getPlacedBetsMatch,
-  getMatchListSessionProfitLoss,
-  resetMatchListSessionProLoss,
-  sessionBetLiveStatus,
   updateMatchBetsPlace,
-  updateSessionBetsPlace,
   updateMatchBetsReason,
-  getPlacedBetsMatchForSessionDetail,
+  updateSessionBetsPlace,
 } from "../../actions/match/matchAction";
 
 interface InitialState {
@@ -192,20 +192,17 @@ const matchList = createSlice({
         state.loading = false;
         state.error = action?.error?.message;
       })
-      .addCase(getPlacedBetsMatchForSessionDetail.pending, (state) => {
+      .addCase(getPlacedBetsForSessionDetail.pending, (state) => {
         state.loading = true;
         state.success = false;
         state.error = null;
       })
-      .addCase(
-        getPlacedBetsMatchForSessionDetail.fulfilled,
-        (state, action) => {
-          state.loading = false;
-          state.success = true;
-          state.placedBetsMatch = action?.payload;
-        }
-      )
-      .addCase(getPlacedBetsMatchForSessionDetail.rejected, (state, action) => {
+      .addCase(getPlacedBetsForSessionDetail.fulfilled, (state, action) => {
+        state.loading = false;
+        state.success = true;
+        state.placedBetsMatch = action?.payload;
+      })
+      .addCase(getPlacedBetsForSessionDetail.rejected, (state, action) => {
         state.loading = false;
         state.error = action?.error?.message;
       })

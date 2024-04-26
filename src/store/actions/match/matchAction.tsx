@@ -115,7 +115,7 @@ export const getPlacedBetsMatch = createAsyncThunk<any, any>(
     }
   }
 );
-export const getPlacedBetsMatchForSessionDetail = createAsyncThunk<any, any>(
+export const getPlacedBetsForSessionDetail = createAsyncThunk<any, any>(
   "placedBets/sessionDetail",
   async (requestData, thunkApi) => {
     try {

@@ -1,20 +1,17 @@
 import { Box, Stack } from "@mui/material";
-import SessionMarketLive from "../../components/matchDetails/SessionMarketLive";
-import SessionMarket from "../../components/matchDetails/SessionMarket";
-import RunsBox from "../../components/matchDetails/RunsBox";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../../store/store";
-import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useLocation, useNavigate } from "react-router-dom";
+import BetList from "../../components/matchDetails/BetList";
+import RunsBox from "../../components/matchDetails/RunsBox";
+import SessionMarket from "../../components/matchDetails/SessionMarket";
+import SessionMarketLive from "../../components/matchDetails/SessionMarketLive";
 import {
-  getPlacedBetsMatchForSessionDetail,
-  getSessionProfitLossMatchDetailReset,
-  updateMatchBetsReason,
-  updateMaxLoss,
-  updateResultStatusOfMatch,
-  updateResultStatusOfSession,
-  updateSessionBetsPlace,
-} from "../../store/actions/match/matchAction";
+  expertSocketService,
+  socket,
+  socketService,
+} from "../../socketManager";
+import { matchSocketService } from "../../socketManager/matchSocket";
 import {
   getMatchDetail,
   removeSessionProLoss,
@@ -24,16 +21,19 @@ import {
   updateSessionProLoss,
 } from "../../store/actions/addMatch/addMatchAction";
 import {
-  expertSocketService,
-  socket,
-  socketService,
-} from "../../socketManager";
-import {
   setCurrentOdd,
   updateApiSessionById,
 } from "../../store/actions/addSession";
-import { matchSocketService } from "../../socketManager/matchSocket";
-import BetList from "../../components/matchDetails/BetList";
+import {
+  getPlacedBetsForSessionDetail,
+  getSessionProfitLossMatchDetailReset,
+  updateMatchBetsReason,
+  updateMaxLoss,
+  updateResultStatusOfMatch,
+  updateResultStatusOfSession,
+  updateSessionBetsPlace,
+} from "../../store/actions/match/matchAction";
+import { AppDispatch, RootState } from "../../store/store";
 
 const SessionMarketDetail = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -71,7 +71,7 @@ const SessionMarketDetail = () => {
     try {
       if (event?.matchId === state?.id) {
         dispatch(getMatchDetail(state?.id));
-        dispatch(getPlacedBetsMatchForSessionDetail(state?.id));
+        dispatch(getPlacedBetsForSessionDetail(state?.id));
       }
     } catch (e) {
       console.log(e);
@@ -119,7 +119,7 @@ const SessionMarketDetail = () => {
     try {
       if (state?.id === event?.matchId) {
         dispatch(updateApiSessionById(event));
-        dispatch(getPlacedBetsMatchForSessionDetail(state?.id));
+        dispatch(getPlacedBetsForSessionDetail(state?.id));
         if (event?.activeStatus === "result") {
           dispatch(
             removeSessionProLoss({
@@ -197,7 +197,7 @@ const SessionMarketDetail = () => {
       if (state?.id) {
         dispatch(getSessionProfitLossMatchDetailReset());
         dispatch(getMatchDetail(state?.id));
-        dispatch(getPlacedBetsMatchForSessionDetail(state?.id));
+        dispatch(getPlacedBetsForSessionDetail(state?.id));
       }
     } catch (e) {
       console.log(e);
@@ -321,7 +321,6 @@ const SessionMarketDetail = () => {
             currentMatch={matchDetail}
             hideEditMaxButton={false}
           />
-
           <SessionMarket
             title="Session Declared"
             hideTotalBet={false}

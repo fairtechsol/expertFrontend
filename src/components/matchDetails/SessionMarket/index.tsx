@@ -37,6 +37,7 @@ const SessionMarket = ({
           lg: "flex-start",
           boxShadow: "0px 5px 10px #0000001A",
         },
+        marginBottom: "1rem",
       }}
     >
       <Box
