@@ -146,14 +146,14 @@ const SessionMarketLive = ({
                   background: "#319E5B",
                   height: "25px",
                   // paddingRight: "17px",
-                  width: { lg: "62%", xs: "80%" },
+                  width: { lg: "62%", xs: "67%", md: "67%" },
                   justifyContent: "flex-end",
                 }}
               >
                 <Box
                   sx={{
                     background: "#FF9292",
-                    width: { lg: "26.5%", xs: "24.5%" },
+                    width: { lg: "26.5%", xs: "24.5%", md: "24%" },
                     height: "100%",
                     display: "flex",
                     justifyContent: "center",
@@ -170,7 +170,7 @@ const SessionMarketLive = ({
                 <Box
                   sx={{
                     background: "#00C0F9",
-                    width: { lg: "26.5%", xs: "22.5%" },
+                    width: { lg: "26.5%", xs: "22.5%", md: "24%" },
                     height: "100%",
                     display: "flex",
                     justifyContent: "center",
