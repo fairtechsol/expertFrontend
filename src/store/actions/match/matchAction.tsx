@@ -115,6 +115,27 @@ export const getPlacedBetsMatch = createAsyncThunk<any, any>(
     }
   }
 );
+export const getPlacedBetsMatchForSessionDetail = createAsyncThunk<any, any>(
+  "placedBets/sessionDetail",
+  async (requestData, thunkApi) => {
+    try {
+      const response = await service.get(
+        `${
+          ApiConstants.MATCH.GET_BETS
+        }?betPlaced.matchId=${requestData}&result=inArr${JSON.stringify([
+          "PENDING",
+          "UNDECLARE",
+        ])}&marketBetType=eqSESSION`
+      );
+      if (response?.data) {
+        return response?.data;
+      }
+    } catch (error) {
+      const err = error as AxiosError;
+      return thunkApi.rejectWithValue(err.response?.status);
+    }
+  }
+);
 
 export const updateMatchActiveStatus = createAsyncThunk<any, any>(
   "/match/updateActiveStatus",

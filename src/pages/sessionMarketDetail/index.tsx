@@ -7,6 +7,7 @@ import { AppDispatch, RootState } from "../../store/store";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import {
+  getPlacedBetsMatchForSessionDetail,
   getSessionProfitLossMatchDetailReset,
   updateMatchBetsReason,
   updateMaxLoss,
@@ -22,12 +23,17 @@ import {
   updateSessionAdded,
   updateSessionProLoss,
 } from "../../store/actions/addMatch/addMatchAction";
-import { expertSocketService, socket, socketService } from "../../socketManager";
+import {
+  expertSocketService,
+  socket,
+  socketService,
+} from "../../socketManager";
 import {
   setCurrentOdd,
   updateApiSessionById,
 } from "../../store/actions/addSession";
 import { matchSocketService } from "../../socketManager/matchSocket";
+import BetList from "../../components/matchDetails/BetList";
 
 const SessionMarketDetail = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -38,6 +44,9 @@ const SessionMarketDetail = () => {
   );
   const { sessionProLoss } = useSelector((state: RootState) => state.match);
   const { currentOdd } = useSelector((state: RootState) => state.addSession);
+  const { placedBetsMatch } = useSelector(
+    (state: RootState) => state.matchList
+  );
 
   const updateMatchDetailToRedux = (event: any) => {
     try {
@@ -62,6 +71,7 @@ const SessionMarketDetail = () => {
     try {
       if (event?.matchId === state?.id) {
         dispatch(getMatchDetail(state?.id));
+        dispatch(getPlacedBetsMatchForSessionDetail(state?.id));
       }
     } catch (e) {
       console.log(e);
@@ -109,6 +119,7 @@ const SessionMarketDetail = () => {
     try {
       if (state?.id === event?.matchId) {
         dispatch(updateApiSessionById(event));
+        dispatch(getPlacedBetsMatchForSessionDetail(state?.id));
         if (event?.activeStatus === "result") {
           dispatch(
             removeSessionProLoss({
@@ -186,6 +197,7 @@ const SessionMarketDetail = () => {
       if (state?.id) {
         dispatch(getSessionProfitLossMatchDetailReset());
         dispatch(getMatchDetail(state?.id));
+        dispatch(getPlacedBetsMatchForSessionDetail(state?.id));
       }
     } catch (e) {
       console.log(e);
@@ -282,6 +294,21 @@ const SessionMarketDetail = () => {
         </Box>
         <Box sx={{ width: { lg: "100%" } }}>
           <SessionMarket
+            title="Session Completed"
+            hideTotalBet={false}
+            stopAllHide={true}
+            profitLossData={matchDetail?.sessionProfitLoss}
+            sessionData={matchDetail?.sessionBettings?.filter(
+              (item: any) =>
+                JSON.parse(item)?.isComplete &&
+                JSON.parse(item)?.showSessions &&
+                JSON.parse(item)?.resultData === null
+            )}
+            hideResult={false}
+            currentMatch={matchDetail}
+            hideEditMaxButton={true}
+          />
+          <SessionMarket
             title="Session Market"
             hideTotalBet={false}
             stopAllHide={false}
@@ -294,21 +321,24 @@ const SessionMarketDetail = () => {
             currentMatch={matchDetail}
             hideEditMaxButton={false}
           />
-        </Box>
-        <Box sx={{ width: { lg: "100%" } }}>
+
           <SessionMarket
-            title="Session Completed"
+            title="Session Declared"
             hideTotalBet={false}
             stopAllHide={true}
             profitLossData={matchDetail?.sessionProfitLoss}
             sessionData={matchDetail?.sessionBettings?.filter(
               (item: any) =>
-                JSON.parse(item)?.isComplete && JSON.parse(item)?.showSessions
+                JSON.parse(item)?.showSessions &&
+                JSON.parse(item)?.resultData !== null
             )}
             hideResult={false}
             currentMatch={matchDetail}
             hideEditMaxButton={true}
           />
+        </Box>
+        <Box sx={{ width: { lg: "100%" } }}>
+          <BetList allBetRates={placedBetsMatch} tag={true} />
         </Box>
       </Stack>
       {sessionProLoss?.length > 0 && (

@@ -210,7 +210,7 @@ const SessionMarket = ({
               flexDirection: "column",
               width: "100%",
               position: "relative",
-              maxHeight: { lg: "85vh", xs: "40vh" },
+              maxHeight: { lg: "25vh", xs: "40vh" },
               overflowY: "auto",
               "::-webkit-scrollbar": {
                 display: "none",
