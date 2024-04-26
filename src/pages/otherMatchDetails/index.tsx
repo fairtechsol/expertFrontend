@@ -330,24 +330,18 @@ const OtherMatchDetails = () => {
                   />
                 </Grid>
               ))}
-              {matchDetail?.setWinner1?.isActive && (
-              <Grid item md={12} lg={6} xs={12}>
-                 <SetWinner
-                  currentMatch={matchDetail}
-                  liveData={matchDetail?.setWinner1}
-                  title={matchDetail?.setWinner1?.name}
-                />
-              </Grid>
-            )}
-             {matchDetail?.setWinner2?.isActive && (
-              <Grid item md={12} lg={6} xs={12}>
-                 <SetWinner
-                  currentMatch={matchDetail}
-                  liveData={matchDetail?.setWinner2}
-                  title={matchDetail?.setWinner2?.name}
-                />
-              </Grid>
-            )}
+            {matchDetail?.setWinner?.length > 0 &&
+              matchDetail?.setWinner
+                ?.filter((item: any) => item?.isActive)
+                ?.map((market: any) => (
+                  <Grid item md={12} lg={6} xs={12}>
+                    <SetWinner
+                      currentMatch={matchDetail}
+                      liveData={market}
+                      title={market?.name}
+                    />
+                  </Grid>
+                ))}
             {matchDetail?.id && (
               <Grid item md={12} lg={6} xs={12}>
                 <BetList allBetRates={placedBetsMatch} tag={true} />

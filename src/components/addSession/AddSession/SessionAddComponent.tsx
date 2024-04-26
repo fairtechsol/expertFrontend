@@ -23,6 +23,7 @@ import {
 } from "../../../store/actions/addSession";
 import { socketService } from "../../../socketManager";
 import {
+  getMatchListSessionProfitLoss,
   // getMatchListSessionProfitLoss,
   sessionResultSuccessReset,
 } from "../../../store/actions/match/matchAction";
@@ -72,7 +73,7 @@ const SessionAddComponent = ({ createSession, match, setMode }: any) => {
   const [visible1, setVisible1] = useState(false);
   const [visible2, setVisible2] = useState(false);
   const [visible3, setVisible3] = useState(false);
-  const [maxBetValue, setMaxBetValue] = useState(
+  const [maxBetValue] = useState(
     sessionById ? sessionById?.maxBet : null
   );
   const [lock, setLock] = useState<any>({
@@ -352,54 +353,7 @@ const SessionAddComponent = ({ createSession, match, setMode }: any) => {
       console.log(e);
     }
     return () => {
-      socketService.user.updateSessionRateClientOff((data: any) => {
-        if (data?.id === id && data?.matchId === match?.id) {
-          if (data?.status === "ball start") {
-            setIsBall(true);
-            setLock((prev: any) => {
-              return {
-                ...prev,
-                isNo: false,
-                isYes: false,
-                isNoPercent: false,
-                isYesPercent: false,
-              };
-            });
-          } else if (data?.status === "suspended") {
-            setIsBall(false);
-            setLock((prev: any) => {
-              return {
-                ...prev,
-                isNo: true,
-                isYes: true,
-                isNoPercent: true,
-                isYesPercent: true,
-              };
-            });
-          } else if (data?.status === "active") {
-            setInputDetail((prev: any) => {
-              return {
-                ...prev,
-                noRate: data?.noRate,
-                yesRate: data?.yesRate,
-                yesRatePercent: data?.yesPercent,
-                noRatePercent: data?.noPercent,
-                status: data?.status,
-              };
-            });
-            setIsBall(false);
-            setLock((prev: any) => {
-              return {
-                ...prev,
-                isNo: false,
-                isYes: false,
-                isNoPercent: false,
-                isYesPercent: false,
-              };
-            });
-          }
-        }
-      });
+      socketService.user.updateSessionRateClientOff();
       socketService.user.updateSessionRateClientOff();
       socketService.user.sessionResultDeclaredOff();
       socketService.user.userSessionBetPlacedOff();
@@ -408,9 +362,9 @@ const SessionAddComponent = ({ createSession, match, setMode }: any) => {
       socketService.user.updateInResultDeclareOff();
     };
   }, [match, id]);
-  const handleValue = (v: any) => {
-    setMaxBetValue(v);
-  };
+  // const handleValue = (v: any) => {
+  //   setMaxBetValue(v);
+  // };
   return (
     <Box
       sx={{
@@ -435,8 +389,7 @@ const SessionAddComponent = ({ createSession, match, setMode }: any) => {
           : sessionById
           ? sessionById?.maxBet
           : match?.betFairSessionMaxBet}
-        )
-        {sessionById ? sessionById?.maxBet : match?.betFairSessionMaxBet})
+        ){sessionById ? sessionById?.maxBet : match?.betFairSessionMaxBet})
       </Typography>
       <Box
         onClick={(e) => {

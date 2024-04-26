@@ -66,7 +66,7 @@ export const addMatchValidation = (isManual: boolean, gameType: any, matchTypeLi
           betfairSessionMaxBet: Yup.string().test(
             "moreThanMinBet",
             "must be more than Min Bet",
-            function (value, context) {
+            function (value) {
               const minBet = this.parent.minBet;
               return minBet && value && parseFloat(value) > parseFloat(minBet);
             }
