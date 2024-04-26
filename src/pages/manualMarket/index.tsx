@@ -4,14 +4,14 @@ import { ARROWUP } from "../../assets";
 import Divider from "../../components/Common/Divider";
 import { formatToINR } from "../../helpers";
 import ManualBoxComponent from "../../components/manualMarket/manualBoxComponent";
-// import Stop from "../../components/matchDetails/SessionMarket/Stop";
-// import { betLiveStatus } from "../../store/actions/match/matchAction";
-// import SmallBox from "../../components/matchDetails/SmallBox";
-// import { AppDispatch } from "../../store/store";
-// import { useDispatch } from "react-redux";
+import Stop from "../../components/matchDetails/SessionMarket/Stop";
+import { betLiveStatus } from "../../store/actions/match/matchAction";
+import SmallBox from "../../components/matchDetails/SmallBox";
+import { AppDispatch } from "../../store/store";
+import { useDispatch } from "react-redux";
 
 const ManualMarket = ({ currentMatch, liveData, type }: any) => {
-  // const dispatch: AppDispatch = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
   const [visibleImg, setVisibleImg] = useState<boolean>(true);
   const [live, setLive] = useState<boolean>(
     liveData?.activeStatus === "live" ? true : false
@@ -65,17 +65,18 @@ const ManualMarket = ({ currentMatch, liveData, type }: any) => {
           >
             {liveData?.name}
           </Typography>
-          {/* <Stop
+          <Stop
             onClick={() => {
               dispatch(
                 betLiveStatus({
                   isStop: true,
                   betId: liveData?.id,
+                  isManual: true,
                 })
               );
               setLive(false);
             }}
-          /> */}
+          />
         </Box>
         <Box
           sx={{
@@ -96,12 +97,13 @@ const ManualMarket = ({ currentMatch, liveData, type }: any) => {
             justifyContent: "flex-end",
           }}
         >
-          {/* <SmallBox
+          <SmallBox
             onClick={() => {
               dispatch(
                 betLiveStatus({
                   isStop: live,
                   betId: liveData?.id,
+                  isManual: true,
                 })
               );
               setLive(!live);
@@ -112,7 +114,7 @@ const ManualMarket = ({ currentMatch, liveData, type }: any) => {
             customStyle={{
               justifyContent: "center",
             }}
-          /> */}
+          />
           <img
             onClick={() => {
               setVisibleImg(!visibleImg);
