@@ -11,11 +11,11 @@ const toastOptions = {
 
 const service = axios.create({
   baseURL:
-    process.env.NODE_ENV === "production"
-      ? `${Constants.expertSocketBasePathLive}`
-      : process.env.NODE_ENV === "development"
-      ? `${Constants.expertSocketBasePath}`
-      : `${Constants.localPathExpert}`,
+    process.env.NODE_ENV === Constants.PRODUCTION
+      ? Constants.expertSocketBasePathLive
+      : process.env.NODE_ENV === Constants.DEVELOPMENT
+      ? Constants.expertSocketBasePath
+      : Constants.localPathExpert,
 });
 
 service.defaults.timeout = 100000;
