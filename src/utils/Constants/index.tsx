@@ -221,20 +221,13 @@ export const eventWiseMatchData = {
   [constants.matchType[1]]: {
     manual: [],
     market: [
-      // {
-      //   matchType: matchBettingType.setWinner1,
-      //   apiKey: "setWinner1",
-      //   marketIdKey: "setWinner1",
-      //   label: "Set 1 Winner",
-      //   name: "setWinner1",
-      // },
-      // {
-      //   matchType: matchBettingType.setWinner2,
-      //   apiKey: "setWinner2",
-      //   marketIdKey: "setWinner2",
-      //   label: "Set 2 Winner",
-      //   name: "setWinner2",
-      // },
+      {
+        matchType: matchBettingType.matchOdd,
+        apiKey: "matchOdd",
+        marketIdKey: "matchOdd",
+        label: "Betfair Match Odd Max Bet",
+        name: "MatchOdd",
+      },
       ...Array.from({ length: 20 }, (_, index: any) => index).map((curr) => {
         // prev[`overUnder${curr}.5`] = `overUnder${curr}.5`
         return {

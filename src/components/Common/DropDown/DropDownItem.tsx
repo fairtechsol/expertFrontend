@@ -32,7 +32,8 @@ const DropDownItem = (props: any) => {
             function setDetailWithRunners() {
               let data ={
                 id : EventId ,
-                eventType : gameType
+                eventType : gameType,
+                matchOddId : mId
               }
             
                 dispatch(getExtraMarketList(data));
