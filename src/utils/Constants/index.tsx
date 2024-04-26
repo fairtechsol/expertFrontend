@@ -357,4 +357,16 @@ export const profitLossDataForMatchConstants = {
     B: "userTeamBRateHalfTime",
     C: "userTeamCRateHalfTime",
   },
+  
+  ...Array.from({ length: 20 }, (_, index) => index).reduce(
+    (prev: any, curr) => {
+      prev[`setWinner${curr}`] = {
+        A: `userTeamARateSetWinner${curr}`,
+        B: `userTeamBRateSetWinner${curr}`,
+        C: `userTeamCRateSetWinner${curr}`,
+      };
+      return prev;
+    },
+    {}
+  ),
 };
