@@ -111,6 +111,7 @@ const MatchOdds = ({ currentMatch, matchOddsLive }: any) => {
                   betLiveStatus({
                     isStop: true,
                     betId: matchOddsLive?.id,
+                    isManual: false,
                   })
                 );
                 setLive(false);
@@ -190,6 +191,7 @@ const MatchOdds = ({ currentMatch, matchOddsLive }: any) => {
                     betLiveStatus({
                       isStop: live,
                       betId: matchOddsLive?.id,
+                      isManual: false,
                     })
                   );
                   setLive(!live);
@@ -467,7 +469,7 @@ const MatchOdds = ({ currentMatch, matchOddsLive }: any) => {
                     height: "100%",
                     bottom: 0,
                     color: "#fff",
-                    backgroundColor: "rgba(203 24 24 / 70%)"
+                    backgroundColor: "rgba(203 24 24 / 70%)",
                   }}
                 >
                   <Typography sx={{ color: "#fff" }}>
