@@ -9,21 +9,12 @@ const toastOptions = {
   pauseOnHover: true,
 };
 
-// use below service for testing build
-
-// const service = axios.create({
-//   baseURL:
-//     process.env.NODE_ENV === "production"
-//       ? `${Constants.expertSocketBasePath}`
-//       : `${Constants.localPathExpert}`,
-// });
-
-// use below service for live build
-
 const service = axios.create({
   baseURL:
     process.env.NODE_ENV === "production"
       ? `${Constants.expertSocketBasePathLive}`
+      : process.env.NODE_ENV === "development"
+      ? `${Constants.expertSocketBasePath}`
       : `${Constants.localPathExpert}`,
 });
 

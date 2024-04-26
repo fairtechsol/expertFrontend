@@ -101,46 +101,30 @@ export const ButtonRatesQuickSessions = [
   { name: "250-400", value: "250-400" },
 ];
 
-// use below baseUrl for testing build
-
-// export const addMatchThirdParty =
-//   process.env.NODE_ENV === "production"
-//     ? Constants.thirdParty
-//     : Constants.thirdParty;
-
-// export const baseUrls = {
-//   socket:
-//     process.env.NODE_ENV === "production"
-//       ? `${Constants.apiBasePath}`
-//       : `${Constants.localPath}`,
-//   expertSocket:
-//     process.env.NODE_ENV === "production"
-//       ? `${Constants.expertSocketBasePath}`
-//       : `${Constants.localPathExpert}`,
-//   matchSocket:
-//     process.env.NODE_ENV === "production"
-//       ? `${Constants.thirdParty}`
-//       : `${Constants.localPathThird}`,
-// };
-
-// use below baseUrl for live build
-
 export const addMatchThirdParty =
   process.env.NODE_ENV === "production"
     ? Constants.thirdPartyLive
-    : Constants.thirdParty;
+    : process.env.NODE_ENV === "development"
+    ? Constants.thirdParty
+    : Constants.localPathThird;
 
 export const baseUrls = {
   socket:
     process.env.NODE_ENV === "production"
       ? `${Constants.apiBasePathLive}`
+      : process.env.NODE_ENV === "development"
+      ? `${Constants.apiBasePath}`
       : `${Constants.localPath}`,
   expertSocket:
     process.env.NODE_ENV === "production"
       ? `${Constants.expertSocketBasePathLive}`
+      : process.env.NODE_ENV === "development"
+      ? `${Constants.expertSocketBasePath}`
       : `${Constants.localPathExpert}`,
   matchSocket:
     process.env.NODE_ENV === "production"
       ? `${Constants.thirdPartyLive}`
+      : process.env.NODE_ENV === "development"
+      ? `${Constants.thirdParty}`
       : `${Constants.localPathThird}`,
 };
