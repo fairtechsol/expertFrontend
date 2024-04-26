@@ -73,7 +73,7 @@ export const Constants = {
   WEBSOCKET: "websocket",
   POLLING: "polling",
   PRODUCTION: "production",
-  DEVELOPMENT: "development",
+  DEVELOPMENT: "local",
 };
 
 export const ButtonRatesQuickSessions = [
