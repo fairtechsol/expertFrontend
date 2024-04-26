@@ -20,7 +20,7 @@ const LargeBox = ({ item, k }: any) => {
           fontSize: { lg: "9px", xs: "9px", md: "10px" },
           fontWeight: "600",
           color: item?.color,
-          wordWrap: "break-word",
+          wordWrap: item?.overflowWrap ? item?.overflowWrap : "break-word",
           textTransform: "capitalize",
           textAlign: "left",
           lineHeight: 1,

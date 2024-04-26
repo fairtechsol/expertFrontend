@@ -19,6 +19,19 @@ export const customSort = (a: any, b: any) => {
   }
 };
 
+export const customBetSort = (a: any, b: any) => {
+  // If activeStatus is the same, compare by updatedAt
+  const aUpdatedAt = a?.createdAt;
+  const bUpdatedAt = b?.createdAt;
+
+  // Convert string dates to actual Date objects for comparison
+  const aDate = new Date(aUpdatedAt);
+  const bDate = new Date(bUpdatedAt);
+
+  // Compare updatedAt values
+  return bDate.getTime() - aDate.getTime(); // Sort in descending order of updatedAt
+};
+
 export const formatToINR = (amount: any) => {
   const formatter = new Intl.NumberFormat("en-IN", {
     currency: "INR",
