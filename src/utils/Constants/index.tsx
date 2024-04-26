@@ -73,7 +73,6 @@ export const Constants = {
   WEBSOCKET: "websocket",
   POLLING: "polling",
   PRODUCTION: "production",
-  DEVELOPMENT: "local",
 };
 
 export const ButtonRatesQuickSessions = [
@@ -103,30 +102,42 @@ export const ButtonRatesQuickSessions = [
   { name: "250-400", value: "250-400" },
 ];
 
+// export const addMatchThirdParty =
+//   process.env.NODE_ENV === Constants.PRODUCTION
+//     ? Constants.thirdParty
+//     : Constants.localPathThird;
+
+// export const baseUrls = {
+//   socket:
+//     process.env.NODE_ENV === Constants.PRODUCTION
+//       ? Constants.apiBasePath
+//       : Constants.localPath,
+//   expertSocket:
+//     process.env.NODE_ENV === Constants.PRODUCTION
+//       ? Constants.expertSocketBasePath
+//       : Constants.localPathExpert,
+//   matchSocket:
+//     process.env.NODE_ENV === Constants.PRODUCTION
+//       ? Constants.thirdParty
+//       : Constants.localPathThird,
+// };
+
 export const addMatchThirdParty =
   process.env.NODE_ENV === Constants.PRODUCTION
     ? Constants.thirdPartyLive
-    : process.env.NODE_ENV === Constants.DEVELOPMENT
-    ? Constants.thirdParty
     : Constants.localPathThird;
 
 export const baseUrls = {
   socket:
     process.env.NODE_ENV === Constants.PRODUCTION
       ? Constants.apiBasePathLive
-      : process.env.NODE_ENV === Constants.DEVELOPMENT
-      ? Constants.apiBasePath
       : Constants.localPath,
   expertSocket:
     process.env.NODE_ENV === Constants.PRODUCTION
       ? Constants.expertSocketBasePathLive
-      : process.env.NODE_ENV === Constants.DEVELOPMENT
-      ? Constants.expertSocketBasePath
       : Constants.localPathExpert,
   matchSocket:
     process.env.NODE_ENV === Constants.PRODUCTION
       ? Constants.thirdPartyLive
-      : process.env.NODE_ENV === Constants.DEVELOPMENT
-      ? Constants.thirdParty
       : Constants.localPathThird,
 };

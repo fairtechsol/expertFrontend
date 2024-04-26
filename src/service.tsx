@@ -9,12 +9,17 @@ const toastOptions = {
   pauseOnHover: true,
 };
 
+// const service = axios.create({
+//   baseURL:
+//     process.env.NODE_ENV === Constants.PRODUCTION
+//       ? Constants.expertSocketBasePath
+//       : Constants.localPathExpert,
+// });
+
 const service = axios.create({
   baseURL:
     process.env.NODE_ENV === Constants.PRODUCTION
       ? Constants.expertSocketBasePathLive
-      : process.env.NODE_ENV === Constants.DEVELOPMENT
-      ? Constants.expertSocketBasePath
       : Constants.localPathExpert,
 });
 
