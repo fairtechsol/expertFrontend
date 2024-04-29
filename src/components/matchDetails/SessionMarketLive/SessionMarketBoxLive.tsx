@@ -59,7 +59,7 @@ const SessionMarketBoxLive = ({ currentMatch, newData, index }: any) => {
             display: "flex",
             background: index % 2 === 0 ? "#FFE094" : "#ECECEC",
             height: "40px",
-            width: "55%",
+            width: "100%",
             alignItems: "center",
           }}
         >
@@ -118,7 +118,7 @@ const SessionMarketBoxLive = ({ currentMatch, newData, index }: any) => {
               height: "38px",
               right: "0vh",
               position: "absolute",
-              width: { lg: "27%", xs: "27%" },
+              width: { lg: "27%", xs: "25%", md: "25.5%" },
               justifyContent: { xs: "center", lg: "center" },
               alignItems: "center",
               display: "flex",
@@ -144,7 +144,7 @@ const SessionMarketBoxLive = ({ currentMatch, newData, index }: any) => {
               position: "relative",
               background: index % 2 === 0 ? "#FFE094" : "#ECECEC",
               height: "38px",
-              width: { lg: "45%", xs: "60%" },
+              width: { lg: "85%", xs: "100%", md: "100%" },
               justifyContent: "flex-end",
               alignItems: "center",
             }}
