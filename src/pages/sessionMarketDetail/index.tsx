@@ -34,6 +34,7 @@ import {
   updateSessionBetsPlace,
 } from "../../store/actions/match/matchAction";
 import { AppDispatch, RootState } from "../../store/store";
+import BetListForSession from "../../components/matchDetails/BetListForSession";
 
 const SessionMarketDetail = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -340,7 +341,8 @@ const SessionMarketDetail = () => {
           />
         </Box>
         <Box sx={{ width: { lg: "100%" } }}>
-          <BetList allBetRates={placedBetsMatch} tag={true} />
+          {/* <BetList allBetRates={placedBetsMatch} tag={true} /> */}
+          <BetListForSession allBetRates={placedBetsMatch} tag={true} />
         </Box>
       </Stack>
       {sessionProLoss?.length > 0 && (
