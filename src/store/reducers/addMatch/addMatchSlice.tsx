@@ -235,6 +235,7 @@ const addMatch = createSlice({
                           profitLoss: profitLoss,
                         }
                       : null,
+                    isComplete: true,
                   });
                 } else return item;
               }

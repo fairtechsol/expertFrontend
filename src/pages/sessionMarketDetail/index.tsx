@@ -303,7 +303,8 @@ const SessionMarketDetail = () => {
               (item: any) =>
                 JSON.parse(item)?.isComplete &&
                 JSON.parse(item)?.showSessions &&
-                (JSON.parse(item)?.resultData === null ||
+                ((JSON.parse(item)?.resultData &&
+                  JSON.parse(item)?.resultData === null) ||
                   JSON.parse(item)?.result === null)
             )}
             hideResult={false}
@@ -332,7 +333,8 @@ const SessionMarketDetail = () => {
               (item: any) =>
                 JSON.parse(item)?.isComplete &&
                 JSON.parse(item)?.showSessions &&
-                (JSON.parse(item)?.resultData !== null ||
+                ((JSON.parse(item)?.resultData &&
+                  JSON.parse(item)?.resultData !== null) ||
                   JSON.parse(item)?.result !== null)
             )}
             hideResult={false}
