@@ -30,46 +30,50 @@ const AddSessionInput = (props: any) => {
   // const handleSuspend = () => {};
 
   const handleChange = (event: any) => {
-    const { value } = event.target;
-    let targetValue = +value ? +value : 0;
-    setLock((prev: any) => {
-      return {
-        ...prev,
-        isNo: true,
-        isYes: true,
-        isNoPercent: true,
-        isYesPercent: true,
-      };
-    });
-    setIsBall(false);
-    if (targetValue >= 0 && targetValue <= 999) {
-      setInputDetail((prev: any) => {
+    try {
+      const { value } = event.target;
+      let targetValue = +value ? +value : 0;
+      setLock((prev: any) => {
         return {
           ...prev,
-          noRate: targetValue,
-          yesRate: targetValue + 1,
-          yesRatePercent: targetValue >= 0 ? 100 : "",
-          noRatePercent: targetValue >= 0 ? 100 : "",
-          leftNoRate: targetValue,
-          leftYesRate: targetValue + 1,
-          leftYesRatePercent: targetValue >= 0 ? 100 : "",
-          leftNoRatePercent: targetValue >= 0 ? 100 : "",
+          isNo: true,
+          isYes: true,
+          isNoPercent: true,
+          isYesPercent: true,
         };
       });
-      setInputDetail((prev: any) => {
-        let data = {
-          matchId: match?.id,
-          id: betId,
-          noRate: prev?.leftNoRate,
-          yesRate: prev?.leftYesRate,
-          noPercent: prev?.leftNoRatePercent,
-          yesPercent: prev?.leftYesRatePercent,
-          status: "suspended",
-        };
-        socketService.user.updateSessionRate(data);
-        return prev;
-      });
-    } else return;
+      setIsBall(false);
+      if (targetValue >= 0 && targetValue <= 999) {
+        setInputDetail((prev: any) => {
+          return {
+            ...prev,
+            noRate: targetValue,
+            yesRate: targetValue + 1,
+            yesRatePercent: targetValue >= 0 ? 100 : "",
+            noRatePercent: targetValue >= 0 ? 100 : "",
+            leftNoRate: targetValue,
+            leftYesRate: targetValue + 1,
+            leftYesRatePercent: targetValue >= 0 ? 100 : "",
+            leftNoRatePercent: targetValue >= 0 ? 100 : "",
+          };
+        });
+        setInputDetail((prev: any) => {
+          let data = {
+            matchId: match?.id,
+            id: betId,
+            noRate: prev?.leftNoRate,
+            yesRate: prev?.leftYesRate,
+            noPercent: prev?.leftNoRatePercent,
+            yesPercent: prev?.leftYesRatePercent,
+            status: "suspended",
+          };
+          socketService.user.updateSessionRate(data);
+          return prev;
+        });
+      } else return;
+    } catch (error) {
+      console.error(error);
+    }
     // handleSuspend();
   };
 
@@ -120,7 +124,7 @@ const AddSessionInput = (props: any) => {
         </Box>
       </Box>
       <Box sx={{ display: "flex" }}>
-        <Box sx={{ background: "#FFFFFF", width: "40%" }}>
+        <Box sx={{ background: "#FFFFFF", width: "30%" }}>
           <TextField
             onChange={(e: any) => {
               setInputDetail((prev: any) => {
@@ -143,14 +147,14 @@ const AddSessionInput = (props: any) => {
                 height: "45px",
                 fontWeight: "600",
                 color: "black",
-                cursor: !isCreateSession ? "not-allowed" : "auto", 
+                cursor: !isCreateSession ? "not-allowed" : "auto",
               },
             }}
           />
         </Box>
         <Box
           display={"flex"}
-          sx={{ borderLeft: "2px solid white", width: "60%" }}
+          sx={{ borderLeft: "2px solid white", width: "70%" }}
         >
           {!inputDetail?.result && inputDetail?.resultStatus && (
             <Box
@@ -158,7 +162,7 @@ const AddSessionInput = (props: any) => {
                 position: "absolute",
                 top: 0,
                 right: 0,
-                width: "60%",
+                width: "70%",
                 height: "100%",
                 backgroundColor: "rgba(203 24 24 / 70%)",
                 display: "flex",
@@ -174,12 +178,12 @@ const AddSessionInput = (props: any) => {
               </Typography>
             </Box>
           )}
-          <Box sx={{ width: "40%" }}>
+          <Box sx={{ width: "57%" }}>
             <Box display={"flex"} sx={{ borderTop: "2px solid white" }}>
               <Box
                 sx={{
                   background: "#FFB5B5",
-                  width: { lg: "50%", xs: "60%" },
+                  width: "50%",
                   display: "flex",
                   height: "45px",
                   justifyContent: "center",
@@ -255,7 +259,7 @@ const AddSessionInput = (props: any) => {
               <Box
                 sx={{
                   background: "#A7DCFF",
-                  width: { lg: "50%", xs: "60%" },
+                  width: "50%",
                   borderLeft: "2px solid white",
                   display: "flex",
                   height: "45px",

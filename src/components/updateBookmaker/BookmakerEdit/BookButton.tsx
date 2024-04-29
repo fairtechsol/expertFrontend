@@ -26,7 +26,7 @@ const BookButton = ({ rate }: any) => {
           color: rate < 0 ? `#FF4D4D` : `#319E5B`,
         }}
       >
-        {rate < 0 ? ` ${rate}` : `${rate}`}
+        {rate}
       </Typography>
     </Box>
   );

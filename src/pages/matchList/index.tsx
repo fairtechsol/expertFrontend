@@ -10,7 +10,11 @@ import {
   getMatchList,
   matchListReset,
 } from "../../store/actions/match/matchAction";
-import { expertSocketService, socketService } from "../../socketManager";
+import {
+  expertSocketService,
+  socket,
+  socketService,
+} from "../../socketManager";
 import { Constants } from "../../utils/Constants";
 
 const MatchList = ({}) => {
@@ -25,8 +29,14 @@ const MatchList = ({}) => {
   }
 
   useEffect(() => {
-    dispatch(getMatchList({ currentPage: currentPage }));
-  }, [currentPage]);
+    try {
+      if (sessionStorage.getItem("jwtExpert")) {
+        dispatch(getMatchList({ currentPage: currentPage }));
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }, [currentPage, sessionStorage]);
 
   useEffect(() => {
     if (success) {
@@ -44,13 +54,19 @@ const MatchList = ({}) => {
   };
 
   useEffect(() => {
-    expertSocketService.match.matchAdded(getMatchListService);
-    socketService.user.matchResultUnDeclared(getMatchListService);
-    return () => {
-      expertSocketService.match.matchAddedOff();
-      socketService.user.matchResultUnDeclaredOff();
-    };
-  }, []);
+    try {
+      if (socket) {
+        expertSocketService.match.matchAdded(getMatchListService);
+        socketService.user.matchResultUnDeclared(getMatchListService);
+        return () => {
+          expertSocketService.match.matchAddedOff();
+          socketService.user.matchResultUnDeclaredOff();
+        };
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }, [socket]);
 
   return (
     <>
@@ -72,7 +88,14 @@ const MatchList = ({}) => {
         <MatchListTableHeader />
         {matchList &&
           matchList?.matches?.map((item: any, index: number) => {
-            return <MatchListTable key={item?.id} data={item} index={index} />;
+            return (
+              <MatchListTable
+                key={item?.id}
+                data={item}
+                index={index}
+                currentPage={currentPage}
+              />
+            );
           })}
         <Pagination
           sx={{

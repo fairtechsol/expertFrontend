@@ -46,9 +46,9 @@ const RunsBox = ({ item, currentOdd }: any) => {
         borderRadius: "10px",
         backgroundColor: "white",
         display: "flex",
-        width: "23.5%",
         marginX: "1px",
         border: "3px solid #0B4F26",
+        width: { lg: "13%", md: "20%", xs: "30%" },
       }}
     >
       <Box
@@ -119,7 +119,16 @@ const RunsBox = ({ item, currentOdd }: any) => {
           </Typography>
         </Box>
       </Box>
-      <Box ref={containerRef} sx={{ height: "350px", overflowY: "scroll" }}>
+      <Box
+        ref={containerRef}
+        sx={{
+          height: "350px",
+          overflowY: "scroll",
+          "::-webkit-scrollbar": {
+            display: "none",
+          },
+        }}
+      >
         {item?.proLoss?.betPlaced?.length > 0 ? (
           item?.proLoss?.betPlaced?.map((v: any) => {
             const getColor = (value: any) => {

@@ -1,20 +1,19 @@
 import { Box, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
-import Stop from "../SessionMarket/Stop";
-import SmallBox from "../SmallBox";
-import { ARROWUP } from "../../../assets";
-import Divider from "../../Common/Divider";
-import BoxComponent from "../MatchOdds/BoxComponent";
-import { betLiveStatus } from "../../../store/actions/match/matchAction";
+import { ARROWUP } from "../../assets";
+import Divider from "../../components/Common/Divider";
+import { formatToINR } from "../../helpers";
+import ManualBoxComponent from "../../components/manualMarket/manualBoxComponent";
+import Stop from "../../components/matchDetails/SessionMarket/Stop";
+import { betLiveStatus } from "../../store/actions/match/matchAction";
+import SmallBox from "../../components/matchDetails/SmallBox";
+import { AppDispatch } from "../../store/store";
 import { useDispatch } from "react-redux";
-import { AppDispatch } from "../../../store/store";
-import { formatToINR } from "../../helper";
 
-const TiedMatchMarket = ({ currentMatch, liveData, title }: any) => {
+const ManualMarket = ({ currentMatch, liveData, type }: any) => {
   const dispatch: AppDispatch = useDispatch();
-
-  const [visibleImg, setVisibleImg] = useState(true);
-  const [live, setLive] = useState(
+  const [visibleImg, setVisibleImg] = useState<boolean>(true);
+  const [live, setLive] = useState<boolean>(
     liveData?.activeStatus === "live" ? true : false
   );
 
@@ -64,16 +63,15 @@ const TiedMatchMarket = ({ currentMatch, liveData, title }: any) => {
               marginLeft: "7px",
             }}
           >
-            {title}
+            {liveData?.name}
           </Typography>
-          {/* <img src={LOCKED} style={{ width: '14px', height: '20px' }} /> */}
           <Stop
             onClick={() => {
               dispatch(
                 betLiveStatus({
                   isStop: true,
                   betId: liveData?.id,
-                  isManual: false,
+                  isManual: true,
                 })
               );
               setLive(false);
@@ -99,26 +97,24 @@ const TiedMatchMarket = ({ currentMatch, liveData, title }: any) => {
             justifyContent: "flex-end",
           }}
         >
-          <>
-            <SmallBox
-              onClick={() => {
-                dispatch(
-                  betLiveStatus({
-                    isStop: live,
-                    betId: liveData?.id,
-                    isManual: false,
-                  })
-                );
-                setLive(!live);
-              }}
-              width={"80px"}
-              title={live ? "Live" : "Go Live"}
-              color={live ? "#46e080" : "#FF4D4D"}
-              customStyle={{
-                justifyContent: "center",
-              }}
-            />
-          </>
+          <SmallBox
+            onClick={() => {
+              dispatch(
+                betLiveStatus({
+                  isStop: live,
+                  betId: liveData?.id,
+                  isManual: true,
+                })
+              );
+              setLive(!live);
+            }}
+            width={"80px"}
+            title={live ? "Live" : "Go Live"}
+            color={live ? "#46e080" : "#FF4D4D"}
+            customStyle={{
+              justifyContent: "center",
+            }}
+          />
           <img
             onClick={() => {
               setVisibleImg(!visibleImg);
@@ -163,8 +159,8 @@ const TiedMatchMarket = ({ currentMatch, liveData, title }: any) => {
                   marginLeft: "7px",
                 }}
               >
-                MIN: {formatToINR(currentMatch?.apiTideMatch?.minBet)} MAX:{" "}
-                {formatToINR(currentMatch?.apiTideMatch?.maxBet)}
+                MIN: {formatToINR(liveData?.minBet)} MAX:{" "}
+                {formatToINR(liveData?.maxBet)}
               </Typography>
             </Box>
             <Box
@@ -213,33 +209,69 @@ const TiedMatchMarket = ({ currentMatch, liveData, title }: any) => {
           </Box>
 
           <Box sx={{ position: "relative" }}>
-            <BoxComponent
+            <ManualBoxComponent
               teamRates={
-                currentMatch?.teamRates?.yesRateTie
+                type === "manualTiedMatch"
                   ? currentMatch?.teamRates?.yesRateTie
+                    ? currentMatch?.teamRates?.yesRateTie
+                    : 0
+                  : currentMatch?.teamRates?.teamARate
+                  ? currentMatch?.teamRates?.teamARate
                   : 0
               }
-              teamImage={currentMatch?.apiTideMatch?.teamA_Image}
-              livestatus={liveData?.status === "SUSPENDED" ? true : false}
-              data={liveData?.runners?.length > 0 ? liveData?.runners[0] : []}
-              lock={liveData?.runners?.length > 0 ? false : true}
-              name={"Yes"}
+              status={liveData?.statusTeamA}
+              livestatus={liveData?.statusTeamA === "suspended" ? true : false}
+              data={{ back: liveData?.backTeamA, lay: liveData?.layTeamA }}
+              //   lock={liveData?.runners?.length > 0 ? false : true}
+              ballStatus={liveData?.statusTeamA === "ball start" ? true : false}
+              name={type === "manualTiedMatch" ? "Yes" : currentMatch?.teamA}
+              isTeamC={currentMatch?.teamC}
             />
 
             <Divider />
-            <BoxComponent
-              livestatus={liveData?.status === "SUSPENDED" ? true : false}
+            <ManualBoxComponent
+              livestatus={liveData?.statusTeamB === "suspended" ? true : false}
               teamRates={
-                currentMatch?.teamRates?.noRateTie
+                type === "manualTiedMatch"
                   ? currentMatch?.teamRates?.noRateTie
+                    ? currentMatch?.teamRates?.noRateTie
+                    : 0
+                  : currentMatch?.teamRates?.teamBRate
+                  ? currentMatch?.teamRates?.teamBRate
                   : 0
               }
-              teamImage={currentMatch?.apiTideMatch?.teamB_Image}
-              lock={liveData?.runners?.length > 0 ? false : true}
-              name={"No"}
-              data={liveData?.runners?.length > 0 ? liveData?.runners[1] : []}
+              //   lock={liveData?.runners?.length > 0 ? false : true}
+              status={liveData?.statusTeamB}
+              ballStatus={liveData?.statusTeamB === "ball start" ? true : false}
+              name={type === "manualTiedMatch" ? "No" : currentMatch?.teamB}
+              data={{ back: liveData?.backTeamB, lay: liveData?.layTeamB }}
               align="end"
+              isTeamC={currentMatch?.teamC}
             />
+            {currentMatch?.teamC && type !== "manualTiedMatch" && (
+              <>
+                <Divider />
+                <ManualBoxComponent
+                  color={"#FF4D4D"}
+                  livestatus={
+                    liveData?.statusTeamC === "suspended" ? true : false
+                  }
+                  teamRates={
+                    currentMatch?.teamRates?.teamCRate
+                      ? currentMatch?.teamRates?.teamCRate
+                      : 0
+                  }
+                  name={currentMatch?.teamC}
+                  status={liveData?.statusTeamC}
+                  ballStatus={
+                    liveData?.statusTeamC === "ball start" ? true : false
+                  }
+                  data={{ back: liveData?.backTeamC, lay: liveData?.layTeamC }}
+                  align="end"
+                  isTeamC={currentMatch?.teamC}
+                />
+              </>
+            )}
 
             <Divider />
             {!live && (
@@ -260,4 +292,4 @@ const TiedMatchMarket = ({ currentMatch, liveData, title }: any) => {
   );
 };
 
-export default TiedMatchMarket;
+export default ManualMarket;

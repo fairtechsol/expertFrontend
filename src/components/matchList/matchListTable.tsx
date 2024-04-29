@@ -14,9 +14,10 @@ import MatchPermissionsModal from "./matchPermissionsModal";
 import MatchListProfitLoss from "./profitLoss";
 import SessionResultComponent from "./sessionResultComponent";
 import { IconConstants } from "../helper/gameConstants";
+import { Constants } from "../../utils/Constants";
 
 const MatchListTable = (props: any) => {
-  const { data, index } = props;
+  const { data, index, currentPage } = props;
   const navigate = useNavigate();
   const dispatch: AppDispatch = useDispatch();
   const { getProfile } = useSelector((state: RootState) => state.user.profile);
@@ -68,7 +69,7 @@ const MatchListTable = (props: any) => {
         sx={[
           {
             display: "flex",
-            height: { xs: "auto", md: "45px" },
+            // height: { xs: "auto", md: "45px" },
             background: "#FFE094",
             alignItems: { xs: "stretch", md: "center" },
             borderTop: "2px solid white",
@@ -85,7 +86,9 @@ const MatchListTable = (props: any) => {
             borderRight: "2px solid white",
           }}
         >
-          <Typography sx={{ fontSize: "12px" }}>({index + 1})</Typography>
+          <Typography sx={{ fontSize: "12px" }}>
+            ({index + 1 + Constants.pageLimit * (currentPage - 1)})
+          </Typography>
           <Typography
             sx={{ fontSize: "9px", padding: "4px", fontWeight: "700" }}
           >
@@ -110,7 +113,7 @@ const MatchListTable = (props: any) => {
             alignItems="center"
             sx={{
               order: { xs: "2", sm: "1" },
-              marginY: {xs: 1}
+              marginY: { xs: 1 },
             }}
           >
             <StyledImage
@@ -132,7 +135,7 @@ const MatchListTable = (props: any) => {
             >
               {data?.title}
             </Typography>
-           <StyledImage
+            <StyledImage
               onClick={() => {
                 setShowUserModal((prev) => !prev);
               }}
@@ -147,17 +150,18 @@ const MatchListTable = (props: any) => {
               }}
             />
           </Box>
-          
+
           <Box
             display={"flex"}
             sx={{
-              flexDirection: { xs: "column", sm: "column", md: "row" },
+              flexDirection: { xs: "column", sm: "row", md: "row", lg: "row" },
               order: { xs: "1", sm: "2", md: "3" },
               width: { xs: "100%", sm: "auto" },
               py: { xs: 1, sm: 0 },
               // px: "10px",
-              overflow: "hidden",
+              // overflow: "hidden",
               display: showUserModal && !matchesMobile ? "none" : "flex",
+              alignItems: "center",
               // marginBottom: showUserModal ? { xs: "0%", sm: "-1%", lg: "-20%" } : "0%",
             }}
           >
@@ -176,6 +180,7 @@ const MatchListTable = (props: any) => {
                   data?.pl[0]?.totalProfitLoss
                 }
                 place="1"
+                cursor="default"
               />
             )}
             {data?.stopAt && (
@@ -183,11 +188,10 @@ const MatchListTable = (props: any) => {
                 // onClick={() => handleMatchProfitLossClick(data?.id)}
                 updateMatchStatusLabel="Commission"
                 updateMatchStatus={
-                  data?.pl &&
-                  data?.pl?.length > 0 &&
-                  data?.pl[0]?.commission
+                  data?.pl && data?.pl?.length > 0 && data?.pl[0]?.commission
                 }
                 place="1"
+                cursor="default"
               />
             )}
             {data?.stopAt && (
@@ -200,45 +204,73 @@ const MatchListTable = (props: any) => {
                   data?.pl[0]?.sessionTotalProfitLoss
                 }
                 place="1"
+                cursor="pointer"
               />
             )}
-             
+
             <Box
               display={"flex"}
               sx={{
-                marginY: { xs: 1, sm: 0, lg: 0 },
+                // marginY: { xs: 1, sm: 0, lg: 0 },
+                // marginX: { xs: 1, sm: 1, lg: 1 },
                 alignItems: "center",
                 justifyContent: "flex-end",
+                flexWrap: "wrap",
               }}
             >
+              {(getProfile?.allPrivilege ||
+                getProfile?.sessionMatchPrivilege) && (
+                <CustomButton
+                  containerStyle={{
+                    // minWidth: { xs: "40%", sm: "100px" },
+                    // width: { xs: "40%", sm: "100px" },
+                    // marginLeft: { xs: "1%", sm: "10px" },
+                    // marginBottom: { xs: "1%", sm: "10px" },
+                    // gap: 0.5,
+                    margin: "5px",
+                  }}
+                  onClick={() => {
+                    navigate(`/expert/session`, {
+                      state: { id: data?.id, marketId: data?.marketId },
+                    });
+                  }}
+                  title={"Session"}
+                />
+              )}
               {(getProfile?.allPrivilege ||
                 getProfile?.betFairMatchPrivilege) && (
                 <CustomButton
                   containerStyle={{
-                    minWidth: { xs: "40%", sm: "100px" },
-                    width: { xs: "40%", sm: "100px" },
-                    marginLeft: { xs: "1%", sm: "10px" },
+                    // minWidth: { xs: "40%", sm: "100px" },
+                    // width: { xs: "40%", sm: "100px" },
+                    // marginLeft: { xs: "1%", sm: "10px" },
+                    // marginBottom: { xs: "1%", sm: "10px" },
+                    // gap: 0.5,
+                    margin: "5px",
                   }}
                   onClick={() => {
                     if (data?.matchType === "cricket") {
-                      navigate(`/expert/betOdds`, {
+                      navigate(`/expert/market`, {
                         state: { id: data?.id, marketId: data?.marketId },
                       });
                     } else {
-                      navigate(`/expert/betOdds/otherGames`, {
+                      navigate(`/expert/market/otherGames`, {
                         state: { id: data?.id, marketId: data?.marketId },
                       });
                     }
                   }}
-                  title={"Submit"}
+                  title={"Match"}
                 />
               )}
               {(getProfile?.allPrivilege || getProfile?.addMatchPrivilege) && (
                 <CustomButton
                   containerStyle={{
-                    minWidth: { xs: "40%", sm: "100px" },
-                    width: { xs: "40%", sm: "100px" },
-                    marginLeft: { xs: "1%", sm: "10px" },
+                    // minWidth: { xs: "40%", sm: "100px" },
+                    // width: { xs: "40%", sm: "100px" },
+                    // gap: 0.5,
+                    margin: "5px",
+                    // marginLeft: { xs: "1%", sm: "10px" },
+                    // marginBottom: { xs: "1%", sm: "10px" },
                   }}
                   onClick={() => {
                     navigate(`/expert/edit_match`, {
@@ -268,10 +300,12 @@ const MatchListTable = (props: any) => {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <SessionResultComponent
-          setShowPopup={setShowPopup}
-          sessionResults={sessionProLoss}
-        />
+        <>
+          <SessionResultComponent
+            setShowPopup={setShowPopup}
+            sessionResults={sessionProLoss}
+          />
+        </>
       </ModalMUI>
     </>
   );

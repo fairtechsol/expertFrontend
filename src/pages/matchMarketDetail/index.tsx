@@ -1,16 +1,11 @@
-import { Box, useMediaQuery, useTheme } from "@mui/material";
+import { Box } from "@mui/material";
 import { memo, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import Loader from "../../components/Loader";
 import BetList from "../../components/matchDetails/BetList";
 import BookMarket from "../../components/matchDetails/Bookmarket";
-import CompleteMatchMarket from "../../components/matchDetails/CompleteMatchMarket";
 import MatchOdds from "../../components/matchDetails/MatchOdds";
-import RunsBox from "../../components/matchDetails/RunsBox";
-import SessionMarket from "../../components/matchDetails/SessionMarket";
-import SessionMarketLive from "../../components/matchDetails/SessionMarketLive";
-import TiedMatchMarket from "../../components/matchDetails/TiedMatchMarket";
 import {
   expertSocketService,
   socket,
@@ -21,7 +16,6 @@ import {
   removeSessionProLoss,
   updateMatchRates,
   updateRates,
-  updateSessionAdded,
   updateSessionProLoss,
 } from "../../store/actions/addMatch/addMatchAction";
 import {
@@ -40,8 +34,12 @@ import {
   updateTeamRates,
 } from "../../store/actions/match/matchAction";
 import { AppDispatch, RootState } from "../../store/store";
+import TiedMatchMarket from "../../components/matchDetails/TiedMatchMarket";
+import CompleteMatchMarket from "../../components/matchDetails/CompleteMatchMarket";
+import { matchSocketService } from "../../socketManager/matchSocket";
+import ManualMarket from "../manualMarket";
 
-const MatchDetails = () => {
+const MatchMarketDetail = () => {
   const { state } = useLocation();
   const navigate = useNavigate();
   const dispatch: AppDispatch = useDispatch();
@@ -49,13 +47,9 @@ const MatchDetails = () => {
   const { matchDetail, loading, success } = useSelector(
     (state: RootState) => state.addMatch.addMatch
   );
-  const theme = useTheme();
-  const matchesMobile = useMediaQuery(theme.breakpoints.down("lg"));
   const { placedBetsMatch } = useSelector(
     (state: RootState) => state.matchList
   );
-  const { sessionProLoss } = useSelector((state: RootState) => state.match);
-  const { currentOdd } = useSelector((state: RootState) => state.addSession);
 
   const updateMatchDetailToRedux = (event: any) => {
     try {
@@ -108,16 +102,6 @@ const MatchDetails = () => {
             betPlaced: event?.profitLoss ? event?.profitLoss?.betPlaced : [],
           })
         );
-      }
-    } catch (e) {
-      console.log(e);
-    }
-  };
-
-  const handleSessionAdded = (event: any) => {
-    try {
-      if (event?.matchId === state?.id) {
-        dispatch(updateSessionAdded(event));
       }
     } catch (e) {
       console.log(e);
@@ -228,7 +212,6 @@ const MatchDetails = () => {
     try {
       if (success && socket) {
         expertSocketService.match.getMatchRatesOff(state?.id);
-        // socketService.user.matchBettingStatusChangeOff();
         socketService.user.matchResultDeclaredOff();
         socketService.user.matchResultUnDeclaredOff();
         socketService.user.matchDeleteBetOff();
@@ -242,12 +225,10 @@ const MatchDetails = () => {
         expertSocketService.match.getMatchRates(state?.id, (event: any) => {
           updateMatchDetailToRedux(event);
         });
-        // socketService.user.matchBettingStatusChange(updateBettingStatus);
         socketService.user.matchResultDeclared(resultDeclared);
         socketService.user.matchResultUnDeclared(resultUnDeclared);
         socketService.user.matchDeleteBet(matchDeleteBet);
         socketService.user.sessionDeleteBet(matchDeleteBet);
-        socketService.user.sessionAdded(handleSessionAdded);
         socketService.user.userMatchBetPlaced(updateMatchBetPlaced);
         socketService.user.userSessionBetPlaced(updateSessionBetPlaced);
         socketService.user.sessionResultDeclared(updateSessionResultDeclared);
@@ -262,9 +243,9 @@ const MatchDetails = () => {
     try {
       if (state?.id) {
         return () => {
+          matchSocketService.leaveAllRooms();
           expertSocketService.match.leaveMatchRoom(state?.id);
           expertSocketService.match.getMatchRatesOff(state?.id);
-          // socketService.user.matchBettingStatusChangeOff();
           socketService.user.matchResultDeclaredOff();
           socketService.user.matchResultUnDeclaredOff();
           socketService.user.matchDeleteBetOff();
@@ -321,8 +302,8 @@ const MatchDetails = () => {
           xs: loading ? "80vh" : "100%",
           lg: loading ? "90vh" : "100%",
         },
-        minHeight: "92vh",
-        background: !loading ? "white" : "",
+        // minHeight: "92vh",
+        // background: !loading ? "white" : "",
         padding: 1,
         gap: 1,
       }}
@@ -331,156 +312,6 @@ const MatchDetails = () => {
         <Loader text="" />
       ) : (
         <>
-          {matchesMobile && (
-            <Box
-              sx={{
-                width: { lg: "100%", xs: "100%", md: "100%" },
-              }}
-            >
-              {matchDetail?.apiSessionActive && (
-                <Box
-                  sx={{
-                    width: { lg: "100%", xs: "100%", md: "100%" },
-                    display: "flex",
-                    gap: 1,
-                    flexDirection: "column",
-                  }}
-                >
-                  <Box
-                    sx={{
-                      width: { lg: "100%", xs: "100%", md: "100%" },
-                      flexDirection: "column",
-                      display: "flex",
-                    }}
-                  >
-                    <SessionMarketLive
-                      title={"Session API Market"}
-                      sessionData={matchDetail?.apiSession}
-                      currentMatch={matchDetail}
-                    />
-                  </Box>
-                  <Box
-                    sx={{
-                      width: { lg: "100%", xs: "100%", md: "100%" },
-                      flexDirection: "column",
-                      display: "flex",
-                    }}
-                  >
-                    <SessionMarket
-                      setIObtes={() => {}}
-                      title={"Session Market"}
-                      liveOnly={false}
-                      hideTotalBet={false}
-                      stopAllHide={false}
-                      profitLossData={matchDetail?.sessionProfitLoss}
-                      sessionData={matchDetail?.sessionBettings}
-                      hideResult={false}
-                      currentMatch={matchDetail}
-                    />
-                  </Box>
-                </Box>
-              )}
-
-              {sessionProLoss?.length > 0 && (
-                <Box
-                  sx={{
-                    display: "flex",
-                    flexDirection: "row",
-                    flexWrap: "wrap",
-                    gap: "1px",
-                    rowGap: "5px",
-                    height: "524px",
-                    overflow: "scroll",
-                    marginTop: "1.25vw",
-                  }}
-                >
-                  {sessionProLoss?.map((v: any) => {
-                    return (
-                      <RunsBox
-                        key={v?.id}
-                        item={v}
-                        currentOdd={
-                          currentOdd?.betId === v?.id ? currentOdd : null
-                        }
-                      />
-                    );
-                  })}
-                </Box>
-              )}
-            </Box>
-          )}
-          {!matchesMobile && (
-            <Box
-              sx={{
-                width: { lg: "50%", xs: "100%", md: "100%" },
-              }}
-            >
-              {matchDetail?.apiSessionActive && (
-                <Box
-                  sx={{
-                    width: { lg: "100%", xs: "100%", md: "100%" },
-                    display: "flex",
-                    gap: 0.1,
-                    flexDirection: "column",
-                  }}
-                >
-                  <Box
-                    sx={{
-                      width: { lg: "100%", xs: "100%", md: "100%" },
-                      flexDirection: "row",
-                      display: "flex",
-                      gap: 1,
-                      height: "100vh",
-                    }}
-                  >
-                    <SessionMarketLive
-                      title={"Session API Market"}
-                      sessionData={matchDetail?.apiSession}
-                      currentMatch={matchDetail}
-                    />
-                    <SessionMarket
-                      setIObtes={() => {}}
-                      title={"Session Market"}
-                      liveOnly={false}
-                      hideTotalBet={false}
-                      stopAllHide={false}
-                      profitLossData={matchDetail?.sessionProfitLoss}
-                      sessionData={matchDetail?.sessionBettings}
-                      hideResult={false}
-                      currentMatch={matchDetail}
-                    />
-                  </Box>
-                </Box>
-              )}
-
-              {sessionProLoss?.length > 0 && (
-                <Box
-                  sx={{
-                    display: "flex",
-                    flexDirection: "row",
-                    flexWrap: "wrap",
-                    gap: "1px",
-                    rowGap: "5px",
-                    height: "524px",
-                    overflow: "scroll",
-                    marginTop: "1.25vw",
-                  }}
-                >
-                  {sessionProLoss?.map((v: any) => {
-                    return (
-                      <RunsBox
-                        key={v?.id}
-                        item={v}
-                        currentOdd={
-                          currentOdd?.betId === v?.id ? currentOdd : null
-                        }
-                      />
-                    );
-                  })}
-                </Box>
-              )}
-            </Box>
-          )}
           <Box
             sx={{
               width: { lg: "50%", xs: "100%", md: "100%" },
@@ -501,24 +332,46 @@ const MatchDetails = () => {
               <BookMarket
                 currentMatch={matchDetail}
                 liveData={matchDetail?.bookmaker}
-                title={"Bookmaker Market"}
               />
             )}
+            {matchDetail?.quickBookmaker
+              ?.filter((item: any) => item?.isActive)
+              ?.map((bookmaker: any) => (
+                <ManualMarket
+                  key={bookmaker?.id}
+                  currentMatch={matchDetail}
+                  liveData={bookmaker}
+                />
+              ))}
             {matchDetail?.apiTideMatch?.isActive && (
               <TiedMatchMarket
                 currentMatch={matchDetail}
                 liveData={matchDetail?.apiTideMatch}
-                title={"Tied Match Market"}
+              />
+            )}
+            {matchDetail?.manualTideMatch?.isActive && (
+              <ManualMarket
+                currentMatch={matchDetail}
+                liveData={matchDetail?.manualTideMatch}
+                type="manualTiedMatch"
               />
             )}
             {matchDetail?.marketCompleteMatch?.isActive && (
               <CompleteMatchMarket
                 currentMatch={matchDetail}
                 liveData={matchDetail?.marketCompleteMatch}
-                title={"Complete Match Market"}
               />
             )}
-
+          </Box>
+          <Box
+            sx={{
+              width: { lg: "50%", xs: "100%", md: "100%" },
+              flexDirection: "column",
+              display: "flex",
+              paddingLeft: "5px",
+              marginTop: { xs: "10px", lg: "0" },
+            }}
+          >
             {matchDetail?.id && (
               <BetList allBetRates={placedBetsMatch} tag={true} />
             )}
@@ -529,4 +382,4 @@ const MatchDetails = () => {
   );
 };
 
-export default memo(MatchDetails);
+export default memo(MatchMarketDetail);

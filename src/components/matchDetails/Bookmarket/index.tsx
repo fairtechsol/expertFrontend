@@ -73,6 +73,7 @@ const BookMarket = ({ currentMatch, liveData, title }: any) => {
                 betLiveStatus({
                   isStop: true,
                   betId: liveData?.id,
+                  isManual: false,
                 })
               );
               setLive(false);
@@ -104,6 +105,7 @@ const BookMarket = ({ currentMatch, liveData, title }: any) => {
                 betLiveStatus({
                   isStop: live,
                   betId: liveData?.id,
+                  isManual: false,
                 })
               );
               setLive(!live);

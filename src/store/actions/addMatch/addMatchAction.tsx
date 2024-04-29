@@ -1,15 +1,14 @@
 import { createAction, createAsyncThunk } from "@reduxjs/toolkit";
 import axios, { AxiosError } from "axios";
 import service from "../../../service";
-import { ApiConstants, Constants } from "../../../utils/Constants";
-import constants from "../../../components/helper/constants";
+import { ApiConstants, addMatchThirdParty } from "../../../utils/Constants";
 
 export const getAllLiveTournaments = createAsyncThunk<any, string>(
   "addMatch/getAllLiveTournaments",
   async (requestData, thunkApi) => {
     try {
       const { data } = await axios.get(
-        `${Constants.addMatchThirdParty}/competitionList?type=${requestData}`
+        `${addMatchThirdParty}/competitionList?type=${requestData}`
       );
       if (data) {
         let tournamentList: any = [
@@ -43,7 +42,7 @@ export const getAllEventsList = createAsyncThunk<any, string>(
   async (requestData, thunkApi) => {
     try {
       const { data } = await axios.get(
-        `${Constants.addMatchThirdParty}/eventList/${requestData}`
+        `${addMatchThirdParty}/eventList/${requestData}`
       );
       if (data) {
         let matchesList: any = [
@@ -83,7 +82,7 @@ export const getExtraMarketList = createAsyncThunk<any, any>(
   async (requestData, thunkApi) => {
     try {
       const { data } = await axios.get(
-        `${constants.microServiceApiPath}/extraMarketList/${requestData?.id}?eventType=${requestData?.eventType}`
+        `${addMatchThirdParty}/extraMarketList/${requestData?.id}?eventType=${requestData?.eventType}`
       );
       if (data) {
         let extraMarketList: any = {};
@@ -328,5 +327,6 @@ export const updateRates = createAsyncThunk<any, any>(
 export const addMatchReset = createAction("add/reset");
 export const editMatchReset = createAction("edit/reset");
 export const matchDetailReset = createAction("matchDetail/reset");
+export const matchDetailSuccessReset = createAction("matchDetailSuccess/reset");
 export const eventListReset = createAction("eventList/reset");
 export const tournamentListReset = createAction("tournamentList/reset");

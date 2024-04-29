@@ -15,9 +15,7 @@ interface Props {
 const BookmakerEditSection = ({ add, match, bookmakerId, type }: Props) => {
   const [visible, setVisible] = useState(false);
   const [visible1, setVisible1] = useState(false);
-  const { bookmakerById } = useSelector(
-    (state: RootState) => state.addSession
-  );
+  const { bookmakerById } = useSelector((state: RootState) => state.addSession);
   const matchesMobile = useMediaQuery(theme.breakpoints.down("lg"));
   return (
     <Box
@@ -29,7 +27,7 @@ const BookmakerEditSection = ({ add, match, bookmakerId, type }: Props) => {
         // py: "10px",
         px: "10px",
         pb: "6px",
-        top: 0
+        top: 0,
       }}
     >
       {!add && (
@@ -45,7 +43,7 @@ const BookmakerEditSection = ({ add, match, bookmakerId, type }: Props) => {
           }}
         ></Box>
       )}
-      {!matchesMobile &&
+      {!matchesMobile && (
         <Typography
           sx={{
             color: "white",
@@ -53,13 +51,12 @@ const BookmakerEditSection = ({ add, match, bookmakerId, type }: Props) => {
             fontWeight: "600",
             zIndex: 2,
             position: "relative",
-
           }}
         >
           {match?.title}
         </Typography>
-      }
-      {matchesMobile &&
+      )}
+      {matchesMobile && (
         <Box
           sx={{
             display: "flex",
@@ -148,7 +145,7 @@ const BookmakerEditSection = ({ add, match, bookmakerId, type }: Props) => {
                           : ""
                       }
                       stopAt={match?.stopAt}
-                    // betStatus={localSelectedBookmaker?.betStatus}
+                      // betStatus={localSelectedBookmaker?.betStatus}
                     />
                   )}
                 </Box>
@@ -174,7 +171,7 @@ const BookmakerEditSection = ({ add, match, bookmakerId, type }: Props) => {
                   height: "25px",
                   borderRadius: "5px",
                   cursor: "pointer",
-                  padding: "1rem"
+                  padding: "1rem",
                 }}
               >
                 <Typography
@@ -188,7 +185,7 @@ const BookmakerEditSection = ({ add, match, bookmakerId, type }: Props) => {
                     zIndex: 999,
                     top: "40px",
                     right: 0,
-                    width: { lg: "50vh", xs: "30vh" }
+                    width: { lg: "50vh", xs: "30vh" },
                   }}
                 >
                   {visible && (
@@ -206,17 +203,15 @@ const BookmakerEditSection = ({ add, match, bookmakerId, type }: Props) => {
                           ? match?.teamC
                           : ""
                       }
-                    // betStatus={localSelectedBookmaker?.betStatus}
+                      // betStatus={localSelectedBookmaker?.betStatus}
                     />
                   )}
                 </Box>
               </Box>
             )}
-
           </Box>
         </Box>
-      }
-
+      )}
 
       <Box sx={{ display: "flex", marginTop: "2px", flexDirection: "column" }}>
         <Box

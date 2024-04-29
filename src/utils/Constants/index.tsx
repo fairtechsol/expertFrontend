@@ -3,6 +3,7 @@ import constants from "../../components/helper/constants";
 export const ApiConstants = {
   LOGIN: "auth/login",
   LOGOUT: "auth/logout",
+  OLD_PASSWORD: "/user/check/oldPassword",
   MATCH: {
     ADD: "match/add",
     EDIT: "match/update",
@@ -41,19 +42,15 @@ export const ApiConstants = {
 
 export const Constants = {
   pageLimit: 15,
-  apiBasePath: "http://107.23.165.155:5000",
-  expertSocketBasePath: "http://107.23.165.155:6060",
-  thirdParty: "http://107.23.165.155:3200",
+  apiBasePath: "https://devmaxbet9api.fairgame.club",
+  expertSocketBasePath: "https://devexpertapi.fairgame.club",
+  thirdParty: "https://devserviceapi.fairgame.club",
   apiBasePathLive: "https://betfairapi.fairgame7.com",
   expertSocketBasePathLive: "https://expertapi.fairgame7.com",
   thirdPartyLive: "https://serviceapi.fairgame7.com",
   localPath: "http://localhost:5000",
   localPathThird: "http://localhost:3200",
   localPathExpert: "http://localhost:6060",
-  addMatchThirdParty:
-    process.env.NODE_ENV === "production"
-      ? "https://serviceapi.fairgame7.com"
-      : "http://localhost:3200",
 
   ///Routes Constants
 
@@ -73,10 +70,13 @@ export const Constants = {
     addBookMaker: "add_book_maker",
     betOdds: "betOdds",
     betOddsOtherGames: "betOdds/otherGames",
+    session: "session",
+    market: "market",
     changePassword: "change-password",
   },
   WEBSOCKET: "websocket",
   POLLING: "polling",
+  PRODUCTION: "production",
 };
 
 export const ButtonRatesQuickSessions = [
@@ -105,42 +105,6 @@ export const ButtonRatesQuickSessions = [
   { name: "200-350", value: "200-350" },
   { name: "250-400", value: "250-400" },
 ];
-
-// use below baseUrl for testing build
-
-export const baseUrls = {
-  socket:
-    process.env.NODE_ENV === "production"
-      ? Constants.apiBasePath
-      : Constants.localPath,
-  expertSocket:
-    process.env.NODE_ENV === "production"
-      ? Constants.expertSocketBasePath
-      : Constants.localPathExpert,
-  // : `${Constants.thirdParty}`,
-  matchSocket:
-    process.env.NODE_ENV === "production"
-      ? Constants.thirdParty
-      : Constants.localPathThird,
-  // `${Constants.thirdParty}`,
-};
-
-// use below baseUrl for live build
-
-// export const baseUrls = {
-//   socket:
-//     process.env.NODE_ENV === "production"
-//       ? Constants.apiBasePathLive
-//       : Constants.localPath,
-//   expertSocket:
-//     process.env.NODE_ENV === "production"
-//       ? Constants.expertSocketBasePathLive
-//       : Constants.localPathExpert,
-//   matchSocket:
-//     process.env.NODE_ENV === "production"
-//       ? Constants.thirdPartyLive
-//       : Constants.localPathThird,
-// };
 
 export const matchBettingType = {
   matchOdd: "matchOdd",
@@ -369,4 +333,24 @@ export const profitLossDataForMatchConstants = {
     },
     {}
   ),
+};
+
+export const addMatchThirdParty =
+  process.env.NODE_ENV === Constants.PRODUCTION
+    ? Constants.thirdPartyLive
+    : Constants.localPathThird;
+
+export const baseUrls = {
+  socket:
+    process.env.NODE_ENV === Constants.PRODUCTION
+      ? Constants.apiBasePathLive
+      : Constants.localPath,
+  expertSocket:
+    process.env.NODE_ENV === Constants.PRODUCTION
+      ? Constants.expertSocketBasePathLive
+      : Constants.localPathExpert,
+  matchSocket:
+    process.env.NODE_ENV === Constants.PRODUCTION
+      ? Constants.thirdPartyLive
+      : Constants.localPathThird,
 };

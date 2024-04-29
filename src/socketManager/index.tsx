@@ -17,12 +17,14 @@ export const initialiseSocket = () => {
     auth: {
       token: `${sessionStorage.getItem("jwtExpert")}`,
     },
+    reconnectionDelayMax: 10000,
   });
   socket = io(baseUrls.expertSocket, {
     transports: [`${Constants.WEBSOCKET}`],
     auth: {
       token: `${sessionStorage.getItem("jwtExpert")}`,
     },
+    reconnectionDelayMax: 10000,
   });
 };
 
@@ -30,13 +32,13 @@ export const socketService = {
   connect: () => {
     initialiseSocket();
     // Connect to the socket server
-    socket.connect();
-    matchSocket.connect();
+    socket?.connect();
+    matchSocket?.connect();
   },
   disconnect: () => {
     // Disconnect from the socket server
-    socket.disconnect();
-    matchSocket.disconnect();
+    socket?.disconnect();
+    matchSocket?.disconnect();
   },
   auth: { ...authSocketService },
   user: { ...userSocketService },

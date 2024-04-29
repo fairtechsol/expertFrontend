@@ -70,7 +70,7 @@ const CustomSessionResult = ({ onClick, newData }: any) => {
   return (
     <Box
       sx={{
-        width: {lg:"65%", xs: "70%"},
+        width: { lg: "65%", xs: "70%" },
         marginRight: "8px",
         display: "flex",
         justifyContent: "center",
@@ -80,7 +80,7 @@ const CustomSessionResult = ({ onClick, newData }: any) => {
         background: "#FFAF45",
         gap: 1,
       }}
-          >
+    >
       {!confirmNoResult ? (
         <>
           {JSON.parse(newData)?.activeStatus !== "result" && (
@@ -104,7 +104,7 @@ const CustomSessionResult = ({ onClick, newData }: any) => {
                   paddingY: "5px",
                   paddingX: "0.5vw",
                   height: "28px",
-                  backgroundColor: "white"
+                  backgroundColor: "white",
                 },
               }}
             />

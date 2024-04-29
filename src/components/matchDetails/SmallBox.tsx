@@ -33,7 +33,10 @@ const SmallBox = ({
       >
         <Typography
           sx={{
-            fontSize: { lg: textSize ? textSize : "11px", xs: "10px" },
+            fontSize: {
+              lg: textSize ? textSize : "11px",
+              xs: textSize ? textSize : "10px",
+            },
             fontWeight: "600",
             color: color !== "#FFF" ? "white" : "",
             lineHeight: 1,

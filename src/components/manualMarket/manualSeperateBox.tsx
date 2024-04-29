@@ -3,7 +3,7 @@ import React from "react";
 import { Popover } from "react-tiny-popover";
 import { Lock } from "../../assets";
 
-const SeparateBox = ({ color, empty, value, width, value2, lock }: any) => {
+const ManualSeparateBox = ({ color, empty, value, width, lock }: any) => {
   const theme = useTheme();
   const matchesMobile = useMediaQuery(theme.breakpoints.down("lg"));
   const [isPopoverOpen, setIsPopoverOpen] = React.useState(false);
@@ -36,7 +36,7 @@ const SeparateBox = ({ color, empty, value, width, value2, lock }: any) => {
             flexDirection: "column",
           }}
         >
-          {!empty && !lock && ![0, "0"].includes(value) && (
+          {!empty && !lock && ![0, "0", null, undefined].includes(value) && (
             <Box sx={{ alignItems: "center", justifyContent: "space-around" }}>
               <Typography
                 sx={{
@@ -48,21 +48,14 @@ const SeparateBox = ({ color, empty, value, width, value2, lock }: any) => {
               >
                 {value}
               </Typography>
-              <Typography
-                sx={{
-                  fontSize: { lg: "9px", xs: "9px" },
-                  marginTop: -0.4,
-                  color: color == "white" ? "white" : "black",
-                  textAlign: "center",
-                  fontWeight: "600",
-                }}
-              >
-                {value2}
-              </Typography>
             </Box>
           )}
-          {[0, "0"].includes(value) && (
-            <img src={Lock} style={{ width: "10px", height: "15px" }} />
+          {(lock || [0, "0"].includes(value)) && (
+            <img
+              src={Lock}
+              style={{ width: "10px", height: "15px" }}
+              alt="lock"
+            />
           )}
         </Box>
       </Popover>
@@ -70,4 +63,4 @@ const SeparateBox = ({ color, empty, value, width, value2, lock }: any) => {
   );
 };
 
-export default SeparateBox;
+export default ManualSeparateBox;

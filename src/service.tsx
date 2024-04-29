@@ -9,23 +9,21 @@ const toastOptions = {
   pauseOnHover: true,
 };
 
-// use below service for testing build
-
-const service = axios.create({
-  baseURL:
-    process.env.NODE_ENV === "production"
-      ? `${Constants.expertSocketBasePath}`
-      : `${Constants.localPathExpert}`,
-});
+// const service = axios.create({
+//   baseURL:
+//     process.env.NODE_ENV === Constants.PRODUCTION
+//       ? Constants.expertSocketBasePath
+//       : Constants.localPathExpert,
+// });
 
 // use below service for live build
 
-// const service = axios.create({
-//   baseURL:
-//     process.env.NODE_ENV === "production"
-//       ? `${Constants.expertSocketBasePathLive}`
-//       : `${Constants.localPathExpert}`,
-// });
+const service = axios.create({
+  baseURL:
+    process.env.NODE_ENV === Constants.PRODUCTION
+      ? Constants.expertSocketBasePathLive
+      : Constants.localPathExpert,
+});
 
 service.defaults.timeout = 100000;
 
@@ -64,7 +62,7 @@ service.interceptors.response.use(
     } else if (error.response.status === 409) {
       toast.error(error.response.data.message, toastOptions);
     } else if (error.response.status === 401) {
-      toast.error(error.response.data.message, toastOptions);
+      // toast.error(error.response.data.message, toastOptions);
       window.location.replace("/expert/login");
       sessionStorage.clear();
     }
