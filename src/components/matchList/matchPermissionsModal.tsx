@@ -169,7 +169,7 @@ const MatchPermissionsModal = (props: any) => {
                 cursor="default"
               />
             )}
-            {data?.stopAt && (
+            {data?.matchType === "cricket" && data?.stopAt && (
               <MatchListProfitLoss
                 containerStyle={{
                   minWidth: { xs: "4%", sm: "12px" },
@@ -196,7 +196,7 @@ const MatchPermissionsModal = (props: any) => {
               marginBottom: "10px",
             }}
           >
-            {(getProfile?.allPrivilege ||
+            {data?.matchType === "cricket" && (getProfile?.allPrivilege ||
               getProfile?.sessionMatchPrivilege) && (
               <CustomButton
                 containerStyle={{
@@ -223,7 +223,7 @@ const MatchPermissionsModal = (props: any) => {
                       state: { id: data?.id, marketId: data?.marketId },
                     });
                   } else {
-                    navigate(`/expert/market/otherGames`, {
+                    navigate(`/expert/betOdds/otherGames`, {
                       state: { id: data?.id, marketId: data?.marketId },
                     });
                   }

@@ -194,7 +194,7 @@ const MatchListTable = (props: any) => {
                 cursor="default"
               />
             )}
-            {data?.stopAt && (
+            {data?.matchType === "cricket" &&  data?.stopAt && (
               <MatchListProfitLoss
                 onClick={() => handleMatchProfitLossClick(data?.id)}
                 updateMatchStatusLabel="Session P/L"
@@ -218,7 +218,7 @@ const MatchListTable = (props: any) => {
                 flexWrap: "wrap",
               }}
             >
-              {(getProfile?.allPrivilege ||
+              {data?.matchType === "cricket" && (getProfile?.allPrivilege ||
                 getProfile?.sessionMatchPrivilege) && (
                 <CustomButton
                   containerStyle={{
@@ -254,7 +254,7 @@ const MatchListTable = (props: any) => {
                         state: { id: data?.id, marketId: data?.marketId },
                       });
                     } else {
-                      navigate(`/expert/market/otherGames`, {
+                      navigate(`/expert/betOdds/otherGames`, {
                         state: { id: data?.id, marketId: data?.marketId },
                       });
                     }

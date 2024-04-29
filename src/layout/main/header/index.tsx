@@ -66,7 +66,7 @@ const Header1 = () => {
     } catch (e) {
       console.log(e);
     }
-  }, [socket?.connected]);
+  }, [socket]);
 
   return (
     <>
@@ -87,7 +87,9 @@ const Header1 = () => {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <Loader />
+        <>
+          <Loader />
+        </>
       </ModalMUI>
       {/* <SessionTimeOut /> */}
       {!matchesMobile && (
@@ -232,6 +234,7 @@ const Header1 = () => {
                       alignItems: "center",
                       background: "white",
                       marginTop: { xs: "10px" },
+                      marginLeft: "10px",
                     }}
                   >
                     <StyledImage
