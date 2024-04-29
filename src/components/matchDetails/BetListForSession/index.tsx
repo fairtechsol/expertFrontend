@@ -7,11 +7,9 @@ import { customBetSort } from "../../../helpers";
 import SessionHeaderRow from "./SessionHeaderRow";
 import SessionRow from "./SessionRow";
 
-
 const BetListForSession = ({ tag, allBetRates }: any) => {
   const [newData, setNewBets] = useState([]);
   const [visibleImg, setVisibleImg] = useState(true);
-console.log(newData?.length, "length")
   useEffect(() => {
     if (allBetRates) {
       const body = allBetRates
@@ -226,8 +224,8 @@ console.log(newData?.length, "length")
       </Box>
       <Box
         sx={{
-          overflowX: { xs: "auto", lg: "auto", md: "auto" },
-          width: {lg:"33vw", xs: "99vw", md: "100vw" },
+          overflowX: "auto",
+          width: { lg: "33vw", xs: "99vw", md: "100vw" },
           "::-webkit-scrollbar": {
             display: "none",
           },
@@ -240,7 +238,6 @@ console.log(newData?.length, "length")
                 maxHeight: "80vh",
                 width: { xs: "150vw", lg: "40vw", md: "140vw" },
                 overflow: "auto",
-              
               }}
             >
               <SessionHeaderRow tag={tag} />
