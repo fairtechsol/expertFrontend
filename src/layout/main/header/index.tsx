@@ -15,6 +15,7 @@ import DropDownMenu from "./DropDownMenu";
 import { getMatchListDropdown } from "../../../store/actions/match/matchAction";
 import { socket, socketService } from "../../../socketManager";
 import { getLoggedUserCount } from "../../../store/actions/user/userAction";
+import { addsuccessReset } from "../../../store/actions/addSession";
 
 const Header1 = () => {
   const theme = useTheme();
@@ -155,6 +156,7 @@ const Header1 = () => {
                         setSelected(1);
                         dispatch(getMatchListDropdown());
                         setAnchor(e?.currentTarget);
+                        dispatch(addsuccessReset());
                       }}
                       title={!dropDownLoading ? "ALL MATCH" : "Loading..."}
                       boxStyle={{
@@ -399,6 +401,7 @@ const Header1 = () => {
                           setSelected(1);
                           dispatch(getMatchListDropdown());
                           setAnchor(e?.currentTarget);
+                          dispatch(addsuccessReset());
                         }}
                         title={!dropDownLoading ? "ALL MATCH" : "Loading..."}
                         boxStyle={{

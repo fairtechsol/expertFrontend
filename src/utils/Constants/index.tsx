@@ -36,22 +36,18 @@ export const ApiConstants = {
     BETTINGSTATUS: "/matchBeting/status/change",
   },
 };
-const thirdParty = "https://devserviceapi.fairgame.club";
-const thirdPartyLive = "https://serviceapi.fairgame7.com";
 
 export const Constants = {
   pageLimit: 15,
   apiBasePath: "https://devmaxbet9api.fairgame.club",
   expertSocketBasePath: "https://devexpertapi.fairgame.club",
-  thirdParty: thirdParty,
+  thirdParty: "https://devserviceapi.fairgame.club",
   apiBasePathLive: "https://betfairapi.fairgame7.com",
   expertSocketBasePathLive: "https://expertapi.fairgame7.com",
   thirdPartyLive: "https://serviceapi.fairgame7.com",
   localPath: "http://localhost:5000",
   localPathThird: "http://localhost:3200",
   localPathExpert: "http://localhost:6060",
-  addMatchThirdParty:
-    process.env.NODE_ENV === "production" ? thirdPartyLive : thirdParty,
 
   ///Routes Constants
 
@@ -76,6 +72,7 @@ export const Constants = {
   },
   WEBSOCKET: "websocket",
   POLLING: "polling",
+  PRODUCTION: "production",
 };
 
 export const ButtonRatesQuickSessions = [
@@ -105,36 +102,42 @@ export const ButtonRatesQuickSessions = [
   { name: "250-400", value: "250-400" },
 ];
 
-// use below baseUrl for testing build
+// export const addMatchThirdParty =
+//   process.env.NODE_ENV === Constants.PRODUCTION
+//     ? Constants.thirdParty
+//     : Constants.localPathThird;
 
 // export const baseUrls = {
 //   socket:
-//     process.env.NODE_ENV === "production"
-//       ? `${Constants.apiBasePath}`
-//       : `${Constants.localPath}`,
+//     process.env.NODE_ENV === Constants.PRODUCTION
+//       ? Constants.apiBasePath
+//       : Constants.localPath,
 //   expertSocket:
-//     process.env.NODE_ENV === "production"
-//       ? `${Constants.expertSocketBasePath}`
-//       : `${Constants.localPathExpert}`,
+//     process.env.NODE_ENV === Constants.PRODUCTION
+//       ? Constants.expertSocketBasePath
+//       : Constants.localPathExpert,
 //   matchSocket:
-//     process.env.NODE_ENV === "production"
-//       ? `${Constants.thirdParty}`
-//       : `${Constants.localPathThird}`,
+//     process.env.NODE_ENV === Constants.PRODUCTION
+//       ? Constants.thirdParty
+//       : Constants.localPathThird,
 // };
 
-// use below baseUrl for live build
+export const addMatchThirdParty =
+  process.env.NODE_ENV === Constants.PRODUCTION
+    ? Constants.thirdPartyLive
+    : Constants.localPathThird;
 
 export const baseUrls = {
   socket:
-    process.env.NODE_ENV === "production"
-      ? `${Constants.apiBasePathLive}`
-      : `${Constants.localPath}`,
+    process.env.NODE_ENV === Constants.PRODUCTION
+      ? Constants.apiBasePathLive
+      : Constants.localPath,
   expertSocket:
-    process.env.NODE_ENV === "production"
-      ? `${Constants.expertSocketBasePathLive}`
-      : `${Constants.localPathExpert}`,
+    process.env.NODE_ENV === Constants.PRODUCTION
+      ? Constants.expertSocketBasePathLive
+      : Constants.localPathExpert,
   matchSocket:
-    process.env.NODE_ENV === "production"
-      ? `${Constants.thirdPartyLive}`
-      : `${Constants.localPathThird}`,
+    process.env.NODE_ENV === Constants.PRODUCTION
+      ? Constants.thirdPartyLive
+      : Constants.localPathThird,
 };

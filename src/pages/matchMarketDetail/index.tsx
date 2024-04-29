@@ -6,7 +6,11 @@ import Loader from "../../components/Loader";
 import BetList from "../../components/matchDetails/BetList";
 import BookMarket from "../../components/matchDetails/Bookmarket";
 import MatchOdds from "../../components/matchDetails/MatchOdds";
-import { expertSocketService, socket, socketService } from "../../socketManager";
+import {
+  expertSocketService,
+  socket,
+  socketService,
+} from "../../socketManager";
 import {
   getMatchDetail,
   removeSessionProLoss,
@@ -33,6 +37,7 @@ import { AppDispatch, RootState } from "../../store/store";
 import TiedMatchMarket from "../../components/matchDetails/TiedMatchMarket";
 import CompleteMatchMarket from "../../components/matchDetails/CompleteMatchMarket";
 import { matchSocketService } from "../../socketManager/matchSocket";
+import ManualMarket from "../manualMarket";
 
 const MatchMarketDetail = () => {
   const { state } = useLocation();
@@ -329,10 +334,26 @@ const MatchMarketDetail = () => {
                 liveData={matchDetail?.bookmaker}
               />
             )}
+            {matchDetail?.quickBookmaker
+              ?.filter((item: any) => item?.isActive)
+              ?.map((bookmaker: any) => (
+                <ManualMarket
+                  key={bookmaker?.id}
+                  currentMatch={matchDetail}
+                  liveData={bookmaker}
+                />
+              ))}
             {matchDetail?.apiTideMatch?.isActive && (
               <TiedMatchMarket
                 currentMatch={matchDetail}
                 liveData={matchDetail?.apiTideMatch}
+              />
+            )}
+            {matchDetail?.manualTideMatch?.isActive && (
+              <ManualMarket
+                currentMatch={matchDetail}
+                liveData={matchDetail?.manualTideMatch}
+                type="manualTiedMatch"
               />
             )}
             {matchDetail?.marketCompleteMatch?.isActive && (

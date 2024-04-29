@@ -1,14 +1,14 @@
 import { createAction, createAsyncThunk } from "@reduxjs/toolkit";
 import axios, { AxiosError } from "axios";
 import service from "../../../service";
-import { ApiConstants, Constants } from "../../../utils/Constants";
+import { ApiConstants, addMatchThirdParty } from "../../../utils/Constants";
 
 export const getAllLiveTournaments = createAsyncThunk<any, string>(
   "addMatch/getAllLiveTournaments",
   async (requestData, thunkApi) => {
     try {
       const { data } = await axios.get(
-        `${Constants.addMatchThirdParty}/competitionList?type=${requestData}`
+        `${addMatchThirdParty}/competitionList?type=${requestData}`
       );
       if (data) {
         let tournamentList: any = [
@@ -42,7 +42,7 @@ export const getAllEventsList = createAsyncThunk<any, string>(
   async (requestData, thunkApi) => {
     try {
       const { data } = await axios.get(
-        `${Constants.addMatchThirdParty}/eventList/${requestData}`
+        `${addMatchThirdParty}/eventList/${requestData}`
       );
       if (data) {
         let matchesList: any = [
@@ -82,7 +82,7 @@ export const getExtraMarketList = createAsyncThunk<any, string>(
   async (requestData, thunkApi) => {
     try {
       const { data } = await axios.get(
-        `${Constants.addMatchThirdParty}/extraMarketList/${requestData}`
+        `${addMatchThirdParty}/extraMarketList/${requestData}`
       );
       if (data) {
         let extraMarketList: any = {

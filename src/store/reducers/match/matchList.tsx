@@ -1,24 +1,25 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {
+  betLiveStatus,
   editMatch,
   editSuccessReset,
   getMatchList,
   getMatchListDropdown,
+  getMatchListSessionProfitLoss,
+  getPlacedBetsForSessionDetail,
+  getPlacedBetsMatch,
   matchListReset,
   noResultDeclare,
+  resetMatchListSessionProLoss,
   resultDeclare,
+  sessionBetLiveStatus,
   sessionResultSuccessReset,
   undeclareResult,
   updateMatchActiveStatus,
   updateMatchActiveStatusReset,
-  betLiveStatus,
-  getPlacedBetsMatch,
-  getMatchListSessionProfitLoss,
-  resetMatchListSessionProLoss,
-  sessionBetLiveStatus,
   updateMatchBetsPlace,
-  updateSessionBetsPlace,
   updateMatchBetsReason,
+  updateSessionBetsPlace,
 } from "../../actions/match/matchAction";
 
 interface InitialState {
@@ -191,6 +192,20 @@ const matchList = createSlice({
         state.loading = false;
         state.error = action?.error?.message;
       })
+      .addCase(getPlacedBetsForSessionDetail.pending, (state) => {
+        state.loading = true;
+        state.success = false;
+        state.error = null;
+      })
+      .addCase(getPlacedBetsForSessionDetail.fulfilled, (state, action) => {
+        state.loading = false;
+        state.success = true;
+        state.placedBetsMatch = action?.payload;
+      })
+      .addCase(getPlacedBetsForSessionDetail.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action?.error?.message;
+      })
       .addCase(updateMatchBetsReason.fulfilled, (state, action) => {
         const { betPlacedId, deleteReason } = action?.payload;
         const updateDeleteReason = (bet: any) => {
@@ -201,7 +216,8 @@ const matchList = createSlice({
           return bet;
         };
 
-        const updatedBetPlaced = state?.placedBetsMatch?.map(updateDeleteReason);
+        const updatedBetPlaced =
+          state?.placedBetsMatch?.map(updateDeleteReason);
 
         state.placedBetsMatch = Array.from(new Set(updatedBetPlaced));
       })
