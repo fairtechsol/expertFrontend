@@ -9,10 +9,12 @@ import SmallBox from "../matchDetails/SmallBox";
 import Stop from "../matchDetails/SessionMarket/Stop";
 import { AppDispatch } from "../../store/store";
 import { profitLossDataForMatchConstants } from "../../utils/Constants";
+import Result from "../matchDetails/Result";
+import MarketResultComponent from "./MarketResultComponent";
 
 const UnderOverMarket = ({ currentMatch, liveData, title }: any) => {
   const dispatch: AppDispatch = useDispatch();
-
+  const [visible, setVisible] = useState(false);
   const [visibleImg, setVisibleImg] = useState(true);
   const [live, setLive] = useState(
     liveData?.activeStatus === "live" ? true : false
@@ -95,6 +97,13 @@ const UnderOverMarket = ({ currentMatch, liveData, title }: any) => {
           }}
         >
           <>
+          <Result
+              width={"80px"}
+              onClick={() => {
+                setVisible(true);
+              }}
+              invert={true}
+            />
             <SmallBox
               onClick={() => {
                 dispatch(
@@ -106,7 +115,7 @@ const UnderOverMarket = ({ currentMatch, liveData, title }: any) => {
                 );
                 setLive(!live);
               }}
-              width={"80px"}
+              width={{xs:"20px", lg: "80px", md: "50px"}}
               title={live ? "Live" : "Go Live"}
               color={live ? "#46e080" : "#FF4D4D"}
               customStyle={{
@@ -130,6 +139,44 @@ const UnderOverMarket = ({ currentMatch, liveData, title }: any) => {
           />
         </Box>
       </Box>
+
+      <Box
+          sx={{
+            position: "relative",
+            zIndex: 999,
+            // top: "36%",
+            // right: "10%",
+            left: {lg:"46%", xs: "30%", md: "60%"},
+            width: { lg: "30vw", xs: "30vh" },
+          }}
+        >
+          {visible && (
+            <MarketResultComponent
+              currentMatch={currentMatch}
+              betId={
+                currentMatch?.bettings?.length > 0 &&
+                currentMatch?.bettings?.filter(
+                  (v: any) => v?.sessionBet === false
+                )
+              }
+              teamA={`Under ${
+                title?.match(/\d+(\.\d+)?/g).length > 0
+                  ? title?.match(/\d+(\.\d+)?/g)[0]
+                  : ""
+              }`}
+              stopAt={currentMatch?.stopAt}
+              teamB={`Over ${
+                title?.match(/\d+(\.\d+)?/g).length > 0
+                  ? title?.match(/\d+(\.\d+)?/g)[0]
+                  : ""
+              }`}
+              // draw={currentMatch?.teamC ? currentMatch?.teamC : null}
+              onClick={() => {
+                setVisible(false);
+              }}
+            />
+          )}
+        </Box>
       <Divider />
       {visibleImg && (
         <>
