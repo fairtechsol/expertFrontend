@@ -282,6 +282,23 @@ const SessionMarketDetail = () => {
     }
   }, []);
 
+  let completedSessions = matchDetail?.sessionBettings?.filter(
+    (item: any) =>
+      JSON.parse(item)?.isComplete &&
+      JSON.parse(item)?.showSessions &&
+      ((JSON.parse(item)?.resultData &&
+        JSON.parse(item)?.resultData === null) ||
+        JSON.parse(item)?.result === null)
+  );
+  let declaredSessions = matchDetail?.sessionBettings?.filter(
+    (item: any) =>
+      JSON.parse(item)?.isComplete &&
+      JSON.parse(item)?.showSessions &&
+      ((JSON.parse(item)?.resultData &&
+        JSON.parse(item)?.resultData !== null) ||
+        JSON.parse(item)?.result !== null)
+  );
+
   return (
     <>
       <Stack spacing={2} direction={{ lg: "row", xs: "column" }}>
@@ -293,23 +310,18 @@ const SessionMarketDetail = () => {
           />
         </Box>
         <Box sx={{ width: { lg: "100%" } }}>
-          <SessionMarket
-            title="Session Completed"
-            hideTotalBet={false}
-            stopAllHide={true}
-            profitLossData={matchDetail?.sessionProfitLoss}
-            sessionData={matchDetail?.sessionBettings?.filter(
-              (item: any) =>
-                JSON.parse(item)?.isComplete &&
-                JSON.parse(item)?.showSessions &&
-                ((JSON.parse(item)?.resultData &&
-                  JSON.parse(item)?.resultData === null) ||
-                  JSON.parse(item)?.result === null)
-            )}
-            hideResult={false}
-            currentMatch={matchDetail}
-            hideEditMaxButton={true}
-          />
+          {completedSessions?.length > 0 && (
+            <SessionMarket
+              title="Session Completed"
+              hideTotalBet={false}
+              stopAllHide={true}
+              profitLossData={matchDetail?.sessionProfitLoss}
+              sessionData={completedSessions}
+              hideResult={false}
+              currentMatch={matchDetail}
+              hideEditMaxButton={true}
+            />
+          )}
           <SessionMarket
             title="Session Market"
             hideTotalBet={false}
@@ -322,27 +334,22 @@ const SessionMarketDetail = () => {
             hideResult={true}
             currentMatch={matchDetail}
             hideEditMaxButton={false}
+            maxHeight="85vh"
           />
-          <SessionMarket
-            title="Session Declared"
-            hideTotalBet={false}
-            stopAllHide={true}
-            profitLossData={matchDetail?.sessionProfitLoss}
-            sessionData={matchDetail?.sessionBettings?.filter(
-              (item: any) =>
-                JSON.parse(item)?.isComplete &&
-                JSON.parse(item)?.showSessions &&
-                ((JSON.parse(item)?.resultData &&
-                  JSON.parse(item)?.resultData !== null) ||
-                  JSON.parse(item)?.result !== null)
-            )}
-            hideResult={false}
-            currentMatch={matchDetail}
-            hideEditMaxButton={true}
-          />
+          {declaredSessions?.length > 0 && (
+            <SessionMarket
+              title="Session Declared"
+              hideTotalBet={false}
+              stopAllHide={true}
+              profitLossData={matchDetail?.sessionProfitLoss}
+              sessionData={declaredSessions}
+              hideResult={false}
+              currentMatch={matchDetail}
+              hideEditMaxButton={true}
+            />
+          )}
         </Box>
         <Box sx={{ width: { lg: "100%" } }}>
-          {/* <BetList allBetRates={placedBetsMatch} tag={true} /> */}
           <BetListForSession allBetRates={placedBetsMatch} tag={true} />
         </Box>
       </Stack>

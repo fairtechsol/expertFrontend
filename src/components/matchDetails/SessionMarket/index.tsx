@@ -8,7 +8,7 @@ import { sessionBetLiveStatus } from "../../../store/actions/match/matchAction";
 import { AppDispatch } from "../../../store/store";
 import { useDispatch } from "react-redux";
 import { customSort } from "../../../helpers";
-import { formatToINR } from "../../helper";
+// import { formatToINR } from "../../helper";
 
 const SessionMarket = ({
   currentMatch,
@@ -19,6 +19,7 @@ const SessionMarket = ({
   sessionData,
   profitLossData,
   hideEditMaxButton,
+  maxHeight,
 }: any) => {
   const dispatch: AppDispatch = useDispatch();
   const [visible, setVisible] = useState(true);
@@ -152,7 +153,7 @@ const SessionMarket = ({
                     marginLeft: "7px",
                   }}
                 >
-                  MIN: {formatToINR(currentMatch?.betFairSessionMinBet)}
+                  {/* MIN: {formatToINR(currentMatch?.betFairSessionMinBet)} */}
                   {/* MAX:
                   {formatToINR(currentMatch?.betFairSessionMaxBet)} */}
                 </Typography>
@@ -211,7 +212,7 @@ const SessionMarket = ({
               flexDirection: "column",
               width: "100%",
               position: "relative",
-              maxHeight: { lg: "25vh", xs: "40vh" },
+              maxHeight: { lg: maxHeight ? maxHeight : "30vh", xs: "40vh" },
               overflowY: "auto",
               "::-webkit-scrollbar": {
                 display: "none",
