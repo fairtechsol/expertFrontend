@@ -21,7 +21,7 @@ const MarketResultComponent = ({
   const dispatch: AppDispatch = useDispatch();
   const { success, error } = useSelector((state: RootState) => state.match);
   const [selected, setSelected] = useState(teamA);
-  const [selected2, setSelected2] = useState("");
+  const [selected2, setSelected2] = useState("UNDER");
   const [loading, setLoading] = useState({ id: "", value: false });
 
   const handleSubmit = (e: any) => {
