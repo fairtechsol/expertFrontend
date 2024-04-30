@@ -393,7 +393,7 @@ const SessionAddComponent = ({ createSession, match, setMode }: any) => {
       <Box
         onClick={(e) => {
           e.stopPropagation();
-          if (!createSession) {
+          if (!createSession && inputDetail?.resultStatus !== "PENDING") {
             setVisible3(true);
           }
         }}
