@@ -14,7 +14,7 @@ import { useDispatch } from "react-redux";
 import { profitLossDataForMatchConstants } from "../../../utils/Constants";
 import { formatToINR } from "../../helper";
 
-const MatchOdds = ({ currentMatch, matchOddsLive }: any) => {
+const HalfTime = ({ currentMatch, matchOddsLive }: any) => {
   const [visible, setVisible] = useState(false);
   const [visibleImg, setVisibleImg] = useState(true);
 
@@ -104,7 +104,7 @@ const MatchOdds = ({ currentMatch, matchOddsLive }: any) => {
                 marginLeft: "7px",
               }}
             >
-              Match Odds
+              Half Time
             </Typography>
             <Stop
               onClick={() => {
@@ -150,7 +150,7 @@ const MatchOdds = ({ currentMatch, matchOddsLive }: any) => {
               }}
               invert={true}
             />
-            {!currentMatch?.matchOdd && (
+            {!currentMatch?.halfTime && (
               <SmallBox
                 onClick={() => {
                   // if (newMatchOdds?.id) {
@@ -321,8 +321,8 @@ const MatchOdds = ({ currentMatch, matchOddsLive }: any) => {
                     marginLeft: "7px",
                   }}
                 >
-                  MIN: {formatToINR(currentMatch?.matchOdd?.minBet)} MAX:
-                  {formatToINR(currentMatch?.matchOdd?.maxBet)}
+                  MIN: {formatToINR(currentMatch?.halfTime?.minBet)} MAX:
+                  {formatToINR(currentMatch?.halfTime?.maxBet)}
                 </Typography>
               </Box>
               <Box
@@ -489,4 +489,4 @@ const MatchOdds = ({ currentMatch, matchOddsLive }: any) => {
   );
 };
 
-export default MatchOdds;
+export default HalfTime;

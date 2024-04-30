@@ -153,12 +153,7 @@ const UnderOverMarket = ({ currentMatch, liveData, title }: any) => {
           {visible && (
             <MarketResultComponent
               currentMatch={currentMatch}
-              betId={
-                currentMatch?.bettings?.length > 0 &&
-                currentMatch?.bettings?.filter(
-                  (v: any) => v?.sessionBet === false
-                )
-              }
+              liveData={liveData}
               teamA={`Under ${
                 title?.match(/\d+(\.\d+)?/g).length > 0
                   ? title?.match(/\d+(\.\d+)?/g)[0]

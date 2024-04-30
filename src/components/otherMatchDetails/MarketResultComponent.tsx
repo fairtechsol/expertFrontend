@@ -4,7 +4,7 @@ import { memo } from "react";
 
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store/store";
-import { declareMatchResult, declareMatchStatusReset, unDeclareMatchResult } from "../../store/actions/match/matchDeclareActions";
+import {  declareMatchStatusReset, otherDeclareMatchResult, unDeclareMatchResult } from "../../store/actions/match/matchDeclareActions";
 import { CancelDark } from "../../assets";
 import MarketCustomButton from "./MarketCustomButton";
 
@@ -16,6 +16,7 @@ const MarketResultComponent = ({
   teamA,
   teamB,
   stopAt,
+  liveData
 }: any) => {
   const dispatch: AppDispatch = useDispatch();
   const { success, error } = useSelector((state: RootState) => state.match);
@@ -219,9 +220,10 @@ const MarketResultComponent = ({
                       }
                       setLoading({ id: "DR", value: true });
                       dispatch(
-                        declareMatchResult({
+                        otherDeclareMatchResult({
                           matchId: currentMatch?.id,
                           result: selected,
+                          betId:liveData?.id,
                         })
                       );
                     } catch (e) {
@@ -241,9 +243,10 @@ const MarketResultComponent = ({
                       }
                       setLoading({ id: "DNR", value: true });
                       dispatch(
-                        declareMatchResult({
+                        otherDeclareMatchResult({
                           matchId: currentMatch?.id,
                           result: "No Result",
+                          betId:liveData?.id,
                         })
                       );
                     } catch (e) {

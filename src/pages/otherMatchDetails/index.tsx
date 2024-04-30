@@ -40,6 +40,7 @@ import { matchSocketService } from "../../socketManager/matchSocket";
 import ManualMarket from "../manualMarket";
 import UnderOverMarket from "../../components/otherMatchDetails/UnderOverMarket";
 import SetWinner from "../../components/matchDetails/SetWinner";
+import HalfTime from "../../components/matchDetails/HalfTime";
 
 const OtherMatchDetails = () => {
   const { state } = useLocation();
@@ -337,10 +338,10 @@ const OtherMatchDetails = () => {
               />
             )}
             {matchDetail?.halfTime?.isActive && (
-              <BookMarket
+              <HalfTime
+                showHeader={true}
                 currentMatch={matchDetail}
-                liveData={matchDetail?.halfTime}
-                title={matchDetail?.halfTime?.name}
+                matchOddsLive={matchDetail?.halfTime}
               />
             )}
             {matchDetail?.firstHalfGoal

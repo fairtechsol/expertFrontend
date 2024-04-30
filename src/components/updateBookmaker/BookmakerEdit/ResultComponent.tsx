@@ -20,12 +20,12 @@ const ResultComponent = ({
   tie,
   draw,
   stopAt,
+  liveData
 }: any) => {
   const dispatch: AppDispatch = useDispatch();
   const { success, error } = useSelector((state: RootState) => state.match);
   const [selected, setSelected] = useState(teamA);
   const [loading, setLoading] = useState({ id: "", value: false });
-
   const handleSubmit = (e: any) => {
     e.preventDefault();
   };
@@ -203,10 +203,19 @@ const ResultComponent = ({
                           })
                         );
                       }else{
+                        liveData?.type ==='matchOdd' ?
                         dispatch(
                           otherDeclareMatchResult({
                             matchId: currentMatch?.id,
                             result: selected,
+                          })
+                        )
+                        :
+                        dispatch(
+                          otherDeclareMatchResult({
+                            matchId: currentMatch?.id,
+                            result: selected,
+                            betId:liveData?.id,
                           })
                         );
                       }
@@ -235,12 +244,21 @@ const ResultComponent = ({
                           })
                         );
                       }else{
+                        liveData?.type ==='matchOdd' ?
                         dispatch(
                           otherDeclareMatchResult({
                             matchId: currentMatch?.id,
                             result: "No Result",
                           })
-                        );
+                        )
+                        :
+                        dispatch(
+                          otherDeclareMatchResult({
+                            matchId: currentMatch?.id,
+                            result: "No Result",
+                            betId:liveData?.id,
+                          })
+                        )
                       }
                      
                     } catch (e) {
