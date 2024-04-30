@@ -21,6 +21,7 @@ const MarketResultComponent = ({
   const dispatch: AppDispatch = useDispatch();
   const { success, error } = useSelector((state: RootState) => state.match);
   const [selected, setSelected] = useState(teamA);
+  const [selected2, setSelected2] = useState("");
   const [loading, setLoading] = useState({ id: "", value: false });
 
   const handleSubmit = (e: any) => {
@@ -109,6 +110,7 @@ const MarketResultComponent = ({
                 <Box
                   onClick={() => {
                     setSelected(teamA);
+                    setSelected2('UNDER');
                   }}
                   sx={{
                     width: "40%",
@@ -142,6 +144,7 @@ const MarketResultComponent = ({
                 <Box
                   onClick={() => {
                     setSelected(teamB);
+                    setSelected2('OVER');
                   }}
                   sx={{
                     width: "40%",
@@ -222,7 +225,7 @@ const MarketResultComponent = ({
                       dispatch(
                         otherDeclareMatchResult({
                           matchId: currentMatch?.id,
-                          result: selected,
+                          result: selected2,
                           betId:liveData?.id,
                         })
                       );
