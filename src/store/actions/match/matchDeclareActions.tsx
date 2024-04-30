@@ -20,6 +20,23 @@ export const declareMatchResult = createAsyncThunk<any, any>(
     }
   }
 );
+export const otherDeclareMatchResult = createAsyncThunk<any, any>(
+  "/match/otherDeclareResult",
+  async (requestData, thunkApi) => {
+    try {
+      const response = await service.post(
+        `${ApiConstants.MATCH.OTHER_DECLARE}`,
+        requestData
+      );
+      if (response?.status === 200) {
+        return response?.data;
+      }
+    } catch (error) {
+      const err = error as AxiosError;
+      return thunkApi.rejectWithValue(err.response?.status);
+    }
+  }
+);
 export const unDeclareMatchResult = createAsyncThunk<any, any>(
   "/match/unDeclareResult",
   async (requestData, thunkApi) => {

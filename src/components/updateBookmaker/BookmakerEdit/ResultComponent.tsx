@@ -8,6 +8,7 @@ import { AppDispatch, RootState } from "../../../store/store";
 import {
   declareMatchResult,
   declareMatchStatusReset,
+  otherDeclareMatchResult,
   unDeclareMatchResult,
 } from "../../../store/actions/match/matchDeclareActions";
 
@@ -194,12 +195,22 @@ const ResultComponent = ({
                         return false;
                       }
                       setLoading({ id: "DR", value: true });
-                      dispatch(
-                        declareMatchResult({
-                          matchId: currentMatch?.id,
-                          result: selected,
-                        })
-                      );
+                      if(currentMatch.matchType==='cricket'){
+                        dispatch(
+                          declareMatchResult({
+                            matchId: currentMatch?.id,
+                            result: selected,
+                          })
+                        );
+                      }else{
+                        dispatch(
+                          otherDeclareMatchResult({
+                            matchId: currentMatch?.id,
+                            result: selected,
+                          })
+                        );
+                      }
+                      
                     } catch (e) {
                       console.log(e);
                     }
@@ -216,12 +227,22 @@ const ResultComponent = ({
                         return false;
                       }
                       setLoading({ id: "DNR", value: true });
-                      dispatch(
-                        declareMatchResult({
-                          matchId: currentMatch?.id,
-                          result: "No Result",
-                        })
-                      );
+                      if(currentMatch.matchType==='cricket'){
+                        dispatch(
+                          declareMatchResult({
+                            matchId: currentMatch?.id,
+                            result: "No Result",
+                          })
+                        );
+                      }else{
+                        dispatch(
+                          otherDeclareMatchResult({
+                            matchId: currentMatch?.id,
+                            result: "No Result",
+                          })
+                        );
+                      }
+                     
                     } catch (e) {
                       console.log(e);
                     }

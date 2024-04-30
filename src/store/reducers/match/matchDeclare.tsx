@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import {
   declareMatchResult,
   declareMatchStatusReset,
+  otherDeclareMatchResult,
   unDeclareMatchResult,
 } from "../../actions/match/matchDeclareActions";
 import {
@@ -48,6 +49,19 @@ const matchDeclare = createSlice({
         state.loading = false;
       })
       .addCase(declareMatchResult.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action?.error?.message;
+      })
+      .addCase(otherDeclareMatchResult.pending, (state) => {
+        state.loading = true;
+        state.success = false;
+        state.error = null;
+      })
+      .addCase(otherDeclareMatchResult.fulfilled, (state) => {
+        state.success = true;
+        state.loading = false;
+      })
+      .addCase(otherDeclareMatchResult.rejected, (state, action) => {
         state.loading = false;
         state.error = action?.error?.message;
       })
