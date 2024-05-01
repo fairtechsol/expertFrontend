@@ -176,7 +176,7 @@ const SessionMarketBox = ({
                 );
               }}
               textSize={"8px"}
-              width={{ lg: "33px", xs: "20px", md: "25px" }}
+              width={{ lg: "33px", xs: "30px", md: "25px" }}
               color={newData?.activeStatus === "live" ? "#46e080" : "#FF4D4D"}
             />
           )}
@@ -185,8 +185,8 @@ const SessionMarketBox = ({
               loading={false}
               hide={false}
               textSize={newData?.result === "No Result" ? "0.55em" : "10px"}
-              width={{ lg: "80px", xs: "20px", md: "20px" }}
-              title={`Score : ${newData?.result || 0}`}
+              width={{ lg: "60px", xs: "60px"}}
+              title={`${newData?.result || 0}`}
               color="#FFF"
             />
           )}

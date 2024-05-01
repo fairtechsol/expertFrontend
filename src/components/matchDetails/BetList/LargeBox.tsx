@@ -17,7 +17,7 @@ const LargeBox = ({ item, k }: any) => {
     >
       <Typography
         sx={{
-          fontSize: { lg: "9px", xs: "9px", md: "10px" },
+          fontSize: { lg: "9px", xs: "0.5rem", md: "10px" },
           fontWeight: "600",
           color: item?.color,
           wordWrap: item?.overflowWrap ? item?.overflowWrap : "break-word",
@@ -36,7 +36,7 @@ const LargeBox = ({ item, k }: any) => {
       {item?.time && (
         <Typography
           sx={{
-            fontSize: { lg: "8px", xs: "8px" },
+            fontSize: { lg: "8px", xs: "0.3rem", md: "9px" },
             fontWeight: "600",
             color: item?.color,
           }}
