@@ -354,6 +354,7 @@ export const profitLossDataForMatchConstants = {
 //   matchSocket:
 //     process.env.NODE_ENV === Constants.PRODUCTION
 //       ? Constants.thirdParty
+//       : Constants.localPathThird,
 // };
 
 export const addMatchThirdParty =
