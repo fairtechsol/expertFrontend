@@ -70,7 +70,7 @@ const UnderOverMarket = ({ currentMatch, liveData, title }: any) => {
                 betLiveStatus({
                   isStop: true,
                   betId: liveData?.id,
-                  isManual:false
+                  isManual: false,
                 })
               );
               setLive(false);
@@ -97,7 +97,7 @@ const UnderOverMarket = ({ currentMatch, liveData, title }: any) => {
           }}
         >
           <>
-          <Result
+            <Result
               width={"80px"}
               onClick={() => {
                 setVisible(true);
@@ -110,12 +110,12 @@ const UnderOverMarket = ({ currentMatch, liveData, title }: any) => {
                   betLiveStatus({
                     isStop: live,
                     betId: liveData?.id,
-                    isManual:false
+                    isManual: false,
                   })
                 );
                 setLive(!live);
               }}
-              width={{xs:"20px", lg: "80px", md: "50px"}}
+              width={{ xs: "20px", lg: "80px", md: "50px" }}
               title={live ? "Live" : "Go Live"}
               color={live ? "#46e080" : "#FF4D4D"}
               customStyle={{
@@ -141,37 +141,37 @@ const UnderOverMarket = ({ currentMatch, liveData, title }: any) => {
       </Box>
 
       <Box
-          sx={{
-            position: "relative",
-            zIndex: 999,
-            // top: "36%",
-            // right: "10%",
-            left: {lg:"46%", xs: "30%", md: "60%"},
-            width: { lg: "30vw", xs: "30vh" },
-          }}
-        >
-          {visible && (
-            <MarketResultComponent
-              currentMatch={currentMatch}
-              liveData={liveData}
-              teamA={`Under ${
-                title?.match(/\d+(\.\d+)?/g).length > 0
-                  ? title?.match(/\d+(\.\d+)?/g)[0]
-                  : ""
-              }`}
-              stopAt={currentMatch?.stopAt}
-              teamB={`Over ${
-                title?.match(/\d+(\.\d+)?/g).length > 0
-                  ? title?.match(/\d+(\.\d+)?/g)[0]
-                  : ""
-              }`}
-              // draw={currentMatch?.teamC ? currentMatch?.teamC : null}
-              onClick={() => {
-                setVisible(false);
-              }}
-            />
-          )}
-        </Box>
+        sx={{
+          position: "relative",
+          zIndex: 999,
+          // top: "36%",
+          // right: "10%",
+          left: { lg: "46%", xs: "30%", md: "60%" },
+          width: { lg: "30vw", xs: "30vh" },
+        }}
+      >
+        {visible && (
+          <MarketResultComponent
+            currentMatch={currentMatch}
+            liveData={liveData}
+            teamA={`Under ${
+              title?.match(/\d+(\.\d+)?/g).length > 0
+                ? title?.match(/\d+(\.\d+)?/g)[0]
+                : ""
+            }`}
+            stopAt={currentMatch?.stopAt}
+            teamB={`Over ${
+              title?.match(/\d+(\.\d+)?/g).length > 0
+                ? title?.match(/\d+(\.\d+)?/g)[0]
+                : ""
+            }`}
+            // draw={currentMatch?.teamC ? currentMatch?.teamC : null}
+            onClick={() => {
+              setVisible(false);
+            }}
+          />
+        )}
+      </Box>
       <Divider />
       {visibleImg && (
         <>
@@ -200,8 +200,7 @@ const UnderOverMarket = ({ currentMatch, liveData, title }: any) => {
                   marginLeft: "7px",
                 }}
               >
-                MIN: {liveData?.minBet} MAX:{" "}
-                {liveData?.maxBet}
+                MIN: {liveData?.minBet} MAX: {liveData?.maxBet}
               </Typography>
             </Box>
             <Box
@@ -298,6 +297,26 @@ const UnderOverMarket = ({ currentMatch, liveData, title }: any) => {
                 }}
               ></Box>
             )}
+            {currentMatch?.resultStatus &&
+              currentMatch?.resultStatus[liveData?.id]?.status && (
+                <Box
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    width: "100%",
+                    position: "absolute",
+                    height: "100%",
+                    bottom: 0,
+                    color: "#fff",
+                    backgroundColor: "rgba(203 24 24 / 70%)",
+                  }}
+                >
+                  <Typography sx={{ color: "#fff" }}>
+                    RESULT {currentMatch?.resultStatus[liveData?.id]?.status}
+                  </Typography>
+                </Box>
+              )}
           </Box>
         </>
       )}
