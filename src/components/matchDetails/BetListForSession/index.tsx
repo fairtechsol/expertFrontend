@@ -29,7 +29,7 @@ const BetListForSession = ({ tag, allBetRates }: any) => {
                   ? "#faf11b"
                   : "#F1C550",
                 deleteReason: v?.deleteReason,
-                width: { lg: "17%", xs: "60%" },
+                width: { lg: "17%", xs: "32%" },
               },
               // {
               //   name:
@@ -236,7 +236,7 @@ const BetListForSession = ({ tag, allBetRates }: any) => {
             <Box
               sx={{
                 maxHeight: "80vh",
-                width: { xs: "150vw", lg: "40vw", md: "140vw" },
+                width: { xs: "150vw", lg: "33vw", md: "98vw" },
                 overflow: "auto",
               }}
             >
