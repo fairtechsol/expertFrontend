@@ -17,10 +17,10 @@ const SmallBox = ({
         onClick={onClick}
         sx={[
           {
-            width: { lg: width ? width : "60px", xs: width ? width : "25%" },
+            width: { lg: width ? width.lg : "60px", xs: width ? width.xs : "25%" },
             display: "flex",
             marginRight: "10px",
-            justifyContent: "space-between",
+            justifyContent: "center",
             paddingX: 1,
             alignItems: "center",
             height: "32px",
