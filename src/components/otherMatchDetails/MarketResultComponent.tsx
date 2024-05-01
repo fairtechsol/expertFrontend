@@ -4,7 +4,7 @@ import { memo } from "react";
 
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store/store";
-import { declareMatchResult, declareMatchStatusReset, unDeclareMatchResult } from "../../store/actions/match/matchDeclareActions";
+import {  declareMatchStatusReset, otherDeclareMatchResult, unDeclareMatchResult } from "../../store/actions/match/matchDeclareActions";
 import { CancelDark } from "../../assets";
 import MarketCustomButton from "./MarketCustomButton";
 
@@ -16,10 +16,12 @@ const MarketResultComponent = ({
   teamA,
   teamB,
   stopAt,
+  liveData
 }: any) => {
   const dispatch: AppDispatch = useDispatch();
   const { success, error } = useSelector((state: RootState) => state.match);
   const [selected, setSelected] = useState(teamA);
+  const [selected2, setSelected2] = useState("UNDER");
   const [loading, setLoading] = useState({ id: "", value: false });
 
   const handleSubmit = (e: any) => {
@@ -108,6 +110,7 @@ const MarketResultComponent = ({
                 <Box
                   onClick={() => {
                     setSelected(teamA);
+                    setSelected2('UNDER');
                   }}
                   sx={{
                     width: "40%",
@@ -141,6 +144,7 @@ const MarketResultComponent = ({
                 <Box
                   onClick={() => {
                     setSelected(teamB);
+                    setSelected2('OVER');
                   }}
                   sx={{
                     width: "40%",
@@ -219,9 +223,10 @@ const MarketResultComponent = ({
                       }
                       setLoading({ id: "DR", value: true });
                       dispatch(
-                        declareMatchResult({
+                        otherDeclareMatchResult({
                           matchId: currentMatch?.id,
-                          result: selected,
+                          result: selected2,
+                          betId:liveData?.id,
                         })
                       );
                     } catch (e) {
@@ -241,9 +246,10 @@ const MarketResultComponent = ({
                       }
                       setLoading({ id: "DNR", value: true });
                       dispatch(
-                        declareMatchResult({
+                        otherDeclareMatchResult({
                           matchId: currentMatch?.id,
                           result: "No Result",
+                          betId:liveData?.id,
                         })
                       );
                     } catch (e) {

@@ -12,7 +12,6 @@ import {
   socketService,
 } from "../../socketManager";
 import {
-  getMatchDetail,
   removeSessionProLoss,
   updateMatchRates,
   updateRates,
@@ -40,6 +39,8 @@ import { matchSocketService } from "../../socketManager/matchSocket";
 import ManualMarket from "../manualMarket";
 import UnderOverMarket from "../../components/otherMatchDetails/UnderOverMarket";
 import SetWinner from "../../components/matchDetails/SetWinner";
+import HalfTime from "../../components/matchDetails/HalfTime";
+import { getOtherGamesMatchDetail } from "../../store/actions/otherGamesAction/matchDetailActions";
 
 const OtherMatchDetails = () => {
   const { state } = useLocation();
@@ -75,7 +76,7 @@ const OtherMatchDetails = () => {
   const resultUnDeclared = (event: any) => {
     try {
       if (event?.matchId === state?.id) {
-        dispatch(getMatchDetail(state?.id));
+        dispatch(getOtherGamesMatchDetail(state?.id));
         dispatch(getPlacedBetsMatch(state?.id));
       }
     } catch (e) {
@@ -202,7 +203,7 @@ const OtherMatchDetails = () => {
     try {
       if (state?.id) {
         dispatch(getSessionProfitLossMatchDetailReset());
-        dispatch(getMatchDetail(state?.id));
+        dispatch(getOtherGamesMatchDetail(state?.id));
         dispatch(getPlacedBetsMatch(state?.id));
       }
     } catch (e) {
@@ -269,7 +270,7 @@ const OtherMatchDetails = () => {
       const handleVisibilityChange = () => {
         if (document.visibilityState === "visible") {
           if (state?.id) {
-            dispatch(getMatchDetail(state?.id));
+            dispatch(getOtherGamesMatchDetail(state?.id));
             dispatch(getPlacedBetsMatch(state?.id));
           }
         } else if (document.visibilityState === "hidden") {
@@ -337,10 +338,10 @@ const OtherMatchDetails = () => {
               />
             )}
             {matchDetail?.halfTime?.isActive && (
-              <BookMarket
+              <HalfTime
+                showHeader={true}
                 currentMatch={matchDetail}
-                liveData={matchDetail?.halfTime}
-                title={matchDetail?.halfTime?.name}
+                matchOddsLive={matchDetail?.halfTime}
               />
             )}
             {matchDetail?.firstHalfGoal
