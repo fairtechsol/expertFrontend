@@ -92,7 +92,7 @@ const SessionMarketBox = ({
           }}
           // className="example-2"
         >
-          <Box sx={{ paddingTop: "3px", width: { lg: "80%", xs: "70%" } }}>
+          <Box sx={{ paddingTop: "3px", width: { lg: "100%", xs: "70%" } }}>
             <Typography
               sx={{
                 color: "black",
@@ -176,7 +176,7 @@ const SessionMarketBox = ({
                 );
               }}
               textSize={"8px"}
-              width={{ lg: "33px", xs: "20px", md: "25px" }}
+              width={{ lg: "33px", xs: "30px", md: "25px" }}
               color={newData?.activeStatus === "live" ? "#46e080" : "#FF4D4D"}
             />
           )}
@@ -185,8 +185,8 @@ const SessionMarketBox = ({
               loading={false}
               hide={false}
               textSize={newData?.result === "No Result" ? "0.55em" : "10px"}
-              width={{ lg: "80px", xs: "20px", md: "20px" }}
-              title={`Score : ${newData?.result || 0}`}
+              width={{ lg: "60px", xs: "60px"}}
+              title={`${newData?.result || 0}`}
               color="#FFF"
             />
           )}
@@ -306,7 +306,7 @@ const SessionMarketBox = ({
             sx={{
               display: "flex",
               position: "relative",
-              right: { lg: "-17%", xs: "-5%", md: "-7%" },
+              right: { lg: "-17.5%", xs: "-5%", md: "-7%" },
               // background: "white",
               height: "40px",
               width: { lg: "18.6%", xs: "40%" },

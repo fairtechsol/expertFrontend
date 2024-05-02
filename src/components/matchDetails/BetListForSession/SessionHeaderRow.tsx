@@ -24,7 +24,7 @@ const SessionHeaderRow = ({ tag }: any) => {
         <Box sx={{ width: "100%", display: "flex" }}>
           <Box
             sx={{
-              width: { lg: "17%", xs: "57%" },
+              width: { lg: "17%", xs: "30%" },
               border: "1px solid white",
               background: "rgba(0,0,0)",
               height: "20px",
@@ -42,7 +42,7 @@ const SessionHeaderRow = ({ tag }: any) => {
           </Box>
           <Box
             sx={{
-              width: { lg: "18%", xs: "61%" },
+              width: { lg: "33%", xs: "47%" },
               border: "1px solid white",
               background: "rgba(0,0,0)",
               height: "20px",
@@ -58,7 +58,7 @@ const SessionHeaderRow = ({ tag }: any) => {
               Market
             </Typography>
           </Box>
-          <Box
+          {/* <Box
             sx={{
               width: { lg: "15%", xs: "47%" },
               border: "1px solid white",
@@ -74,10 +74,10 @@ const SessionHeaderRow = ({ tag }: any) => {
             >
               Favourite
             </Typography>
-          </Box>
+          </Box> */}
           <Box
             sx={{
-              width: { lg: "7%", xs: "34%" },
+              width: { lg: "7%", xs: "33%" },
               border: "1px solid white",
               background: "rgba(0,0,0)",
               height: "20px",
