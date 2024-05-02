@@ -92,7 +92,7 @@ const SessionMarketBox = ({
           }}
           // className="example-2"
         >
-          <Box sx={{ paddingTop: "3px", width: { lg: "80%", xs: "70%" } }}>
+          <Box sx={{ paddingTop: "3px", width: { lg: "100%", xs: "70%" } }}>
             <Typography
               sx={{
                 color: "black",
