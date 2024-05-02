@@ -1,15 +1,15 @@
 import { Box, Typography } from "@mui/material";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import Divider from "../Common/Divider";
-import BoxComponent from "../matchDetails/MatchOdds/BoxComponent";
 import { ARROWUP } from "../../assets";
 import { betLiveStatus } from "../../store/actions/match/matchAction";
-import SmallBox from "../matchDetails/SmallBox";
-import Stop from "../matchDetails/SessionMarket/Stop";
 import { AppDispatch } from "../../store/store";
 import { profitLossDataForMatchConstants } from "../../utils/Constants";
+import Divider from "../Common/Divider";
+import BoxComponent from "../matchDetails/MatchOdds/BoxComponent";
 import Result from "../matchDetails/Result";
+import Stop from "../matchDetails/SessionMarket/Stop";
+import SmallBox from "../matchDetails/SmallBox";
 import MarketResultComponent from "./MarketResultComponent";
 
 const UnderOverMarket = ({ currentMatch, liveData, title }: any) => {
@@ -159,7 +159,7 @@ const UnderOverMarket = ({ currentMatch, liveData, title }: any) => {
                 ? title?.match(/\d+(\.\d+)?/g)[0]
                 : ""
             }`}
-            stopAt={currentMatch?.stopAt}
+            stopAt={liveData?.stopAt || liveData?.activeStatus === "result"}
             teamB={`Over ${
               title?.match(/\d+(\.\d+)?/g).length > 0
                 ? title?.match(/\d+(\.\d+)?/g)[0]
@@ -251,9 +251,11 @@ const UnderOverMarket = ({ currentMatch, liveData, title }: any) => {
           <Box sx={{ position: "relative" }}>
             <BoxComponent
               teamRates={
-                currentMatch?.teamRates[
-                  profitLossDataForMatchConstants[liveData?.type]?.A
-                ] ?? 0
+                currentMatch?.teamRates
+                  ? currentMatch?.teamRates[
+                      profitLossDataForMatchConstants[liveData?.type]?.A
+                    ]
+                  : 0
               }
               teamImage={currentMatch?.apiTideMatch?.teamA_Image}
               livestatus={liveData?.status === "SUSPENDED" ? true : false}
@@ -270,9 +272,11 @@ const UnderOverMarket = ({ currentMatch, liveData, title }: any) => {
             <BoxComponent
               livestatus={liveData?.status === "SUSPENDED" ? true : false}
               teamRates={
-                currentMatch?.teamRates[
-                  profitLossDataForMatchConstants[liveData?.type]?.B
-                ] ?? 0
+                currentMatch?.teamRates
+                  ? currentMatch?.teamRates[
+                      profitLossDataForMatchConstants[liveData?.type]?.B
+                    ]
+                  : 0
               }
               teamImage={currentMatch?.apiTideMatch?.teamB_Image}
               lock={liveData?.runners?.length > 0 ? false : true}
@@ -313,7 +317,10 @@ const UnderOverMarket = ({ currentMatch, liveData, title }: any) => {
                   }}
                 >
                   <Typography sx={{ color: "#fff" }}>
-                    RESULT {currentMatch?.resultStatus[liveData?.id]?.status}
+                    RESULT{" "}
+                    {liveData?.stopAt || liveData?.activeStatus === "result"
+                      ? "DECLARED"
+                      : currentMatch?.resultStatus[liveData?.id]?.status}
                   </Typography>
                 </Box>
               )}

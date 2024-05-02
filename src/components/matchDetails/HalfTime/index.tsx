@@ -1,18 +1,18 @@
-import { useEffect, useState } from "react";
 import { Box, Typography } from "@mui/material";
-import Stop from "../SessionMarket/Stop";
-import Result from "../Result";
-import SmallBox from "../SmallBox";
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import { ARROWUP } from "../../../assets";
-import ResultComponent from "../../updateBookmaker/BookmakerEdit/ResultComponent";
-import Divider from "../../Common/Divider";
-import BoxComponent from "./BoxComponent";
-import SmallBox2 from "./SmallBox2";
 import { betLiveStatus } from "../../../store/actions/match/matchAction";
 import { AppDispatch } from "../../../store/store";
-import { useDispatch } from "react-redux";
 import { profitLossDataForMatchConstants } from "../../../utils/Constants";
+import Divider from "../../Common/Divider";
 import { formatToINR } from "../../helper";
+import ResultComponent from "../../updateBookmaker/BookmakerEdit/ResultComponent";
+import Result from "../Result";
+import Stop from "../SessionMarket/Stop";
+import SmallBox from "../SmallBox";
+import BoxComponent from "./BoxComponent";
+import SmallBox2 from "./SmallBox2";
 
 const HalfTime = ({ currentMatch, matchOddsLive }: any) => {
   const [visible, setVisible] = useState(false);
@@ -236,7 +236,10 @@ const HalfTime = ({ currentMatch, matchOddsLive }: any) => {
             <ResultComponent
               currentMatch={currentMatch}
               teamA={currentMatch?.teamA}
-              stopAt={currentMatch?.stopAt}
+              stopAt={
+                matchOddsLive?.stopAt ||
+                matchOddsLive?.activeStatus === "result"
+              }
               teamB={currentMatch?.teamB}
               tie={"Tie"}
               draw={currentMatch?.teamC ? currentMatch?.teamC : null}
@@ -494,7 +497,10 @@ const HalfTime = ({ currentMatch, matchOddsLive }: any) => {
                   >
                     <Typography sx={{ color: "#fff" }}>
                       RESULT{" "}
-                      {currentMatch?.resultStatus[matchOddsLive?.id]?.status}
+                      {matchOddsLive?.stopAt ||
+                      matchOddsLive?.activeStatus === "result"
+                        ? "DECLARED"
+                        : currentMatch?.resultStatus[matchOddsLive?.id]?.status}
                     </Typography>
                   </Box>
                 )}

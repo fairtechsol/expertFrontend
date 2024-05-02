@@ -88,24 +88,24 @@ export const getExtraMarketList = createAsyncThunk<any, any>(
         let extraMarketList: any = {};
         if (requestData?.eventType === "cricket") {
           extraMarketList = {
-              matchOdd: {
-                marketId: data?.find(
-                  (match: any) => match?.description?.marketType === "MATCH_ODDS"
-                )?.marketId,
-              },
-              apiTideMatch: {
-                marketId: data?.find(
-                  (match: any) => match?.description?.marketType === "TIED_MATCH"
-                )?.marketId,
-              },
-              marketCompleteMatch: {
-                marketId: data?.find(
-                  (match: any) =>
-                    match?.description?.marketType === "COMPLETED_MATCH"
-                )?.marketId,
-              },
+            matchOdd: {
+              marketId: data?.find(
+                (match: any) => match?.description?.marketType === "MATCH_ODDS"
+              )?.marketId,
+            },
+            apiTideMatch: {
+              marketId: data?.find(
+                (match: any) => match?.description?.marketType === "TIED_MATCH"
+              )?.marketId,
+            },
+            marketCompleteMatch: {
+              marketId: data?.find(
+                (match: any) =>
+                  match?.description?.marketType === "COMPLETED_MATCH"
+              )?.marketId,
+            },
           };
-        }else if(requestData?.eventType === "football"){
+        } else if (requestData?.eventType === "football") {
           extraMarketList = {
             matchOdd: {
               marketId: data?.find(
@@ -142,8 +142,8 @@ export const getExtraMarketList = createAsyncThunk<any, any>(
               },
               {}
             ),
-        };
-        }else if(requestData?.eventType === "tennis"){
+          };
+        } else if (requestData?.eventType === "tennis") {
           extraMarketList = {
             matchOdd: {
               marketId: requestData?.matchOddId,
@@ -153,14 +153,15 @@ export const getExtraMarketList = createAsyncThunk<any, any>(
                 prev[`setWinner${curr}`] = {
                   marketId: data?.find(
                     (match: any) =>
-                      match?.description?.marketType === `SET_WINNER` && match?.marketName === `Set ${curr} Winner`
+                      match?.description?.marketType === `SET_WINNER` &&
+                      match?.marketName === `Set ${curr} Winner`
                   )?.marketId,
                 };
                 return prev;
               },
               {}
             ),
-        };
+          };
         }
         // let extraMarketList: any = {
         //   matchOdd: {
@@ -322,6 +323,12 @@ export const updateRates = createAsyncThunk<any, any>(
   "/match/ratesUpdate",
   async (rates) => {
     return rates;
+  }
+);
+export const handleBetResultStatus = createAsyncThunk<any, any>(
+  "/match/betResultStatus",
+  async (data) => {
+    return data;
   }
 );
 export const addMatchReset = createAction("add/reset");

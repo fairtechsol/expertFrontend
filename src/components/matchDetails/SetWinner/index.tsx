@@ -1,15 +1,15 @@
 import { Box, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
-import Stop from "../SessionMarket/Stop";
-import SmallBox from "../SmallBox";
-import { ARROWUP } from "../../../assets";
-import Divider from "../../Common/Divider";
-import BoxComponent from "../MatchOdds/BoxComponent";
-import { betLiveStatus } from "../../../store/actions/match/matchAction";
 import { useDispatch } from "react-redux";
+import { ARROWUP } from "../../../assets";
+import { betLiveStatus } from "../../../store/actions/match/matchAction";
 import { AppDispatch } from "../../../store/store";
 import { profitLossDataForMatchConstants } from "../../../utils/Constants";
+import Divider from "../../Common/Divider";
 import { formatToINR } from "../../helper";
+import BoxComponent from "../MatchOdds/BoxComponent";
+import Stop from "../SessionMarket/Stop";
+import SmallBox from "../SmallBox";
 
 const SetWinner = ({ currentMatch, liveData, title }: any) => {
   const dispatch: AppDispatch = useDispatch();
@@ -306,7 +306,10 @@ const SetWinner = ({ currentMatch, liveData, title }: any) => {
                   }}
                 >
                   <Typography sx={{ color: "#fff" }}>
-                    RESULT {currentMatch?.resultStatus[liveData?.id]?.status}
+                    RESULT{" "}
+                    {liveData?.stopAt || liveData?.activeStatus === "result"
+                      ? "DECLARED"
+                      : currentMatch?.resultStatus[liveData?.id]?.status}
                   </Typography>
                 </Box>
               )}
