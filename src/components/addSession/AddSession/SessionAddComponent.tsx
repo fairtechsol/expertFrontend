@@ -393,7 +393,7 @@ const SessionAddComponent = ({ createSession, match, setMode }: any) => {
       <Box
         onClick={(e) => {
           e.stopPropagation();
-          if (!createSession && inputDetail?.resultStatus !== "PENDING") {
+          if (!createSession && inputDetail?.resultStatus !== "PENDING" && inputDetail?.resultStatus !== "MISSMATCHED") {
             setVisible3(true);
           }
         }}

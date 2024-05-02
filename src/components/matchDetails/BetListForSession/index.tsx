@@ -225,7 +225,7 @@ const BetListForSession = ({ tag, allBetRates }: any) => {
       <Box
         sx={{
           overflowX: "auto",
-          width: { lg: "33vw", xs: "99vw", md: "100vw" },
+          width: { lg: "33vw", xs: "100vw", md: "100vw" },
           "::-webkit-scrollbar": {
             display: "none",
           },
@@ -236,7 +236,7 @@ const BetListForSession = ({ tag, allBetRates }: any) => {
             <Box
               sx={{
                 maxHeight: "80vh",
-                width: { xs: "150vw", lg: "33vw", md: "98vw" },
+                width: { xs: "150vw", lg: "33vw", md: "100vw" },
                 overflow: "auto",
               }}
             >
