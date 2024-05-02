@@ -9,6 +9,7 @@ import {
   declareMatchResult,
   declareMatchStatusReset,
   otherDeclareMatchResult,
+  otherUnDeclareMatchResult,
   unDeclareMatchResult,
 } from "../../../store/actions/match/matchDeclareActions";
 
@@ -71,7 +72,7 @@ const ResultComponent = ({
             display: "flex",
             alignItems: "center",
             height: "50px",
-            borderRadius: "10px 10px 0 0",
+            borderRadius: "8px 8px 0 0",
             background: "#ff4d4d",
           },
         ]}
@@ -172,11 +173,27 @@ const ResultComponent = ({
                       return false;
                     }
                     setLoading({ id: "UD", value: true });
+                    if(currentMatch.matchType==='cricket'){
                     dispatch(
                       unDeclareMatchResult({
                         matchId: currentMatch?.id,
                       })
                     );
+                  }else{
+                    liveData?.type ==='matchOdd' ?
+                    dispatch(
+                      otherUnDeclareMatchResult({
+                        matchId: currentMatch?.id,
+                      })
+                    )
+                    :
+                    dispatch(
+                      otherUnDeclareMatchResult({
+                        matchId: currentMatch?.id,
+                        betId:liveData?.id,
+                      })
+                    );
+                  }
                   } catch (e) {
                     console.log(e);
                   }

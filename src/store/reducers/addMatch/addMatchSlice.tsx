@@ -155,7 +155,6 @@ const addMatch = createSlice({
         state.matchDetail = action.payload;
         state.success = true;
         state.loading = false;
-
         action.payload?.sessionBettings?.forEach((item: any) => {
           item = JSON.parse(item);
           if (item.selectionId) {
@@ -457,6 +456,16 @@ const addMatch = createSlice({
             };
           }
         }
+        state.matchDetail = {
+          ...state.matchDetail,
+          resultStatus: {
+            ...state.matchDetail?.resultStatus,
+            [betId]: {
+              betId: betId,
+              status: status,
+            },
+          },
+        };
       });
   },
 });

@@ -384,34 +384,42 @@ const MatchOdds = ({ currentMatch, matchOddsLive }: any) => {
                 }
                 lock={
                   matchOddsLive?.runners !== undefined &&
-                    matchOddsLive?.runners?.length > 0
+                  matchOddsLive?.runners?.length > 0
                     ? false
                     : true
                 }
                 name={currentMatch?.teamA}
                 currentMatch={currentMatch}
                 teamRates={
-                  currentMatch?.teamRates ?
-                    currentMatch?.teamRates[
-                      profitLossDataForMatchConstants[matchOddsLive?.type]?.A
-                    ] ? currentMatch?.teamRates[
-                    profitLossDataForMatchConstants[matchOddsLive?.type]?.A
-                    ] : 0 : 0
+                  currentMatch?.teamRates
+                    ? currentMatch?.teamRates[
+                        profitLossDataForMatchConstants[matchOddsLive?.type]?.A
+                      ]
+                      ? currentMatch?.teamRates[
+                          profitLossDataForMatchConstants[matchOddsLive?.type]
+                            ?.A
+                        ]
+                      : 0
+                    : 0
                 }
               />
               <Divider />
               <BoxComponent
                 teamRates={
-                  currentMatch?.teamRates ?
-                    currentMatch?.teamRates[
-                      profitLossDataForMatchConstants[matchOddsLive?.type]?.B
-                    ] ? currentMatch?.teamRates[
-                    profitLossDataForMatchConstants[matchOddsLive?.type]?.B
-                    ] : 0 : 0
+                  currentMatch?.teamRates
+                    ? currentMatch?.teamRates[
+                        profitLossDataForMatchConstants[matchOddsLive?.type]?.B
+                      ]
+                      ? currentMatch?.teamRates[
+                          profitLossDataForMatchConstants[matchOddsLive?.type]
+                            ?.B
+                        ]
+                      : 0
+                    : 0
                 }
                 lock={
                   matchOddsLive?.runners !== undefined &&
-                    matchOddsLive?.runners?.length > 0
+                  matchOddsLive?.runners?.length > 0
                     ? false
                     : true
                 }
@@ -428,15 +436,22 @@ const MatchOdds = ({ currentMatch, matchOddsLive }: any) => {
                   <Divider />
                   <BoxComponent
                     teamRates={
-                      currentMatch?.teamRates ? currentMatch?.teamRates[
-                        profitLossDataForMatchConstants[matchOddsLive?.type]?.C
-                      ] ? currentMatch?.teamRates[
-                      profitLossDataForMatchConstants[matchOddsLive?.type]?.C
-                      ] : 0 : 0
+                      currentMatch?.teamRates
+                        ? currentMatch?.teamRates[
+                            profitLossDataForMatchConstants[matchOddsLive?.type]
+                              ?.C
+                          ]
+                          ? currentMatch?.teamRates[
+                              profitLossDataForMatchConstants[
+                                matchOddsLive?.type
+                              ]?.C
+                            ]
+                          : 0
+                        : 0
                     }
                     lock={
                       matchOddsLive?.runners !== undefined &&
-                        matchOddsLive?.runners?.length > 0
+                      matchOddsLive?.runners?.length > 0
                         ? false
                         : true
                     }
@@ -462,25 +477,27 @@ const MatchOdds = ({ currentMatch, matchOddsLive }: any) => {
                   }}
                 ></Box>
               )}
-              {currentMatch?.resultStatus && (
-                <Box
-                  sx={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    width: "100%",
-                    position: "absolute",
-                    height: "100%",
-                    bottom: 0,
-                    color: "#fff",
-                    backgroundColor: "rgba(203 24 24 / 70%)",
-                  }}
-                >
-                  <Typography sx={{ color: "#fff" }}>
-                    RESULT {currentMatch?.resultStatus}
-                  </Typography>
-                </Box>
-              )}
+              {currentMatch?.resultStatus &&
+                currentMatch?.resultStatus[matchOddsLive?.id]?.status && (
+                  <Box
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      width: "100%",
+                      position: "absolute",
+                      height: "100%",
+                      bottom: 0,
+                      color: "#fff",
+                      backgroundColor: "rgba(203 24 24 / 70%)",
+                    }}
+                  >
+                    <Typography sx={{ color: "#fff" }}>
+                      RESULT{" "}
+                      {currentMatch?.resultStatus[matchOddsLive?.id]?.status}
+                    </Typography>
+                  </Box>
+                )}
             </Box>
           </>
         )}

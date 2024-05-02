@@ -54,5 +54,22 @@ export const unDeclareMatchResult = createAsyncThunk<any, any>(
     }
   }
 );
+export const otherUnDeclareMatchResult = createAsyncThunk<any, any>(
+  "/match/otherUnDeclareResult",
+  async (requestData, thunkApi) => {
+    try {
+      const response = await service.post(
+        `${ApiConstants.MATCH.OTHER_UNDECLARE}`,
+        requestData
+      );
+      if (response?.status === 200) {
+        return response?.data;
+      }
+    } catch (error) {
+      const err = error as AxiosError;
+      return thunkApi.rejectWithValue(err.response?.status);
+    }
+  }
+);
 
 export const declareMatchStatusReset = createAction("declareMatch/reset");

@@ -17,7 +17,7 @@ const MarketCustomButton = ({
       sx={[
         {
           width: "45%",
-          height: "20px",
+          height: "30px",
           borderRadius: "5px",
           background: color,
           cursor: "pointer",

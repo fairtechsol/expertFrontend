@@ -10,7 +10,7 @@ import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../../store/store";
 import { formatToINR } from "../../helper";
 
-const CompleteMatchMarket = ({ currentMatch, liveData,title }: any) => {
+const CompleteMatchMarket = ({ currentMatch, liveData, title }: any) => {
   const dispatch: AppDispatch = useDispatch();
   const [visibleImg, setVisibleImg] = useState(true);
   const [live, setLive] = useState(
@@ -251,6 +251,26 @@ const CompleteMatchMarket = ({ currentMatch, liveData,title }: any) => {
                 }}
               ></Box>
             )}
+            {currentMatch?.resultStatus &&
+              currentMatch?.resultStatus[liveData?.id]?.status && (
+                <Box
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    width: "100%",
+                    position: "absolute",
+                    height: "100%",
+                    bottom: 0,
+                    color: "#fff",
+                    backgroundColor: "rgba(203 24 24 / 70%)",
+                  }}
+                >
+                  <Typography sx={{ color: "#fff" }}>
+                    RESULT {currentMatch?.resultStatus[liveData?.id]?.status}
+                  </Typography>
+                </Box>
+              )}
           </Box>
         </>
       )}

@@ -3,6 +3,7 @@ import {
   declareMatchResult,
   declareMatchStatusReset,
   otherDeclareMatchResult,
+  otherUnDeclareMatchResult,
   unDeclareMatchResult,
 } from "../../actions/match/matchDeclareActions";
 import {
@@ -75,6 +76,19 @@ const matchDeclare = createSlice({
         state.loading = false;
       })
       .addCase(unDeclareMatchResult.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action?.error?.message;
+      })
+      .addCase(otherUnDeclareMatchResult.pending, (state) => {
+        state.loading = true;
+        state.success = false;
+        state.error = null;
+      })
+      .addCase(otherUnDeclareMatchResult.fulfilled, (state) => {
+        state.success = true;
+        state.loading = false;
+      })
+      .addCase(otherUnDeclareMatchResult.rejected, (state, action) => {
         state.loading = false;
         state.error = action?.error?.message;
       })

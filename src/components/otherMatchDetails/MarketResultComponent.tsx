@@ -1,14 +1,16 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Typography, TextField } from "@mui/material";
 import { useEffect, useState } from "react";
 import { memo } from "react";
 
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store/store";
-import {  declareMatchStatusReset, otherDeclareMatchResult, unDeclareMatchResult } from "../../store/actions/match/matchDeclareActions";
+import {
+  declareMatchStatusReset,
+  otherDeclareMatchResult,
+  otherUnDeclareMatchResult,
+} from "../../store/actions/match/matchDeclareActions";
 import { CancelDark } from "../../assets";
 import MarketCustomButton from "./MarketCustomButton";
-
-
 
 const MarketResultComponent = ({
   currentMatch,
@@ -16,20 +18,16 @@ const MarketResultComponent = ({
   teamA,
   teamB,
   stopAt,
-  liveData
+  liveData,
 }: any) => {
   const dispatch: AppDispatch = useDispatch();
   const { success, error } = useSelector((state: RootState) => state.match);
-  const [selected, setSelected] = useState(teamA);
-  const [selected2, setSelected2] = useState("UNDER");
+  const [selected, setSelected] = useState("");
   const [loading, setLoading] = useState({ id: "", value: false });
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
   };
-//   const teamData = draw
-//     ? [`${teamA}`, `${teamB}`, `${draw}`, `${tie}`]
-//     : [`${teamA}`, `${teamB}`, `${tie}`];
 
   useEffect(() => {
     try {
@@ -50,13 +48,12 @@ const MarketResultComponent = ({
     <Box
       sx={{
         position: "absolute",
-        width: { lg: "60%", xs: "100%", md: "30vw" },
-        marginRight: {md: "6em", xs: "4em"},
+        width: { lg: "40%", xs: "80%", md: "20vw" },
+        marginRight: { md: "6em", xs: "4em" },
         borderRadius: 2,
         boxShadow: "0px 5px 10px #1A568414",
         background: "white",
-            zIndex: 999,
- 
+        zIndex: 999,
       }}
     >
       <Box
@@ -68,7 +65,7 @@ const MarketResultComponent = ({
             display: "flex",
             alignItems: "center",
             height: "30px",
-            borderRadius: "10px 10px 0 0",
+            borderRadius: "8px 8px 0 0",
             background: "#ff4d4d",
           },
         ]}
@@ -103,82 +100,69 @@ const MarketResultComponent = ({
               alignSelf: "center",
               alignItems: "center",
               justifyContent: "center",
-              px: "10px",
+              px: "5px",
               py: "5px",
             }}
           >
-                <Box
-                  onClick={() => {
-                    setSelected(teamA);
-                    setSelected2('UNDER');
-                  }}
-                  sx={{
-                    width: "40%",
-                    marginY: "5px",
-                    marginX: "5px",
-                    borderRadius: "3px",
-                    border: "2px solid #2626261A",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    height: "30px",
-                    cursor: "pointer",
-                    background: selected === teamA ? "#0B4F26" : "#F8C851",
-                    overflow: "hidden",
-                  }}
-                >
-                  <Typography
-                    sx={{
-                      fontSize: "10px",
-                      fontWeight: "700",
-                      color: selected === teamA ? "white" : "black",
-                      lineHeight: 1,
-                      overflowWrap: "anywhere",
-                    }}
-                  >
-                    {teamA}
-                  </Typography>
-                </Box>
-              
-         
-                <Box
-                  onClick={() => {
-                    setSelected(teamB);
-                    setSelected2('OVER');
-                  }}
-                  sx={{
-                    width: "40%",
-                    marginY: "5px",
-                    marginX: "5px",
-                    borderRadius: "3px",
-                    border: "2px solid #2626261A",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    height: "30px",
-                    cursor: "pointer",
-                    background: selected === teamB ? "#0B4F26" : "#F8C851",
-                    overflow: "hidden",
-                  }}
-                >
-                  <Typography
-                    sx={{
-                      fontSize: "10px",
-                      fontWeight: "700",
-                      color: selected === teamB ? "white" : "black",
-                      lineHeight: 1,
-                      overflowWrap: "anywhere",
-                    }}
-                  >
-                   {teamB}
-                  </Typography>
-                </Box>
+            <Box
+              sx={{
+                width: "100%",
+                border: "none",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                height: "30px",
+              }}
+            >
+              <Typography
+                sx={{
+                  width:'50%',
+                  fontSize: "12px",
+                  fontWeight: "700",
+                  color: "black",
+                  lineHeight: 1,
+                  // overflowWrap: "anywhere",
+                  // textAlign:'center'
+                  display:'flex',
+                  justifyContent:'center',
+                  alignItems:'center'
+                }}
+              >
+                {"Score : "}
+              </Typography>
+              <TextField
+                autoFocus
+                placeholder="Score"
+                variant="standard"
+                value={selected}
+                // onChange={(e) => setSelected(e?.target.value)}
+                onChange={(e: any) => {
+                  const numericValue = e.target.value.replace(/[^0-9]/g, "");
+                  setSelected(numericValue);
+                }}
+                InputProps={{
+                  disableUnderline: true,
+                  sx: {
+                    width: "69%",
+                    alignSelf:'end',
+                    border: "1px solid #303030",
+                    borderRadius: "5px",
+                    paddingY: "5px",
+                    paddingX: "0.5vw",
+                    height: "28px",
+                    backgroundColor: "white",
+                    display:'flex',
+                    // justifyContent:'flex-start'
+                  },
+                }}
+              />
+            </Box>
           </Box>
 
           <Box
             sx={{
               width: "100%",
-              height: "30px",
+              height: "40px",
               paddingY: "10px",
               justifyContent: "space-evenly",
               display: "flex",
@@ -200,8 +184,9 @@ const MarketResultComponent = ({
                     }
                     setLoading({ id: "UD", value: true });
                     dispatch(
-                      unDeclareMatchResult({
+                      otherUnDeclareMatchResult({
                         matchId: currentMatch?.id,
+                        betId: liveData?.id,
                       })
                     );
                   } catch (e) {
@@ -221,12 +206,15 @@ const MarketResultComponent = ({
                       if (loading?.value) {
                         return false;
                       }
+                      if (selected === "") {
+                        return false;
+                      }
                       setLoading({ id: "DR", value: true });
                       dispatch(
                         otherDeclareMatchResult({
                           matchId: currentMatch?.id,
-                          result: selected2,
-                          betId:liveData?.id,
+                          result: selected,
+                          betId: liveData?.id,
                         })
                       );
                     } catch (e) {
@@ -249,7 +237,7 @@ const MarketResultComponent = ({
                         otherDeclareMatchResult({
                           matchId: currentMatch?.id,
                           result: "No Result",
-                          betId:liveData?.id,
+                          betId: liveData?.id,
                         })
                       );
                     } catch (e) {
