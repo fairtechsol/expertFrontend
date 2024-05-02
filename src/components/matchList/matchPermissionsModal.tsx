@@ -29,6 +29,7 @@ const MatchPermissionsModal = (props: any) => {
         width: "100%",
         display: "flex",
         background: "#ffe094",
+        // justifyContent: "space-between",
         minHeight: { xs: "auto", md: "auto", lg: "7rem" },
       }}
     >
@@ -124,24 +125,51 @@ const MatchPermissionsModal = (props: any) => {
           />
         )}
       </Box>
-      <Box
-        sx={{
-          width: { xs: "auto", sm: "auto", md: "20%" },
-          flex: 1,
-          marginRight: "10px",
-        }}
-      >
-        {showUserModal && !matchesMobile && (
+      {showUserModal && !matchesMobile && (
+        <Box
+          sx={{
+            width: "20%",
+            flex: 1,
+            display: "flex",
+            justifyContent: "flex-end",
+            marginRight: "10px",
+            alignItems: "end",
+            marginBottom: "10px",
+            flexDirection: "column",
+          }}
+        >
           <Box
             sx={{
               display: "flex",
-              justifyContent: "flex-end",
               alignItems: "center",
-              marginTop: "4rem",
-              flexDirection: { xs: "column", sm: "column", md: "row" },
+              marginRight: "6px",
+              flexWrap: "wrap",
+              flexDirection: "column",
             }}
           >
             {data?.stopAt && (
+              <MatchListProfitLoss
+                updateMatchStatusLabel="Total Profit/Loss"
+                updateMatchStatus={
+                  data?.pl &&
+                  data?.pl?.length > 0 &&
+                  data?.pl[0]?.totalProfitLoss
+                }
+                place="1"
+                cursor="default"
+              />
+            )}
+            {data?.stopAt && (
+              <MatchListProfitLoss
+                updateMatchStatusLabel="Commission"
+                updateMatchStatus={
+                  data?.pl && data?.pl?.length > 0 && data?.pl[0]?.commission
+                }
+                place="1"
+                cursor="default"
+              />
+            )}
+            {data?.matchType === "cricket" && data?.stopAt && (
               <MatchListProfitLoss
                 containerStyle={{
                   minWidth: { xs: "4%", sm: "12px" },
@@ -149,27 +177,49 @@ const MatchPermissionsModal = (props: any) => {
                   marginBottom: { xs: "1rem", sm: "1rem", md: 0 },
                 }}
                 onClick={() => handleMatchProfitLossClick(data?.id)}
-                updateMatchStatusLabel="Match Profit/Loss"
+                updateMatchStatusLabel="Session Profit/Loss"
                 updateMatchStatus={
                   data?.pl &&
                   data?.pl?.length > 0 &&
-                  data?.pl[0]?.totalProfitLoss
+                  data?.pl[0]?.sessionTotalProfitLoss
                 }
                 place="1"
+                cursor="pointer"
+              />
+            )}
+          </Box>
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "flex-end",
+              marginBottom: "10px",
+            }}
+          >
+            {data?.matchType === "cricket" && (getProfile?.allPrivilege ||
+              getProfile?.sessionMatchPrivilege) && (
+              <CustomButton
+                containerStyle={{
+                  margin: "5px",
+                }}
+                onClick={() => {
+                  navigate(`/expert/session`, {
+                    state: { id: data?.id, marketId: data?.marketId },
+                  });
+                }}
+                title={"Session"}
               />
             )}
             {(getProfile?.allPrivilege ||
               getProfile?.betFairMatchPrivilege) && (
               <CustomButton
                 containerStyle={{
-                  minWidth: { xs: "95%", sm: "100px" },
-                  width: { xs: "49%", sm: "100px", lg: "100px" },
-                  marginTop: { xs: "1rem", sm: "1rem", md: 0 },
+                  margin: "5px",
                 }}
-                title={"Submit"}
+                title={"Match"}
                 onClick={() => {
                   if (data?.matchType === "cricket") {
-                    navigate(`/expert/betOdds`, {
+                    navigate(`/expert/market`, {
                       state: { id: data?.id, marketId: data?.marketId },
                     });
                   } else {
@@ -183,9 +233,7 @@ const MatchPermissionsModal = (props: any) => {
             {(getProfile?.allPrivilege || getProfile?.addMatchPrivilege) && (
               <CustomButton
                 containerStyle={{
-                  minWidth: { xs: "95%", sm: "100px" },
-                  width: { xs: "49%", sm: "100px" },
-                  marginTop: { xs: "1rem", sm: "1rem", md: 0 },
+                  margin: "5px",
                 }}
                 onClick={() => {
                   navigate(`/expert/edit_match`, {
@@ -196,8 +244,8 @@ const MatchPermissionsModal = (props: any) => {
               />
             )}
           </Box>
-        )}
-      </Box>
+        </Box>
+      )}
     </Box>
   );
 };

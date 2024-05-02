@@ -1,10 +1,11 @@
 import { Box, TextField, Typography } from "@mui/material";
-import StyledImage from "../../Common/StyledImages";
 import KeyboardEventHandler from "react-keyboard-event-handler";
 import { BallStart, LiveOff, Lock } from "../../../assets";
-import CustomDisableInput from "../../Common/CustomDisableInput";
-import { handleKeysMatchEvents } from "../../../utils/InputKeys/Session/SessionInputKeys";
+import { numberInputOnWheelPreventChange } from "../../../helpers";
 import { socketService } from "../../../socketManager";
+import { handleKeysMatchEvents } from "../../../utils/InputKeys/Session/SessionInputKeys";
+import CustomDisableInput from "../../Common/CustomDisableInput";
+import StyledImage from "../../Common/StyledImages";
 
 const AddSessionInput = (props: any) => {
   const {
@@ -29,46 +30,50 @@ const AddSessionInput = (props: any) => {
   // const handleSuspend = () => {};
 
   const handleChange = (event: any) => {
-    const { value } = event.target;
-    let targetValue = +value ? +value : 0;
-    setLock((prev: any) => {
-      return {
-        ...prev,
-        isNo: true,
-        isYes: true,
-        isNoPercent: true,
-        isYesPercent: true,
-      };
-    });
-    setIsBall(false);
-    if (targetValue >= 0 && targetValue <= 999) {
-      setInputDetail((prev: any) => {
+    try {
+      const { value } = event.target;
+      let targetValue = +value ? +value : 0;
+      setLock((prev: any) => {
         return {
           ...prev,
-          noRate: targetValue,
-          yesRate: targetValue + 1,
-          yesRatePercent: targetValue >= 0 ? 100 : "",
-          noRatePercent: targetValue >= 0 ? 100 : "",
-          leftNoRate: targetValue,
-          leftYesRate: targetValue + 1,
-          leftYesRatePercent: targetValue >= 0 ? 100 : "",
-          leftNoRatePercent: targetValue >= 0 ? 100 : "",
+          isNo: true,
+          isYes: true,
+          isNoPercent: true,
+          isYesPercent: true,
         };
       });
-      setInputDetail((prev: any) => {
-        let data = {
-          matchId: match?.id,
-          id: betId,
-          noRate: prev?.leftNoRate,
-          yesRate: prev?.leftYesRate,
-          noPercent: prev?.leftNoRatePercent,
-          yesPercent: prev?.leftYesRatePercent,
-          status: "suspended",
-        };
-        socketService.user.updateSessionRate(data);
-        return prev;
-      });
-    } else return;
+      setIsBall(false);
+      if (targetValue >= 0 && targetValue <= 999) {
+        setInputDetail((prev: any) => {
+          return {
+            ...prev,
+            noRate: targetValue,
+            yesRate: targetValue + 1,
+            yesRatePercent: targetValue >= 0 ? 100 : "",
+            noRatePercent: targetValue >= 0 ? 100 : "",
+            leftNoRate: targetValue,
+            leftYesRate: targetValue + 1,
+            leftYesRatePercent: targetValue >= 0 ? 100 : "",
+            leftNoRatePercent: targetValue >= 0 ? 100 : "",
+          };
+        });
+        setInputDetail((prev: any) => {
+          let data = {
+            matchId: match?.id,
+            id: betId,
+            noRate: prev?.leftNoRate,
+            yesRate: prev?.leftYesRate,
+            noPercent: prev?.leftNoRatePercent,
+            yesPercent: prev?.leftYesRatePercent,
+            status: "suspended",
+          };
+          socketService.user.updateSessionRate(data);
+          return prev;
+        });
+      } else return;
+    } catch (error) {
+      console.error(error);
+    }
     // handleSuspend();
   };
 
@@ -119,7 +124,7 @@ const AddSessionInput = (props: any) => {
         </Box>
       </Box>
       <Box sx={{ display: "flex" }}>
-        <Box sx={{ background: "#FFFFFF", width: "40%" }}>
+        <Box sx={{ background: "#FFFFFF", width: "30%" }}>
           <TextField
             onChange={(e: any) => {
               setInputDetail((prev: any) => {
@@ -131,7 +136,7 @@ const AddSessionInput = (props: any) => {
             }}
             autoComplete="off"
             disabled={!isCreateSession ? true : false}
-            value={inputDetail.betCondition}
+            value={inputDetail?.betCondition}
             variant="standard"
             InputProps={{
               placeholder: "Your Bet Condition Here...",
@@ -142,15 +147,38 @@ const AddSessionInput = (props: any) => {
                 height: "45px",
                 fontWeight: "600",
                 color: "black",
+                cursor: !isCreateSession ? "not-allowed" : "auto",
               },
             }}
           />
         </Box>
         <Box
           display={"flex"}
-          sx={{ borderLeft: "2px solid white", width: "60%" }}
+          sx={{ borderLeft: "2px solid white", width: "70%" }}
         >
-          <Box sx={{ width: "40%" }}>
+          {!inputDetail?.result && inputDetail?.resultStatus && (
+            <Box
+              sx={{
+                position: "absolute",
+                top: 0,
+                right: 0,
+                width: "70%",
+                height: "100%",
+                backgroundColor: "rgba(203 24 24 / 70%)",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                zIndex: 999,
+              }}
+            >
+              <Typography
+                sx={{ color: "#fff", fontWeight: "bold", fontSize: "14px" }}
+              >
+                RESULT {inputDetail?.resultStatus}
+              </Typography>
+            </Box>
+          )}
+          <Box sx={{ width: "57%" }}>
             <Box display={"flex"} sx={{ borderTop: "2px solid white" }}>
               <Box
                 sx={{
@@ -208,6 +236,7 @@ const AddSessionInput = (props: any) => {
                     <TextField
                       disabled={isDisable}
                       onChange={(e) => handleChange(e)}
+                      onWheel={numberInputOnWheelPreventChange}
                       type="Number"
                       autoComplete="off"
                       inputRef={inputRef}

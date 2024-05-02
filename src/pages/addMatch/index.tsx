@@ -25,7 +25,7 @@ import {
   getAllEventsList,
   getAllLiveTournaments,
   getMatchDetail,
-  matchDetailReset,
+  matchDetailSuccessReset,
   tournamentListReset,
   updateExtraMarketListOnEdit,
 } from "../../store/actions/addMatch/addMatchAction";
@@ -118,6 +118,7 @@ const AddMatch = () => {
     matchDetail,
     success,
     matchAdded,
+    loading,
   } = useSelector((state: RootState) => state.addMatch.addMatch);
 
   const [selected, setSelected] = useState(initialValues);
@@ -137,17 +138,16 @@ const AddMatch = () => {
 
   const { editSuccess } = useSelector((state: RootState) => state.matchList);
   const formik = useFormik({
-    validationSchema: addMatchValidation(
-      manualMatchToggle,
-      selected.gameType,
-      extraMarketList
-    ),
+    // validationSchema: addMatchValidation(manualMatchToggle, selected.gameType,extraMarketList),
     initialValues: initialFormikValues,
     onSubmit: (value: any) => {
       if (!eventWiseMatchData[selected.gameType]) {
         toast.error("This game is not available yet.");
       }
 
+      if (loading) {
+        return;
+      }
       if (state?.id) {
         let bookmakers;
 
@@ -453,7 +453,7 @@ const AddMatch = () => {
       dispatch(addMatchReset());
     }
   }, [state?.id, matchAdded]);
-
+// console.log('matchDetail',matchDetail)
   useEffect(() => {
     try {
       if (matchDetail && state?.id) {
@@ -532,7 +532,7 @@ const AddMatch = () => {
               startAt: matchDetail?.startAt,
             };
           });
-          dispatch(matchDetailReset());
+          dispatch(matchDetailSuccessReset());
         }
       }
     } catch (e) {
@@ -619,6 +619,7 @@ const AddMatch = () => {
                   background: "#0B4F26",
                   border: "1px solid #DEDEDE",
                   borderRadius: "5px",
+                  cursor: state?.id ? "not-allowed" : "pointer",
                 }}
                 containerStyle={{
                   width: "100%",
@@ -662,13 +663,14 @@ const AddMatch = () => {
                   disable={state?.id ? true : false}
                   data={tournamentList}
                   valueStyle={{ ...inputStyle, color: "white" }}
-                  title={"Tournament Name"}
+                  title={"Tournament Name*"}
                   valueContainerStyle={{
                     height: "45px",
                     marginX: "0px",
                     background: "#0B4F26",
                     border: "1px solid #DEDEDE",
                     borderRadius: "5px",
+                    cursor: state?.id ? "not-allowed" : "pointer",
                   }}
                   containerStyle={{
                     width: "100%",
@@ -694,7 +696,7 @@ const AddMatch = () => {
               ) : (
                 <MatchListInput
                   required={true}
-                  label={"Tournament Name"}
+                  label={"Tournament Name*"}
                   type={"text"}
                   onChange={handleInputChange}
                   placeholder="Enter your Tournament Name"
@@ -723,13 +725,14 @@ const AddMatch = () => {
                   }}
                   disable={state?.id ? true : false}
                   valueStyle={{ ...inputStyle, color: "white" }}
-                  title={"Match Name"}
+                  title={"Match Name*"}
                   valueContainerStyle={{
                     height: "45px",
                     marginX: "0px",
                     background: "#0B4F26",
                     border: "1px solid #DEDEDE",
                     borderRadius: "5px",
+                    cursor: state?.id ? "not-allowed" : "pointer",
                   }}
                   // touched={touched.competitionName}
                   gameType={selected.gameType}
@@ -769,7 +772,7 @@ const AddMatch = () => {
               ) : (
                 <MatchListInput
                   required={true}
-                  label={"Match Name"}
+                  label={"Match Name*"}
                   type={"text"}
                   onChange={handleInputChange}
                   placeholder="Enter your Match Name"
@@ -850,7 +853,7 @@ const AddMatch = () => {
                 <DemoContainer components={["DateTimePicker"]}>
                   <DemoItem>
                     <Typography sx={{ fontSize: "12px" }}>
-                      Start Time
+                      Start Time*
                     </Typography>
                     <DateTimePicker
                       disabled={state?.id || !manualMatchToggle}
@@ -884,10 +887,8 @@ const AddMatch = () => {
             {/* <Box sx={{ width: { xs: "100%", lg: "18%", md: "24%" } }}>
               <LabelValueComponent
                 icon={Upload}
-                containerStyle={{ flex: 1, width: "100%" }}
                 title={"Image (Optional)"}
                 value="No File Selected..."
-                InputValType={"FileSelectVal"}
                 place={6}
                 DetailError={{
                   type: "String",
@@ -897,10 +898,8 @@ const AddMatch = () => {
             <Box sx={{ width: { xs: "100%", lg: "18%", md: "24%" } }}>
               <LabelValueComponent
                 icon={Upload}
-                containerStyle={{ flex: 1, width: "100%" }}
                 title={"Team A Image (Optional)"}
                 value="No File Selected..."
-                InputValType={"FileSelectVal"}
                 place={10}
                 DetailError={{
                   type: "String",
@@ -910,10 +909,8 @@ const AddMatch = () => {
             <Box sx={{ width: { xs: "100%", lg: "18%", md: "24%" } }}>
               <LabelValueComponent
                 icon={Upload}
-                containerStyle={{ flex: 1, width: "100%" }}
                 title={"Team B Image (Optional)"}
                 value="No File Selected..."
-                InputValType={"FileSelectVal"}
                 place={14}
                 DetailError={{
                   type: "String",
@@ -923,7 +920,8 @@ const AddMatch = () => {
             <Box sx={{ width: { xs: "100%", lg: "18%", md: "24%" } }}>
               <MatchListInput
                 required={true}
-                label={"Min Bet"}
+                disable={state?.id}
+                label={"Min Bet*"}
                 type={"Number"}
                 touched={touched.minBet}
                 errors={errors.minBet}
@@ -944,7 +942,8 @@ const AddMatch = () => {
               <Box sx={{ width: { xs: "100%", lg: "18%", md: "24%" } }}>
                 <MatchListInput
                   required={true}
-                  label={"Betfair Session Max Bet"}
+                  containerStyle={{ flex: 1, width: "100%" }}
+                  label={"Betfair Session Max Bet*"}
                   type={"Number"}
                   placeholder="Betfair Session Max Bet..."
                   place={11}
@@ -967,7 +966,8 @@ const AddMatch = () => {
                 <Box sx={{ width: { xs: "100%", lg: "18%", md: "24%" } }}>
                   <MatchListInput
                     required={true}
-                    label={item?.label}
+                    containerStyle={{ flex: 1, width: "100%" }}
+                    label={`${item?.label}*`}
                     {...formik.getFieldProps(`${item?.matchType}.maxBet`)}
                     type={"Number"}
                     touched={(touched?.[item?.matchType] as any)?.maxBet}
@@ -997,7 +997,8 @@ const AddMatch = () => {
                     <Box sx={{ width: { xs: "100%", lg: "18%", md: "24%" } }}>
                       <MatchListInput
                         required={true}
-                        label={item?.label}
+                        containerStyle={{ flex: 1, width: "100%" }}
+                        label={`${item?.label}*`}
                         {...formik.getFieldProps(`${item?.matchType}.maxBet`)}
                         onChange={(e: any) => {
                           formik.setValues({
@@ -1038,7 +1039,7 @@ const AddMatch = () => {
                   }}
                   disable={state?.id ? true : false}
                   valueStyle={{ ...inputStyle, color: "white" }}
-                  title={"Bookmaker"}
+                  title={"Bookmaker*"}
                   valueContainerStyle={{
                     height: "45px",
                     marginX: "0px",
@@ -1089,7 +1090,7 @@ const AddMatch = () => {
                     >
                       <MatchListInput
                         required={true}
-                        label={"Market Name"}
+                        label={"Market Name*"}
                         type={"text"}
                         placeholder="Enter Market Name..."
                         place={11}
@@ -1112,7 +1113,7 @@ const AddMatch = () => {
                     >
                       <MatchListInput
                         required={true}
-                        label={"Max Limit"}
+                        label={"Max Limit*"}
                         type={"number"}
                         placeholder="Enter Max Bet..."
                         place={11}
@@ -1137,7 +1138,7 @@ const AddMatch = () => {
                     >
                       <MatchListInput
                         required={true}
-                        label={"Market Name"}
+                        label={"Market Name*"}
                         type={"text"}
                         placeholder="Enter Market Name..."
                         place={11}
@@ -1160,7 +1161,7 @@ const AddMatch = () => {
                     >
                       <MatchListInput
                         required={true}
-                        label={"Max Limit"}
+                        label={"Max Limit*"}
                         type={"number"}
                         placeholder="Enter Max Bet..."
                         place={11}
@@ -1185,7 +1186,7 @@ const AddMatch = () => {
                     >
                       <MatchListInput
                         required={true}
-                        label={"Market Name"}
+                        label={"Market Name*"}
                         type={"text"}
                         placeholder="Enter Market Name..."
                         place={11}
@@ -1208,7 +1209,7 @@ const AddMatch = () => {
                     >
                       <MatchListInput
                         required={true}
-                        label={"Max Limit"}
+                        label={"Max Limit*"}
                         type={"number"}
                         placeholder="Enter Max Bet..."
                         place={11}

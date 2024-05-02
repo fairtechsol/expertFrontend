@@ -7,8 +7,8 @@ interface SessionData {
   matchId: string;
   type: string;
   name: string;
-  minBet?: string;
-  maxBet?: string;
+  minBet?: number;
+  maxBet?: number;
   yesRate: number;
   noRate: number;
   yesPercent: number;
@@ -129,6 +129,13 @@ export const updateSessionByIdForUndeclare = createAsyncThunk<any, SessionById>(
     return requestData;
   }
 );
+
+export const updateSessionMaxLimit = createAsyncThunk<any, SessionById>(
+  "updateSessionMaxLimit",
+  async (requestData) => {
+    return requestData;
+  }
+);
 export const updateBetsPlaced = createAsyncThunk<any, SessionById>(
   "update/betsPlaced",
   async (requestData) => {
@@ -206,8 +213,24 @@ export const updateDeleteReason = createAsyncThunk<any, any>(
     return detail;
   }
 );
+export const updateResultStatusOfSessionById = createAsyncThunk<any, any>(
+  "/update/resultStatusOfSessionById",
+  async (detail) => {
+    return detail;
+  }
+);
+
+export const updateResultStatusOfQuickBookmaker = createAsyncThunk<any, SessionById>(
+  "update/resultStatusQuickBookmaker",
+  async (requestData) => {
+    return requestData;
+  }
+);
 export const sessionByIdReset = createAction("sessionById/reset");
 export const successReset = createAction("success/reset");
 export const addsuccessReset = createAction("addsuccess/reset");
 export const sessionSuccessReset = createAction("sessionSuccess/reset");
 export const resetPlacedBets = createAction("placedBets/reset");
+export const resetSessionMaxLimitSuccess = createAction(
+  "sessionMaxLimitSuccess/reset"
+);

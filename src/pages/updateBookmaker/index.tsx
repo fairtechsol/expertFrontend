@@ -13,7 +13,7 @@ import {
 } from "../../store/actions/addSession";
 import { AppDispatch, RootState } from "../../store/store";
 import { useDispatch, useSelector } from "react-redux";
-import { socketService } from "../../socketManager";
+import { socket, socketService } from "../../socketManager";
 
 const UpdateBookmaker = () => {
   const { state }: any = useLocation();
@@ -22,11 +22,15 @@ const UpdateBookmaker = () => {
   const { placedBets } = useSelector((state: RootState) => state.addSession);
 
   const updateBetList = (event: any) => {
-    if (state?.match?.id === event?.jobData?.newBet?.matchId) {
-      dispatch(updateTeamRatesOnManualMarket(event));
-      if (state?.id === event?.jobData?.newBet?.betId) {
-        dispatch(updateMatchBetsPlaced(event));
+    try {
+      if (state?.match?.id === event?.jobData?.newBet?.matchId) {
+        dispatch(updateTeamRatesOnManualMarket(event));
+        if (state?.id === event?.jobData?.newBet?.betId) {
+          dispatch(updateMatchBetsPlaced(event));
+        }
       }
+    } catch (error) {
+      console.error(error);
     }
   };
 
@@ -59,31 +63,40 @@ const UpdateBookmaker = () => {
   };
 
   useEffect(() => {
-    if (state?.id) {
-      dispatch(
-        getBookmakerById({
-          matchId: state?.match?.id,
-          id: state?.id,
-          type: state?.type,
-        })
-      );
-      dispatch(getPlacedBets(state?.id));
+    try {
+      if (state?.id) {
+        dispatch(
+          getBookmakerById({
+            matchId: state?.match?.id,
+            id: state?.id,
+            type: state?.type,
+          })
+        );
+        dispatch(getPlacedBets(state?.id));
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }, [state?.id]);
+
+  useEffect(() => {
+    if (socket) {
       socketService.user.userMatchBetPlaced(updateBetList);
       socketService.user.matchResultDeclared(resultDeclared);
       socketService.user.matchDeleteBet(matchDeleteBet);
+      return () => {
+        socketService.user.userMatchBetPlacedOff();
+        socketService.user.matchResultDeclaredOff();
+        socketService.user.matchDeleteBetOff();
+      };
     }
-    return () => {
-      socketService.user.userMatchBetPlacedOff();
-      socketService.user.matchResultDeclaredOff();
-      socketService.user.matchDeleteBetOff();
-    };
-  }, [state?.id]);
+  }, [socket]);
 
   return (
     <Box display="flex">
-      <Grid container spacing={2}>
-        <Grid item xs={12} sm={6}>
-          <Paper style={{ margin: "10px" }}>
+      <Grid container>
+        <Grid item xs={12} md={12} lg={6}>
+          <Paper style={{ margin: "2px" }}>
             <BookmakerEditSection
               add={true}
               match={state?.match}
@@ -92,8 +105,8 @@ const UpdateBookmaker = () => {
             />
           </Paper>
         </Grid>
-        <Grid item xs={12} sm={6}>
-          <Paper style={{ margin: "10px" }}>
+        <Grid item xs={12} md={12} lg={6}>
+          <Paper style={{ margin: "2px" }}>
             <BetsList
               betData={placedBets && placedBets.length > 0 ? placedBets : []}
             />

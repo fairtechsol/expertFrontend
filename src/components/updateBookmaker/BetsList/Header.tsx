@@ -22,7 +22,7 @@ const Header = () => {
       <Box
         sx={{
           background: "#262626",
-          width: "20%",
+          width:{lg:"20%", xs:"23%"},
           borderLeft: "2px solid white",
           display: "flex",
           justifyContent: "center",
@@ -35,10 +35,10 @@ const Header = () => {
           User
         </Typography>
       </Box>
-      <Box
+      {/* <Box
         sx={{
           background: "#262626",
-          width: "20%",
+          width: {lg:"20%", xs:"24%"},
           borderLeft: "2px solid white",
           display: "flex",
           justifyContent: "center",
@@ -50,7 +50,7 @@ const Header = () => {
         >
           Market
         </Typography>
-      </Box>
+      </Box> */}
       <Box
         sx={{
           background: "#262626",
@@ -86,7 +86,7 @@ const Header = () => {
       <Box
         sx={{
           background: "#262626",
-          width: "14%",
+          width: {lg:"14%", xs:"14%"},
           borderLeft: "2px solid white",
           display: "flex",
           justifyContent: "center",
@@ -102,15 +102,16 @@ const Header = () => {
       <Box
         sx={{
           background: "#262626",
-          width: "15%",
+          width: {lg:"15%", xs:"14%"},
           borderLeft: "2px solid white",
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
+          overflowWrap: "anywhere"
         }}
       >
         <Typography
-          sx={{ fontWeight: "600", fontSize: "12px", color: "white" }}
+          sx={{ fontWeight: "600", fontSize: {lg:"12px", xs: "8px"}, color: "white" }}
         >
           Back/Lay
         </Typography>
@@ -118,7 +119,7 @@ const Header = () => {
       <Box
         sx={{
           background: "#262626",
-          width: "20%",
+          width: {lg:"20%", xs: "16%"},
           borderLeft: "2px solid white",
           display: "flex",
           justifyContent: "center",
@@ -134,7 +135,7 @@ const Header = () => {
       <Box
         sx={{
           background: "#262626",
-          width: "20%",
+          width: {lg:"20%", xs: "16%"},
           borderLeft: "2px solid white",
           display: "flex",
           justifyContent: "center",

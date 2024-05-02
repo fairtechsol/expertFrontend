@@ -1,15 +1,14 @@
 import { createAction, createAsyncThunk } from "@reduxjs/toolkit";
 import axios, { AxiosError } from "axios";
 import service from "../../../service";
-import { ApiConstants } from "../../../utils/Constants";
-import constants from "../../../components/helper/constants";
+import { ApiConstants, addMatchThirdParty } from "../../../utils/Constants";
 
 export const getAllLiveTournaments = createAsyncThunk<any, string>(
   "addMatch/getAllLiveTournaments",
   async (requestData, thunkApi) => {
     try {
       const { data } = await axios.get(
-        `${constants.microServiceApiPath}/competitionList?type=${requestData}`
+        `${addMatchThirdParty}/competitionList?type=${requestData}`
       );
       if (data) {
         let tournamentList: any = [
@@ -43,7 +42,7 @@ export const getAllEventsList = createAsyncThunk<any, string>(
   async (requestData, thunkApi) => {
     try {
       const { data } = await axios.get(
-        `${constants.microServiceApiPath}/eventList/${requestData}`
+        `${addMatchThirdParty}/eventList/${requestData}`
       );
       if (data) {
         let matchesList: any = [
@@ -83,57 +82,146 @@ export const getExtraMarketList = createAsyncThunk<any, any>(
   async (requestData, thunkApi) => {
     try {
       const { data } = await axios.get(
-        `${constants.microServiceApiPath}/extraMarketList/${requestData?.id}?eventType=${requestData?.eventType}`
+        `${addMatchThirdParty}/extraMarketList/${requestData?.id}?eventType=${requestData?.eventType}`
       );
       if (data) {
-        let extraMarketList: any = {
-          matchOdd: {
-            marketId: data?.find(
-              (match: any) => match?.description?.marketType === "MATCH_ODDS"
-            )?.marketId,
-          },
-          apiTideMatch: {
-            marketId: data?.find(
-              (match: any) => match?.description?.marketType === "TIED_MATCH"
-            )?.marketId,
-          },
-          marketCompleteMatch: {
-            marketId: data?.find(
-              (match: any) =>
-                match?.description?.marketType === "COMPLETED_MATCH"
-            )?.marketId,
-          },
-          ...Array.from({ length: 20 }, (_, index: any) => index).reduce(
-            (prev, curr) => {
-              prev[`overUnder${curr}.5`] = {
+        let extraMarketList: any = {};
+        if (requestData?.eventType === "cricket") {
+          extraMarketList = {
+              matchOdd: {
+                marketId: data?.find(
+                  (match: any) => match?.description?.marketType === "MATCH_ODDS"
+                )?.marketId,
+              },
+              apiTideMatch: {
+                marketId: data?.find(
+                  (match: any) => match?.description?.marketType === "TIED_MATCH"
+                )?.marketId,
+              },
+              marketCompleteMatch: {
                 marketId: data?.find(
                   (match: any) =>
-                    match?.description?.marketType === `OVER_UNDER_${curr}5`
+                    match?.description?.marketType === "COMPLETED_MATCH"
                 )?.marketId,
-              };
-              return prev;
+              },
+          };
+        }else if(requestData?.eventType === "football"){
+          extraMarketList = {
+            matchOdd: {
+              marketId: data?.find(
+                (match: any) => match?.description?.marketType === "MATCH_ODDS"
+              )?.marketId,
             },
-            {}
-          ),
-          ...Array.from({ length: 20 }, (_, index: any) => index).reduce(
-            (prev, curr) => {
-              prev[`firstHalfGoal${curr}.5`] = {
-                marketId: data?.find(
-                  (match: any) =>
-                    match?.description?.marketType ===
-                    `FIRST_HALF_GOALS_${curr}5`
-                )?.marketId,
-              };
-              return prev;
+            halfTime: {
+              marketId: data?.find(
+                (match: any) => match?.description?.marketType === "HALF_TIME"
+              )?.marketId,
             },
-            {}
-          ),
-          halfTime: {
-            marketId: data?.find(
-              (match: any) => match?.description?.marketType === "HALF_TIME"
-            )?.marketId,
-          },
+            ...Array.from({ length: 20 }, (_, index: any) => index).reduce(
+              (prev, curr) => {
+                prev[`overUnder${curr}.5`] = {
+                  marketId: data?.find(
+                    (match: any) =>
+                      match?.description?.marketType === `OVER_UNDER_${curr}5`
+                  )?.marketId,
+                };
+                return prev;
+              },
+              {}
+            ),
+            ...Array.from({ length: 20 }, (_, index: any) => index).reduce(
+              (prev, curr) => {
+                prev[`firstHalfGoal${curr}.5`] = {
+                  marketId: data?.find(
+                    (match: any) =>
+                      match?.description?.marketType ===
+                      `FIRST_HALF_GOALS_${curr}5`
+                  )?.marketId,
+                };
+                return prev;
+              },
+              {}
+            ),
         };
+        }else if(requestData?.eventType === "tennis"){
+          extraMarketList = {
+            matchOdd: {
+              marketId: requestData?.matchOddId,
+            },
+            ...Array.from({ length: 20 }, (_, index: any) => index).reduce(
+              (prev, curr) => {
+                prev[`setWinner${curr}`] = {
+                  marketId: data?.find(
+                    (match: any) =>
+                      match?.description?.marketType === `SET_WINNER` && match?.marketName === `Set ${curr} Winner`
+                  )?.marketId,
+                };
+                return prev;
+              },
+              {}
+            ),
+        };
+        }
+        // let extraMarketList: any = {
+        //   matchOdd: {
+        //     marketId: data?.find(
+        //       (match: any) => match?.description?.marketType === "MATCH_ODDS"
+        //     )?.marketId,
+        //   },
+        //   apiTideMatch: {
+        //     marketId: data?.find(
+        //       (match: any) => match?.description?.marketType === "TIED_MATCH"
+        //     )?.marketId,
+        //   },
+        //   marketCompleteMatch: {
+        //     marketId: data?.find(
+        //       (match: any) =>
+        //         match?.description?.marketType === "COMPLETED_MATCH"
+        //     )?.marketId,
+        //   },
+        //   ...Array.from({ length: 20 }, (_, index: any) => index).reduce(
+        //     (prev, curr) => {
+        //       prev[`setWinner${curr}`] = {
+        //         marketId: data?.find(
+        //           (match: any) =>
+        //             match?.description?.marketType === `SET_WINNER` && match?.marketName === `Set ${curr} Winner`
+        //         )?.marketId,
+        //       };
+        //       return prev;
+        //     },
+        //     {}
+        //   ),
+        //   ...Array.from({ length: 20 }, (_, index: any) => index).reduce(
+        //     (prev, curr) => {
+        //       prev[`overUnder${curr}.5`] = {
+        //         marketId: data?.find(
+        //           (match: any) =>
+        //             match?.description?.marketType === `OVER_UNDER_${curr}5`
+        //         )?.marketId,
+        //       };
+        //       return prev;
+        //     },
+        //     {}
+        //   ),
+        //   ...Array.from({ length: 20 }, (_, index: any) => index).reduce(
+        //     (prev, curr) => {
+        //       prev[`firstHalfGoal${curr}.5`] = {
+        //         marketId: data?.find(
+        //           (match: any) =>
+        //             match?.description?.marketType ===
+        //             `FIRST_HALF_GOALS_${curr}5`
+        //         )?.marketId,
+        //       };
+        //       return prev;
+        //     },
+        //     {}
+        //   ),
+        //   halfTime: {
+        //     marketId: data?.find(
+        //       (match: any) => match?.description?.marketType === "HALF_TIME"
+        //     )?.marketId,
+        //   },
+        // };
         return extraMarketList;
       }
     } catch (error) {
@@ -217,6 +305,13 @@ export const updateSessionProLoss = createAsyncThunk<any, any>(
     return matchDetails;
   }
 );
+export const removeSessionProLoss = createAsyncThunk<any, any>(
+  "/removesessionProLoss/update",
+  async (matchDetails) => {
+    return matchDetails;
+  }
+);
+
 export const updateMatchBettingStatus = createAsyncThunk<any, any>(
   "/match/bettingtatus",
   async (betting) => {
@@ -232,5 +327,6 @@ export const updateRates = createAsyncThunk<any, any>(
 export const addMatchReset = createAction("add/reset");
 export const editMatchReset = createAction("edit/reset");
 export const matchDetailReset = createAction("matchDetail/reset");
+export const matchDetailSuccessReset = createAction("matchDetailSuccess/reset");
 export const eventListReset = createAction("eventList/reset");
 export const tournamentListReset = createAction("tournamentList/reset");

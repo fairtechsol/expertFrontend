@@ -4,19 +4,13 @@ import { Box, Typography } from "@mui/material";
 import Divider from "../../Common/Divider";
 import { ARROWUP } from "../../../assets";
 import SessionMarketBoxLive from "./SessionMarketBoxLive";
+import { formatToINR } from "../../helper";
 
 const SessionMarketLive = ({
-  currentMatch,
-  liveOnly,
-  setCurrentMatch,
-  setLocalState,
-  hideResult,
   title,
-  hideTotalBet,
-  setMatchLiveSession,
   sessionData,
+  currentMatch,
 }: any) => {
-  const [stop, setStop] = useState(true);
   const [matchSessionData, setMatchSessionData] = useState(sessionData);
   useEffect(() => {
     setMatchSessionData(sessionData);
@@ -30,7 +24,7 @@ const SessionMarketLive = ({
         backgroundColor: "white",
         flexDirection: "column",
         marginY: { lg: "2px" },
-        width: "100%",
+        width: { lg: "100%", xs: "100%" },
         alignSelf: {
           xs: "center",
           md: "center",
@@ -42,7 +36,7 @@ const SessionMarketLive = ({
       <Box
         sx={{
           display: "flex",
-          height: 38,
+          height: "35px",
           flexDirection: "row",
           width: "99.7%",
           alignSelf: "center",
@@ -55,6 +49,7 @@ const SessionMarketLive = ({
             alignItems: "center",
             display: "flex",
             justifyContent: "space-between",
+            height: "40px",
           }}
         >
           <Typography
@@ -121,6 +116,7 @@ const SessionMarketLive = ({
                 height: "25px",
                 width: "99.7%",
                 alignSelf: "center",
+                zIndex: "999",
               }}
             >
               <Box
@@ -139,8 +135,9 @@ const SessionMarketLive = ({
                     marginLeft: "7px",
                   }}
                 >
-                  MIN: {currentMatch?.betFairSessionMinBet} MAX:
-                  {currentMatch?.betFairSessionMaxBet}
+                  MIN: {formatToINR(currentMatch?.betFairSessionMinBet)}
+                  {/* MAX:
+                  {currentMatch?.betFairSessionMaxBet} */}
                 </Typography>
               </Box>
               <Box
@@ -148,15 +145,15 @@ const SessionMarketLive = ({
                   display: "flex",
                   background: "#319E5B",
                   height: "25px",
-                  paddingRight: "17px",
-                  width: { lg: "62%", xs: "80%" },
+                  // paddingRight: "17px",
+                  width: { lg: "62%", xs: "67%", md: "67%" },
                   justifyContent: "flex-end",
                 }}
               >
                 <Box
                   sx={{
                     background: "#FF9292",
-                    width: "26.5%",
+                    width: { lg: "26.5%", xs: "24.5%", md: "24%" },
                     height: "100%",
                     display: "flex",
                     justifyContent: "center",
@@ -173,7 +170,7 @@ const SessionMarketLive = ({
                 <Box
                   sx={{
                     background: "#00C0F9",
-                    width: "27%",
+                    width: { lg: "26.5%", xs: "22.5%", md: "24%" },
                     height: "100%",
                     display: "flex",
                     justifyContent: "center",
@@ -195,9 +192,11 @@ const SessionMarketLive = ({
               flexDirection: "column",
               width: "100%",
               position: "relative",
-              height: "auto",
-              maxHeight: "200px",
+              maxHeight: { lg: "85vh", xs: "40vh" },
               overflowY: "auto",
+              "::-webkit-scrollbar": {
+                display: "none",
+              },
             }}
           >
             {matchSessionData?.length > 0 &&
@@ -206,17 +205,8 @@ const SessionMarketLive = ({
                   return (
                     <Box key={index}>
                       <SessionMarketBoxLive
-                        setMatchLiveSession={setMatchLiveSession}
-                        liveOnly={liveOnly}
-                        hideResult={hideResult}
-                        hideTotalBet={hideTotalBet}
-                        setMatchSessionData={setMatchSessionData}
-                        setLocalState={(val: any) => setLocalState(val)}
                         currentMatch={currentMatch}
-                        setCurrentMatch={setCurrentMatch}
                         newData={match}
-                        setStop={setStop}
-                        stop={stop}
                         index={index}
                       />
                       <Divider />

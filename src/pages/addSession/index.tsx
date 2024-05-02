@@ -3,8 +3,8 @@ import SessionResult from "../../components/addSession/SessionResult/SessionResu
 import SessionInputFields from "../../components/addSession/AddSession/SessionAddComponent";
 import DailogModal from "../../components/helper/DailogModal";
 import BetsList from "../../components/addSession/BetList";
-import { useLocation, useParams } from "react-router-dom";
-import { useEffect } from "react";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store/store";
 import {
@@ -14,17 +14,34 @@ import {
   sessionSuccessReset,
 } from "../../store/actions/addSession";
 import { getMatchListSessionProfitLoss } from "../../store/actions/match/matchAction";
-import { socketService } from "../../socketManager";
+import { getMatchDetail } from "../../store/actions/addMatch/addMatchAction";
+import { socket, socketService } from "../../socketManager";
+// import { socketService } from "../../socketManager";
 
 const AddSession = () => {
   const { state } = useLocation();
   const { id } = useParams();
+  const navigate = useNavigate();
+  const [mode, setMode] = useState("0");
   const { sessionById, getSessionSuccess } = useSelector(
     (state: RootState) => state.addSession
   );
   const dispatch: AppDispatch = useDispatch();
   const { placedBets } = useSelector((state: RootState) => state.addSession);
   const { sessionProLoss } = useSelector((state: RootState) => state.matchList);
+  const { matchDetail } = useSelector(
+    (state: RootState) => state.addMatch.addMatch
+  );
+
+  const resultDeclared = (event: any) => {
+    try {
+      if (event?.matchId === state?.match?.id) {
+        navigate("/expert/match");
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   useEffect(() => {
     try {
@@ -45,48 +62,99 @@ const AddSession = () => {
   }, [id]);
 
   useEffect(() => {
-    if (getSessionSuccess) {
-      if (!sessionById?.result) {
-        dispatch(getSessionProfitLoss(id));
-        dispatch(getPlacedBets(id));
+    try {
+      if (matchDetail) {
+        if (matchDetail?.stopAt) {
+          navigate("/expert/match");
+        }
       }
-      dispatch(sessionSuccessReset());
+    } catch (error) {
+      console.error(error);
+    }
+  }, [matchDetail]);
+
+  useEffect(() => {
+    try {
+      if (state?.createSession) {
+        if (state?.match?.id) {
+          dispatch(getMatchDetail(state?.match?.id));
+        }
+      }
+      if (getSessionSuccess) {
+        if (!sessionById?.result) {
+          dispatch(getSessionProfitLoss(id));
+          dispatch(getPlacedBets(id));
+        }
+        dispatch(sessionSuccessReset());
+      }
+    } catch (error) {
+      console.error(error);
     }
   }, [getSessionSuccess, id]);
 
-  const getSessionProLoss = (event: any) => {
-    if (state?.match?.id === event?.matchId) {
-      dispatch(getMatchListSessionProfitLoss(state?.match?.id));
+  useEffect(() => {
+    if (state?.createSession) {
+      setMode("0");
     }
-  };
+  }, [state?.createSession]);
 
   useEffect(() => {
-    socketService.user.sessionResultDeclared(getSessionProLoss);
-    return () => {
-      socketService.user.sessionResultDeclaredOff();
-    };
-  }, [state?.match?.id]);
+    try {
+      if (socket) {
+        socketService.user.matchResultDeclared(resultDeclared);
+        return () => {
+          socketService.user.matchResultDeclaredOff();
+        };
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }, [socket]);
+
+  useEffect(() => {
+    try {
+      const handleVisibilityChange = () => {
+        if (document.visibilityState === "visible") {
+          if (state?.match?.id) {
+            dispatch(getMatchDetail(state?.match?.id));
+          }
+        }
+      };
+      document.addEventListener("visibilitychange", handleVisibilityChange);
+      return () => {
+        document.removeEventListener(
+          "visibilitychange",
+          handleVisibilityChange
+        );
+      };
+    } catch (error) {
+      console.error(error);
+    }
+  }, []);
 
   return (
     <Box>
-      <Grid container spacing={2}>
-        <Grid item xs={12} sm={6}>
-          <Paper style={{ margin: "10px" }}>
+      <Grid container>
+        <Grid item xs={12} md={12} lg={6}>
+          <Paper style={{ margin: "4px" }}>
             <SessionInputFields
               createSession={state?.createSession}
               sessionEvent={state?.sessionEvent}
               match={state?.match}
+              setMode={setMode}
             />
           </Paper>
-          <Paper style={{ margin: "10px" }}>
+          <Paper style={{ margin: "4px" }}>
             <SessionResult
+              setMode={setMode}
+              mode={mode}
               sessionProLoss={sessionProLoss}
               matchId={state?.match}
             />
           </Paper>
         </Grid>
-        <Grid item xs={12} sm={6}>
-          <Paper style={{ margin: "10px" }}>
+        <Grid item xs={12} md={12} lg={6}>
+          <Paper style={{ margin: "4px" }}>
             {true && (
               <BetsList
                 sessionEvent={sessionById && sessionById}

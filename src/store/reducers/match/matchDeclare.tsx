@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import {
   declareMatchResult,
   declareMatchStatusReset,
+  otherDeclareMatchResult,
   unDeclareMatchResult,
 } from "../../actions/match/matchDeclareActions";
 import {
@@ -9,7 +10,10 @@ import {
   getSessionProfitLossMatchDetailFilter,
   getSessionProfitLossMatchDetailReset,
 } from "../../actions/match/matchAction";
-import { updateSessionProLoss } from "../../actions/addMatch/addMatchAction";
+import {
+  removeSessionProLoss,
+  updateSessionProLoss,
+} from "../../actions/addMatch/addMatchAction";
 
 interface InitialState {
   sessionProLoss: any;
@@ -48,6 +52,19 @@ const matchDeclare = createSlice({
         state.loading = false;
         state.error = action?.error?.message;
       })
+      .addCase(otherDeclareMatchResult.pending, (state) => {
+        state.loading = true;
+        state.success = false;
+        state.error = null;
+      })
+      .addCase(otherDeclareMatchResult.fulfilled, (state) => {
+        state.success = true;
+        state.loading = false;
+      })
+      .addCase(otherDeclareMatchResult.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action?.error?.message;
+      })
       .addCase(unDeclareMatchResult.pending, (state) => {
         state.loading = true;
         state.success = false;
@@ -69,13 +86,13 @@ const matchDeclare = createSlice({
       .addCase(getSessionProfitLossMatchDetail.fulfilled, (state, action) => {
         state.successProLoss = true;
         state.loadingProLoss = false;
-        const idToAdd = action.payload?.id;
+        const idToAdd = action?.payload?.id;
 
         if (
           idToAdd &&
-          !state.sessionProLoss.some((item: any) => item.id === idToAdd)
+          !state.sessionProLoss?.some((item: any) => item?.id === idToAdd)
         ) {
-          state.sessionProLoss.push(action.payload);
+          state.sessionProLoss?.push(action?.payload);
         }
       })
       .addCase(getSessionProfitLossMatchDetail.rejected, (state, action) => {
@@ -85,31 +102,38 @@ const matchDeclare = createSlice({
       .addCase(
         getSessionProfitLossMatchDetailFilter.fulfilled,
         (state, action) => {
-          const idToRemove = action.payload;
-          state.sessionProLoss = state.sessionProLoss.filter(
+          const idToRemove = action?.payload;
+          state.sessionProLoss = state?.sessionProLoss?.filter(
             (item: any) => item?.id !== idToRemove
           );
         }
       )
       .addCase(updateSessionProLoss.fulfilled, (state, action) => {
-        const idToFind = action.payload.id;
+        const idToFind = action?.payload?.id;
 
-        const foundItemIndex = state.sessionProLoss.findIndex(
+        const foundItemIndex = state.sessionProLoss?.findIndex(
           (item: any) => item?.id === idToFind
         );
 
         if (foundItemIndex !== -1) {
           state.sessionProLoss[foundItemIndex].proLoss = {
             ...state.sessionProLoss[foundItemIndex].proLoss,
-            betPlaced: action.payload.betPlaced,
+            betPlaced: action?.payload?.betPlaced,
           };
         }
       })
+      .addCase(removeSessionProLoss.fulfilled, (state, action) => {
+        const idToRemove = action?.payload?.id;
+
+        state.sessionProLoss = state.sessionProLoss?.filter(
+          (item: any) => item?.id !== idToRemove
+        );
+      })
       .addCase(getSessionProfitLossMatchDetailReset, (state) => {
-        return { ...state, sessionProLoss: [] };
+        state.sessionProLoss = [];
       })
       .addCase(declareMatchStatusReset, (state) => {
-        return { ...state, success: false };
+        state.success = false;
       });
   },
 });

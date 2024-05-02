@@ -1,9 +1,10 @@
 import { Input, Typography } from "@mui/material";
 import { Box } from "@mui/system";
+import { numberInputOnWheelPreventChange } from "../../helpers";
 
 const MatchListInput = (props: any) => {
   const {
-    value,
+        value,
     required,
     label,
     labelStyle,
@@ -59,20 +60,17 @@ const MatchListInput = (props: any) => {
           alignItems: "center",
           justifyContent: "space-between",
           background: "white",
+          backgroundColor: disable ? "#DCDCDC" : "",
         }}
       >
         <Input
-          fullWidth
+               fullWidth
           inputProps={{ min: 0 }}
           disabled={disable}
           placeholder={`${placeholder}`}
-          // value={DetailError.Detail[place]?.val}
-          // containerStyles={containerStyles}
-          // titleStyle={titleStyles}
-          // inputStyle={inputStyle}
-          // inputContainerStyle={inputContainerStyle}
           {...prop}
           required={required}
+          onWheel={numberInputOnWheelPreventChange}
           type={type}
           value={value}
           onKeyDown={(e) => {
@@ -82,6 +80,8 @@ const MatchListInput = (props: any) => {
             }
           }}
           sx={{
+            borderRadius: "4px",
+            backgroundColor: disable ? "#DCDCDC" : "",
             cursor: disable ? "not-allowed" : "text",
             zIndex: disable && 999,
             ...containerStyles,

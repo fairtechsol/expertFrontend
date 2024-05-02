@@ -1,5 +1,5 @@
 import { Box, Typography } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Stop from "../SessionMarket/Stop";
 import SmallBox from "../SmallBox";
 import { ARROWUP } from "../../../assets";
@@ -9,6 +9,7 @@ import { betLiveStatus } from "../../../store/actions/match/matchAction";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../../store/store";
 import { profitLossDataForMatchConstants } from "../../../utils/Constants";
+import { formatToINR } from "../../helper";
 
 const BookMarket = ({ currentMatch, liveData, title }: any) => {
   const dispatch: AppDispatch = useDispatch();
@@ -16,6 +17,10 @@ const BookMarket = ({ currentMatch, liveData, title }: any) => {
   const [live, setLive] = useState<boolean>(
     liveData?.activeStatus === "live" ? true : false
   );
+
+  useEffect(() => {
+    setLive(liveData?.activeStatus === "live" ? true : false);
+  }, [liveData?.activeStatus]);
 
   return (
     <Box
@@ -68,6 +73,7 @@ const BookMarket = ({ currentMatch, liveData, title }: any) => {
                 betLiveStatus({
                   isStop: true,
                   betId: liveData?.id,
+                  isManual: false,
                 })
               );
               setLive(false);
@@ -99,6 +105,7 @@ const BookMarket = ({ currentMatch, liveData, title }: any) => {
                 betLiveStatus({
                   isStop: live,
                   betId: liveData?.id,
+                  isManual: false,
                 })
               );
               setLive(!live);
@@ -154,8 +161,8 @@ const BookMarket = ({ currentMatch, liveData, title }: any) => {
                   marginLeft: "7px",
                 }}
               >
-                MIN: {currentMatch?.bookmaker?.minBet} MAX:{" "}
-                {currentMatch?.bookmaker?.maxBet}
+                MIN: {formatToINR(currentMatch?.bookmaker?.minBet)} MAX:{" "}
+                {formatToINR(currentMatch?.bookmaker?.maxBet)}
               </Typography>
             </Box>
             <Box
@@ -187,7 +194,7 @@ const BookMarket = ({ currentMatch, liveData, title }: any) => {
               <Box
                 sx={{
                   background: "#FF9292",
-                  width: { lg: "16.5%", xs: "25%" },
+                  width: { lg: "16.5%", xs: "24.7%" },
                   height: "100%",
                   display: "flex",
                   justifyContent: "center",
@@ -206,9 +213,11 @@ const BookMarket = ({ currentMatch, liveData, title }: any) => {
           <Box sx={{ position: "relative" }}>
             <BoxComponent
               teamRates={
-                currentMatch?.teamRates[
+                currentMatch?.teamRates ?  currentMatch?.teamRates[
                   profitLossDataForMatchConstants[liveData?.type]?.A
-                ] ?? 0
+                ] ?  currentMatch?.teamRates[
+                  profitLossDataForMatchConstants[liveData?.type]?.A
+                ] :0 : 0
               }
               // teamImage={currentMatch?.bookmaker?.teamA_Image}
               livestatus={liveData?.status === "live" ? true : false}
@@ -221,9 +230,11 @@ const BookMarket = ({ currentMatch, liveData, title }: any) => {
             <BoxComponent
               livestatus={liveData?.status === "live" ? true : false}
               teamRates={
-                currentMatch?.teamRates[
+                currentMatch?.teamRates ?  currentMatch?.teamRates[
                   profitLossDataForMatchConstants[liveData?.type]?.B
-                ] ?? 0
+                ] ? currentMatch?.teamRates[
+                  profitLossDataForMatchConstants[liveData?.type]?.B
+                ] : 0 : 0
               }
               teamImage={currentMatch?.bookmaker?.teamB_Image}
               lock={liveData?.runners?.length > 0 ? false : true}
@@ -237,10 +248,12 @@ const BookMarket = ({ currentMatch, liveData, title }: any) => {
                 <BoxComponent
                   color={"#FF4D4D"}
                   livestatus={liveData?.status === "live" ? true : false}
-                  teamRates={
+                  teamRates={ currentMatch?.teamRates ?
                     currentMatch?.teamRates[
                       profitLossDataForMatchConstants[liveData?.type]?.C
-                    ] ?? 0
+                    ] ?  currentMatch?.teamRates[
+                      profitLossDataForMatchConstants[liveData?.type]?.C
+                    ] : 0 : 0
                   }
                   teamImage={null}
                   lock={liveData?.runners?.length > 0 ? false : true}

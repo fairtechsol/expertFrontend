@@ -3,6 +3,7 @@ import constants from "../../components/helper/constants";
 export const ApiConstants = {
   LOGIN: "auth/login",
   LOGOUT: "auth/logout",
+  OLD_PASSWORD: "/user/check/oldPassword",
   MATCH: {
     ADD: "match/add",
     EDIT: "match/update",
@@ -13,6 +14,7 @@ export const ApiConstants = {
     OTHER_MATCH_DETAIL: "match/otherMatch",
     UPDATEACTIVESTATUS: "match/updateActiveStatus",
     DECLARE: "bet/declare/result/match",
+    OTHER_DECLARE: "bet/declare/result/other/match",
     UNDECLARE: "bet/unDeclare/result/match",
     GET_BETS: "/bet",
   },
@@ -41,9 +43,9 @@ export const ApiConstants = {
 
 export const Constants = {
   pageLimit: 15,
-  apiBasePath: "http://107.23.165.155:5000",
-  expertSocketBasePath: "http://107.23.165.155:6060",
-  thirdParty: "http://107.23.165.155:3200",
+  apiBasePath: "https://devmaxbet9api.fairgame.club",
+  expertSocketBasePath: "https://devexpertapi.fairgame.club",
+  thirdParty: "https://devserviceapi.fairgame.club",
   apiBasePathLive: "https://betfairapi.fairgame7.com",
   expertSocketBasePathLive: "https://expertapi.fairgame7.com",
   thirdPartyLive: "https://serviceapi.fairgame7.com",
@@ -69,6 +71,8 @@ export const Constants = {
     addBookMaker: "add_book_maker",
     betOdds: "betOdds",
     betOddsOtherGames: "betOdds/otherGames",
+    session: "session",
+    market: "market",
     changePassword: "change-password",
   },
   WEBSOCKET: "websocket",
@@ -113,6 +117,8 @@ export const matchBettingType = {
   tiedMatch2: "tiedMatch2",
   completeMatch: "completeMatch",
   completeManual: "completeManual",
+  setWinner1:"setWinner1",
+  setWinner2:"setWinner2",
   ...Array.from({ length: 20 }, (_, index: any) => index).reduce(
     (prev, curr) => {
       prev[`overUnder${curr}.5`] = `overUnder${curr}.5`;
@@ -135,7 +141,7 @@ export const eventWiseMatchData = {
     manual: [
       {
         matchType: matchBettingType.tiedMatch2,
-        apiKey: "manualTideMatch",
+        apiKey: "manualTiedMatch",
         label: "Manual Tied Match Max Bet",
         name: "ManualTide",
       },
@@ -175,6 +181,28 @@ export const eventWiseMatchData = {
         name: "Complete",
         marketIdKey: "marketCompleteMatch",
       },
+    ],
+  },
+  [constants.matchType[1]]: {
+    manual: [],
+    market: [
+      {
+        matchType: matchBettingType.matchOdd,
+        apiKey: "matchOdd",
+        marketIdKey: "matchOdd",
+        label: "Betfair Match Odd Max Bet",
+        name: "MatchOdd",
+      },
+      ...Array.from({ length: 20 }, (_, index: any) => index).map((curr) => {
+        // prev[`overUnder${curr}.5`] = `overUnder${curr}.5`
+        return {
+          matchType: matchBettingType[`setWinner${curr}`],
+          apiKey: `setWinner${curr}`,
+          label: `Set Winner ${curr} Max Bet`,
+          name: "Set Winner",
+          marketIdKey: `setWinner${curr}`,
+        };
+      }),
     ],
   },
   [constants.matchType[2]]: {
@@ -224,6 +252,7 @@ export const eventWiseMatchData = {
       },
     ],
   },
+
 };
 
 export const profitLossDataForMatchConstants = {
@@ -293,6 +322,58 @@ export const profitLossDataForMatchConstants = {
     B: "userTeamBRateHalfTime",
     C: "userTeamCRateHalfTime",
   },
+  
+  ...Array.from({ length: 20 }, (_, index) => index).reduce(
+    (prev: any, curr) => {
+      prev[`setWinner${curr}`] = {
+        A: `userTeamARateSetWinner${curr}`,
+        B: `userTeamBRateSetWinner${curr}`,
+        C: `userTeamCRateSetWinner${curr}`,
+      };
+      return prev;
+    },
+    {}
+  ),
+};
+
+// export const addMatchThirdParty =
+//   process.env.NODE_ENV === Constants.PRODUCTION
+//     ? Constants.thirdParty
+//     : Constants.localPathThird;
+
+// export const baseUrls = {
+//   socket:
+//     process.env.NODE_ENV === Constants.PRODUCTION
+//       ? Constants.apiBasePath
+//       : Constants.localPath,
+//   expertSocket:
+//     process.env.NODE_ENV === Constants.PRODUCTION
+//       ? Constants.expertSocketBasePath
+//       : Constants.localPathExpert,
+//   matchSocket:
+//     process.env.NODE_ENV === Constants.PRODUCTION
+//       ? Constants.thirdParty
+//       : Constants.localPathThird,
+// };
+
+export const addMatchThirdParty =
+  process.env.NODE_ENV === Constants.PRODUCTION
+    ? Constants.thirdPartyLive
+    : Constants.localPathThird;
+
+export const baseUrls = {
+  socket:
+    process.env.NODE_ENV === Constants.PRODUCTION
+      ? Constants.apiBasePathLive
+      : Constants.localPath,
+  expertSocket:
+    process.env.NODE_ENV === Constants.PRODUCTION
+      ? Constants.expertSocketBasePathLive
+      : Constants.localPathExpert,
+  matchSocket:
+    process.env.NODE_ENV === Constants.PRODUCTION
+      ? Constants.thirdPartyLive
+      : Constants.localPathThird,
 };
 
 export const addMatchThirdParty =

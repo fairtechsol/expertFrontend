@@ -29,7 +29,7 @@ const BetsList = (props: any) => {
           }),
         ]}
       >
-        <Typography sx={{ color: "#000", fontSize: "20px", fontWeight: "600" }}>
+        <Typography sx={{ color: "#000", fontSize: {lg:"20px", xs:"16px", md: "18px"}, fontWeight: "600" }}>
           {sessionEvent?.name}
         </Typography>
         <Box
@@ -71,6 +71,9 @@ const BetsList = (props: any) => {
             maxHeight: "82vh",
             overflow: "hidden",
             overflowY: "auto",
+            "::-webkit-scrollbar": {
+              display: "none",
+            },
           }}
         >
           {betData?.length > 0 &&

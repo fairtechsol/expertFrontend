@@ -36,3 +36,10 @@ export const handleSorting = (a: any, b: any) => {
     console.log(e);
   }
 };
+
+export const formatToINR = (amount: any) => {
+  const formatter = new Intl.NumberFormat("en-IN", {
+    currency: "INR",
+  });
+  return formatter.format(amount || 0);
+};

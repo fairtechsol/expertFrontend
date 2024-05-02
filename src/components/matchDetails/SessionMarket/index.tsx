@@ -8,24 +8,20 @@ import { sessionBetLiveStatus } from "../../../store/actions/match/matchAction";
 import { AppDispatch } from "../../../store/store";
 import { useDispatch } from "react-redux";
 import { customSort } from "../../../helpers";
+// import { formatToINR } from "../../helper";
 
 const SessionMarket = ({
   currentMatch,
-  liveOnly,
-  setCurrentMatch,
-  setLocalState,
   hideResult,
   stopAllHide,
   title,
   hideTotalBet,
   sessionData,
-  setIObtes,
-  setData,
-  setLocalSessionExpertOdds,
   profitLossData,
+  hideEditMaxButton,
+  maxHeight,
 }: any) => {
   const dispatch: AppDispatch = useDispatch();
-  const [stop, setStop] = useState(true);
   const [visible, setVisible] = useState(true);
 
   return (
@@ -42,12 +38,13 @@ const SessionMarket = ({
           lg: "flex-start",
           boxShadow: "0px 5px 10px #0000001A",
         },
+        marginBottom: "1rem",
       }}
     >
       <Box
         sx={{
           display: "flex",
-          height: 38,
+          height: "35px",
           flexDirection: "row",
           width: "99.7%",
           alignSelf: "center",
@@ -98,7 +95,6 @@ const SessionMarket = ({
           sx={{
             flex: 1,
             background: "#262626",
-            // '#262626' ,
             display: "flex",
             alignItems: "center",
             justifyContent: "flex-end",
@@ -138,6 +134,7 @@ const SessionMarket = ({
                 height: "25px",
                 width: "99.7%",
                 alignSelf: "center",
+                zIndex: "999",
               }}
             >
               <Box
@@ -156,8 +153,9 @@ const SessionMarket = ({
                     marginLeft: "7px",
                   }}
                 >
-                  MIN: {currentMatch?.betFairSessionMinBet} MAX:
-                  {currentMatch?.betFairSessionMaxBet}
+                  {/* MIN: {formatToINR(currentMatch?.betFairSessionMinBet)} */}
+                  {/* MAX:
+                  {formatToINR(currentMatch?.betFairSessionMaxBet)} */}
                 </Typography>
               </Box>
               <Box
@@ -166,14 +164,16 @@ const SessionMarket = ({
                   background: "#319E5B",
                   height: "25px",
                   // marginLeft: "0vw",
-                  width: { lg: "40%", xs: "80%", marginLeft: "8px" },
+                  width: { lg: "40%", xs: "80%" },
                   justifyContent: { lg: "flex-start", xs: "flex-end" },
+                  marginRight: { xs: "24%", lg: "7%", md: "23%" },
+                  marginLeft: { xs: "-10%", lg: "7%", md: "2%" },
                 }}
               >
                 <Box
                   sx={{
                     background: "#FF9292",
-                    width: { lg: "22%", xs: "26.5%" },
+                    width: { lg: "24%", xs: "22.5%" },
                     height: "100%",
                     display: "flex",
                     justifyContent: "center",
@@ -190,7 +190,7 @@ const SessionMarket = ({
                 <Box
                   sx={{
                     background: "#00C0F9",
-                    width: { lg: "21.9%", xs: "26.5%" },
+                    width: { lg: "23%", xs: "22.5%" },
                     height: "100%",
                     display: "flex",
                     justifyContent: "center",
@@ -212,34 +212,30 @@ const SessionMarket = ({
               flexDirection: "column",
               width: "100%",
               position: "relative",
-              height: "auto",
-              maxHeight: "300px",
-              overflowY: "scroll",
+              maxHeight: { lg: maxHeight ? maxHeight : "30vh", xs: "40vh" },
+              overflowY: "auto",
+              "::-webkit-scrollbar": {
+                display: "none",
+              },
+              // maxHeight: "300px",
+              // overflowY: "scroll",
             }}
           >
             {sessionData?.length > 0 &&
               sessionData
                 ?.slice()
                 .sort(customSort)
-                ?.map((match: any, index: any) => {
+                ?.map((match: any, index: number) => {
                   if (JSON.parse(match).selectionId) {
                     return (
-                      <Box key={index}>
+                      <Box key={JSON.parse(match)?.id}>
                         <SessionMarketBox
-                          liveOnly={liveOnly}
-                          setIObtes={setIObtes}
-                          setData={setData}
                           hideResult={hideResult}
                           hideTotalBet={hideTotalBet}
-                          setMatchSessionData={setLocalSessionExpertOdds}
-                          setLocalState={(val: any) => setLocalState(val)}
-                          currentMatch={currentMatch}
-                          setCurrentMatch={setCurrentMatch}
-                          newData={match}
-                          setStop={setStop}
-                          stop={stop}
-                          index={index}
+                          newData={JSON.parse(match)}
                           profitLossData={profitLossData}
+                          index={index}
+                          hideEditMaxButton={hideEditMaxButton}
                         />
                         <Divider />
                       </Box>

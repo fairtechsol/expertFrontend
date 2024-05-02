@@ -15,6 +15,7 @@ import {
   resetPlacedBets,
   sessionByIdReset,
 } from "../../../store/actions/addSession";
+import { matchDetailReset } from "../../../store/actions/addMatch/addMatchAction";
 import { IconConstants } from "../../../components/helper/gameConstants";
 
 const MenutItemsComponent = ({
@@ -137,6 +138,7 @@ const MenutItemsComponent = ({
                 <Box
                   onClick={(e: any) => {
                     e.stopPropagation();
+                    dispatch(matchDetailReset());
                     dispatch(addsuccessReset());
                     dispatch(sessionByIdReset());
                     dispatch(resetPlacedBets());

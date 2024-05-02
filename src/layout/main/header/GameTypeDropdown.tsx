@@ -1,21 +1,22 @@
 import { useState } from "react";
-import { Menu, MenuItem, useMediaQuery, useTheme } from "@mui/material";
-import { AppDispatch, RootState } from "../../../store/store";
-import { useDispatch, useSelector } from "react-redux";
+import { Menu ,MenuItem,useMediaQuery,useTheme} from "@mui/material";
+import { AppDispatch } from "../../../store/store";
+import { useDispatch } from "react-redux";
 import { getMatchListDropdown } from "../../../store/actions/match/matchAction";
 
-const allMatchg = [
-  { title: "Cricket", value: "cricket" },
-  { title: "Football", value: "football" },
-  // {title : 'Tennis',value:'tennis'},
-];
-const GameTypeDropdown = ({ anchorEl, open, handleClose, anchorrr }: any) => {
-  const theme = useTheme();
+
+
+const allMatchg =[
+    {title : 'Cricket',value:'cricket'},
+    {title : 'Football',value:'football'},
+    {title : 'Tennis',value:'tennis'},
+]
+const GameTypeDropdown = ({ anchorEl, open, handleClose,anchorrr }: any) => {
+    const theme = useTheme();
   const [selected, setSelected] = useState(0);
   const dispatch: AppDispatch = useDispatch();
-  const [anchor, setAnchor] = useState(null);
-  const matchesMobile = useMediaQuery(theme.breakpoints.down("lg"));
-
+  const [_, setAnchor] = useState(null);
+  const matchesMobile = useMediaQuery(theme.breakpoints.down("sm"));
   return (
     <>
       <Menu

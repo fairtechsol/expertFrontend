@@ -26,7 +26,7 @@ const BetsList = ({ betData }: any) => {
         ]}
       >
         <Typography
-          sx={{ color: "#000000", fontSize: "20px", fontWeight: "600" }}
+          sx={{ color: "#000000", fontSize: {lg:"20px", xs: "14px", md: "18px"}, fontWeight: "600" }}
         >
           Bookmaker Bets
         </Typography>
@@ -69,6 +69,9 @@ const BetsList = ({ betData }: any) => {
             maxHeight: "75vh",
             overflow: "hidden",
             overflowY: "auto",
+            "::-webkit-scrollbar": {
+              display: "none",
+            },
           }}
         >
           {betData?.length > 0 &&

@@ -3,7 +3,7 @@ import { toast } from "react-toastify";
 import { Constants } from "./utils/Constants";
 
 const toastOptions = {
-  autoClose: 1500,
+  autoClose: 3000,
   hideProgressBar: false,
   closeOnClick: true,
   pauseOnHover: true,
@@ -15,6 +15,8 @@ const toastOptions = {
 //       ? Constants.expertSocketBasePath
 //       : Constants.localPathExpert,
 // });
+
+// use below service for live build
 
 const service = axios.create({
   baseURL:
@@ -29,7 +31,7 @@ service.interceptors.request.use(
   (config) => {
     config.headers["Content-Type"] = "application/json";
 
-    const authToken = sessionStorage.getItem("userToken");
+    const authToken = sessionStorage.getItem("jwtExpert");
     config.headers.Authorization = `Bearer ${authToken}`;
     return config;
   },
@@ -60,7 +62,7 @@ service.interceptors.response.use(
     } else if (error.response.status === 409) {
       toast.error(error.response.data.message, toastOptions);
     } else if (error.response.status === 401) {
-      toast.error(error.response.data.message, toastOptions);
+      // toast.error(error.response.data.message, toastOptions);
       window.location.replace("/expert/login");
       sessionStorage.clear();
     }

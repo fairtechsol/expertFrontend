@@ -16,11 +16,14 @@ import {
   updateBetsPlaced,
   updateDeleteReason,
   updateProLossSession,
+  updateResultStatusOfSessionById,
   updateSessionById,
+  updateSessionMaxLimit,
   updateSessionProfitLoss,
 } from "../../../store/actions/addSession";
-import { socketService } from "../../../socketManager";
+import { socket, socketService } from "../../../socketManager";
 import {
+  getMatchListSessionProfitLoss,
   // getMatchListSessionProfitLoss,
   sessionResultSuccessReset,
 } from "../../../store/actions/match/matchAction";
@@ -45,7 +48,7 @@ const stateDetail = {
   status: "active",
 };
 
-const SessionAddComponent = ({ createSession, match }: any) => {
+const SessionAddComponent = ({ createSession, match, setMode }: any) => {
   const { id } = useParams();
   const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
@@ -70,7 +73,7 @@ const SessionAddComponent = ({ createSession, match }: any) => {
   const [visible1, setVisible1] = useState(false);
   const [visible2, setVisible2] = useState(false);
   const [visible3, setVisible3] = useState(false);
-  const [maxBetValue, setMaxBetValue] = useState(
+  const [maxBetValue] = useState(
     sessionById ? sessionById?.maxBet : null
   );
   const [lock, setLock] = useState<any>({
@@ -82,42 +85,65 @@ const SessionAddComponent = ({ createSession, match }: any) => {
   const [live] = useState(true);
 
   const addSessions = () => {
-    const payload = {
-      matchId: match?.id,
-      type: "session",
-      name: inputDetail?.betCondition,
-      yesRate: inputDetail?.leftYesRate,
-      noRate: inputDetail?.leftNoRate,
-      yesPercent: inputDetail?.leftYesRatePercent,
-      noPercent: inputDetail?.leftNoRatePercent,
-    };
-    dispatch(addSession(payload));
+    try {
+      if (
+        !inputDetail?.betCondition &&
+        !inputDetail?.leftYesRatePercent &&
+        !inputDetail?.leftNoRatePercent
+      ) {
+        return true;
+      }
+      const payload = {
+        matchId: match?.id,
+        type: "session",
+        name: inputDetail?.betCondition,
+        yesRate: inputDetail?.leftYesRate,
+        noRate: inputDetail?.leftNoRate,
+        yesPercent: inputDetail?.leftYesRatePercent,
+        noPercent: inputDetail?.leftNoRatePercent,
+        maxBet: maxBetValue
+          ? parseInt(maxBetValue)
+          : match?.betFairSessionMaxBet,
+        minBet: match?.betFairSessionMinBet,
+      };
+      dispatch(addSession(payload));
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const handleLiveChange = (yesRatePercent: number, noRatePercent: number) => {
-    let data = {
-      matchId: match?.id,
-      id: id,
-      noRate: inputDetail?.leftNoRate,
-      yesRate: inputDetail?.leftYesRate,
-      noPercent: noRatePercent,
-      yesPercent: yesRatePercent,
-      status: "active",
-    };
+    try {
+      let data = {
+        matchId: match?.id,
+        id: id,
+        noRate: inputDetail?.leftNoRate,
+        yesRate: inputDetail?.leftYesRate,
+        noPercent: noRatePercent,
+        yesPercent: yesRatePercent,
+        status: "active",
+      };
 
-    setLock({
-      ...lock,
-      isNo: inputDetail.leftNoRate > 0 ? false : true,
-      isYes: false,
-      isNoPercent: false,
-      isYesPercent: false,
-    });
-    setIsBall(false);
-    socketService.user.updateSessionRate(data);
+      setLock({
+        ...lock,
+        isNo: inputDetail.leftNoRate > 0 ? false : true,
+        isYes: false,
+        isNoPercent: false,
+        isYesPercent: false,
+      });
+      setIsBall(false);
+      socketService.user.updateSessionRate(data);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const updateResultDeclared = (event: any) => {
     try {
+      if (match?.id === event?.matchId) {
+        dispatch(getMatchListSessionProfitLoss(match?.id));
+        setMode("0");
+      }
       if (match?.id === event?.matchId && id === event?.betId) {
         if (event?.activeStatus === "result") {
           dispatch(resetPlacedBets());
@@ -156,6 +182,13 @@ const SessionAddComponent = ({ createSession, match }: any) => {
       );
     }
   };
+
+  const updatedSessionMaxLmit = (event: any) => {
+    if (match?.id === event?.matchId && id === event?.id) {
+      dispatch(updateSessionMaxLimit(event));
+    }
+  };
+
   const sessionDeleteBet = (event: any) => {
     try {
       if (event?.matchId === match?.id) {
@@ -164,6 +197,12 @@ const SessionAddComponent = ({ createSession, match }: any) => {
       }
     } catch (e) {
       console.log(e);
+    }
+  };
+
+  const updateSessionResultStatus = (event: any) => {
+    if (event?.matchId === match?.id) {
+      dispatch(updateResultStatusOfSessionById(event));
     }
   };
 
@@ -236,9 +275,13 @@ const SessionAddComponent = ({ createSession, match }: any) => {
           yesRate: Math.floor(sessionById?.yesRate),
           yesRatePercent: Math.floor(sessionById?.yesPercent),
           noRatePercent: Math.floor(sessionById?.noPercent),
+          result: sessionById?.result,
+          resultStatus: sessionById?.resultStatus
+            ? sessionById?.resultStatus
+            : null,
         };
       });
-      if (sessionById?.activeStatus !== "live") {
+      if (sessionById?.activeStatus === "result") {
         setShowUndeclare(true);
         setIsDisable(true);
       } else if (sessionById?.activeStatus !== "result") {
@@ -259,7 +302,7 @@ const SessionAddComponent = ({ createSession, match }: any) => {
 
   useEffect(() => {
     try {
-      if (id) {
+      if (id && socket) {
         socketService.user.updateSessionRateClient((data: any) => {
           if (data?.id === id && data?.matchId === match?.id) {
             if (data?.status === "ball start") {
@@ -308,70 +351,27 @@ const SessionAddComponent = ({ createSession, match }: any) => {
             }
           }
         });
-        socketService.user.sessionResultDeclared(updateResultDeclared);
         socketService.user.userSessionBetPlaced(updateUserProfitLoss);
         socketService.user.sessionDeleteBet(sessionDeleteBet);
+        socketService.user.sessionUpdated(updatedSessionMaxLmit);
+        socketService.user.updateInResultDeclare(updateSessionResultStatus);
       }
+      if (match?.id || id) {
+        socketService.user.sessionResultDeclared(updateResultDeclared);
+      }
+      return () => {
+        socketService.user.updateSessionRateClientOff();
+        socketService.user.sessionResultDeclaredOff();
+        socketService.user.userSessionBetPlacedOff();
+        socketService.user.sessionDeleteBetOff();
+        socketService.user.sessionUpdatedOff();
+        socketService.user.updateInResultDeclareOff();
+      };
     } catch (e) {
       console.log(e);
     }
-    return () => {
-      socketService.user.updateSessionRateClientOff((data: any) => {
-        if (data?.id === id && data?.matchId === match?.id) {
-          if (data?.status === "ball start") {
-            setIsBall(true);
-            setLock((prev: any) => {
-              return {
-                ...prev,
-                isNo: false,
-                isYes: false,
-                isNoPercent: false,
-                isYesPercent: false,
-              };
-            });
-          } else if (data?.status === "suspended") {
-            setIsBall(false);
-            setLock((prev: any) => {
-              return {
-                ...prev,
-                isNo: true,
-                isYes: true,
-                isNoPercent: true,
-                isYesPercent: true,
-              };
-            });
-          } else if (data?.status === "active") {
-            setInputDetail((prev: any) => {
-              return {
-                ...prev,
-                noRate: data?.noRate,
-                yesRate: data?.yesRate,
-                yesRatePercent: data?.yesPercent,
-                noRatePercent: data?.noPercent,
-                status: data?.status,
-              };
-            });
-            setIsBall(false);
-            setLock((prev: any) => {
-              return {
-                ...prev,
-                isNo: false,
-                isYes: false,
-                isNoPercent: false,
-                isYesPercent: false,
-              };
-            });
-          }
-        }
-      });
-      socketService.user.sessionResultDeclaredOff();
-      socketService.user.userSessionBetPlacedOff();
-      socketService.user.sessionDeleteBetOff();
-    };
-  }, [match, id]);
-  const handleValue = (v: any) => {
-    setMaxBetValue(v);
-  };
+  }, [match, id, socket]);
+
   return (
     <Box
       sx={{
@@ -379,13 +379,16 @@ const SessionAddComponent = ({ createSession, match }: any) => {
         background: "#F8C851",
         borderRadius: "5px",
         minHeight: "42vh",
-        py: "25px",
-        pt: "5px",
+        py: "3px",
         px: "20px",
       }}
     >
       <Typography
-        sx={{ color: "#0B4F26", fontSize: "20px", fontWeight: "600" }}
+        sx={{
+          color: "#0B4F26",
+          fontSize: { lg: "20px", xs: "16px", md: "18px" },
+          fontWeight: "600",
+        }}
       >
         {match?.title && match.title}(max:
         {maxBetValue
@@ -393,21 +396,20 @@ const SessionAddComponent = ({ createSession, match }: any) => {
           : sessionById
           ? sessionById?.maxBet
           : match?.betFairSessionMaxBet}
-        )
+        ){sessionById ? sessionById?.maxBet : match?.betFairSessionMaxBet})
       </Typography>
       <Box
         onClick={(e) => {
-          // setShowUndeclare(true);
-          setVisible3(true);
           e.stopPropagation();
+          if (!createSession) {
+            setVisible3(true);
+          }
         }}
         sx={{
           width: "30%",
           position: "relative",
           display: "flex",
           background: "#0B4F26",
-          // marginLeft: "5px",
-          // maxWidth: "120px",
           justifyContent: "center",
           alignItems: "center",
           height: "35px",
@@ -420,6 +422,8 @@ const SessionAddComponent = ({ createSession, match }: any) => {
             color: "white",
             fontWeight: "400",
             fontSize: "12px",
+            lineHeight: "0.9",
+            paddingX: "6px",
           }}
         >
           Set session max limit
@@ -447,8 +451,6 @@ const SessionAddComponent = ({ createSession, match }: any) => {
                   ? sessionById?.maxBet
                   : match?.betFairSessionMaxBet,
               }}
-              maxValue={handleValue}
-              // setResultPending={setResultPending}
               onClick={() => {
                 setVisible3(false);
                 setIsDisable(true);
@@ -487,7 +489,7 @@ const SessionAddComponent = ({ createSession, match }: any) => {
             inputRef={inputRef}
             match={match}
           />
-          <Box sx={{ mt: 2, border: "1px solid black", p: 1 }}>
+          <Box sx={{ border: "1px solid black", p: 1 }}>
             <Box
               sx={{
                 display: "grid",
@@ -504,7 +506,8 @@ const SessionAddComponent = ({ createSession, match }: any) => {
                     if (
                       !isCreateSession &&
                       !sessionById?.result &&
-                      sessionById?.activeStatus === "live"
+                      sessionById?.activeStatus === "live" &&
+                      !sessionById?.resultStatus
                     ) {
                       const [yesRatePercent, noRatePercent] =
                         item?.value?.split("-");
@@ -533,7 +536,8 @@ const SessionAddComponent = ({ createSession, match }: any) => {
                     background:
                       !isCreateSession &&
                       !sessionById?.result &&
-                      sessionById?.activeStatus === "live"
+                      sessionById?.activeStatus === "live" &&
+                      !sessionById?.resultStatus
                         ? "#0B4F26"
                         : "#696969",
                     justifyContent: "center",
@@ -574,7 +578,7 @@ const SessionAddComponent = ({ createSession, match }: any) => {
                     }}
                     sx={{
                       position: "relative",
-                      width: "30%",
+                      width: { lg: "30%", md: "30%", xs: "45%" },
                       display: "flex",
                       background: "#FF4D4D",
                       maxWidth: "120px",

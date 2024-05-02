@@ -50,7 +50,7 @@ const profileSlice = createSlice({
       })
       .addCase(getProfile.fulfilled, (state, action) => {
         state.loading = false;
-        state.getProfile = action.payload;
+        state.getProfile = action?.payload;
       })
       .addCase(getProfile.rejected, (state, action) => {
         state.loading = false;
@@ -63,14 +63,15 @@ const profileSlice = createSlice({
       })
       .addCase(getLoggedUserCount.fulfilled, (state, action) => {
         state.loading = false;
-        state.loggedUserCount = action.payload;
+        state.loggedUserCount = action?.payload;
       })
       .addCase(getLoggedUserCount.rejected, (state, action) => {
         state.loading = false;
         state.error = action?.error?.message;
       })
       .addCase(changePasswordReset, (state) => {
-        return { ...state, success: false, transactionPassword: "" };
+        state.success = false;
+        state.transactionPassword = "";
       });
   },
 });

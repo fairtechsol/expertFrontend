@@ -2,32 +2,39 @@ import { Box, Button, CircularProgress, Typography } from "@mui/material";
 import Input from "../login/Input";
 import { eye, eyeLock } from "../../assets";
 import { useFormik } from "formik";
-import { changePasswordSchema } from "../../utils/Validations/login";
+import { changePasswordValidation } from "../../utils/Validations/login";
 import { changePassword } from "../../store/actions/user/userAction";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store/store";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import CustomModal from "../Common/CustomModal";
 import CustomErrorMessage from "../Common/CustomErrorMessage";
+import { checkOldPass } from "../../store/actions/auth/authAction";
+import { debounce } from "lodash";
+import { ChangePasswordInterface } from "../../interface/authInterface";
 
-const initialValues: any = {
+const initialValues: ChangePasswordInterface = {
   oldPassword: "",
   newPassword: "",
   confirmPassword: "",
 };
 
-export const ChangePasswordComponent = ({ passLoader, width }: any) => {
+export const ChangePasswordComponent = () => {
   const dispatch: AppDispatch = useDispatch();
   const [showModal, setShowModal] = useState<boolean>(false);
 
   const { success, transactionPassword, loading } = useSelector(
     (state: RootState) => state.user.profile
   );
+  const { oldPasswordMatched } = useSelector((state: RootState) => state.auth);
 
   const formik = useFormik({
     initialValues: initialValues,
-    validationSchema: changePasswordSchema,
+    validationSchema: changePasswordValidation(oldPasswordMatched),
     onSubmit: (values: any) => {
+      if (loading) {
+        return;
+      }
       dispatch(changePassword(values));
     },
   });
@@ -40,6 +47,17 @@ export const ChangePasswordComponent = ({ passLoader, width }: any) => {
     }
   }, [loading]);
 
+  const debouncedInputValue = useMemo(() => {
+    return debounce((value) => {
+      dispatch(checkOldPass({ oldPassword: value }));
+    }, 500);
+  }, []);
+
+  const handleOldPass = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const query = e.target.value;
+    formik.handleChange(e);
+    debouncedInputValue(query);
+  };
   return (
     <>
       <form onSubmit={handleSubmit}>
@@ -47,8 +65,8 @@ export const ChangePasswordComponent = ({ passLoader, width }: any) => {
           sx={{
             width: { xs: "96vw", lg: "19vw", md: "19vw" },
             minWidth: {
-              lg: width ? width : "350px",
-              md: width ? width : "350px",
+              lg: "350px",
+              md: "350px",
               xs: "0px",
             },
             marginTop: "10px",
@@ -76,13 +94,13 @@ export const ChangePasswordComponent = ({ passLoader, width }: any) => {
           >
             <Input
               required={true}
-              placeholder={"Enter Old Password"}
-              title={"Old Password"}
+              placeholder="Enter Old Password"
+              title="Old Password"
               id="oldPassword"
-              name={"oldPassword"}
+              name="oldPassword"
               type="password"
               value={formik.values.oldPassword}
-              onChange={formik.handleChange}
+              onChange={handleOldPass}
               titleStyle={{
                 color: "#222222",
                 marginLeft: "0px",
@@ -96,15 +114,15 @@ export const ChangePasswordComponent = ({ passLoader, width }: any) => {
               toFoucs={true}
               onBlur={formik.handleBlur}
             />
-             <CustomErrorMessage
-                touched={touched.oldPassword}
-                errors={errors.oldPassword}
-              />
+            <CustomErrorMessage
+              touched={touched.oldPassword}
+              errors={errors.oldPassword}
+            />
             <Input
               required={true}
-              placeholder={"Enter New Password"}
-              title={"New Password"}
-              name={"newPassword"}
+              placeholder="Enter New Password"
+              title="New Password"
+              name="newPassword"
               id="newPassword"
               type="password"
               value={formik.values.newPassword}
@@ -122,15 +140,15 @@ export const ChangePasswordComponent = ({ passLoader, width }: any) => {
               place={3}
               toFoucs={true}
             />
-             <CustomErrorMessage
-                touched={touched.newPassword}
-                errors={errors.newPassword}
-              />
+            <CustomErrorMessage
+              touched={touched.newPassword}
+              errors={errors.newPassword}
+            />
             <Input
               required={true}
-              placeholder={"Enter Confirm Password"}
-              title={"Confirm New Password"}
-              name={"confirmPassword"}
+              placeholder="Enter Confirm Password"
+              title="Confirm New Password"
+              name="confirmPassword"
               id="confirmPassword"
               type="password"
               value={formik.values.confirmPassword}
@@ -149,10 +167,10 @@ export const ChangePasswordComponent = ({ passLoader, width }: any) => {
               toFoucs={true}
               okButtonRef={"okButtonRef"}
             />
-               <CustomErrorMessage
-                touched={touched.confirmPassword}
-                errors={errors.confirmPassword}
-              />
+            <CustomErrorMessage
+              touched={touched.confirmPassword}
+              errors={errors.confirmPassword}
+            />
             <Button
               type="submit"
               sx={{
@@ -176,7 +194,7 @@ export const ChangePasswordComponent = ({ passLoader, width }: any) => {
                 sx={{ fontSize: { lg: "18px", xs: "20px" } }}
                 color={"white"}
               >
-                {passLoader ? (
+                {loading ? (
                   <CircularProgress
                     sx={{
                       color: "#FFF",
@@ -198,7 +216,7 @@ export const ChangePasswordComponent = ({ passLoader, width }: any) => {
           message={transactionPassword}
           setShowModal={setShowModal}
           showModal={showModal}
-          buttonMessage={"Navigate To Login"}
+          buttonMessage="Navigate To Login"
         />
       )}
     </>

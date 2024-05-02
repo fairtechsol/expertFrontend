@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Box, Typography } from "@mui/material";
 import Stop from "../SessionMarket/Stop";
 import Result from "../Result";
@@ -12,6 +12,7 @@ import { betLiveStatus } from "../../../store/actions/match/matchAction";
 import { AppDispatch } from "../../../store/store";
 import { useDispatch } from "react-redux";
 import { profitLossDataForMatchConstants } from "../../../utils/Constants";
+import { formatToINR } from "../../helper";
 
 const MatchOdds = ({ currentMatch, matchOddsLive }: any) => {
   const [visible, setVisible] = useState(false);
@@ -21,8 +22,6 @@ const MatchOdds = ({ currentMatch, matchOddsLive }: any) => {
     matchOddsLive?.activeStatus === "live" ? true : false
   );
   const dispatch: AppDispatch = useDispatch();
-
-  // const teamRates = { teamA: 0, teamB: 0, teamC: 0 };
 
   const valueA = currentMatch?.teamRates?.teamARate;
   const valueB = currentMatch?.teamRates?.teamBRate;
@@ -56,6 +55,10 @@ const MatchOdds = ({ currentMatch, matchOddsLive }: any) => {
       console.log(e);
     }
   })();
+
+  useEffect(() => {
+    setLive(matchOddsLive?.activeStatus === "live" ? true : false);
+  }, [matchOddsLive?.activeStatus]);
 
   return (
     <>
@@ -109,6 +112,7 @@ const MatchOdds = ({ currentMatch, matchOddsLive }: any) => {
                   betLiveStatus({
                     isStop: true,
                     betId: matchOddsLive?.id,
+                    isManual: false,
                   })
                 );
                 setLive(false);
@@ -136,6 +140,7 @@ const MatchOdds = ({ currentMatch, matchOddsLive }: any) => {
               display: "flex",
               alignItems: "center",
               justifyContent: "flex-end",
+              marginLeft: "0px",
             }}
           >
             <Result
@@ -187,11 +192,12 @@ const MatchOdds = ({ currentMatch, matchOddsLive }: any) => {
                     betLiveStatus({
                       isStop: live,
                       betId: matchOddsLive?.id,
+                      isManual: false,
                     })
                   );
                   setLive(!live);
                 }}
-                width={"80px"}
+                // width={{lg: "80px", xs: "40px"}}
                 title={live ? "Live" : "Go Live"}
                 color={live ? "#46e080" : "#FF4D4D"}
                 customStyle={{
@@ -222,19 +228,13 @@ const MatchOdds = ({ currentMatch, matchOddsLive }: any) => {
             position: "absolute",
             zIndex: 999,
             top: "26%",
-            right: "100px",
+            right: "60px",
             width: { lg: "50vh", xs: "30vh" },
           }}
         >
           {visible && (
             <ResultComponent
               currentMatch={currentMatch}
-              betId={
-                currentMatch?.bettings?.length > 0 &&
-                currentMatch?.bettings?.filter(
-                  (v: any) => v?.sessionBet === false
-                )
-              }
               teamA={currentMatch?.teamA}
               stopAt={currentMatch?.stopAt}
               teamB={currentMatch?.teamB}
@@ -243,6 +243,7 @@ const MatchOdds = ({ currentMatch, matchOddsLive }: any) => {
               onClick={() => {
                 setVisible(false);
               }}
+              liveData={matchOddsLive}
             />
           )}
         </Box>
@@ -320,8 +321,8 @@ const MatchOdds = ({ currentMatch, matchOddsLive }: any) => {
                     marginLeft: "7px",
                   }}
                 >
-                  MIN: {currentMatch?.matchOdd?.minBet} MAX:
-                  {currentMatch?.matchOdd?.maxBet}
+                  MIN: {formatToINR(currentMatch?.matchOdd?.minBet)} MAX:
+                  {formatToINR(currentMatch?.matchOdd?.maxBet)}
                 </Typography>
               </Box>
               <Box
@@ -354,7 +355,7 @@ const MatchOdds = ({ currentMatch, matchOddsLive }: any) => {
                 <Box
                   sx={{
                     background: "#FF9292",
-                    width: { lg: "16.5%", xs: "25%" },
+                    width: { lg: "16.5%", xs: "24.7%" },
                     height: "100%",
                     display: "flex",
                     justifyContent: "center",
@@ -383,28 +384,34 @@ const MatchOdds = ({ currentMatch, matchOddsLive }: any) => {
                 }
                 lock={
                   matchOddsLive?.runners !== undefined &&
-                  matchOddsLive?.runners?.length > 0
+                    matchOddsLive?.runners?.length > 0
                     ? false
                     : true
                 }
                 name={currentMatch?.teamA}
                 currentMatch={currentMatch}
                 teamRates={
-                  currentMatch?.teamRates[
+                  currentMatch?.teamRates ?
+                    currentMatch?.teamRates[
+                      profitLossDataForMatchConstants[matchOddsLive?.type]?.A
+                    ] ? currentMatch?.teamRates[
                     profitLossDataForMatchConstants[matchOddsLive?.type]?.A
-                  ] ?? 0
+                    ] : 0 : 0
                 }
               />
               <Divider />
               <BoxComponent
                 teamRates={
-                  currentMatch?.teamRates[
+                  currentMatch?.teamRates ?
+                    currentMatch?.teamRates[
+                      profitLossDataForMatchConstants[matchOddsLive?.type]?.B
+                    ] ? currentMatch?.teamRates[
                     profitLossDataForMatchConstants[matchOddsLive?.type]?.B
-                  ] ?? 0
+                    ] : 0 : 0
                 }
                 lock={
                   matchOddsLive?.runners !== undefined &&
-                  matchOddsLive?.runners?.length > 0
+                    matchOddsLive?.runners?.length > 0
                     ? false
                     : true
                 }
@@ -421,13 +428,15 @@ const MatchOdds = ({ currentMatch, matchOddsLive }: any) => {
                   <Divider />
                   <BoxComponent
                     teamRates={
-                      currentMatch?.teamRates[
+                      currentMatch?.teamRates ? currentMatch?.teamRates[
                         profitLossDataForMatchConstants[matchOddsLive?.type]?.C
-                      ] ?? 0
+                      ] ? currentMatch?.teamRates[
+                      profitLossDataForMatchConstants[matchOddsLive?.type]?.C
+                      ] : 0 : 0
                     }
                     lock={
                       matchOddsLive?.runners !== undefined &&
-                      matchOddsLive?.runners?.length > 0
+                        matchOddsLive?.runners?.length > 0
                         ? false
                         : true
                     }
@@ -452,6 +461,25 @@ const MatchOdds = ({ currentMatch, matchOddsLive }: any) => {
                     background: "rgba(0,0,0,0.5)",
                   }}
                 ></Box>
+              )}
+              {currentMatch?.resultStatus && (
+                <Box
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    width: "100%",
+                    position: "absolute",
+                    height: "100%",
+                    bottom: 0,
+                    color: "#fff",
+                    backgroundColor: "rgba(203 24 24 / 70%)",
+                  }}
+                >
+                  <Typography sx={{ color: "#fff" }}>
+                    RESULT {currentMatch?.resultStatus}
+                  </Typography>
+                </Box>
               )}
             </Box>
           </>

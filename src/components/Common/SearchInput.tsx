@@ -1,29 +1,19 @@
 import { TextField, useMediaQuery, useTheme, Box } from "@mui/material";
 import StyledImage from "./StyledImages";
-import { SEARCH, Search } from "../../assets";
+import { Search } from "../../assets";
+import { MatchListSearchInput } from "../../interface/headerInterface";
 
-const SearchInput = (props: any) => {
-  const {
-    placeholder,
-    inputContainerStyle,
-    showTextInput,
-    header,
-    setShowSearch,
-    show,
-    width,
-    searchContainerStyle,
-    onChange,
-    handleSearch,
-  } = props;
-
+const SearchInput = ({
+  placeholder,
+  show,
+  width,
+  handleSearch,
+}: MatchListSearchInput) => {
   const theme = useTheme();
   const matchesxs = useMediaQuery(theme.breakpoints.down("lg"));
 
   const handleInputChange = async (event: any) => {
     const value = event.target.value;
-    if (onChange && typeof onChange === "function") {
-      onChange(value);
-    }
     try {
       handleSearch(value);
     } catch (e) {
@@ -34,15 +24,14 @@ const SearchInput = (props: any) => {
   return (
     <>
       <Box
-        onClick={setShowSearch}
         sx={[
           {
             backgroundColor: {
-              xs: showTextInput || show ? "white" : "transparent",
+              xs: show ? "white" : "transparent",
               lg: "white",
             },
             minWidth: {
-              lg: header ? "10vw" : "17vw",
+              lg: "17vw",
               xs: "10vw",
             },
             width: {
@@ -58,8 +47,8 @@ const SearchInput = (props: any) => {
             overflow: "hidden",
             paddingX: "5px",
             borderRadius: "35px",
+            marginRight: "10px",
           },
-          inputContainerStyle,
         ]}
       >
         {(!matchesxs || show) && (
@@ -88,31 +77,7 @@ const SearchInput = (props: any) => {
             }}
           />
         )}
-        {showTextInput && (
-          <TextField
-            variant="standard"
-            id="search"
-            name={`search_${Math.random().toString(36).substring(7)}`}
-            placeholder={placeholder}
-            onChange={handleInputChange}
-            InputProps={{
-              disableUnderline: true,
-              autoComplete: "off",
-              style: {
-                fontSize: "12px",
-                fontWeight: "600",
-                fontStyle: "italic",
-              },
-            }}
-            sx={{
-              borderColor: "white",
-              display: "flex",
-              flex: 1,
-              marginLeft: "5px",
-              fontSize: { lg: "10px", xs: "8px" },
-            }}
-          />
-        )}
+
         <Box
           sx={[
             {
@@ -127,13 +92,9 @@ const SearchInput = (props: any) => {
               marginRight: -0.3,
               cursor: "pointer",
             },
-            searchContainerStyle,
           ]}
         >
-          <StyledImage
-            src={header ? SEARCH : Search}
-            sx={{ height: "40%", width: "auto" }}
-          />
+          <StyledImage src={Search} sx={{ height: "40%", width: "auto" }} />
         </Box>
       </Box>
     </>

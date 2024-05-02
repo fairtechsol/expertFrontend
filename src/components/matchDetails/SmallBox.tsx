@@ -17,13 +17,13 @@ const SmallBox = ({
         onClick={onClick}
         sx={[
           {
-            width: { lg: width ? width : "70px", xs: width ? width : "25%" },
+            width: { lg: width ? width : "60px", xs: width ? width : "25%" },
             display: "flex",
             marginRight: "10px",
             justifyContent: "space-between",
             paddingX: 1,
             alignItems: "center",
-            height: "25px",
+            height: "32px",
             background: color ? color : "#46e080",
             borderRadius: "3px",
             cursor: "pointer",
@@ -33,7 +33,10 @@ const SmallBox = ({
       >
         <Typography
           sx={{
-            fontSize: { lg: textSize ? textSize : "11px", xs: "10px" },
+            fontSize: {
+              lg: textSize ? textSize : "11px",
+              xs: textSize ? textSize : "10px",
+            },
             fontWeight: "600",
             color: color !== "#FFF" ? "white" : "",
             lineHeight: 1,

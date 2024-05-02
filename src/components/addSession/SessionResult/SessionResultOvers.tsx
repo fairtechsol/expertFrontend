@@ -1,5 +1,6 @@
 import StyledImage from "../../Common/StyledImages";
 import { Box, Typography } from "@mui/material";
+import { formatToINR } from "../../helper";
 
 const SessionResultOvers = (props: any) => {
   const { sessionData, mode, changeSelected, selected } = props;
@@ -24,7 +25,7 @@ const SessionResultOvers = (props: any) => {
           }}
         >
           <Typography
-            sx={{ color: "white", fontWeight: "600", fontSize: "12px" }}
+            sx={{ color: "white", fontWeight: "600", fontSize: {lg:"12px", xs: "10px"}  }}
           >
             RESULT
           </Typography>
@@ -40,7 +41,7 @@ const SessionResultOvers = (props: any) => {
           }}
         >
           <Typography
-            sx={{ color: "white", fontWeight: "600", fontSize: "12px" }}
+            sx={{ color: "white", fontWeight: "600", fontSize: {lg:"12px", xs: "8px"} }}
           >
             PROFIT/LOSS
           </Typography>
@@ -111,7 +112,7 @@ const SessionResultOvers = (props: any) => {
                       color: "white",
                     }}
                   >
-                    {profit_loss?.toFixed(2)}
+                    {formatToINR(profit_loss)}
                     <StyledImage
                       src="https://fontawesomeicons.com/images/svg/trending-up-sharp.svg"
                       sx={{
@@ -146,7 +147,7 @@ const SessionResultOvers = (props: any) => {
                       color: "white",
                     }}
                   >
-                    {profit_loss}
+                    {formatToINR(profit_loss)}
                     <StyledImage
                       src="https://fontawesomeicons.com/images/svg/trending-down-sharp.svg"
                       sx={{
