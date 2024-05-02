@@ -344,25 +344,28 @@ const OtherMatchDetails = () => {
                 matchOddsLive={matchDetail?.halfTime}
               />
             )}
-            {matchDetail?.firstHalfGoal
-              ?.filter((item: any) => item?.isActive)
-              ?.map((market: any) => (
-                <UnderOverMarket
-                  currentMatch={matchDetail}
-                  liveData={market}
-                  title={market?.name}
-                />
-              ))}
-            {matchDetail?.overUnder
-              ?.filter((item: any) => item?.isActive)
-              ?.map((market: any) => (
-                <UnderOverMarket
-                  currentMatch={matchDetail}
-                  liveData={market}
-                  title={market?.name}
-                />
-              ))}
-            {matchDetail?.setWinner?.length > 0 &&
+            {matchDetail?.firstHalfGoal &&
+              matchDetail?.firstHalfGoal
+                ?.filter((item: any) => item?.isActive)
+                ?.map((market: any) => (
+                  <UnderOverMarket
+                    currentMatch={matchDetail}
+                    liveData={market}
+                    title={market?.name}
+                  />
+                ))}
+            {matchDetail?.overUnder &&
+              matchDetail?.overUnder
+                ?.filter((item: any) => item?.isActive)
+                ?.map((market: any) => (
+                  <UnderOverMarket
+                    currentMatch={matchDetail}
+                    liveData={market}
+                    title={market?.name}
+                  />
+                ))}
+            {matchDetail?.setWinner &&
+              matchDetail?.setWinner?.length > 0 &&
               matchDetail?.setWinner
                 ?.filter((item: any) => item?.isActive)
                 ?.map((market: any) => (

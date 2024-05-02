@@ -285,6 +285,26 @@ const ManualMarket = ({ currentMatch, liveData, type }: any) => {
                 }}
               ></Box>
             )}
+            {currentMatch?.resultStatus &&
+              currentMatch?.resultStatus[liveData?.id]?.status && (
+                <Box
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    width: "100%",
+                    position: "absolute",
+                    height: "100%",
+                    bottom: 0,
+                    color: "#fff",
+                    backgroundColor: "rgba(203 24 24 / 70%)",
+                  }}
+                >
+                  <Typography sx={{ color: "#fff" }}>
+                    RESULT {currentMatch?.resultStatus[liveData?.id]?.status}
+                  </Typography>
+                </Box>
+              )}
           </Box>
         </>
       )}
