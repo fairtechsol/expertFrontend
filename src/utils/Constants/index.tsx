@@ -50,10 +50,6 @@ export const Constants = {
   localPath: "http://localhost:5000",
   localPathThird: "http://localhost:3200",
   localPathExpert: "http://localhost:6060",
-  addMatchThirdParty:
-    process.env.NODE_ENV === "production"
-      ? "http://107.23.165.155:3200"
-      : "http://107.23.165.155:3200",
 
   ///Routes Constants
 
@@ -77,6 +73,7 @@ export const Constants = {
   },
   WEBSOCKET: "websocket",
   POLLING: "polling",
+  PRODUCTION: "production",
 };
 
 export const ButtonRatesQuickSessions = [
@@ -105,42 +102,6 @@ export const ButtonRatesQuickSessions = [
   { name: "200-350", value: "200-350" },
   { name: "250-400", value: "250-400" },
 ];
-
-// use below baseUrl for testing build
-
-export const baseUrls = {
-  socket:
-    process.env.NODE_ENV === "production"
-      ? Constants.apiBasePath
-      : Constants.localPath,
-  expertSocket:
-    process.env.NODE_ENV === "production"
-      ? Constants.expertSocketBasePath
-      : Constants.localPathExpert,
-  // : `${Constants.thirdParty}`,
-  matchSocket:
-    process.env.NODE_ENV === "production"
-      ? Constants.thirdParty
-      : Constants.localPathThird,
-  // `${Constants.thirdParty}`,
-};
-
-// use below baseUrl for live build
-
-// export const baseUrls = {
-//   socket:
-//     process.env.NODE_ENV === "production"
-//       ? Constants.apiBasePathLive
-//       : Constants.localPath,
-//   expertSocket:
-//     process.env.NODE_ENV === "production"
-//       ? Constants.expertSocketBasePathLive
-//       : Constants.localPathExpert,
-//   matchSocket:
-//     process.env.NODE_ENV === "production"
-//       ? Constants.thirdPartyLive
-//       : Constants.localPathThird,
-// };
 
 export const matchBettingType = {
   matchOdd: "matchOdd",
@@ -333,3 +294,43 @@ export const profitLossDataForMatchConstants = {
     C: "userTeamCRateHalfTime",
   },
 };
+
+export const addMatchThirdParty =
+  process.env.NODE_ENV === Constants.PRODUCTION
+    ? Constants.thirdParty
+    : Constants.localPathThird;
+
+export const baseUrls = {
+  socket:
+    process.env.NODE_ENV === Constants.PRODUCTION
+      ? Constants.apiBasePath
+      : Constants.localPath,
+  expertSocket:
+    process.env.NODE_ENV === Constants.PRODUCTION
+      ? Constants.expertSocketBasePath
+      : Constants.localPathExpert,
+  matchSocket:
+    process.env.NODE_ENV === Constants.PRODUCTION
+      ? Constants.thirdParty
+      : Constants.localPathThird,
+};
+
+// export const addMatchThirdParty =
+//   process.env.NODE_ENV === Constants.PRODUCTION
+//     ? Constants.thirdPartyLive
+//     : Constants.localPathThird;
+
+// export const baseUrls = {
+//   socket:
+//     process.env.NODE_ENV === Constants.PRODUCTION
+//       ? Constants.apiBasePathLive
+//       : Constants.localPath,
+//   expertSocket:
+//     process.env.NODE_ENV === Constants.PRODUCTION
+//       ? Constants.expertSocketBasePathLive
+//       : Constants.localPathExpert,
+//   matchSocket:
+//     process.env.NODE_ENV === Constants.PRODUCTION
+//       ? Constants.thirdPartyLive
+//       : Constants.localPathThird,
+// };
