@@ -117,8 +117,8 @@ export const matchBettingType = {
   tiedMatch2: "tiedMatch2",
   completeMatch: "completeMatch",
   completeManual: "completeManual",
-  setWinner1:"setWinner1",
-  setWinner2:"setWinner2",
+  setWinner1: "setWinner1",
+  setWinner2: "setWinner2",
   ...Array.from({ length: 20 }, (_, index: any) => index).reduce(
     (prev, curr) => {
       prev[`overUnder${curr}.5`] = `overUnder${curr}.5`;
@@ -252,7 +252,6 @@ export const eventWiseMatchData = {
       },
     ],
   },
-
 };
 
 export const profitLossDataForMatchConstants = {
@@ -322,7 +321,7 @@ export const profitLossDataForMatchConstants = {
     B: "userTeamBRateHalfTime",
     C: "userTeamCRateHalfTime",
   },
-  
+
   ...Array.from({ length: 20 }, (_, index) => index).reduce(
     (prev: any, curr) => {
       prev[`setWinner${curr}`] = {
@@ -334,46 +333,6 @@ export const profitLossDataForMatchConstants = {
     },
     {}
   ),
-};
-
-// export const addMatchThirdParty =
-//   process.env.NODE_ENV === Constants.PRODUCTION
-//     ? Constants.thirdParty
-//     : Constants.localPathThird;
-
-// export const baseUrls = {
-//   socket:
-//     process.env.NODE_ENV === Constants.PRODUCTION
-//       ? Constants.apiBasePath
-//       : Constants.localPath,
-//   expertSocket:
-//     process.env.NODE_ENV === Constants.PRODUCTION
-//       ? Constants.expertSocketBasePath
-//       : Constants.localPathExpert,
-//   matchSocket:
-//     process.env.NODE_ENV === Constants.PRODUCTION
-//       ? Constants.thirdParty
-//       : Constants.localPathThird,
-// };
-
-export const addMatchThirdParty =
-  process.env.NODE_ENV === Constants.PRODUCTION
-    ? Constants.thirdPartyLive
-    : Constants.localPathThird;
-
-export const baseUrls = {
-  socket:
-    process.env.NODE_ENV === Constants.PRODUCTION
-      ? Constants.apiBasePathLive
-      : Constants.localPath,
-  expertSocket:
-    process.env.NODE_ENV === Constants.PRODUCTION
-      ? Constants.expertSocketBasePathLive
-      : Constants.localPathExpert,
-  matchSocket:
-    process.env.NODE_ENV === Constants.PRODUCTION
-      ? Constants.thirdPartyLive
-      : Constants.localPathThird,
 };
 
 export const addMatchThirdParty =
