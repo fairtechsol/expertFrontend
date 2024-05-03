@@ -300,7 +300,7 @@ const EditBookmaker = (props: any) => {
     } catch (error) {
       console.log(error);
     }
-  }, [socket]);
+  }, [socket, bookmakerById]);
 
   useEffect(() => {
     try {
