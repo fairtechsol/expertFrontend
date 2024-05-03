@@ -226,7 +226,7 @@ const BetList = ({ tag, allBetRates }: any) => {
       </Box>
       <Box
         sx={{
-          overflowX: { xs: "scroll", lg: "scroll" },
+          overflowX: { xs: "scroll", lg: "auto" },
           width: "100%",
         }}
       >
