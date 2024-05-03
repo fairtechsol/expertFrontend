@@ -122,6 +122,7 @@ const AddMatch = () => {
   } = useSelector((state: RootState) => state.addMatch.addMatch);
 
   const [selected, setSelected] = useState(initialValues);
+  const [openDropDown, setOpenDropDown] = useState(null);
   const [error, setError] = useState({
     torunamentName: false,
     competitionName: false,
@@ -545,6 +546,9 @@ const AddMatch = () => {
     formik.resetForm();
   }, [manualMatchToggle]);
 
+  const handleDropDownOpen = (dropdownName:any) => {
+    setOpenDropDown(openDropDown === dropdownName ? null : dropdownName);
+  };
   return (
     <form onSubmit={handleSubmit}>
       <Box
@@ -638,6 +642,8 @@ const AddMatch = () => {
                 setSelected={setSelected}
                 dropDownTextStyle={inputStyle}
                 place={1}
+                isOpen={openDropDown === "gameType"}
+                onOpen={handleDropDownOpen}
               />
             </Box>
             {/* {touched.gameType && errors.gameType && (
@@ -692,6 +698,8 @@ const AddMatch = () => {
                   id="tournamentName"
                   selected={selected}
                   setSelected={setSelected}
+                  isOpen={openDropDown === "tournamentName"}
+                  onOpen={handleDropDownOpen}
                 />
               ) : (
                 <MatchListInput
@@ -768,6 +776,8 @@ const AddMatch = () => {
                   selected={selected}
                   setSelected={setSelected}
                   place={5}
+                  isOpen={openDropDown === "matchName"}
+                  onOpen={handleDropDownOpen}
                 />
               ) : (
                 <MatchListInput

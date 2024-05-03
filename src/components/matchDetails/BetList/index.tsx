@@ -30,7 +30,7 @@ const BetList = ({ tag, allBetRates }: any) => {
                   ? "#faf11b"
                   : "#F1C550",
                 deleteReason: v?.deleteReason,
-                width: { lg: "12%", xs: "30%" },
+                width: { lg: "12%", xs: "50%" },
               },
               {
                 name:
@@ -47,6 +47,7 @@ const BetList = ({ tag, allBetRates }: any) => {
                   : "#F1C550",
                 deleteReason: v?.deleteReason,
                 width: { lg: "17%", xs: "35%" },
+                overflowWrap: "anywhere",
               },
               {
                 name: v?.teamName,
@@ -55,7 +56,7 @@ const BetList = ({ tag, allBetRates }: any) => {
                   ? "#B3E0FF"
                   : "rgb(255, 146, 146)",
                 deleteReason: v?.deleteReason,
-                width: { lg: "13%", xs: "50%" },
+                width: { lg: "20%", xs: "50%" },
                 overflowWrap: "anywhere",
               },
               {
@@ -88,7 +89,7 @@ const BetList = ({ tag, allBetRates }: any) => {
                   ? "#B3E0FF"
                   : "rgb(255, 146, 146)",
                 deleteReason: v?.deleteReason,
-                width: { lg: "17%", xs: "35%" },
+                width: { lg: "12%", xs: "35%" },
                 fSize: "12px",
               },
               {
@@ -114,7 +115,7 @@ const BetList = ({ tag, allBetRates }: any) => {
                 time: true,
                 date: moment.utc(v?.createdAt).utcOffset("+05:30").format("L"),
                 deleteReason: v?.deleteReason,
-                width: { lg: "13%", xs: "35%" },
+                width: { lg: "11%", xs: "35%" },
               },
             ],
           };

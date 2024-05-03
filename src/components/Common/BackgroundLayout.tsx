@@ -5,7 +5,7 @@ const BackgroundLayout = ({ children }: any) => {
     <Box
       sx={{
         minHeight: "100vh",
-        padding: "0.2% 1% 1% 1%",
+        padding: "0.2% 0.2% 0.1% 0.1%",
         width: "100%",
         backgroundImage: `url(${Background})`,
         backgroundRepeat: "no-repeat",
