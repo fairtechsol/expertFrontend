@@ -1,14 +1,14 @@
 import { Box, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import { ARROWUP } from "../../assets";
 import Divider from "../../components/Common/Divider";
-import { formatToINR } from "../../helpers";
 import ManualBoxComponent from "../../components/manualMarket/manualBoxComponent";
 import Stop from "../../components/matchDetails/SessionMarket/Stop";
-import { betLiveStatus } from "../../store/actions/match/matchAction";
 import SmallBox from "../../components/matchDetails/SmallBox";
+import { formatToINR } from "../../helpers";
+import { betLiveStatus } from "../../store/actions/match/matchAction";
 import { AppDispatch } from "../../store/store";
-import { useDispatch } from "react-redux";
 
 const ManualMarket = ({ currentMatch, liveData, type }: any) => {
   const dispatch: AppDispatch = useDispatch();
@@ -97,24 +97,26 @@ const ManualMarket = ({ currentMatch, liveData, type }: any) => {
             justifyContent: "flex-end",
           }}
         >
-          <SmallBox
-            onClick={() => {
-              dispatch(
-                betLiveStatus({
-                  isStop: live,
-                  betId: liveData?.id,
-                  isManual: true,
-                })
-              );
-              setLive(!live);
-            }}
-            width={"80px"}
-            title={live ? "Live" : "Go Live"}
-            color={live ? "#46e080" : "#FF4D4D"}
-            customStyle={{
-              justifyContent: "center",
-            }}
-          />
+          {!currentMatch?.stopAt && (
+            <SmallBox
+              onClick={() => {
+                dispatch(
+                  betLiveStatus({
+                    isStop: live,
+                    betId: liveData?.id,
+                    isManual: true,
+                  })
+                );
+                setLive(!live);
+              }}
+              width={"80px"}
+              title={live ? "Live" : "Go Live"}
+              color={live ? "#46e080" : "#FF4D4D"}
+              customStyle={{
+                justifyContent: "center",
+              }}
+            />
+          )}
           <img
             onClick={() => {
               setVisibleImg(!visibleImg);
@@ -285,7 +287,7 @@ const ManualMarket = ({ currentMatch, liveData, type }: any) => {
                 }}
               ></Box>
             )}
-            {currentMatch?.resultStatus &&
+            {/* {currentMatch?.resultStatus &&
               currentMatch?.resultStatus[liveData?.id]?.status && (
                 <Box
                   sx={{
@@ -301,10 +303,13 @@ const ManualMarket = ({ currentMatch, liveData, type }: any) => {
                   }}
                 >
                   <Typography sx={{ color: "#fff" }}>
-                    RESULT {currentMatch?.resultStatus[liveData?.id]?.status}
+                    RESULT{" "}
+                    {liveData?.stopAt || liveData?.activeStatus === "result"
+                      ? "DECLARED"
+                      : currentMatch?.resultStatus[liveData?.id]?.status}
                   </Typography>
                 </Box>
-              )}
+              )} */}
           </Box>
         </>
       )}

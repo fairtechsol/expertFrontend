@@ -8,6 +8,7 @@ import {
   getAllLiveTournaments,
   getExtraMarketList,
   getMatchDetail,
+  handleBetResultStatus,
   matchDetailReset,
   matchDetailSuccessReset,
   tournamentListReset,
@@ -444,28 +445,37 @@ const addMatch = createSlice({
         };
       })
       .addCase(updateResultStatusOfMatch.fulfilled, (state, action) => {
-        const { status, betId } = action?.payload;
+        const { status, betId, matchType } = action?.payload;
         const index = state.matchDetail?.quickBookmaker?.findIndex(
           (item: any) => item.type === "quickbookmaker1"
         );
         if (index !== -1) {
-          if (betId === state.matchDetail?.quickBookmaker[index]?.id) {
+          if (matchType === "cricket") {
+            if (betId === state.matchDetail?.quickBookmaker[index]?.id) {
+              state.matchDetail = {
+                ...state.matchDetail,
+                resultStatus: status ? status : null,
+              };
+            }
+          } else
             state.matchDetail = {
               ...state.matchDetail,
-              resultStatus: status ? status : null,
+              resultStatus: {
+                ...state.matchDetail?.resultStatus,
+                [betId]: {
+                  betId: betId,
+                  status: status,
+                },
+              },
             };
-          }
         }
-        state.matchDetail = {
-          ...state.matchDetail,
-          resultStatus: {
-            ...state.matchDetail?.resultStatus,
-            [betId]: {
-              betId: betId,
-              status: status,
-            },
-          },
-        };
+      })
+      .addCase(handleBetResultStatus.fulfilled, (state, action) => {
+        const { betId } = action.payload;
+        const resultStatusObj = state.matchDetail?.resultStatus;
+        if (resultStatusObj && resultStatusObj.hasOwnProperty(betId)) {
+          delete resultStatusObj[betId];
+        }
       });
   },
 });

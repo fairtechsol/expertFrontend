@@ -19,58 +19,59 @@ const GameTypeDropdown = ({ anchorEl, open, handleClose,anchorrr }: any) => {
   const matchesMobile = useMediaQuery(theme.breakpoints.down("sm"));
   return (
     <>
-    <Menu
-      id="basic-menu"
-      anchorEl={anchorEl}
-      open={open}
-      onClose={handleClose}
-      sx={{ marginTop: "2px", padding: 0 }}
-      MenuListProps={{
-        "aria-labelledby": "basic-button",
-      }}
-      PaperProps={{
-        sx: {
-          width: "230px",
-          padding: 0,
-        },
-      }}
-    >
-      {allMatchg?.length > 0 &&
-        allMatchg?.map((x: any, i: any) => (
+      <Menu
+        id="basic-menu"
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleClose}
+        sx={{ marginTop: "2px", padding: 0 }}
+        MenuListProps={{
+          "aria-labelledby": "basic-button",
+        }}
+        PaperProps={{
+          sx: {
+            width: "230px",
+            padding: 0,
+          },
+        }}
+      >
+        {allMatchg?.length > 0 &&
+          allMatchg?.map((x: any, i: any) => (
             <MenuItem
-            dense={true}
-            sx={{
-              fontSize: matchesMobile ? "10px" : "12px",
-              fontWeight: "500",
-              marginX: "0px",
-              width: { lg: "240px", xs: "240px" },
-              borderBottomWidth: 0,
-              borderColor: "#EAEFEC",
-              paddingY: "0px",
-              borderStyle: "solid",
-              backgroundColor: selected == i ? "primary.main" : "white",
-              color: selected == i ? "white" : "black",
-              marginLeft: "-10px",
-              marginTop: i == 0 ? "-8px" : "",
-              "&:hover": {
-                backgroundColor: "primary.main",
-                color: "white",
-                borderColor: "white",
-              },
-            }}
-            onClick={(e: any) => {
+              key={i}
+              dense={true}
+              sx={{
+                fontSize: matchesMobile ? "10px" : "12px",
+                fontWeight: "500",
+                marginX: "0px",
+                width: { lg: "240px", xs: "240px" },
+                borderBottomWidth: 0,
+                borderColor: "#EAEFEC",
+                paddingY: "0px",
+                borderStyle: "solid",
+                backgroundColor: selected == i ? "primary.main" : "white",
+                color: selected == i ? "white" : "black",
+                marginLeft: "-10px",
+                marginTop: i == 0 ? "-8px" : "",
+                "&:hover": {
+                  backgroundColor: "primary.main",
+                  color: "white",
+                  borderColor: "white",
+                },
+              }}
+              onClick={(e: any) => {
                 setSelected(1);
                 dispatch(getMatchListDropdown(x.value));
                 setAnchor(e?.currentTarget);
                 handleClose();
-                anchorrr(e?.currentTarget)
-            }}
-          >
-            {x.title}
-          </MenuItem>
-        ))}
-    </Menu>
-    {/* {matchListDropdown?.length > 0 && (
+                anchorrr(e?.currentTarget);
+              }}
+            >
+              {x.title}
+            </MenuItem>
+          ))}
+      </Menu>
+      {/* {matchListDropdown?.length > 0 && (
         <DropDownMenu
           anchorEl={anchor}
           open={Boolean(anchor)}
@@ -80,7 +81,7 @@ const GameTypeDropdown = ({ anchorEl, open, handleClose,anchorrr }: any) => {
           }}
         />
       )} */}
-      </>
+    </>
   );
 };
 

@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import Loader from "../../components/Loader";
 import BetList from "../../components/matchDetails/BetList";
-import BookMarket from "../../components/matchDetails/Bookmarket";
 import MatchOdds from "../../components/matchDetails/MatchOdds";
 import {
   expertSocketService,
@@ -12,6 +11,7 @@ import {
   socketService,
 } from "../../socketManager";
 import {
+  handleBetResultStatus,
   removeSessionProLoss,
   updateMatchRates,
   updateRates,
@@ -67,7 +67,9 @@ const OtherMatchDetails = () => {
   const resultDeclared = (event: any) => {
     try {
       if (event?.matchId === state?.id) {
-        navigate("/expert/match");
+        if (event?.betType === "quickbookmaker1") {
+          navigate("/expert/match");
+        }
       }
     } catch (e) {
       console.log(e);
@@ -76,8 +78,12 @@ const OtherMatchDetails = () => {
   const resultUnDeclared = (event: any) => {
     try {
       if (event?.matchId === state?.id) {
-        dispatch(getOtherGamesMatchDetail(state?.id));
-        dispatch(getPlacedBetsMatch(state?.id));
+        if (event?.betType === "quickbookmaker1") {
+          dispatch(getOtherGamesMatchDetail(state?.id));
+          dispatch(getPlacedBetsMatch(state?.id));
+        } else {
+          dispatch(handleBetResultStatus(event));
+        }
       }
     } catch (e) {
       console.log(e);
@@ -192,7 +198,12 @@ const OtherMatchDetails = () => {
     try {
       if (event?.matchId === state?.id) {
         dispatch(updateResultStatusOfSession(event));
-        dispatch(updateResultStatusOfMatch(event));
+        dispatch(
+          updateResultStatusOfMatch({
+            ...event,
+            matchType: matchDetail?.matchType,
+          })
+        );
       }
     } catch (error) {
       console.error(error);
@@ -329,14 +340,21 @@ const OtherMatchDetails = () => {
                 showHeader={true}
                 currentMatch={matchDetail}
                 matchOddsLive={matchDetail?.matchOdd}
+                id={
+                  matchDetail?.quickBookmaker[
+                    matchDetail?.quickBookmaker?.findIndex(
+                      (item: any) => item.type === "quickbookmaker1"
+                    )
+                  ]?.id
+                }
               />
             )}
-            {matchDetail?.bookmaker?.isActive && (
+            {/* {matchDetail?.bookmaker?.isActive && (
               <BookMarket
                 currentMatch={matchDetail}
                 liveData={matchDetail?.bookmaker}
               />
-            )}
+            )} */}
             {matchDetail?.halfTime?.isActive && (
               <HalfTime
                 showHeader={true}
@@ -349,6 +367,7 @@ const OtherMatchDetails = () => {
                 ?.filter((item: any) => item?.isActive)
                 ?.map((market: any) => (
                   <UnderOverMarket
+                    key={market?.id}
                     currentMatch={matchDetail}
                     liveData={market}
                     title={market?.name}
@@ -359,6 +378,7 @@ const OtherMatchDetails = () => {
                 ?.filter((item: any) => item?.isActive)
                 ?.map((market: any) => (
                   <UnderOverMarket
+                    key={market?.id}
                     currentMatch={matchDetail}
                     liveData={market}
                     title={market?.name}
@@ -370,6 +390,7 @@ const OtherMatchDetails = () => {
                 ?.filter((item: any) => item?.isActive)
                 ?.map((market: any) => (
                   <SetWinner
+                    key={market?.id}
                     currentMatch={matchDetail}
                     liveData={market}
                     title={market?.name}

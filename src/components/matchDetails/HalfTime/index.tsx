@@ -1,18 +1,18 @@
-import { useEffect, useState } from "react";
 import { Box, Typography } from "@mui/material";
-import Stop from "../SessionMarket/Stop";
-import Result from "../Result";
-import SmallBox from "../SmallBox";
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import { ARROWUP } from "../../../assets";
-import ResultComponent from "../../updateBookmaker/BookmakerEdit/ResultComponent";
-import Divider from "../../Common/Divider";
-import BoxComponent from "./BoxComponent";
-import SmallBox2 from "./SmallBox2";
 import { betLiveStatus } from "../../../store/actions/match/matchAction";
 import { AppDispatch } from "../../../store/store";
-import { useDispatch } from "react-redux";
 import { profitLossDataForMatchConstants } from "../../../utils/Constants";
+import Divider from "../../Common/Divider";
 import { formatToINR } from "../../helper";
+import ResultComponent from "../../updateBookmaker/BookmakerEdit/ResultComponent";
+import Result from "../Result";
+import Stop from "../SessionMarket/Stop";
+import SmallBox from "../SmallBox";
+import BoxComponent from "./BoxComponent";
+import SmallBox2 from "./SmallBox2";
 
 const HalfTime = ({ currentMatch, matchOddsLive }: any) => {
   const [visible, setVisible] = useState(false);
@@ -143,69 +143,35 @@ const HalfTime = ({ currentMatch, matchOddsLive }: any) => {
               marginLeft: "0px",
             }}
           >
-            <Result
-              width={"80px"}
-              onClick={() => {
-                setVisible(true);
-              }}
-              invert={true}
-            />
-            {!currentMatch?.halfTime && (
-              <SmallBox
-                onClick={() => {
-                  // if (newMatchOdds?.id) {
-                  //   socket.emit("matchOddRateLive", {
-                  //     matchId: currentMatch?.id,
-                  //     matchOddLive: true,
-                  //   });
-                  //   // setLive(true);
-                  // } else {
-                  //   // activateMatchOdds(1, "");
-                  // }
-                }}
-                title={"Go Live"}
-                color={"#FF4D4D"}
-                customStyle={{
-                  justifyContent: "center",
-                }}
-              />
+            {!currentMatch?.stopAt && (
+              <>
+                <Result
+                  width={"80px"}
+                  onClick={() => {
+                    setVisible(true);
+                  }}
+                  invert={true}
+                />
+                <SmallBox
+                  onClick={() => {
+                    dispatch(
+                      betLiveStatus({
+                        isStop: live,
+                        betId: matchOddsLive?.id,
+                        isManual: false,
+                      })
+                    );
+                    setLive(!live);
+                  }}
+                  // width={{lg: "80px", xs: "40px"}}
+                  title={live ? "Live" : "Go Live"}
+                  color={live ? "#46e080" : "#FF4D4D"}
+                  customStyle={{
+                    justifyContent: "center",
+                  }}
+                />
+              </>
             )}
-            {currentMatch?.matchOddRateLive && (
-              <SmallBox
-                onClick={() => {
-                  // socket.emit("matchOddRateLive", {
-                  //   matchId: currentMatch?.id,
-                  //   matchOddLive: false,
-                  // });
-                  //   setLive(false);
-                }}
-                title={"Live"}
-                customStyle={{
-                  justifyContent: "center",
-                }}
-              />
-            )}
-            <>
-              <SmallBox
-                onClick={() => {
-                  dispatch(
-                    betLiveStatus({
-                      isStop: live,
-                      betId: matchOddsLive?.id,
-                      isManual: false,
-                    })
-                  );
-                  setLive(!live);
-                }}
-                // width={{lg: "80px", xs: "40px"}}
-                title={live ? "Live" : "Go Live"}
-                color={live ? "#46e080" : "#FF4D4D"}
-                customStyle={{
-                  justifyContent: "center",
-                }}
-              />
-            </>
-
             <img
               onClick={() => {
                 setVisibleImg(!visibleImg);
@@ -236,7 +202,10 @@ const HalfTime = ({ currentMatch, matchOddsLive }: any) => {
             <ResultComponent
               currentMatch={currentMatch}
               teamA={currentMatch?.teamA}
-              stopAt={currentMatch?.stopAt}
+              stopAt={
+                matchOddsLive?.stopAt ||
+                matchOddsLive?.activeStatus === "result"
+              }
               teamB={currentMatch?.teamB}
               tie={"Tie"}
               draw={currentMatch?.teamC ? currentMatch?.teamC : null}
@@ -494,7 +463,10 @@ const HalfTime = ({ currentMatch, matchOddsLive }: any) => {
                   >
                     <Typography sx={{ color: "#fff" }}>
                       RESULT{" "}
-                      {currentMatch?.resultStatus[matchOddsLive?.id]?.status}
+                      {matchOddsLive?.stopAt ||
+                      matchOddsLive?.activeStatus === "result"
+                        ? "DECLARED"
+                        : currentMatch?.resultStatus[matchOddsLive?.id]?.status}
                     </Typography>
                   </Box>
                 )}

@@ -36,6 +36,7 @@ import {
 import { AppDispatch, RootState } from "../../store/store";
 import { eventWiseMatchData, matchBettingType } from "../../utils/Constants";
 // import { addMatchValidation } from "../../utils/Validations/login";
+
 // const useStyles = makeStyles(() => ({
 //   dateTimePicker: {
 //     "& .MuiFormControl-root": {
@@ -955,7 +956,6 @@ const AddMatch = () => {
                   label={"Betfair Session Max Bet*"}
                   type={"Number"}
                   placeholder="Betfair Session Max Bet..."
-                  InputValType={"InputVal"}
                   place={11}
                   name="betfairSessionMaxBet"
                   id="betfairSessionMaxBet"
@@ -984,7 +984,6 @@ const AddMatch = () => {
                     value={values?.[item?.matchType]?.maxBet}
                     // onChange={handleChange}
                     placeholder={`Enter ${item?.name} Max Bet...`}
-                    InputValType={"InputVal"}
                     place={15}
                     onBlur={formik.handleBlur}
                   />
@@ -1024,7 +1023,6 @@ const AddMatch = () => {
                         touched={(touched?.[item?.matchType] as any)?.maxBet}
                         value={values?.[item?.matchType]?.maxBet}
                         placeholder={`Enter ${item?.name} Max Bet...`}
-                        InputValType={"InputVal"}
                         place={15}
                         onBlur={formik.handleBlur}
                       />

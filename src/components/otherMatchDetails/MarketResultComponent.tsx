@@ -15,8 +15,8 @@ import MarketCustomButton from "./MarketCustomButton";
 const MarketResultComponent = ({
   currentMatch,
   onClick,
-  teamA,
-  teamB,
+  // teamA,
+  // teamB,
   stopAt,
   liveData,
 }: any) => {
