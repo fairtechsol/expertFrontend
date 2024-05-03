@@ -367,7 +367,7 @@ const addMatch = createSlice({
             [profitLossDataForMatchConstants[jobData?.newBet?.marketType].B]:
               userRedisObj[jobData?.teamBrateRedisKey],
             [profitLossDataForMatchConstants[jobData?.newBet?.marketType].C]:
-              userRedisObj[jobData?.teamBrateRedisKey],
+              userRedisObj[jobData?.teamCrateRedisKey],
           };
         } else {
           state.matchDetail.teamRates = {
