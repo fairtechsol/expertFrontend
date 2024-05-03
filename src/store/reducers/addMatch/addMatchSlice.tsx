@@ -195,9 +195,9 @@ const addMatch = createSlice({
           overUnder,
           halfTime,
           apiTideMatch: apiTiedMatch,
-          bookmaker: bookmaker,
-          marketCompleteMatch: marketCompleteMatch,
-          matchOdd: matchOdd,
+          bookmaker,
+          marketCompleteMatch,
+          matchOdd,
           setWinner,
           manualTideMatch,
           quickBookmaker: quickbookmaker,
@@ -445,12 +445,12 @@ const addMatch = createSlice({
         };
       })
       .addCase(updateResultStatusOfMatch.fulfilled, (state, action) => {
-        const { status, betId, matchType } = action?.payload;
+        const { status, betId } = action?.payload;
         const index = state.matchDetail?.quickBookmaker?.findIndex(
           (item: any) => item.type === "quickbookmaker1"
         );
         if (index !== -1) {
-          if (matchType === "cricket") {
+          if (state.matchDetail?.matchType === "cricket") {
             if (betId === state.matchDetail?.quickBookmaker[index]?.id) {
               state.matchDetail = {
                 ...state.matchDetail,

@@ -152,24 +152,27 @@ const HalfTime = ({ currentMatch, matchOddsLive }: any) => {
                   }}
                   invert={true}
                 />
-                <SmallBox
-                  onClick={() => {
-                    dispatch(
-                      betLiveStatus({
-                        isStop: live,
-                        betId: matchOddsLive?.id,
-                        isManual: false,
-                      })
-                    );
-                    setLive(!live);
-                  }}
-                  // width={{lg: "80px", xs: "40px"}}
-                  title={live ? "Live" : "Go Live"}
-                  color={live ? "#46e080" : "#FF4D4D"}
-                  customStyle={{
-                    justifyContent: "center",
-                  }}
-                />
+                {currentMatch?.resultStatus &&
+                  !currentMatch?.resultStatus[matchOddsLive?.id]?.status && (
+                    <SmallBox
+                      onClick={() => {
+                        dispatch(
+                          betLiveStatus({
+                            isStop: live,
+                            betId: matchOddsLive?.id,
+                            isManual: false,
+                          })
+                        );
+                        setLive(!live);
+                      }}
+                      // width={{lg: "80px", xs: "40px"}}
+                      title={live ? "Live" : "Go Live"}
+                      color={live ? "#46e080" : "#FF4D4D"}
+                      customStyle={{
+                        justifyContent: "center",
+                      }}
+                    />
+                  )}
               </>
             )}
             <img

@@ -1,5 +1,5 @@
 import { Box } from "@mui/material";
-import { memo, useEffect, useState } from "react";
+import { memo, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import Loader from "../../components/Loader";
@@ -46,7 +46,6 @@ const OtherMatchDetails = () => {
   const { state } = useLocation();
   const navigate = useNavigate();
   const dispatch: AppDispatch = useDispatch();
-  const [_] = useState(false);
   const { matchDetail, loading, success } = useSelector(
     (state: RootState) => state.addMatch.addMatch
   );
@@ -69,6 +68,8 @@ const OtherMatchDetails = () => {
       if (event?.matchId === state?.id) {
         if (event?.betType === "quickbookmaker1") {
           navigate("/expert/match");
+        } else {
+          dispatch(getPlacedBetsMatch(state?.id));
         }
       }
     } catch (e) {
@@ -82,6 +83,7 @@ const OtherMatchDetails = () => {
           dispatch(getOtherGamesMatchDetail(state?.id));
           dispatch(getPlacedBetsMatch(state?.id));
         } else {
+          dispatch(getPlacedBetsMatch(state?.id));
           dispatch(handleBetResultStatus(event));
         }
       }
@@ -198,12 +200,7 @@ const OtherMatchDetails = () => {
     try {
       if (event?.matchId === state?.id) {
         dispatch(updateResultStatusOfSession(event));
-        dispatch(
-          updateResultStatusOfMatch({
-            ...event,
-            matchType: matchDetail?.matchType,
-          })
-        );
+        dispatch(updateResultStatusOfMatch(event));
       }
     } catch (error) {
       console.error(error);
