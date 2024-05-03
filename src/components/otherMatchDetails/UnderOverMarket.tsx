@@ -96,33 +96,35 @@ const UnderOverMarket = ({ currentMatch, liveData, title }: any) => {
             justifyContent: "flex-end",
           }}
         >
-          <>
-            <Result
-              width={"80px"}
-              onClick={() => {
-                setVisible(true);
-              }}
-              invert={true}
-            />
-            <SmallBox
-              onClick={() => {
-                dispatch(
-                  betLiveStatus({
-                    isStop: live,
-                    betId: liveData?.id,
-                    isManual: false,
-                  })
-                );
-                setLive(!live);
-              }}
-              width={{ xs: "20px", lg: "80px", md: "50px" }}
-              title={live ? "Live" : "Go Live"}
-              color={live ? "#46e080" : "#FF4D4D"}
-              customStyle={{
-                justifyContent: "center",
-              }}
-            />
-          </>
+          {!currentMatch?.stopAt && (
+            <>
+              <Result
+                width={"80px"}
+                onClick={() => {
+                  setVisible(true);
+                }}
+                invert={true}
+              />
+              <SmallBox
+                onClick={() => {
+                  dispatch(
+                    betLiveStatus({
+                      isStop: live,
+                      betId: liveData?.id,
+                      isManual: false,
+                    })
+                  );
+                  setLive(!live);
+                }}
+                width={{ xs: "20px", lg: "80px", md: "50px" }}
+                title={live ? "Live" : "Go Live"}
+                color={live ? "#46e080" : "#FF4D4D"}
+                customStyle={{
+                  justifyContent: "center",
+                }}
+              />
+            </>
+          )}
           <img
             onClick={() => {
               setVisibleImg(!visibleImg);

@@ -150,62 +150,28 @@ const MatchOdds = ({ currentMatch, matchOddsLive, id }: any) => {
               }}
               invert={true}
             />
-            {!currentMatch?.matchOdd && (
-              <SmallBox
-                onClick={() => {
-                  // if (newMatchOdds?.id) {
-                  //   socket.emit("matchOddRateLive", {
-                  //     matchId: currentMatch?.id,
-                  //     matchOddLive: true,
-                  //   });
-                  //   // setLive(true);
-                  // } else {
-                  //   // activateMatchOdds(1, "");
-                  // }
-                }}
-                title={"Go Live"}
-                color={"#FF4D4D"}
-                customStyle={{
-                  justifyContent: "center",
-                }}
-              />
+            {!currentMatch?.stopAt && (
+              <>
+                <SmallBox
+                  onClick={() => {
+                    dispatch(
+                      betLiveStatus({
+                        isStop: live,
+                        betId: matchOddsLive?.id,
+                        isManual: false,
+                      })
+                    );
+                    setLive(!live);
+                  }}
+                  // width={{lg: "80px", xs: "40px"}}
+                  title={live ? "Live" : "Go Live"}
+                  color={live ? "#46e080" : "#FF4D4D"}
+                  customStyle={{
+                    justifyContent: "center",
+                  }}
+                />
+              </>
             )}
-            {currentMatch?.matchOddRateLive && (
-              <SmallBox
-                onClick={() => {
-                  // socket.emit("matchOddRateLive", {
-                  //   matchId: currentMatch?.id,
-                  //   matchOddLive: false,
-                  // });
-                  //   setLive(false);
-                }}
-                title={"Live"}
-                customStyle={{
-                  justifyContent: "center",
-                }}
-              />
-            )}
-            <>
-              <SmallBox
-                onClick={() => {
-                  dispatch(
-                    betLiveStatus({
-                      isStop: live,
-                      betId: matchOddsLive?.id,
-                      isManual: false,
-                    })
-                  );
-                  setLive(!live);
-                }}
-                // width={{lg: "80px", xs: "40px"}}
-                title={live ? "Live" : "Go Live"}
-                color={live ? "#46e080" : "#FF4D4D"}
-                customStyle={{
-                  justifyContent: "center",
-                }}
-              />
-            </>
-
             <img
               onClick={() => {
                 setVisibleImg(!visibleImg);

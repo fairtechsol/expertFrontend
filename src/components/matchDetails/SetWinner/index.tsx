@@ -99,24 +99,26 @@ const SetWinner = ({ currentMatch, liveData, title }: any) => {
             justifyContent: "flex-end",
           }}
         >
-          <SmallBox
-            onClick={() => {
-              dispatch(
-                betLiveStatus({
-                  isStop: live,
-                  betId: liveData?.id,
-                  isManual: false,
-                })
-              );
-              setLive(!live);
-            }}
-            width={"80px"}
-            title={live ? "Live" : "Go Live"}
-            color={live ? "#46e080" : "#FF4D4D"}
-            customStyle={{
-              justifyContent: "center",
-            }}
-          />
+          {!currentMatch?.stopAt && (
+            <SmallBox
+              onClick={() => {
+                dispatch(
+                  betLiveStatus({
+                    isStop: live,
+                    betId: liveData?.id,
+                    isManual: false,
+                  })
+                );
+                setLive(!live);
+              }}
+              width={"80px"}
+              title={live ? "Live" : "Go Live"}
+              color={live ? "#46e080" : "#FF4D4D"}
+              customStyle={{
+                justifyContent: "center",
+              }}
+            />
+          )}
           <img
             onClick={() => {
               setVisibleImg(!visibleImg);
