@@ -332,6 +332,7 @@ const MatchMarketDetail = () => {
               <BookMarket
                 currentMatch={matchDetail}
                 liveData={matchDetail?.bookmaker}
+                title={matchDetail?.bookmaker?.name}
               />
             )}
             {matchDetail?.quickBookmaker
@@ -347,6 +348,7 @@ const MatchMarketDetail = () => {
               <TiedMatchMarket
                 currentMatch={matchDetail}
                 liveData={matchDetail?.apiTideMatch}
+                title={matchDetail?.apiTideMatch?.name}
               />
             )}
             {matchDetail?.manualTideMatch?.isActive && (
@@ -360,6 +362,7 @@ const MatchMarketDetail = () => {
               <CompleteMatchMarket
                 currentMatch={matchDetail}
                 liveData={matchDetail?.marketCompleteMatch}
+                title={matchDetail?.marketCompleteMatch?.name}
               />
             )}
           </Box>
