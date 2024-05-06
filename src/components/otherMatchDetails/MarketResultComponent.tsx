@@ -91,73 +91,75 @@ const MarketResultComponent = ({
       </Box>
       <Box sx={{ padding: 0 }}>
         <form onSubmit={handleSubmit}>
-          <Box
-            sx={{
-              width: "100%",
-              flexWrap: "wrap",
-              flexDirection: "row",
-              display: "flex",
-              alignSelf: "center",
-              alignItems: "center",
-              justifyContent: "center",
-              px: "5px",
-              py: "5px",
-            }}
-          >
+          {!stopAt && (
             <Box
               sx={{
                 width: "100%",
-                border: "none",
+                flexWrap: "wrap",
+                flexDirection: "row",
                 display: "flex",
-                justifyContent: "center",
+                alignSelf: "center",
                 alignItems: "center",
-                height: "30px",
+                justifyContent: "center",
+                px: "5px",
+                py: "5px",
               }}
             >
-              <Typography
+              <Box
                 sx={{
-                  width:'50%',
-                  fontSize: "12px",
-                  fontWeight: "700",
-                  color: "black",
-                  lineHeight: 1,
-                  // overflowWrap: "anywhere",
-                  // textAlign:'center'
-                  display:'flex',
-                  justifyContent:'center',
-                  alignItems:'center'
+                  width: "100%",
+                  border: "none",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  height: "30px",
                 }}
               >
-                {"Score : "}
-              </Typography>
-              <TextField
-                autoFocus
-                placeholder="Score"
-                variant="standard"
-                value={selected}
-                // onChange={(e) => setSelected(e?.target.value)}
-                onChange={(e: any) => {
-                  const numericValue = e.target.value.replace(/[^0-9]/g, "");
-                  setSelected(numericValue);
-                }}
-                InputProps={{
-                  disableUnderline: true,
-                  sx: {
-                    width: "69%",
-                    alignSelf:'end',
-                    border: "1px solid #303030",
-                    borderRadius: "5px",
-                    paddingY: "5px",
-                    paddingX: "0.5vw",
-                    height: "28px",
-                    backgroundColor: "white",
-                    display:'flex',
-                    // justifyContent:'flex-start'
-                  },
-                }}
-              />
+                <Typography
+                  sx={{
+                    width: "50%",
+                    fontSize: "12px",
+                    fontWeight: "700",
+                    color: "black",
+                    lineHeight: 1,
+                    // overflowWrap: "anywhere",
+                    // textAlign:'center'
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  {"Score : "}
+                </Typography>
+                <TextField
+                  autoFocus
+                  placeholder="Score"
+                  variant="standard"
+                  value={selected}
+                  // onChange={(e) => setSelected(e?.target.value)}
+                  onChange={(e: any) => {
+                    const numericValue = e.target.value.replace(/[^0-9]/g, "");
+                    setSelected(numericValue);
+                  }}
+                  InputProps={{
+                    disableUnderline: true,
+                    sx: {
+                      width: "69%",
+                      alignSelf: "end",
+                      border: "1px solid #303030",
+                      borderRadius: "5px",
+                      paddingY: "5px",
+                      paddingX: "0.5vw",
+                      height: "28px",
+                      backgroundColor: "white",
+                      display: "flex",
+                      // justifyContent:'flex-start'
+                    },
+                  }}
+                />
+              </Box>
             </Box>
-          </Box>
+          )}
 
           <Box
             sx={{
