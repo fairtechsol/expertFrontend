@@ -14,6 +14,7 @@ import {
   handleBetResultStatus,
   removeSessionProLoss,
   updateMatchRates,
+  updateMatchRatesOnMarketUndeclare,
   updateRates,
   updateSessionProLoss,
 } from "../../store/actions/addMatch/addMatchAction";
@@ -85,6 +86,7 @@ const OtherMatchDetails = () => {
         } else {
           dispatch(getPlacedBetsMatch(state?.id));
           dispatch(handleBetResultStatus(event));
+          dispatch(updateMatchRatesOnMarketUndeclare(event));
         }
       }
     } catch (e) {
@@ -107,12 +109,12 @@ const OtherMatchDetails = () => {
       if (event?.matchId === state?.id) {
         dispatch(updateRates(event));
         dispatch(updateMatchBetsReason(event));
-        dispatch(
-          updateSessionProLoss({
-            id: event?.betId,
-            betPlaced: event?.profitLoss ? event?.profitLoss?.betPlaced : [],
-          })
-        );
+        // dispatch(
+        //   updateSessionProLoss({
+        //     id: event?.betId,
+        //     betPlaced: event?.profitLoss ? event?.profitLoss?.betPlaced : [],
+        //   })
+        // );
       }
     } catch (e) {
       console.log(e);
@@ -346,6 +348,15 @@ const OtherMatchDetails = () => {
                 }
               />
             )}
+            {matchDetail?.quickBookmaker
+              ?.filter((item: any) => item?.isActive)
+              ?.map((bookmaker: any) => (
+                <ManualMarket
+                  key={bookmaker?.id}
+                  currentMatch={matchDetail}
+                  liveData={bookmaker}
+                />
+              ))}
             {/* {matchDetail?.bookmaker?.isActive && (
               <BookMarket
                 currentMatch={matchDetail}
@@ -393,15 +404,7 @@ const OtherMatchDetails = () => {
                     title={market?.name}
                   />
                 ))}
-            {matchDetail?.quickBookmaker
-              ?.filter((item: any) => item?.isActive)
-              ?.map((bookmaker: any) => (
-                <ManualMarket
-                  key={bookmaker?.id}
-                  currentMatch={matchDetail}
-                  liveData={bookmaker}
-                />
-              ))}
+
             {matchDetail?.apiTideMatch?.isActive && (
               <TiedMatchMarket
                 currentMatch={matchDetail}

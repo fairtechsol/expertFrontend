@@ -331,6 +331,12 @@ export const handleBetResultStatus = createAsyncThunk<any, any>(
     return data;
   }
 );
+export const updateMatchRatesOnMarketUndeclare = createAsyncThunk<any, any>(
+  "/match/updateOnUndeclare",
+  async (data) => {
+    return data;
+  }
+);
 export const addMatchReset = createAction("add/reset");
 export const editMatchReset = createAction("edit/reset");
 export const matchDetailReset = createAction("matchDetail/reset");
