@@ -258,13 +258,15 @@ const SetWinner = ({ currentMatch, liveData, title }: any) => {
           <Box sx={{ position: "relative" }}>
             <BoxComponent
               teamRates={
-                currentMatch?.teamRates
-                  ? currentMatch?.teamRates[
-                      profitLossDataForMatchConstants[liveData?.type]?.A
-                    ]
+                !liveData?.stopAt || liveData?.activeStatus !== "result"
+                  ? currentMatch?.teamRates
                     ? currentMatch?.teamRates[
                         profitLossDataForMatchConstants[liveData?.type]?.A
                       ]
+                      ? currentMatch?.teamRates[
+                          profitLossDataForMatchConstants[liveData?.type]?.A
+                        ]
+                      : 0
                     : 0
                   : 0
               }
@@ -279,13 +281,15 @@ const SetWinner = ({ currentMatch, liveData, title }: any) => {
             <BoxComponent
               livestatus={liveData?.status === "live" ? true : false}
               teamRates={
-                currentMatch?.teamRates
-                  ? currentMatch?.teamRates[
-                      profitLossDataForMatchConstants[liveData?.type]?.B
-                    ]
+                !liveData?.stopAt || liveData?.activeStatus !== "result"
+                  ? currentMatch?.teamRates
                     ? currentMatch?.teamRates[
                         profitLossDataForMatchConstants[liveData?.type]?.B
                       ]
+                      ? currentMatch?.teamRates[
+                          profitLossDataForMatchConstants[liveData?.type]?.B
+                        ]
+                      : 0
                     : 0
                   : 0
               }
@@ -302,13 +306,15 @@ const SetWinner = ({ currentMatch, liveData, title }: any) => {
                   color={"#FF4D4D"}
                   livestatus={liveData?.status === "live" ? true : false}
                   teamRates={
-                    currentMatch?.teamRates
-                      ? currentMatch?.teamRates[
-                          profitLossDataForMatchConstants[liveData?.type]?.C
-                        ]
+                    !liveData?.stopAt || liveData?.activeStatus !== "result"
+                      ? currentMatch?.teamRates
                         ? currentMatch?.teamRates[
                             profitLossDataForMatchConstants[liveData?.type]?.C
                           ]
+                          ? currentMatch?.teamRates[
+                              profitLossDataForMatchConstants[liveData?.type]?.C
+                            ]
+                          : 0
                         : 0
                       : 0
                   }

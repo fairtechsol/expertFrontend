@@ -9,6 +9,7 @@ import SmallBox from "../../components/matchDetails/SmallBox";
 import { formatToINR } from "../../helpers";
 import { betLiveStatus } from "../../store/actions/match/matchAction";
 import { AppDispatch } from "../../store/store";
+import { profitLossDataForMatchConstants } from "../../utils/Constants";
 
 const ManualMarket = ({ currentMatch, liveData, type }: any) => {
   const dispatch: AppDispatch = useDispatch();
@@ -213,12 +214,14 @@ const ManualMarket = ({ currentMatch, liveData, type }: any) => {
           <Box sx={{ position: "relative" }}>
             <ManualBoxComponent
               teamRates={
-                type === "manualTiedMatch"
-                  ? currentMatch?.teamRates?.yesRateTie
-                    ? currentMatch?.teamRates?.yesRateTie
+                currentMatch?.teamRates
+                  ? currentMatch?.teamRates[
+                      profitLossDataForMatchConstants[liveData?.type]?.A
+                    ]
+                    ? currentMatch?.teamRates[
+                        profitLossDataForMatchConstants[liveData?.type]?.A
+                      ]
                     : 0
-                  : currentMatch?.teamRates?.teamARate
-                  ? currentMatch?.teamRates?.teamARate
                   : 0
               }
               status={liveData?.statusTeamA}
@@ -234,12 +237,14 @@ const ManualMarket = ({ currentMatch, liveData, type }: any) => {
             <ManualBoxComponent
               livestatus={liveData?.statusTeamB === "suspended" ? true : false}
               teamRates={
-                type === "manualTiedMatch"
-                  ? currentMatch?.teamRates?.noRateTie
-                    ? currentMatch?.teamRates?.noRateTie
+                currentMatch?.teamRates
+                  ? currentMatch?.teamRates[
+                      profitLossDataForMatchConstants[liveData?.type]?.B
+                    ]
+                    ? currentMatch?.teamRates[
+                        profitLossDataForMatchConstants[liveData?.type]?.B
+                      ]
                     : 0
-                  : currentMatch?.teamRates?.teamBRate
-                  ? currentMatch?.teamRates?.teamBRate
                   : 0
               }
               //   lock={liveData?.runners?.length > 0 ? false : true}
@@ -259,8 +264,14 @@ const ManualMarket = ({ currentMatch, liveData, type }: any) => {
                     liveData?.statusTeamC === "suspended" ? true : false
                   }
                   teamRates={
-                    currentMatch?.teamRates?.teamCRate
-                      ? currentMatch?.teamRates?.teamCRate
+                    currentMatch?.teamRates
+                      ? currentMatch?.teamRates[
+                          profitLossDataForMatchConstants[liveData?.type]?.C
+                        ]
+                        ? currentMatch?.teamRates[
+                            profitLossDataForMatchConstants[liveData?.type]?.C
+                          ]
+                        : 0
                       : 0
                   }
                   name={currentMatch?.teamC}

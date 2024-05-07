@@ -259,10 +259,16 @@ const UnderOverMarket = ({ currentMatch, liveData, title }: any) => {
           <Box sx={{ position: "relative" }}>
             <BoxComponent
               teamRates={
-                currentMatch?.teamRates
-                  ? currentMatch?.teamRates[
-                      profitLossDataForMatchConstants[liveData?.type]?.A
-                    ]
+                !liveData?.stopAt || liveData?.activeStatus !== "result"
+                  ? currentMatch?.teamRates
+                    ? currentMatch?.teamRates[
+                        profitLossDataForMatchConstants[liveData?.type]?.A
+                      ]
+                      ? currentMatch?.teamRates[
+                          profitLossDataForMatchConstants[liveData?.type]?.A
+                        ]
+                      : 0
+                    : 0
                   : 0
               }
               teamImage={currentMatch?.apiTideMatch?.teamA_Image}
@@ -280,10 +286,16 @@ const UnderOverMarket = ({ currentMatch, liveData, title }: any) => {
             <BoxComponent
               livestatus={liveData?.status === "SUSPENDED" ? true : false}
               teamRates={
-                currentMatch?.teamRates
-                  ? currentMatch?.teamRates[
-                      profitLossDataForMatchConstants[liveData?.type]?.B
-                    ]
+                !liveData?.stopAt || liveData?.activeStatus !== "result"
+                  ? currentMatch?.teamRates
+                    ? currentMatch?.teamRates[
+                        profitLossDataForMatchConstants[liveData?.type]?.B
+                      ]
+                      ? currentMatch?.teamRates[
+                          profitLossDataForMatchConstants[liveData?.type]?.B
+                        ]
+                      : 0
+                    : 0
                   : 0
               }
               teamImage={currentMatch?.apiTideMatch?.teamB_Image}
