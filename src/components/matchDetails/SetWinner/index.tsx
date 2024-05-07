@@ -10,9 +10,12 @@ import { formatToINR } from "../../helper";
 import BoxComponent from "../MatchOdds/BoxComponent";
 import Stop from "../SessionMarket/Stop";
 import SmallBox from "../SmallBox";
+import Result from "../Result";
+import ResultComponent from "../../updateBookmaker/BookmakerEdit/ResultComponent";
 
 const SetWinner = ({ currentMatch, liveData, title }: any) => {
   const dispatch: AppDispatch = useDispatch();
+  const [visible, setVisible] = useState(false);
   const [visibleImg, setVisibleImg] = useState<boolean>(true);
   const [live, setLive] = useState<boolean>(
     liveData?.activeStatus === "live" ? true : false
@@ -67,18 +70,21 @@ const SetWinner = ({ currentMatch, liveData, title }: any) => {
             {title}
           </Typography>
           {/* <img src={LOCKED} style={{ width: '14px', height: '20px' }} /> */}
-          <Stop
-            onClick={() => {
-              dispatch(
-                betLiveStatus({
-                  isStop: true,
-                  betId: liveData?.id,
-                  isManual: false,
-                })
-              );
-              setLive(false);
-            }}
-          />
+          {currentMatch?.resultStatus &&
+            !currentMatch?.resultStatus[liveData?.id]?.status && (
+              <Stop
+                onClick={() => {
+                  dispatch(
+                    betLiveStatus({
+                      isStop: true,
+                      betId: liveData?.id,
+                      isManual: false,
+                    })
+                  );
+                  setLive(false);
+                }}
+              />
+            )}
         </Box>
         <Box
           sx={{
@@ -100,24 +106,36 @@ const SetWinner = ({ currentMatch, liveData, title }: any) => {
           }}
         >
           {!currentMatch?.stopAt && (
-            <SmallBox
-              onClick={() => {
-                dispatch(
-                  betLiveStatus({
-                    isStop: live,
-                    betId: liveData?.id,
-                    isManual: false,
-                  })
-                );
-                setLive(!live);
-              }}
-              width={"80px"}
-              title={live ? "Live" : "Go Live"}
-              color={live ? "#46e080" : "#FF4D4D"}
-              customStyle={{
-                justifyContent: "center",
-              }}
-            />
+            <>
+              <Result
+                width={"80px"}
+                onClick={() => {
+                  setVisible(true);
+                }}
+                invert={true}
+              />
+              {currentMatch?.resultStatus &&
+                !currentMatch?.resultStatus[liveData?.id]?.status && (
+                  <SmallBox
+                    onClick={() => {
+                      dispatch(
+                        betLiveStatus({
+                          isStop: live,
+                          betId: liveData?.id,
+                          isManual: false,
+                        })
+                      );
+                      setLive(!live);
+                    }}
+                    width={{ xs: "30px", lg: "80px", md: "50px" }}
+                    title={live ? "Live" : "Go Live"}
+                    color={live ? "#46e080" : "#FF4D4D"}
+                    customStyle={{
+                      justifyContent: "center",
+                    }}
+                  />
+                )}
+            </>
           )}
           <img
             onClick={() => {
@@ -134,6 +152,31 @@ const SetWinner = ({ currentMatch, liveData, title }: any) => {
             }}
           />
         </Box>
+      </Box>
+      <Box
+        sx={{
+          position: "relative",
+          zIndex: 999,
+          // top: "36%",
+          // right: "10%",
+          left: { lg: "46%", xs: "30%", md: "60%" },
+          width: { lg: "30vw", xs: "30vh" },
+        }}
+      >
+        {visible && (
+          <ResultComponent
+            currentMatch={currentMatch}
+            teamA={currentMatch?.teamA}
+            stopAt={liveData?.stopAt || liveData?.activeStatus === "result"}
+            teamB={currentMatch?.teamB}
+            tie={"Tie"}
+            draw={currentMatch?.teamC ? currentMatch?.teamC : null}
+            onClick={() => {
+              setVisible(false);
+            }}
+            liveData={liveData}
+          />
+        )}
       </Box>
       <Divider />
       {visibleImg && (

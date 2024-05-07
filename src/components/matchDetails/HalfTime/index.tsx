@@ -106,18 +106,21 @@ const HalfTime = ({ currentMatch, matchOddsLive }: any) => {
             >
               Half Time
             </Typography>
-            <Stop
-              onClick={() => {
-                dispatch(
-                  betLiveStatus({
-                    isStop: true,
-                    betId: matchOddsLive?.id,
-                    isManual: false,
-                  })
-                );
-                setLive(false);
-              }}
-            />
+            {currentMatch?.resultStatus &&
+              !currentMatch?.resultStatus[matchOddsLive?.id]?.status && (
+                <Stop
+                  onClick={() => {
+                    dispatch(
+                      betLiveStatus({
+                        isStop: true,
+                        betId: matchOddsLive?.id,
+                        isManual: false,
+                      })
+                    );
+                    setLive(false);
+                  }}
+                />
+              )}
 
             <SmallBox2 valueA={bookRatioA} valueB={bookRatioB} />
           </Box>

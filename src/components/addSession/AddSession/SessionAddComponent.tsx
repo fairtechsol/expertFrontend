@@ -73,9 +73,7 @@ const SessionAddComponent = ({ createSession, match, setMode }: any) => {
   const [visible1, setVisible1] = useState(false);
   const [visible2, setVisible2] = useState(false);
   const [visible3, setVisible3] = useState(false);
-  const [maxBetValue] = useState(
-    sessionById ? sessionById?.maxBet : null
-  );
+  const [maxBetValue] = useState(sessionById ? sessionById?.maxBet : null);
   const [lock, setLock] = useState<any>({
     isNo: true,
     isYes: true,
@@ -396,12 +394,16 @@ const SessionAddComponent = ({ createSession, match, setMode }: any) => {
           : sessionById
           ? sessionById?.maxBet
           : match?.betFairSessionMaxBet}
-        ){sessionById ? sessionById?.maxBet : match?.betFairSessionMaxBet})
+        )
       </Typography>
       <Box
         onClick={(e) => {
           e.stopPropagation();
-          if (!createSession && inputDetail?.resultStatus !== "PENDING" && inputDetail?.resultStatus !== "MISSMATCHED") {
+          if (
+            !createSession &&
+            inputDetail?.resultStatus !== "PENDING" &&
+            inputDetail?.resultStatus !== "MISSMATCHED"
+          ) {
             setVisible3(true);
           }
         }}
