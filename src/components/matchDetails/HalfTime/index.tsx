@@ -366,14 +366,18 @@ const HalfTime = ({ currentMatch, matchOddsLive }: any) => {
                 name={currentMatch?.teamA}
                 currentMatch={currentMatch}
                 teamRates={
-                  currentMatch?.teamRates
-                    ? currentMatch?.teamRates[
-                        profitLossDataForMatchConstants[matchOddsLive?.type]?.A
-                      ]
+                  !matchOddsLive?.stopAt ||
+                  matchOddsLive?.activeStatus !== "result"
+                    ? currentMatch?.teamRates
                       ? currentMatch?.teamRates[
                           profitLossDataForMatchConstants[matchOddsLive?.type]
                             ?.A
                         ]
+                        ? currentMatch?.teamRates[
+                            profitLossDataForMatchConstants[matchOddsLive?.type]
+                              ?.A
+                          ]
+                        : 0
                       : 0
                     : 0
                 }
@@ -381,14 +385,18 @@ const HalfTime = ({ currentMatch, matchOddsLive }: any) => {
               <Divider />
               <BoxComponent
                 teamRates={
-                  currentMatch?.teamRates
-                    ? currentMatch?.teamRates[
-                        profitLossDataForMatchConstants[matchOddsLive?.type]?.B
-                      ]
+                  !matchOddsLive?.stopAt ||
+                  matchOddsLive?.activeStatus !== "result"
+                    ? currentMatch?.teamRates
                       ? currentMatch?.teamRates[
                           profitLossDataForMatchConstants[matchOddsLive?.type]
                             ?.B
                         ]
+                        ? currentMatch?.teamRates[
+                            profitLossDataForMatchConstants[matchOddsLive?.type]
+                              ?.B
+                          ]
+                        : 0
                       : 0
                     : 0
                 }
@@ -411,16 +419,20 @@ const HalfTime = ({ currentMatch, matchOddsLive }: any) => {
                   <Divider />
                   <BoxComponent
                     teamRates={
-                      currentMatch?.teamRates
-                        ? currentMatch?.teamRates[
-                            profitLossDataForMatchConstants[matchOddsLive?.type]
-                              ?.C
-                          ]
+                      !matchOddsLive?.stopAt ||
+                      matchOddsLive?.activeStatus !== "result"
+                        ? currentMatch?.teamRates
                           ? currentMatch?.teamRates[
                               profitLossDataForMatchConstants[
                                 matchOddsLive?.type
                               ]?.C
                             ]
+                            ? currentMatch?.teamRates[
+                                profitLossDataForMatchConstants[
+                                  matchOddsLive?.type
+                                ]?.C
+                              ]
+                            : 0
                           : 0
                         : 0
                     }
