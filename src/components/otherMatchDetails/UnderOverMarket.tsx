@@ -64,18 +64,21 @@ const UnderOverMarket = ({ currentMatch, liveData, title }: any) => {
             {title}
           </Typography>
           {/* <img src={LOCKED} style={{ width: '14px', height: '20px' }} /> */}
-          <Stop
-            onClick={() => {
-              dispatch(
-                betLiveStatus({
-                  isStop: true,
-                  betId: liveData?.id,
-                  isManual: false,
-                })
-              );
-              setLive(false);
-            }}
-          />
+          {currentMatch?.resultStatus &&
+            !currentMatch?.resultStatus[liveData?.id]?.status && (
+              <Stop
+                onClick={() => {
+                  dispatch(
+                    betLiveStatus({
+                      isStop: true,
+                      betId: liveData?.id,
+                      isManual: false,
+                    })
+                  );
+                  setLive(false);
+                }}
+              />
+            )}
         </Box>
         <Box
           sx={{
