@@ -26,6 +26,7 @@ import {
   updateSessionProfitLoss,
   updateTeamRatesOnManualMarket,
 } from "../../actions/addSession";
+import { profitLossDataForMatchConstants } from "../../../utils/Constants";
 
 interface InitialState {
   sessionById: any;
@@ -228,27 +229,23 @@ export const addSessionReducers = createReducer(initialState, (builder) => {
       state.sessionProfitLoss = [];
     })
     .addCase(updateRatesBook.fulfilled, (state, action) => {
-      const { redisObject, matchBetType } = action?.payload;
-      if (["tiedMatch2", "tiedMatch1"].includes(matchBetType)) {
-        state.bookmakerById.matchRates = {
-          ...state.bookmakerById.matchRates,
-          yesRateTie: redisObject[action?.payload?.teamArateRedisKey],
-          noRateTie: redisObject[action?.payload?.teamBrateRedisKey],
-        };
-      } else if (["completeMatch"].includes(matchBetType)) {
-        state.bookmakerById.matchRates = {
-          ...state.bookmakerById.matchRates,
-          yesRateComplete: redisObject[action?.payload?.teamArateRedisKey],
-          noRateComplete: redisObject[action?.payload?.teamBrateRedisKey],
-        };
-      } else {
-        state.bookmakerById.matchRates = {
-          ...state.bookmakerById.matchRates,
-          teamARate: redisObject[action?.payload?.teamArateRedisKey],
-          teamBRate: redisObject[action?.payload?.teamBrateRedisKey],
-          teamCRate: redisObject[action?.payload?.teamCrateRedisKey],
-        };
-      }
+      const {
+        redisObject,
+        matchBetType,
+        teamArateRedisKey,
+        teamBrateRedisKey,
+        teamCrateRedisKey,
+      } = action?.payload;
+
+      state.bookmakerById.matchRates = {
+        ...state.bookmakerById.matchRates,
+        [profitLossDataForMatchConstants[matchBetType].A]:
+          redisObject[teamArateRedisKey],
+        [profitLossDataForMatchConstants[matchBetType].B]:
+          redisObject[teamBrateRedisKey],
+        [profitLossDataForMatchConstants[matchBetType].C]:
+          redisObject[teamCrateRedisKey],
+      };
     })
     .addCase(updateProLossSession.fulfilled, (state, action) => {
       const { profitLoss } = action?.payload;

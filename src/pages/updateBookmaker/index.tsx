@@ -90,7 +90,7 @@ const UpdateBookmaker = () => {
         socketService.user.matchDeleteBetOff();
       };
     }
-  }, [socket]);
+  }, [socket, state?.id]);
 
   return (
     <Box display="flex">

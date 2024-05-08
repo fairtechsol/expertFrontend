@@ -360,25 +360,15 @@ const addMatch = createSlice({
       })
       .addCase(updateTeamRates.fulfilled, (state, action) => {
         const { userRedisObj, jobData } = action.payload;
-        if (userRedisObj[jobData?.teamCrateRedisKey]) {
-          state.matchDetail.teamRates = {
-            ...state.matchDetail.teamRates,
-            [profitLossDataForMatchConstants[jobData?.newBet?.marketType].A]:
-              userRedisObj[jobData?.teamArateRedisKey],
-            [profitLossDataForMatchConstants[jobData?.newBet?.marketType].B]:
-              userRedisObj[jobData?.teamBrateRedisKey],
-            [profitLossDataForMatchConstants[jobData?.newBet?.marketType].C]:
-              userRedisObj[jobData?.teamCrateRedisKey],
-          };
-        } else {
-          state.matchDetail.teamRates = {
-            ...state.matchDetail.teamRates,
-            [profitLossDataForMatchConstants[jobData?.newBet?.marketType].A]:
-              userRedisObj[jobData?.teamArateRedisKey],
-            [profitLossDataForMatchConstants[jobData?.newBet?.marketType].B]:
-              userRedisObj[jobData?.teamBrateRedisKey],
-          };
-        }
+        state.matchDetail.teamRates = {
+          ...state.matchDetail.teamRates,
+          [profitLossDataForMatchConstants[jobData?.newBet?.marketType].A]:
+            userRedisObj[jobData?.teamArateRedisKey],
+          [profitLossDataForMatchConstants[jobData?.newBet?.marketType].B]:
+            userRedisObj[jobData?.teamBrateRedisKey],
+          [profitLossDataForMatchConstants[jobData?.newBet?.marketType].C]:
+            userRedisObj[jobData?.teamCrateRedisKey],
+        };
       })
       .addCase(updateMatchRatesOnMarketUndeclare.fulfilled, (state, action) => {
         const {
@@ -389,25 +379,15 @@ const addMatch = createSlice({
           teamCrateRedisKey,
         } = action?.payload;
 
-        if (profitLossData[teamCrateRedisKey]) {
-          state.matchDetail.teamRates = {
-            ...state.matchDetail.teamRates,
-            [profitLossDataForMatchConstants[betType].A]:
-              profitLossData[teamArateRedisKey],
-            [profitLossDataForMatchConstants[betType].B]:
-              profitLossData[teamBrateRedisKey],
-            [profitLossDataForMatchConstants[betType].C]:
-              profitLossData[teamCrateRedisKey],
-          };
-        } else {
-          state.matchDetail.teamRates = {
-            ...state.matchDetail.teamRates,
-            [profitLossDataForMatchConstants[betType].A]:
-              profitLossData[teamArateRedisKey],
-            [profitLossDataForMatchConstants[betType].B]:
-              profitLossData[teamBrateRedisKey],
-          };
-        }
+        state.matchDetail.teamRates = {
+          ...state.matchDetail.teamRates,
+          [profitLossDataForMatchConstants[betType].A]:
+            profitLossData[teamArateRedisKey],
+          [profitLossDataForMatchConstants[betType].B]:
+            profitLossData[teamBrateRedisKey],
+          [profitLossDataForMatchConstants[betType].C]:
+            profitLossData[teamCrateRedisKey],
+        };
       })
       .addCase(updateRates.fulfilled, (state, action) => {
         const {
@@ -418,7 +398,6 @@ const addMatch = createSlice({
           teamCrateRedisKey,
         } = action?.payload;
 
-        if (redisObject[teamCrateRedisKey]) {
           state.matchDetail.teamRates = {
             ...state.matchDetail.teamRates,
             [profitLossDataForMatchConstants[matchBetType].A]:
@@ -428,15 +407,6 @@ const addMatch = createSlice({
             [profitLossDataForMatchConstants[matchBetType].C]:
               redisObject[teamCrateRedisKey],
           };
-        } else {
-          state.matchDetail.teamRates = {
-            ...state.matchDetail.teamRates,
-            [profitLossDataForMatchConstants[matchBetType].A]:
-              redisObject[teamArateRedisKey],
-            [profitLossDataForMatchConstants[matchBetType].B]:
-              redisObject[teamBrateRedisKey],
-          };
-        }
         // const { redisObject, matchBetType } = action?.payload;
         // if (["tiedMatch2", "tiedMatch1"].includes(matchBetType)) {
         //   state.matchDetail.teamRates = {
