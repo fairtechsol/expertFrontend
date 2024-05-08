@@ -146,12 +146,12 @@ export const eventWiseMatchData = {
         label: "Manual Tied Match Max Bet",
         name: "ManualTide",
       },
-      {
-        matchType: matchBettingType.completeManual,
-        apiKey: "completeManual",
-        label: "Complete Manual Match Max Bet",
-        name: "CompleteManual",
-      },
+      // {
+      //   matchType: matchBettingType.completeManual,
+      //   apiKey: "manualCompleteMatch",
+      //   label: "Complete Manual Match Max Bet",
+      //   name: "CompleteManual",
+      // },
     ],
     market: [
       {
