@@ -213,7 +213,7 @@ const HalfTime = ({ currentMatch, matchOddsLive }: any) => {
                 matchOddsLive?.activeStatus === "result"
               }
               teamB={currentMatch?.teamB}
-              tie={"Tie"}
+              // tie={"Tie"}
               draw={currentMatch?.teamC ? currentMatch?.teamC : null}
               onClick={() => {
                 setVisible(false);

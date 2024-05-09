@@ -30,9 +30,14 @@ const ResultComponent = ({
   const handleSubmit = (e: any) => {
     e.preventDefault();
   };
-  const teamData = draw
-    ? [`${teamA}`, `${teamB}`, `${draw}`, `${tie}`]
-    : [`${teamA}`, `${teamB}`, `${tie}`];
+  const teamData =
+    draw && tie
+      ? [`${teamA}`, `${teamB}`, `${draw}`, `${tie}`]
+      : draw
+      ? [`${teamA}`, `${teamB}`, `${draw}`]
+      : tie
+      ? [`${teamA}`, `${teamB}`, `${tie}`]
+      : [`${teamA}`, `${teamB}`];
 
   useEffect(() => {
     try {

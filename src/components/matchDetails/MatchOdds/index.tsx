@@ -207,7 +207,7 @@ const MatchOdds = ({ currentMatch, matchOddsLive, id }: any) => {
               teamA={currentMatch?.teamA}
               stopAt={currentMatch?.stopAt}
               teamB={currentMatch?.teamB}
-              tie={"Tie"}
+              tie={currentMatch?.matchType === "cricket" ? "Tie" : ""}
               draw={currentMatch?.teamC ? currentMatch?.teamC : null}
               onClick={() => {
                 setVisible(false);

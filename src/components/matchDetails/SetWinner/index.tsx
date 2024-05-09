@@ -169,7 +169,7 @@ const SetWinner = ({ currentMatch, liveData, title }: any) => {
             teamA={currentMatch?.teamA}
             stopAt={liveData?.stopAt || liveData?.activeStatus === "result"}
             teamB={currentMatch?.teamB}
-            tie={"Tie"}
+            // tie={"Tie"}
             draw={currentMatch?.teamC ? currentMatch?.teamC : null}
             onClick={() => {
               setVisible(false);
