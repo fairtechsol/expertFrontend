@@ -145,7 +145,10 @@ const AddMatch = () => {
       if (!eventWiseMatchData[selected.gameType]) {
         toast.error("This game is not available yet.");
       }
-
+      if (value.betFairSessionMaxBet <= value.minBet) {
+        toast.error("Session maximum bet could not be less than minimum bet.");
+        return;
+      }
       if (loading) {
         return;
       }
@@ -279,7 +282,7 @@ const AddMatch = () => {
           minBet: value.minBet,
           marketData: [],
 
-          betFairSessionMaxBet: value.minBet + 1,
+          betFairSessionMaxBet: value.betfairSessionMaxBet,
           bookmakers: bookmakers,
         };
 
