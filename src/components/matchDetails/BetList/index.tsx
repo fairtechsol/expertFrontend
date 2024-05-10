@@ -58,6 +58,7 @@ const BetList = ({ tag, allBetRates }: any) => {
                 deleteReason: v?.deleteReason,
                 width: { lg: "20%", xs: "50%" },
                 overflowWrap: "anywhere",
+                textAlign: "center",
               },
               {
                 name: v?.odds,

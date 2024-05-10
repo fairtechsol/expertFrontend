@@ -454,7 +454,7 @@ const AddMatch = () => {
       dispatch(addMatchReset());
     }
   }, [state?.id, matchAdded]);
-// console.log('matchDetail',matchDetail)
+
   useEffect(() => {
     try {
       if (matchDetail && state?.id) {
@@ -546,7 +546,7 @@ const AddMatch = () => {
     formik.resetForm();
   }, [manualMatchToggle]);
 
-  const handleDropDownOpen = (dropdownName:any) => {
+  const handleDropDownOpen = (dropdownName: any) => {
     setOpenDropDown(openDropDown === dropdownName ? null : dropdownName);
   };
   return (
