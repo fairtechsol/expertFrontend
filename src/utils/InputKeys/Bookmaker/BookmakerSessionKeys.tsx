@@ -23,7 +23,7 @@ export const handleKeysMatchEvents = (
       setLocalQuickBookmaker((prev: any) => {
         return {
           ...prev,
-          teamBall: true,
+          teamBall: match?.matchType === "cricket" ? true : false,
         };
       });
       setLocalQuickBookmaker((prev: any) => {

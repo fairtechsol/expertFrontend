@@ -22,7 +22,7 @@ const LargeBox = ({ item, k }: any) => {
           color: item?.color,
           wordWrap: item?.overflowWrap ? item?.overflowWrap : "break-word",
           textTransform: "capitalize",
-          textAlign: "left",
+          textAlign:  item?.textAlign ? item?.textAlign :"left",
           lineHeight: 1,
           px: "2px",
           overflow: "hidden",
