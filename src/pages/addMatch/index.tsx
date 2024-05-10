@@ -282,7 +282,7 @@ const AddMatch = () => {
           minBet: value.minBet,
           marketData: [],
 
-          betFairSessionMaxBet: value.betfairSessionMaxBet,
+          betFairSessionMaxBet: selected.gameType==='cricket'? value.betfairSessionMaxBet : value.minBet+1,
           bookmakers: bookmakers,
         };
 
