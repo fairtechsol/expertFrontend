@@ -1,6 +1,7 @@
 import { Box, Typography, TextField } from "@mui/material";
 import { useEffect, useState } from "react";
 import { memo } from "react";
+import { toast } from "react-toastify";
 
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store/store";
@@ -209,6 +210,7 @@ const MarketResultComponent = ({
                         return false;
                       }
                       if (selected === "") {
+                        toast.error("Please enter score first");
                         return false;
                       }
                       setLoading({ id: "DR", value: true });
