@@ -1271,7 +1271,7 @@ const EditBookmaker = (props: any) => {
                     currentMatch={match}
                     teamA={match?.teamA}
                     teamB={match?.teamB}
-                    tie={"Tie"}
+                    tie={match?.matchType === "cricket" ? "Tie" : ""}
                     draw={
                       match?.teamC && !"tiedMatch2".includes(type)
                         ? match?.teamC
@@ -1329,7 +1329,7 @@ const EditBookmaker = (props: any) => {
                     stopAt={match?.stopAt}
                     teamA={match?.teamA}
                     teamB={match?.teamB}
-                    tie={"Tie"}
+                    tie={match?.matchType === "cricket" ? "Tie" : ""}
                     draw={
                       match?.teamC && !"tiedMatch2".includes(type)
                         ? match?.teamC
