@@ -24,7 +24,7 @@ const HeaderRow = ({ tag }: any) => {
         <Box sx={{ width: "100%", display: "flex" }}>
           <Box
             sx={{
-              width: { lg: "12%", xs: "50%" , md: "50%" },
+              width: { lg: "16%", xs: "50%" , md: "50%" },
               border: "1px solid white",
               background: "rgba(0,0,0)",
               height: "20px",
@@ -111,7 +111,7 @@ const HeaderRow = ({ tag }: any) => {
           </Box>
           <Box
             sx={{
-              width: { lg: "12%", xs: "35%" },
+              width: { lg: "10%", xs: "35%" },
               border: "1px solid white",
               background: "rgba(0,0,0)",
               height: "20px",
@@ -128,7 +128,7 @@ const HeaderRow = ({ tag }: any) => {
           </Box>
           <Box
             sx={{
-              width: { lg: "14%", xs: "35%" },
+              width: { lg: "12%", xs: "35%" },
               border: "1px solid white",
               background: "rgba(0,0,0)",
               height: "20px",

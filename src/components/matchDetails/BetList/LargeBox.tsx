@@ -33,6 +33,17 @@ const LargeBox = ({ item, k }: any) => {
       >
         {item?.name}
       </Typography>
+      {item?.domain && (
+        <Typography
+          sx={{
+            fontSize: { lg: "7px", xs: "0.3rem", md: "9px" },
+            fontWeight: "600",
+            color: item?.color,
+          }}
+        >
+          {item?.domain}
+        </Typography>
+      )}
       {item?.time && (
         <Typography
           sx={{
