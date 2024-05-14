@@ -30,7 +30,8 @@ const BetList = ({ tag, allBetRates }: any) => {
                   ? "#faf11b"
                   : "#F1C550",
                 deleteReason: v?.deleteReason,
-                width: { lg: "12%", xs: "50%" },
+                width: { lg: "16%", xs: "50%" },
+                domain:v?.domain,
               },
               {
                 name:
@@ -90,7 +91,7 @@ const BetList = ({ tag, allBetRates }: any) => {
                   ? "#B3E0FF"
                   : "rgb(255, 146, 146)",
                 deleteReason: v?.deleteReason,
-                width: { lg: "12%", xs: "35%" },
+                width: { lg: "10%", xs: "35%" },
                 fSize: "12px",
               },
               {
@@ -102,7 +103,7 @@ const BetList = ({ tag, allBetRates }: any) => {
                 color: "white",
                 background: "#0B4F26",
                 deleteReason: v?.deleteReason,
-                width: { lg: "14%", xs: "35%" },
+                width: { lg: "12%", xs: "35%" },
               },
               {
                 name: moment
