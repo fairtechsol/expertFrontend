@@ -122,7 +122,7 @@ const HalfTime = ({ currentMatch, matchOddsLive }: any) => {
                 />
               )}
 
-            <SmallBox2 valueA={bookRatioA} valueB={bookRatioB} />
+            {/* <SmallBox2 valueA={bookRatioA} valueB={bookRatioB} /> */}
           </Box>
 
           <Box
