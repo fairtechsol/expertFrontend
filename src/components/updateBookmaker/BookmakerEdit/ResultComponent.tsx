@@ -55,7 +55,6 @@ const ResultComponent = ({
     }
   }, [success, error]);
 
-  console.log(stopAt, "stopAt");
   return (
     <Box
       sx={{
@@ -104,7 +103,7 @@ const ResultComponent = ({
       </Box>
       <Box sx={{ padding: 0 }}>
         <form onSubmit={handleSubmit}>
-          <Box
+         {!stopAt && <Box
             sx={{
               width: "100%",
               flexWrap: "wrap",
@@ -153,7 +152,7 @@ const ResultComponent = ({
                 </Box>
               );
             })}
-          </Box>
+          </Box>}
 
           <Box
             sx={{
