@@ -1,5 +1,5 @@
 import { Box, Typography, TextField } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { memo } from "react";
 import { toast } from "react-toastify";
 
@@ -25,6 +25,7 @@ const MarketResultComponent = ({
   const { success, error } = useSelector((state: RootState) => state.match);
   const [selected, setSelected] = useState("");
   const [loading, setLoading] = useState({ id: "", value: false });
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
@@ -45,6 +46,15 @@ const MarketResultComponent = ({
       console.log(e);
     }
   }, [success, error]);
+
+ 
+
+  useEffect(() => {
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, []);
+  
   return (
     <Box
       sx={{
@@ -133,6 +143,7 @@ const MarketResultComponent = ({
                   {"Score : "}
                 </Typography>
                 <TextField
+                inputRef={inputRef}
                   autoFocus
                   placeholder="Score"
                   variant="standard"
