@@ -236,7 +236,7 @@ const BetListForSession = ({ tag, allBetRates }: any) => {
             <Box
               sx={{
                 maxHeight: "80vh",
-                width: { xs: "150vw", lg: "33vw", md: "100vw" },
+                width: { xs: "100vw", lg: "33vw", md: "100vw" },
                 overflow: "auto",
               }}
             >
