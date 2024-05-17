@@ -245,6 +245,7 @@ const matchList = createSlice({
             userName: jobData?.userName,
           };
           obj.myStake = jobData?.myStake || 0;
+          obj.domain = jobData?.domainUrl;
           state?.placedBetsMatch?.unshift(obj);
         }
       })
@@ -261,6 +262,7 @@ const matchList = createSlice({
             faPartnership: partnership?.faPartnership,
           };
           obj.myStake = parseFloat(jobData?.betPlaceObject?.myStack || 0);
+          obj.domain = jobData?.domainUrl;
           state?.placedBetsMatch?.unshift(obj);
         }
       })

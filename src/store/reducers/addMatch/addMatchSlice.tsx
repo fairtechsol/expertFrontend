@@ -154,9 +154,9 @@ const addMatch = createSlice({
         state.matchDetail = null;
       })
       .addCase(getOtherGamesMatchDetail.fulfilled, (state, action) => {
-        state.matchDetail = action.payload;
-        state.success = true;
         state.loading = false;
+        state.success = true;
+        state.matchDetail = action.payload;
         action.payload?.sessionBettings?.forEach((item: any) => {
           item = JSON.parse(item);
           if (item.selectionId) {
@@ -398,36 +398,15 @@ const addMatch = createSlice({
           teamCrateRedisKey,
         } = action?.payload;
 
-          state.matchDetail.teamRates = {
-            ...state.matchDetail.teamRates,
-            [profitLossDataForMatchConstants[matchBetType].A]:
-              redisObject[teamArateRedisKey],
-            [profitLossDataForMatchConstants[matchBetType].B]:
-              redisObject[teamBrateRedisKey],
-            [profitLossDataForMatchConstants[matchBetType].C]:
-              redisObject[teamCrateRedisKey],
-          };
-        // const { redisObject, matchBetType } = action?.payload;
-        // if (["tiedMatch2", "tiedMatch1"].includes(matchBetType)) {
-        //   state.matchDetail.teamRates = {
-        //     ...state.matchDetail.teamRates,
-        //     yesRateTie: redisObject[action?.payload?.teamArateRedisKey],
-        //     noRateTie: redisObject[action?.payload?.teamBrateRedisKey],
-        //   };
-        // } else if (["completeMatch"].includes(matchBetType)) {
-        //   state.matchDetail.teamRates = {
-        //     ...state.matchDetail.teamRates,
-        //     yesRateComplete: redisObject[action?.payload?.teamArateRedisKey],
-        //     noRateComplete: redisObject[action?.payload?.teamBrateRedisKey],
-        //   };
-        // } else {
-        //   state.matchDetail.teamRates = {
-        //     ...state.matchDetail.teamRates,
-        //     teamARate: redisObject[action?.payload?.teamArateRedisKey],
-        //     teamBRate: redisObject[action?.payload?.teamBrateRedisKey],
-        //     teamCRate: redisObject[action?.payload?.teamCrateRedisKey],
-        //   };
-        // }
+        state.matchDetail.teamRates = {
+          ...state.matchDetail.teamRates,
+          [profitLossDataForMatchConstants[matchBetType].A]:
+            redisObject[teamArateRedisKey],
+          [profitLossDataForMatchConstants[matchBetType].B]:
+            redisObject[teamBrateRedisKey],
+          [profitLossDataForMatchConstants[matchBetType].C]:
+            redisObject[teamCrateRedisKey],
+        };
       })
       .addCase(updateExtraMarketListOnEdit.fulfilled, (state, action) => {
         state.extraMarketList = action.payload;
