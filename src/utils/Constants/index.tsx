@@ -6,6 +6,7 @@ export const ApiConstants = {
   OLD_PASSWORD: "/user/check/oldPassword",
   MATCH: {
     ADD: "match/add",
+    ADD_RACE: "match/racingAdd",
     EDIT: "match/update",
     LIST: "match/list",
     LIST_SESSION_PRO_LOSS: "session/result",

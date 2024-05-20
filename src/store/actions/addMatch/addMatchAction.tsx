@@ -260,6 +260,20 @@ export const addMatchExpert = createAsyncThunk<any, any>(
     }
   }
 );
+export const addRaceExpert = createAsyncThunk<any, any>(
+  "addRaceExpert",
+  async (requestData, thunkApi) => {
+    try {
+      const resp = await service.post(`${ApiConstants.MATCH.ADD_RACE}`, requestData);
+      if (resp) {
+        return resp?.data;
+      }
+    } catch (error) {
+      const err = error as AxiosError;
+      return thunkApi.rejectWithValue(err.response?.status);
+    }
+  }
+);
 export const getMatchDetail = createAsyncThunk<any, any>(
   "getMatchDetail",
   async (requestData, thunkApi) => {
@@ -364,6 +378,7 @@ export const getRaceMatches = createAsyncThunk<any, string>(
 export const addMatchReset = createAction("add/reset");
 export const editMatchReset = createAction("edit/reset");
 export const matchDetailReset = createAction("matchDetail/reset");
+export const runnerDetailReset = createAction("runnerDetail/reset");
 export const matchDetailSuccessReset = createAction("matchDetailSuccess/reset");
 export const eventListReset = createAction("eventList/reset");
 export const tournamentListReset = createAction("tournamentList/reset");

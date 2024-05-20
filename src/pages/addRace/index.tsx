@@ -20,11 +20,13 @@ import Constants from "../../components/helper/constants";
 import {
   addMatchExpert,
   addMatchReset,
+  addRaceExpert,
   editMatchReset,
   eventListReset,
   getMatchDetail,
   getRaceMatches,
   matchDetailSuccessReset,
+  runnerDetailReset,
   tournamentListReset,
   updateExtraMarketListOnEdit,
 } from "../../store/actions/addMatch/addMatchAction";
@@ -33,8 +35,6 @@ import {
   editSuccessReset,
 } from "../../store/actions/match/matchAction";
 import { AppDispatch, RootState } from "../../store/store";
-import { eventWiseMatchData, matchBettingType } from "../../utils/Constants";
-import raceDropDown from "../../components/addRace/DropDown";
 import RaceDropDown from "../../components/addRace/DropDown";
 // import { addMatchValidation } from "../../utils/Validations/login";
 
@@ -46,49 +46,14 @@ import RaceDropDown from "../../components/addRace/DropDown";
 //   },
 // }));
 
-function flattenObject(obj: any) {
-  if (obj) {
-    return Object.keys(obj).reduce((acc: any, key) => {
-      if (Array.isArray(obj[key])) {
-        obj[key].forEach((item: any) => {
-          acc[item?.type] = item;
-        });
-      } else {
-        acc[key] = obj[key];
-      }
-      return acc;
-    }, {});
-  }
-  return {};
-}
 
+const gameTypes =[
+  {label:"horse racing",value:"horseRacing"},
+  {label:"greyhound  racing",value:"greyhoundRacing"},
+]
 const initialFormikValues = {
   minBet: "",
-  [matchBettingType.matchOdd]: {
-    maxBet: "",
-  },
-  betfairSessionMaxBet: "",
-  [matchBettingType.bookmaker]: {
-    maxBet: "",
-  },
-  [matchBettingType.tiedMatch1]: {
-    maxBet: "",
-  },
-  [matchBettingType.completeMatch]: {
-    maxBet: "",
-  },
-  [matchBettingType.tiedMatch2]: {
-    maxBet: "",
-  },
-  marketName1: "",
-  marketMaxBet1: "",
-  marketId1: "",
-  marketName2: "",
-  marketMaxBet2: "",
-  marketId2: "",
-  marketName3: "",
-  marketMaxBet3: "",
-  marketId3: "",
+  maxBet:""
 };
 
 const initialValues = {
@@ -109,7 +74,6 @@ const AddRace = () => {
 
   const {
     eventsList,
-    extraMarketList,
     matchDetail,
     success,
     matchAdded,
@@ -119,6 +83,7 @@ const AddRace = () => {
 
   const [selected, setSelected] = useState(initialValues);
   const [openDropDown, setOpenDropDown] = useState(null);
+  const [matchType, setMatchType] = useState<any>("")
   const [error, setError] = useState({
     torunamentName: false,
     competitionName: false,
@@ -136,108 +101,47 @@ const AddRace = () => {
     // validationSchema: addMatchValidation(manualMatchToggle, selected.gameType,extraMarketList),
     initialValues: initialFormikValues,
     onSubmit: (value: any) => {
-      if (!eventWiseMatchData[selected.gameType]) {
+      if (!selected.gameType) {
         toast.error("This game is not available yet.");
       }
-      if (value.betFairSessionMaxBet <= value.minBet) {
-        toast.error("Session maximum bet could not be less than minimum bet.");
+      if (!selected.marketId ) {
+        toast.error("Select a valid match.");
         return;
       }
       if (loading) {
         return;
       }
       if (state?.id) {
-        let bookmakers;
 
         const payload: any = {
           id: state?.id,
           minBet: value.minBet,
-          marketData: [],
-          betFairSessionMaxBet: value.betfairSessionMaxBet,
-          bookmakers: bookmakers,
         };
-
-        eventWiseMatchData[selected.gameType]?.manual?.forEach((item) => {
-          payload.marketData.push({
-            maxBet: value?.[item?.matchType]?.maxBet,
-            type: item?.matchType,
-          });
-        });
-
-        if (!manualMatchToggle) {
-          eventWiseMatchData[selected.gameType]?.market?.forEach((item) => {
-            if (value?.[item?.matchType]?.maxBet) {
-              payload.marketData.push({
-                maxBet: value?.[item?.matchType]?.maxBet,
-                type: item?.matchType,
-              });
-            }
-          });
-        }
         dispatch(editMatch(payload));
       } else {
-        let bookmakers;
 
-        if (selected.title === "") {
-          setError((prev: any) => {
-            return {
-              ...prev,
-              title: true,
-            };
-          });
-          return;
-        } else if (selected.competitionName === "") {
-          setError((prev: any) => {
-            return {
-              ...prev,
-              competitionName: true,
-            };
-          });
-          return;
-        }
         const addMatchpayload: any = {
-          matchType: selected.gameType,
+          matchType: matchType,
           competitionName: selected.competitionName,
           title: selected.title,
           marketId: selected.marketId,
           eventId: selected.eventId,
+          competitionId: selected.competitionId,
           startAt: selected.startAt,
           minBet: value.minBet,
-          marketData: [],
-
-          betFairSessionMaxBet:
-            selected.gameType === "cricket"
-              ? value.betfairSessionMaxBet
-              : value.minBet + 1,
-          bookmakers: bookmakers,
+          maxBet: value.maxBet,
+          type: "matchOdd",
+          runners: raceRunners,
         };
 
-        eventWiseMatchData[selected.gameType]?.manual?.forEach((item) => {
-          addMatchpayload.marketData.push({
-            maxBet: value?.[item?.matchType]?.maxBet,
-            type: item?.matchType,
-          });
-        });
-
-        if (!manualMatchToggle) {
-          eventWiseMatchData[selected.gameType]?.market?.forEach((item) => {
-            if (extraMarketList?.[item?.marketIdKey]?.marketId) {
-              addMatchpayload.marketData.push({
-                maxBet: value?.[item?.matchType]?.maxBet,
-                type: item?.matchType,
-                marketId: extraMarketList?.[item?.marketIdKey]?.marketId,
-              });
-            }
-          });
-        }
         if (manualMatchToggle) {
-          const newPayload = {
-            ...addMatchpayload,
-            isManualMatch: true,
-          };
-          dispatch(addMatchExpert(newPayload));
+          // const newPayload = {
+          //   ...addMatchpayload,
+          //   isManualMatch: true,
+          // };
+          // dispatch(addMatchExpert(newPayload));
         } else {
-          dispatch(addMatchExpert(addMatchpayload));
+          dispatch(addRaceExpert(addMatchpayload));
         }
       }
 
@@ -301,8 +205,10 @@ const AddRace = () => {
     }
     if (selected.gameType !== "" && !state?.id) {
       if (!manualMatchToggle) {
+        const gameType = gameTypes.find((game) => game.label === selected.gameType);
+        setMatchType(gameType?.value)
         dispatch(eventListReset());
-        dispatch(getRaceMatches("horseRacing"));
+        dispatch(getRaceMatches(gameType ? gameType?.value : ""));
       }
       formik.setValues({
         ...values,
@@ -371,86 +277,14 @@ const AddRace = () => {
       });
     }
     if (matchAdded) {
-      navigate("/expert/match");
+      navigate("/expert/race");
       dispatch(addMatchReset());
     }
   }, [state?.id, matchAdded]);
 
   useEffect(() => {
     try {
-      if (matchDetail && state?.id) {
-        if (success) {
-          const formikValues = {
-            ...values,
-            minBet: matchDetail?.betFairSessionMinBet ?? "",
-            betfairSessionMaxBet: matchDetail?.betFairSessionMaxBet ?? "",
-            marketName1: matchDetail?.quickBookmaker[0].name ?? "",
-            marketMaxBet1: matchDetail?.quickBookmaker[0]?.maxBet ?? "",
-            marketId1: matchDetail?.quickBookmaker[0]?.id ?? "",
-            marketName2: matchDetail?.quickBookmaker[1]?.name ?? "",
-            marketMaxBet2: matchDetail?.quickBookmaker[1]?.maxBet ?? "",
-            marketId2: matchDetail?.quickBookmaker[1]?.id ?? "",
-            marketName3: matchDetail?.quickBookmaker[2]?.name ?? "",
-            marketMaxBet3: matchDetail?.quickBookmaker[2]?.maxBet ?? "",
-            marketId3: matchDetail?.quickBookmaker[2]?.id ?? "",
-          };
-
-          if (!manualMatchToggle) {
-            eventWiseMatchData[matchDetail?.matchType]?.market?.forEach(
-              (item) => {
-                if (matchDetail[item?.apiKey]) {
-                  formikValues[item?.matchType] = {
-                    maxBet: matchDetail[item?.apiKey].maxBet,
-                  };
-                }
-              }
-            );
-          }
-
-          eventWiseMatchData[matchDetail?.matchType]?.manual?.forEach(
-            (item) => {
-              if (matchDetail[item?.apiKey]) {
-                formikValues[item?.matchType] = {
-                  maxBet: matchDetail[item?.apiKey].maxBet,
-                };
-              }
-            }
-          );
-          let extraMarketListArray = {};
-          eventWiseMatchData[matchDetail?.matchType]?.market?.forEach(
-            (item) => {
-              let updatedMatchDetail: any = flattenObject(matchDetail);
-              if (updatedMatchDetail[item?.apiKey]) {
-                formikValues[item?.matchType] = {
-                  maxBet: updatedMatchDetail[item?.apiKey].maxBet,
-                };
-                extraMarketListArray = {
-                  ...extraMarketListArray,
-                  [item?.apiKey]: {
-                    marketId: updatedMatchDetail[item?.apiKey].marketId,
-                  },
-                };
-              }
-            }
-          );
-
-          dispatch(updateExtraMarketListOnEdit(extraMarketListArray));
-
-          formik.setValues(formikValues);
-          setSelected((prev: any) => {
-            return {
-              ...prev,
-              title: matchDetail?.title,
-              gameType: matchDetail?.matchType,
-              matchName: matchDetail?.title,
-              eventId: matchDetail?.eventId,
-              marketId: matchDetail?.marketId,
-              startAt: matchDetail?.startAt,
-            };
-          });
-          dispatch(matchDetailSuccessReset());
-        }
-      }
+      dispatch(runnerDetailReset());
     } catch (e) {
       console.log(e);
     }
@@ -464,7 +298,6 @@ const AddRace = () => {
   const handleDropDownOpen = (dropdownName: any) => {
     setOpenDropDown(openDropDown === dropdownName ? null : dropdownName);
   };
-  // console.log('first',selected)
   return (
     <form onSubmit={handleSubmit}>
       <Box
@@ -720,16 +553,16 @@ const AddRace = () => {
                 type={"Number"}
                 placeholder="Betfair Match Odd Max Bet..."
                 place={11}
-                name="betfairMatchOddMaxBet"
-                id="betfairMatchOddMaxBet"
-                touched={touched.betfairMatchOddMaxBet}
-                value={values.betfairMatchOddMaxBet}
+                name="maxBet"
+                id="maxBet"
+                touched={touched.maxBet}
+                value={values.maxBet}
                 onChange={handleChange}
                 onBlur={formik.handleBlur}
               />
               <CustomErrorMessage
-                touched={touched.betfairMatchOddMaxBet}
-                errors={errors.betfairMatchOddMaxBet}
+                touched={touched.maxBet}
+                errors={errors.maxBet}
               />
             </Box>
 
@@ -749,17 +582,21 @@ const AddRace = () => {
                   <Box
                     sx={{
                       width: "100%",
-                      height: "40px",
+                      height: "50px",
                       borderRadius: "5px",
                       px: "10px",
+                      py: "4px",
                       display: "flex",
-                      alignItems: "center",
-                      justifyContent: "space-between",
+                      // alignItems: "center",
+                      justifyContent: "flex-start",
                       background: "white",
                       backgroundColor: " ",
+                      flexDirection:'column'
                     }}
                   >
-                    <Typography>{item?.runnerName}</Typography>
+                    <Typography sx={{fontSize:'16px'}}>{item?.runnerName}</Typography>
+                    
+                    <Typography sx={{fontSize:'11px'}}>{item?.metadata?.TRAINER_NAME}</Typography>
                   </Box>
                 </Box>
               );
@@ -836,7 +673,7 @@ const AddRace = () => {
               if (state?.id) {
                 dispatch(editMatchReset());
               }
-              navigate("/expert/match_list");
+              navigate("/expert/edit_race");
             }}
             sx={{
               background: "#E32A2A",
