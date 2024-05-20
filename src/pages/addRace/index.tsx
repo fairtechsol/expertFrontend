@@ -22,9 +22,8 @@ import {
   addMatchReset,
   editMatchReset,
   eventListReset,
-  getAllEventsList,
-  getAllLiveTournaments,
   getMatchDetail,
+  getRaceMatches,
   matchDetailSuccessReset,
   tournamentListReset,
   updateExtraMarketListOnEdit,
@@ -35,6 +34,8 @@ import {
 } from "../../store/actions/match/matchAction";
 import { AppDispatch, RootState } from "../../store/store";
 import { eventWiseMatchData, matchBettingType } from "../../utils/Constants";
+import raceDropDown from "../../components/addRace/DropDown";
+import RaceDropDown from "../../components/addRace/DropDown";
 // import { addMatchValidation } from "../../utils/Validations/login";
 
 // const useStyles = makeStyles(() => ({
@@ -91,18 +92,13 @@ const initialFormikValues = {
 };
 
 const initialValues = {
-  teamA: "",
-  teamB: "",
-  teamC: "",
   title: "",
-  manualBookmaker: 0,
   gameType: "",
-  tournamentName: "",
-  tournamentId: "",
   matchName: "",
   competitionName: "",
   eventId: "",
   marketId: "",
+  competitionId: "",
   startAt: new Date(),
 };
 
@@ -112,13 +108,13 @@ const AddRace = () => {
   const { state } = useLocation();
 
   const {
-    tournamentList,
     eventsList,
     extraMarketList,
     matchDetail,
     success,
     matchAdded,
     loading,
+    raceRunners,
   } = useSelector((state: RootState) => state.addMatch.addMatch);
 
   const [selected, setSelected] = useState(initialValues);
@@ -134,8 +130,6 @@ const AddRace = () => {
     fontSize: { xs: "14px", lg: "14px", fontWeight: "600" },
     textTransform: "capitalize",
   };
-
-  const selectionData = [1, 2, 3];
 
   const { editSuccess } = useSelector((state: RootState) => state.matchList);
   const formik = useFormik({
@@ -155,40 +149,6 @@ const AddRace = () => {
       if (state?.id) {
         let bookmakers;
 
-        if (selected.manualBookmaker === 1) {
-          bookmakers = [
-            {
-              maxBet: values.marketMaxBet1,
-              id: values.marketId1,
-            },
-          ];
-        } else if (selected.manualBookmaker === 2) {
-          bookmakers = [
-            {
-              maxBet: values.marketMaxBet1,
-              id: values.marketId1,
-            },
-            {
-              maxBet: values.marketMaxBet2,
-              id: values.marketId2,
-            },
-          ];
-        } else if (selected.manualBookmaker === 3) {
-          bookmakers = [
-            {
-              maxBet: values.marketMaxBet1,
-              id: values.marketId1,
-            },
-            {
-              maxBet: values.marketMaxBet2,
-              id: values.marketId2,
-            },
-            {
-              maxBet: values.marketMaxBet3,
-              id: values.marketId3,
-            },
-          ];
-        }
         const payload: any = {
           id: state?.id,
           minBet: value.minBet,
@@ -217,40 +177,7 @@ const AddRace = () => {
         dispatch(editMatch(payload));
       } else {
         let bookmakers;
-        if (selected.manualBookmaker === 1) {
-          bookmakers = [
-            {
-              maxBet: values.marketMaxBet1,
-              marketName: values.marketName1,
-            },
-          ];
-        } else if (selected.manualBookmaker === 2) {
-          bookmakers = [
-            {
-              maxBet: values.marketMaxBet1,
-              marketName: values.marketName1,
-            },
-            {
-              maxBet: values.marketMaxBet2,
-              marketName: values.marketName2,
-            },
-          ];
-        } else if (selected.manualBookmaker === 3) {
-          bookmakers = [
-            {
-              maxBet: values.marketMaxBet1,
-              marketName: values.marketName1,
-            },
-            {
-              maxBet: values.marketMaxBet2,
-              marketName: values.marketName2,
-            },
-            {
-              maxBet: values.marketMaxBet3,
-              marketName: values.marketName3,
-            },
-          ];
-        }
+
         if (selected.title === "") {
           setError((prev: any) => {
             return {
@@ -270,19 +197,18 @@ const AddRace = () => {
         }
         const addMatchpayload: any = {
           matchType: selected.gameType,
-          competitionId: selected.tournamentId,
           competitionName: selected.competitionName,
           title: selected.title,
           marketId: selected.marketId,
           eventId: selected.eventId,
-          teamA: selected.teamA,
-          teamB: selected.teamB,
-          teamC: selected.teamC,
           startAt: selected.startAt,
           minBet: value.minBet,
           marketData: [],
 
-          betFairSessionMaxBet: selected.gameType==='cricket'? value.betfairSessionMaxBet : value.minBet+1,
+          betFairSessionMaxBet:
+            selected.gameType === "cricket"
+              ? value.betfairSessionMaxBet
+              : value.minBet + 1,
           bookmakers: bookmakers,
         };
 
@@ -365,14 +291,7 @@ const AddRace = () => {
       setSelected((prev: any) => {
         return {
           ...prev,
-          teamA: "",
-          teamB: "",
-          teamC: "",
           title: "",
-          manualBookmaker: 0,
-          tournamentName: "",
-          tournamentId: "",
-          matchName: "",
           competitionName: "",
           eventId: "",
           marketId: "",
@@ -382,8 +301,8 @@ const AddRace = () => {
     }
     if (selected.gameType !== "" && !state?.id) {
       if (!manualMatchToggle) {
-        dispatch(tournamentListReset());
-        dispatch(getAllLiveTournaments(selected.gameType));
+        dispatch(eventListReset());
+        dispatch(getRaceMatches("horseRacing"));
       }
       formik.setValues({
         ...values,
@@ -392,30 +311,29 @@ const AddRace = () => {
     }
   }, [selected.gameType]);
 
-  useEffect(() => {
-    if (!state?.id) {
-      setSelected((prev: any) => {
-        return {
-          ...prev,
-          teamA: "",
-          teamB: "",
-          teamC: "",
-          title: "",
-          manualBookmaker: 0,
-          matchName: "",
-          competitionName: "",
-          eventId: "",
-          marketId: "",
-          startAt: new Date(),
-        };
-      });
-    }
+  // useEffect(() => {
+  //   if (!state?.id) {
+  //     setSelected((prev: any) => {
+  //       return {
+  //         ...prev,
+  //         teamA: "",
+  //         teamB: "",
+  //         teamC: "",
+  //         title: "",
+  //         manualBookmaker: 0,
+  //         matchName: "",
+  //         competitionName: "",
+  //         eventId: "",
+  //         marketId: "",
+  //         startAt: new Date(),
+  //       };
+  //     });
+  //   }
 
-    if (selected?.tournamentId && !state?.id) {
-      dispatch(eventListReset());
-      dispatch(getAllEventsList(selected.tournamentId));
-    }
-  }, [selected.tournamentId]);
+  //   if (!state?.id) {
+  //     dispatch(eventListReset());
+  //   }
+  // }, [selected.tournamentId]);
 
   useEffect(() => {
     if (selected.title !== "") {
@@ -522,14 +440,8 @@ const AddRace = () => {
           setSelected((prev: any) => {
             return {
               ...prev,
-              teamA: matchDetail?.teamA,
-              teamB: matchDetail?.teamB,
-              teamC: matchDetail?.teamC,
-              manualBookmaker: matchDetail?.quickBookmaker?.length,
               title: matchDetail?.title,
               gameType: matchDetail?.matchType,
-              tournamentName: matchDetail?.competitionName,
-              tournamentId: matchDetail?.competitionId,
               matchName: matchDetail?.title,
               eventId: matchDetail?.eventId,
               marketId: matchDetail?.marketId,
@@ -552,6 +464,7 @@ const AddRace = () => {
   const handleDropDownOpen = (dropdownName: any) => {
     setOpenDropDown(openDropDown === dropdownName ? null : dropdownName);
   };
+  // console.log('first',selected)
   return (
     <form onSubmit={handleSubmit}>
       <Box
@@ -655,7 +568,6 @@ const AddRace = () => {
               </p>
             )} */}
 
-           
             <Box
               sx={{
                 position: "relative",
@@ -663,7 +575,7 @@ const AddRace = () => {
               }}
             >
               {!manualMatchToggle ? (
-                <DropDown
+                <RaceDropDown
                   name="matchName"
                   valued="Select Race"
                   dropStyle={{
@@ -735,8 +647,6 @@ const AddRace = () => {
               )}
             </Box>
 
-           
-
             <Box
               sx={{
                 width: { xs: "100%", lg: "18%", md: "24%" },
@@ -779,7 +689,7 @@ const AddRace = () => {
                 </DemoContainer>
               </LocalizationProvider>
             </Box>
-           
+
             <Box sx={{ width: { xs: "100%", lg: "18%", md: "24%" } }}>
               <MatchListInput
                 required={true}
@@ -801,54 +711,61 @@ const AddRace = () => {
                 errors={errors.minBet}
               />
             </Box>
-            
-              <Box sx={{ width: { xs: "100%", lg: "18%", md: "24%" } }}>
-                <MatchListInput
-                  required={true}
-                  containerStyle={{ flex: 1, width: "100%" }}
-                  label={"Betfair Match Odd Max Bet*"}
-                  type={"Number"}
-                  placeholder="Betfair Match Odd Max Bet..."
-                  place={11}
-                  name="betfairMatchOddMaxBet"
-                  id="betfairMatchOddMaxBet"
-                  touched={touched.betfairMatchOddMaxBet}
-                  value={values.betfairMatchOddMaxBet}
-                  onChange={handleChange}
-                  onBlur={formik.handleBlur}
-                />
-                <CustomErrorMessage
-                  touched={touched.betfairMatchOddMaxBet}
-                  errors={errors.betfairMatchOddMaxBet}
-                />
-              </Box>
-            
 
-            {/* {eventWiseMatchData[selected.gameType]?.manual?.map((item: any) => {
+            <Box sx={{ width: { xs: "100%", lg: "18%", md: "24%" } }}>
+              <MatchListInput
+                required={true}
+                containerStyle={{ flex: 1, width: "100%" }}
+                label={"Betfair Match Odd Max Bet*"}
+                type={"Number"}
+                placeholder="Betfair Match Odd Max Bet..."
+                place={11}
+                name="betfairMatchOddMaxBet"
+                id="betfairMatchOddMaxBet"
+                touched={touched.betfairMatchOddMaxBet}
+                value={values.betfairMatchOddMaxBet}
+                onChange={handleChange}
+                onBlur={formik.handleBlur}
+              />
+              <CustomErrorMessage
+                touched={touched.betfairMatchOddMaxBet}
+                errors={errors.betfairMatchOddMaxBet}
+              />
+            </Box>
+
+            {raceRunners?.map((item: any, index: number) => {
               return (
                 <Box sx={{ width: { xs: "100%", lg: "18%", md: "24%" } }}>
-                  <MatchListInput
-                    required={true}
-                    containerStyle={{ flex: 1, width: "100%" }}
-                    label={`${item?.label}*`}
-                    {...formik.getFieldProps(`${item?.matchType}.maxBet`)}
-                    type={"Number"}
-                    touched={(touched?.[item?.matchType] as any)?.maxBet}
-                    value={values?.[item?.matchType]?.maxBet}
-                    // onChange={handleChange}
-                    placeholder={`Enter ${item?.name} Max Bet...`}
-                    place={15}
-                    onBlur={formik.handleBlur}
-                  />
-                  <CustomErrorMessage
-                    touched={(touched?.[item?.matchType] as any)?.maxBet}
-                    errors={(errors?.[item?.matchType] as any)?.maxBet}
-                  />
+                  <Typography
+                    style={{
+                      color: "#575757",
+                      fontSize: "12px",
+                      fontWeight: "600",
+                      // ...labelStyle,
+                    }}
+                  >
+                    Runner {index + 1}
+                  </Typography>
+                  <Box
+                    sx={{
+                      width: "100%",
+                      height: "40px",
+                      borderRadius: "5px",
+                      px: "10px",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                      background: "white",
+                      backgroundColor: " ",
+                    }}
+                  >
+                    <Typography>{item?.runnerName}</Typography>
+                  </Box>
                 </Box>
               );
             })}
 
-            {!manualMatchToggle &&
+            {/* {!manualMatchToggle &&
               eventWiseMatchData[selected.gameType]?.market
                 ?.filter(
                   (item: any) =>
@@ -886,8 +803,6 @@ const AddRace = () => {
                     </Box>
                   );
                 })} */}
-
-            
           </Box>
         </Box>
         <Box
