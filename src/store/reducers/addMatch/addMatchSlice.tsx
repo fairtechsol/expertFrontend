@@ -8,6 +8,7 @@ import {
   getAllLiveTournaments,
   getExtraMarketList,
   getMatchDetail,
+  getRaceMatches,
   handleBetResultStatus,
   matchDetailReset,
   matchDetailSuccessReset,
@@ -16,6 +17,7 @@ import {
   updateMatchBettingStatus,
   updateMatchRates,
   updateMatchRatesOnMarketUndeclare,
+  updateRaceRunners,
   updateRates,
   updateSessionAdded,
 } from "../../actions/addMatch/addMatchAction";
@@ -40,6 +42,7 @@ interface InitialState {
   matchAdded: boolean;
   loading: boolean;
   error: any;
+  raceRunners:any;
 }
 
 const initialState: InitialState = {
@@ -53,6 +56,7 @@ const initialState: InitialState = {
       EventName: "No Matches Available",
     },
   ],
+  raceRunners:[],
   extraMarketList: [],
   extraMarketListFootball: [],
   selectionIds: {},
@@ -460,6 +464,24 @@ const addMatch = createSlice({
         if (resultStatusObj && resultStatusObj.hasOwnProperty(betId)) {
           delete resultStatusObj[betId];
         }
+      })
+      .addCase(getRaceMatches.pending, (state) => {
+        state.loading = true;
+        state.success = false;
+        state.error = null;
+      })
+      .addCase(getRaceMatches.fulfilled, (state, action) => {
+        state.eventsList = action?.payload;
+        state.loading = false;
+        state.success = true;
+      })
+      .addCase(getRaceMatches.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action?.error?.message;
+      })
+      
+      .addCase(updateRaceRunners.fulfilled, (state, action) => {
+        state.raceRunners = action.payload;
       });
   },
 });

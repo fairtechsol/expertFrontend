@@ -239,6 +239,13 @@ export const updateExtraMarketListOnEdit = createAsyncThunk<any, any>(
   }
 );
 
+export const updateRaceRunners = createAsyncThunk<any, any>(
+  "updateRaceRunners",
+  async (requestData) => {
+    return requestData;
+  }
+);
+
 export const addMatchExpert = createAsyncThunk<any, any>(
   "addMatchExpert",
   async (requestData, thunkApi) => {
@@ -335,6 +342,23 @@ export const updateMatchRatesOnMarketUndeclare = createAsyncThunk<any, any>(
   "/match/updateOnUndeclare",
   async (data) => {
     return data;
+  }
+);
+
+export const getRaceMatches = createAsyncThunk<any, string>(
+  "addMatch/getRaceMatches",
+  async (requestData, thunkApi) => {
+    try {
+      const { data } = await axios.get(
+        `${addMatchThirdParty}/getDirectMatchList?type=${requestData}`
+      );
+      if (data) {
+        return data;
+      }
+    } catch (error) {
+      const err = error as AxiosError;
+      return thunkApi.rejectWithValue(err.response?.status);
+    }
   }
 );
 export const addMatchReset = createAction("add/reset");
