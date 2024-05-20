@@ -1,5 +1,5 @@
 import { Box, Stack } from "@mui/material";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import RunsBox from "../../components/matchDetails/RunsBox";
@@ -39,6 +39,7 @@ const SessionMarketDetail = () => {
   const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
   const { state } = useLocation();
+  const [socketConnected, setSocketConnected] = useState(true);
   const { matchDetail, success } = useSelector(
     (state: RootState) => state.addMatch.addMatch
   );
@@ -192,6 +193,13 @@ const SessionMarketDetail = () => {
     }
   };
 
+  const handleSocketConnection = () => {
+    setSocketConnected(true);
+  };
+  const handleSocketError = () => {
+    setSocketConnected(false);
+  };
+
   useEffect(() => {
     try {
       if (state?.id) {
@@ -206,7 +214,7 @@ const SessionMarketDetail = () => {
 
   useEffect(() => {
     try {
-      if (success && socket) {
+      if (success && socket && socketConnected) {
         expertSocketService.match.getMatchRatesOff(state?.id);
         socketService.user.matchResultDeclaredOff();
         socketService.user.matchResultUnDeclaredOff();
@@ -227,11 +235,13 @@ const SessionMarketDetail = () => {
         socketService.user.userSessionBetPlaced(updateSessionBetPlaced);
         socketService.user.sessionResultDeclared(updateSessionResultDeclared);
         socketService.user.updateInResultDeclare(updateSessionResultStatus);
+        expertSocketService.match.connectError(handleSocketError);
+        expertSocketService.match.onConnect(handleSocketConnection);
       }
     } catch (e) {
       console.log(e);
     }
-  }, [success, socket]);
+  }, [success, socket, socketConnected]);
 
   useEffect(() => {
     try {
@@ -248,6 +258,8 @@ const SessionMarketDetail = () => {
           socketService.user.userSessionBetPlacedOff();
           socketService.user.sessionResultDeclaredOff();
           socketService.user.updateInResultDeclareOff();
+          expertSocketService.match.connectErrorOff();
+          expertSocketService.match.onConnectOff();
         };
       }
     } catch (error) {

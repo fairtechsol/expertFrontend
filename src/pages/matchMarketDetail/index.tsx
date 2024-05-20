@@ -263,6 +263,8 @@ const MatchMarketDetail = () => {
           socketService.user.userSessionBetPlacedOff();
           socketService.user.sessionResultDeclaredOff();
           socketService.user.updateInResultDeclareOff();
+          expertSocketService.match.connectErrorOff();
+          expertSocketService.match.onConnectOff();
         };
       }
     } catch (error) {
