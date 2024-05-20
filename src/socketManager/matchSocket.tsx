@@ -23,6 +23,12 @@ export const matchSocketService = {
   matchAdded: (callback: any) => {
     socket?.on("addMatch", callback);
   },
+  connectError: (callback: any) => {
+    socket?.on("connect_error", callback);
+  },
+  onConnect: (callback: any) => {
+    socket?.on("connect", callback);
+  },
   getMatchRates: (matchId: string, callback: any) => {
     matchSocket?.on(`liveData${matchId}`, callback);
   },
@@ -31,5 +37,11 @@ export const matchSocketService = {
   },
   getMatchRatesOff: (matchId: string) => {
     matchSocket?.off(`liveData${matchId}`);
+  },
+  connectErrorOff: () => {
+    socket?.off("connect_error");
+  },
+  onConnectOff: () => {
+    socket?.off("connect");
   },
 };
