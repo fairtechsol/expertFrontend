@@ -64,6 +64,9 @@ const initialValues = {
   eventId: "",
   marketId: "",
   competitionId: "",
+  countryCode:"",
+  venue:"",
+  raceType:"",
   startAt: new Date(),
 };
 
@@ -128,10 +131,13 @@ const AddRace = () => {
           eventId: selected.eventId,
           competitionId: selected.competitionId,
           startAt: selected.startAt,
+          countryCode: selected.countryCode,
           minBet: value.minBet,
           maxBet: value.maxBet,
           type: "matchOdd",
+          venue:selected.venue,
           runners: raceRunners,
+          raceType: selected.raceType,
         };
 
         if (manualMatchToggle) {

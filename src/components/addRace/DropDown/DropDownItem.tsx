@@ -27,7 +27,10 @@ const raceDropDownItem = (props: any) => {
             marketId: i?.marketId,
             competitionName:i?.event?.name,
             competitionId:EventId,
+            countryCode:i?.event?.countryCode,
             startAt:i?.marketStartTime ,
+            venue:i?.event?.venue ,
+            raceType:i?.description?.raceType ,
           };
         });
         dispatch(updateRaceRunners(i?.runners))
