@@ -58,6 +58,10 @@ const constants = {
     "table_tennis",
     "darts",
   ],
+  raceType:[
+    "horse_racing",
+    "greyhound_racing",
+  ],
   defaultMarketId: 4312,
 
   pageLimit: 10,

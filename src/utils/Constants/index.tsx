@@ -65,8 +65,11 @@ export const Constants = {
   MainPaths: {
     root: "/expert",
     match: "match",
+    race: "race",
     addMatch: "add_match",
+    addRace: "add_race",
     editMatch: "edit_match",
+    editrace: "edit_race",
     live: "live",
     live_update: "live/:id",
     addBookMaker: "add_book_maker",

@@ -201,6 +201,34 @@ const Header1 = () => {
                       }}
                     />
                   </NavLink>
+
+                  <NavLink
+                    to={"/expert/race"}
+                    style={{ textDecoration: "none" }}
+                  >
+                    <ButtonHead
+                      // onClick={() => {
+                      //   setSelected(4);
+                      // }}
+                      title={"RACE LIST"}
+                      boxStyle={{
+                        backgroundColor:
+                          window.location.pathname.split("/")[2] == "race"
+                            ? "white"
+                            : "transparent",
+                        py: "5px",
+                        borderRadius: "5px",
+                        marginLeft: { lg: "15px", xs: "1px" },
+                        cursor: "pointer",
+                      }}
+                      titleStyle={{
+                        color:
+                          window.location.pathname.split("/")[2] == "race"
+                            ? "green"
+                            : "white",
+                      }}
+                    />
+                  </NavLink>
                 </>
                 <Box sx={{ minHeight: { lg: 66, xs: 40 + 42 } }} />
                 <Box
@@ -443,6 +471,34 @@ const Header1 = () => {
                         titleStyle={{
                           color:
                             window.location.pathname.split("/")[2] == "match"
+                              ? "green"
+                              : "white",
+                        }}
+                      />
+                    </NavLink>
+
+                    <NavLink
+                      to={"/expert/race"}
+                      style={{ textDecoration: "none" }}
+                    >
+                      <ButtonHead
+                        // onClick={() => {
+                        //   setSelected(4);
+                        // }}
+                        title={"RACE LIST"}
+                        boxStyle={{
+                          backgroundColor:
+                            window.location.pathname.split("/")[2] == "race"
+                              ? "white"
+                              : "transparent",
+                          py: "5px",
+                          borderRadius: "5px",
+                          marginLeft: { lg: "15px", xs: "1px" },
+                          cursor: "pointer",
+                        }}
+                        titleStyle={{
+                          color:
+                            window.location.pathname.split("/")[2] == "race"
                               ? "green"
                               : "white",
                         }}
