@@ -43,7 +43,7 @@ const MatchMarketDetail = () => {
   const { state } = useLocation();
   const navigate = useNavigate();
   const dispatch: AppDispatch = useDispatch();
-  const [_] = useState(false);
+  const [socketConnected, setSocketConnected] = useState(true);
   const { matchDetail, loading, success } = useSelector(
     (state: RootState) => state.addMatch.addMatch
   );
@@ -154,7 +154,6 @@ const MatchMarketDetail = () => {
       console.log(e);
     }
   };
-
   const updateSessionBetPlaced = (event: any) => {
     try {
       if (event?.jobData?.placedBet?.matchId === state?.id) {
@@ -196,6 +195,13 @@ const MatchMarketDetail = () => {
     }
   };
 
+  const handleSocketConnection = () => {
+    setSocketConnected(true);
+  };
+  const handleSocketError = () => {
+    setSocketConnected(false);
+  };
+
   useEffect(() => {
     try {
       if (state?.id) {
@@ -210,7 +216,7 @@ const MatchMarketDetail = () => {
 
   useEffect(() => {
     try {
-      if (success && socket) {
+      if (success && socket && socketConnected) {
         expertSocketService.match.getMatchRatesOff(state?.id);
         socketService.user.matchResultDeclaredOff();
         socketService.user.matchResultUnDeclaredOff();
@@ -233,11 +239,13 @@ const MatchMarketDetail = () => {
         socketService.user.userSessionBetPlaced(updateSessionBetPlaced);
         socketService.user.sessionResultDeclared(updateSessionResultDeclared);
         socketService.user.updateInResultDeclare(updateSessionResultStatus);
+        expertSocketService.match.connectError(handleSocketError);
+        expertSocketService.match.onConnect(handleSocketConnection);
       }
     } catch (e) {
       console.log(e);
     }
-  }, [success, socket]);
+  }, [success, socket, socketConnected]);
 
   useEffect(() => {
     try {
