@@ -23,7 +23,7 @@ const RaceDropDown = (props: any) => {
     valued,
     gameType,
     onOpen,
-    isOpen
+    // isOpen,
   } = props;
 
   const [value, setValue] = useState(valued);
@@ -42,7 +42,7 @@ const RaceDropDown = (props: any) => {
     setValue(valued);
   }, [selected]);
   // useEffect(() => {
-  //   setOpen(isOpen); 
+  //   setOpen(isOpen);
   // }, [isOpen]);
   return (
     <Box sx={[{ width: "19%" }, containerStyle]}>
@@ -61,13 +61,10 @@ const RaceDropDown = (props: any) => {
       </Typography>
       <Box
         onClick={() => {
-
           if (!disable) {
-
             setOpen((prev) => !prev);
             onOpen(name);
           }
-
         }}
         sx={[
           {
@@ -101,7 +98,7 @@ const RaceDropDown = (props: any) => {
                 lg: "14px !important",
                 xs: "12px !important",
               },
-              lineHeight : 0.9
+              lineHeight: 0.9,
             }}
           >
             {valueToShow}
@@ -137,28 +134,27 @@ const RaceDropDown = (props: any) => {
             dropDownStyle,
           ]}
         >
-          { data?.map((i: any, idx: any) => {
-                              return (
-                  <DropDownItem
-                    key={idx}
-                    i={i}
-                    mId={i?.MarketId}
-                    EventId={i?.event?.id}
-                    matchesSelect={matchesSelect}
-                    CompetitionName={i?.marketName}
-                    eventDetail={i?.EventDetail}
-                    type={type}
-                    // disable={disable}
-                    setValue={setValue}
-                    setSelected={setSelected}
-                    setOpen={setOpen}
-                    dropDownTextStyle={dropDownTextStyle}
-                    name={name}
-                    gameType={gameType}
-                  />
-                );
-              })
-           }
+          {data?.map((item: any, idx: any) => {
+            return (
+              <DropDownItem
+                key={idx}
+                item={item}
+                mId={item?.MarketId}
+                EventId={item?.event?.id}
+                matchesSelect={matchesSelect}
+                CompetitionName={item?.marketName}
+                eventDetail={item?.EventDetail}
+                type={type}
+                // disable={disable}
+                setValue={setValue}
+                setSelected={setSelected}
+                setOpen={setOpen}
+                dropDownTextStyle={dropDownTextStyle}
+                name={name}
+                gameType={gameType}
+              />
+            );
+          })}
         </Box>
       )}
     </Box>

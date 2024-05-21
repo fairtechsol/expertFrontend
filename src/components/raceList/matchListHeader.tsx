@@ -1,20 +1,36 @@
 import { Box, Typography, debounce } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import SearchInput from "../../components/Common/SearchInput";
+import Select, { SelectChangeEvent } from '@mui/material/Select';
 import CustomButton from "../Common/CustomButton";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store/store";
-import { getMatchList } from "../../store/actions/match/matchAction";
+import MenuItem from '@mui/material/MenuItem';
+import { useEffect } from "react";
+import { getDateList } from "../../store/actions/user/userAction";
+import { getCountryCode, getRaceList } from "../../store/actions/match/matchAction";
 
 const MatchListHeader = () => {
   const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
-  const { getProfile } = useSelector((state: RootState) => state.user.profile);
+  const { getProfile,dateList } = useSelector((state: RootState) => state.user.profile);
+  const { countryCode } = useSelector(
+    (state: RootState) => state.matchList
+  );
+  useEffect(() => {
+    dispatch(getDateList())
+ }, []) 
 
-  const getMatchListOnchange = debounce((value: string) => {
-    dispatch(getMatchList({ keyword: value }));
-  }, 500);
+ useEffect(() => {
+  if(dateList?.length > 0){
+    dispatch(getCountryCode(dateList[0]))
+  }
+}, [dateList]) 
 
+ useEffect(() => {
+  if(countryCode?.length > 0){
+    dispatch(getRaceList(countryCode[0]))
+  }
+}, [countryCode]) 
   return (
     <>
       <Box
@@ -37,17 +53,47 @@ const MatchListHeader = () => {
         </Typography>
         <Box
           sx={{
+            width:{lg:'40%',md:'50%'},
             display: "flex",
             alignItems: "center",
-            justifyContent: { xs: "space-between", sm: "flex-end" },
+            justifyContent: { xs: "space-between", sm: "space-between" },
           }}
         >
-          <SearchInput
-            width="50%"
-            show={true}
-            placeholder="Search Race..."
-            handleSearch={getMatchListOnchange}
-          />
+          <Select
+          // value={personName}
+          // onChange={handleChange}
+          inputProps={{ 'aria-label': 'Without label' }}
+          sx={{width:'30%',backgroundColor:'#fff',height:'40px'}}
+        >
+          <MenuItem value="">
+            <em>Placeholder</em>
+          </MenuItem>
+          <MenuItem value="">
+            <em>Placeholder1</em>
+          </MenuItem>
+          <MenuItem value="">
+            <em>Placeholder2</em>
+          </MenuItem>
+        </Select>
+          
+
+
+        <Select
+          // value={personName}
+          // onChange={handleChange}
+          inputProps={{ 'aria-label': 'Without label' }}
+          sx={{width:'30%',backgroundColor:'#fff',height:'40px'}}
+        >
+          <MenuItem value="">
+            <em>Placeholder</em>
+          </MenuItem>
+          <MenuItem value="">
+            <em>Placeholder1</em>
+          </MenuItem>
+          <MenuItem value="">
+            <em>Placeholder2</em>
+          </MenuItem>
+        </Select>
           {(getProfile?.allPrivilege || getProfile?.addMatchPrivilege) && (
             <CustomButton
               onClick={() => {

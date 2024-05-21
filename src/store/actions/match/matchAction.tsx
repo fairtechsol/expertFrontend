@@ -270,6 +270,40 @@ export const getSessionProfitLossMatchDetail = createAsyncThunk<any, any>(
   }
 );
 
+export const getCountryCode = createAsyncThunk<any, any>(
+  "/match/countryCode",
+  async (requestData, thunkApi) => {
+    try { 
+      const response = await service.get(
+        `${ApiConstants.MATCH.GET_COUNTRY_CODE}?date=${requestData}`,
+        
+      );
+      if (response) {
+        return response.data;
+      }
+    } catch (error) {
+      const err = error as AxiosError;
+      return thunkApi.rejectWithValue(err.response?.status);
+    }
+  }
+);
+export const getRaceList = createAsyncThunk<any, any>(
+  "/match/raceList",
+  async (requestData, thunkApi) => {
+    try {
+      const response = await service.get(
+        `${ApiConstants.MATCH.GET_RACE_LIST}?racingMatch.countryCode=${requestData}`,
+        
+      );
+      if (response) {
+        return response.data;
+      }
+    } catch (error) {
+      const err = error as AxiosError;
+      return thunkApi.rejectWithValue(err.response?.status);
+    }
+  }
+);
 export const updateTeamRates = createAsyncThunk<any, any>(
   "/teamRates/update",
   async (data) => {

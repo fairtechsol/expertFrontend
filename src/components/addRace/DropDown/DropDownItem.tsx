@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../../store/store";
 const raceDropDownItem = (props: any) => {
   const {
-    i,
+    item,
     EventId,
     CompetitionName,
     setOpen,
@@ -21,19 +21,19 @@ const raceDropDownItem = (props: any) => {
         setSelected((prev: any) => {
           return {
             ...prev,
-            [name]: `${i?.event?.countryCode}>${i?.event?.venue}/${CompetitionName}`,
+            [name]: `${item?.event?.countryCode}>${item?.event?.venue}/${CompetitionName}`,
             title: CompetitionName,
             eventId: EventId,
-            marketId: i?.marketId,
-            competitionName:i?.event?.name,
+            marketId: item?.marketId,
+            competitionName:item?.event?.name,
             competitionId:EventId,
-            countryCode:i?.event?.countryCode,
-            startAt:i?.marketStartTime ,
-            venue:i?.event?.venue ,
-            raceType:i?.description?.raceType ,
+            countryCode:item?.event?.countryCode,
+            startAt:item?.marketStartTime ,
+            venue:item?.event?.venue ,
+            raceType:item?.description?.raceType ,
           };
         });
-        dispatch(updateRaceRunners(i?.runners))
+        dispatch(updateRaceRunners(item?.runners))
         setOpen(false);
       }
       }
@@ -52,7 +52,7 @@ const raceDropDownItem = (props: any) => {
         dropDownTextStyle,
       ]}
     >
-      <Typography>{CompetitionName?`${i?.event?.countryCode}>${i?.event?.venue}/${CompetitionName}`:i?.EventName}</Typography>
+      <Typography>{CompetitionName?`${item?.event?.countryCode}>${item?.event?.venue}/${CompetitionName}`:item?.EventName}</Typography>
       {/* <Typography sx={{ fontSize: "12px" }}>{CompetitionName}</Typography> */}
     </Box>
   );

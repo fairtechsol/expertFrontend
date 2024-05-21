@@ -3,11 +3,13 @@ import {
   betLiveStatus,
   editMatch,
   editSuccessReset,
+  getCountryCode,
   getMatchList,
   getMatchListDropdown,
   getMatchListSessionProfitLoss,
   getPlacedBetsForSessionDetail,
   getPlacedBetsMatch,
+  getRaceList,
   matchListReset,
   noResultDeclare,
   resetMatchListSessionProLoss,
@@ -35,6 +37,8 @@ interface InitialState {
   dropDownLoading: boolean;
   statusBetLive: boolean;
   sessionProLoss: any;
+  countryCode:any;
+  raceList:any;
 }
 
 const initialState: InitialState = {
@@ -50,6 +54,8 @@ const initialState: InitialState = {
   declareLoading: false,
   placedBetsMatch: [],
   sessionProLoss: [],
+  countryCode:[],
+  raceList:[],
 };
 
 const matchList = createSlice({
@@ -281,6 +287,30 @@ const matchList = createSlice({
       .addCase(resetMatchListSessionProLoss, (state) => {
         state.success = false;
         state.sessionProLoss = [];
+      })
+      .addCase(getCountryCode.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getCountryCode.fulfilled, (state,action) => {
+        state.loading = false;
+        state.countryCode=action.payload
+      })
+      .addCase(getCountryCode.rejected, (state,action) => {
+        state.loading = false;
+        state.error = action?.error?.message;
+      })
+      .addCase(getRaceList.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getRaceList.fulfilled, (state,action) => {
+        state.loading = false;
+        state.raceList=action.payload
+      })
+      .addCase(getRaceList.rejected, (state,action) => {
+        state.loading = false;
+        state.error = action?.error?.message;
       });
   },
 });

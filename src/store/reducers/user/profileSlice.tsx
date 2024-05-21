@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import {
   changePassword,
   changePasswordReset,
+  getDateList,
   getLoggedUserCount,
   getProfile,
 } from "../../actions/user/userAction";
@@ -13,6 +14,7 @@ interface InitialState {
   loading: boolean;
   error: any;
   getProfile: any;
+  dateList:any;
 }
 
 const initialState: InitialState = {
@@ -22,6 +24,7 @@ const initialState: InitialState = {
   loading: false,
   success: false,
   error: null,
+  dateList:[],
 };
 
 const profileSlice = createSlice({
@@ -72,6 +75,19 @@ const profileSlice = createSlice({
       .addCase(changePasswordReset, (state) => {
         state.success = false;
         state.transactionPassword = "";
+      })
+      .addCase(getDateList.pending, (state) => {
+        state.loading = true;
+        state.success = false;
+        state.error = null;
+      })
+      .addCase(getDateList.fulfilled, (state, action) => {
+        state.loading = false;
+        state.dateList = action?.payload;
+      })
+      .addCase(getDateList.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action?.error?.message;
       });
   },
 });

@@ -19,6 +19,9 @@ export const ApiConstants = {
     UNDECLARE: "bet/unDeclare/result/match",
     OTHER_UNDECLARE: "bet/unDeclare/result/other/match",
     GET_BETS: "/bet",
+    GET_DATES: "match/dateWiseList",
+    GET_COUNTRY_CODE: "match/countryWiseList",
+    GET_RACE_LIST: "match/racing/list",
   },
   USER: {
     CHANGEPASSWORD: "user/password",
