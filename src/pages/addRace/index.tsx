@@ -125,11 +125,9 @@ const AddRace = () => {
 
         const addMatchpayload: any = {
           matchType: matchType,
-          competitionName: selected.competitionName,
           title: selected.title,
           marketId: selected.marketId,
           eventId: selected.eventId,
-          competitionId: selected.competitionId,
           startAt: selected.startAt,
           countryCode: selected.countryCode,
           minBet: value.minBet,

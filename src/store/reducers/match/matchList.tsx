@@ -12,6 +12,7 @@ import {
   getRaceList,
   matchListReset,
   noResultDeclare,
+  raceListReset,
   resetMatchListSessionProLoss,
   resultDeclare,
   sessionBetLiveStatus,
@@ -311,6 +312,10 @@ const matchList = createSlice({
       .addCase(getRaceList.rejected, (state,action) => {
         state.loading = false;
         state.error = action?.error?.message;
+      })
+      .addCase(raceListReset, (state) => {
+        state.success = false;
+        state.raceList=[];
       });
   },
 });

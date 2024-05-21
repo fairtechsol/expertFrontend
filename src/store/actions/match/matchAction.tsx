@@ -354,6 +354,7 @@ export const updateResultStatusOfMatch = createAsyncThunk<any, SessionById>(
   }
 );
 export const matchListReset = createAction("matchList/reset");
+export const raceListReset = createAction("raceList/reset");
 export const editSuccessReset = createAction("editSuccess/reset");
 export const sessionResultSuccessReset = createAction("sessionResult/reset");
 export const updateMatchActiveStatusReset = createAction(
