@@ -218,25 +218,7 @@ const MatchListTable = (props: any) => {
                 flexWrap: "wrap",
               }}
             >
-              {data?.matchType === "cricket" && (getProfile?.allPrivilege ||
-                getProfile?.sessionMatchPrivilege) && (
-                <CustomButton
-                  containerStyle={{
-                    // minWidth: { xs: "40%", sm: "100px" },
-                    // width: { xs: "40%", sm: "100px" },
-                    // marginLeft: { xs: "1%", sm: "10px" },
-                    // marginBottom: { xs: "1%", sm: "10px" },
-                    // gap: 0.5,
-                    margin: "5px",
-                  }}
-                  onClick={() => {
-                    navigate(`/expert/session`, {
-                      state: { id: data?.id, marketId: data?.marketId },
-                    });
-                  }}
-                  title={"Session"}
-                />
-              )}
+              
               {(getProfile?.allPrivilege ||
                 getProfile?.betFairMatchPrivilege) && (
                 <CustomButton
@@ -249,37 +231,15 @@ const MatchListTable = (props: any) => {
                     margin: "5px",
                   }}
                   onClick={() => {
-                    if (data?.matchType === "cricket") {
-                      navigate(`/expert/market`, {
+                    
+                      navigate(`/expert/betOdds/race`, {
                         state: { id: data?.id, marketId: data?.marketId },
                       });
-                    } else {
-                      navigate(`/expert/betOdds/otherGames`, {
-                        state: { id: data?.id, marketId: data?.marketId },
-                      });
-                    }
                   }}
                   title={"Match"}
                 />
               )}
-              {(getProfile?.allPrivilege || getProfile?.addMatchPrivilege) && (
-                <CustomButton
-                  containerStyle={{
-                    // minWidth: { xs: "40%", sm: "100px" },
-                    // width: { xs: "40%", sm: "100px" },
-                    // gap: 0.5,
-                    margin: "5px",
-                    // marginLeft: { xs: "1%", sm: "10px" },
-                    // marginBottom: { xs: "1%", sm: "10px" },
-                  }}
-                  onClick={() => {
-                    navigate(`/expert/edit_match`, {
-                      state: { id: data?.id },
-                    });
-                  }}
-                  title={"Edit"}
-                />
-              )}
+              
             </Box>
           </Box>
         </Box>
