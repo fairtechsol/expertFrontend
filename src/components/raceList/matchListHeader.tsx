@@ -1,4 +1,4 @@
-import { Box, Typography, debounce } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import CustomButton from "../Common/CustomButton";
@@ -28,7 +28,7 @@ const MatchListHeader = () => {
 
   useEffect(() => {
     if (dateList?.length > 0) {
-      setDated(dateList[0]?.date);
+      setDated(dateList[0]?.date)
       setCountryCoded(countryCode[0]?.countryCode);
       dispatch(getCountryCode(dateList[0]?.date));
     }
@@ -37,19 +37,20 @@ const MatchListHeader = () => {
   useEffect(() => {
     if (countryCode?.length > 0) {
       setCountryCoded(countryCode[0]?.countryCode);
-      dispatch(getRaceList(countryCode[0]?.countryCode));
+      dispatch(getRaceList({cc:countryCode[0]?.countryCode,date:moment(dated).format("YYYY-MM-DD")}));
     }
   }, [countryCode]);
 
   const handleChangeDate = (event: SelectChangeEvent) => {
     const selectedValue = event.target.value;
+    
     setDated(selectedValue);
     dispatch(getCountryCode(selectedValue));
   };
   const handleChange = (event: SelectChangeEvent) => {
     const selectedValue = event.target.value;
     setCountryCoded(selectedValue);
-    dispatch(getRaceList(selectedValue));
+    dispatch(getRaceList({cc:selectedValue,date:moment(dated).format("YYYY-MM-DD")}));
   };
   return (
     <>
@@ -106,7 +107,6 @@ const MatchListHeader = () => {
           {countryCode &&
               countryCode?.map((item: any, index: any) => {
 
-                console.log('first',item)
                 return (
                  
                     <MenuItem key={index} value={item?.countryCode}>

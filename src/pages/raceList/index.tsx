@@ -1,4 +1,4 @@
-import { Box, Pagination } from "@mui/material";
+import { Box } from "@mui/material";
 import { useEffect, useState } from "react";
 import MatchListHeader from "../../components/raceList/matchListHeader";
 import MatchListTable from "../../components/raceList/matchListTable";
@@ -7,20 +7,14 @@ import "./style.css";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store/store";
 import {
-  getMatchList,
   matchListReset,
 } from "../../store/actions/match/matchAction";
-import {
-  expertSocketService,
-  socket,
-  socketService,
-} from "../../socketManager";
-import { Constants } from "../../utils/Constants";
+
 
 const RaceList = ({}) => {
   const dispatch: AppDispatch = useDispatch();
-  const [currentPage, setCurrentPage] = useState(1);
-  const { matchList, success } = useSelector(
+  const [currentPage] = useState(1);
+  const {  success } = useSelector(
     (state: RootState) => state.matchList
   );
   const { raceList } = useSelector(
