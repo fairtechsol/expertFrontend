@@ -21,26 +21,35 @@ const MatchListHeader = () => {
   );
   const { countryCode } = useSelector((state: RootState) => state.matchList);
   const [dated, setDated] = useState(dateList[0]?.date);
+  const [countryCoded, setCountryCoded] = useState(countryCode[0]?.countryCode);
   useEffect(() => {
     dispatch(getDateList());
   }, []);
 
   useEffect(() => {
     if (dateList?.length > 0) {
+      setDated(dateList[0]?.date);
+      setCountryCoded(countryCode[0]?.countryCode);
       dispatch(getCountryCode(dateList[0]?.date));
     }
   }, [dateList]);
 
   useEffect(() => {
     if (countryCode?.length > 0) {
+      setCountryCoded(countryCode[0]?.countryCode);
       dispatch(getRaceList(countryCode[0]?.countryCode));
     }
   }, [countryCode]);
 
-  const handleChange = (event: SelectChangeEvent) => {
+  const handleChangeDate = (event: SelectChangeEvent) => {
     const selectedValue = event.target.value;
     setDated(selectedValue);
-    console.log("first", selectedValue);
+    dispatch(getCountryCode(selectedValue));
+  };
+  const handleChange = (event: SelectChangeEvent) => {
+    const selectedValue = event.target.value;
+    setCountryCoded(selectedValue);
+    dispatch(getRaceList(selectedValue));
   };
   return (
     <>
@@ -71,39 +80,42 @@ const MatchListHeader = () => {
           }}
         >
           <Select
-            value={'dated'}
-            onChange={handleChange}
+            value={dated}
+            onChange={handleChangeDate}
             inputProps={{ "aria-label": "Without label" }}
             sx={{ width: "30%", backgroundColor: "#fff", height: "40px" }}
           >
             {dateList &&
               dateList?.map((item: any, index: any) => {
                 return (
-                  <>
+                  
                     <MenuItem key={index} value={item?.date}>
                       {moment(item?.date).format("DD/MM/YYYY")}
                     </MenuItem>
-                  </>
+                  
                 );
               })}
           </Select>
 
           <Select
-            // value={personName}
-            // onChange={handleChange}
-            inputProps={{ "aria-label": "Without label" }}
-            sx={{ width: "30%", backgroundColor: "#fff", height: "40px" }}
-          >
-            <MenuItem value="">
-              <em>Placeholder</em>
-            </MenuItem>
-            <MenuItem value="">
-              <em>Placeholder1</em>
-            </MenuItem>
-            <MenuItem value="">
-              <em>Placeholder2</em>
-            </MenuItem>
-          </Select>
+          value={countryCoded}
+          onChange={handleChange}
+          inputProps={{ 'aria-label': 'Without label' }}
+          sx={{ width: "30%", backgroundColor: "#fff", height: "40px" }}
+        >
+          {countryCode &&
+              countryCode?.map((item: any, index: any) => {
+
+                console.log('first',item)
+                return (
+                 
+                    <MenuItem key={index} value={item?.countryCode}>
+                      {item?.countryCode}
+                    </MenuItem>
+                
+                );
+              })}
+        </Select>
           {(getProfile?.allPrivilege || getProfile?.addMatchPrivilege) && (
             <CustomButton
               onClick={() => {
