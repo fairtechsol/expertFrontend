@@ -6,6 +6,7 @@ export const ApiConstants = {
   OLD_PASSWORD: "/user/check/oldPassword",
   MATCH: {
     ADD: "match/add",
+    ADD_RACE: "match/racingAdd",
     EDIT: "match/update",
     LIST: "match/list",
     LIST_SESSION_PRO_LOSS: "session/result",
@@ -18,6 +19,9 @@ export const ApiConstants = {
     UNDECLARE: "bet/unDeclare/result/match",
     OTHER_UNDECLARE: "bet/unDeclare/result/other/match",
     GET_BETS: "/bet",
+    GET_DATES: "match/dateWiseList",
+    GET_COUNTRY_CODE: "match/countryWiseList",
+    GET_RACE_LIST: "match/racing/list",
   },
   USER: {
     CHANGEPASSWORD: "user/password",
@@ -75,6 +79,7 @@ export const Constants = {
     addBookMaker: "add_book_maker",
     betOdds: "betOdds",
     betOddsOtherGames: "betOdds/otherGames",
+    betOddsRace: "betOdds/race",
     session: "session",
     market: "market",
     changePassword: "change-password",

@@ -23,20 +23,22 @@ const RaceList = ({}) => {
   const { matchList, success } = useSelector(
     (state: RootState) => state.matchList
   );
+  const { raceList } = useSelector(
+    (state: RootState) => state.matchList
+  );
+  // function callPage(_: any, newPage: any) {
+  //   setCurrentPage(newPage);
+  // }
 
-  function callPage(_: any, newPage: any) {
-    setCurrentPage(newPage);
-  }
-
-  useEffect(() => {
-    try {
-      if (sessionStorage.getItem("jwtExpert")) {
-        dispatch(getMatchList({ currentPage: currentPage }));
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  }, [currentPage, sessionStorage]);
+  // useEffect(() => {
+  //   try {
+  //     if (sessionStorage.getItem("jwtExpert")) {
+  //       dispatch(getMatchList({ currentPage: currentPage }));
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // }, [currentPage, sessionStorage]);
 
   useEffect(() => {
     if (success) {
@@ -44,29 +46,22 @@ const RaceList = ({}) => {
     }
   }, [success]);
 
-  const getMatchListService = () => {
-    setCurrentPage(1);
-    dispatch(
-      getMatchList({
-        currentPage: 1,
-      })
-    );
-  };
+ 
 
-  useEffect(() => {
-    try {
-      if (socket) {
-        expertSocketService.match.matchAdded(getMatchListService);
-        socketService.user.matchResultUnDeclared(getMatchListService);
-        return () => {
-          expertSocketService.match.matchAddedOff();
-          socketService.user.matchResultUnDeclaredOff();
-        };
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  }, [socket]);
+  // useEffect(() => {
+  //   try {
+  //     if (socket) {
+  //       expertSocketService.match.matchAdded(getMatchListService);
+  //       socketService.user.matchResultUnDeclared(getMatchListService);
+  //       return () => {
+  //         expertSocketService.match.matchAddedOff();
+  //         socketService.user.matchResultUnDeclaredOff();
+  //       };
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // }, [socket]);
 
   return (
     <>
@@ -86,18 +81,19 @@ const RaceList = ({}) => {
       >
         <MatchListHeader />
         <MatchListTableHeader />
-        {matchList &&
-          matchList?.matches?.map((item: any, index: number) => {
+        {raceList &&
+          Object.keys(raceList).map((item: any, index: number) => {
             return (
               <MatchListTable
                 key={item?.id}
                 data={item}
                 index={index}
                 currentPage={currentPage}
+                race={raceList}
               />
             );
           })}
-        <Pagination
+        {/* <Pagination
           sx={{
             background: "#073c25",
             overflow: "hidden",
@@ -120,8 +116,8 @@ const RaceList = ({}) => {
               Constants.pageLimit
           )}
           color="primary"
-          onChange={callPage}
-        />
+          // onChange={callPage}
+        /> */}
       </Box>
     </>
   );

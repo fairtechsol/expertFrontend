@@ -83,7 +83,22 @@ export const headerAddNotification = createAsyncThunk<any, any>(
     }
   }
 );
-
+export const getDateList = createAsyncThunk<any>(
+  "match/dateList",
+  async (_, thunkApi) => {
+    try {
+      const resp = await service.get(`${ApiConstants.MATCH.GET_DATES}`);
+      if (resp) {
+        
+          return resp?.data;
+        
+      }
+    } catch (error: any) {
+      const err = error as AxiosError;
+      throw thunkApi.rejectWithValue(err.response?.status);
+    }
+  }
+);
 export const changePasswordReset = createAction("changePassword/reset");
 export const profileReset = createAction("profile/reset");
 export const updateReset = createAction("update/reset");

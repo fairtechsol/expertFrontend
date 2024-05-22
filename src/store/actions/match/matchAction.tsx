@@ -270,6 +270,40 @@ export const getSessionProfitLossMatchDetail = createAsyncThunk<any, any>(
   }
 );
 
+export const getCountryCode = createAsyncThunk<any, any>(
+  "/match/countryCode",
+  async (requestData, thunkApi) => {
+    try { 
+      const response = await service.get(
+        `${ApiConstants.MATCH.GET_COUNTRY_CODE}?date=${requestData}`,
+        
+      );
+      if (response) {
+        return response.data;
+      }
+    } catch (error) {
+      const err = error as AxiosError;
+      return thunkApi.rejectWithValue(err.response?.status);
+    }
+  }
+);
+export const getRaceList = createAsyncThunk<any, any>(
+  "/match/raceList",
+  async (requestData, thunkApi) => {
+    try {
+      const response = await service.get(
+        `${ApiConstants.MATCH.GET_RACE_LIST}?racingMatch.countryCode=${requestData}`,
+        
+      );
+      if (response) {
+        return response.data;
+      }
+    } catch (error) {
+      const err = error as AxiosError;
+      return thunkApi.rejectWithValue(err.response?.status);
+    }
+  }
+);
 export const updateTeamRates = createAsyncThunk<any, any>(
   "/teamRates/update",
   async (data) => {
@@ -320,6 +354,7 @@ export const updateResultStatusOfMatch = createAsyncThunk<any, SessionById>(
   }
 );
 export const matchListReset = createAction("matchList/reset");
+export const raceListReset = createAction("raceList/reset");
 export const editSuccessReset = createAction("editSuccess/reset");
 export const sessionResultSuccessReset = createAction("sessionResult/reset");
 export const updateMatchActiveStatusReset = createAction(

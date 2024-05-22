@@ -14,6 +14,7 @@ import ChangePassword from "../pages/changePassword";
 import SessionMarketDetail from "../pages/sessionMarketDetail";
 import MatchMarketDetail from "../pages/matchMarketDetail";
 import AddRace from "../pages/addRace";
+import RaceDetails from "../pages/raceDetails";
 
 // const MatchList = Loadable(() => import("../pages/matchList"));
 // const AddMatch = Loadable(() => import("../pages/addMatch"));
@@ -69,6 +70,10 @@ const MainRoutes = {
     {
       path: Constants.MainPaths.betOddsOtherGames,
       element: <OtherMatchDetails />,
+    },
+    {
+      path: Constants.MainPaths.betOddsRace,
+      element: <RaceDetails />,
     },
     {
       path: Constants.MainPaths.session,

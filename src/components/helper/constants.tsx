@@ -59,8 +59,8 @@ const constants = {
     "darts",
   ],
   raceType:[
-    "horse_racing",
-    "greyhound_racing",
+    "horse racing",
+    "greyhound  racing",
   ],
   defaultMarketId: 4312,
 

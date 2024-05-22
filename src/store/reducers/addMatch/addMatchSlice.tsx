@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import {
   addMatchExpert,
   addMatchReset,
+  addRaceExpert,
   editMatchReset,
   eventListReset,
   getAllEventsList,
@@ -12,6 +13,7 @@ import {
   handleBetResultStatus,
   matchDetailReset,
   matchDetailSuccessReset,
+  runnerDetailReset,
   tournamentListReset,
   updateExtraMarketListOnEdit,
   updateMatchBettingStatus,
@@ -343,6 +345,9 @@ const addMatch = createSlice({
       .addCase(matchDetailReset, (state) => {
         state.matchDetail = null;
       })
+      .addCase(runnerDetailReset, (state) => {
+        state.raceRunners = [];
+      })
       .addCase(matchDetailSuccessReset, (state) => {
         state.success = false;
       })
@@ -482,6 +487,19 @@ const addMatch = createSlice({
       
       .addCase(updateRaceRunners.fulfilled, (state, action) => {
         state.raceRunners = action.payload;
+      })
+      .addCase(addRaceExpert.pending, (state) => {
+        state.loading = true;
+        state.success = false;
+        state.error = null;
+      })
+      .addCase(addRaceExpert.fulfilled, (state) => {
+        state.matchAdded = true;
+        state.loading = false;
+      })
+      .addCase(addRaceExpert.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action?.error?.message;
       });
   },
 });

@@ -17,7 +17,7 @@ import { IconConstants } from "../helper/gameConstants";
 import { Constants } from "../../utils/Constants";
 
 const MatchListTable = (props: any) => {
-  const { data, index, currentPage } = props;
+  const { data, index, currentPage, race } = props;
   const navigate = useNavigate();
   const dispatch: AppDispatch = useDispatch();
   const { getProfile } = useSelector((state: RootState) => state.user.profile);
@@ -37,7 +37,6 @@ const MatchListTable = (props: any) => {
       val: data?.manualSessionActive,
     },
   });
-
   const handleMatchProfitLossClick = (id: any) => {
     try {
       setShowPopup(true);
@@ -87,13 +86,7 @@ const MatchListTable = (props: any) => {
           }}
         >
           <Typography sx={{ fontSize: "12px" }}>
-            ({index + 1 + Constants.pageLimit * (currentPage - 1)})
-          </Typography>
-          <Typography
-            sx={{ fontSize: "9px", padding: "4px", fontWeight: "700" }}
-          >
-            {moment(data?.startAt).format("DD-MM-YYYY")} <br />
-            {moment(data?.startAt).format("LT")}
+            {index + 1 + Constants.pageLimit * (currentPage - 1)}.
           </Typography>
         </Box>
         <Box
@@ -116,10 +109,10 @@ const MatchListTable = (props: any) => {
               marginY: { xs: 1 },
             }}
           >
-            <StyledImage
+            {/* <StyledImage
               src={IconConstants[data?.matchType]}
               sx={{ height: "20px", width: "20px", margin: "1rem" }}
-            />
+            /> */}
             <Typography
               variant="h5"
               // color="primary.main"
@@ -133,22 +126,8 @@ const MatchListTable = (props: any) => {
                 },
               ]}
             >
-              {data?.title}
+              {data}
             </Typography>
-            <StyledImage
-              onClick={() => {
-                setShowUserModal((prev) => !prev);
-              }}
-              src={showUserModal ? DownGIcon : DownGIcon}
-              style={{
-                transform: showUserModal ? "rotate(180deg)" : "rotate(0deg)",
-                transition: "0.5s",
-                cursor: "pointer",
-                width: "16px",
-                height: "12px",
-                color: "#004A25",
-              }}
-            />
           </Box>
 
           <Box
@@ -194,19 +173,6 @@ const MatchListTable = (props: any) => {
                 cursor="default"
               />
             )}
-            {data?.matchType === "cricket" &&  data?.stopAt && (
-              <MatchListProfitLoss
-                onClick={() => handleMatchProfitLossClick(data?.id)}
-                updateMatchStatusLabel="Session P/L"
-                updateMatchStatus={
-                  data?.pl &&
-                  data?.pl?.length > 0 &&
-                  data?.pl[0]?.sessionTotalProfitLoss
-                }
-                place="1"
-                cursor="pointer"
-              />
-            )}
 
             <Box
               display={"flex"}
@@ -218,26 +184,7 @@ const MatchListTable = (props: any) => {
                 flexWrap: "wrap",
               }}
             >
-              {data?.matchType === "cricket" && (getProfile?.allPrivilege ||
-                getProfile?.sessionMatchPrivilege) && (
-                <CustomButton
-                  containerStyle={{
-                    // minWidth: { xs: "40%", sm: "100px" },
-                    // width: { xs: "40%", sm: "100px" },
-                    // marginLeft: { xs: "1%", sm: "10px" },
-                    // marginBottom: { xs: "1%", sm: "10px" },
-                    // gap: 0.5,
-                    margin: "5px",
-                  }}
-                  onClick={() => {
-                    navigate(`/expert/session`, {
-                      state: { id: data?.id, marketId: data?.marketId },
-                    });
-                  }}
-                  title={"Session"}
-                />
-              )}
-              {(getProfile?.allPrivilege ||
+              {/* {(getProfile?.allPrivilege ||
                 getProfile?.betFairMatchPrivilege) && (
                 <CustomButton
                   containerStyle={{
@@ -249,37 +196,32 @@ const MatchListTable = (props: any) => {
                     margin: "5px",
                   }}
                   onClick={() => {
-                    if (data?.matchType === "cricket") {
-                      navigate(`/expert/market`, {
-                        state: { id: data?.id, marketId: data?.marketId },
-                      });
-                    } else {
-                      navigate(`/expert/betOdds/otherGames`, {
-                        state: { id: data?.id, marketId: data?.marketId },
-                      });
-                    }
+                    navigate(`/expert/betOdds/race`, {
+                      state: { id: data?.id, marketId: data?.marketId },
+                    });
                   }}
                   title={"Match"}
                 />
-              )}
-              {(getProfile?.allPrivilege || getProfile?.addMatchPrivilege) && (
-                <CustomButton
-                  containerStyle={{
-                    // minWidth: { xs: "40%", sm: "100px" },
-                    // width: { xs: "40%", sm: "100px" },
-                    // gap: 0.5,
-                    margin: "5px",
-                    // marginLeft: { xs: "1%", sm: "10px" },
-                    // marginBottom: { xs: "1%", sm: "10px" },
-                  }}
-                  onClick={() => {
-                    navigate(`/expert/edit_match`, {
-                      state: { id: data?.id },
-                    });
-                  }}
-                  title={"Edit"}
-                />
-              )}
+              )} */}
+              {data &&
+                race[data].map((item: any) => (
+                  <CustomButton
+                    containerStyle={{
+                      // minWidth: { xs: "40%", sm: "100px" },
+                      // width: { xs: "40%", sm: "100px" },
+                      // marginLeft: { xs: "1%", sm: "10px" },
+                      // marginBottom: { xs: "1%", sm: "10px" },
+                      // gap: 0.5,
+                      margin: "5px",
+                    }}
+                    onClick={() => {
+                      navigate(`/expert/betOdds/race`, {
+                        state: { id: item?.id, marketId: item?.marketId },
+                      });
+                    }}
+                    title={moment(item.startAt).format('HH:mm')}
+                  />
+                ))}
             </Box>
           </Box>
         </Box>
