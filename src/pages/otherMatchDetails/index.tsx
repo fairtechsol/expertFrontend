@@ -28,6 +28,7 @@ import {
   updateMatchBetsPlace,
   updateMatchBetsReason,
   updateMaxLoss,
+  updateResultBoxStatus,
   updateResultStatusOfMatch,
   updateResultStatusOfSession,
   updateSessionBetsPlace,
@@ -72,6 +73,7 @@ const OtherMatchDetails = () => {
           navigate("/expert/match");
         } else {
           dispatch(getPlacedBetsMatch(state?.id));
+          dispatch(updateResultBoxStatus({visible:false}))
         }
       }
     } catch (e) {
@@ -204,6 +206,7 @@ const OtherMatchDetails = () => {
       if (event?.matchId === state?.id) {
         dispatch(updateResultStatusOfSession(event));
         dispatch(updateResultStatusOfMatch(event));
+        dispatch(updateResultBoxStatus({visible:false}))
       }
     } catch (error) {
       console.error(error);

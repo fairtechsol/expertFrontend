@@ -28,7 +28,7 @@ const MatchListHeader = () => {
 
   useEffect(() => {
     if (dateList?.length > 0) {
-      setDated(dateList[0]?.date)
+      setDated(dateList[0]?.date);
       setCountryCoded(countryCode[0]?.countryCode);
       dispatch(getCountryCode(dateList[0]?.date));
     }
@@ -37,20 +37,30 @@ const MatchListHeader = () => {
   useEffect(() => {
     if (countryCode?.length > 0) {
       setCountryCoded(countryCode[0]?.countryCode);
-      dispatch(getRaceList({cc:countryCode[0]?.countryCode,date:moment(dated).format("YYYY-MM-DD")}));
+      dispatch(
+        getRaceList({
+          cc: countryCode[0]?.countryCode,
+          date: moment(dated).format("YYYY-MM-DD"),
+        })
+      );
     }
   }, [countryCode]);
 
   const handleChangeDate = (event: SelectChangeEvent) => {
     const selectedValue = event.target.value;
-    
+
     setDated(selectedValue);
     dispatch(getCountryCode(selectedValue));
   };
   const handleChange = (event: SelectChangeEvent) => {
     const selectedValue = event.target.value;
     setCountryCoded(selectedValue);
-    dispatch(getRaceList({cc:selectedValue,date:moment(dated).format("YYYY-MM-DD")}));
+    dispatch(
+      getRaceList({
+        cc: selectedValue,
+        date: moment(dated).format("YYYY-MM-DD"),
+      })
+    );
   };
   return (
     <>
@@ -89,33 +99,28 @@ const MatchListHeader = () => {
             {dateList &&
               dateList?.map((item: any, index: any) => {
                 return (
-                  
-                    <MenuItem key={index} value={item?.date}>
-                      {moment(item?.date).format("DD/MM/YYYY")}
-                    </MenuItem>
-                  
+                  <MenuItem key={index} value={item?.date}>
+                    {moment(item?.date).format("DD/MM/YYYY")}
+                  </MenuItem>
                 );
               })}
           </Select>
 
           <Select
-          value={countryCoded}
-          onChange={handleChange}
-          inputProps={{ 'aria-label': 'Without label' }}
-          sx={{ width: "30%", backgroundColor: "#fff", height: "40px" }}
-        >
-          {countryCode &&
+            value={countryCoded}
+            onChange={handleChange}
+            inputProps={{ "aria-label": "Without label" }}
+            sx={{ width: "30%", backgroundColor: "#fff", height: "40px" }}
+          >
+            {countryCode &&
               countryCode?.map((item: any, index: any) => {
-
                 return (
-                 
-                    <MenuItem key={index} value={item?.countryCode}>
-                      {item?.countryCode}
-                    </MenuItem>
-                
+                  <MenuItem key={index} value={item?.countryCode}>
+                    {item?.countryCode}
+                  </MenuItem>
                 );
               })}
-        </Select>
+          </Select>
           {(getProfile?.allPrivilege || getProfile?.addMatchPrivilege) && (
             <CustomButton
               onClick={() => {

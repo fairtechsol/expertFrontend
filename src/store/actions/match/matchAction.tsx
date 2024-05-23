@@ -353,6 +353,12 @@ export const updateResultStatusOfMatch = createAsyncThunk<any, SessionById>(
     return requestData;
   }
 );
+export const updateResultBoxStatus = createAsyncThunk<any, any>(
+  "update/resultBoxStatus",
+  async (requestData) => {
+    return requestData;
+  }
+);
 export const matchListReset = createAction("matchList/reset");
 export const raceListReset = createAction("raceList/reset");
 export const editSuccessReset = createAction("editSuccess/reset");
