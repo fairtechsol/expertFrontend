@@ -4,26 +4,22 @@ import moment from "moment";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { DownGIcon } from "../../assets";
 import { getMatchListSessionProfitLoss } from "../../store/actions/match/matchAction";
 import { AppDispatch, RootState } from "../../store/store";
 import theme from "../../theme";
 import CustomButton from "../Common/CustomButton";
-import StyledImage from "../Common/StyledImages";
 import MatchPermissionsModal from "./matchPermissionsModal";
 import MatchListProfitLoss from "./profitLoss";
 import SessionResultComponent from "./sessionResultComponent";
-import { IconConstants } from "../helper/gameConstants";
 import { Constants } from "../../utils/Constants";
 
 const MatchListTable = (props: any) => {
   const { data, index, currentPage, race } = props;
   const navigate = useNavigate();
   const dispatch: AppDispatch = useDispatch();
-  const { getProfile } = useSelector((state: RootState) => state.user.profile);
   const { sessionProLoss } = useSelector((state: RootState) => state.matchList);
   const [showPopup, setShowPopup] = useState(false);
-  const [showUserModal, setShowUserModal] = useState(false);
+  const [showUserModal] = useState(false);
   const matchesMobile = useMediaQuery(theme.breakpoints.down("lg"));
   const [updateBettings, setUpdateBettings] = useState<any>([]);
 

@@ -292,7 +292,7 @@ export const getRaceList = createAsyncThunk<any, any>(
   async (requestData, thunkApi) => {
     try {
       const response = await service.get(
-        `${ApiConstants.MATCH.GET_RACE_LIST}?racingMatch.countryCode=${requestData}`,
+        `${ApiConstants.MATCH.GET_RACE_LIST}?countryCode=eq${requestData?.cc}&DATE(racingMatch.startAt)=${requestData?.date}`,
         
       );
       if (response) {
@@ -349,6 +349,12 @@ export const updateResultStatusOfSession = createAsyncThunk<any, SessionById>(
 );
 export const updateResultStatusOfMatch = createAsyncThunk<any, SessionById>(
   "update/resultStatusMatch",
+  async (requestData) => {
+    return requestData;
+  }
+);
+export const updateResultBoxStatus = createAsyncThunk<any, any>(
+  "update/resultBoxStatus",
   async (requestData) => {
     return requestData;
   }

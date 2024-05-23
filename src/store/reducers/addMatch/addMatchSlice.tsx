@@ -26,6 +26,7 @@ import {
 import { updateApiSessionById } from "../../actions/addSession";
 import {
   updateMaxLoss,
+  updateResultBoxStatus,
   updateResultStatusOfMatch,
   updateResultStatusOfSession,
   updateTeamRates,
@@ -45,6 +46,7 @@ interface InitialState {
   loading: boolean;
   error: any;
   raceRunners:any;
+  resultBox:any;
 }
 
 const initialState: InitialState = {
@@ -67,6 +69,7 @@ const initialState: InitialState = {
   matchAdded: false,
   success: false,
   error: null,
+  resultBox:false
 };
 
 const addMatch = createSlice({
@@ -500,6 +503,11 @@ const addMatch = createSlice({
       .addCase(addRaceExpert.rejected, (state, action) => {
         state.loading = false;
         state.error = action?.error?.message;
+      })
+      .addCase(updateResultBoxStatus.fulfilled, (state, action) => {
+        state.resultBox = action?.payload?.visible;
+        state.loading = false;
+        state.success = true;
       });
   },
 });

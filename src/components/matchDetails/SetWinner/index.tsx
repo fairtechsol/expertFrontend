@@ -1,9 +1,9 @@
 import { Box, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { ARROWUP } from "../../../assets";
-import { betLiveStatus } from "../../../store/actions/match/matchAction";
-import { AppDispatch } from "../../../store/store";
+import { betLiveStatus, updateResultBoxStatus } from "../../../store/actions/match/matchAction";
+import { AppDispatch, RootState } from "../../../store/store";
 import { profitLossDataForMatchConstants } from "../../../utils/Constants";
 import Divider from "../../Common/Divider";
 import { formatToINR } from "../../helper";
@@ -15,12 +15,19 @@ import ResultComponent from "../../updateBookmaker/BookmakerEdit/ResultComponent
 
 const SetWinner = ({ currentMatch, liveData, title }: any) => {
   const dispatch: AppDispatch = useDispatch();
-  const [visible, setVisible] = useState(false);
   const [visibleImg, setVisibleImg] = useState<boolean>(true);
   const [live, setLive] = useState<boolean>(
     liveData?.activeStatus === "live" ? true : false
   );
-
+  const {resultBox} = useSelector(
+    (state: RootState) => state.addMatch.addMatch
+  );
+  const [visible, setVisible] = useState(resultBox);
+  useEffect(() => {
+    if(!resultBox){
+      setVisible(false)
+    }
+  }, [resultBox])
   useEffect(() => {
     setLive(liveData?.activeStatus === "live" ? true : false);
   }, [liveData?.activeStatus]);
@@ -111,6 +118,7 @@ const SetWinner = ({ currentMatch, liveData, title }: any) => {
                 width={"80px"}
                 onClick={() => {
                   setVisible(true);
+                  dispatch(updateResultBoxStatus({visible:true}))
                 }}
                 invert={true}
               />

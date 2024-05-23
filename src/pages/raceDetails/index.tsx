@@ -1,7 +1,7 @@
-import { Box, useMediaQuery, useTheme } from "@mui/material";
+import { Box } from "@mui/material";
 import { memo, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import Loader from "../../components/Loader";
 import BetList from "../../components/raceDetails/BetList";
 import Runners from "../../components/raceDetails/MatchOdds";
@@ -37,14 +37,11 @@ import { AppDispatch, RootState } from "../../store/store";
 
 const RaceDetails = () => {
   const { state } = useLocation();
-  const navigate = useNavigate();
   const dispatch: AppDispatch = useDispatch();
   const [_] = useState(false);
   const { matchDetail, loading, success } = useSelector(
     (state: RootState) => state.addMatch.addMatch
   );
-  const theme = useTheme();
-  const matchesMobile = useMediaQuery(theme.breakpoints.down("lg"));
   const { placedBetsMatch } = useSelector(
     (state: RootState) => state.matchList
   );

@@ -18,17 +18,14 @@ import LabelValueComponent from "../../components/addRace/LabelValueComponent";
 import MatchListInput from "../../components/addRace/MatchListInput";
 import Constants from "../../components/helper/constants";
 import {
-  addMatchExpert,
   addMatchReset,
   addRaceExpert,
   editMatchReset,
   eventListReset,
   getMatchDetail,
   getRaceMatches,
-  matchDetailSuccessReset,
   runnerDetailReset,
   tournamentListReset,
-  updateExtraMarketListOnEdit,
 } from "../../store/actions/addMatch/addMatchAction";
 import {
   editMatch,
