@@ -14,6 +14,7 @@ import {
   matchListReset,
   noResultDeclare,
   raceListReset,
+  raceLiveStatus,
   resetMatchListSessionProLoss,
   resultDeclare,
   sessionBetLiveStatus,
@@ -353,6 +354,19 @@ const matchList = createSlice({
             }),
           },
         };
+      })
+      .addCase(raceLiveStatus.pending, (state) => {
+        state.loading = true;
+        state.statusBetLive = false;
+        state.error = null;
+      })
+      .addCase(raceLiveStatus.fulfilled, (state) => {
+        state.statusBetLive = true;
+        state.loading = false;
+      })
+      .addCase(raceLiveStatus.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action?.error?.message;
       });
   },
 });

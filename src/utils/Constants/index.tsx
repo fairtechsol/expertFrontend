@@ -44,6 +44,7 @@ export const ApiConstants = {
   BOOKMAKER: {
     GET: "matchBeting",
     BETTINGSTATUS: "/matchBeting/status/change",
+    RACESTATUS: "/matchBeting/race/status/change",
   },
 };
 

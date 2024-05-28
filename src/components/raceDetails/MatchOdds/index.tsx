@@ -7,7 +7,7 @@ import ResultComponent from "../../updateBookmaker/BookmakerEdit/ResultComponent
 import Divider from "../../Common/Divider";
 import BoxComponent from "./BoxComponent";
 import SmallBox2 from "./SmallBox2";
-import { betLiveStatus } from "../../../store/actions/match/matchAction";
+import { raceLiveStatus } from "../../../store/actions/match/matchAction";
 import { AppDispatch } from "../../../store/store";
 import { useDispatch } from "react-redux";
 import { profitLossDataForMatchConstants } from "../../../utils/Constants";
@@ -145,10 +145,9 @@ const MatchOdds = ({ currentMatch, matchOddsLive}: any) => {
                   <SmallBox
                     onClick={() => {
                       dispatch(
-                        betLiveStatus({
+                        raceLiveStatus({
                           isStop: live,
                           betId: matchOddsLive?.id,
-                          isManual: false,
                         })
                       );
                       setLive(!live);
