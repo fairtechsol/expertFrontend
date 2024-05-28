@@ -22,6 +22,7 @@ export const ApiConstants = {
     GET_DATES: "match/dateWiseList",
     GET_COUNTRY_CODE: "match/countryWiseList",
     GET_RACE_LIST: "match/racing/list",
+    GET_RACE_MATCH: "match/racing",
   },
   USER: {
     CHANGEPASSWORD: "user/password",

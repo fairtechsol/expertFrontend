@@ -10,6 +10,7 @@ import {
   getPlacedBetsForSessionDetail,
   getPlacedBetsMatch,
   getRaceList,
+  getRaceMatch,
   matchListReset,
   noResultDeclare,
   raceListReset,
@@ -40,6 +41,7 @@ interface InitialState {
   sessionProLoss: any;
   countryCode:any;
   raceList:any;
+  raceDetail:any;
 }
 
 const initialState: InitialState = {
@@ -57,6 +59,7 @@ const initialState: InitialState = {
   sessionProLoss: [],
   countryCode:[],
   raceList:[],
+  raceDetail:null,
 };
 
 const matchList = createSlice({
@@ -316,6 +319,18 @@ const matchList = createSlice({
       .addCase(raceListReset, (state) => {
         state.success = false;
         state.raceList=[];
+      })
+      .addCase(getRaceMatch.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getRaceMatch.fulfilled, (state,action) => {
+        state.loading = false;
+        state.raceDetail=action.payload
+      })
+      .addCase(getRaceMatch.rejected, (state,action) => {
+        state.loading = false;
+        state.error = action?.error?.message;
       });
   },
 });
