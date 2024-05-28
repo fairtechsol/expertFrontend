@@ -332,18 +332,15 @@ const MatchOdds = ({ currentMatch, matchOddsLive}: any) => {
                 position: "relative",
               }}
             >
-              {currentMatch?.runners?.length > 0 && currentMatch?.runners?.map((item:any)=>{
+              {currentMatch?.matchOdd?.runners?.length > 0 && currentMatch?.matchOdd?.runners?.map((item:any)=>{
                 return (
                   <>
                   <BoxComponent
                 data={
-                  item?.runners?.length > 0
-                    ? item?.runners[0]
-                    : []
+                  item ? item : {}
                 }
                 lock={
-                  item?.runners !== undefined &&
-                  item?.runners?.length > 0
+                  item !== undefined 
                     ? false
                     : true
                 }

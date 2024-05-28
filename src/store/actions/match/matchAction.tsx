@@ -312,8 +312,14 @@ export const getRaceMatch = createAsyncThunk<any, any>(
         `${ApiConstants.MATCH.GET_RACE_MATCH}/${requestData}`,
         
       );
-      if (response) {
-        return response.data;
+      if (response?.data) {
+        return {
+          ...response.data,
+          matchOdd: {
+            ...response.data.matchOdd,
+            runners: response.data.runners,
+          },
+        };
       }
     } catch (error) {
       const err = error as AxiosError;

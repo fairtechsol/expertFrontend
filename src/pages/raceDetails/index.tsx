@@ -12,7 +12,7 @@ import {
 } from "../../socketManager";
 import {
   removeSessionProLoss,
-  updateMatchRates,
+  updateRaceRates,
   updateRates,
   updateSessionAdded,
   updateSessionProLoss,
@@ -39,19 +39,19 @@ const RaceDetails = () => {
   const { state } = useLocation();
   const dispatch: AppDispatch = useDispatch();
   const [_] = useState(false);
-  const { loading, success } = useSelector(
+  const { loading } = useSelector(
     (state: RootState) => state.addMatch.addMatch
   );
   const { placedBetsMatch } = useSelector(
     (state: RootState) => state.matchList
   );
-  const { raceDetail } = useSelector(
+  const { raceDetail ,success} = useSelector(
     (state: RootState) => state.matchList
   );
   const updateMatchDetailToRedux = (event: any) => {
     try {
       if (state?.id === event?.id) {
-        dispatch(updateMatchRates(event));
+        dispatch(updateRaceRates(event));
       } else return;
     } catch (e) {
       console.log(e);

@@ -375,6 +375,13 @@ export const getRaceMatches = createAsyncThunk<any, string>(
     }
   }
 );
+
+export const updateRaceRates = createAsyncThunk<any, any>(
+  "/race/rates",
+  async (matchDetails) => {
+    return matchDetails;
+  }
+);
 export const addMatchReset = createAction("add/reset");
 export const editMatchReset = createAction("edit/reset");
 export const matchDetailReset = createAction("matchDetail/reset");

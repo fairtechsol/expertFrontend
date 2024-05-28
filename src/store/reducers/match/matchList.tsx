@@ -25,6 +25,7 @@ import {
   updateMatchBetsReason,
   updateSessionBetsPlace,
 } from "../../actions/match/matchAction";
+import { updateRaceRates } from "../../actions/addMatch/addMatchAction";
 
 interface InitialState {
   matchList: any;
@@ -323,14 +324,35 @@ const matchList = createSlice({
       .addCase(getRaceMatch.pending, (state) => {
         state.loading = true;
         state.error = null;
+        state.success = false;
       })
       .addCase(getRaceMatch.fulfilled, (state,action) => {
         state.loading = false;
+        state.success = true;
         state.raceDetail=action.payload
       })
       .addCase(getRaceMatch.rejected, (state,action) => {
         state.loading = false;
         state.error = action?.error?.message;
+      })
+      .addCase(updateRaceRates.fulfilled, (state, action) => {
+        const { matchOdd } = action.payload;
+        state.raceDetail = {
+          ...state.raceDetail,
+          matchOdd: {
+            ...state.raceDetail.matchOdd,
+            ...matchOdd,
+            runners: state?.raceDetail?.matchOdd?.runners?.map((item: any) => {
+              const runnersData = matchOdd?.runners?.find(
+                (items: any) => items?.selectionId == item?.selectionId
+              );
+              return {
+                ...item,
+                ...runnersData,
+              };
+            }),
+          },
+        };
       });
   },
 });
