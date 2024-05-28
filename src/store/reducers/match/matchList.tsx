@@ -10,9 +10,11 @@ import {
   getPlacedBetsForSessionDetail,
   getPlacedBetsMatch,
   getRaceList,
+  getRaceMatch,
   matchListReset,
   noResultDeclare,
   raceListReset,
+  raceLiveStatus,
   resetMatchListSessionProLoss,
   resultDeclare,
   sessionBetLiveStatus,
@@ -24,6 +26,7 @@ import {
   updateMatchBetsReason,
   updateSessionBetsPlace,
 } from "../../actions/match/matchAction";
+import { updateRaceRates } from "../../actions/addMatch/addMatchAction";
 
 interface InitialState {
   matchList: any;
@@ -40,6 +43,7 @@ interface InitialState {
   sessionProLoss: any;
   countryCode:any;
   raceList:any;
+  raceDetail:any;
 }
 
 const initialState: InitialState = {
@@ -57,6 +61,7 @@ const initialState: InitialState = {
   sessionProLoss: [],
   countryCode:[],
   raceList:[],
+  raceDetail:null,
 };
 
 const matchList = createSlice({
@@ -316,6 +321,52 @@ const matchList = createSlice({
       .addCase(raceListReset, (state) => {
         state.success = false;
         state.raceList=[];
+      })
+      .addCase(getRaceMatch.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+        state.success = false;
+      })
+      .addCase(getRaceMatch.fulfilled, (state,action) => {
+        state.loading = false;
+        state.success = true;
+        state.raceDetail=action.payload
+      })
+      .addCase(getRaceMatch.rejected, (state,action) => {
+        state.loading = false;
+        state.error = action?.error?.message;
+      })
+      .addCase(updateRaceRates.fulfilled, (state, action) => {
+        const { matchOdd } = action.payload;
+        state.raceDetail = {
+          ...state.raceDetail,
+          matchOdd: {
+            ...state.raceDetail.matchOdd,
+            ...matchOdd,
+            runners: state?.raceDetail?.matchOdd?.runners?.map((item: any) => {
+              const runnersData = matchOdd?.runners?.find(
+                (items: any) => items?.selectionId == item?.selectionId
+              );
+              return {
+                ...item,
+                ...runnersData,
+              };
+            }),
+          },
+        };
+      })
+      .addCase(raceLiveStatus.pending, (state) => {
+        state.loading = true;
+        state.statusBetLive = false;
+        state.error = null;
+      })
+      .addCase(raceLiveStatus.fulfilled, (state) => {
+        state.statusBetLive = true;
+        state.loading = false;
+      })
+      .addCase(raceLiveStatus.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action?.error?.message;
       });
   },
 });

@@ -4,16 +4,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import Loader from "../../components/Loader";
 import BetList from "../../components/raceDetails/BetList";
-import Runners from "../../components/raceDetails/MatchOdds";
+import MatchOdds from "../../components/raceDetails/MatchOdds";
 import {
   expertSocketService,
   socket,
   socketService,
 } from "../../socketManager";
 import {
-  getMatchDetail,
   removeSessionProLoss,
-  updateMatchRates,
+  updateRaceRates,
   updateRates,
   updateSessionAdded,
   updateSessionProLoss,
@@ -24,6 +23,7 @@ import {
 } from "../../store/actions/addSession";
 import {
   getPlacedBetsMatch,
+  getRaceMatch,
   getSessionProfitLossMatchDetailReset,
   updateMatchBetsPlace,
   updateMatchBetsReason,
@@ -39,17 +39,19 @@ const RaceDetails = () => {
   const { state } = useLocation();
   const dispatch: AppDispatch = useDispatch();
   const [_] = useState(false);
-  const { matchDetail, loading, success } = useSelector(
+  const { loading } = useSelector(
     (state: RootState) => state.addMatch.addMatch
   );
   const { placedBetsMatch } = useSelector(
     (state: RootState) => state.matchList
   );
-
+  const { raceDetail ,success} = useSelector(
+    (state: RootState) => state.matchList
+  );
   const updateMatchDetailToRedux = (event: any) => {
     try {
       if (state?.id === event?.id) {
-        dispatch(updateMatchRates(event));
+        dispatch(updateRaceRates(event));
       } else return;
     } catch (e) {
       console.log(e);
@@ -68,14 +70,13 @@ const RaceDetails = () => {
   const resultUnDeclared = (event: any) => {
     try {
       if (event?.matchId === state?.id) {
-        dispatch(getMatchDetail(state?.id));
+        dispatch(getRaceMatch(state?.id));
         dispatch(getPlacedBetsMatch(state?.id));
       }
     } catch (e) {
       console.log(e);
     }
   };
-
   // const updateBettingStatus = (event: any) => {
   //   try {
   //     if (state?.id === event?.matchId) {
@@ -205,7 +206,7 @@ const RaceDetails = () => {
     try {
       if (state?.id) {
         dispatch(getSessionProfitLossMatchDetailReset());
-        dispatch(getMatchDetail(state?.id));
+        dispatch(getRaceMatch(state?.id));
         dispatch(getPlacedBetsMatch(state?.id));
       }
     } catch (e) {
@@ -275,7 +276,7 @@ const RaceDetails = () => {
       const handleVisibilityChange = () => {
         if (document.visibilityState === "visible") {
           if (state?.id) {
-            dispatch(getMatchDetail(state?.id));
+            dispatch(getRaceMatch(state?.id));
             dispatch(getPlacedBetsMatch(state?.id));
           }
         } else if (document.visibilityState === "hidden") {
@@ -297,7 +298,6 @@ const RaceDetails = () => {
       console.error(error);
     }
   }, []);
-
   return (
     <Box
       sx={{
@@ -327,13 +327,14 @@ const RaceDetails = () => {
               marginTop: { xs: "10px", lg: "0" },
             }}
           >
-            {matchDetail?.matchOdd?.isActive && (
-              <Runners
+            
+              <MatchOdds
                 showHeader={true}
-                currentMatch={matchDetail}
-                matchOddsLive={matchDetail?.matchOdd}
+                currentMatch={raceDetail}
+                matchOddsLive={raceDetail?.matchOdd}
               />
-            )}
+            
+          
           </Box>
 
           <Box
@@ -343,7 +344,7 @@ const RaceDetails = () => {
               marginTop: { xs: "10px", lg: "0" },
             }}
           >
-            {matchDetail?.id && (
+            {raceDetail?.id && (
               <BetList allBetRates={placedBetsMatch} tag={true} />
             )}
           </Box>
