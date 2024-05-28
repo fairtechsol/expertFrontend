@@ -30,7 +30,7 @@ const Header1 = () => {
   const [currentSelected, setSelected] = useState<any>(4);
   const [anchor, setAnchor] = useState(null);
   const [anchor1, setAnchor1] = useState(null);
-  const [gameType, setGameType] = useState(false)
+  const [gameType, setGameType] = useState(false);
 
   const { matchListDropdown, dropDownLoading } = useSelector(
     (state: RootState) => state.matchList
@@ -158,7 +158,7 @@ const Header1 = () => {
                         setGameType(true);
                         setSelected(1);
                         setAnchor1(e?.currentTarget);
-                                              }}
+                      }}
                       title={!dropDownLoading ? "ALL MATCH" : "Loading..."}
                       boxStyle={{
                         backgroundColor:
@@ -207,9 +207,9 @@ const Header1 = () => {
                     style={{ textDecoration: "none" }}
                   >
                     <ButtonHead
-                      // onClick={() => {
-                      //   setSelected(4);
-                      // }}
+                      onClick={() => {
+                        // setSelected(4);
+                      }}
                       title={"RACE LIST"}
                       boxStyle={{
                         backgroundColor:
@@ -327,7 +327,6 @@ const Header1 = () => {
                 }),
               ]}
             >
-            
               <Box
                 sx={{
                   display: "flex",
@@ -421,19 +420,18 @@ const Header1 = () => {
                     />
                   </Box>
                 </Box>
-              
+
                 <Box>
-                
                   <Box sx={{ display: "flex" }}>
                     {(getProfile?.bookmakerMatchPrivilege ||
                       getProfile?.sessionMatchPrivilege ||
                       getProfile?.allPrivilege) && (
                       <ButtonHead
                         onClick={(e: any) => {
-                          setGameType(true)
+                          setGameType(true);
                           setSelected(1);
                           setAnchor1(e?.currentTarget);
-                                                  }}
+                        }}
                         title={!dropDownLoading ? "ALL MATCH" : "Loading..."}
                         boxStyle={{
                           backgroundColor:
@@ -482,9 +480,9 @@ const Header1 = () => {
                       style={{ textDecoration: "none" }}
                     >
                       <ButtonHead
-                        // onClick={() => {
-                        //   setSelected(4);
-                        // }}
+                        onClick={() => {
+                          // setSelected(4);
+                        }}
                         title={"RACE LIST"}
                         boxStyle={{
                           backgroundColor:
@@ -505,29 +503,25 @@ const Header1 = () => {
                       />
                     </NavLink>
                   </Box>
-    
                 </Box>
-                </Box>
-                </Box>           
-  
-          
-       </AppBar>
-                
-      <Box sx={{ minHeight: { lg: 66, sm: 70, md: 80, xs: 80 } }} />
-     
+              </Box>
+            </Box>
+          </AppBar>
+
+          <Box sx={{ minHeight: { lg: 66, sm: 70, md: 80, xs: 80 } }} />
         </>
-      )}     
-          {matchListDropdown?.length > 0 && (
-                  <DropDownMenu
-                    anchorEl={anchor}
-                    open={Boolean(anchor)}
-                    allMatch={matchListDropdown}
-                    handleClose={() => {
-                      setAnchor(null);
-                    }}
-                  />
-                )}
-    {gameType && (
+      )}
+      {matchListDropdown?.length > 0 && (
+        <DropDownMenu
+          anchorEl={anchor}
+          open={Boolean(anchor)}
+          allMatch={matchListDropdown}
+          handleClose={() => {
+            setAnchor(null);
+          }}
+        />
+      )}
+      {gameType && (
         <GameTypeDropdown
           anchorEl={anchor1}
           open={Boolean(anchor1)}
@@ -540,7 +534,6 @@ const Header1 = () => {
         />
       )}
     </>
-    
   );
 };
 

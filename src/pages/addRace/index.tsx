@@ -43,14 +43,13 @@ import RaceDropDown from "../../components/addRace/DropDown";
 //   },
 // }));
 
-
-const gameTypes =[
-  {label:"horse racing",value:"horseRacing"},
-  {label:"greyhound  racing",value:"greyhoundRacing"},
-]
+const gameTypes = [
+  { label: "horse racing", value: "horseRacing" },
+  { label: "greyhound  racing", value: "greyhoundRacing" },
+];
 const initialFormikValues = {
   minBet: "",
-  maxBet:""
+  maxBet: "",
 };
 
 const initialValues = {
@@ -61,9 +60,9 @@ const initialValues = {
   eventId: "",
   marketId: "",
   competitionId: "",
-  countryCode:"",
-  venue:"",
-  raceType:"",
+  countryCode: "",
+  venue: "",
+  raceType: "",
   startAt: new Date(),
 };
 
@@ -72,18 +71,12 @@ const AddRace = () => {
 
   const { state } = useLocation();
 
-  const {
-    eventsList,
-    matchDetail,
-    success,
-    matchAdded,
-    loading,
-    raceRunners,
-  } = useSelector((state: RootState) => state.addMatch.addMatch);
+  const { eventsList, matchDetail, success, matchAdded, loading, raceRunners } =
+    useSelector((state: RootState) => state.addMatch.addMatch);
 
   const [selected, setSelected] = useState(initialValues);
   const [openDropDown, setOpenDropDown] = useState(null);
-  const [matchType, setMatchType] = useState<any>("")
+  const [matchType, setMatchType] = useState<any>("");
   const [error, setError] = useState({
     torunamentName: false,
     competitionName: false,
@@ -104,7 +97,7 @@ const AddRace = () => {
       if (!selected.gameType) {
         toast.error("This game is not available yet.");
       }
-      if (!selected.marketId ) {
+      if (!selected.marketId) {
         toast.error("Select a valid match.");
         return;
       }
@@ -112,14 +105,12 @@ const AddRace = () => {
         return;
       }
       if (state?.id) {
-
         const payload: any = {
           id: state?.id,
           minBet: value.minBet,
         };
         dispatch(editMatch(payload));
       } else {
-
         const addMatchpayload: any = {
           matchType: matchType,
           title: selected.title,
@@ -130,7 +121,7 @@ const AddRace = () => {
           minBet: value.minBet,
           maxBet: value.maxBet,
           type: "matchOdd",
-          venue:selected.venue,
+          venue: selected.venue,
           runners: raceRunners,
           raceType: selected.raceType,
         };
@@ -206,8 +197,10 @@ const AddRace = () => {
     }
     if (selected.gameType !== "" && !state?.id) {
       if (!manualMatchToggle) {
-        const gameType = gameTypes.find((game) => game.label === selected.gameType);
-        setMatchType(gameType?.value)
+        const gameType = gameTypes.find(
+          (game) => game.label === selected.gameType
+        );
+        setMatchType(gameType?.value);
         dispatch(eventListReset());
         dispatch(getRaceMatches(gameType ? gameType?.value : ""));
       }
@@ -592,12 +585,16 @@ const AddRace = () => {
                       justifyContent: "flex-start",
                       background: "white",
                       backgroundColor: " ",
-                      flexDirection:'column'
+                      flexDirection: "column",
                     }}
                   >
-                    <Typography sx={{fontSize:'16px'}}>{item?.runnerName}</Typography>
-                    
-                    <Typography sx={{fontSize:'11px'}}>{item?.metadata?.TRAINER_NAME}</Typography>
+                    <Typography sx={{ fontSize: "16px" }}>
+                      {item?.runnerName}
+                    </Typography>
+
+                    <Typography sx={{ fontSize: "11px" }}>
+                      {item?.metadata?.TRAINER_NAME}
+                    </Typography>
                   </Box>
                 </Box>
               );
@@ -674,7 +671,7 @@ const AddRace = () => {
               if (state?.id) {
                 dispatch(editMatchReset());
               }
-              navigate("/expert/edit_race");
+              navigate("/expert/race");
             }}
             sx={{
               background: "#E32A2A",
