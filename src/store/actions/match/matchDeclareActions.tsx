@@ -71,5 +71,38 @@ export const otherUnDeclareMatchResult = createAsyncThunk<any, any>(
     }
   }
 );
-
+export const UnDeclareRaceResult = createAsyncThunk<any, any>(
+  "/race/UnDeclareRaceResult",
+  async (requestData, thunkApi) => {
+    try {
+      const response = await service.post(
+        `${ApiConstants.MATCH.RACE_UNDECLARE}`,
+        requestData
+      );
+      if (response?.status === 200) {
+        return response?.data;
+      }
+    } catch (error) {
+      const err = error as AxiosError;
+      return thunkApi.rejectWithValue(err.response?.status);
+    }
+  }
+);
+export const declareRaceResult = createAsyncThunk<any, any>(
+  "/race/declareRaceResult",
+  async (requestData, thunkApi) => {
+    try {
+      const response = await service.post(
+        `${ApiConstants.MATCH.RACE_DECLARE}`,
+        requestData
+      );
+      if (response?.status === 200) {
+        return response?.data;
+      }
+    } catch (error) {
+      const err = error as AxiosError;
+      return thunkApi.rejectWithValue(err.response?.status);
+    }
+  }
+);
 export const declareMatchStatusReset = createAction("declareMatch/reset");
