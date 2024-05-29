@@ -3,10 +3,9 @@ import { Box, Typography } from "@mui/material";
 import Result from "../Result";
 import SmallBox from "../SmallBox";
 import { ARROWUP } from "../../../assets";
-import ResultComponent from "../../updateBookmaker/BookmakerEdit/ResultComponent";
+import ResultComponent from "../ResultComponent";
 import Divider from "../../Common/Divider";
 import BoxComponent from "./BoxComponent";
-import SmallBox2 from "./SmallBox2";
 import { raceLiveStatus } from "../../../store/actions/match/matchAction";
 import { AppDispatch } from "../../../store/store";
 import { useDispatch } from "react-redux";
@@ -106,7 +105,7 @@ const MatchOdds = ({ currentMatch, matchOddsLive}: any) => {
             </Typography>
           
 
-            <SmallBox2 valueA={bookRatioA} valueB={bookRatioB} />
+            
           </Box>
 
           <Box
@@ -190,11 +189,8 @@ const MatchOdds = ({ currentMatch, matchOddsLive}: any) => {
           {visible && (
             <ResultComponent
               currentMatch={currentMatch}
-              teamA={currentMatch?.teamA}
               stopAt={currentMatch?.stopAt}
-              teamB={currentMatch?.teamB}
               tie={currentMatch?.matchType === "cricket" ? "Tie" : ""}
-              draw={currentMatch?.teamC ? currentMatch?.teamC : null}
               onClick={() => {
                 setVisible(false);
               }}

@@ -1,7 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {
+  UnDeclareRaceResult,
   declareMatchResult,
   declareMatchStatusReset,
+  declareRaceResult,
   otherDeclareMatchResult,
   otherUnDeclareMatchResult,
   unDeclareMatchResult,
@@ -148,6 +150,33 @@ const matchDeclare = createSlice({
       })
       .addCase(declareMatchStatusReset, (state) => {
         state.success = false;
+      })
+      
+      .addCase(UnDeclareRaceResult.pending, (state) => {
+        state.loading = true;
+        state.success = false;
+        state.error = null;
+      })
+      .addCase(UnDeclareRaceResult.fulfilled, (state) => {
+        state.success = true;
+        state.loading = false;
+      })
+      .addCase(UnDeclareRaceResult.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action?.error?.message;
+      })
+      .addCase(declareRaceResult.pending, (state) => {
+        state.loading = true;
+        state.success = false;
+        state.error = null;
+      })
+      .addCase(declareRaceResult.fulfilled, (state) => {
+        state.success = true;
+        state.loading = false;
+      })
+      .addCase(declareRaceResult.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action?.error?.message;
       });
   },
 });
