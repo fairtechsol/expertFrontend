@@ -20,39 +20,6 @@ const MatchOdds = ({ currentMatch, matchOddsLive}: any) => {
   );
   const dispatch: AppDispatch = useDispatch();
 
-  const valueA = currentMatch?.teamRates?.teamARate;
-  const valueB = currentMatch?.teamRates?.teamBRate;
-  const bookRatioB = (() => {
-    try {
-      if (valueA === 0) {
-        return 0;
-      } else {
-        const bookRatio = valueB != 0 ? valueA / valueB || 0 : 0;
-        const formattedRatio = Math.abs(bookRatio).toFixed(2);
-        return valueB < 0 ? `-${formattedRatio}` : formattedRatio;
-      }
-    } catch (e) {
-      console.log(e);
-    }
-  })();
-
-  const bookRatioA = (() => {
-    try {
-      if (valueA === 0) {
-        return 0;
-      } else {
-        const bookRatio = valueA != 0 ? valueB / valueA || 0 : 0;
-        // alert(teamARates)
-        const formattedRatio = Math.abs(bookRatio).toFixed(2);
-        // alert(typeof teamARates < 0 ? `-${formattedRatio}` : formattedRatio)
-
-        return valueA < 0 ? `-${formattedRatio}` : formattedRatio;
-      }
-    } catch (e) {
-      console.log(e);
-    }
-  })();
-
   useEffect(() => {
     setLive(matchOddsLive?.activeStatus === "live" ? true : false);
   }, [matchOddsLive?.activeStatus]);
