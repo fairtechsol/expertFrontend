@@ -25,6 +25,8 @@ import {
   updateMatchBetsPlace,
   updateMatchBetsReason,
   updateSessionBetsPlace,
+  updateTeamRatesForHorseRacing,
+  updateTeamRatesForHorseRacingOnDelete,
 } from "../../actions/match/matchAction";
 import { updateRaceRates } from "../../actions/addMatch/addMatchAction";
 
@@ -367,7 +369,24 @@ const matchList = createSlice({
       .addCase(raceLiveStatus.rejected, (state, action) => {
         state.loading = false;
         state.error = action?.error?.message;
-      });
+      })
+      .addCase(updateTeamRatesForHorseRacing.fulfilled, (state, action) => {
+        const { userRedisObj } = action.payload;
+        state.raceDetail = {
+          ...state.raceDetail,
+          profitLossDataMatch: userRedisObj,
+        };
+      })
+      .addCase(
+        updateTeamRatesForHorseRacingOnDelete.fulfilled,
+        (state, action) => {
+          const { teamRate } = action.payload;
+          state.raceDetail = {
+            ...state.raceDetail,
+            profitLossDataMatch: teamRate,
+          };
+        }
+      );
   },
 });
 

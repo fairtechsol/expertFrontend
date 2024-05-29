@@ -342,14 +342,9 @@ const MatchOdds = ({ currentMatch, matchOddsLive}: any) => {
                 name={item?.runnerName}
                 currentMatch={currentMatch}
                 teamRates={
-                  currentMatch?.teamRates
-                    ? currentMatch?.teamRates[
-                        profitLossDataForMatchConstants[item?.type]?.A
-                      ]
-                      ? currentMatch?.teamRates[
-                          profitLossDataForMatchConstants[item?.type]
-                            ?.A
-                        ]
+                  currentMatch?.profitLossDataMatch
+                    ? currentMatch?.profitLossDataMatch[item?.id]
+                      ? currentMatch?.profitLossDataMatch[item?.id]
                       : 0
                     : 0
                 }
