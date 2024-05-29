@@ -7,18 +7,22 @@ import "./style.css";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store/store";
 import {
+  getRaceList,
   matchListReset,
 } from "../../store/actions/match/matchAction";
+import { expertSocketService, socket, socketService } from "../../socketManager";
+import moment from "moment";
 
 
 const RaceList = ({}) => {
   const dispatch: AppDispatch = useDispatch();
   const [currentPage] = useState(1);
-  const {  success } = useSelector(
+ 
+  const {success, raceList,countryCode } = useSelector(
     (state: RootState) => state.matchList
   );
-  const { raceList } = useSelector(
-    (state: RootState) => state.matchList
+  const {  dateList } = useSelector(
+    (state: RootState) => state.user.profile
   );
   // function callPage(_: any, newPage: any) {
   //   setCurrentPage(newPage);
@@ -40,22 +44,31 @@ const RaceList = ({}) => {
     }
   }, [success]);
 
- 
+  const getMatchListService = () => {
+    // setCurrentPage(1);
+    dispatch(
+      getRaceList({
+        cc: countryCode[0]?.countryCode,
+        date: moment(dateList[0]?.date).format("YYYY-MM-DD"),
+      })
+    );
+  };
 
-  // useEffect(() => {
-  //   try {
-  //     if (socket) {
-  //       expertSocketService.match.matchAdded(getMatchListService);
-  //       socketService.user.matchResultUnDeclared(getMatchListService);
-  //       return () => {
-  //         expertSocketService.match.matchAddedOff();
-  //         socketService.user.matchResultUnDeclaredOff();
-  //       };
-  //     }
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // }, [socket]);
+  useEffect(() => {
+    try {
+      if (socket) {
+        expertSocketService.match.matchAdded(getMatchListService);
+        socketService.user.matchResultUnDeclared(getMatchListService);
+        socketService.user.matchResultDeclared(getMatchListService);
+        return () => {
+          expertSocketService.match.matchAddedOff();
+          socketService.user.matchResultUnDeclaredOff();
+        };
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }, [socket]);
 
   return (
     <>

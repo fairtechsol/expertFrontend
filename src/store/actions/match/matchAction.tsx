@@ -399,6 +399,18 @@ export const updateResultBoxStatus = createAsyncThunk<any, any>(
     return requestData;
   }
 );
+export const updateTeamRatesForHorseRacing = createAsyncThunk<any, any>(
+  "horseRacing/teamRatesUpdate",
+  async (data) => {
+    return data;
+  }
+);
+export const updateTeamRatesForHorseRacingOnDelete = createAsyncThunk<any, any>(
+  "horseRacing/teamRatesUpdateOnDelete",
+  async (data) => {
+    return data;
+  }
+);
 export const matchListReset = createAction("matchList/reset");
 export const raceListReset = createAction("raceList/reset");
 export const editSuccessReset = createAction("editSuccess/reset");
