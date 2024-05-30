@@ -9,10 +9,9 @@ import BoxComponent from "./BoxComponent";
 import { raceLiveStatus } from "../../../store/actions/match/matchAction";
 import { AppDispatch } from "../../../store/store";
 import { useDispatch } from "react-redux";
-import { profitLossDataForMatchConstants } from "../../../utils/Constants";
 import { formatToINR } from "../../helper";
 
-const MatchOdds = ({ currentMatch, matchOddsLive}: any) => {
+const MatchOdds = ({ currentMatch, matchOddsLive }: any) => {
   const [visible, setVisible] = useState(false);
   const [visibleImg, setVisibleImg] = useState(true);
   const [live, setLive] = useState(
@@ -70,9 +69,6 @@ const MatchOdds = ({ currentMatch, matchOddsLive}: any) => {
             >
               Match odds
             </Typography>
-          
-
-            
           </Box>
 
           <Box
@@ -294,34 +290,28 @@ const MatchOdds = ({ currentMatch, matchOddsLive}: any) => {
                 position: "relative",
               }}
             >
-              {currentMatch?.matchOdd?.runners?.length > 0 && currentMatch?.matchOdd?.runners?.map((item:any)=>{
-                return (
-                  <>
-                  <BoxComponent
-                data={
-                  item ? item : {}
-                }
-                lock={
-                  item !== undefined 
-                    ? false
-                    : true
-                }
-                name={item?.runnerName}
-                currentMatch={currentMatch}
-                teamRates={
-                  currentMatch?.profitLossDataMatch
-                    ? currentMatch?.profitLossDataMatch[item?.id]
-                      ? currentMatch?.profitLossDataMatch[item?.id]
-                      : 0
-                    : 0
-                }
-              />
-              <Divider />
-                  </>
-                )
-              })}
-             
-              
+              {currentMatch?.matchOdd?.runners?.length > 0 &&
+                currentMatch?.matchOdd?.runners?.map((item: any) => {
+                  return (
+                    <>
+                      <BoxComponent
+                        data={item ? item : {}}
+                        lock={item !== undefined ? false : true}
+                        name={item?.runnerName}
+                        currentMatch={currentMatch}
+                        teamRates={
+                          currentMatch?.profitLossDataMatch
+                            ? currentMatch?.profitLossDataMatch[item?.id]
+                              ? currentMatch?.profitLossDataMatch[item?.id]
+                              : 0
+                            : 0
+                        }
+                      />
+                      <Divider />
+                    </>
+                  );
+                })}
+
               {!live && (
                 <Box
                   sx={{
@@ -333,7 +323,6 @@ const MatchOdds = ({ currentMatch, matchOddsLive}: any) => {
                   }}
                 ></Box>
               )}
-             
             </Box>
           </>
         )}
