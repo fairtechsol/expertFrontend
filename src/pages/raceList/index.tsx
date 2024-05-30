@@ -10,20 +10,21 @@ import {
   getRaceList,
   matchListReset,
 } from "../../store/actions/match/matchAction";
-import { expertSocketService, socket, socketService } from "../../socketManager";
+import {
+  expertSocketService,
+  socket,
+  socketService,
+} from "../../socketManager";
 import moment from "moment";
-
 
 const RaceList = ({}) => {
   const dispatch: AppDispatch = useDispatch();
   const [currentPage] = useState(1);
- 
-  const {success, raceList,countryCode } = useSelector(
+
+  const { success, raceList, countryCode } = useSelector(
     (state: RootState) => state.matchList
   );
-  const {  dateList } = useSelector(
-    (state: RootState) => state.user.profile
-  );
+  const { dateList } = useSelector((state: RootState) => state.user.profile);
   // function callPage(_: any, newPage: any) {
   //   setCurrentPage(newPage);
   // }

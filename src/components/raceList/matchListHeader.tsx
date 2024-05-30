@@ -21,7 +21,6 @@ const MatchListHeader = () => {
   );
   const { countryCode } = useSelector((state: RootState) => state.matchList);
   const [dated, setDated] = useState(dateList[0]?.date);
-  const [countryCoded, setCountryCoded] = useState(countryCode[0]?.countryCode);
   useEffect(() => {
     dispatch(getDateList());
   }, []);
@@ -29,14 +28,12 @@ const MatchListHeader = () => {
   useEffect(() => {
     if (dateList?.length > 0) {
       setDated(dateList[0]?.date);
-      setCountryCoded(countryCode[0]?.countryCode);
       dispatch(getCountryCode(dateList[0]?.date));
     }
   }, [dateList]);
 
   useEffect(() => {
     if (countryCode?.length > 0) {
-      setCountryCoded(countryCode[0]?.countryCode);
       dispatch(
         getRaceList({
           cc: countryCode[0]?.countryCode,
@@ -52,12 +49,10 @@ const MatchListHeader = () => {
     setDated(selectedValue);
     dispatch(getCountryCode(selectedValue));
   };
-  const handleChange = (event: SelectChangeEvent) => {
-    const selectedValue = event.target.value;
-    setCountryCoded(selectedValue);
+  const handleChange = (newValue: any) => {
     dispatch(
       getRaceList({
-        cc: selectedValue,
+        cc: newValue,
         date: moment(dated).format("YYYY-MM-DD"),
       })
     );
@@ -65,121 +60,121 @@ const MatchListHeader = () => {
 
   const [selectedTab, setSelectedTab] = useState(0);
 
-  const handleTabChange = (event:any, newValue:any) => {
+  const handleTabChange = (_: any, newValue: any) => {
+    handleChange(countryCode[newValue]?.countryCode);
     setSelectedTab(newValue);
   };
   return (
     <>
-     <Box
-      display="flex"
-      flexDirection="row"
-      sx={{
-        justifyContent: 'space-between',
-        px: '10px',
-        py: '10px',
-        gap: '20px',
-      }}
-    >
-      <Box sx={{ display: 'flex', gap: '20px'}}>
-        <Typography
-          sx={{
-            fontSize: '16px',
-            color: 'white',
-            fontWeight: '600',
-            display: 'flex',
-            justifyContent: 'start',
-            alignItems: 'center',
-          }}
-        >
-          Race List
-        </Typography>
+      <Box
+        display="flex"
+        flexDirection="row"
+        sx={{
+          justifyContent: "space-between",
+          px: "10px",
+          py: "10px",
+          gap: "20px",
+        }}
+      >
+        <Box sx={{ display: "flex", gap: "20px" }}>
+          <Typography
+            sx={{
+              fontSize: "16px",
+              color: "white",
+              fontWeight: "600",
+              display: "flex",
+              justifyContent: "start",
+              alignItems: "center",
+            }}
+          >
+            Race List
+          </Typography>
 
-        <Box
+          <Box
             sx={{
               // minWidth: "30vw",
               maxWidth: { lg: "60vw", md: "100%", sm: "20vw" },
               display: "flex",
               alignItems: "center",
-              bgcolor: 'background.paper',
+              bgcolor: "background.paper",
               // borderRadius: "10px",
               backgroundColor: "#dddddd",
-              height: "5vh"
-          }}
-        >
-          <Tabs
-            value={selectedTab}
-            onChange={handleTabChange}
-            variant="scrollable"
-            scrollButtons="auto"
-            aria-label="country code tabs"
-            sx={{
-              '& .MuiTabs-scrollButtons': {
-                color: '#000',
-              },
-              '& .MuiTab-root': {
-                minHeight: '0.5rem !important',
-                padding: '8px 4px 4px 8px !important',
-                marginTop: '10px',
-                overflow: 'visible',
-                borderRight: '2px solid #f1c40f',
-                backgroundColor: '#dddddd',
-                minWidth: '20px',
-                textTransform: 'none',
-                fontSize: '14px',
-                color: '#000',
-                '&.Mui-selected': {
-                  color: '#000',
-                  backgroundColor: '#f1c40f',
-                },
-              },
-              '& .MuiTabs-indicator': {
-                backgroundColor: '#fff',
-              },
+              height: "5vh",
             }}
           >
-            {countryCode &&
-              countryCode.map((item:any, index:any) => (
-                <Tab key={index} label={item?.countryCode} />
+            <Tabs
+              value={selectedTab}
+              onChange={handleTabChange}
+              variant="scrollable"
+              scrollButtons="auto"
+              aria-label="country code tabs"
+              sx={{
+                "& .MuiTabs-scrollButtons": {
+                  color: "#000",
+                },
+                "& .MuiTab-root": {
+                  minHeight: "0.5rem !important",
+                  padding: "8px 4px 4px 8px !important",
+                  marginTop: "10px",
+                  overflow: "visible",
+                  borderRight: "2px solid #f1c40f",
+                  backgroundColor: "#dddddd",
+                  minWidth: "20px",
+                  textTransform: "none",
+                  fontSize: "14px",
+                  color: "#000",
+                  "&.Mui-selected": {
+                    color: "#000",
+                    backgroundColor: "#f1c40f",
+                  },
+                },
+                "& .MuiTabs-indicator": {
+                  backgroundColor: "#fff",
+                },
+              }}
+            >
+              {countryCode &&
+                countryCode.map((item: any, index: any) => (
+                  <Tab key={index} label={item?.countryCode} />
+                ))}
+            </Tabs>
+          </Box>
+        </Box>
+
+        <Box
+          sx={{
+            display: "flex",
+            width: { lg: "30%", xs: "100%" },
+            gap: "10px",
+            flexDirection: { lg: "row-reverse", xs: "row" },
+            alignItems: "center",
+          }}
+        >
+          <Select
+            value={dated}
+            onChange={handleChangeDate}
+            inputProps={{ "aria-label": "Without label" }}
+            sx={{ width: "50%", backgroundColor: "#fff", height: "40px" }}
+          >
+            {dateList &&
+              dateList.map((item: any, index: any) => (
+                <MenuItem key={index} value={item?.date}>
+                  {moment(item?.date).format("DD/MM/YYYY")}
+                </MenuItem>
               ))}
-          </Tabs>
+          </Select>
+          {(getProfile?.allPrivilege || getProfile?.addMatchPrivilege) && (
+            <CustomButton
+              onClick={() => {
+                navigate("/expert/add_race");
+              }}
+              title={"Add Race"}
+            />
+          )}
         </Box>
       </Box>
-
-      <Box
-        sx={{
-          display: 'flex',
-          width: { lg: '30%', xs: '100%' },
-          gap: '10px',
-          flexDirection: { lg: 'row-reverse', xs: 'row' },
-          alignItems: 'center',
-        }}
-      >
-        <Select
-          value={dated}
-          onChange={handleChangeDate}
-          inputProps={{ 'aria-label': 'Without label' }}
-          sx={{ width: '50%', backgroundColor: '#fff', height: '40px' }}
-        >
-          {dateList &&
-            dateList.map((item:any, index:any) => (
-              <MenuItem key={index} value={item?.date}>
-                {moment(item?.date).format('DD/MM/YYYY')}
-              </MenuItem>
-            ))}
-        </Select>
-        {(getProfile?.allPrivilege || getProfile?.addMatchPrivilege) && (
-          <CustomButton
-            onClick={() => {
-              navigate('/expert/add_race');
-            }}
-            title={'Add Race'}
-          />
-        )}
-      </Box>
-    </Box>
     </>
   );
 };
-
 
 export default MatchListHeader;
