@@ -1,4 +1,4 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Tab, Tabs, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import CustomButton from "../Common/CustomButton";
@@ -62,77 +62,124 @@ const MatchListHeader = () => {
       })
     );
   };
+
+  const [selectedTab, setSelectedTab] = useState(0);
+
+  const handleTabChange = (event:any, newValue:any) => {
+    setSelectedTab(newValue);
+  };
   return (
     <>
-      <Box
-        display={"flex"}
-        sx={{
-          justifyContent: "space-between",
-          px: "10px",
-          py: "10px",
-          flexDirection: { xs: "column", sm: "row" },
-        }}
-      >
+     <Box
+      display="flex"
+      flexDirection="row"
+      sx={{
+        justifyContent: 'space-between',
+        px: '10px',
+        py: '10px',
+        gap: '20px',
+      }}
+    >
+      <Box sx={{ display: 'flex', gap: '20px'}}>
         <Typography
           sx={{
-            fontSize: "16px",
-            color: "white",
-            fontWeight: "600",
+            fontSize: '16px',
+            color: 'white',
+            fontWeight: '600',
+            display: 'flex',
+            justifyContent: 'start',
+            alignItems: 'center',
           }}
         >
           Race List
         </Typography>
+
         <Box
-          sx={{
-            width: { lg: "40%", md: "50%" },
-            display: "flex",
-            alignItems: "center",
-            justifyContent: { xs: "space-between", sm: "space-between" },
+            sx={{
+              // minWidth: "30vw",
+              maxWidth: { lg: "60vw", md: "100%", sm: "20vw" },
+              display: "flex",
+              alignItems: "center",
+              bgcolor: 'background.paper',
+              // borderRadius: "10px",
+              backgroundColor: "#dddddd",
+              height: "5vh"
           }}
         >
-          <Select
-            value={dated}
-            onChange={handleChangeDate}
-            inputProps={{ "aria-label": "Without label" }}
-            sx={{ width: "30%", backgroundColor: "#fff", height: "40px" }}
-          >
-            {dateList &&
-              dateList?.map((item: any, index: any) => {
-                return (
-                  <MenuItem key={index} value={item?.date}>
-                    {moment(item?.date).format("DD/MM/YYYY")}
-                  </MenuItem>
-                );
-              })}
-          </Select>
-
-          <Select
-            value={countryCoded}
-            onChange={handleChange}
-            inputProps={{ "aria-label": "Without label" }}
-            sx={{ width: "30%", backgroundColor: "#fff", height: "40px" }}
+          <Tabs
+            value={selectedTab}
+            onChange={handleTabChange}
+            variant="scrollable"
+            scrollButtons="auto"
+            aria-label="country code tabs"
+            sx={{
+              '& .MuiTabs-scrollButtons': {
+                color: '#000',
+              },
+              '& .MuiTab-root': {
+                minHeight: '0.5rem !important',
+                padding: '8px 4px 4px 8px !important',
+                marginTop: '10px',
+                overflow: 'visible',
+                borderRight: '2px solid #f1c40f',
+                backgroundColor: '#dddddd',
+                minWidth: '20px',
+                textTransform: 'none',
+                fontSize: '14px',
+                color: '#000',
+                '&.Mui-selected': {
+                  color: '#000',
+                  backgroundColor: '#f1c40f',
+                },
+              },
+              '& .MuiTabs-indicator': {
+                backgroundColor: '#fff',
+              },
+            }}
           >
             {countryCode &&
-              countryCode?.map((item: any, index: any) => {
-                return (
-                  <MenuItem key={index} value={item?.countryCode}>
-                    {item?.countryCode}
-                  </MenuItem>
-                );
-              })}
-          </Select>
-          {(getProfile?.allPrivilege || getProfile?.addMatchPrivilege) && (
-            <CustomButton
-              onClick={() => {
-                navigate("/expert/add_race");
-              }}
-              title={"Add Race"}
-            />
-          )}
+              countryCode.map((item:any, index:any) => (
+                <Tab key={index} label={item?.countryCode} />
+              ))}
+          </Tabs>
         </Box>
       </Box>
+
+      <Box
+        sx={{
+          display: 'flex',
+          width: { lg: '30%', xs: '100%' },
+          gap: '10px',
+          flexDirection: { lg: 'row-reverse', xs: 'row' },
+          alignItems: 'center',
+        }}
+      >
+        <Select
+          value={dated}
+          onChange={handleChangeDate}
+          inputProps={{ 'aria-label': 'Without label' }}
+          sx={{ width: '50%', backgroundColor: '#fff', height: '40px' }}
+        >
+          {dateList &&
+            dateList.map((item:any, index:any) => (
+              <MenuItem key={index} value={item?.date}>
+                {moment(item?.date).format('DD/MM/YYYY')}
+              </MenuItem>
+            ))}
+        </Select>
+        {(getProfile?.allPrivilege || getProfile?.addMatchPrivilege) && (
+          <CustomButton
+            onClick={() => {
+              navigate('/expert/add_race');
+            }}
+            title={'Add Race'}
+          />
+        )}
+      </Box>
+    </Box>
     </>
   );
 };
+
 
 export default MatchListHeader;
