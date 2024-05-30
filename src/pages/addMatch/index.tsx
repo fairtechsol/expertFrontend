@@ -784,7 +784,7 @@ const AddMatch = () => {
                 />
               ) : (
                 <MatchListInput
-                  required={true}
+                  // required={true}
                   label={"Match Name*"}
                   type={"text"}
                   onChange={handleInputChange}
