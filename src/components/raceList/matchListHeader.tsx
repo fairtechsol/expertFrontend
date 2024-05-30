@@ -1,4 +1,4 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Tab, Tabs, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import CustomButton from "../Common/CustomButton";
@@ -62,6 +62,12 @@ const MatchListHeader = () => {
       })
     );
   };
+
+  const [selectedTab, setSelectedTab] = useState(0);
+
+  const handleTabChange = (event:any, newValue:any) => {
+    setSelectedTab(newValue);
+  };
   return (
     <>
       <Box
@@ -73,28 +79,75 @@ const MatchListHeader = () => {
           flexDirection: { xs: "column", sm: "row" },
         }}
       >
+        <Box sx={{display: "flex", gap: "20px"}}>
         <Typography
           sx={{
             fontSize: "16px",
             color: "white",
             fontWeight: "600",
-          }}
+            display: "flex",
+          justifyContent: "center",
+          alignItems: "center"          
+        }}
         >
           Race List
         </Typography>
+
         <Box
           sx={{
-            width: { lg: "40%", md: "50%" },
+            // minWidth: "30vw",
+            maxWidth: { lg: "60vw", md: "50%" },
             display: "flex",
             alignItems: "center",
-            justifyContent: { xs: "space-between", sm: "space-between" },
+            bgcolor: 'background.paper',
+            // borderRadius: "10px",
+            backgroundColor: "#dddddd",
+            height: "5vh"
           }}
-        >
+        > 
+      
+      <Tabs
+        value={selectedTab}
+        onChange={handleTabChange}
+        variant="scrollable"
+        scrollButtons="auto"
+        aria-label="country code tabs"
+        sx={{
+        
+          '& .MuiTabs-scrollButtons': {
+            color: '#000', 
+          },
+          '& .MuiTab-root': {
+            overflow: "visible",
+            borderRight: "2px solid #f1c40f",
+            backgroundColor: "#dddddd",
+            minWidth: '20px',
+            textTransform: 'none', 
+            fontSize: '14px', 
+            color: '#000', 
+            '&.Mui-selected': {
+              color: '#000', 
+              backgroundColor: '#f1c40f', 
+              border: "1px solid white" 
+            },
+          },
+          '& .MuiTabs-indicator': {
+            backgroundColor: '#fff', 
+          },
+        }}
+      >
+        {countryCode && countryCode.map((item:any, index:any) => (
+          <Tab key={index} label={item?.countryCode} />
+        ))}
+      </Tabs>
+      </Box>
+    </Box>
+    <Box sx={{ display: "flex",width: "20%", gap: "10px", flexDirection: {lg: "row", xs: "column", md: "column-reverse"}}}>
           <Select
             value={dated}
             onChange={handleChangeDate}
             inputProps={{ "aria-label": "Without label" }}
-            sx={{ width: "30%", backgroundColor: "#fff", height: "40px" }}
+            sx={{ width: "20vw", backgroundColor: "#fff", height: "40px" }}
           >
             {dateList &&
               dateList?.map((item: any, index: any) => {
@@ -106,7 +159,7 @@ const MatchListHeader = () => {
               })}
           </Select>
 
-          <Select
+          {/* <Select
             value={countryCoded}
             onChange={handleChange}
             inputProps={{ "aria-label": "Without label" }}
@@ -120,7 +173,7 @@ const MatchListHeader = () => {
                   </MenuItem>
                 );
               })}
-          </Select>
+          </Select> */}
           {(getProfile?.allPrivilege || getProfile?.addMatchPrivilege) && (
             <CustomButton
               onClick={() => {
@@ -129,10 +182,11 @@ const MatchListHeader = () => {
               title={"Add Race"}
             />
           )}
-        </Box>
+       </Box>
       </Box>
     </>
   );
 };
+
 
 export default MatchListHeader;
