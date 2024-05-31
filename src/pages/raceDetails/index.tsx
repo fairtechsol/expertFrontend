@@ -38,7 +38,7 @@ const RaceDetails = () => {
   const { placedBetsMatch } = useSelector(
     (state: RootState) => state.matchList
   );
-  const { raceDetail ,success} = useSelector(
+  const { raceDetail, success } = useSelector(
     (state: RootState) => state.matchList
   );
   const updateMatchDetailToRedux = (event: any) => {
@@ -97,9 +97,6 @@ const RaceDetails = () => {
     }
   };
 
-
-  
-
   const updateMatchBetPlaced = (event: any) => {
     try {
       if (event?.jobData?.newBet?.matchId === state?.id) {
@@ -110,8 +107,6 @@ const RaceDetails = () => {
       console.log(e);
     }
   };
-
- 
 
   const updateSessionResultStatus = (event: any) => {
     try {
@@ -237,14 +232,11 @@ const RaceDetails = () => {
               marginTop: { xs: "10px", lg: "0" },
             }}
           >
-            
-              <MatchOdds
-                showHeader={true}
-                currentMatch={raceDetail}
-                matchOddsLive={raceDetail?.matchOdd}
-              />
-            
-          
+            <MatchOdds
+              showHeader={true}
+              currentMatch={raceDetail}
+              matchOddsLive={raceDetail?.matchOdd}
+            />
           </Box>
 
           <Box

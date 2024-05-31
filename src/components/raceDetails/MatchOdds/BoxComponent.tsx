@@ -3,6 +3,7 @@ import { memo } from "react";
 import SeparateBox from "../SeparateBox";
 import { formatNumber } from "../../helper";
 import MoneyBox from "./MoneyBox";
+import moment from "moment";
 const BoxComponent = ({
   name,
   data,
@@ -15,7 +16,7 @@ const BoxComponent = ({
 }: any) => {
   const theme = useTheme();
   const matchesMobile = useMediaQuery(theme.breakpoints.down("lg"));
-  const { ex, status } = data ?? {};
+  const { ex, status, adjustmentFactor, removalDate } = data ?? {};
   return (
     <Box
       sx={{
@@ -100,10 +101,22 @@ const BoxComponent = ({
                 textTransform: "uppercase",
                 color: "#FFF",
                 fontWeight: "400",
-                fontSize: matchesMobile ? "12px" : "22px",
+                fontSize: matchesMobile
+                  ? status === "REMOVED"
+                    ? "10px"
+                    : "12px"
+                  : status === "REMOVED"
+                  ? "14px"
+                  : "22px",
               }}
             >
-              {livestatus ? "SUSPENDED" : status}
+              {livestatus
+                ? "SUSPENDED"
+                : status === "REMOVED"
+                ? `${status} - ${adjustmentFactor}%, ${moment(
+                    removalDate
+                  ).format("MM/DD/YYYY HH:mm:ss A ([IST])")}`
+                : status}
             </h4>
           </Box>
         </Box>
