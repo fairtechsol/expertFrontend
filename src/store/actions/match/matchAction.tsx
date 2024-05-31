@@ -392,6 +392,12 @@ export const updateResultStatusOfMatch = createAsyncThunk<any, SessionById>(
     return requestData;
   }
 );
+export const updateResultStatusOfrace = createAsyncThunk<any, SessionById>(
+  "update/resultStatusMatch",
+  async (requestData) => {
+    return requestData;
+  }
+);
 export const updateResultBoxStatus = createAsyncThunk<any, any>(
   "update/resultBoxStatus",
   async (requestData) => {

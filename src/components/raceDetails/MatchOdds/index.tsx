@@ -321,8 +321,31 @@ const MatchOdds = ({ currentMatch, matchOddsLive }: any) => {
                     bottom: 0,
                     background: "rgba(0,0,0,0.5)",
                   }}
+
                 ></Box>
               )}
+             {currentMatch?.resultStatus && (
+                <Box
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    width: "100%",
+                    position: "absolute",
+                    height: "100%",
+                    bottom: 0,
+                    color: "#fff",
+                    backgroundColor: "rgba(203 24 24 / 70%)",
+                  }}
+                >
+                  <Typography sx={{ color: "#fff" }}>
+                    RESULT{" "}
+                    {currentMatch?.stopAt || currentMatch?.activeStatus === "result"
+                      ? "DECLARED"
+                      : currentMatch?.resultStatus}
+                  </Typography>
+                </Box>
+              )} 
             </Box>
           </>
         )}
