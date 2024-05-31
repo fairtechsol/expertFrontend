@@ -104,6 +104,10 @@ const AddRace = () => {
       if (loading) {
         return;
       }
+      if (value.maxBet < value.minBet) {
+        toast.error('Maxbet should be greater then Minbet')
+        return;
+      }
       if (state?.id) {
         const payload: any = {
           id: state?.id,
