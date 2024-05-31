@@ -146,7 +146,6 @@ const RaceList = ({}) => {
         <Box
           sx={{
             display: "flex",
-            width: { lg: "30%", xs: "100%" },
             gap: "10px",
             flexDirection: { lg: "row-reverse", xs: "row" },
             alignItems: "center",
