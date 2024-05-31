@@ -19,7 +19,7 @@ const MatchListHeader = ({ value }: MatchListHeader) => {
   const dispatch: AppDispatch = useDispatch();
   const { dateList } = useSelector((state: RootState) => state.user.profile);
   const { countryCode } = useSelector((state: RootState) => state.matchList);
-  const [dated, setDated] = useState(dateList[0]?.date);
+  const [dated, setDated] = useState("");
   useEffect(() => {
     dispatch(getDateList({ matchType: value }));
   }, []);
@@ -29,10 +29,11 @@ const MatchListHeader = ({ value }: MatchListHeader) => {
       setDated(dateList[0]?.date);
       dispatch(getCountryCode({ date: dateList[0]?.date, matchType: value }));
     }
-  }, [dateList?.length, value]);
+    setSelectedTab(0);
+  }, [dateList, value]);
 
   useEffect(() => {
-    if (countryCode?.length > 0) {
+    if (countryCode?.length >= 0 && dated !== "") {
       dispatch(
         getRaceList({
           cc: countryCode[0]?.countryCode,
