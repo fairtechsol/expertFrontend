@@ -1,7 +1,5 @@
 import { Box, Tab, Tabs, Typography } from "@mui/material";
-import { useNavigate } from "react-router-dom";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
-import CustomButton from "../Common/CustomButton";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store/store";
 import MenuItem from "@mui/material/MenuItem";
@@ -13,24 +11,25 @@ import {
 } from "../../store/actions/match/matchAction";
 import moment from "moment";
 
-const MatchListHeader = () => {
+interface MatchListHeader {
+  value: string;
+}
+
+const MatchListHeader = ({ value }: MatchListHeader) => {
   const dispatch: AppDispatch = useDispatch();
-  const navigate = useNavigate();
-  const { getProfile, dateList } = useSelector(
-    (state: RootState) => state.user.profile
-  );
+  const { dateList } = useSelector((state: RootState) => state.user.profile);
   const { countryCode } = useSelector((state: RootState) => state.matchList);
   const [dated, setDated] = useState(dateList[0]?.date);
   useEffect(() => {
-    dispatch(getDateList());
+    dispatch(getDateList({ matchType: value }));
   }, []);
 
   useEffect(() => {
     if (dateList?.length > 0) {
       setDated(dateList[0]?.date);
-      dispatch(getCountryCode(dateList[0]?.date));
+      dispatch(getCountryCode({ date: dateList[0]?.date, matchType: value }));
     }
-  }, [dateList]);
+  }, [dateList?.length, value]);
 
   useEffect(() => {
     if (countryCode?.length > 0) {
@@ -38,22 +37,24 @@ const MatchListHeader = () => {
         getRaceList({
           cc: countryCode[0]?.countryCode,
           date: moment(dated).format("YYYY-MM-DD"),
+          matchType: value,
         })
       );
     }
-  }, [countryCode]);
+  }, [countryCode, value]);
 
   const handleChangeDate = (event: SelectChangeEvent) => {
     const selectedValue = event.target.value;
 
     setDated(selectedValue);
-    dispatch(getCountryCode(selectedValue));
+    dispatch(getCountryCode({ date: selectedValue, matchType: value }));
   };
   const handleChange = (newValue: any) => {
     dispatch(
       getRaceList({
         cc: newValue,
         date: moment(dated).format("YYYY-MM-DD"),
+        matchType: value,
       })
     );
   };
@@ -163,14 +164,6 @@ const MatchListHeader = () => {
                 </MenuItem>
               ))}
           </Select>
-          {(getProfile?.allPrivilege || getProfile?.addMatchPrivilege) && (
-            <CustomButton
-              onClick={() => {
-                navigate("/expert/add_race");
-              }}
-              title={"Add Race"}
-            />
-          )}
         </Box>
       </Box>
     </>

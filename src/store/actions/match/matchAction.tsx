@@ -44,11 +44,13 @@ export const getMatchListSessionProfitLoss = createAsyncThunk<any, any>(
     }
   }
 );
-export const getMatchListDropdown = createAsyncThunk<any,any>(
+export const getMatchListDropdown = createAsyncThunk<any, any>(
   "/match/listDropdown",
   async (requestData, thunkApi) => {
     try {
-      const response = await service.get(`${ApiConstants.MATCH.DROPDOWNLIST}?matchType=${requestData}`);
+      const response = await service.get(
+        `${ApiConstants.MATCH.DROPDOWNLIST}?matchType=${requestData}`
+      );
       if (response) {
         return response?.data?.matches;
       }
@@ -273,10 +275,9 @@ export const getSessionProfitLossMatchDetail = createAsyncThunk<any, any>(
 export const getCountryCode = createAsyncThunk<any, any>(
   "/match/countryCode",
   async (requestData, thunkApi) => {
-    try { 
+    try {
       const response = await service.get(
-        `${ApiConstants.MATCH.GET_COUNTRY_CODE}?date=${requestData}`,
-        
+        `${ApiConstants.MATCH.GET_COUNTRY_CODE}?date=${requestData.date}&matchType=${requestData.matchType}`
       );
       if (response) {
         return response.data;
@@ -292,8 +293,7 @@ export const getRaceList = createAsyncThunk<any, any>(
   async (requestData, thunkApi) => {
     try {
       const response = await service.get(
-        `${ApiConstants.MATCH.GET_RACE_LIST}?countryCode=eq${requestData?.cc}&DATE(racingMatch.startAt)=${requestData?.date}`,
-        
+        `${ApiConstants.MATCH.GET_RACE_LIST}?countryCode=eq${requestData?.cc}&DATE(racingMatch.startAt)=${requestData?.date}&matchType=eq${requestData.matchType}`
       );
       if (response) {
         return response.data;
@@ -309,8 +309,7 @@ export const getRaceMatch = createAsyncThunk<any, any>(
   async (requestData, thunkApi) => {
     try {
       const response = await service.get(
-        `${ApiConstants.MATCH.GET_RACE_MATCH}/${requestData}`,
-        
+        `${ApiConstants.MATCH.GET_RACE_MATCH}/${requestData}`
       );
       if (response?.data) {
         return {

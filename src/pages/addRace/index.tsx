@@ -105,7 +105,7 @@ const AddRace = () => {
         return;
       }
       if (value.maxBet < value.minBet) {
-        toast.error('Maxbet should be greater then Minbet')
+        toast.error("Maxbet should be greater then Minbet");
         return;
       }
       if (state?.id) {
@@ -116,7 +116,7 @@ const AddRace = () => {
         dispatch(editMatch(payload));
       } else {
         const addMatchpayload: any = {
-          matchType: matchType,
+          matchType: matchType === "greyhoundRacing" ? "greyHound" : matchType,
           title: selected.title,
           marketId: selected.marketId,
           eventId: selected.eventId,
@@ -127,7 +127,11 @@ const AddRace = () => {
           type: "matchOdd",
           venue: selected.venue,
           runners: raceRunners,
-          raceType: selected.raceType,
+          raceType: selected.raceType
+            ? selected.raceType
+            : matchType === "greyhoundRacing"
+            ? "greyHound"
+            : matchType,
         };
 
         if (manualMatchToggle) {

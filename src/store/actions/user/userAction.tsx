@@ -83,15 +83,15 @@ export const headerAddNotification = createAsyncThunk<any, any>(
     }
   }
 );
-export const getDateList = createAsyncThunk<any>(
+export const getDateList = createAsyncThunk<any, any>(
   "match/dateList",
-  async (_, thunkApi) => {
+  async (requestData, thunkApi) => {
     try {
-      const resp = await service.get(`${ApiConstants.MATCH.GET_DATES}`);
+      const resp = await service.get(
+        `${ApiConstants.MATCH.GET_DATES}?matchType=${requestData.matchType}`
+      );
       if (resp) {
-        
-          return resp?.data;
-        
+        return resp?.data;
       }
     } catch (error: any) {
       const err = error as AxiosError;
