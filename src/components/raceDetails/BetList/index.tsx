@@ -253,7 +253,7 @@ const BetList = ({ tag, allBetRates }: any) => {
                     >
                       <Box
                         sx={{
-                          width: { lg: "4%", xs: "6%" },
+                          width: { lg: "6%", xs: "6%" },
                           border: "1px solid white",
                           background: "black",
                           height: "30px",
@@ -264,7 +264,7 @@ const BetList = ({ tag, allBetRates }: any) => {
                       >
                         <Typography
                           sx={{
-                            fontSize: !tag ? "10px" : "13px",
+                            fontSize: !tag ? "9px" : "12px",
                             fontWeight: tag ? "bold" : "600",
                             color: "white",
                           }}
