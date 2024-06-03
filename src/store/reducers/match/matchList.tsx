@@ -24,6 +24,7 @@ import {
   updateMatchActiveStatusReset,
   updateMatchBetsPlace,
   updateMatchBetsReason,
+  updateResultStatusOfrace,
   updateSessionBetsPlace,
   updateTeamRatesForHorseRacing,
   updateTeamRatesForHorseRacingOnDelete,
@@ -386,7 +387,16 @@ const matchList = createSlice({
             profitLossDataMatch: teamRate,
           };
         }
-      );
+      )
+      .addCase(updateResultStatusOfrace.fulfilled, (state, action) => {
+        const { status,matchId } = action?.payload;
+       if(state.raceDetail.id=== matchId){
+            state.raceDetail = {
+              ...state.raceDetail,
+              resultStatus: status,
+            }
+        }
+      });
   },
 });
 

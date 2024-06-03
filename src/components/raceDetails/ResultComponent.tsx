@@ -45,7 +45,7 @@ const ResultComponent = ({
     <Box
       sx={{
         position: "absolute",
-        width: { lg: "100%", xs: "100%", md: "100%" },
+        width: { lg: stopAt?"50%":"100%", xs: "100%", md: "100%" },
         marginRight: { md: "6em", xs: "4em" },
         // height: "300px",
         borderRadius: 2,
@@ -103,7 +103,6 @@ const ResultComponent = ({
             }}
           >
             {liveData?.runners.map((item:any, k:number) => {
-              console.log('item',item)
               return (
                 <Box
                   key={k}

@@ -20,8 +20,7 @@ import {
   getSessionProfitLossMatchDetailReset,
   updateMatchBetsPlace,
   updateMatchBetsReason,
-  updateResultStatusOfMatch,
-  updateResultStatusOfSession,
+  updateResultStatusOfrace,
   updateTeamRatesForHorseRacing,
   updateTeamRatesForHorseRacingOnDelete,
 } from "../../store/actions/match/matchAction";
@@ -111,8 +110,7 @@ const RaceDetails = () => {
   const updateSessionResultStatus = (event: any) => {
     try {
       if (event?.matchId === state?.id) {
-        dispatch(updateResultStatusOfSession(event));
-        dispatch(updateResultStatusOfMatch(event));
+        dispatch(updateResultStatusOfrace(event));
       }
     } catch (error) {
       console.error(error);

@@ -144,8 +144,8 @@ const MatchOdds = ({ currentMatch, matchOddsLive }: any) => {
           sx={{
             position: "absolute",
             zIndex: 999,
-            top: "26%",
-            right: "60px",
+            top: { lg:currentMatch?.stopAt?"10%":"26%", xs: "26%" },
+            right: { lg:currentMatch?.stopAt?"-20%": "60px", xs: "60px" },
             width: { lg: "50vh", xs: "30vh" },
           }}
         >
@@ -321,8 +321,31 @@ const MatchOdds = ({ currentMatch, matchOddsLive }: any) => {
                     bottom: 0,
                     background: "rgba(0,0,0,0.5)",
                   }}
+
                 ></Box>
               )}
+             {currentMatch?.resultStatus && (
+                <Box
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    width: "100%",
+                    position: "absolute",
+                    height: "100%",
+                    bottom: 0,
+                    color: "#fff",
+                    backgroundColor: "rgba(203 24 24 / 70%)",
+                  }}
+                >
+                  <Typography sx={{ color: "#fff" }}>
+                    RESULT{" "}
+                    {currentMatch?.stopAt || currentMatch?.activeStatus === "result"
+                      ? "DECLARED"
+                      : currentMatch?.resultStatus}
+                  </Typography>
+                </Box>
+              )} 
             </Box>
           </>
         )}
