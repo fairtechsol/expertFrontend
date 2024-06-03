@@ -144,8 +144,8 @@ const MatchOdds = ({ currentMatch, matchOddsLive }: any) => {
           sx={{
             position: "absolute",
             zIndex: 999,
-            top: "26%",
-            right: "60px",
+            top: { lg:currentMatch?.stopAt?"10%":"26%", xs: "26%" },
+            right: { lg:currentMatch?.stopAt?"-20%": "60px", xs: "60px" },
             width: { lg: "50vh", xs: "30vh" },
           }}
         >
