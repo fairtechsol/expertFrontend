@@ -21,7 +21,7 @@ const MatchListHeader = ({ value }: MatchListHeader) => {
   const { countryCode } = useSelector((state: RootState) => state.matchList);
   const [dated, setDated] = useState("");
   useEffect(() => {
-    dispatch(getDateList({ matchType: value }));
+    // dispatch(getDateList({ matchType: value }));
   }, []);
 
   useEffect(() => {
