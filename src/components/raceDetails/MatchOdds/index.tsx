@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Box, Typography } from "@mui/material";
 import Result from "../Result";
 import SmallBox from "../SmallBox";
-import { ARROWUP } from "../../../assets";
+import { ARROWUP, edit } from "../../../assets";
 import ResultComponent from "../ResultComponent";
 import Divider from "../../Common/Divider";
 import BoxComponent from "./BoxComponent";
@@ -10,10 +10,13 @@ import { raceLiveStatus } from "../../../store/actions/match/matchAction";
 import { AppDispatch } from "../../../store/store";
 import { useDispatch } from "react-redux";
 import { formatToINR } from "../../helper";
+import ModalMUI from "@mui/material/Modal";
+import MaxBetEdit from "../MaxBetEditBox";
 
 const MatchOdds = ({ currentMatch, matchOddsLive }: any) => {
   const [visible, setVisible] = useState(false);
   const [visibleImg, setVisibleImg] = useState(true);
+  const [maxLimitModal, setShowMaxLimitModal] = useState(false);
   const [live, setLive] = useState(
     matchOddsLive?.activeStatus === "live" ? true : false
   );
@@ -144,8 +147,8 @@ const MatchOdds = ({ currentMatch, matchOddsLive }: any) => {
           sx={{
             position: "absolute",
             zIndex: 999,
-            top: { lg:currentMatch?.stopAt?"10%":"26%", xs: "26%" },
-            right: { lg:currentMatch?.stopAt?"-20%": "60px", xs: "60px" },
+            top: { lg: currentMatch?.stopAt ? "10%" : "26%", xs: "26%" },
+            right: { lg: currentMatch?.stopAt ? "-20%" : "60px", xs: "60px" },
             width: { lg: "50vh", xs: "30vh" },
           }}
         >
@@ -238,7 +241,25 @@ const MatchOdds = ({ currentMatch, matchOddsLive }: any) => {
                   MIN: {formatToINR(currentMatch?.matchOdd?.minBet)} MAX:
                   {formatToINR(currentMatch?.matchOdd?.maxBet)}
                 </Typography>
+                <Box
+                  sx={{
+                    width: "30px",
+                    height: "18px",
+                    backgroundColor: "#fff",
+                    marginLeft: "5px",
+                    zIndex: "999",
+                    borderRadius: "3px",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    // paddingY: "2px",
+                  }}
+                  onClick={() => setShowMaxLimitModal(true)}
+                >
+                  <img src={edit} style={{ width: "18px", height: "12px" }} />
+                </Box>
               </Box>
+
               <Box
                 sx={{
                   display: "flex",
@@ -322,10 +343,9 @@ const MatchOdds = ({ currentMatch, matchOddsLive }: any) => {
                     bottom: 0,
                     background: "rgba(0,0,0,0.5)",
                   }}
-
                 ></Box>
               )}
-             {currentMatch?.resultStatus && (
+              {currentMatch?.resultStatus && (
                 <Box
                   sx={{
                     display: "flex",
@@ -341,15 +361,36 @@ const MatchOdds = ({ currentMatch, matchOddsLive }: any) => {
                 >
                   <Typography sx={{ color: "#fff" }}>
                     RESULT{" "}
-                    {currentMatch?.stopAt || currentMatch?.activeStatus === "result"
+                    {currentMatch?.stopAt ||
+                    currentMatch?.activeStatus === "result"
                       ? "DECLARED"
                       : currentMatch?.resultStatus}
                   </Typography>
                 </Box>
-              )} 
+              )}
             </Box>
           </>
         )}
+        <ModalMUI
+          open={maxLimitModal}
+          aria-labelledby="parent-modal-title"
+          aria-describedby="parent-modal-description"
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <>
+            <MaxBetEdit
+              matchOdd={matchOddsLive}
+              id={currentMatch?.id}
+              onClickCancel={() => {
+                setShowMaxLimitModal(false);
+              }}
+            />
+          </>
+        </ModalMUI>
       </Box>
     </>
   );

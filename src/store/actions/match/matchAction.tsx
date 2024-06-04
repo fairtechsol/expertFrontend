@@ -244,7 +244,23 @@ export const editMatch = createAsyncThunk<any, any>(
     }
   }
 );
-
+export const editRace = createAsyncThunk<any, any>(
+  "/race/edit",
+  async (requestData, thunkApi) => {
+    try {
+      const response = await service.post(
+        `${ApiConstants.MATCH.EDIT_RACE}`,
+        requestData
+      );
+      if (response) {
+        return response.data;
+      }
+    } catch (error) {
+      const err = error as AxiosError;
+      return thunkApi.rejectWithValue(err.response?.status);
+    }
+  }
+);
 export const getSessionProfitLossMatchDetail = createAsyncThunk<any, any>(
   "get/sessionProfitLossForMatchDetail",
   async (requestData, thunkApi) => {
@@ -428,4 +444,7 @@ export const resetMatchListSessionProLoss = createAction(
 );
 export const getSessionProfitLossMatchDetailReset = createAction(
   "getSessionProfitLossMatchDetail/reset"
+);
+export const resetRaceEdit = createAction(
+  "raceEdit/reset"
 );
