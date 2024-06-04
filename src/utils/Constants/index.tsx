@@ -8,7 +8,7 @@ export const ApiConstants = {
     ADD: "match/add",
     ADD_RACE: "match/racingAdd",
     EDIT: "match/update",
-    EDIT_RACE: "match/racingEdit",
+    EDIT_RACE: "match/racingUpdate",
     LIST: "match/list",
     LIST_SESSION_PRO_LOSS: "session/result",
     DROPDOWNLIST: "/match/listWithManualBetting",

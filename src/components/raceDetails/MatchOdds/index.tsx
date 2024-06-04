@@ -383,7 +383,7 @@ const MatchOdds = ({ currentMatch, matchOddsLive }: any) => {
           <>
             <MaxBetEdit
               matchOdd={matchOddsLive}
-              match={currentMatch}
+              id={currentMatch?.id}
               onClickCancel={() => {
                 setShowMaxLimitModal(false);
               }}

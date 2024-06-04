@@ -1,50 +1,43 @@
 import { Box, Button, TextField, Typography } from "@mui/material";
-import { useEffect,  useState } from "react";
+import { useEffect, useState } from "react";
 import { CancelDark } from "../../assets";
 import { AppDispatch, RootState } from "../../store/store";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
-import { resetRaceEdit } from "../../store/actions/match/matchAction";
+import { editRace, resetRaceEdit } from "../../store/actions/match/matchAction";
 
 const MaxBetEdit = (props: any) => {
-  const { onClickCancel,matchOdd,match } = props;
+  const { onClickCancel, matchOdd, id } = props;
   const dispatch: AppDispatch = useDispatch();
   const { editRaceSuccess } = useSelector(
     (state: RootState) => state.matchList
   );
-  const [minValue, setMinValue] = useState(matchOdd?.minBet ? matchOdd?.minBet : "");
-  const [maxValue, setMaxValue] = useState(matchOdd?.maxBet ? matchOdd?.maxBet : "");
+  const [minValue, setMinValue] = useState(
+    matchOdd?.minBet ? matchOdd?.minBet : 0
+  );
+  const [maxValue, setMaxValue] = useState(
+    matchOdd?.maxBet ? matchOdd?.maxBet : 0
+  );
 
- const handleSubmit=()=>{
-     if(minValue<1 || maxValue<minValue){
-         toast.error("Enter correct value!")
-         return;
-        }
-    // let editMatchpayload: any = {
-    //     matchType: match?.matchType,
-    //     title: match?.title,
-    //     marketId: match?.marketId,
-    //     eventId: match?.eventId,
-    //     startAt: match?.startAt,
-    //     countryCode: match?.countryCode,
-    //     minBet: minValue,
-    //     maxBet: maxValue,
-    //     type: "matchOdd",
-    //     venue: match?.venue,
-    //     runners: match?.runners,
-    //     raceType: match?.raceType,
-    //   };
-    //   dispatch(editRace(editMatchpayload));
- }
+  const handleSubmit = () => {
+    if (minValue < 1 || maxValue < minValue) {
+      toast.error("Enter correct value!");
+      return;
+    }
+    let editMatchpayload: any = {
+      id: id,
+      minBet: parseFloat(minValue),
+      maxBet: parseFloat(maxValue),
+    };
+    dispatch(editRace(editMatchpayload));
+  };
 
   useEffect(() => {
     if (editRaceSuccess) {
       onClickCancel();
-        dispatch(resetRaceEdit());
+      dispatch(resetRaceEdit());
     }
   }, [editRaceSuccess]);
-
-
 
   return (
     <Box
@@ -85,7 +78,7 @@ const MaxBetEdit = (props: any) => {
             lineHeight: "1",
           }}
         >
-          Macth odd limit
+          Match odd limit
         </Typography>
         <img
           onClick={(e) => {
@@ -171,9 +164,9 @@ const MaxBetEdit = (props: any) => {
           value={maxValue}
           id="score"
           name="score"
-            onChange={(e) => {
-              setMaxValue(e?.target.value);
-            }}
+          onChange={(e) => {
+            setMaxValue(e?.target.value);
+          }}
           InputProps={{
             disableUnderline: true,
             sx: {
@@ -188,7 +181,6 @@ const MaxBetEdit = (props: any) => {
           }}
         />
       </Box>
-
 
       <Box
         sx={{
@@ -206,12 +198,10 @@ const MaxBetEdit = (props: any) => {
             paddingLeft: "5px",
             width: "30%",
           }}
-        >
-          
-        </Box>
+        ></Box>
 
         <Button
-        variant="contained"
+          variant="contained"
           sx={{
             width: "50%",
             textAlign: "center",
