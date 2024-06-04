@@ -291,7 +291,7 @@ const MatchOdds = ({ currentMatch, matchOddsLive }: any) => {
               }}
             >
               {currentMatch?.matchOdd?.runners?.length > 0 &&
-                currentMatch?.matchOdd?.runners?.map((item: any) => {
+                currentMatch?.matchOdd?.runners?.map((item: any, index:number) => {
                   return (
                     <>
                       <BoxComponent
@@ -306,6 +306,7 @@ const MatchOdds = ({ currentMatch, matchOddsLive }: any) => {
                               : 0
                             : 0
                         }
+                        index={index}
                       />
                       <Divider />
                     </>

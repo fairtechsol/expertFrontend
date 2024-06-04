@@ -13,6 +13,7 @@ const BoxComponent = ({
   lock,
   teamRates,
   livestatus,
+  index,
 }: any) => {
   const theme = useTheme();
   const matchesMobile = useMediaQuery(theme.breakpoints.down("lg"));
@@ -69,10 +70,14 @@ const BoxComponent = ({
               lineHeight: "0.8",
               overflow: "hidden",
               whiteSpace: "nowrap",
-              textOverflow: "ellipsis"
+              textOverflow: "ellipsis",
             }}
           >
-            {name}
+            {`${index + 1}. ${
+              name?.split(".")?.[1]?.trim()
+                ? name?.split(".")?.[1]?.trim()
+                : name
+            }`}
           </Typography>
         </Box>
         {name != "DRAW" && <MoneyBox value={teamRates} />}
