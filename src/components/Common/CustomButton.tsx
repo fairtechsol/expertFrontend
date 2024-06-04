@@ -1,4 +1,11 @@
-import { Box, CircularProgress, Typography } from "@mui/material";
+import {
+  Box,
+  CircularProgress,
+  Typography,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
+import { formatToINR } from "../helper";
 
 interface Props {
   type?: string;
@@ -9,6 +16,8 @@ interface Props {
   style?: React.CSSProperties;
   buttonStyle?: any;
   containerStyle?: any;
+  profitLoss?: any;
+  title2Style?: any;
 }
 const CustomButton = ({
   title,
@@ -17,10 +26,25 @@ const CustomButton = ({
   bgColor,
   style,
   containerStyle,
+  profitLoss,
+  title2Style,
 }: Props) => {
   const inlineStyle: React.CSSProperties = {
     ...style,
   };
+
+  const theme = useTheme();
+  const matchesxs = useMediaQuery(theme.breakpoints.down("lg"));
+
+  const formatValue = (value: any) => {
+    const formattedValue = formatToINR(value === 0 ? "" : value);
+    const [integerPart, decimalPart] = formattedValue.split(".");
+    const formattedDecimalPart = decimalPart
+      ? decimalPart.padEnd(2, "0").slice(0, 2)
+      : "00"; // Ensure exactly 2 digits after the decimal point
+    return { integerPart, decimalPart: formattedDecimalPart };
+  };
+  const { integerPart, decimalPart } = formatValue(profitLoss);
   return (
     <Box
       onClick={onClick}
@@ -39,7 +63,13 @@ const CustomButton = ({
         },
       ]}
     >
-      <Typography sx={{ color: "white", fontSize: {lg:"13px", xs: "10px", md: "10px"}, ...inlineStyle }}>
+      <Typography
+        sx={{
+          color: "white",
+          fontSize: { lg: "13px", xs: "10px", md: "10px" },
+          ...inlineStyle,
+        }}
+      >
         {" "}
         {loading ? (
           <CircularProgress
@@ -51,7 +81,30 @@ const CustomButton = ({
             value={60}
           />
         ) : (
-          title
+          <>
+            {title}{" "}
+            {profitLoss && (
+              <span style={{ fontSize: matchesxs ? "9px" : "11px" }}>
+                (Total P/L :
+                <span
+                  style={{
+                    ...title2Style,
+                  }}
+                >
+                  {" "}
+                  {profitLoss !== 0 && (
+                    <>
+                      <span>{integerPart}</span>
+                      <span
+                        style={{ fontSize: "0.8em", fontWeight: "normal" }}
+                      >{`.${decimalPart}`}</span>
+                    </>
+                  )}
+                </span>
+                )
+              </span>
+            )}
+          </>
         )}
       </Typography>
     </Box>

@@ -215,7 +215,17 @@ const MatchListTable = (props: any) => {
                         state: { id: item?.id, marketId: item?.marketId },
                       });
                     }}
-                    title={moment(item.startAt).format('HH:mm')}
+                    title={moment(item.startAt).format("HH:mm")}
+                    profitLoss={item?.stopAt ? item?.pl?.totalProfitLoss : ""}
+                    style={{ padding: "5px" }}
+                    title2Style={{
+                      color:
+                        item?.stopAt && item?.pl?.totalProfitLoss > 0
+                          ? "#46E080"
+                          : item?.stopAt && item?.pl?.totalProfitLoss < 0
+                          ? "#FF4D4D"
+                          : "",
+                    }}
                   />
                 ))}
             </Box>
