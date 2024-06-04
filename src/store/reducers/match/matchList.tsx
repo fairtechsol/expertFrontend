@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import {
   betLiveStatus,
   editMatch,
+  editRace,
   editSuccessReset,
   getCountryCode,
   getMatchList,
@@ -16,6 +17,7 @@ import {
   raceListReset,
   raceLiveStatus,
   resetMatchListSessionProLoss,
+  resetRaceEdit,
   resultDeclare,
   sessionBetLiveStatus,
   sessionResultSuccessReset,
@@ -36,6 +38,7 @@ interface InitialState {
   matchListDropdown: any;
   success: boolean;
   editSuccess: boolean;
+  editRaceSuccess: boolean;
   statusSuccess: boolean;
   placedBetsMatch: any;
   loading: boolean;
@@ -56,6 +59,7 @@ const initialState: InitialState = {
   success: false,
   dropDownLoading: false,
   editSuccess: false,
+  editRaceSuccess: false,
   statusSuccess: false,
   statusBetLive: false,
   error: null,
@@ -396,6 +400,23 @@ const matchList = createSlice({
               resultStatus: status,
             }
         }
+      })
+      .addCase(editRace.pending, (state) => {
+        state.loading = true;
+        state.editRaceSuccess = false;
+        state.error = null;
+      })
+      .addCase(editRace.fulfilled, (state) => {
+        state.loading = false;
+        state.editRaceSuccess = true;
+      })
+      .addCase(editRace.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action?.error?.message;
+      })
+      .addCase(resetRaceEdit, (state) => {
+        state.loading = false;
+        state.editRaceSuccess = false;
       });
   },
 });
