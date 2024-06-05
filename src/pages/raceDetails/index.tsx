@@ -157,18 +157,16 @@ const RaceDetails = () => {
 
   useEffect(() => {
     try {
-      if (state?.id) {
-        return () => {
-          expertSocketService.match.leaveMatchRoom(state?.id);
-          expertSocketService.match.getMatchRatesOff(state?.id);
-          // socketService.user.matchBettingStatusChangeOff();
-          socketService.user.matchResultDeclaredOff();
-          socketService.user.matchResultUnDeclaredOff();
-          socketService.user.matchDeleteBetOff();
-          socketService.user.userMatchBetPlacedOff();
-          socketService.user.updateInResultDeclareOff();
-        };
-      }
+      return () => {
+        expertSocketService.match.leaveMatchRoom(state?.id);
+        expertSocketService.match.getMatchRatesOff(state?.id);
+        // socketService.user.matchBettingStatusChangeOff();
+        socketService.user.matchResultDeclaredOff();
+        socketService.user.matchResultUnDeclaredOff();
+        socketService.user.matchDeleteBetOff();
+        socketService.user.userMatchBetPlacedOff();
+        socketService.user.updateInResultDeclareOff();
+      };
     } catch (error) {
       console.log(error);
     }

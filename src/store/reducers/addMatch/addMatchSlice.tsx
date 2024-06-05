@@ -45,8 +45,8 @@ interface InitialState {
   matchAdded: boolean;
   loading: boolean;
   error: any;
-  raceRunners:any;
-  resultBox:any;
+  raceRunners: any;
+  resultBox: any;
 }
 
 const initialState: InitialState = {
@@ -60,7 +60,7 @@ const initialState: InitialState = {
       EventName: "No Matches Available",
     },
   ],
-  raceRunners:[],
+  raceRunners: [],
   extraMarketList: [],
   extraMarketListFootball: [],
   selectionIds: {},
@@ -69,7 +69,7 @@ const initialState: InitialState = {
   matchAdded: false,
   success: false,
   error: null,
-  resultBox:false
+  resultBox: false,
 };
 
 const addMatch = createSlice({
@@ -487,7 +487,6 @@ const addMatch = createSlice({
         state.loading = false;
         state.error = action?.error?.message;
       })
-      
       .addCase(updateRaceRunners.fulfilled, (state, action) => {
         state.raceRunners = action.payload;
       })

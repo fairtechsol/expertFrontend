@@ -47,9 +47,9 @@ interface InitialState {
   dropDownLoading: boolean;
   statusBetLive: boolean;
   sessionProLoss: any;
-  countryCode:any;
-  raceList:any;
-  raceDetail:any;
+  countryCode: any;
+  raceList: any;
+  raceDetail: any;
 }
 
 const initialState: InitialState = {
@@ -66,9 +66,9 @@ const initialState: InitialState = {
   declareLoading: false,
   placedBetsMatch: [],
   sessionProLoss: [],
-  countryCode:[],
-  raceList:[],
-  raceDetail:null,
+  countryCode: [],
+  raceList: [],
+  raceDetail: null,
 };
 
 const matchList = createSlice({
@@ -305,11 +305,11 @@ const matchList = createSlice({
         state.loading = true;
         state.error = null;
       })
-      .addCase(getCountryCode.fulfilled, (state,action) => {
+      .addCase(getCountryCode.fulfilled, (state, action) => {
         state.loading = false;
-        state.countryCode=action.payload
+        state.countryCode = action.payload;
       })
-      .addCase(getCountryCode.rejected, (state,action) => {
+      .addCase(getCountryCode.rejected, (state, action) => {
         state.loading = false;
         state.error = action?.error?.message;
       })
@@ -317,29 +317,29 @@ const matchList = createSlice({
         state.loading = true;
         state.error = null;
       })
-      .addCase(getRaceList.fulfilled, (state,action) => {
+      .addCase(getRaceList.fulfilled, (state, action) => {
         state.loading = false;
-        state.raceList=action.payload
+        state.raceList = action.payload;
       })
-      .addCase(getRaceList.rejected, (state,action) => {
+      .addCase(getRaceList.rejected, (state, action) => {
         state.loading = false;
         state.error = action?.error?.message;
       })
       .addCase(raceListReset, (state) => {
         state.success = false;
-        state.raceList=[];
+        state.raceList = [];
       })
       .addCase(getRaceMatch.pending, (state) => {
         state.loading = true;
         state.error = null;
         state.success = false;
       })
-      .addCase(getRaceMatch.fulfilled, (state,action) => {
+      .addCase(getRaceMatch.fulfilled, (state, action) => {
         state.loading = false;
         state.success = true;
-        state.raceDetail=action.payload
+        state.raceDetail = action.payload;
       })
-      .addCase(getRaceMatch.rejected, (state,action) => {
+      .addCase(getRaceMatch.rejected, (state, action) => {
         state.loading = false;
         state.error = action?.error?.message;
       })
@@ -393,12 +393,12 @@ const matchList = createSlice({
         }
       )
       .addCase(updateResultStatusOfrace.fulfilled, (state, action) => {
-        const { status,matchId } = action?.payload;
-       if(state.raceDetail.id=== matchId){
-            state.raceDetail = {
-              ...state.raceDetail,
-              resultStatus: status,
-            }
+        const { status, matchId } = action?.payload;
+        if (state.raceDetail && state.raceDetail.id === matchId) {
+          state.raceDetail = {
+            ...state.raceDetail,
+            resultStatus: status,
+          };
         }
       })
       .addCase(editRace.pending, (state) => {

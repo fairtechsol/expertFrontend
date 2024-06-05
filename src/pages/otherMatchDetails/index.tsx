@@ -204,7 +204,7 @@ const OtherMatchDetails = () => {
   const updateSessionResultStatus = (event: any) => {
     try {
       if (event?.matchId === state?.id) {
-        dispatch(updateResultStatusOfSession(event));
+        // dispatch(updateResultStatusOfSession(event));
         dispatch(updateResultStatusOfMatch(event));
         dispatch(updateResultBoxStatus({visible:false}))
       }
