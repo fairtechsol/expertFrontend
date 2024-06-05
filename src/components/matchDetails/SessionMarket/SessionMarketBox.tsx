@@ -15,15 +15,12 @@ import SessionLimitEdit from "./SessionLimitEdit";
 import ModalMUI from "@mui/material/Modal";
 
 const SessionMarketBox = ({
-  currentMatch,
   newData,
-  setLocalState,
-  updateSessionData,
   hideResult,
   hideTotalBet,
-  setIObtes,
   profitLossData,
   index,
+  hideEditMaxButton,
 }: any) => {
   const dispatch: AppDispatch = useDispatch();
   const { statusBetLive, error, success } = useSelector(
@@ -95,7 +92,7 @@ const SessionMarketBox = ({
           }}
           // className="example-2"
         >
-          <Box sx={{ paddingTop: "3px", width: { lg: "80%", xs: "70%" } }}>
+          <Box sx={{ paddingTop: "3px", width: { lg: "100%", xs: "70%" } }}>
             <Typography
               sx={{
                 color: "black",
@@ -125,23 +122,25 @@ const SessionMarketBox = ({
               >
                 max : {formatToINR(newData?.maxBet)}
               </Typography>
-              <Box
-                sx={{
-                  width: "30px",
-                  height: "18px",
-                  background: "transparent",
-                  marginLeft: "5px",
-                  zIndex: "999",
-                  // borderRadius: "3px",
-                  // display: "flex",
-                  // justifyContent: "center",
-                  // alignItems: "center",
-                  // paddingY: "2px",
-                }}
-                onClick={() => setShowMaxLimitModal(true)}
-              >
-                <img src={edit} style={{ width: "18px", height: "12px" }} />
-              </Box>
+              {!hideEditMaxButton && (
+                <Box
+                  sx={{
+                    width: "30px",
+                    height: "18px",
+                    background: "transparent",
+                    marginLeft: "5px",
+                    zIndex: "999",
+                    // borderRadius: "3px",
+                    // display: "flex",
+                    // justifyContent: "center",
+                    // alignItems: "center",
+                    // paddingY: "2px",
+                  }}
+                  onClick={() => setShowMaxLimitModal(true)}
+                >
+                  <img src={edit} style={{ width: "18px", height: "12px" }} />
+                </Box>
+              )}
             </Box>
           </Box>
         </Box>
@@ -158,11 +157,14 @@ const SessionMarketBox = ({
             gap: 0,
           }}
         >
-          {newData?.activeStatus === "live" && (
+          {newData?.activeStatus === "live" && !newData?.result && (
             <SmallBox
               loading={loading}
               hide={true}
               onClick={(e: any) => {
+                if (loading) {
+                  return;
+                }
                 e.preventDefault();
                 setLoading(true);
                 // setLive(false);
@@ -174,21 +176,21 @@ const SessionMarketBox = ({
                 );
               }}
               textSize={"8px"}
-              width={{ lg: "33px", xs: "20px", md: "25px" }}
+              width={{ lg: "33px", xs: "30px", md: "25px" }}
               color={newData?.activeStatus === "live" ? "#46e080" : "#FF4D4D"}
             />
           )}
-          {newData?.activeStatus === "result" && newData?.result && (
+          {newData?.result && (
             <SmallBox
               loading={false}
               hide={false}
-              textSize={"10px"}
-              width={{ lg: "80px", xs: "20px", md: "20px" }}
-              title={`Score : ${newData?.result || 0}`}
-              color={"#FFF"}
+              textSize={newData?.result === "No Result" ? "0.55em" : "10px"}
+              width={{ lg: "60px", xs: "60px"}}
+              title={`${newData?.result || 0}`}
+              color="#FFF"
             />
           )}
-          {newData?.activeStatus === "save" && (
+          {newData?.activeStatus === "save" && !newData?.result && (
             <SmallBox
               hide={true}
               loading={loading}
@@ -202,9 +204,9 @@ const SessionMarketBox = ({
                   })
                 );
               }}
-              textSize={"8px"}
+              textSize="8px"
               // width={"80px"}
-              width={"33px"}
+              width="33px"
               color={newData?.activeStatus === "live" ? "#46e080" : "#FF4D4D"}
               // title={"Live"}
             />
@@ -233,49 +235,13 @@ const SessionMarketBox = ({
           >
             <CustomSessionResult
               newData={JSON.stringify(newData)}
-              visible={visible}
-              setIObtes={setIObtes}
-              setLocalState={setLocalState}
-              currentMatch={currentMatch}
-              //   setLive={setLive}
-              updateSessionData={updateSessionData}
               onClick={() => {
                 setVisible(false);
               }}
             />
           </Box>
         )}
-        {!["ACTIVE", "active", "", undefined, null, 0].includes(
-          newData?.status
-        ) || newData?.activeStatus === "result" ? (
-          <Box
-            sx={{
-              margin: "1px",
-              background: "rgba(0,0,0,1)",
-              height: "40px",
-              right: { lg: "25%", xs: "25%", md: "23%" },
-              position: "absolute",
-              width: { lg: "16%", xs: "20%" },
-              justifyContent: { xs: "center", lg: "center" },
-              alignItems: "center",
-              display: "flex",
-            }}
-          >
-            {/* <img src={BallStart} style={{ width: '113px', height: "32px" }} /> */}
-            <h6
-              style={{
-                textTransform: "uppercase",
-                fontSize: "10px",
-                textAlign: "center",
-                lineHeight: "11px",
-                color: "#FFF",
-                fontWeight: "400",
-              }}
-            >
-              {newData?.result ? `Declared` : newData?.status}
-            </h6>
-          </Box>
-        ) : newData?.resultStatus ? (
+        {newData?.resultStatus ? (
           <Box
             sx={{
               margin: "1px",
@@ -305,12 +271,42 @@ const SessionMarketBox = ({
               {newData?.resultStatus}
             </h6>
           </Box>
+        ) : !["ACTIVE", "active", "", undefined, null, 0].includes(
+            newData?.status
+          ) || newData?.result ? (
+          <Box
+            sx={{
+              margin: "1px",
+              background: "rgba(0,0,0,1)",
+              height: "40px",
+              right: { lg: "25%", xs: "25%", md: "23%" },
+              position: "absolute",
+              width: { lg: "16%", xs: "20%" },
+              justifyContent: { xs: "center", lg: "center" },
+              alignItems: "center",
+              display: "flex",
+            }}
+          >
+            {/* <img src={BallStart} style={{ width: '113px', height: "32px" }} /> */}
+            <h6
+              style={{
+                textTransform: "uppercase",
+                fontSize: "10px",
+                textAlign: "center",
+                lineHeight: "11px",
+                color: "#FFF",
+                fontWeight: "400",
+              }}
+            >
+              {newData?.result ? `Declared` : newData?.status}
+            </h6>
+          </Box>
         ) : (
           <Box
             sx={{
               display: "flex",
               position: "relative",
-              right: { lg: "-17%", xs: "-5%", md: "-7%" },
+              right: { lg: "-17.5%", xs: "-5%", md: "-7%" },
               // background: "white",
               height: "40px",
               width: { lg: "18.6%", xs: "40%" },
@@ -324,7 +320,7 @@ const SessionMarketBox = ({
               value={formatNumber(newData?.noRate)}
               value2={formatNumber(newData?.noPercent)}
               lock={newData?.status === "SUSPENDED"}
-              color={"#F6D0CB"}
+              color="#F6D0CB"
             />
 
             <Box
@@ -336,7 +332,7 @@ const SessionMarketBox = ({
               value={formatNumber(newData?.yesRate)}
               value2={formatNumber(newData?.yesPercent)}
               lock={newData?.status === "SUSPENDED"}
-              color={"#B3E0FF"}
+              color="#B3E0FF"
             />
           </Box>
         )}

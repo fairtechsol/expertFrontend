@@ -47,4 +47,7 @@ export { default as TREND } from "./images/trend.webp";
 export { default as UnLockIcon } from "./images/unlock.svg";
 export { default as Upload } from "./images/upload.svg";
 export { default as Users } from "./images/users.png";
+export { default as Football } from "./images/football.png";
+export { default as Cricket } from "./images/cricket.png";
+export { default as Tennis } from "./images/tennis.png";
 export { default as WALLET } from "./images/wallet.webp";

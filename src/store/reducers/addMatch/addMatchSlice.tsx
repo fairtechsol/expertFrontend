@@ -2,37 +2,51 @@ import { createSlice } from "@reduxjs/toolkit";
 import {
   addMatchExpert,
   addMatchReset,
+  addRaceExpert,
   editMatchReset,
   eventListReset,
   getAllEventsList,
   getAllLiveTournaments,
   getExtraMarketList,
   getMatchDetail,
+  getRaceMatches,
+  handleBetResultStatus,
   matchDetailReset,
   matchDetailSuccessReset,
+  runnerDetailReset,
   tournamentListReset,
+  updateExtraMarketListOnEdit,
+  updateMatchBettingStatus,
   updateMatchRates,
+  updateMatchRatesOnMarketUndeclare,
+  updateRaceRunners,
   updateRates,
   updateSessionAdded,
 } from "../../actions/addMatch/addMatchAction";
 import { updateApiSessionById } from "../../actions/addSession";
 import {
   updateMaxLoss,
+  updateResultBoxStatus,
   updateResultStatusOfMatch,
   updateResultStatusOfSession,
   updateTeamRates,
 } from "../../actions/match/matchAction";
+import { getOtherGamesMatchDetail } from "../../actions/otherGamesAction/matchDetailActions";
+import { profitLossDataForMatchConstants } from "../../../utils/Constants";
 
 interface InitialState {
   tournamentList: any;
   eventsList: any;
   extraMarketList: any;
+  extraMarketListFootball: any;
   matchDetail: any;
   selectionIds: any;
   success: boolean;
   matchAdded: boolean;
   loading: boolean;
   error: any;
+  raceRunners:any;
+  resultBox:any;
 }
 
 const initialState: InitialState = {
@@ -46,13 +60,16 @@ const initialState: InitialState = {
       EventName: "No Matches Available",
     },
   ],
+  raceRunners:[],
   extraMarketList: [],
+  extraMarketListFootball: [],
   selectionIds: {},
   matchDetail: null,
   loading: false,
   matchAdded: false,
   success: false,
   error: null,
+  resultBox:false
 };
 
 const addMatch = createSlice({
@@ -68,7 +85,7 @@ const addMatch = createSlice({
         state.error = null;
       })
       .addCase(getAllLiveTournaments.fulfilled, (state, action) => {
-        state.tournamentList = action.payload;
+        state.tournamentList = action?.payload;
         state.loading = false;
         state.success = true;
       })
@@ -82,7 +99,7 @@ const addMatch = createSlice({
         state.error = null;
       })
       .addCase(getAllEventsList.fulfilled, (state, action) => {
-        state.eventsList = action.payload;
+        state.eventsList = action?.payload;
         state.loading = false;
         state.success = true;
       })
@@ -96,7 +113,7 @@ const addMatch = createSlice({
         state.error = null;
       })
       .addCase(getExtraMarketList.fulfilled, (state, action) => {
-        state.extraMarketList = action.payload;
+        state.extraMarketList = action?.payload;
         state.loading = false;
         state.success = true;
       })
@@ -124,10 +141,31 @@ const addMatch = createSlice({
         state.matchDetail = null;
       })
       .addCase(getMatchDetail.fulfilled, (state, action) => {
-        state.matchDetail = action.payload;
+        state.matchDetail = action?.payload;
         state.success = true;
         state.loading = false;
 
+        action.payload?.sessionBettings?.forEach((item: any) => {
+          item = JSON.parse(item);
+          if (item.selectionId) {
+            state.selectionIds[item?.selectionId] = 1;
+          }
+        });
+      })
+      .addCase(getMatchDetail.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action?.error?.message;
+      })
+      .addCase(getOtherGamesMatchDetail.pending, (state) => {
+        state.loading = true;
+        state.success = false;
+        state.error = null;
+        state.matchDetail = null;
+      })
+      .addCase(getOtherGamesMatchDetail.fulfilled, (state, action) => {
+        state.loading = false;
+        state.success = true;
+        state.matchDetail = action.payload;
         action.payload?.sessionBettings?.forEach((item: any) => {
           item = JSON.parse(item);
           if (item.selectionId) {
@@ -135,7 +173,7 @@ const addMatch = createSlice({
           }
         });
       })
-      .addCase(getMatchDetail.rejected, (state, action) => {
+      .addCase(getOtherGamesMatchDetail.rejected, (state, action) => {
         state.loading = false;
         state.error = action?.error?.message;
       })
@@ -150,6 +188,12 @@ const addMatch = createSlice({
           bookmaker,
           marketCompleteMatch,
           matchOdd,
+          firstHalfGoal,
+          overUnder,
+          halfTime,
+          setWinner,
+          manualTideMatch,
+          quickbookmaker,
         } = action.payload;
         state.matchDetail = {
           ...state.matchDetail,
@@ -157,31 +201,46 @@ const addMatch = createSlice({
           apiSession: apiSession?.filter(
             (item: any) => state.selectionIds[item?.SelectionId] == null
           ),
+          firstHalfGoal,
+          overUnder,
+          halfTime,
           apiTideMatch: apiTiedMatch,
-          bookmaker: bookmaker,
-          marketCompleteMatch: marketCompleteMatch,
-          matchOdd: matchOdd,
+          bookmaker,
+          marketCompleteMatch,
+          matchOdd,
+          setWinner,
+          manualTideMatch,
+          quickBookmaker: quickbookmaker,
           sessionBettings: state.matchDetail?.sessionBettings?.map(
             (item: any) => {
               const parsedItem = JSON.parse(item);
               let id = parsedItem?.id;
 
               const matchingApiSession = apiSession?.find(
-                (sessionItem: any) => sessionItem.id === id
+                (sessionItem: any) => sessionItem?.id === id
               );
 
               if (matchingApiSession) {
                 return JSON.stringify({
                   ...parsedItem,
-                  noRate: matchingApiSession.LayPrice1 ?? 0,
-                  noPercent: matchingApiSession.LaySize1 ?? 0,
-                  yesRate: matchingApiSession.BackPrice1 ?? 0,
-                  yesPercent: matchingApiSession.BackSize1 ?? 0,
-                  activeStatus: matchingApiSession.activeStatus,
-                  maxBet: matchingApiSession.max,
-                  minBet: matchingApiSession.min,
-                  status: matchingApiSession.GameStatus,
-                  updatedAt: matchingApiSession.updatedAt,
+                  noRate: matchingApiSession?.LayPrice1 ?? 0,
+                  noPercent: matchingApiSession?.LaySize1 ?? 0,
+                  yesRate: matchingApiSession?.BackPrice1 ?? 0,
+                  yesPercent: matchingApiSession?.BackSize1 ?? 0,
+                  activeStatus: matchingApiSession?.activeStatus,
+                  maxBet: matchingApiSession?.max,
+                  minBet: matchingApiSession?.min,
+                  status: matchingApiSession?.GameStatus,
+                  updatedAt: matchingApiSession?.updatedAt,
+                  isComplete:
+                    (!matchingApiSession?.LayPrice1 &&
+                      !matchingApiSession?.LaySize1 &&
+                      !matchingApiSession?.BackPrice1 &&
+                      !matchingApiSession?.BackSize1) ||
+                    matchingApiSession?.activeStatus !== "live"
+                      ? true
+                      : false,
+                  showSessions: true,
                 });
               } else {
                 return JSON.stringify({
@@ -194,6 +253,8 @@ const addMatch = createSlice({
                     parsedItem.activeStatus === "live"
                       ? "save"
                       : parsedItem.activeStatus,
+                  isComplete: true,
+                  showSessions: true,
                 });
               }
             }
@@ -202,16 +263,16 @@ const addMatch = createSlice({
       })
       .addCase(updateApiSessionById.fulfilled, (state, action) => {
         try {
-          const { betId, activeStatus, score, profitLoss } = action.payload;
+          const { betId, score, profitLoss } = action.payload;
           state.matchDetail = {
             ...state.matchDetail,
-            sessionBettings: state.matchDetail.sessionBettings.map(
+            sessionBettings: state.matchDetail?.sessionBettings?.map(
               (item: any) => {
                 const parsedItem = JSON.parse(item);
                 if (parsedItem?.id === betId) {
                   return JSON.stringify({
                     ...parsedItem,
-                    activeStatus: activeStatus,
+                    activeStatus: score ? "result" : "save",
                     result: score ? score : null,
                     resultStatus: null,
                     resultData: score
@@ -220,6 +281,7 @@ const addMatch = createSlice({
                           profitLoss: profitLoss,
                         }
                       : null,
+                    isComplete: true,
                   });
                 } else return item;
               }
@@ -230,35 +292,35 @@ const addMatch = createSlice({
         }
       })
       .addCase(updateSessionAdded.fulfilled, (state, action) => {
-        const newSessionBetting = JSON.stringify(action.payload);
+        const newSessionBetting = JSON.stringify(action?.payload);
 
-        if (state.matchDetail.sessionBettings.length === 0) {
-          state.matchDetail.sessionBettings.push(newSessionBetting);
+        if (state.matchDetail?.sessionBettings?.length === 0) {
+          state.matchDetail?.sessionBettings?.push(newSessionBetting);
         }
 
-        const existingIds = state.matchDetail.sessionBettings.map(
+        const existingIds = state.matchDetail?.sessionBettings?.map(
           (existingSession: any) => {
-            return JSON.parse(existingSession).id;
+            return JSON.parse(existingSession)?.id;
           }
         );
 
-        const newId = JSON.parse(newSessionBetting).id;
+        const newId = JSON.parse(newSessionBetting)?.id;
 
-        if (!existingIds.includes(newId)) {
-          state.matchDetail.sessionBettings.push(newSessionBetting);
+        if (!existingIds?.includes(newId)) {
+          state.matchDetail?.sessionBettings?.unshift(newSessionBetting);
         }
       })
-      // .addCase(updateMatchBettingStatus.fulfilled, (state, action) => {
-      //   let matchingObjectKey = Object.keys(state?.matchDetail).find(
-      //     (key) => state?.matchDetail[key].type === action.payload.type
-      //   );
-      //   if (matchingObjectKey) {
-      //     state.matchDetail[matchingObjectKey] = {
-      //       ...state.matchDetail[matchingObjectKey],
-      //       activeStatus: action.payload.activeStatus,
-      //     };
-      //   }
-      // })
+      .addCase(updateMatchBettingStatus.fulfilled, (state, action) => {
+        let matchingObjectKey = Object.keys(state?.matchDetail).find(
+          (key) => state?.matchDetail[key].type === action.payload.type
+        );
+        if (matchingObjectKey) {
+          state.matchDetail[matchingObjectKey] = {
+            ...state.matchDetail[matchingObjectKey],
+            activeStatus: action.payload.activeStatus,
+          };
+        }
+      })
       .addCase(tournamentListReset, (state) => {
         return {
           ...state,
@@ -286,6 +348,9 @@ const addMatch = createSlice({
       .addCase(matchDetailReset, (state) => {
         state.matchDetail = null;
       })
+      .addCase(runnerDetailReset, (state) => {
+        state.raceRunners = [];
+      })
       .addCase(matchDetailSuccessReset, (state) => {
         state.success = false;
       })
@@ -293,11 +358,11 @@ const addMatch = createSlice({
         state.matchAdded = false;
       })
       .addCase(updateMaxLoss.fulfilled, (state, action) => {
-        const { id, maxLoss, totalBet } = action.payload;
+        const { id, maxLoss, totalBet } = action?.payload;
         state.matchDetail = {
           ...state.matchDetail,
           sessionProfitLoss: {
-            ...state.matchDetail.sessionProfitLoss,
+            ...state.matchDetail?.sessionProfitLoss,
             [id]: {
               maxLoss,
               totalBet,
@@ -307,62 +372,65 @@ const addMatch = createSlice({
       })
       .addCase(updateTeamRates.fulfilled, (state, action) => {
         const { userRedisObj, jobData } = action.payload;
-        if (jobData?.newBet?.matchId === state.matchDetail?.id) {
-          if (
-            ["tiedMatch2", "tiedMatch1"].includes(jobData?.newBet?.marketType)
-          ) {
-            state.matchDetail.teamRates = {
-              ...state.matchDetail.teamRates,
-              yesRateTie: userRedisObj[jobData?.teamArateRedisKey],
-              noRateTie: userRedisObj[jobData?.teamBrateRedisKey],
-            };
-          } else if (["completeMatch"].includes(jobData?.newBet?.marketType)) {
-            state.matchDetail.teamRates = {
-              ...state.matchDetail.teamRates,
-              yesRateComplete: userRedisObj[jobData?.teamArateRedisKey],
-              noRateComplete: userRedisObj[jobData?.teamBrateRedisKey],
-            };
-          } else {
-            state.matchDetail.teamRates = {
-              ...state.matchDetail.teamRates,
-              teamARate: userRedisObj[jobData?.teamArateRedisKey],
-              teamBRate: userRedisObj[jobData?.teamBrateRedisKey],
-              teamCRate: userRedisObj[jobData?.teamCrateRedisKey] ?? "",
-            };
-          }
-        }
+        state.matchDetail.teamRates = {
+          ...state.matchDetail.teamRates,
+          [profitLossDataForMatchConstants[jobData?.newBet?.marketType].A]:
+            userRedisObj[jobData?.teamArateRedisKey],
+          [profitLossDataForMatchConstants[jobData?.newBet?.marketType].B]:
+            userRedisObj[jobData?.teamBrateRedisKey],
+          [profitLossDataForMatchConstants[jobData?.newBet?.marketType].C]:
+            userRedisObj[jobData?.teamCrateRedisKey],
+        };
+      })
+      .addCase(updateMatchRatesOnMarketUndeclare.fulfilled, (state, action) => {
+        const {
+          profitLossData,
+          betType,
+          teamArateRedisKey,
+          teamBrateRedisKey,
+          teamCrateRedisKey,
+        } = action?.payload;
+
+        state.matchDetail.teamRates = {
+          ...state.matchDetail.teamRates,
+          [profitLossDataForMatchConstants[betType].A]:
+            profitLossData[teamArateRedisKey],
+          [profitLossDataForMatchConstants[betType].B]:
+            profitLossData[teamBrateRedisKey],
+          [profitLossDataForMatchConstants[betType].C]:
+            profitLossData[teamCrateRedisKey],
+        };
       })
       .addCase(updateRates.fulfilled, (state, action) => {
-        const { redisObject, matchBetType } = action.payload;
-        if (["tiedMatch2", "tiedMatch1"].includes(matchBetType)) {
-          state.matchDetail.teamRates = {
-            ...state.matchDetail.teamRates,
-            yesRateTie: redisObject[action.payload.teamArateRedisKey],
-            noRateTie: redisObject[action.payload.teamBrateRedisKey],
-          };
-        } else if (["completeMatch"].includes(matchBetType)) {
-          state.matchDetail.teamRates = {
-            ...state.matchDetail.teamRates,
-            yesRateComplete: redisObject[action.payload.teamArateRedisKey],
-            noRateComplete: redisObject[action.payload.teamBrateRedisKey],
-          };
-        } else {
-          state.matchDetail.teamRates = {
-            ...state.matchDetail.teamRates,
-            teamARate: redisObject[action.payload.teamArateRedisKey],
-            teamBRate: redisObject[action.payload.teamBrateRedisKey],
-            teamCRate: redisObject[action.payload.teamCrateRedisKey],
-          };
-        }
+        const {
+          redisObject,
+          matchBetType,
+          teamArateRedisKey,
+          teamBrateRedisKey,
+          teamCrateRedisKey,
+        } = action?.payload;
+
+        state.matchDetail.teamRates = {
+          ...state.matchDetail.teamRates,
+          [profitLossDataForMatchConstants[matchBetType].A]:
+            redisObject[teamArateRedisKey],
+          [profitLossDataForMatchConstants[matchBetType].B]:
+            redisObject[teamBrateRedisKey],
+          [profitLossDataForMatchConstants[matchBetType].C]:
+            redisObject[teamCrateRedisKey],
+        };
+      })
+      .addCase(updateExtraMarketListOnEdit.fulfilled, (state, action) => {
+        state.extraMarketList = action.payload;
       })
       .addCase(updateResultStatusOfSession.fulfilled, (state, action) => {
-        const updatedSessionBetting = state.matchDetail.sessionBettings.map(
+        const updatedSessionBetting = state.matchDetail?.sessionBettings?.map(
           (item: any) => {
             let parsedItem = JSON.parse(item);
-            if (parsedItem?.id === action.payload.betId) {
+            if (parsedItem?.id === action?.payload?.betId) {
               return JSON.stringify({
                 ...parsedItem,
-                resultStatus: action.payload.status,
+                resultStatus: action?.payload?.status,
               });
             } else return item;
           }
@@ -373,18 +441,73 @@ const addMatch = createSlice({
         };
       })
       .addCase(updateResultStatusOfMatch.fulfilled, (state, action) => {
-        const { status, betId } = action.payload;
-        const index = state.matchDetail?.quickBookmaker.findIndex(
+        const { status, betId } = action?.payload;
+        const index = state.matchDetail?.quickBookmaker?.findIndex(
           (item: any) => item.type === "quickbookmaker1"
         );
         if (index !== -1) {
-          if (betId === state.matchDetail?.quickBookmaker[index]?.id) {
+          if (state.matchDetail?.matchType === "cricket") {
+            if (betId === state.matchDetail?.quickBookmaker[index]?.id) {
+              state.matchDetail = {
+                ...state.matchDetail,
+                resultStatus: status ? status : null,
+              };
+            }
+          } else
             state.matchDetail = {
               ...state.matchDetail,
-              resultStatus: status ? status : null,
+              resultStatus: {
+                ...state.matchDetail?.resultStatus,
+                [betId]: {
+                  betId: betId,
+                  status: status,
+                },
+              },
             };
-          }
         }
+      })
+      .addCase(handleBetResultStatus.fulfilled, (state, action) => {
+        const { betId } = action.payload;
+        const resultStatusObj = state.matchDetail?.resultStatus;
+        if (resultStatusObj && resultStatusObj.hasOwnProperty(betId)) {
+          delete resultStatusObj[betId];
+        }
+      })
+      .addCase(getRaceMatches.pending, (state) => {
+        state.loading = true;
+        state.success = false;
+        state.error = null;
+      })
+      .addCase(getRaceMatches.fulfilled, (state, action) => {
+        state.eventsList = action?.payload;
+        state.loading = false;
+        state.success = true;
+      })
+      .addCase(getRaceMatches.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action?.error?.message;
+      })
+      
+      .addCase(updateRaceRunners.fulfilled, (state, action) => {
+        state.raceRunners = action.payload;
+      })
+      .addCase(addRaceExpert.pending, (state) => {
+        state.loading = true;
+        state.success = false;
+        state.error = null;
+      })
+      .addCase(addRaceExpert.fulfilled, (state) => {
+        state.matchAdded = true;
+        state.loading = false;
+      })
+      .addCase(addRaceExpert.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action?.error?.message;
+      })
+      .addCase(updateResultBoxStatus.fulfilled, (state, action) => {
+        state.resultBox = action?.payload?.visible;
+        state.loading = false;
+        state.success = true;
       });
   },
 });

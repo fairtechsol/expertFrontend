@@ -1,31 +1,44 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {
+  betLiveStatus,
   editMatch,
+  editRace,
   editSuccessReset,
+  getCountryCode,
   getMatchList,
   getMatchListDropdown,
+  getMatchListSessionProfitLoss,
+  getPlacedBetsForSessionDetail,
+  getPlacedBetsMatch,
+  getRaceList,
+  getRaceMatch,
   matchListReset,
   noResultDeclare,
+  raceListReset,
+  raceLiveStatus,
+  resetMatchListSessionProLoss,
+  resetRaceEdit,
   resultDeclare,
+  sessionBetLiveStatus,
   sessionResultSuccessReset,
   undeclareResult,
   updateMatchActiveStatus,
   updateMatchActiveStatusReset,
-  betLiveStatus,
-  getPlacedBetsMatch,
-  getMatchListSessionProfitLoss,
-  resetMatchListSessionProLoss,
-  sessionBetLiveStatus,
   updateMatchBetsPlace,
-  updateSessionBetsPlace,
   updateMatchBetsReason,
+  updateResultStatusOfrace,
+  updateSessionBetsPlace,
+  updateTeamRatesForHorseRacing,
+  updateTeamRatesForHorseRacingOnDelete,
 } from "../../actions/match/matchAction";
+import { updateRaceRates } from "../../actions/addMatch/addMatchAction";
 
 interface InitialState {
   matchList: any;
   matchListDropdown: any;
   success: boolean;
   editSuccess: boolean;
+  editRaceSuccess: boolean;
   statusSuccess: boolean;
   placedBetsMatch: any;
   loading: boolean;
@@ -34,6 +47,9 @@ interface InitialState {
   dropDownLoading: boolean;
   statusBetLive: boolean;
   sessionProLoss: any;
+  countryCode:any;
+  raceList:any;
+  raceDetail:any;
 }
 
 const initialState: InitialState = {
@@ -43,12 +59,16 @@ const initialState: InitialState = {
   success: false,
   dropDownLoading: false,
   editSuccess: false,
+  editRaceSuccess: false,
   statusSuccess: false,
   statusBetLive: false,
   error: null,
   declareLoading: false,
   placedBetsMatch: [],
   sessionProLoss: [],
+  countryCode:[],
+  raceList:[],
+  raceDetail:null,
 };
 
 const matchList = createSlice({
@@ -63,7 +83,7 @@ const matchList = createSlice({
         state.error = null;
       })
       .addCase(getMatchList.fulfilled, (state, action) => {
-        state.matchList = action.payload;
+        state.matchList = action?.payload;
         state.loading = false;
         state.success = true;
       })
@@ -78,7 +98,7 @@ const matchList = createSlice({
         state.error = null;
       })
       .addCase(getMatchListDropdown.fulfilled, (state, action) => {
-        state.matchListDropdown = action.payload;
+        state.matchListDropdown = action?.payload;
         state.dropDownLoading = false;
         state.success = true;
       })
@@ -185,23 +205,38 @@ const matchList = createSlice({
       .addCase(getPlacedBetsMatch.fulfilled, (state, action) => {
         state.loading = false;
         state.success = true;
-        state.placedBetsMatch = action.payload;
+        state.placedBetsMatch = action?.payload;
       })
       .addCase(getPlacedBetsMatch.rejected, (state, action) => {
         state.loading = false;
         state.error = action?.error?.message;
       })
+      .addCase(getPlacedBetsForSessionDetail.pending, (state) => {
+        state.loading = true;
+        state.success = false;
+        state.error = null;
+      })
+      .addCase(getPlacedBetsForSessionDetail.fulfilled, (state, action) => {
+        state.loading = false;
+        state.success = true;
+        state.placedBetsMatch = action?.payload;
+      })
+      .addCase(getPlacedBetsForSessionDetail.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action?.error?.message;
+      })
       .addCase(updateMatchBetsReason.fulfilled, (state, action) => {
-        const { betPlacedId, deleteReason } = action.payload;
+        const { betPlacedId, deleteReason } = action?.payload;
         const updateDeleteReason = (bet: any) => {
-          if (betPlacedId.includes(bet.id)) {
+          if (betPlacedId?.includes(bet?.id)) {
             bet.deleteReason = deleteReason;
           }
 
           return bet;
         };
 
-        const updatedBetPlaced = state.placedBetsMatch.map(updateDeleteReason);
+        const updatedBetPlaced =
+          state?.placedBetsMatch?.map(updateDeleteReason);
 
         state.placedBetsMatch = Array.from(new Set(updatedBetPlaced));
       })
@@ -213,39 +248,41 @@ const matchList = createSlice({
       .addCase(getMatchListSessionProfitLoss.fulfilled, (state, action) => {
         state.loading = false;
         state.success = true;
-        state.sessionProLoss = action.payload;
+        state.sessionProLoss = action?.payload;
       })
       .addCase(getMatchListSessionProfitLoss.rejected, (state, action) => {
         state.loading = false;
         state.error = action?.error?.message;
       })
       .addCase(updateMatchBetsPlace.fulfilled, (state, action) => {
-        const { jobData } = action.payload;
-        state.placedBetsMatch = state.placedBetsMatch || [];
+        const { jobData } = action?.payload;
+        state.placedBetsMatch = state?.placedBetsMatch || [];
 
-        if (jobData && jobData.newBet) {
-          let obj = jobData.newBet;
+        if (jobData && jobData?.newBet) {
+          let obj = jobData?.newBet;
           obj.user = {
-            userName: jobData.userName,
+            userName: jobData?.userName,
           };
-          obj.myStake = jobData.myStake || 0;
-          state.placedBetsMatch.unshift(obj);
+          obj.myStake = jobData?.myStake || 0;
+          obj.domain = jobData?.domainUrl;
+          state?.placedBetsMatch?.unshift(obj);
         }
       })
       .addCase(updateSessionBetsPlace.fulfilled, (state, action) => {
-        const { jobData } = action.payload;
-        state.placedBetsMatch = state.placedBetsMatch || [];
+        const { jobData } = action?.payload;
+        state.placedBetsMatch = state?.placedBetsMatch || [];
 
         if (jobData && jobData?.placedBet) {
-          let obj = jobData.placedBet;
+          let obj = jobData?.placedBet;
           const partnership = JSON.parse(jobData?.partnership);
           obj.user = {
-            userName: jobData.betPlaceObject?.betPlacedData?.userName,
+            userName: jobData?.betPlaceObject?.betPlacedData?.userName,
             fwPartnership: partnership?.fwPartnership,
             faPartnership: partnership?.faPartnership,
           };
           obj.myStake = parseFloat(jobData?.betPlaceObject?.myStack || 0);
-          state.placedBetsMatch.unshift(obj);
+          obj.domain = jobData?.domainUrl;
+          state?.placedBetsMatch?.unshift(obj);
         }
       })
       .addCase(editSuccessReset, (state) => {
@@ -263,6 +300,123 @@ const matchList = createSlice({
       .addCase(resetMatchListSessionProLoss, (state) => {
         state.success = false;
         state.sessionProLoss = [];
+      })
+      .addCase(getCountryCode.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getCountryCode.fulfilled, (state,action) => {
+        state.loading = false;
+        state.countryCode=action.payload
+      })
+      .addCase(getCountryCode.rejected, (state,action) => {
+        state.loading = false;
+        state.error = action?.error?.message;
+      })
+      .addCase(getRaceList.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getRaceList.fulfilled, (state,action) => {
+        state.loading = false;
+        state.raceList=action.payload
+      })
+      .addCase(getRaceList.rejected, (state,action) => {
+        state.loading = false;
+        state.error = action?.error?.message;
+      })
+      .addCase(raceListReset, (state) => {
+        state.success = false;
+        state.raceList=[];
+      })
+      .addCase(getRaceMatch.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+        state.success = false;
+      })
+      .addCase(getRaceMatch.fulfilled, (state,action) => {
+        state.loading = false;
+        state.success = true;
+        state.raceDetail=action.payload
+      })
+      .addCase(getRaceMatch.rejected, (state,action) => {
+        state.loading = false;
+        state.error = action?.error?.message;
+      })
+      .addCase(updateRaceRates.fulfilled, (state, action) => {
+        const { matchOdd } = action.payload;
+        state.raceDetail = {
+          ...state.raceDetail,
+          matchOdd: {
+            ...state.raceDetail.matchOdd,
+            ...matchOdd,
+            runners: state?.raceDetail?.matchOdd?.runners?.map((item: any) => {
+              const runnersData = matchOdd?.runners?.find(
+                (items: any) => items?.selectionId == item?.selectionId
+              );
+              return {
+                ...item,
+                ...runnersData,
+              };
+            }),
+          },
+        };
+      })
+      .addCase(raceLiveStatus.pending, (state) => {
+        state.loading = true;
+        state.statusBetLive = false;
+        state.error = null;
+      })
+      .addCase(raceLiveStatus.fulfilled, (state) => {
+        state.statusBetLive = true;
+        state.loading = false;
+      })
+      .addCase(raceLiveStatus.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action?.error?.message;
+      })
+      .addCase(updateTeamRatesForHorseRacing.fulfilled, (state, action) => {
+        const { userRedisObj } = action.payload;
+        state.raceDetail = {
+          ...state.raceDetail,
+          profitLossDataMatch: userRedisObj,
+        };
+      })
+      .addCase(
+        updateTeamRatesForHorseRacingOnDelete.fulfilled,
+        (state, action) => {
+          const { teamRate } = action.payload;
+          state.raceDetail = {
+            ...state.raceDetail,
+            profitLossDataMatch: teamRate,
+          };
+        }
+      )
+      .addCase(updateResultStatusOfrace.fulfilled, (state, action) => {
+        const { status,matchId } = action?.payload;
+       if(state.raceDetail.id=== matchId){
+            state.raceDetail = {
+              ...state.raceDetail,
+              resultStatus: status,
+            }
+        }
+      })
+      .addCase(editRace.pending, (state) => {
+        state.loading = true;
+        state.editRaceSuccess = false;
+        state.error = null;
+      })
+      .addCase(editRace.fulfilled, (state) => {
+        state.loading = false;
+        state.editRaceSuccess = true;
+      })
+      .addCase(editRace.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action?.error?.message;
+      })
+      .addCase(resetRaceEdit, (state) => {
+        state.loading = false;
+        state.editRaceSuccess = false;
       });
   },
 });

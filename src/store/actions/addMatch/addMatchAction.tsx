@@ -1,14 +1,14 @@
 import { createAction, createAsyncThunk } from "@reduxjs/toolkit";
 import axios, { AxiosError } from "axios";
 import service from "../../../service";
-import { ApiConstants, Constants } from "../../../utils/Constants";
+import { ApiConstants, addMatchThirdParty } from "../../../utils/Constants";
 
 export const getAllLiveTournaments = createAsyncThunk<any, string>(
   "addMatch/getAllLiveTournaments",
   async (requestData, thunkApi) => {
     try {
       const { data } = await axios.get(
-        `${Constants.addMatchThirdParty}/competitionList?type=${requestData}`
+        `${addMatchThirdParty}/competitionList?type=${requestData}`
       );
       if (data) {
         let tournamentList: any = [
@@ -42,7 +42,7 @@ export const getAllEventsList = createAsyncThunk<any, string>(
   async (requestData, thunkApi) => {
     try {
       const { data } = await axios.get(
-        `${Constants.addMatchThirdParty}/eventList/${requestData}`
+        `${addMatchThirdParty}/eventList/${requestData}`
       );
       if (data) {
         let matchesList: any = [
@@ -77,32 +77,152 @@ export const getAllEventsList = createAsyncThunk<any, string>(
   }
 );
 
-export const getExtraMarketList = createAsyncThunk<any, string>(
+export const getExtraMarketList = createAsyncThunk<any, any>(
   "addMatch/extraMarketList",
   async (requestData, thunkApi) => {
     try {
       const { data } = await axios.get(
-        `${Constants.addMatchThirdParty}/extraMarketList/${requestData}`
+        `${addMatchThirdParty}/extraMarketList/${requestData?.id}?eventType=${requestData?.eventType}`
       );
       if (data) {
-        let extraMarketList: any = {
-          matchOdds: {
-            marketId: data?.find(
-              (match: any) => match?.description?.marketType === "MATCH_ODDS"
-            )?.marketId,
-          },
-          tiedMatch: {
-            marketId: data?.find(
-              (match: any) => match?.description?.marketType === "TIED_MATCH"
-            )?.marketId,
-          },
-          completedMatch: {
-            marketId: data?.find(
-              (match: any) =>
-                match?.description?.marketType === "COMPLETED_MATCH"
-            )?.marketId,
-          },
-        };
+        let extraMarketList: any = {};
+        if (requestData?.eventType === "cricket") {
+          extraMarketList = {
+            matchOdd: {
+              marketId: data?.find(
+                (match: any) => match?.description?.marketType === "MATCH_ODDS"
+              )?.marketId,
+            },
+            apiTideMatch: {
+              marketId: data?.find(
+                (match: any) => match?.description?.marketType === "TIED_MATCH"
+              )?.marketId,
+            },
+            marketCompleteMatch: {
+              marketId: data?.find(
+                (match: any) =>
+                  match?.description?.marketType === "COMPLETED_MATCH"
+              )?.marketId,
+            },
+          };
+        } else if (requestData?.eventType === "football") {
+          extraMarketList = {
+            matchOdd: {
+              marketId: data?.find(
+                (match: any) => match?.description?.marketType === "MATCH_ODDS"
+              )?.marketId,
+            },
+            halfTime: {
+              marketId: data?.find(
+                (match: any) => match?.description?.marketType === "HALF_TIME"
+              )?.marketId,
+            },
+            ...Array.from({ length: 20 }, (_, index: any) => index).reduce(
+              (prev, curr) => {
+                prev[`overUnder${curr}.5`] = {
+                  marketId: data?.find(
+                    (match: any) =>
+                      match?.description?.marketType === `OVER_UNDER_${curr}5`
+                  )?.marketId,
+                };
+                return prev;
+              },
+              {}
+            ),
+            ...Array.from({ length: 20 }, (_, index: any) => index).reduce(
+              (prev, curr) => {
+                prev[`firstHalfGoal${curr}.5`] = {
+                  marketId: data?.find(
+                    (match: any) =>
+                      match?.description?.marketType ===
+                      `FIRST_HALF_GOALS_${curr}5`
+                  )?.marketId,
+                };
+                return prev;
+              },
+              {}
+            ),
+          };
+        } else if (requestData?.eventType === "tennis") {
+          extraMarketList = {
+            matchOdd: {
+              marketId: requestData?.matchOddId,
+            },
+            ...Array.from({ length: 20 }, (_, index: any) => index).reduce(
+              (prev, curr) => {
+                prev[`setWinner${curr}`] = {
+                  marketId: data?.find(
+                    (match: any) =>
+                      match?.description?.marketType === `SET_WINNER` &&
+                      match?.marketName === `Set ${curr} Winner`
+                  )?.marketId,
+                };
+                return prev;
+              },
+              {}
+            ),
+          };
+        }
+        // let extraMarketList: any = {
+        //   matchOdd: {
+        //     marketId: data?.find(
+        //       (match: any) => match?.description?.marketType === "MATCH_ODDS"
+        //     )?.marketId,
+        //   },
+        //   apiTideMatch: {
+        //     marketId: data?.find(
+        //       (match: any) => match?.description?.marketType === "TIED_MATCH"
+        //     )?.marketId,
+        //   },
+        //   marketCompleteMatch: {
+        //     marketId: data?.find(
+        //       (match: any) =>
+        //         match?.description?.marketType === "COMPLETED_MATCH"
+        //     )?.marketId,
+        //   },
+        //   ...Array.from({ length: 20 }, (_, index: any) => index).reduce(
+        //     (prev, curr) => {
+        //       prev[`setWinner${curr}`] = {
+        //         marketId: data?.find(
+        //           (match: any) =>
+        //             match?.description?.marketType === `SET_WINNER` && match?.marketName === `Set ${curr} Winner`
+        //         )?.marketId,
+        //       };
+        //       return prev;
+        //     },
+        //     {}
+        //   ),
+        //   ...Array.from({ length: 20 }, (_, index: any) => index).reduce(
+        //     (prev, curr) => {
+        //       prev[`overUnder${curr}.5`] = {
+        //         marketId: data?.find(
+        //           (match: any) =>
+        //             match?.description?.marketType === `OVER_UNDER_${curr}5`
+        //         )?.marketId,
+        //       };
+        //       return prev;
+        //     },
+        //     {}
+        //   ),
+        //   ...Array.from({ length: 20 }, (_, index: any) => index).reduce(
+        //     (prev, curr) => {
+        //       prev[`firstHalfGoal${curr}.5`] = {
+        //         marketId: data?.find(
+        //           (match: any) =>
+        //             match?.description?.marketType ===
+        //             `FIRST_HALF_GOALS_${curr}5`
+        //         )?.marketId,
+        //       };
+        //       return prev;
+        //     },
+        //     {}
+        //   ),
+        //   halfTime: {
+        //     marketId: data?.find(
+        //       (match: any) => match?.description?.marketType === "HALF_TIME"
+        //     )?.marketId,
+        //   },
+        // };
         return extraMarketList;
       }
     } catch (error) {
@@ -112,11 +232,39 @@ export const getExtraMarketList = createAsyncThunk<any, string>(
   }
 );
 
+export const updateExtraMarketListOnEdit = createAsyncThunk<any, any>(
+  "UpdateExtraMarketListOnEdit",
+  async (requestData) => {
+    return requestData;
+  }
+);
+
+export const updateRaceRunners = createAsyncThunk<any, any>(
+  "updateRaceRunners",
+  async (requestData) => {
+    return requestData;
+  }
+);
+
 export const addMatchExpert = createAsyncThunk<any, any>(
   "addMatchExpert",
   async (requestData, thunkApi) => {
     try {
       const resp = await service.post(`${ApiConstants.MATCH.ADD}`, requestData);
+      if (resp) {
+        return resp?.data;
+      }
+    } catch (error) {
+      const err = error as AxiosError;
+      return thunkApi.rejectWithValue(err.response?.status);
+    }
+  }
+);
+export const addRaceExpert = createAsyncThunk<any, any>(
+  "addRaceExpert",
+  async (requestData, thunkApi) => {
+    try {
+      const resp = await service.post(`${ApiConstants.MATCH.ADD_RACE}`, requestData);
       if (resp) {
         return resp?.data;
       }
@@ -186,21 +334,58 @@ export const removeSessionProLoss = createAsyncThunk<any, any>(
   }
 );
 
-// export const updateMatchBettingStatus = createAsyncThunk<any, any>(
-//   "/match/bettingtatus",
-//   async (betting) => {
-//     return betting;
-//   }
-// );
+export const updateMatchBettingStatus = createAsyncThunk<any, any>(
+  "/match/bettingtatus",
+  async (betting) => {
+    return betting;
+  }
+);
 export const updateRates = createAsyncThunk<any, any>(
   "/match/ratesUpdate",
   async (rates) => {
     return rates;
   }
 );
+export const handleBetResultStatus = createAsyncThunk<any, any>(
+  "/match/betResultStatus",
+  async (data) => {
+    return data;
+  }
+);
+export const updateMatchRatesOnMarketUndeclare = createAsyncThunk<any, any>(
+  "/match/updateOnUndeclare",
+  async (data) => {
+    return data;
+  }
+);
+
+export const getRaceMatches = createAsyncThunk<any, string>(
+  "addMatch/getRaceMatches",
+  async (requestData, thunkApi) => {
+    try {
+      const { data } = await axios.get(
+        `${addMatchThirdParty}/getDirectMatchList?type=${requestData}`
+      );
+      if (data) {
+        return data;
+      }
+    } catch (error) {
+      const err = error as AxiosError;
+      return thunkApi.rejectWithValue(err.response?.status);
+    }
+  }
+);
+
+export const updateRaceRates = createAsyncThunk<any, any>(
+  "/race/rates",
+  async (matchDetails) => {
+    return matchDetails;
+  }
+);
 export const addMatchReset = createAction("add/reset");
 export const editMatchReset = createAction("edit/reset");
 export const matchDetailReset = createAction("matchDetail/reset");
+export const runnerDetailReset = createAction("runnerDetail/reset");
 export const matchDetailSuccessReset = createAction("matchDetailSuccess/reset");
 export const eventListReset = createAction("eventList/reset");
 export const tournamentListReset = createAction("tournamentList/reset");

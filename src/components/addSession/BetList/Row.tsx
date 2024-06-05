@@ -1,22 +1,15 @@
 import { Box, Typography } from "@mui/material";
 import moment from "moment";
 import { formatToINR } from "../../helper";
-const Row = (props: any) => {
-  const { index, values } = props;
-
-  // const getTime = (date: any) => {
-  //   const now = new Date(date);
-  //   const timeString = now.toLocaleTimeString("en-US", {
-  //     hour: "numeric",
-  //     minute: "numeric",
-  //     hour12: true,
-  //   });
-  //   return timeString;
-  // };
+const Row = ({ index, values }: any) => {
   const getTime = (date: any) => {
-    const timeString = moment.utc(date).utcOffset('+05:30').format("hh:mm:ss A");
+    const timeString = moment
+      .utc(date)
+      .utcOffset("+05:30")
+      .format("hh:mm:ss A");
     return timeString;
   };
+
   return (
     <div style={{ display: "flex", position: "relative" }}>
       {values?.deleteReason && (
@@ -203,12 +196,14 @@ const Row = (props: any) => {
           <Typography
             sx={{ fontWeight: "600", fontSize: "14px", color: "white" }}
           >
-            {formatToINR(values?.myStake
-              ? values?.myStake
-              : (
-                  (values?.amount * values?.user?.fwPartnership) /
-                  100
-                ).toFixed())}
+            {formatToINR(
+              values?.myStake
+                ? values?.myStake
+                : (
+                    (values?.amount * values?.user?.fwPartnership) /
+                    100
+                  ).toFixed()
+            )}
           </Typography>
         </Box>
       </Box>

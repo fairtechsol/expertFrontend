@@ -184,7 +184,7 @@ export const getPlacedBets = createAsyncThunk<any, any>(
         }?betPlaced.betId=${requestData}&result=inArr${JSON.stringify([
           "PENDING",
           "UNDECLARE",
-        ])}`
+        ])}&sort=betPlaced.createdAt:DESC`
       );
       if (resp?.data) {
         return resp?.data;

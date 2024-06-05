@@ -1,4 +1,4 @@
-import { Box, useMediaQuery } from "@mui/material";
+import { Box, useMediaQuery, useTheme } from "@mui/material";
 import { memo, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -11,7 +11,11 @@ import RunsBox from "../../components/matchDetails/RunsBox";
 import SessionMarket from "../../components/matchDetails/SessionMarket";
 import SessionMarketLive from "../../components/matchDetails/SessionMarketLive";
 import TiedMatchMarket from "../../components/matchDetails/TiedMatchMarket";
-import { expertSocketService, socketService } from "../../socketManager";
+import {
+  expertSocketService,
+  socket,
+  socketService,
+} from "../../socketManager";
 import {
   getMatchDetail,
   removeSessionProLoss,
@@ -36,7 +40,6 @@ import {
   updateTeamRates,
 } from "../../store/actions/match/matchAction";
 import { AppDispatch, RootState } from "../../store/store";
-import theme from "../../theme";
 
 const MatchDetails = () => {
   const { state } = useLocation();
@@ -46,6 +49,7 @@ const MatchDetails = () => {
   const { matchDetail, loading, success } = useSelector(
     (state: RootState) => state.addMatch.addMatch
   );
+  const theme = useTheme();
   const matchesMobile = useMediaQuery(theme.breakpoints.down("lg"));
   const { placedBetsMatch } = useSelector(
     (state: RootState) => state.matchList
@@ -220,9 +224,12 @@ const MatchDetails = () => {
     }
   }, [state?.id]);
 
+  console.log("isSocket ative;", socket?.active);
+  console.log("isSocket ative;");
+
   useEffect(() => {
     try {
-      if (success) {
+      if (success && socket) {
         expertSocketService.match.getMatchRatesOff(state?.id);
         // socketService.user.matchBettingStatusChangeOff();
         socketService.user.matchResultDeclaredOff();
@@ -252,7 +259,7 @@ const MatchDetails = () => {
     } catch (e) {
       console.log(e);
     }
-  }, [success]);
+  }, [success, socket]);
 
   useEffect(() => {
     try {
@@ -351,10 +358,6 @@ const MatchDetails = () => {
                   >
                     <SessionMarketLive
                       title={"Session API Market"}
-                      hideTotalBet={true}
-                      liveOnly={true}
-                      stopAllHide={true}
-                      hideResult={true}
                       sessionData={matchDetail?.apiSession}
                       currentMatch={matchDetail}
                     />
@@ -435,21 +438,9 @@ const MatchDetails = () => {
                   >
                     <SessionMarketLive
                       title={"Session API Market"}
-                      hideTotalBet={true}
-                      liveOnly={true}
-                      stopAllHide={true}
-                      hideResult={true}
                       sessionData={matchDetail?.apiSession}
                       currentMatch={matchDetail}
                     />
-                    {/* </Box>
-                <Box
-                  sx={{
-                    width: { lg: "50%", xs: "100%", md: "100%" },
-                    flexDirection: "column",
-                    display: "flex",
-                  }}
-                > */}
                     <SessionMarket
                       setIObtes={() => {}}
                       title={"Session Market"}
@@ -513,18 +504,21 @@ const MatchDetails = () => {
               <BookMarket
                 currentMatch={matchDetail}
                 liveData={matchDetail?.bookmaker}
+                title={"Bookmaker Market"}
               />
             )}
             {matchDetail?.apiTideMatch?.isActive && (
               <TiedMatchMarket
                 currentMatch={matchDetail}
                 liveData={matchDetail?.apiTideMatch}
+                title={"Tied Match Market"}
               />
             )}
             {matchDetail?.marketCompleteMatch?.isActive && (
               <CompleteMatchMarket
                 currentMatch={matchDetail}
                 liveData={matchDetail?.marketCompleteMatch}
+                title={"Complete Match Market"}
               />
             )}
 

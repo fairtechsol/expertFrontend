@@ -26,6 +26,7 @@ import {
   updateSessionProfitLoss,
   updateTeamRatesOnManualMarket,
 } from "../../actions/addSession";
+import { profitLossDataForMatchConstants } from "../../../utils/Constants";
 
 interface InitialState {
   sessionById: any;
@@ -64,9 +65,9 @@ export const addSessionReducers = createReducer(initialState, (builder) => {
       state.addSuccess = false;
     })
     .addCase(addSession.fulfilled, (state, action) => {
-      state.sessionById = action.payload;
-      state.selectedSessionId = action.payload?.id;
-      state.selectedMatchId = action.payload.matchId;
+      state.sessionById = action?.payload;
+      state.selectedSessionId = action?.payload?.id;
+      state.selectedMatchId = action?.payload?.matchId;
       state.loading = false;
       state.addSuccess = true;
     })
@@ -80,7 +81,7 @@ export const addSessionReducers = createReducer(initialState, (builder) => {
       state.sessionById = null;
     })
     .addCase(getSessionById.fulfilled, (state, action) => {
-      state.sessionById = action.payload;
+      state.sessionById = action?.payload;
       state.loading = false;
       state.getSessionSuccess = true;
     })
@@ -96,20 +97,20 @@ export const addSessionReducers = createReducer(initialState, (builder) => {
     .addCase(getSessionProfitLoss.fulfilled, (state, action) => {
       state.loading = false;
       state.success = true;
-      state.sessionProfitLoss = action.payload;
+      state.sessionProfitLoss = action?.payload;
     })
     .addCase(getSessionProfitLoss.rejected, (state) => {
       state.loading = false;
     })
     .addCase(setCurrentOdd.fulfilled, (state, action) => {
-      state.currentOdd = action.payload;
+      state.currentOdd = action?.payload;
     })
     .addCase(getBookmakerById.pending, (state) => {
       state.loading = true;
       state.success = false;
     })
     .addCase(getBookmakerById.fulfilled, (state, action) => {
-      state.bookmakerById = action.payload;
+      state.bookmakerById = action?.payload;
       state.loading = false;
       state.success = true;
     })
@@ -123,61 +124,61 @@ export const addSessionReducers = createReducer(initialState, (builder) => {
     .addCase(getPlacedBets.fulfilled, (state, action) => {
       state.loading = false;
       state.success = true;
-      state.placedBets = action.payload;
+      state.placedBets = action?.payload;
     })
     .addCase(getPlacedBets.rejected, (state) => {
       state.loading = true;
       state.success = false;
     })
     .addCase(updateDeleteReason.fulfilled, (state, action) => {
-      const { betPlacedId, deleteReason } = action.payload;
+      const { betPlacedId, deleteReason } = action?.payload;
       const updateDeleteReason = (bet: any) => {
-        if (betPlacedId.includes(bet.id)) {
+        if (betPlacedId?.includes(bet?.id)) {
           bet.deleteReason = deleteReason;
         }
 
         return bet;
       };
 
-      const updatedBetPlaced = state.placedBets.map(updateDeleteReason);
+      const updatedBetPlaced = state.placedBets?.map(updateDeleteReason);
 
       state.placedBets = Array.from(new Set(updatedBetPlaced));
     })
     .addCase(updateBetsPlaced.fulfilled, (state, action) => {
-      const { partnership } = action.payload;
+      const { partnership } = action?.payload;
       const fpartnerShip = JSON.parse(partnership);
       let objToUpdate = {
         ...action.payload.placedBet,
-        myStake: +action.payload.betPlaceObject.myStack,
+        myStake: +action?.payload?.betPlaceObject?.myStack,
         user: {
-          userName: action.payload.betPlaceObject.betPlacedData.userName,
+          userName: action?.payload?.betPlaceObject?.betPlacedData?.userName,
           fwPartnership: Number(fpartnerShip?.fwPartnership),
         },
       };
 
-      const id = objToUpdate.id;
+      const id = objToUpdate?.id;
 
-      if (!state.placedBets.some((item: any) => item.id === id)) {
+      if (!state?.placedBets?.some((item: any) => item?.id === id)) {
         state.placedBets = [objToUpdate, ...state.placedBets];
       }
     })
     .addCase(updateMatchBetsPlaced.fulfilled, (state, action) => {
-      const { jobData } = action.payload;
+      const { jobData } = action?.payload;
       let objToUpdate = {
         ...jobData.newBet,
-        myStake: +jobData.myStake,
+        myStake: +jobData?.myStake,
         user: {
-          userName: jobData.userName,
+          userName: jobData?.userName,
         },
       };
-      const id = objToUpdate.id;
+      const id = objToUpdate?.id;
 
-      if (!state.placedBets.find((item: any) => item.id === id)) {
+      if (!state.placedBets?.find((item: any) => item?.id === id)) {
         state.placedBets = [objToUpdate, ...state.placedBets];
       }
     })
     .addCase(updateTeamRatesOnManualMarket.fulfilled, (state, action) => {
-      const { userRedisObj, jobData } = action.payload;
+      const { userRedisObj, jobData } = action?.payload;
       if (["tiedMatch2", "tiedMatch1"].includes(jobData?.newBet?.marketType)) {
         state.bookmakerById.matchRates = {
           ...state.bookmakerById.matchRates,
@@ -196,15 +197,15 @@ export const addSessionReducers = createReducer(initialState, (builder) => {
     .addCase(updateSessionById.fulfilled, (state, action) => {
       state.sessionById = {
         ...state.sessionById,
-        activeStatus: action.payload.activeStatus,
-        result: action.payload.score,
-        resultStatus: action.payload.resultStatus
-          ? action.payload.resultStatus
+        activeStatus: action?.payload?.activeStatus,
+        result: action?.payload?.score,
+        resultStatus: action?.payload?.resultStatus
+          ? action?.payload?.resultStatus
           : null,
       };
     })
     .addCase(updateSessionProfitLoss.fulfilled, (state, action) => {
-      state.sessionProfitLoss = action.payload;
+      state.sessionProfitLoss = action?.payload;
     })
     .addCase(sessionByIdReset, (state) => {
       state.success = false;
@@ -221,37 +222,33 @@ export const addSessionReducers = createReducer(initialState, (builder) => {
       state.getSessionSuccess = false;
     })
     .addCase(updateSessionByIdForUndeclare.fulfilled, (state, action) => {
-      state.selectedSessionId = action.payload;
+      state.selectedSessionId = action?.payload;
     })
     .addCase(resetPlacedBets, (state) => {
       state.placedBets = [];
       state.sessionProfitLoss = [];
     })
     .addCase(updateRatesBook.fulfilled, (state, action) => {
-      const { redisObject, matchBetType } = action.payload;
-      if (["tiedMatch2", "tiedMatch1"].includes(matchBetType)) {
-        state.bookmakerById.matchRates = {
-          ...state.bookmakerById.matchRates,
-          yesRateTie: redisObject[action.payload.teamArateRedisKey],
-          noRateTie: redisObject[action.payload.teamBrateRedisKey],
-        };
-      } else if (["completeMatch"].includes(matchBetType)) {
-        state.bookmakerById.matchRates = {
-          ...state.bookmakerById.matchRates,
-          yesRateComplete: redisObject[action.payload.teamArateRedisKey],
-          noRateComplete: redisObject[action.payload.teamBrateRedisKey],
-        };
-      } else {
-        state.bookmakerById.matchRates = {
-          ...state.bookmakerById.matchRates,
-          teamARate: redisObject[action.payload.teamArateRedisKey],
-          teamBRate: redisObject[action.payload.teamBrateRedisKey],
-          teamCRate: redisObject[action.payload.teamCrateRedisKey],
-        };
-      }
+      const {
+        redisObject,
+        matchBetType,
+        teamArateRedisKey,
+        teamBrateRedisKey,
+        teamCrateRedisKey,
+      } = action?.payload;
+
+      state.bookmakerById.matchRates = {
+        ...state.bookmakerById.matchRates,
+        [profitLossDataForMatchConstants[matchBetType].A]:
+          redisObject[teamArateRedisKey],
+        [profitLossDataForMatchConstants[matchBetType].B]:
+          redisObject[teamBrateRedisKey],
+        [profitLossDataForMatchConstants[matchBetType].C]:
+          redisObject[teamCrateRedisKey],
+      };
     })
     .addCase(updateProLossSession.fulfilled, (state, action) => {
-      const { profitLoss } = action.payload;
+      const { profitLoss } = action?.payload;
       state.sessionProfitLoss = profitLoss;
     })
     .addCase(updateSession.pending, (state) => {
@@ -259,7 +256,7 @@ export const addSessionReducers = createReducer(initialState, (builder) => {
       state.maxLimitUpdateSuccess = false;
     })
     .addCase(updateSession.fulfilled, (state, action) => {
-      const { maxBet, id } = action.payload;
+      const { maxBet, id } = action?.payload;
       const { sessionById } = state;
 
       if (id === sessionById?.id) {
@@ -278,7 +275,7 @@ export const addSessionReducers = createReducer(initialState, (builder) => {
       state.loading = false;
     })
     .addCase(updateSessionMaxLimit.fulfilled, (state, action) => {
-      const { maxBet, id } = action.payload;
+      const { maxBet, id } = action?.payload;
       const { sessionById } = state;
 
       if (id === sessionById?.id) {
@@ -294,7 +291,7 @@ export const addSessionReducers = createReducer(initialState, (builder) => {
       state.maxLimitUpdateSuccess = false;
     })
     .addCase(updateResultStatusOfSessionById.fulfilled, (state, action) => {
-      const { status, betId } = action.payload;
+      const { status, betId } = action?.payload;
       if (betId === state.sessionById?.id) {
         state.sessionById = {
           ...state.sessionById,
@@ -303,6 +300,8 @@ export const addSessionReducers = createReducer(initialState, (builder) => {
       }
     })
     .addCase(updateResultStatusOfQuickBookmaker.fulfilled, (state, action) => {
-    state.bookmakerById['resultStatus'] = action.payload.status;
+      if (state.bookmakerById?.id === action.payload?.betId) {
+        state.bookmakerById["resultStatus"] = action?.payload?.status;
+      }
     });
 });

@@ -1,107 +1,128 @@
 import { Box, Typography } from "@mui/material";
+import moment from "moment";
 import { useEffect, useState } from "react";
 import { ARROWUP } from "../../../assets";
-import moment from "moment";
+import { formatToINR } from "../../helper";
 import HeaderRow from "./HeaderRow";
 import Row from "./Row";
-import { formatToINR } from "../../helper";
+import { customBetSort } from "../../../helpers";
 
-const BetList = ({ tag, submit, allBetRates }: any) => {
+const BetList = ({ tag, allBetRates }: any) => {
   const [newData, setNewBets] = useState([]);
   const [visibleImg, setVisibleImg] = useState(true);
 
   useEffect(() => {
     if (allBetRates) {
-      const body = allBetRates?.map((v: any) => {
-        const values = {
-          values: [
-            {
-              name: v?.user?.userName,
-              color: ["NO", "YES"].includes(v?.betType) ? "#FFF" : "black",
-              background: ["NO", "YES"].includes(v?.betType)
-                ? "#319E5B"
-                : "#F1C550",
-              deleteReason: v?.deleteReason,
-              width: { lg: "12%", xs: "30%" },
-            },
-            {
-              name:
-                v?.marketType == "MANUAL BOOKMAKER"
-                  ? "Quick Bookmaker"
-                  : v?.bettingName ?? v?.marketType,
-              color: ["NO", "YES"].includes(v?.betType) ? "#FFF" : "black",
-              background: ["NO", "YES"].includes(v?.betType)
-                ? "#319E5B"
-                : "#F1C550",
-              deleteReason: v?.deleteReason,
-              width: { lg: "20%", xs: "35%" },
-            },
-            {
-              name: v?.teamName,
-              color: "black",
-              background: ["YES", "BACK"].includes(v?.betType)
-                ? "#B3E0FF"
-                : "rgb(255, 146, 146)",
-              deleteReason: v?.deleteReason,
-              width: { lg: "13%", xs: "50%" },
-            },
-            {
-              name: v?.odds,
-              color: "black",
-              rate: (v?.betType === "NO" || v?.betType === "YES") && v?.rate,
-              background: ["YES", "BACK"].includes(v?.betType)
-                ? "#B3E0FF"
-                : "rgb(255, 146, 146)",
-              small: true,
-              deleteReason: v?.deleteReason,
-              width: { lg: "7%", xs: "35%" },
-              fSize: "13px",
-              lHeight: 1,
-            },
-            {
-              name: v?.betType,
-              color: "black",
-              background: ["YES", "BACK"].includes(v?.betType)
-                ? "#B3E0FF"
-                : "rgb(255, 146, 146)",
-              small: true,
-              deleteReason: v?.deleteReason,
-              width: { lg: "7%", xs: "35%" },
-            },
-            {
-              name: formatToINR(v?.amount),
-              color: "black",
-              background: ["YES", "BACK"].includes(v?.betType)
-                ? "#B3E0FF"
-                : "rgb(255, 146, 146)",
-              deleteReason: v?.deleteReason,
-              width: { lg: "17%", xs: "35%" },
-              fSize: "12px",
-            },
-            {
-              name: +v.myStake
-                ? +v.myStake
-                : (+v?.amount * +v?.user?.fwPartnership || 0) / 100,
-              color: "white",
-              background: "#0B4F26",
-              deleteReason: v?.deleteReason,
-              width: { lg: "14%", xs: "35%" },
-            },
-            {
-              name:moment.utc(v?.createdAt).utcOffset('+05:30').format('LTS'),
-              color: "black",
-              background: ["YES", "BACK"].includes(v?.betType)
-                ? "#B3E0FF"
-                : "rgb(255, 146, 146)",
-              time: true,
-              date: moment.utc(v?.createdAt).utcOffset('+05:30').format("L"),
-              deleteReason: v?.deleteReason,
-              width: { lg: "10%", xs: "35%" },
-            },
-          ],
-        };
-        return values;
-      });
+      const body = allBetRates
+        ?.slice()
+        .sort(customBetSort)
+        ?.map((v: any) => {
+          const values = {
+            values: [
+              {
+                name: v?.user?.userName,
+                color: ["NO", "YES"].includes(v?.betType) ? "#FFF" : "black",
+                background: ["NO", "YES"].includes(v?.betType)
+                  ? "#319E5B"
+                  : v?.marketType === "completeMatch" ||
+                    v?.marketType === "tiedMatch2" ||
+                    v?.marketType === "tiedMatch1"
+                  ? "#faf11b"
+                  : "#F1C550",
+                deleteReason: v?.deleteReason,
+                width: { lg: "16%", xs: "50%" },
+                domain:v?.domain,
+              },
+              {
+                name:
+                  v?.marketType == "MANUAL BOOKMAKER"
+                    ? "Quick Bookmaker"
+                    : v?.bettingName ?? v?.marketType,
+                color: ["NO", "YES"].includes(v?.betType) ? "#FFF" : "black",
+                background: ["NO", "YES"].includes(v?.betType)
+                  ? "#319E5B"
+                  : v?.marketType === "completeMatch" ||
+                    v?.marketType === "tiedMatch2" ||
+                    v?.marketType === "tiedMatch1"
+                  ? "#faf11b"
+                  : "#F1C550",
+                deleteReason: v?.deleteReason,
+                width: { lg: "17%", xs: "35%" },
+                overflowWrap: "anywhere",
+              },
+              {
+                name: v?.teamName,
+                color: "black",
+                background: ["YES", "BACK"].includes(v?.betType)
+                  ? "#B3E0FF"
+                  : "rgb(255, 146, 146)",
+                deleteReason: v?.deleteReason,
+                width: { lg: "20%", xs: "50%" },
+                overflowWrap: "anywhere",
+                textAlign: "center",
+              },
+              {
+                name: v?.odds,
+                color: "black",
+                rate: (v?.betType === "NO" || v?.betType === "YES") && v?.rate,
+                background: ["YES", "BACK"].includes(v?.betType)
+                  ? "#B3E0FF"
+                  : "rgb(255, 146, 146)",
+                small: true,
+                deleteReason: v?.deleteReason,
+                width: { lg: "7%", xs: "35%" },
+                fSize: "13px",
+                lHeight: 1,
+              },
+              {
+                name: v?.betType,
+                color: "black",
+                background: ["YES", "BACK"].includes(v?.betType)
+                  ? "#B3E0FF"
+                  : "rgb(255, 146, 146)",
+                small: true,
+                deleteReason: v?.deleteReason,
+                width: { lg: "7%", xs: "35%" },
+              },
+              {
+                name: formatToINR(v?.amount),
+                color: "black",
+                background: ["YES", "BACK"].includes(v?.betType)
+                  ? "#B3E0FF"
+                  : "rgb(255, 146, 146)",
+                deleteReason: v?.deleteReason,
+                width: { lg: "10%", xs: "35%" },
+                fSize: "12px",
+              },
+              {
+                name: +v.myStake
+                  ? formatToINR(+v.myStake)
+                  : formatToINR(
+                      (+v?.amount * +v?.user?.fwPartnership || 0) / 100
+                    ),
+                color: "white",
+                background: "#0B4F26",
+                deleteReason: v?.deleteReason,
+                width: { lg: "12%", xs: "35%" },
+              },
+              {
+                name: moment
+                  .utc(v?.createdAt)
+                  .utcOffset("+05:30")
+                  .format("LTS"),
+                color: "black",
+                background: ["YES", "BACK"].includes(v?.betType)
+                  ? "#B3E0FF"
+                  : "rgb(255, 146, 146)",
+                time: true,
+                date: moment.utc(v?.createdAt).utcOffset("+05:30").format("L"),
+                deleteReason: v?.deleteReason,
+                width: { lg: "11%", xs: "35%" },
+              },
+            ],
+          };
+          return values;
+        });
 
       setNewBets(body);
     }
@@ -112,8 +133,7 @@ const BetList = ({ tag, submit, allBetRates }: any) => {
       sx={{
         width: "100%",
         margin: "0",
-        marginTop: submit ? "10px" : ".25vh",
-
+        marginTop: ".25vh",
         background: "white",
       }}
     >
@@ -207,100 +227,99 @@ const BetList = ({ tag, submit, allBetRates }: any) => {
         </Box>
       </Box>
       <Box
-         sx={{
-          overflowX: {xs:"scroll", lg: "initial"},
+        sx={{
+          overflowX: { xs: "scroll", lg: "auto" },
           width: "100%",
         }}
       >
-      {visibleImg && (
-        <>
-       
-          <Box
-            sx={{
-              maxHeight: submit ? "300px" : "500px",
-              width: {xs:"100vh", lg: "auto", md: "140vh"},
-            }}
-          >
-            <HeaderRow tag={tag} />
+        {visibleImg && (
+          <>
+            <Box
+              sx={{
+                maxHeight: "80vh",
+                width: { xs: "100vw", lg: "auto", md: "140vw" },
+                overflow: "auto",
+              }}
+            >
+              <HeaderRow tag={tag} />
 
-            {newData?.length > 0 &&
-              newData?.map((i: any, k: any) => {
-                const num = newData?.length - k;
-                return (
-                  <div
-                    key={k}
-                    style={{ display: "flex", position: "relative" }}
-                  >
-                    <Box
-                      sx={{
-                        width: { lg: "4%", xs: "6%" },
-                        border: "1px solid white",
-                        background: "black",
-                        height: "30px",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        display: "flex",
-                      }}
+              {newData?.length > 0 &&
+                newData?.map((i: any, k: any) => {
+                  const num = newData?.length - k;
+                  return (
+                    <div
+                      key={k}
+                      style={{ display: "flex", position: "relative" }}
                     >
-                      <Typography
-                        sx={{
-                          fontSize: !tag ? "10px" : "13px",
-                          fontWeight: tag ? "bold" : "600",
-                          color: "white",
-                        }}
-                      >
-                        {num < 10 ? "0" + num : num.toString()}
-                      </Typography>
-                    </Box>
-                    <Row index={k} values={i.values} />
-                    {i?.values[0]?.deleteReason && (
                       <Box
                         sx={{
-                          background: "rgba(0,0,0,0.5)",
-                          width: "100%",
+                          width: { lg: "4%", xs: "6%" },
+                          border: "1px solid white",
+                          background: "black",
                           height: "30px",
-                          position: "absolute",
+                          justifyContent: "center",
+                          alignItems: "center",
                           display: "flex",
                         }}
                       >
-                        <Box sx={{ flex: 1, display: "flex" }}>
-                          <Box sx={{ width: "34%", height: "30px" }}></Box>
-                          <Box
-                            sx={{
-                              width: "66%",
-                              height: "30px",
-                              display: "flex",
-                              justifyContent: "center",
-                              alignItems: "flex-end",
-                            }}
-                          >
-                            {
-                              <Typography
-                                sx={{
-                                  fontSize: "10px",
-                                  fontWeight: "700",
-                                  color: "white",
-                                  textTransform: "uppercase",
-                                }}
-                              >
-                                Bet{" "}
-                                <span style={{ color: "#e41b23" }}>
-                                  deleted
-                                </span>{" "}
-                                due to {i?.values[0]?.deleteReason}
-                              </Typography>
-                            }
+                        <Typography
+                          sx={{
+                            fontSize: !tag ? "10px" : "13px",
+                            fontWeight: tag ? "bold" : "600",
+                            color: "white",
+                          }}
+                        >
+                          {num < 10 ? "0" + num : num.toString()}
+                        </Typography>
+                      </Box>
+                      <Row index={k} values={i?.values} />
+                      {i?.values[0]?.deleteReason && (
+                        <Box
+                          sx={{
+                            background: "rgba(0,0,0,0.5)",
+                            width: "100%",
+                            height: "30px",
+                            position: "absolute",
+                            display: "flex",
+                          }}
+                        >
+                          <Box sx={{ flex: 1, display: "flex" }}>
+                            <Box sx={{ width: "34%", height: "30px" }}></Box>
+                            <Box
+                              sx={{
+                                width: "66%",
+                                height: "30px",
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "flex-end",
+                              }}
+                            >
+                              {
+                                <Typography
+                                  sx={{
+                                    fontSize: "10px",
+                                    fontWeight: "700",
+                                    color: "white",
+                                    textTransform: "uppercase",
+                                  }}
+                                >
+                                  Bet{" "}
+                                  <span style={{ color: "#e41b23" }}>
+                                    deleted
+                                  </span>{" "}
+                                  due to {i?.values[0]?.deleteReason}
+                                </Typography>
+                              }
+                            </Box>
                           </Box>
                         </Box>
-                      </Box>
-                    )}
-                  </div>
-                );
-              })}
-          </Box>
-
-        </>
-      )}
+                      )}
+                    </div>
+                  );
+                })}
+            </Box>
+          </>
+        )}
       </Box>
     </Box>
   );

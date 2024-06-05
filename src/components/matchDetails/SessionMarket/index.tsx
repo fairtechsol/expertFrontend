@@ -8,25 +8,20 @@ import { sessionBetLiveStatus } from "../../../store/actions/match/matchAction";
 import { AppDispatch } from "../../../store/store";
 import { useDispatch } from "react-redux";
 import { customSort } from "../../../helpers";
-import { formatToINR } from "../../helper";
+// import { formatToINR } from "../../helper";
 
 const SessionMarket = ({
   currentMatch,
-  liveOnly,
-  setCurrentMatch,
-  setLocalState,
   hideResult,
   stopAllHide,
   title,
   hideTotalBet,
   sessionData,
-  setIObtes,
-  setData,
-  setLocalSessionExpertOdds,
   profitLossData,
+  hideEditMaxButton,
+  maxHeight,
 }: any) => {
   const dispatch: AppDispatch = useDispatch();
-  const [stop, setStop] = useState(true);
   const [visible, setVisible] = useState(true);
 
   return (
@@ -37,13 +32,13 @@ const SessionMarket = ({
         flexDirection: "column",
         marginY: { lg: ".5vh" },
         width: "100%",
-        height: { lg: "98%", xs: "50%" },
         alignSelf: {
           xs: "center",
           md: "center",
           lg: "flex-start",
           boxShadow: "0px 5px 10px #0000001A",
         },
+        marginBottom: "1rem",
       }}
     >
       <Box
@@ -100,7 +95,6 @@ const SessionMarket = ({
           sx={{
             flex: 1,
             background: "#262626",
-            // '#262626' ,
             display: "flex",
             alignItems: "center",
             justifyContent: "flex-end",
@@ -159,7 +153,7 @@ const SessionMarket = ({
                     marginLeft: "7px",
                   }}
                 >
-                  MIN: {formatToINR(currentMatch?.betFairSessionMinBet)}
+                  {/* MIN: {formatToINR(currentMatch?.betFairSessionMinBet)} */}
                   {/* MAX:
                   {formatToINR(currentMatch?.betFairSessionMaxBet)} */}
                 </Typography>
@@ -170,7 +164,7 @@ const SessionMarket = ({
                   background: "#319E5B",
                   height: "25px",
                   // marginLeft: "0vw",
-                  width: { lg: "40%", xs: "80%", },
+                  width: { lg: "40%", xs: "80%" },
                   justifyContent: { lg: "flex-start", xs: "flex-end" },
                   marginRight: { xs: "24%", lg: "7%", md: "23%" },
                   marginLeft: { xs: "-10%", lg: "7%", md: "2%" },
@@ -218,8 +212,11 @@ const SessionMarket = ({
               flexDirection: "column",
               width: "100%",
               position: "relative",
-              maxHeight: { lg: "85vh", xs: "40vh" },
+              maxHeight: { lg: maxHeight ? maxHeight : "30vh", xs: "40vh" },
               overflowY: "auto",
+              "::-webkit-scrollbar": {
+                display: "none",
+              },
               // maxHeight: "300px",
               // overflowY: "scroll",
             }}
@@ -233,20 +230,12 @@ const SessionMarket = ({
                     return (
                       <Box key={JSON.parse(match)?.id}>
                         <SessionMarketBox
-                          liveOnly={liveOnly}
-                          setIObtes={setIObtes}
-                          setData={setData}
                           hideResult={hideResult}
                           hideTotalBet={hideTotalBet}
-                          setMatchSessionData={setLocalSessionExpertOdds}
-                          setLocalState={(val: any) => setLocalState(val)}
-                          currentMatch={currentMatch}
-                          setCurrentMatch={setCurrentMatch}
                           newData={JSON.parse(match)}
-                          setStop={setStop}
-                          stop={stop}
                           profitLossData={profitLossData}
                           index={index}
+                          hideEditMaxButton={hideEditMaxButton}
                         />
                         <Divider />
                       </Box>

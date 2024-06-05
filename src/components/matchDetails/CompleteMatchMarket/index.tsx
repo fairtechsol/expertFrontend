@@ -1,16 +1,16 @@
 import { Box, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { ARROWUP } from "../../../assets";
+import { betLiveStatus } from "../../../store/actions/match/matchAction";
+import { AppDispatch } from "../../../store/store";
+import Divider from "../../Common/Divider";
+import { formatToINR } from "../../helper";
+import BoxComponent from "../MatchOdds/BoxComponent";
 import Stop from "../SessionMarket/Stop";
 import SmallBox from "../SmallBox";
-import { ARROWUP } from "../../../assets";
-import Divider from "../../Common/Divider";
-import BoxComponent from "../MatchOdds/BoxComponent";
-import { betLiveStatus } from "../../../store/actions/match/matchAction";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "../../../store/store";
-import { formatToINR } from "../../helper";
 
-const CompleteMatchMarket = ({ currentMatch, liveData }: any) => {
+const CompleteMatchMarket = ({ currentMatch, liveData, title }: any) => {
   const dispatch: AppDispatch = useDispatch();
   const [visibleImg, setVisibleImg] = useState(true);
   const [live, setLive] = useState(
@@ -63,7 +63,7 @@ const CompleteMatchMarket = ({ currentMatch, liveData }: any) => {
               marginLeft: "7px",
             }}
           >
-            Complete Match Market
+            {title}
           </Typography>
           {/* <img src={LOCKED} style={{ width: '14px', height: '20px' }} /> */}
           <Stop
@@ -72,6 +72,7 @@ const CompleteMatchMarket = ({ currentMatch, liveData }: any) => {
                 betLiveStatus({
                   isStop: true,
                   betId: liveData?.id,
+                  isManual: false,
                 })
               );
               setLive(false);
@@ -97,25 +98,28 @@ const CompleteMatchMarket = ({ currentMatch, liveData }: any) => {
             justifyContent: "flex-end",
           }}
         >
-          <>
-            <SmallBox
-              onClick={() => {
-                dispatch(
-                  betLiveStatus({
-                    isStop: live,
-                    betId: liveData?.id,
-                  })
-                );
-                setLive(!live);
-              }}
-              width={"80px"}
-              title={live ? "Live" : "Go Live"}
-              color={live ? "#46e080" : "#FF4D4D"}
-              customStyle={{
-                justifyContent: "center",
-              }}
-            />
-          </>
+          {!currentMatch?.stopAt && (
+            <>
+              <SmallBox
+                onClick={() => {
+                  dispatch(
+                    betLiveStatus({
+                      isStop: live,
+                      betId: liveData?.id,
+                      isManual: false,
+                    })
+                  );
+                  setLive(!live);
+                }}
+                width={"80px"}
+                title={live ? "Live" : "Go Live"}
+                color={live ? "#46e080" : "#FF4D4D"}
+                customStyle={{
+                  justifyContent: "center",
+                }}
+              />
+            </>
+          )}
           <img
             onClick={() => {
               setVisibleImg(!visibleImg);
@@ -249,6 +253,29 @@ const CompleteMatchMarket = ({ currentMatch, liveData }: any) => {
                 }}
               ></Box>
             )}
+            {currentMatch?.resultStatus &&
+              currentMatch?.resultStatus[liveData?.id]?.status && (
+                <Box
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    width: "100%",
+                    position: "absolute",
+                    height: "100%",
+                    bottom: 0,
+                    color: "#fff",
+                    backgroundColor: "rgba(203 24 24 / 70%)",
+                  }}
+                >
+                  <Typography sx={{ color: "#fff" }}>
+                    RESULT{" "}
+                    {liveData?.stopAt || liveData?.activeStatus === "result"
+                      ? "DECLARED"
+                      : currentMatch?.resultStatus[liveData?.id]?.status}
+                  </Typography>
+                </Box>
+              )}
           </Box>
         </>
       )}

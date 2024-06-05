@@ -44,11 +44,13 @@ export const getMatchListSessionProfitLoss = createAsyncThunk<any, any>(
     }
   }
 );
-export const getMatchListDropdown = createAsyncThunk<any>(
+export const getMatchListDropdown = createAsyncThunk<any, any>(
   "/match/listDropdown",
-  async (_, thunkApi) => {
+  async (requestData, thunkApi) => {
     try {
-      const response = await service.get(`${ApiConstants.MATCH.DROPDOWNLIST}`);
+      const response = await service.get(
+        `${ApiConstants.MATCH.DROPDOWNLIST}?matchType=${requestData}`
+      );
       if (response) {
         return response?.data?.matches;
       }
@@ -104,7 +106,28 @@ export const getPlacedBetsMatch = createAsyncThunk<any, any>(
         }?betPlaced.matchId=${requestData}&result=inArr${JSON.stringify([
           "PENDING",
           "UNDECLARE",
-        ])}`
+        ])}&sort=betPlaced.createdAt:DESC`
+      );
+      if (response?.data) {
+        return response?.data;
+      }
+    } catch (error) {
+      const err = error as AxiosError;
+      return thunkApi.rejectWithValue(err.response?.status);
+    }
+  }
+);
+export const getPlacedBetsForSessionDetail = createAsyncThunk<any, any>(
+  "placedBets/sessionDetail",
+  async (requestData, thunkApi) => {
+    try {
+      const response = await service.get(
+        `${
+          ApiConstants.MATCH.GET_BETS
+        }?betPlaced.matchId=${requestData}&result=inArr${JSON.stringify([
+          "PENDING",
+          "UNDECLARE",
+        ])}&marketBetType=eqSESSION`
       );
       if (response?.data) {
         return response?.data;
@@ -221,7 +244,23 @@ export const editMatch = createAsyncThunk<any, any>(
     }
   }
 );
-
+export const editRace = createAsyncThunk<any, any>(
+  "/race/edit",
+  async (requestData, thunkApi) => {
+    try {
+      const response = await service.post(
+        `${ApiConstants.MATCH.EDIT_RACE}`,
+        requestData
+      );
+      if (response) {
+        return response.data;
+      }
+    } catch (error) {
+      const err = error as AxiosError;
+      return thunkApi.rejectWithValue(err.response?.status);
+    }
+  }
+);
 export const getSessionProfitLossMatchDetail = createAsyncThunk<any, any>(
   "get/sessionProfitLossForMatchDetail",
   async (requestData, thunkApi) => {
@@ -249,12 +288,84 @@ export const getSessionProfitLossMatchDetail = createAsyncThunk<any, any>(
   }
 );
 
+export const getCountryCode = createAsyncThunk<any, any>(
+  "/match/countryCode",
+  async (requestData, thunkApi) => {
+    try {
+      const response = await service.get(
+        `${ApiConstants.MATCH.GET_COUNTRY_CODE}?date=${requestData.date}&matchType=${requestData.matchType}`
+      );
+      if (response) {
+        return response.data;
+      }
+    } catch (error) {
+      const err = error as AxiosError;
+      return thunkApi.rejectWithValue(err.response?.status);
+    }
+  }
+);
+export const getRaceList = createAsyncThunk<any, any>(
+  "/match/raceList",
+  async (requestData, thunkApi) => {
+    try {
+      const response = await service.get(
+        `${ApiConstants.MATCH.GET_RACE_LIST}?countryCode=eq${requestData?.cc}&DATE(racingMatch.startAt)=${requestData?.date}&matchType=eq${requestData.matchType}`
+      );
+      if (response) {
+        return response.data;
+      }
+    } catch (error) {
+      const err = error as AxiosError;
+      return thunkApi.rejectWithValue(err.response?.status);
+    }
+  }
+);
+export const getRaceMatch = createAsyncThunk<any, any>(
+  "/match/raceMatch",
+  async (requestData, thunkApi) => {
+    try {
+      const response = await service.get(
+        `${ApiConstants.MATCH.GET_RACE_MATCH}/${requestData}`
+      );
+      if (response?.data) {
+        return {
+          ...response.data,
+          matchOdd: {
+            ...response.data.matchOdd,
+            runners: response.data.runners,
+          },
+        };
+      }
+    } catch (error) {
+      const err = error as AxiosError;
+      return thunkApi.rejectWithValue(err.response?.status);
+    }
+  }
+);
+export const raceLiveStatus = createAsyncThunk<any, any>(
+  "raceBeting/status/change",
+  async (requestData, thunkApi) => {
+    try {
+      const response = await service.post(
+        `${ApiConstants.BOOKMAKER.RACESTATUS}`,
+        requestData
+      );
+      if (response) {
+        return response?.data;
+      }
+    } catch (error) {
+      const err = error as AxiosError;
+      return thunkApi.rejectWithValue(err.response?.status);
+    }
+  }
+);
 export const updateTeamRates = createAsyncThunk<any, any>(
   "/teamRates/update",
   async (data) => {
     return data;
   }
 );
+
 export const updateMaxLoss = createAsyncThunk<any, any>(
   "/updateMaxLoss/update",
   async (data) => {
@@ -297,7 +408,32 @@ export const updateResultStatusOfMatch = createAsyncThunk<any, SessionById>(
     return requestData;
   }
 );
+export const updateResultStatusOfrace = createAsyncThunk<any, SessionById>(
+  "update/resultStatusMatch",
+  async (requestData) => {
+    return requestData;
+  }
+);
+export const updateResultBoxStatus = createAsyncThunk<any, any>(
+  "update/resultBoxStatus",
+  async (requestData) => {
+    return requestData;
+  }
+);
+export const updateTeamRatesForHorseRacing = createAsyncThunk<any, any>(
+  "horseRacing/teamRatesUpdate",
+  async (data) => {
+    return data;
+  }
+);
+export const updateTeamRatesForHorseRacingOnDelete = createAsyncThunk<any, any>(
+  "horseRacing/teamRatesUpdateOnDelete",
+  async (data) => {
+    return data;
+  }
+);
 export const matchListReset = createAction("matchList/reset");
+export const raceListReset = createAction("raceList/reset");
 export const editSuccessReset = createAction("editSuccess/reset");
 export const sessionResultSuccessReset = createAction("sessionResult/reset");
 export const updateMatchActiveStatusReset = createAction(
@@ -308,4 +444,7 @@ export const resetMatchListSessionProLoss = createAction(
 );
 export const getSessionProfitLossMatchDetailReset = createAction(
   "getSessionProfitLossMatchDetail/reset"
+);
+export const resetRaceEdit = createAction(
+  "raceEdit/reset"
 );

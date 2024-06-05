@@ -17,12 +17,15 @@ export const initialiseSocket = () => {
     auth: {
       token: `${sessionStorage.getItem("jwtExpert")}`,
     },
+    reconnection: true,
+    reconnectionDelay: 5000,
   });
   socket = io(baseUrls.expertSocket, {
-    transports: [`${Constants.WEBSOCKET}`],
+    transports: ["polling", "websocket"],
     auth: {
       token: `${sessionStorage.getItem("jwtExpert")}`,
     },
+    reconnectionDelay: 5000,
   });
 };
 
@@ -31,6 +34,9 @@ export const socketService = {
     initialiseSocket();
     // Connect to the socket server
     socket?.connect();
+    socket?.on("reconnect", () => {
+      console.log("reconnet");
+    });
     matchSocket?.connect();
   },
   disconnect: () => {

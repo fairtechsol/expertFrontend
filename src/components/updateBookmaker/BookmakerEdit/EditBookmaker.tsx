@@ -3,7 +3,7 @@ import { memo, useEffect, useRef, useState } from "react";
 import KeyboardEventHandler from "react-keyboard-event-handler";
 import { useDispatch, useSelector } from "react-redux";
 import { BallStart, Lock } from "../../../assets";
-import { socketService } from "../../../socketManager";
+import { socket, socketService } from "../../../socketManager";
 import {
   successReset,
   updateResultStatusOfQuickBookmaker,
@@ -14,7 +14,7 @@ import { updateLocalQuickBookmaker } from "../../../utils/InputKeys/Bookmaker/Ut
 import BookButton from "./BookButton";
 import ResultComponent from "./ResultComponent";
 import theme from "../../../theme";
-import { numberInputOnWheelPreventChange } from "../../../helpers";
+import { formatToINR, numberInputOnWheelPreventChange } from "../../../helpers";
 import { useLocation } from "react-router-dom";
 
 const EditBookmaker = (props: any) => {
@@ -91,7 +91,7 @@ const EditBookmaker = (props: any) => {
       }
 
       setIsTab("");
-      if (value <= 100) {
+      if (value < 100) {
         if (name === "teamArate") {
           updateLocalQuickBookmaker(
             match,
@@ -248,57 +248,59 @@ const EditBookmaker = (props: any) => {
 
   useEffect(() => {
     try {
-      socketService.user.updateMatchBettingRateClient((data: any) => {
-        if (match?.id === data?.matchId && Bid === data?.id) {
-          if (
-            data?.statusTeamA === "ball start" &&
-            data?.statusTeamB === "ball start" &&
-            data?.statusTeamC === "ball start"
-          ) {
+      if (socket) {
+        socketService.user.updateMatchBettingRateClient((data: any) => {
+          if (match?.id === data?.matchId && Bid === data?.id) {
+            if (
+              data?.statusTeamA === "ball start" &&
+              data?.statusTeamB === "ball start" &&
+              data?.statusTeamC === "ball start"
+            ) {
+              setLocalQuickBookmaker((prev: any) => {
+                return {
+                  ...prev,
+                  teamBall: true,
+                };
+              });
+            } else {
+              setLocalQuickBookmaker((prev: any) => {
+                return {
+                  ...prev,
+                  teamBall: false,
+                };
+              });
+            }
             setLocalQuickBookmaker((prev: any) => {
               return {
                 ...prev,
-                teamBall: true,
-              };
-            });
-          } else {
-            setLocalQuickBookmaker((prev: any) => {
-              return {
-                ...prev,
-                teamBall: false,
+                teamA: {
+                  ...prev.teamA,
+                  rightBack: data?.backTeamA,
+                  rightLay: data?.layTeamA,
+                  suspended: data?.statusTeamA !== "active" ? true : false,
+                },
+                teamB: {
+                  ...prev.teamB,
+                  rightBack: data?.backTeamB,
+                  rightLay: data?.layTeamB,
+                  suspended: data?.statusTeamB !== "active" ? true : false,
+                },
+                teamC: {
+                  ...prev.teamC,
+                  rightBack: data?.backTeamC,
+                  rightLay: data?.layTeamC,
+                  suspended: data?.statusTeamC !== "active" ? true : false,
+                },
               };
             });
           }
-          setLocalQuickBookmaker((prev: any) => {
-            return {
-              ...prev,
-              teamA: {
-                ...prev.teamA,
-                rightBack: data?.backTeamA,
-                rightLay: data?.layTeamA,
-                suspended: data?.statusTeamA !== "active" ? true : false,
-              },
-              teamB: {
-                ...prev.teamB,
-                rightBack: data?.backTeamB,
-                rightLay: data?.layTeamB,
-                suspended: data?.statusTeamB !== "active" ? true : false,
-              },
-              teamC: {
-                ...prev.teamC,
-                rightBack: data?.backTeamC,
-                rightLay: data?.layTeamC,
-                suspended: data?.statusTeamC !== "active" ? true : false,
-              },
-            };
-          });
-        }
-      });
-      socketService.user.updateInResultDeclare(updateBookmakerResultStatus);
+        });
+        socketService.user.updateInResultDeclare(updateBookmakerResultStatus);
+      }
     } catch (error) {
       console.log(error);
     }
-  }, [match]);
+  }, [socket, bookmakerById]);
 
   useEffect(() => {
     try {
@@ -318,7 +320,7 @@ const EditBookmaker = (props: any) => {
   const rateB =
     bookmakerById?.type !== "tiedMatch2"
       ? +bookmakerById?.matchRates?.teamBRate || 0
-      : +bookmakerById?.matchRates?.yesRateTie || 0;
+      : +bookmakerById?.matchRates?.noRateTie || 0;
 
   const formattedRateB = rateB.toFixed(2);
   const [integerPartB, decimalPartB] = formattedRateB.split(".");
@@ -457,9 +459,7 @@ const EditBookmaker = (props: any) => {
           </Box>
         </Box>
         <Box sx={{ display: "flex" }}>
-          <Box
-            sx={{ background: "#FFFFFF", width: "65%", }}
-          >
+          <Box sx={{ background: "#FFFFFF", width: "65%" }}>
             {!add && (
               <Box
                 sx={{
@@ -534,7 +534,7 @@ const EditBookmaker = (props: any) => {
                   {/* {bookmakerById?.type !== "tiedMatch2"
                     ? +bookmakerById?.matchRates?.teamARate || 0
                     : +bookmakerById?.matchRates?.yesRateTie || 0} */}
-                  <span>{integerPart}</span>
+                  <span>{formatToINR(integerPart || 0)}</span>
                   <span
                     style={{ fontSize: "0.8em", fontWeight: "normal" }}
                   >{`.${decimalPart}`}</span>
@@ -605,6 +605,7 @@ const EditBookmaker = (props: any) => {
                     type="text"
                     variant="standard"
                     value={+localQuickBookmaker?.teamA?.back}
+                    autoComplete="off"
                     InputProps={{
                       disableUnderline: true,
                       sx: {
@@ -705,7 +706,7 @@ const EditBookmaker = (props: any) => {
                   {/* {bookmakerById?.type !== "tiedMatch2"
                     ? +bookmakerById?.matchRates?.teamBRate || 0
                     : +bookmakerById?.matchRates?.noRateTie || 0} */}
-                  <span>{integerPartB}</span>
+                  <span>{formatToINR(integerPartB || 0)}</span>
                   <span
                     style={{ fontSize: "0.8em", fontWeight: "normal" }}
                   >{`.${decimalPartB}`}</span>
@@ -774,6 +775,7 @@ const EditBookmaker = (props: any) => {
                     inputRef={innerRefTeamB}
                     type="text"
                     // onFocus={() => handleFocus(innerRefTeamB)}
+                    autoComplete="off"
                     InputProps={{
                       disableUnderline: true,
                       sx: {
@@ -933,6 +935,7 @@ const EditBookmaker = (props: any) => {
                       name={"teamCrate"}
                       inputRef={innerRefTeamC}
                       type="text"
+                      autoComplete="off"
                       InputProps={{
                         disableUnderline: true,
                         sx: {
@@ -1268,7 +1271,7 @@ const EditBookmaker = (props: any) => {
                     currentMatch={match}
                     teamA={match?.teamA}
                     teamB={match?.teamB}
-                    tie={"Tie"}
+                    tie={match?.matchType === "cricket" ? "Tie" : ""}
                     draw={
                       match?.teamC && !"tiedMatch2".includes(type)
                         ? match?.teamC
@@ -1326,7 +1329,7 @@ const EditBookmaker = (props: any) => {
                     stopAt={match?.stopAt}
                     teamA={match?.teamA}
                     teamB={match?.teamB}
-                    tie={"Tie"}
+                    tie={match?.matchType === "cricket" ? "Tie" : ""}
                     draw={
                       match?.teamC && !"tiedMatch2".includes(type)
                         ? match?.teamC

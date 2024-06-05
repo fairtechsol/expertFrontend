@@ -8,9 +8,10 @@ import BoxComponent from "../MatchOdds/BoxComponent";
 import { betLiveStatus } from "../../../store/actions/match/matchAction";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../../store/store";
+import { profitLossDataForMatchConstants } from "../../../utils/Constants";
 import { formatToINR } from "../../helper";
 
-const BookMarket = ({ currentMatch, liveData }: any) => {
+const BookMarket = ({ currentMatch, liveData, title }: any) => {
   const dispatch: AppDispatch = useDispatch();
   const [visibleImg, setVisibleImg] = useState<boolean>(true);
   const [live, setLive] = useState<boolean>(
@@ -63,7 +64,7 @@ const BookMarket = ({ currentMatch, liveData }: any) => {
               marginLeft: "7px",
             }}
           >
-            Bookmaker Market
+            {title}
           </Typography>
           {/* <img src={LOCKED} style={{ width: '14px', height: '20px' }} /> */}
           <Stop
@@ -72,6 +73,7 @@ const BookMarket = ({ currentMatch, liveData }: any) => {
                 betLiveStatus({
                   isStop: true,
                   betId: liveData?.id,
+                  isManual: false,
                 })
               );
               setLive(false);
@@ -103,6 +105,7 @@ const BookMarket = ({ currentMatch, liveData }: any) => {
                 betLiveStatus({
                   isStop: live,
                   betId: liveData?.id,
+                  isManual: false,
                 })
               );
               setLive(!live);
@@ -210,8 +213,14 @@ const BookMarket = ({ currentMatch, liveData }: any) => {
           <Box sx={{ position: "relative" }}>
             <BoxComponent
               teamRates={
-                currentMatch?.teamRates?.teamARate
-                  ? currentMatch?.teamRates?.teamARate
+                currentMatch?.teamRates
+                  ? currentMatch?.teamRates[
+                      profitLossDataForMatchConstants[liveData?.type]?.A
+                    ]
+                    ? currentMatch?.teamRates[
+                        profitLossDataForMatchConstants[liveData?.type]?.A
+                      ]
+                    : 0
                   : 0
               }
               // teamImage={currentMatch?.bookmaker?.teamA_Image}
@@ -225,8 +234,14 @@ const BookMarket = ({ currentMatch, liveData }: any) => {
             <BoxComponent
               livestatus={liveData?.status === "live" ? true : false}
               teamRates={
-                currentMatch?.teamRates?.teamBRate
-                  ? currentMatch?.teamRates?.teamBRate
+                currentMatch?.teamRates
+                  ? currentMatch?.teamRates[
+                      profitLossDataForMatchConstants[liveData?.type]?.B
+                    ]
+                    ? currentMatch?.teamRates[
+                        profitLossDataForMatchConstants[liveData?.type]?.B
+                      ]
+                    : 0
                   : 0
               }
               teamImage={currentMatch?.bookmaker?.teamB_Image}
@@ -242,8 +257,14 @@ const BookMarket = ({ currentMatch, liveData }: any) => {
                   color={"#FF4D4D"}
                   livestatus={liveData?.status === "live" ? true : false}
                   teamRates={
-                    currentMatch?.teamRates?.teamCRate
-                      ? currentMatch?.teamRates?.teamCRate
+                    currentMatch?.teamRates
+                      ? currentMatch?.teamRates[
+                          profitLossDataForMatchConstants[liveData?.type]?.C
+                        ]
+                        ? currentMatch?.teamRates[
+                            profitLossDataForMatchConstants[liveData?.type]?.C
+                          ]
+                        : 0
                       : 0
                   }
                   teamImage={null}
@@ -269,6 +290,26 @@ const BookMarket = ({ currentMatch, liveData }: any) => {
                 }}
               ></Box>
             )}
+            {currentMatch?.resultStatus &&
+              currentMatch?.resultStatus[liveData?.id]?.status && (
+                <Box
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    width: "100%",
+                    position: "absolute",
+                    height: "100%",
+                    bottom: 0,
+                    color: "#fff",
+                    backgroundColor: "rgba(203 24 24 / 70%)",
+                  }}
+                >
+                  <Typography sx={{ color: "#fff" }}>
+                    RESULT {currentMatch?.resultStatus[liveData?.id]?.status}
+                  </Typography>
+                </Box>
+              )}
           </Box>
         </>
       )}

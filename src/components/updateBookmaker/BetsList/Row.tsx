@@ -65,7 +65,7 @@ const Row = ({ index, values }: any) => {
         <Box
           sx={{
             background: "black",
-            width: {lg:"6%", xs:"5%"},
+            width: "6%",
             px: "5px",
             display: "flex",
             justifyContent: "center",
@@ -73,7 +73,11 @@ const Row = ({ index, values }: any) => {
           }}
         >
           <Typography
-            sx={{ color: "white", fontWeight: "600", fontSize: { xs: "8px", lg: "12px" } }}
+            sx={{
+              color: "white",
+              fontWeight: "600",
+              fontSize: { xs: "8px", lg: "12px" },
+            }}
           >
             {index < 100 ? "0" + index : +index}
           </Typography>
@@ -81,7 +85,7 @@ const Row = ({ index, values }: any) => {
         <Box
           sx={{
             background: "#0B4F26",
-            width: {lg:"20%", xs:"20%"},
+            width: { lg: "20%", xs: "23%" },
             borderLeft: "2px solid white",
             display: "flex",
             justifyContent: "center",
@@ -89,7 +93,11 @@ const Row = ({ index, values }: any) => {
           }}
         >
           <Typography
-            sx={{ fontWeight: "600", fontSize: { xs: "10px",md: "10px", lg: "12px" }, color: "white" }}
+            sx={{
+              fontWeight: "600",
+              fontSize: { xs: "10px", md: "10px", lg: "12px" },
+              color: "white",
+            }}
           >
             {values?.user?.userName || values?.userName}
           </Typography>
@@ -123,7 +131,7 @@ const Row = ({ index, values }: any) => {
         <Box
           sx={{
             background: "#F8C851",
-            width: {lg:"20%", xs:"17%"},
+            width: "20%",
             borderLeft: "2px solid white",
             display: "flex",
             justifyContent: "center",
@@ -134,7 +142,7 @@ const Row = ({ index, values }: any) => {
             sx={{
               color: "black",
               fontWeight: "600",
-              fontSize: { xs: "10px",md: "10px", lg: "12px" },
+              fontSize: { xs: "10px", md: "10px", lg: "12px" },
               lineHeight: 1,
               textAlign: "center",
             }}
@@ -145,25 +153,7 @@ const Row = ({ index, values }: any) => {
         <Box
           sx={{
             background: values.betType === "BACK" ? "#B3E0FF" : "#FFB5B5",
-            width:{ lg:"10%", xs: "9%"},
-            borderLeft: "2px solid white",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            flexDirection: "column",
-            position: "relative",
-          }}
-        >
-          <Typography
-            sx={{ fontWeight: "600", fontSize: { xs: "10px",md: "10px", lg: "12px" }, color: "black" }}
-          >
-            {values.odds}
-          </Typography>
-        </Box>
-        <Box
-          sx={{
-            background: values.betType === "BACK" ? "#B3E0FF" : "#FFB5B5",
-            width: { lg:"14%", xs: "12%"},
+            width: "10%",
             borderLeft: "2px solid white",
             display: "flex",
             justifyContent: "center",
@@ -175,7 +165,29 @@ const Row = ({ index, values }: any) => {
           <Typography
             sx={{
               fontWeight: "600",
-              fontSize: { xs: "10px",md: "10px", lg: "10px" },
+              fontSize: { xs: "10px", md: "10px", lg: "12px" },
+              color: "black",
+            }}
+          >
+            {values.odds}
+          </Typography>
+        </Box>
+        <Box
+          sx={{
+            background: values.betType === "BACK" ? "#B3E0FF" : "#FFB5B5",
+            width: "14%",
+            borderLeft: "2px solid white",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            flexDirection: "column",
+            position: "relative",
+          }}
+        >
+          <Typography
+            sx={{
+              fontWeight: "600",
+              fontSize: { xs: "10px", md: "10px", lg: "10px" },
               color: "black",
               position: "inhert",
               top: 5,
@@ -188,7 +200,7 @@ const Row = ({ index, values }: any) => {
         <Box
           sx={{
             background: values.betType === "BACK" ? "#B3E0FF" : "#FFB5B5",
-            width: { lg:"15%", xs: "12%"},
+            width: { lg: "15%", xs: "14%" },
             borderLeft: "2px solid white",
             display: "flex",
             justifyContent: "center",
@@ -196,7 +208,11 @@ const Row = ({ index, values }: any) => {
           }}
         >
           <Typography
-            sx={{ fontWeight: "600", fontSize: { xs: "10px",md: "10px", lg: "12px" }, color: "black" }}
+            sx={{
+              fontWeight: "600",
+              fontSize: { xs: "10px", md: "10px", lg: "12px" },
+              color: "black",
+            }}
           >
             {values.betType == "BACK" ? "Back" : "Lay"}
           </Typography>
@@ -204,7 +220,7 @@ const Row = ({ index, values }: any) => {
         <Box
           sx={{
             background: values.betType === "BACK" ? "#B3E0FF" : "#FFB5B5",
-            width:{ lg:"20%", xs: "14%"},
+            width: { lg: "20%", xs: "16%" },
             borderLeft: "2px solid white",
             display: "flex",
             justifyContent: "center",
@@ -212,7 +228,11 @@ const Row = ({ index, values }: any) => {
           }}
         >
           <Typography
-            sx={{ fontWeight: "600", fontSize: { xs: "10px",md: "10px", lg: "12px" }, color: "black" }}
+            sx={{
+              fontWeight: "600",
+              fontSize: { xs: "10px", md: "10px", lg: "12px" },
+              color: "black",
+            }}
           >
             {formatToINR(values.amount || values.stake)}
           </Typography>
@@ -220,7 +240,7 @@ const Row = ({ index, values }: any) => {
         <Box
           sx={{
             background: "#0B4F26",
-            width: { lg:"20%", xs: "14%"},
+            width: { lg: "20%", xs: "16%" },
             borderLeft: "2px solid white",
             display: "flex",
             justifyContent: "center",
@@ -228,14 +248,20 @@ const Row = ({ index, values }: any) => {
           }}
         >
           <Typography
-            sx={{ fontWeight: "600", fontSize: { xs: "10px",md: "10px", lg: "12px" }, color: "white" }}
+            sx={{
+              fontWeight: "600",
+              fontSize: { xs: "10px", md: "10px", lg: "12px" },
+              color: "white",
+            }}
           >
-            {formatToINR(values?.myStake
-              ? values?.myStake
-              : (
-                  (+values?.amount * (+values?.user?.fwPartnership || 0)) /
-                  100
-                ).toFixed())}
+            {formatToINR(
+              values?.myStake
+                ? values?.myStake
+                : (
+                    (+values?.amount * (+values?.user?.fwPartnership || 0)) /
+                    100
+                  ).toFixed()
+            )}
           </Typography>
         </Box>
       </Box>

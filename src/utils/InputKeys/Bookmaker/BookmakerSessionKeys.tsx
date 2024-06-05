@@ -23,7 +23,7 @@ export const handleKeysMatchEvents = (
       setLocalQuickBookmaker((prev: any) => {
         return {
           ...prev,
-          teamBall: true,
+          teamBall: match?.matchType === "cricket" ? true : false,
         };
       });
       setLocalQuickBookmaker((prev: any) => {
@@ -37,9 +37,12 @@ export const handleKeysMatchEvents = (
           layTeamA: prev.teamA.lay ? prev.teamA.lay : 0,
           layTeamB: prev.teamB.lay ? prev.teamB.lay : 0,
           layTeamC: prev.teamC.lay ? prev.teamC.lay : 0,
-          statusTeamA: "ball start",
-          statusTeamB: "ball start",
-          statusTeamC: "ball start",
+          statusTeamA:
+            match?.matchType === "cricket" ? "ball start" : "suspended",
+          statusTeamB:
+            match?.matchType === "cricket" ? "ball start" : "suspended",
+          statusTeamC:
+            match?.matchType === "cricket" ? "ball start" : "suspended",
         };
         socketService.user.updateMatchBettingRate(data);
         return prev;

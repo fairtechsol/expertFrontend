@@ -11,7 +11,7 @@ const MatchListHeader = () => {
   const navigate = useNavigate();
   const { getProfile } = useSelector((state: RootState) => state.user.profile);
 
-  const getMatchListOnchange = debounce((value: any) => {
+  const getMatchListOnchange = debounce((value: string) => {
     dispatch(getMatchList({ keyword: value }));
   }, 500);
 
@@ -45,7 +45,7 @@ const MatchListHeader = () => {
           <SearchInput
             width="50%"
             show={true}
-            placeholder={"Search Match..."}
+            placeholder="Search Match..."
             handleSearch={getMatchListOnchange}
           />
           {(getProfile?.allPrivilege || getProfile?.addMatchPrivilege) && (

@@ -21,9 +21,10 @@ import {
   updateSessionMaxLimit,
   updateSessionProfitLoss,
 } from "../../../store/actions/addSession";
-import { socketService } from "../../../socketManager";
+import { socket, socketService } from "../../../socketManager";
 import {
   getMatchListSessionProfitLoss,
+  // getMatchListSessionProfitLoss,
   sessionResultSuccessReset,
 } from "../../../store/actions/match/matchAction";
 import { ButtonRatesQuickSessions } from "../../../utils/Constants";
@@ -299,7 +300,7 @@ const SessionAddComponent = ({ createSession, match, setMode }: any) => {
 
   useEffect(() => {
     try {
-      if (id) {
+      if (id && socket) {
         socketService.user.updateSessionRateClient((data: any) => {
           if (data?.id === id && data?.matchId === match?.id) {
             if (data?.status === "ball start") {
@@ -367,7 +368,7 @@ const SessionAddComponent = ({ createSession, match, setMode }: any) => {
     } catch (e) {
       console.log(e);
     }
-  }, [match, id]);
+  }, [match, id, socket]);
 
   return (
     <Box
@@ -388,12 +389,21 @@ const SessionAddComponent = ({ createSession, match, setMode }: any) => {
         }}
       >
         {match?.title && match.title}(max:
-        {sessionById ? sessionById?.maxBet : match?.betFairSessionMaxBet})
+        {maxBetValue
+          ? maxBetValue
+          : sessionById
+          ? sessionById?.maxBet
+          : match?.betFairSessionMaxBet}
+        )
       </Typography>
       <Box
         onClick={(e) => {
           e.stopPropagation();
-          if (!createSession) {
+          if (
+            !createSession &&
+            inputDetail?.resultStatus !== "PENDING" &&
+            inputDetail?.resultStatus !== "MISSMATCHED"
+          ) {
             setVisible3(true);
           }
         }}
@@ -437,7 +447,9 @@ const SessionAddComponent = ({ createSession, match, setMode }: any) => {
                 minBet: sessionById?.minBet
                   ? sessionById?.minBet
                   : match?.minBet,
-                maxBet: sessionById?.maxBet
+                maxBet: maxBetValue
+                  ? maxBetValue
+                  : sessionById?.maxBet
                   ? sessionById?.maxBet
                   : match?.betFairSessionMaxBet,
               }}

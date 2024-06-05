@@ -8,6 +8,8 @@ import { AppDispatch, RootState } from "../../../store/store";
 import {
   declareMatchResult,
   declareMatchStatusReset,
+  otherDeclareMatchResult,
+  otherUnDeclareMatchResult,
   unDeclareMatchResult,
 } from "../../../store/actions/match/matchDeclareActions";
 
@@ -19,18 +21,23 @@ const ResultComponent = ({
   tie,
   draw,
   stopAt,
+  liveData,
 }: any) => {
   const dispatch: AppDispatch = useDispatch();
   const { success, error } = useSelector((state: RootState) => state.match);
   const [selected, setSelected] = useState(teamA);
   const [loading, setLoading] = useState({ id: "", value: false });
-
   const handleSubmit = (e: any) => {
     e.preventDefault();
   };
-  const teamData = draw
-    ? [`${teamA}`, `${teamB}`, `${draw}`, `${tie}`]
-    : [`${teamA}`, `${teamB}`, `${tie}`];
+  const teamData =
+    draw && tie
+      ? [`${teamA}`, `${teamB}`, `${draw}`, `${tie}`]
+      : draw
+      ? [`${teamA}`, `${teamB}`, `${draw}`]
+      : tie
+      ? [`${teamA}`, `${teamB}`, `${tie}`]
+      : [`${teamA}`, `${teamB}`];
 
   useEffect(() => {
     try {
@@ -47,18 +54,18 @@ const ResultComponent = ({
       console.log(e);
     }
   }, [success, error]);
+
   return (
     <Box
       sx={{
         position: "absolute",
         width: { lg: "100%", xs: "100%", md: "100%" },
-        marginRight: {md: "6em", xs: "4em"},
+        marginRight: { md: "6em", xs: "4em" },
         // height: "300px",
         borderRadius: 2,
         boxShadow: "0px 5px 10px #1A568414",
         background: "white",
-            zIndex: 999,
- 
+        zIndex: 999,
       }}
     >
       <Box
@@ -70,7 +77,7 @@ const ResultComponent = ({
             display: "flex",
             alignItems: "center",
             height: "50px",
-            borderRadius: "10px 10px 0 0",
+            borderRadius: "8px 8px 0 0",
             background: "#ff4d4d",
           },
         ]}
@@ -96,7 +103,7 @@ const ResultComponent = ({
       </Box>
       <Box sx={{ padding: 0 }}>
         <form onSubmit={handleSubmit}>
-          <Box
+         {!stopAt && <Box
             sx={{
               width: "100%",
               flexWrap: "wrap",
@@ -145,7 +152,7 @@ const ResultComponent = ({
                 </Box>
               );
             })}
-          </Box>
+          </Box>}
 
           <Box
             sx={{
@@ -171,11 +178,26 @@ const ResultComponent = ({
                       return false;
                     }
                     setLoading({ id: "UD", value: true });
-                    dispatch(
-                      unDeclareMatchResult({
-                        matchId: currentMatch?.id,
-                      })
-                    );
+                    if (currentMatch.matchType === "cricket") {
+                      dispatch(
+                        unDeclareMatchResult({
+                          matchId: currentMatch?.id,
+                        })
+                      );
+                    } else {
+                      liveData?.type === "matchOdd"
+                        ? dispatch(
+                            otherUnDeclareMatchResult({
+                              matchId: currentMatch?.id,
+                            })
+                          )
+                        : dispatch(
+                            otherUnDeclareMatchResult({
+                              matchId: currentMatch?.id,
+                              betId: liveData?.id,
+                            })
+                          );
+                    }
                   } catch (e) {
                     console.log(e);
                   }
@@ -194,12 +216,29 @@ const ResultComponent = ({
                         return false;
                       }
                       setLoading({ id: "DR", value: true });
-                      dispatch(
-                        declareMatchResult({
-                          matchId: currentMatch?.id,
-                          result: selected,
-                        })
-                      );
+                      if (currentMatch.matchType === "cricket") {
+                        dispatch(
+                          declareMatchResult({
+                            matchId: currentMatch?.id,
+                            result: selected,
+                          })
+                        );
+                      } else {
+                        liveData?.type === "matchOdd"
+                          ? dispatch(
+                              otherDeclareMatchResult({
+                                matchId: currentMatch?.id,
+                                result: selected,
+                              })
+                            )
+                          : dispatch(
+                              otherDeclareMatchResult({
+                                matchId: currentMatch?.id,
+                                result: selected,
+                                betId: liveData?.id,
+                              })
+                            );
+                      }
                     } catch (e) {
                       console.log(e);
                     }
@@ -216,12 +255,29 @@ const ResultComponent = ({
                         return false;
                       }
                       setLoading({ id: "DNR", value: true });
-                      dispatch(
-                        declareMatchResult({
-                          matchId: currentMatch?.id,
-                          result: "No Result",
-                        })
-                      );
+                      if (currentMatch.matchType === "cricket") {
+                        dispatch(
+                          declareMatchResult({
+                            matchId: currentMatch?.id,
+                            result: "No Result",
+                          })
+                        );
+                      } else {
+                        liveData?.type === "matchOdd"
+                          ? dispatch(
+                              otherDeclareMatchResult({
+                                matchId: currentMatch?.id,
+                                result: "No Result",
+                              })
+                            )
+                          : dispatch(
+                              otherDeclareMatchResult({
+                                matchId: currentMatch?.id,
+                                result: "No Result",
+                                betId: liveData?.id,
+                              })
+                            );
+                      }
                     } catch (e) {
                       console.log(e);
                     }

@@ -1,14 +1,20 @@
 import { Navigate } from "react-router-dom";
 // import Loadable from "../utils/loadable";
 import { Constants } from "../utils/Constants";
+import OtherMatchDetails from "../pages/otherMatchDetails";
 
 import MainLayout from "../layout/main";
 import MatchList from "../pages/matchList";
+import RaceList from "../pages/raceList";
 import AddMatch from "../pages/addMatch";
 import AddSession from "../pages/addSession";
 import UpdateBookmaker from "../pages/updateBookmaker";
 import MatchDetails from "../pages/matchDetails";
 import ChangePassword from "../pages/changePassword";
+import SessionMarketDetail from "../pages/sessionMarketDetail";
+import MatchMarketDetail from "../pages/matchMarketDetail";
+import AddRace from "../pages/addRace";
+import RaceDetails from "../pages/raceDetails";
 
 // const MatchList = Loadable(() => import("../pages/matchList"));
 // const AddMatch = Loadable(() => import("../pages/addMatch"));
@@ -26,12 +32,24 @@ const MainRoutes = {
       element: <MatchList />,
     },
     {
+      path: Constants.MainPaths.race,
+      element: <RaceList />,
+    },
+    {
       path: Constants.MainPaths.addMatch,
       element: <AddMatch />,
     },
     {
       path: Constants.MainPaths.editMatch,
       element: <AddMatch />,
+    },
+    {
+      path: Constants.MainPaths.addRace,
+      element: <AddRace />,
+    },
+    {
+      path: Constants.MainPaths.editrace,
+      element: <AddRace />,
     },
     {
       path: Constants.MainPaths.live,
@@ -48,6 +66,22 @@ const MainRoutes = {
     {
       path: Constants.MainPaths.betOdds,
       element: <MatchDetails />,
+    },
+    {
+      path: Constants.MainPaths.betOddsOtherGames,
+      element: <OtherMatchDetails />,
+    },
+    {
+      path: Constants.MainPaths.betOddsRace,
+      element: <RaceDetails />,
+    },
+    {
+      path: Constants.MainPaths.session,
+      element: <SessionMarketDetail />,
+    },
+    {
+      path: Constants.MainPaths.market,
+      element: <MatchMarketDetail />,
     },
     {
       path: Constants.MainPaths.changePassword,

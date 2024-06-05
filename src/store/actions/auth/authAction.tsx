@@ -2,14 +2,12 @@ import { createAction, createAsyncThunk } from "@reduxjs/toolkit";
 import { AxiosError } from "axios";
 import service from "../../../service";
 import { ApiConstants } from "../../../utils/Constants";
+import {
+  CheckOldPasswordInterface,
+  LoginInterface,
+} from "../../../interface/authInterface";
 
-interface LoginData {
-  userName: string;
-  password: string;
-  loginType: string;
-}
-
-export const login = createAsyncThunk<any, LoginData>(
+export const login = createAsyncThunk<any, LoginInterface>(
   "auth/login",
   async (requestData, thunkApi) => {
     try {
@@ -39,7 +37,7 @@ export const logout = createAsyncThunk<any>(
   }
 );
 
-export const checkOldPass = createAsyncThunk<any,any>(
+export const checkOldPass = createAsyncThunk<any, CheckOldPasswordInterface>(
   "auth/checkOldPass",
   async (requestData, thunkApi) => {
     try {

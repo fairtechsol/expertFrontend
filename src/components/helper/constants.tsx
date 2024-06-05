@@ -1,4 +1,10 @@
 const constants = {
+  apiPath: "http://107.23.165.155:6060",
+  microServiceApiPath:
+    process.env.NODE_ENV === "production"
+      ? "http://107.23.165.155:3200"
+      : "http://localhost:3200",
+
   //---------------------------------------User Roles--------------------------------------------------\\
 
   SuperAdmin: 1,
@@ -51,6 +57,10 @@ const constants = {
     "basketball",
     "table_tennis",
     "darts",
+  ],
+  raceType:[
+    "horse racing",
+    "greyhound  racing",
   ],
   defaultMarketId: 4312,
 

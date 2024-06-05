@@ -8,8 +8,9 @@ import Input from "../../../components/login/Input";
 import { authReset, login } from "../../../store/actions/auth/authAction";
 import { AppDispatch, RootState } from "../../../store/store";
 import { loginValidationSchema } from "../../../utils/Validations/login";
+import { LoginInterface } from "../../../interface/authInterface";
 
-const initialValues: any = {
+const initialValues: LoginInterface = {
   userName: "",
   password: "",
 };
@@ -26,7 +27,7 @@ const Login = () => {
   const formik = useFormik({
     initialValues: initialValues,
     validationSchema: loginValidationSchema,
-    onSubmit: (values: any) => {
+    onSubmit: (values: LoginInterface) => {
       if (loading) {
         return;
       }
@@ -61,8 +62,8 @@ const Login = () => {
     >
       <Box sx={{ width: "100%", opacity: 1 }}>
         <Input
-          placeholder={"Enter Username"}
-          title={"Username"}
+          placeholder="Enter Username"
+          title="Username"
           name="userName"
           id="userName"
           img={mail}
@@ -73,8 +74,8 @@ const Login = () => {
           error={errors.userName}
         />
         <Input
-          title={"Password"}
-          placeholder={"Enter Password"}
+          title="Password"
+          placeholder="Enter Password"
           containerStyle={{ marginTop: "10px" }}
           img={eye}
           img1={eyeLock}
