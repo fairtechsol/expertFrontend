@@ -687,7 +687,13 @@ const AddRace = () => {
               if (state?.id) {
                 dispatch(editMatchReset());
               }
-              navigate("/expert/race");
+              navigate( `/expert/race/${
+                matchType
+                  ? matchType === "greyhoundRacing"
+                    ? "greyHound"
+                    : matchType
+                  : "horseRacing"
+              }`);
             }}
             sx={{
               background: "#E32A2A",

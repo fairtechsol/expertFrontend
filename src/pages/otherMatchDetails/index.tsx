@@ -30,7 +30,7 @@ import {
   updateMaxLoss,
   updateResultBoxStatus,
   updateResultStatusOfMatch,
-  updateResultStatusOfSession,
+  // updateResultStatusOfSession,
   updateSessionBetsPlace,
   updateTeamRates,
 } from "../../store/actions/match/matchAction";

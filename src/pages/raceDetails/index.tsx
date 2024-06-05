@@ -53,7 +53,15 @@ const RaceDetails = () => {
   const resultDeclared = (event: any) => {
     try {
       if (event?.matchId === state?.id) {
-        navigate("/expert/race");
+        navigate(
+          `/expert/race/${
+            raceDetail?.matchType
+              ? raceDetail?.matchType === "greyhoundRacing"
+                ? "greyHound"
+                : raceDetail?.matchType
+              : "horseRacing"
+          }`
+        );
       }
     } catch (e) {
       console.log(e);
