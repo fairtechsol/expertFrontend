@@ -17,34 +17,14 @@ import {
 } from "../../socketManager";
 import moment from "moment";
 import CustomButton from "../../components/Common/CustomButton";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { getDateList } from "../../store/actions/user/userAction";
-
-function TabPanel(props: any) {
-  const { children, value, index, ...other } = props;
-
-  return (
-    <div
-      className="p-0"
-      role="tabpanel"
-      hidden={value !== index}
-      id={`tabpanel-${index}`}
-      aria-labelledby={`tab-${index}`}
-      {...other}
-      sx={{
-        padding: 0,
-      }}
-    >
-      {value === index && <Box sx={{ mt: 2 }}>{children}</Box>}
-    </div>
-  );
-}
 
 const RaceList = ({}) => {
   const dispatch: AppDispatch = useDispatch();
   const [currentPage] = useState(1);
-  const [value, setValue] = useState("horseRacing");
-
+  const { raceType } = useParams();
+  const [value, setValue] = useState(raceType);
   const navigate = useNavigate();
   const { getProfile, dateList } = useSelector(
     (state: RootState) => state.user.profile
@@ -56,23 +36,10 @@ const RaceList = ({}) => {
 
   const handleChange = (_: React.SyntheticEvent, newValue: string) => {
     setValue(newValue);
+    navigate(`/expert/race/${newValue}`);
   };
-  // function callPage(_: any, newPage: any) {
-  //   setCurrentPage(newPage);
-  // }
-
-  // useEffect(() => {
-  //   try {
-  //     if (sessionStorage.getItem("jwtExpert")) {
-  //       dispatch(getMatchList({ currentPage: currentPage }));
-  //     }
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // }, [currentPage, sessionStorage]);
 
   const getMatchListService = () => {
-    // setCurrentPage(1);
     dispatch(
       getRaceList({
         cc: countryCode[0]?.countryCode,
@@ -89,7 +56,9 @@ const RaceList = ({}) => {
   }, [success]);
 
   useEffect(() => {
-    dispatch(getDateList({ matchType: value }));
+    if (value) {
+      dispatch(getDateList({ matchType: value }));
+    }
   }, [value]);
 
   useEffect(() => {
@@ -139,9 +108,6 @@ const RaceList = ({}) => {
               label="Greyhound Racing"
             />
           </Tabs>
-
-          <TabPanel value={value} index="horseRacing"></TabPanel>
-          <TabPanel value={value} index="greyHound"></TabPanel>
         </Box>
         <Box
           sx={{

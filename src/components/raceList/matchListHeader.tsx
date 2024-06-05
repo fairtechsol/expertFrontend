@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store/store";
 import MenuItem from "@mui/material/MenuItem";
 import { useEffect, useState } from "react";
-import { getDateList } from "../../store/actions/user/userAction";
 import {
   getCountryCode,
   getRaceList,
@@ -12,7 +11,7 @@ import {
 import moment from "moment";
 
 interface MatchListHeader {
-  value: string;
+  value: string | any;
 }
 
 const MatchListHeader = ({ value }: MatchListHeader) => {

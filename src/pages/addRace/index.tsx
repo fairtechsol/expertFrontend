@@ -279,7 +279,15 @@ const AddRace = () => {
       });
     }
     if (matchAdded) {
-      navigate("/expert/race");
+      navigate(
+        `/expert/race/${
+          matchType
+            ? matchType === "greyhoundRacing"
+              ? "greyHound"
+              : matchType
+            : "horseRacing"
+        }`
+      );
       dispatch(addMatchReset());
     }
   }, [state?.id, matchAdded]);

@@ -203,7 +203,7 @@ const Header1 = () => {
                   </NavLink>
 
                   <NavLink
-                    to={"/expert/race"}
+                    to={"/expert/race/horseRacing"}
                     style={{ textDecoration: "none" }}
                   >
                     <ButtonHead
@@ -476,7 +476,7 @@ const Header1 = () => {
                     </NavLink>
 
                     <NavLink
-                      to={"/expert/race"}
+                      to={"/expert/race/horseRacing"}
                       style={{ textDecoration: "none" }}
                     >
                       <ButtonHead
