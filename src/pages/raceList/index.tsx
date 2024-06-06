@@ -77,6 +77,12 @@ const RaceList = ({}) => {
     }
   }, [socket]);
 
+  useEffect(() => {
+    if (raceType) {
+      setValue(raceType);
+    }
+  }, [raceType]);
+
   return (
     <>
       <Box
