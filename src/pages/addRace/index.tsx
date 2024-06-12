@@ -203,6 +203,12 @@ const AddRace = () => {
         };
       });
     }
+    setSelected((prev: any) => {
+      return {
+        ...prev,
+        matchName: "",
+      };
+    });
     if (selected.gameType !== "" && !state?.id) {
       if (!manualMatchToggle) {
         const gameType = gameTypes.find(
@@ -687,13 +693,15 @@ const AddRace = () => {
               if (state?.id) {
                 dispatch(editMatchReset());
               }
-              navigate( `/expert/race/${
-                matchType
-                  ? matchType === "greyhoundRacing"
-                    ? "greyHound"
-                    : matchType
-                  : "horseRacing"
-              }`);
+              navigate(
+                `/expert/race/${
+                  matchType
+                    ? matchType === "greyhoundRacing"
+                      ? "greyHound"
+                      : matchType
+                    : "horseRacing"
+                }`
+              );
             }}
             sx={{
               background: "#E32A2A",
