@@ -71,9 +71,10 @@ const AddRace = () => {
 
   const { state } = useLocation();
 
-  const { eventsList, matchDetail, success, matchAdded, loading, raceRunners } =
-    useSelector((state: RootState) => state.addMatch.addMatch);
-
+  const { eventsList, matchAdded, loading, raceRunners } = useSelector(
+    (state: RootState) => state.addMatch.addMatch
+  );
+  const { raceDetail, success } = useSelector((state: RootState) => state.matchList);
   const [selected, setSelected] = useState(initialValues);
   const [openDropDown, setOpenDropDown] = useState(null);
   const [matchType, setMatchType] = useState<any>("");
@@ -304,7 +305,7 @@ const AddRace = () => {
     } catch (e) {
       console.log(e);
     }
-  }, [matchDetail, success]);
+  }, [raceDetail, success]);
 
   useEffect(() => {
     setSelected(initialValues);
