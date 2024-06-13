@@ -80,7 +80,7 @@ const MatchListTable = (props: any) => {
           sx={{
             display: "flex",
             width: "100px",
-            paddingLeft: "10px",
+            // paddingLeft: "10px",
             alignItems: "center",
             // height: "45px",
             borderRight: "2px solid white",
@@ -194,7 +194,7 @@ const MatchListTable = (props: any) => {
                 cursor="default"
               />
             )}
-            {data?.matchType === "cricket" &&  data?.stopAt && (
+            {data?.matchType === "cricket" && data?.stopAt && (
               <MatchListProfitLoss
                 onClick={() => handleMatchProfitLossClick(data?.id)}
                 updateMatchStatusLabel="Session P/L"
@@ -218,25 +218,26 @@ const MatchListTable = (props: any) => {
                 flexWrap: "wrap",
               }}
             >
-              {data?.matchType === "cricket" && (getProfile?.allPrivilege ||
-                getProfile?.sessionMatchPrivilege) && (
-                <CustomButton
-                  containerStyle={{
-                    // minWidth: { xs: "40%", sm: "100px" },
-                    // width: { xs: "40%", sm: "100px" },
-                    // marginLeft: { xs: "1%", sm: "10px" },
-                    // marginBottom: { xs: "1%", sm: "10px" },
-                    // gap: 0.5,
-                    margin: "5px",
-                  }}
-                  onClick={() => {
-                    navigate(`/expert/session`, {
-                      state: { id: data?.id, marketId: data?.marketId },
-                    });
-                  }}
-                  title={"Session"}
-                />
-              )}
+              {data?.matchType === "cricket" &&
+                (getProfile?.allPrivilege ||
+                  getProfile?.sessionMatchPrivilege) && (
+                  <CustomButton
+                    containerStyle={{
+                      // minWidth: { xs: "40%", sm: "100px" },
+                      // width: { xs: "40%", sm: "100px" },
+                      // marginLeft: { xs: "1%", sm: "10px" },
+                      // marginBottom: { xs: "1%", sm: "10px" },
+                      // gap: 0.5,
+                      margin: "5px",
+                    }}
+                    onClick={() => {
+                      navigate(`/expert/session`, {
+                        state: { id: data?.id, marketId: data?.marketId },
+                      });
+                    }}
+                    title={"Session"}
+                  />
+                )}
               {(getProfile?.allPrivilege ||
                 getProfile?.betFairMatchPrivilege) && (
                 <CustomButton
