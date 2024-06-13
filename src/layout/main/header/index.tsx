@@ -19,7 +19,7 @@ import GameTypeDropdown from "./GameTypeDropdown";
 
 const Header1 = () => {
   const theme = useTheme();
-  const matchesMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const matchesMobile = useMediaQuery(theme.breakpoints.down("md"));
   const navigate = useNavigate();
   const dispatch: AppDispatch = useDispatch();
   const { getProfile, loggedUserCount } = useSelector(
@@ -234,12 +234,12 @@ const Header1 = () => {
                 <Box
                   sx={{
                     display: "flex",
-                    justifyContent: matchesMobile ? "flex-end" : "flex-end",
+                    justifyContent: "flex-end",
                     flex: 1,
                     minWidth: matchesMobile ? "0%" : "0px",
-                    alignItems: matchesMobile ? "center" : "center",
-                    marginTop: matchesMobile ? "0px" : "0px",
-                    flexDirection: matchesMobile ? "row" : "row",
+                    alignItems: "center",
+                    marginTop: "0px",
+                    flexDirection: "row",
                   }}
                 >
                   <Box
