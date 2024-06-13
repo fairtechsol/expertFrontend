@@ -155,6 +155,25 @@ const MatchListHeader = ({ value }: MatchListHeader) => {
             onChange={handleChangeDate}
             inputProps={{ "aria-label": "Without label" }}
             sx={{ backgroundColor: "#fff", height: "40px" }}
+            MenuProps={{
+              PaperProps: {
+                style: {
+                  maxHeight: 200,
+                  overflowY: "auto",
+                },
+                sx: {
+                  "&::-webkit-scrollbar": {
+                    width: "0",
+                  },
+                  "&::-webkit-scrollbar-track": {
+                    background: "transparent",
+                  },
+                  "&::-webkit-scrollbar-thumb": {
+                    backgroundColor: "transparent",
+                  },
+                },
+              },
+            }}
           >
             {dateList &&
               dateList.map((item: any, index: any) => (
