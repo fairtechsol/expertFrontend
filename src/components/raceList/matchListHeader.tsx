@@ -1,4 +1,4 @@
-import { Box, Tab, Tabs, Typography } from "@mui/material";
+import { Box, Tab, Tabs, Typography, styled } from "@mui/material";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store/store";
@@ -13,6 +13,20 @@ import moment from "moment";
 interface MatchListHeader {
   value: string | any;
 }
+
+const CustomTabs = styled(Tabs)({
+  "& .MuiTab-root": {
+    maxWidth: "0.5rem",
+    flex: 1,
+  },
+  "& .Mui-selected": {
+    backgroundColor: "#F8C851",
+  },
+  "& .MuiTabs-indicator": {
+    height: 0,
+    backgroundColor: "#F8C851",
+  },
+});
 
 const MatchListHeader = ({ value }: MatchListHeader) => {
   const dispatch: AppDispatch = useDispatch();
@@ -97,57 +111,42 @@ const MatchListHeader = ({ value }: MatchListHeader) => {
               maxWidth: { lg: "60vw", md: "100%", sm: "20vw" },
               display: "flex",
               alignItems: "center",
-              bgcolor: "background.paper",
-              // borderRadius: "10px",
-              backgroundColor: "#dddddd",
-              height: "5vh",
             }}
           >
-            <Tabs
+            <CustomTabs
               value={selectedTab}
               onChange={handleTabChange}
               variant="scrollable"
-              scrollButtons="auto"
-              aria-label="country code tabs"
+              textColor="inherit"
+              aria-label="country tabs"
               sx={{
-                "& .MuiTabs-scrollButtons": {
-                  color: "#000",
-                },
+                height: "30px",
                 "& .MuiTab-root": {
-                  minHeight: "0.5rem !important",
-                  padding: "8px 4px 4px 8px !important",
-                  marginTop: "10px",
-                  overflow: "visible",
-                  borderRight: "2px solid #f1c40f",
-                  backgroundColor: "#dddddd",
-                  minWidth: "20px",
-                  textTransform: "none",
-                  fontSize: "14px",
-                  color: "#000",
-                  "&.Mui-selected": {
-                    color: "#000",
-                    backgroundColor: "#f1c40f",
-                  },
-                },
-                "& .MuiTabs-indicator": {
-                  backgroundColor: "#fff",
+                  minWidth: "2.5rem",
+                  minHeight: "1rem",
                 },
               }}
             >
               {countryCode &&
-                countryCode.map((item: any, index: any) => (
-                  <Tab key={index} label={item?.countryCode} />
+                countryCode.map((item: any, index: number) => (
+                  <Tab
+                    sx={{
+                      backgroundColor: value === index ? "#F8C851" : "#FFFFFF",
+                      color: "black",
+                    }}
+                    key={item?.countryCode}
+                    label={item?.countryCode}
+                  />
                 ))}
-            </Tabs>
+            </CustomTabs>
           </Box>
         </Box>
 
         <Box
           sx={{
             display: "flex",
-            width: { lg: "30%", xs: "100%" },
             gap: "10px",
-            flexDirection: { lg: "row-reverse", xs: "row" },
+            flexDirection: "row",
             alignItems: "center",
           }}
         >
@@ -155,7 +154,7 @@ const MatchListHeader = ({ value }: MatchListHeader) => {
             value={dated}
             onChange={handleChangeDate}
             inputProps={{ "aria-label": "Without label" }}
-            sx={{ width: "50%", backgroundColor: "#fff", height: "40px" }}
+            sx={{ backgroundColor: "#fff", height: "40px" }}
           >
             {dateList &&
               dateList.map((item: any, index: any) => (
