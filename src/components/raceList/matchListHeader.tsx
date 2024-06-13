@@ -145,9 +145,8 @@ const MatchListHeader = ({ value }: MatchListHeader) => {
         <Box
           sx={{
             display: "flex",
-            width: { lg: "30%", xs: "100%" },
             gap: "10px",
-            flexDirection: { lg: "row-reverse", xs: "row" },
+            flexDirection: "row",
             alignItems: "center",
           }}
         >
@@ -155,7 +154,7 @@ const MatchListHeader = ({ value }: MatchListHeader) => {
             value={dated}
             onChange={handleChangeDate}
             inputProps={{ "aria-label": "Without label" }}
-            sx={{ width: "50%", backgroundColor: "#fff", height: "40px" }}
+            sx={{ backgroundColor: "#fff", height: "40px" }}
           >
             {dateList &&
               dateList.map((item: any, index: any) => (
