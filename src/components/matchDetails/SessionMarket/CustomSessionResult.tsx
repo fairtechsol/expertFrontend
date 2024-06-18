@@ -133,6 +133,7 @@ const CustomSessionResult = ({ onClick, newData }: any) => {
                       session={true}
                       title={"Declare"}
                       loading={loader}
+                      disable={loader?.value}
                       onClick={() => {
                         if (loader?.value) {
                           return false;
@@ -167,6 +168,7 @@ const CustomSessionResult = ({ onClick, newData }: any) => {
                   loading={loader}
                   id="UD"
                   session={true}
+                  disable={loader?.value}
                   onClick={() => {
                     if (loader?.value) {
                       return false;
@@ -215,6 +217,7 @@ const CustomSessionResult = ({ onClick, newData }: any) => {
               loading={loader}
               id="NR"
               session={true}
+              disable={loader?.value}
               onClick={() => {
                 if (loader?.value) {
                   return false;

@@ -1,11 +1,12 @@
 import { Button, CircularProgress, Typography } from "@mui/material";
 
 const SessionResultCustomButton = (props: any) => {
-  const { id, title, color, loading, onClick, session } = props;
+  const { id, title, color, loading, onClick, session, disable } = props;
   return (
     <Button
       type="submit"
       onClick={onClick}
+      disabled={disable}
       sx={{
         width: session ? "40%" : "100%",
         cursor: "pointer",
