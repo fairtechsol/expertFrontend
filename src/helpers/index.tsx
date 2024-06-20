@@ -72,3 +72,15 @@ export const getTimeLeft = (matchStartDate: string | any) => {
     seconds: seconds,
   };
 };
+
+export const convertString = (str: string) => {
+  if (str?.includes("_")) {
+    let words = str.split("_");
+    for (let i = 0; i < words.length; i++) {
+      words[i] = words[i].charAt(0).toUpperCase() + words[i].slice(1);
+    }
+    return words.join(" ");
+  } else {
+    return str;
+  }
+};

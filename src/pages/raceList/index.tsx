@@ -39,14 +39,16 @@ const RaceList = ({}) => {
     navigate(`/expert/race/${newValue}`);
   };
 
-  const getMatchListService = () => {
-    dispatch(
-      getRaceList({
-        cc: countryCode[0]?.countryCode,
-        date: moment(dateList[0]?.date).format("YYYY-MM-DD"),
-        matchType: value,
-      })
-    );
+  const getMatchListService = (event: any) => {
+    if (event?.gameType === raceType) {
+      dispatch(
+        getRaceList({
+          cc: countryCode[0]?.countryCode,
+          date: moment(dateList[0]?.date).format("YYYY-MM-DD"),
+          matchType: raceType,
+        })
+      );
+    }
   };
 
   useEffect(() => {

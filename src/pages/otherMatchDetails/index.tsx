@@ -43,6 +43,7 @@ import UnderOverMarket from "../../components/otherMatchDetails/UnderOverMarket"
 import SetWinner from "../../components/matchDetails/SetWinner";
 import HalfTime from "../../components/matchDetails/HalfTime";
 import { getOtherGamesMatchDetail } from "../../store/actions/otherGamesAction/matchDetailActions";
+import { convertString } from "../../helpers";
 
 const OtherMatchDetails = () => {
   const { state } = useLocation();
@@ -393,7 +394,7 @@ const OtherMatchDetails = () => {
                     key={market?.id}
                     currentMatch={matchDetail}
                     liveData={market}
-                    title={market?.name}
+                    title={convertString(market?.name)}
                   />
                 ))}
             {matchDetail?.overUnder &&
@@ -404,7 +405,7 @@ const OtherMatchDetails = () => {
                     key={market?.id}
                     currentMatch={matchDetail}
                     liveData={market}
-                    title={market?.name}
+                    title={convertString(market?.name)}
                   />
                 ))}
             {matchDetail?.setWinner &&
@@ -416,7 +417,7 @@ const OtherMatchDetails = () => {
                     key={market?.id}
                     currentMatch={matchDetail}
                     liveData={market}
-                    title={market?.name}
+                    title={convertString(market?.name)}
                   />
                 ))}
 
