@@ -244,7 +244,7 @@ const EditBookmaker = (props: any) => {
     } catch (error) {
       console.log(error);
     }
-  }, [bookmakerById, success]);
+  }, [bookmakerById, success, state?.id]);
 
   useEffect(() => {
     try {
@@ -300,7 +300,7 @@ const EditBookmaker = (props: any) => {
     } catch (error) {
       console.log(error);
     }
-  }, [socket, bookmakerById]);
+  }, [socket, bookmakerById, state?.id]);
 
   useEffect(() => {
     try {
@@ -310,7 +310,7 @@ const EditBookmaker = (props: any) => {
     } catch (error) {
       console.log(error);
     }
-  }, []);
+  }, [state?.id, bookmakerById, Bid]);
 
   const rateA =
     bookmakerById?.type !== "tiedMatch2"
