@@ -34,8 +34,10 @@ const RaceList = ({}) => {
   };
 
   const getMatchListService = (event: any) => {
-    if (event?.gameType === raceType) {
-      dispatch(getDateList({ matchType: value }));
+    if (event?.gameType === raceType || event?.type === raceType) {
+      setTimeout(() => {
+        dispatch(getDateList({ matchType: value }));
+      }, 500);
     }
   };
 
@@ -57,9 +59,11 @@ const RaceList = ({}) => {
         expertSocketService.match.matchAdded(getMatchListService);
         socketService.user.matchResultUnDeclared(getMatchListService);
         socketService.user.matchResultDeclared(getMatchListService);
+        socketService.user.matchResultUnDeclareAllUser(getMatchListService);
         return () => {
           expertSocketService.match.matchAddedOff();
           socketService.user.matchResultUnDeclaredOff();
+          socketService.user.matchResultUnDeclareAllUserOff();
         };
       }
     } catch (error) {

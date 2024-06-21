@@ -51,6 +51,9 @@ export const userSocketService = {
   updateInResultDeclare: (callback: any) => {
     socket?.on("updateInResultDeclare", callback);
   },
+  matchResultUnDeclareAllUser: (callback: any) => {
+    socket?.on("matchResultUnDeclareAllUser", callback);
+  },
   updateSessionRateClientOff: () => {
     socket?.off("updateSessionRateClient");
   },
@@ -89,5 +92,8 @@ export const userSocketService = {
   },
   updateInResultDeclareOff: () => {
     socket?.off("updateInResultDeclare");
+  },
+  matchResultUnDeclareAllUserOff: () => {
+    socket?.off("matchResultUnDeclareAllUser");
   },
 };
