@@ -6,16 +6,12 @@ import MatchListTableHeader from "../../components/raceList/matchListTableHeader
 import "./style.css";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store/store";
-import {
-  getRaceList,
-  matchListReset,
-} from "../../store/actions/match/matchAction";
+import { matchListReset } from "../../store/actions/match/matchAction";
 import {
   expertSocketService,
   socket,
   socketService,
 } from "../../socketManager";
-import moment from "moment";
 import CustomButton from "../../components/Common/CustomButton";
 import { useNavigate, useParams } from "react-router-dom";
 import { getDateList } from "../../store/actions/user/userAction";
@@ -26,11 +22,9 @@ const RaceList = ({}) => {
   const { raceType } = useParams();
   const [value, setValue] = useState(raceType);
   const navigate = useNavigate();
-  const { getProfile, dateList } = useSelector(
-    (state: RootState) => state.user.profile
-  );
+  const { getProfile } = useSelector((state: RootState) => state.user.profile);
 
-  const { success, raceList, countryCode } = useSelector(
+  const { success, raceList } = useSelector(
     (state: RootState) => state.matchList
   );
 
@@ -39,14 +33,12 @@ const RaceList = ({}) => {
     navigate(`/expert/race/${newValue}`);
   };
 
-  const getMatchListService = () => {
-    dispatch(
-      getRaceList({
-        cc: countryCode[0]?.countryCode,
-        date: moment(dateList[0]?.date).format("YYYY-MM-DD"),
-        matchType: value,
-      })
-    );
+  const getMatchListService = (event: any) => {
+    if (event?.gameType === raceType || event?.type === raceType) {
+      setTimeout(() => {
+        dispatch(getDateList({ matchType: value }));
+      }, 500);
+    }
   };
 
   useEffect(() => {
@@ -67,15 +59,17 @@ const RaceList = ({}) => {
         expertSocketService.match.matchAdded(getMatchListService);
         socketService.user.matchResultUnDeclared(getMatchListService);
         socketService.user.matchResultDeclared(getMatchListService);
+        socketService.user.matchResultUnDeclareAllUser(getMatchListService);
         return () => {
           expertSocketService.match.matchAddedOff();
           socketService.user.matchResultUnDeclaredOff();
+          socketService.user.matchResultUnDeclareAllUserOff();
         };
       }
     } catch (error) {
       console.log(error);
     }
-  }, [socket]);
+  }, [socket, raceType]);
 
   useEffect(() => {
     if (raceType) {

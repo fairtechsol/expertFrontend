@@ -303,6 +303,7 @@ const matchList = createSlice({
       })
       .addCase(getCountryCode.pending, (state) => {
         state.loading = true;
+        state.countryCode = [];
         state.error = null;
       })
       .addCase(getCountryCode.fulfilled, (state, action) => {
@@ -315,6 +316,7 @@ const matchList = createSlice({
       })
       .addCase(getRaceList.pending, (state) => {
         state.loading = true;
+        state.raceList = [];
         state.error = null;
       })
       .addCase(getRaceList.fulfilled, (state, action) => {
