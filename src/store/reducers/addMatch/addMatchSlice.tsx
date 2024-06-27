@@ -453,17 +453,21 @@ const addMatch = createSlice({
                 resultStatus: status ? status : null,
               };
             }
-          } else
+          }
+        } else {
+          if (state.matchDetail?.matchType !== "cricket") {
             state.matchDetail = {
               ...state.matchDetail,
               resultStatus: {
                 ...state.matchDetail?.resultStatus,
                 [betId]: {
+                  ...state.matchDetail?.resultStatus?.[betId],
                   betId: betId,
                   status: status,
                 },
               },
             };
+          }
         }
       })
       .addCase(handleBetResultStatus.fulfilled, (state, action) => {
