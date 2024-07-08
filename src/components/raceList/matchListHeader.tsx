@@ -39,6 +39,7 @@ const MatchListHeader = ({ value }: MatchListHeader) => {
   const { dateList } = useSelector((state: RootState) => state.user.profile);
   const { countryCode } = useSelector((state: RootState) => state.matchList);
   const [dated, setDated] = useState<any>("");
+  const [selectedTab, setSelectedTab] = useState(0);
 
   console.log(
     moment(new Date(dateList[0]?.date))
@@ -80,6 +81,7 @@ const MatchListHeader = ({ value }: MatchListHeader) => {
 
   const handleChangeDate = (date: any) => {
     setDated(date);
+    setSelectedTab(0);
     dispatch(
       getCountryCode({
         date: moment(new Date(date))
@@ -114,8 +116,6 @@ const MatchListHeader = ({ value }: MatchListHeader) => {
       handleChangeDate(newValue);
     } else return;
   };
-
-  const [selectedTab, setSelectedTab] = useState(0);
 
   const handleTabChange = (_: any, newValue: any) => {
     handleChange(countryCode[newValue]?.countryCode);
