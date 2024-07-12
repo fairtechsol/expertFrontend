@@ -74,7 +74,9 @@ const OtherMatchDetails = () => {
           navigate("/expert/match");
         } else {
           dispatch(getPlacedBetsMatch(state?.id));
-          dispatch(updateResultBoxStatus({ visible: false }));
+          dispatch(
+            updateResultBoxStatus({ visible: false, betId: event?.betId })
+          );
         }
       }
     } catch (e) {

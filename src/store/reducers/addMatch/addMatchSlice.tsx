@@ -69,7 +69,7 @@ const initialState: InitialState = {
   matchAdded: false,
   success: false,
   error: null,
-  resultBox: false,
+  resultBox: { visible: false, betId: "" },
 };
 
 const addMatch = createSlice({
@@ -551,7 +551,7 @@ const addMatch = createSlice({
         state.error = action?.error?.message;
       })
       .addCase(updateResultBoxStatus.fulfilled, (state, action) => {
-        state.resultBox = action?.payload?.visible;
+        state.resultBox = action?.payload;
         state.loading = false;
         state.success = true;
       });
