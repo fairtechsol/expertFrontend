@@ -1,5 +1,5 @@
 import { Box, Typography } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { ARROWUP } from "../../assets";
 import { betLiveStatus } from "../../store/actions/match/matchAction";
@@ -19,6 +19,10 @@ const UnderOverMarket = ({ currentMatch, liveData, title }: any) => {
   const [live, setLive] = useState(
     liveData?.activeStatus === "live" ? true : false
   );
+
+  useEffect(() => {
+    setLive(liveData?.activeStatus === "live" ? true : false);
+  }, [liveData?.activeStatus]);
 
   return (
     <Box
