@@ -445,30 +445,73 @@ const addMatch = createSlice({
         const index = state.matchDetail?.quickBookmaker?.findIndex(
           (item: any) => item.type === "quickbookmaker1"
         );
-        if (index !== -1) {
-          if (state.matchDetail?.matchType === "cricket") {
-            if (betId === state.matchDetail?.quickBookmaker[index]?.id) {
-              state.matchDetail = {
-                ...state.matchDetail,
-                resultStatus: status ? status : null,
-              };
-            }
-          }
+
+        const isCricketMatch = state.matchDetail?.matchType === "cricket";
+
+        if (
+          index !== -1 &&
+          isCricketMatch &&
+          betId === state.matchDetail?.quickBookmaker[index]?.id
+        ) {
+          state.matchDetail = {
+            ...state.matchDetail,
+            resultStatus: status ?? null,
+          };
         } else {
-          if (state.matchDetail?.matchType !== "cricket") {
-            state.matchDetail = {
-              ...state.matchDetail,
-              resultStatus: {
-                ...state.matchDetail?.resultStatus,
-                [betId]: {
-                  ...state.matchDetail?.resultStatus?.[betId],
-                  betId: betId,
-                  status: status,
-                },
+          state.matchDetail = {
+            ...state.matchDetail,
+            resultStatus: {
+              ...state.matchDetail?.resultStatus,
+              [betId]: {
+                ...state.matchDetail?.resultStatus?.[betId],
+                betId,
+                status,
               },
-            };
-          }
+            },
+          };
         }
+        // const { status, betId } = action?.payload;
+        // const index = state.matchDetail?.quickBookmaker?.findIndex(
+        //   (item: any) => item.type === "quickbookmaker1"
+        // );
+        // if (index !== -1) {
+        //   if (state.matchDetail?.matchType === "cricket") {
+        //     if (betId === state.matchDetail?.quickBookmaker[index]?.id) {
+        //       state.matchDetail = {
+        //         ...state.matchDetail,
+        //         resultStatus: status ? status : null,
+        //       };
+        //     }
+        //   } else {
+        //     if (state.matchDetail?.matchType !== "cricket") {
+        //       state.matchDetail = {
+        //         ...state.matchDetail,
+        //         resultStatus: {
+        //           ...state.matchDetail?.resultStatus,
+        //           [betId]: {
+        //             ...state.matchDetail?.resultStatus?.[betId],
+        //             betId: betId,
+        //             status: status,
+        //           },
+        //         },
+        //       };
+        //     }
+        //   }
+        // } else {
+        //   if (state.matchDetail?.matchType !== "cricket") {
+        //     state.matchDetail = {
+        //       ...state.matchDetail,
+        //       resultStatus: {
+        //         ...state.matchDetail?.resultStatus,
+        //         [betId]: {
+        //           ...state.matchDetail?.resultStatus?.[betId],
+        //           betId: betId,
+        //           status: status,
+        //         },
+        //       },
+        //     };
+        //   }
+        // }
       })
       .addCase(handleBetResultStatus.fulfilled, (state, action) => {
         const { betId } = action.payload;
