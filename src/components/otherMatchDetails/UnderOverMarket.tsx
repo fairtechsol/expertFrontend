@@ -1,9 +1,9 @@
 import { Box, Typography } from "@mui/material";
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
 import { ARROWUP } from "../../assets";
-import { betLiveStatus, updateResultBoxStatus } from "../../store/actions/match/matchAction";
-import { AppDispatch, RootState } from "../../store/store";
+import { betLiveStatus } from "../../store/actions/match/matchAction";
+import { AppDispatch } from "../../store/store";
 import { profitLossDataForMatchConstants } from "../../utils/Constants";
 import Divider from "../Common/Divider";
 import BoxComponent from "../matchDetails/MatchOdds/BoxComponent";
@@ -14,21 +14,12 @@ import MarketResultComponent from "./MarketResultComponent";
 
 const UnderOverMarket = ({ currentMatch, liveData, title }: any) => {
   const dispatch: AppDispatch = useDispatch();
+  const [visible, setVisible] = useState(false);
   const [visibleImg, setVisibleImg] = useState(true);
   const [live, setLive] = useState(
     liveData?.activeStatus === "live" ? true : false
   );
-  const {resultBox} = useSelector(
-    (state: RootState) => state.addMatch.addMatch
-  );
-  const [visible, setVisible] = useState(resultBox);
-  useEffect(() => {
-    if(!resultBox){
-      setVisible(false)
-    }
-  }, [resultBox])
-  
-  
+
   return (
     <Box
       sx={{
@@ -115,7 +106,7 @@ const UnderOverMarket = ({ currentMatch, liveData, title }: any) => {
                 width={"80px"}
                 onClick={() => {
                   setVisible(true);
-                  dispatch(updateResultBoxStatus({visible:true}))
+                  // dispatch(updateResultBoxStatus({ visible: true }));
                 }}
                 invert={true}
               />
