@@ -69,7 +69,7 @@ const MatchListTable = (props: any) => {
         sx={[
           {
             display: "flex",
-            // height: { xs: "auto", md: "45px" },
+            height: { xs: "auto", md: "45px" },
             background: "#FFE094",
             alignItems: { xs: "stretch", md: "center" },
             borderTop: "2px solid white",
@@ -90,7 +90,7 @@ const MatchListTable = (props: any) => {
             ({index + 1 + Constants.pageLimit * (currentPage - 1)})
           </Typography>
           <Typography
-            sx={{ fontSize: "9px", padding: "4px", fontWeight: "700" }}
+            sx={{ fontSize: "9px", padding: "4px", fontWeight: "700", marginLeft: "2px" }}
           >
             {moment(data?.startAt).format("DD-MM-YYYY")} <br />
             {moment(data?.startAt).format("LT")}

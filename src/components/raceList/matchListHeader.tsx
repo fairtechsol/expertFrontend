@@ -150,7 +150,7 @@ const MatchListHeader = ({ value }: MatchListHeader) => {
           <Box
             sx={{
               // minWidth: "30vw",
-              maxWidth: { lg: "60vw", md: "100%", sm: "20vw" },
+              maxWidth: { lg: "60vw", md: "60%", sm: "50%" },
               display: "flex",
               alignItems: "center",
             }}
