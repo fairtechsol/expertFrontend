@@ -315,7 +315,7 @@ const Header1 = () => {
                   width: "100%",
                   minHeight: { lg: 66, md: 80, xs: 60 },
                   display: "flex",
-                  flexDirection: { lg: "row", xs: "column", sm: "row" },
+                  flexDirection: { lg: "row", xs: "column", sm: "column", md: "" },
                   alignItems: !matchesMobile ? "center" : "flex-start",
                   justifyContent: "space-between",
                   paddingX: { lg: "0.5%", xs: "2%" },
