@@ -2,7 +2,10 @@ import { Box, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ARROWUP } from "../../../assets";
-import { betLiveStatus, updateResultBoxStatus } from "../../../store/actions/match/matchAction";
+import {
+  betLiveStatus,
+  updateResultBoxStatus,
+} from "../../../store/actions/match/matchAction";
 import { AppDispatch, RootState } from "../../../store/store";
 import { profitLossDataForMatchConstants } from "../../../utils/Constants";
 import Divider from "../../Common/Divider";
@@ -16,21 +19,24 @@ import ResultComponent from "../../updateBookmaker/BookmakerEdit/ResultComponent
 const SetWinner = ({ currentMatch, liveData, title }: any) => {
   const dispatch: AppDispatch = useDispatch();
   const [visibleImg, setVisibleImg] = useState<boolean>(true);
+  const [visible, setVisible] = useState(false);
   const [live, setLive] = useState<boolean>(
     liveData?.activeStatus === "live" ? true : false
   );
-  const {resultBox} = useSelector(
+
+  const { resultBox } = useSelector(
     (state: RootState) => state.addMatch.addMatch
   );
-  const [visible, setVisible] = useState(resultBox);
-  useEffect(() => {
-    if(!resultBox){
-      setVisible(false)
-    }
-  }, [resultBox])
+
   useEffect(() => {
     setLive(liveData?.activeStatus === "live" ? true : false);
   }, [liveData?.activeStatus]);
+
+  useEffect(() => {
+    if (!resultBox?.visible && resultBox?.betId === liveData?.id) {
+      setVisible(false);
+    }
+  }, [resultBox]);
 
   return (
     <Box
@@ -118,7 +124,12 @@ const SetWinner = ({ currentMatch, liveData, title }: any) => {
                 width={"80px"}
                 onClick={() => {
                   setVisible(true);
-                  dispatch(updateResultBoxStatus({visible:true}))
+                  dispatch(
+                    updateResultBoxStatus({
+                      visible: true,
+                      betId: liveData?.id,
+                    })
+                  );
                 }}
                 invert={true}
               />
