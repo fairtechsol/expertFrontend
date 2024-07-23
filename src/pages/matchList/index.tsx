@@ -87,16 +87,14 @@ const MatchList = ({}) => {
         <MatchListHeader />
         <MatchListTableHeader />
         {matchList &&
-          matchList?.matches?.map((item: any, index: number) => {
-            return (
-              <MatchListTable
-                key={item?.id}
-                data={item}
-                index={index}
-                currentPage={currentPage}
-              />
-            );
-          })}
+          matchList?.matches?.map((item: any, index: number) => (
+            <MatchListTable
+              key={item?.id}
+              data={item}
+              index={index}
+              currentPage={currentPage}
+            />
+          ))}
         <Pagination
           sx={{
             background: "#073c25",

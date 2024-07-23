@@ -41,13 +41,6 @@ const MatchListHeader = ({ value }: MatchListHeader) => {
   const [dated, setDated] = useState<any>("");
   const [selectedTab, setSelectedTab] = useState(0);
 
-  console.log(
-    moment(new Date(dateList[0]?.date))
-      .utc()
-      .format("YYYY-MM-DD[T]HH:mm:ss.SSS[Z]"),
-    "abc"
-  );
-
   useEffect(() => {
     if (dateList?.length > 0) {
       setDated(dateList[0]?.date);

@@ -146,17 +146,15 @@ const RaceList = ({}) => {
         <MatchListHeader value={value} />
         <MatchListTableHeader />
         {raceList &&
-          Object.keys(raceList).map((item: any, index: number) => {
-            return (
-              <MatchListTable
-                key={item?.id}
-                data={item}
-                index={index}
-                currentPage={currentPage}
-                race={raceList}
-              />
-            );
-          })}
+          Object.keys(raceList).map((item: any, index: number) => (
+            <MatchListTable
+              key={item}
+              data={item}
+              index={index}
+              currentPage={currentPage}
+              race={raceList}
+            />
+          ))}
         {/* <Pagination
           sx={{
             background: "#073c25",
