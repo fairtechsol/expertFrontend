@@ -162,14 +162,14 @@ const Header1 = () => {
                       title={!dropDownLoading ? "ALL MATCH" : "Loading..."}
                       boxStyle={{
                         backgroundColor:
-                          currentSelected == 1 ? "white" : "transparent",
+                          currentSelected == 1 && (gameType || anchor) ? "white" : "transparent",
                         py: "5px",
                         borderRadius: "5px",
                         marginLeft: { lg: "15px", xs: "1px" },
                         cursor: "pointer",
                       }}
                       titleStyle={{
-                        color: currentSelected == 1 ? "green" : "white",
+                        color: currentSelected == 1 && (gameType || anchor) ? "green" : "white",
                       }}
                     />
                   )}
@@ -435,14 +435,14 @@ const Header1 = () => {
                         title={!dropDownLoading ? "ALL MATCH" : "Loading..."}
                         boxStyle={{
                           backgroundColor:
-                            currentSelected == 1 ? "white" : "transparent",
+                            currentSelected == 1 && (gameType || anchor) ? "white" : "transparent",
                           py: "5px",
                           borderRadius: "5px",
                           marginLeft: { lg: "15px", xs: "15px" },
                           cursor: "pointer",
                         }}
                         titleStyle={{
-                          color: currentSelected == 1 ? "green" : "white",
+                          color: currentSelected == 1 && (gameType || anchor) ? "green" : "white",
                         }}
                       />
                     )}
