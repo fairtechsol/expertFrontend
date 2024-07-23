@@ -458,17 +458,19 @@ const addMatch = createSlice({
             resultStatus: status ?? null,
           };
         } else {
-          state.matchDetail = {
-            ...state.matchDetail,
-            resultStatus: {
-              ...state.matchDetail?.resultStatus,
-              [betId]: {
-                ...state.matchDetail?.resultStatus?.[betId],
-                betId,
-                status,
+          if (state.matchDetail?.matchType !== "cricket") {
+            state.matchDetail = {
+              ...state.matchDetail,
+              resultStatus: {
+                ...state.matchDetail?.resultStatus,
+                [betId]: {
+                  ...state.matchDetail?.resultStatus?.[betId],
+                  betId,
+                  status,
+                },
               },
-            },
-          };
+            };
+          }
         }
         // const { status, betId } = action?.payload;
         // const index = state.matchDetail?.quickBookmaker?.findIndex(
