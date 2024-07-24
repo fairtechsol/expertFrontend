@@ -122,14 +122,18 @@ const ManualBoxComponent = ({
           <Box
             sx={{
               background: "#000",
-              height: isTeamC ? "125px" : "82px",
+              height: isTeamC
+                ? name === "No" || name === "Yes"
+                  ? "82px"
+                  : "125px"
+                : "82px",
               position: "absolute",
               right: 0,
               top: 0,
               zIndex: 10,
               width: { lg: "65%", xs: "34.8%" },
               justifyContent: { xs: "center", lg: "center" },
-              alignItems: "center",
+              alignItems:  isTeamC ? "center" : "center",
               display: "flex",
             }}
           >
@@ -138,7 +142,11 @@ const ManualBoxComponent = ({
               style={{
                 width: "108px",
                 height: "30px",
-                marginBottom: isTeamC ? "45px" : "0",
+                // marginBottom: isTeamC
+                //   ? name === "No" || name === "Yes"
+                //     ? "0"
+                //     : "45px"
+                //   : "0",
               }}
               alt=""
             />
