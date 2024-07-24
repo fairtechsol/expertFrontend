@@ -69,7 +69,7 @@ const MatchListTable = (props: any) => {
         sx={[
           {
             display: "flex",
-            height: { xs: "auto", md: "45px" },
+            // height: { xs: "auto", md: "45px" },
             background: "#FFE094",
             alignItems: { xs: "stretch", md: "center" },
             borderTop: "2px solid white",
@@ -103,7 +103,7 @@ const MatchListTable = (props: any) => {
             paddingX: "10px",
             alignItems: "center",
             justifyContent: "space-between",
-            flexDirection: { xs: "column", sm: "row", lg: "row" },
+            flexDirection: { xs: "column", sm: "row", lg: "row", },
             // height: "45px",
           }}
         >
@@ -154,7 +154,7 @@ const MatchListTable = (props: any) => {
           <Box
             display={"flex"}
             sx={{
-              flexDirection: { xs: "column", sm: "row", md: "row", lg: "row" },
+              flexDirection: { xs: "column", sm: "column", md: "row", lg: "row" },
               order: { xs: "1", sm: "2", md: "3" },
               width: { xs: "100%", sm: "auto" },
               py: { xs: 1, sm: 0 },

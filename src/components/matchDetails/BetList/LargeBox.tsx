@@ -13,6 +13,7 @@ const LargeBox = ({ item, k }: any) => {
         display: "flex",
         flexDirection: "column",
         width: item?.width ? item?.width : "150px",
+        // paddingTop: "5px"
       }}
     >
       <Typography
@@ -39,6 +40,9 @@ const LargeBox = ({ item, k }: any) => {
             fontSize: { lg: "7px", xs: "0.3rem", md: "9px" },
             fontWeight: "600",
             color: item?.color,
+            overflowWrap: "anywhere",
+            padding: "2px",
+            overflow: "hidden"
           }}
         >
           {item?.domain}
