@@ -145,7 +145,7 @@ const UnderOverMarket = ({ currentMatch, liveData, title }: any) => {
                       );
                       setLive(!live);
                     }}
-                    width={{ xs: "30px", lg: "80px", md: "50px" }}
+                    // width={{ xs: "30px", md: "50px" }}
                     title={live ? "Live" : "Go Live"}
                     color={live ? "#46e080" : "#FF4D4D"}
                     customStyle={{
