@@ -62,9 +62,9 @@ const MenutItemsComponent = ({
         }}
         onClick={(e:any) => {
           e.stopPropagation();
-          
+
           if (index == selected) {
-            console.log("clicked")
+          
             setToggle(false);
             setSelected(null);
           } else {
