@@ -17,6 +17,7 @@ import {
 } from "../../../store/actions/addSession";
 import { matchDetailReset } from "../../../store/actions/addMatch/addMatchAction";
 import { IconConstants } from "../../../components/helper/gameConstants";
+import { useState } from "react";
 
 const MenutItemsComponent = ({
   x,
@@ -35,6 +36,7 @@ const MenutItemsComponent = ({
   );
   const navigate = useNavigate();
 
+  const [toggle, setToggle] = useState<boolean>(true);
   return (
     <>
       <MenuItem
@@ -43,7 +45,7 @@ const MenutItemsComponent = ({
           fontSize: matchesMobile ? "10px" : "12px",
           fontWeight: "500",
           marginX: "0px",
-          width: {xs:"auto", md: "550px", lg: "550px"},
+          width: { xs: "auto", md: "550px", lg: "550px" },
           borderBottomWidth: 0,
           borderColor: "#EAEFEC",
           paddingY: "0px",
@@ -58,20 +60,26 @@ const MenutItemsComponent = ({
             borderColor: "white",
           },
         }}
-        onClick={() => {
+        onClick={(e:any) => {
+          e.stopPropagation();
+          
           if (index == selected) {
+            console.log("clicked")
+            setToggle(false);
             setSelected(null);
           } else {
+            setToggle(true);
             setSelected(index);
           }
         }}
       >
-       <StyledImage
-              src={IconConstants[x?.matchType]}
-              sx={{ height: "12px", width: "12px",marginRight:'8px' }}
-            /> {x.title}
+        <StyledImage
+          src={IconConstants[x?.matchType]}
+          sx={{ height: "12px", width: "12px", marginRight: "8px" }}
+        />{" "}
+        {x.title}
       </MenuItem>
-      {selected == index && (
+      {selected == index  && (
         <Box
           sx={{
             background: "#F8C851",
@@ -133,6 +141,7 @@ const MenutItemsComponent = ({
                     );
                   } else return null;
                 })}
+
               {(getProfile?.allPrivilege ||
                 getProfile?.sessionMatchPrivilege) && (
                 <Box
@@ -173,6 +182,7 @@ const MenutItemsComponent = ({
               )}
             </>
           )}
+
           {(getProfile?.allPrivilege ||
             getProfile?.bookmakerMatchPrivilege) && (
             <Box

@@ -286,7 +286,7 @@ const Header1 = () => {
                   </Box>
                 </Box>
               </Box>
-              {matchListDropdown?.length > 0 && (
+              {/* {matchListDropdown?.length > 0 && (
                 <DropDownMenu
                   sx={{ alignItems: "center" }}
                   anchorEl={anchor}
@@ -296,7 +296,7 @@ const Header1 = () => {
                     setAnchor(null);
                   }}
                 />
-              )}
+              )} */}
             </Box>
           </AppBar>
           <Box sx={{ minHeight: { lg: 66, xs: 60 + 20 } }} />
