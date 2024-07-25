@@ -282,7 +282,10 @@ const AddMatch = () => {
           minBet: value.minBet,
           marketData: [],
 
-          betFairSessionMaxBet: selected.gameType==='cricket'? value.betfairSessionMaxBet : value.minBet+1,
+          betFairSessionMaxBet:
+            selected.gameType === "cricket"
+              ? value.betfairSessionMaxBet
+              : value.minBet + 1,
           bookmakers: bookmakers,
         };
 
@@ -1037,7 +1040,7 @@ const AddMatch = () => {
                   );
                 })}
 
-            <Box sx={{ width: "100%" }}>
+            <Box sx={{ width: "100%",cursor:"pointer" }}>
               <Box
                 sx={{
                   width: { xs: "100%", lg: "18%", md: "24%" },
