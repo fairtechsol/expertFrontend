@@ -5,13 +5,4 @@ import react from "@vitejs/plugin-react-swc";
 export default defineConfig({
   plugins: [react()],
   base: "/expert",
-  build: {
-    // Enable dynamic imports
-    rollupOptions: {
-      output: {
-        manualChunks: undefined,
-        // chunkFileNames: "[name].js",
-      },
-    },
-  },
 });
