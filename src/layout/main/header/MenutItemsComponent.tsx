@@ -17,7 +17,6 @@ import {
 } from "../../../store/actions/addSession";
 import { matchDetailReset } from "../../../store/actions/addMatch/addMatchAction";
 import { IconConstants } from "../../../components/helper/gameConstants";
-import { useState } from "react";
 
 const MenutItemsComponent = ({
   x,
@@ -35,8 +34,6 @@ const MenutItemsComponent = ({
     (state: RootState) => state.matchList
   );
   const navigate = useNavigate();
-
-  const [toggle, setToggle] = useState<boolean>(true);
   return (
     <>
       <MenuItem
@@ -60,15 +57,12 @@ const MenutItemsComponent = ({
             borderColor: "white",
           },
         }}
-        onClick={(e:any) => {
+        onClick={(e: any) => {
           e.stopPropagation();
 
           if (index == selected) {
-          
-            setToggle(false);
             setSelected(null);
           } else {
-            setToggle(true);
             setSelected(index);
           }
         }}
@@ -79,7 +73,7 @@ const MenutItemsComponent = ({
         />{" "}
         {x.title}
       </MenuItem>
-      {selected == index  && (
+      {selected == index && (
         <Box
           sx={{
             background: "#F8C851",
