@@ -34,7 +34,6 @@ const MenutItemsComponent = ({
     (state: RootState) => state.matchList
   );
   const navigate = useNavigate();
-
   return (
     <>
       <MenuItem
@@ -43,7 +42,7 @@ const MenutItemsComponent = ({
           fontSize: matchesMobile ? "10px" : "12px",
           fontWeight: "500",
           marginX: "0px",
-          width: { lg: "240px", xs: "240px" },
+          width: { xs: "auto", md: "550px", lg: "550px" },
           borderBottomWidth: 0,
           borderColor: "#EAEFEC",
           paddingY: "0px",
@@ -58,7 +57,9 @@ const MenutItemsComponent = ({
             borderColor: "white",
           },
         }}
-        onClick={() => {
+        onClick={(e: any) => {
+          e.stopPropagation();
+
           if (index == selected) {
             setSelected(null);
           } else {
@@ -66,10 +67,11 @@ const MenutItemsComponent = ({
           }
         }}
       >
-       <StyledImage
-              src={IconConstants[x?.matchType]}
-              sx={{ height: "12px", width: "12px",marginRight:'2px' }}
-            /> {x.title}
+        <StyledImage
+          src={IconConstants[x?.matchType]}
+          sx={{ height: "12px", width: "12px", marginRight: "8px" }}
+        />{" "}
+        {x.title}
       </MenuItem>
       {selected == index && (
         <Box
@@ -133,6 +135,7 @@ const MenutItemsComponent = ({
                     );
                   } else return null;
                 })}
+
               {(getProfile?.allPrivilege ||
                 getProfile?.sessionMatchPrivilege) && (
                 <Box
@@ -173,6 +176,7 @@ const MenutItemsComponent = ({
               )}
             </>
           )}
+
           {(getProfile?.allPrivilege ||
             getProfile?.bookmakerMatchPrivilege) && (
             <Box

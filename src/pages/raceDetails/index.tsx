@@ -1,4 +1,4 @@
-import { Box } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { memo, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -25,12 +25,18 @@ import {
   updateTeamRatesForHorseRacingOnDelete,
 } from "../../store/actions/match/matchAction";
 import { AppDispatch, RootState } from "../../store/store";
+import moment from "moment";
+import { getTimeLeft } from "../../helpers";
 
 const RaceDetails = () => {
   const { state } = useLocation();
   const navigate = useNavigate();
   const dispatch: AppDispatch = useDispatch();
-  const [_] = useState(false);
+  const [timeLeft, setTimeLeft] = useState<any>({
+    days: 0,
+    hours: 0,
+    minutes: 0,
+  });
   const { loading } = useSelector(
     (state: RootState) => state.addMatch.addMatch
   );
@@ -53,7 +59,15 @@ const RaceDetails = () => {
   const resultDeclared = (event: any) => {
     try {
       if (event?.matchId === state?.id) {
-        navigate("/expert/race");
+        navigate(
+          `/expert/race/${
+            raceDetail?.matchType
+              ? raceDetail?.matchType === "greyhoundRacing"
+                ? "greyHound"
+                : raceDetail?.matchType
+              : "horseRacing"
+          }`
+        );
       }
     } catch (e) {
       console.log(e);
@@ -157,18 +171,16 @@ const RaceDetails = () => {
 
   useEffect(() => {
     try {
-      if (state?.id) {
-        return () => {
-          expertSocketService.match.leaveMatchRoom(state?.id);
-          expertSocketService.match.getMatchRatesOff(state?.id);
-          // socketService.user.matchBettingStatusChangeOff();
-          socketService.user.matchResultDeclaredOff();
-          socketService.user.matchResultUnDeclaredOff();
-          socketService.user.matchDeleteBetOff();
-          socketService.user.userMatchBetPlacedOff();
-          socketService.user.updateInResultDeclareOff();
-        };
-      }
+      return () => {
+        expertSocketService.match.leaveMatchRoom(state?.id);
+        expertSocketService.match.getMatchRatesOff(state?.id);
+        // socketService.user.matchBettingStatusChangeOff();
+        socketService.user.matchResultDeclaredOff();
+        socketService.user.matchResultUnDeclaredOff();
+        socketService.user.matchDeleteBetOff();
+        socketService.user.userMatchBetPlacedOff();
+        socketService.user.updateInResultDeclareOff();
+      };
     } catch (error) {
       console.log(error);
     }
@@ -201,6 +213,15 @@ const RaceDetails = () => {
       console.error(error);
     }
   }, []);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      let timeLeft = getTimeLeft(raceDetail?.startAt);
+      setTimeLeft(timeLeft);
+    }, 1000);
+    return () => clearInterval(timer);
+  }, [state?.id, raceDetail]);
+
   return (
     <Box
       sx={{
@@ -230,6 +251,35 @@ const RaceDetails = () => {
               marginTop: { xs: "10px", lg: "0" },
             }}
           >
+            <Typography
+              sx={{
+                fontSize: "16px",
+                color: "white",
+                fontWeight: "700",
+                alignSelf: "start",
+              }}
+            >
+              {`${raceDetail?.countryCode} > ${raceDetail?.venue}`}
+            </Typography>
+            <Typography
+              sx={{
+                fontSize: "12px",
+                color: "white",
+                fontWeight: "700",
+                alignSelf: "start",
+              }}
+            >
+              {`${moment(raceDetail?.startAt).format("YYYY-MM-DD HH:mm")} | ${
+                raceDetail?.title
+              }`}
+              {timeLeft.hours !== 0 || timeLeft.minutes !== 0
+                ? timeLeft?.hours > 0
+                  ? `| ${timeLeft?.hours} hours ${timeLeft?.minutes} Minutes Remaining`
+                  : timeLeft?.minutes > 0
+                  ? `| ${timeLeft?.minutes} Minutes Remaining`
+                  : ""
+                : ""}
+            </Typography>
             <MatchOdds
               showHeader={true}
               currentMatch={raceDetail}

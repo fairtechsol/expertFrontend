@@ -147,8 +147,8 @@ const MatchOdds = ({ currentMatch, matchOddsLive }: any) => {
           sx={{
             position: "absolute",
             zIndex: 999,
-            top: { lg: currentMatch?.stopAt ? "10%" : "26%", xs: "26%" },
-            right: { lg: currentMatch?.stopAt ? "-20%" : "60px", xs: "60px" },
+            top: { lg:currentMatch?.stopAt?"10%":"6%", xs: "6%" },
+            right: { lg:currentMatch?.stopAt?"-20%": "60px", xs: "10px" },
             width: { lg: "50vh", xs: "30vh" },
           }}
         >
@@ -312,7 +312,7 @@ const MatchOdds = ({ currentMatch, matchOddsLive }: any) => {
               }}
             >
               {currentMatch?.matchOdd?.runners?.length > 0 &&
-                currentMatch?.matchOdd?.runners?.map((item: any, index:number) => {
+                currentMatch?.matchOdd?.runners?.map((item: any) => {
                   return (
                     <>
                       <BoxComponent
@@ -327,7 +327,6 @@ const MatchOdds = ({ currentMatch, matchOddsLive }: any) => {
                               : 0
                             : 0
                         }
-                        index={index}
                       />
                       <Divider />
                     </>

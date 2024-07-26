@@ -45,8 +45,8 @@ interface InitialState {
   matchAdded: boolean;
   loading: boolean;
   error: any;
-  raceRunners:any;
-  resultBox:any;
+  raceRunners: any;
+  resultBox: any;
 }
 
 const initialState: InitialState = {
@@ -60,7 +60,7 @@ const initialState: InitialState = {
       EventName: "No Matches Available",
     },
   ],
-  raceRunners:[],
+  raceRunners: [],
   extraMarketList: [],
   extraMarketListFootball: [],
   selectionIds: {},
@@ -69,7 +69,7 @@ const initialState: InitialState = {
   matchAdded: false,
   success: false,
   error: null,
-  resultBox:false
+  resultBox: { visible: false, betId: "" },
 };
 
 const addMatch = createSlice({
@@ -445,26 +445,75 @@ const addMatch = createSlice({
         const index = state.matchDetail?.quickBookmaker?.findIndex(
           (item: any) => item.type === "quickbookmaker1"
         );
-        if (index !== -1) {
-          if (state.matchDetail?.matchType === "cricket") {
-            if (betId === state.matchDetail?.quickBookmaker[index]?.id) {
-              state.matchDetail = {
-                ...state.matchDetail,
-                resultStatus: status ? status : null,
-              };
-            }
-          } else
+
+        const isCricketMatch = state.matchDetail?.matchType === "cricket";
+
+        if (
+          index !== -1 &&
+          isCricketMatch &&
+          betId === state.matchDetail?.quickBookmaker[index]?.id
+        ) {
+          state.matchDetail = {
+            ...state.matchDetail,
+            resultStatus: status ?? null,
+          };
+        } else {
+          if (state.matchDetail?.matchType !== "cricket") {
             state.matchDetail = {
               ...state.matchDetail,
               resultStatus: {
                 ...state.matchDetail?.resultStatus,
                 [betId]: {
-                  betId: betId,
-                  status: status,
+                  ...state.matchDetail?.resultStatus?.[betId],
+                  betId,
+                  status,
                 },
               },
             };
+          }
         }
+        // const { status, betId } = action?.payload;
+        // const index = state.matchDetail?.quickBookmaker?.findIndex(
+        //   (item: any) => item.type === "quickbookmaker1"
+        // );
+        // if (index !== -1) {
+        //   if (state.matchDetail?.matchType === "cricket") {
+        //     if (betId === state.matchDetail?.quickBookmaker[index]?.id) {
+        //       state.matchDetail = {
+        //         ...state.matchDetail,
+        //         resultStatus: status ? status : null,
+        //       };
+        //     }
+        //   } else {
+        //     if (state.matchDetail?.matchType !== "cricket") {
+        //       state.matchDetail = {
+        //         ...state.matchDetail,
+        //         resultStatus: {
+        //           ...state.matchDetail?.resultStatus,
+        //           [betId]: {
+        //             ...state.matchDetail?.resultStatus?.[betId],
+        //             betId: betId,
+        //             status: status,
+        //           },
+        //         },
+        //       };
+        //     }
+        //   }
+        // } else {
+        //   if (state.matchDetail?.matchType !== "cricket") {
+        //     state.matchDetail = {
+        //       ...state.matchDetail,
+        //       resultStatus: {
+        //         ...state.matchDetail?.resultStatus,
+        //         [betId]: {
+        //           ...state.matchDetail?.resultStatus?.[betId],
+        //           betId: betId,
+        //           status: status,
+        //         },
+        //       },
+        //     };
+        //   }
+        // }
       })
       .addCase(handleBetResultStatus.fulfilled, (state, action) => {
         const { betId } = action.payload;
@@ -487,7 +536,6 @@ const addMatch = createSlice({
         state.loading = false;
         state.error = action?.error?.message;
       })
-      
       .addCase(updateRaceRunners.fulfilled, (state, action) => {
         state.raceRunners = action.payload;
       })
@@ -505,7 +553,7 @@ const addMatch = createSlice({
         state.error = action?.error?.message;
       })
       .addCase(updateResultBoxStatus.fulfilled, (state, action) => {
-        state.resultBox = action?.payload?.visible;
+        state.resultBox = action?.payload;
         state.loading = false;
         state.success = true;
       });

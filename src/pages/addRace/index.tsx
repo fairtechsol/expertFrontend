@@ -71,9 +71,12 @@ const AddRace = () => {
 
   const { state } = useLocation();
 
-  const { eventsList, matchDetail, success, matchAdded, loading, raceRunners } =
-    useSelector((state: RootState) => state.addMatch.addMatch);
-
+  const { eventsList, matchAdded, loading, raceRunners } = useSelector(
+    (state: RootState) => state.addMatch.addMatch
+  );
+  const { raceDetail, success } = useSelector(
+    (state: RootState) => state.matchList
+  );
   const [selected, setSelected] = useState(initialValues);
   const [openDropDown, setOpenDropDown] = useState(null);
   const [matchType, setMatchType] = useState<any>("");
@@ -203,6 +206,12 @@ const AddRace = () => {
         };
       });
     }
+    setSelected((prev: any) => {
+      return {
+        ...prev,
+        matchName: "",
+      };
+    });
     if (selected.gameType !== "" && !state?.id) {
       if (!manualMatchToggle) {
         const gameType = gameTypes.find(
@@ -279,7 +288,15 @@ const AddRace = () => {
       });
     }
     if (matchAdded) {
-      navigate("/expert/race");
+      navigate(
+        `/expert/race/${
+          matchType
+            ? matchType === "greyhoundRacing"
+              ? "greyHound"
+              : matchType
+            : "horseRacing"
+        }`
+      );
       dispatch(addMatchReset());
     }
   }, [state?.id, matchAdded]);
@@ -290,7 +307,7 @@ const AddRace = () => {
     } catch (e) {
       console.log(e);
     }
-  }, [matchDetail, success]);
+  }, [raceDetail, success, selected.gameType]);
 
   useEffect(() => {
     setSelected(initialValues);
@@ -438,7 +455,7 @@ const AddRace = () => {
                     position: "relative",
                     marginTop: "5px",
                   }}
-                  type={"cricket"}
+                  type={""}
                   titleStyle={{ marginLeft: "0px", color: "#575757" }}
                   data={eventsList}
                   matchesSelect={true}
@@ -679,7 +696,15 @@ const AddRace = () => {
               if (state?.id) {
                 dispatch(editMatchReset());
               }
-              navigate("/expert/race");
+              navigate(
+                `/expert/race/${
+                  matchType
+                    ? matchType === "greyhoundRacing"
+                      ? "greyHound"
+                      : matchType
+                    : "horseRacing"
+                }`
+              );
             }}
             sx={{
               background: "#E32A2A",

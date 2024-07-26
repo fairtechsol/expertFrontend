@@ -44,7 +44,7 @@ const GameTypeDropdown = ({ anchorEl, open, handleClose,anchorrr }: any) => {
                 fontSize: matchesMobile ? "10px" : "12px",
                 fontWeight: "500",
                 marginX: "0px",
-                width: { lg: "240px", xs: "240px" },
+                width: { lg: "350px", xs: "240px" },
                 borderBottomWidth: 0,
                 borderColor: "#EAEFEC",
                 paddingY: "0px",

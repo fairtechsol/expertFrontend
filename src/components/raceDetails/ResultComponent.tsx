@@ -131,6 +131,9 @@ const ResultComponent = ({
                       color: selected === item?.id ? "white" : "black",
                       lineHeight: 1,
                       overflowWrap: "anywhere",
+                      whiteSpace: "nowrap",
+                      overflow: "hidden",
+                      textOverflow: "ellipsis"
                     }}
                   >
                     {item?.runnerName}

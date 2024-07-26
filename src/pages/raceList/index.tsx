@@ -6,80 +6,39 @@ import MatchListTableHeader from "../../components/raceList/matchListTableHeader
 import "./style.css";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store/store";
-import {
-  getRaceList,
-  matchListReset,
-} from "../../store/actions/match/matchAction";
+import { matchListReset } from "../../store/actions/match/matchAction";
 import {
   expertSocketService,
   socket,
   socketService,
 } from "../../socketManager";
-import moment from "moment";
 import CustomButton from "../../components/Common/CustomButton";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { getDateList } from "../../store/actions/user/userAction";
-
-function TabPanel(props: any) {
-  const { children, value, index, ...other } = props;
-
-  return (
-    <div
-      className="p-0"
-      role="tabpanel"
-      hidden={value !== index}
-      id={`tabpanel-${index}`}
-      aria-labelledby={`tab-${index}`}
-      {...other}
-      sx={{
-        padding: 0,
-      }}
-    >
-      {value === index && <Box sx={{ mt: 2 }}>{children}</Box>}
-    </div>
-  );
-}
 
 const RaceList = ({}) => {
   const dispatch: AppDispatch = useDispatch();
   const [currentPage] = useState(1);
-  const [value, setValue] = useState("horseRacing");
-
+  const { raceType } = useParams();
+  const [value, setValue] = useState(raceType);
   const navigate = useNavigate();
-  const { getProfile, dateList } = useSelector(
-    (state: RootState) => state.user.profile
-  );
+  const { getProfile } = useSelector((state: RootState) => state.user.profile);
 
-  const { success, raceList, countryCode } = useSelector(
+  const { success, raceList } = useSelector(
     (state: RootState) => state.matchList
   );
 
   const handleChange = (_: React.SyntheticEvent, newValue: string) => {
     setValue(newValue);
+    navigate(`/expert/race/${newValue}`);
   };
-  // function callPage(_: any, newPage: any) {
-  //   setCurrentPage(newPage);
-  // }
 
-  // useEffect(() => {
-  //   try {
-  //     if (sessionStorage.getItem("jwtExpert")) {
-  //       dispatch(getMatchList({ currentPage: currentPage }));
-  //     }
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // }, [currentPage, sessionStorage]);
-
-  const getMatchListService = () => {
-    // setCurrentPage(1);
-    dispatch(
-      getRaceList({
-        cc: countryCode[0]?.countryCode,
-        date: moment(dateList[0]?.date).format("YYYY-MM-DD"),
-        matchType: value,
-      })
-    );
+  const getMatchListService = (event: any) => {
+    if (event?.gameType === raceType || event?.type === raceType) {
+      setTimeout(() => {
+        dispatch(getDateList({ matchType: value }));
+      }, 500);
+    }
   };
 
   useEffect(() => {
@@ -89,7 +48,9 @@ const RaceList = ({}) => {
   }, [success]);
 
   useEffect(() => {
-    dispatch(getDateList({ matchType: value }));
+    if (value) {
+      dispatch(getDateList({ matchType: value }));
+    }
   }, [value]);
 
   useEffect(() => {
@@ -98,15 +59,23 @@ const RaceList = ({}) => {
         expertSocketService.match.matchAdded(getMatchListService);
         socketService.user.matchResultUnDeclared(getMatchListService);
         socketService.user.matchResultDeclared(getMatchListService);
+        socketService.user.matchResultUnDeclareAllUser(getMatchListService);
         return () => {
           expertSocketService.match.matchAddedOff();
           socketService.user.matchResultUnDeclaredOff();
+          socketService.user.matchResultUnDeclareAllUserOff();
         };
       }
     } catch (error) {
       console.log(error);
     }
-  }, [socket]);
+  }, [socket, raceType]);
+
+  useEffect(() => {
+    if (raceType) {
+      setValue(raceType);
+    }
+  }, [raceType]);
 
   return (
     <>
@@ -139,9 +108,6 @@ const RaceList = ({}) => {
               label="Greyhound Racing"
             />
           </Tabs>
-
-          <TabPanel value={value} index="horseRacing"></TabPanel>
-          <TabPanel value={value} index="greyHound"></TabPanel>
         </Box>
         <Box
           sx={{
@@ -180,17 +146,15 @@ const RaceList = ({}) => {
         <MatchListHeader value={value} />
         <MatchListTableHeader />
         {raceList &&
-          Object.keys(raceList).map((item: any, index: number) => {
-            return (
-              <MatchListTable
-                key={item?.id}
-                data={item}
-                index={index}
-                currentPage={currentPage}
-                race={raceList}
-              />
-            );
-          })}
+          Object.keys(raceList).map((item: any, index: number) => (
+            <MatchListTable
+              key={item}
+              data={item}
+              index={index}
+              currentPage={currentPage}
+              race={raceList}
+            />
+          ))}
         {/* <Pagination
           sx={{
             background: "#073c25",

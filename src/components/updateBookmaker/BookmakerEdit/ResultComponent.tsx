@@ -103,56 +103,58 @@ const ResultComponent = ({
       </Box>
       <Box sx={{ padding: 0 }}>
         <form onSubmit={handleSubmit}>
-         {!stopAt && <Box
-            sx={{
-              width: "100%",
-              flexWrap: "wrap",
-              flexDirection: "row",
-              display: "flex",
-              alignSelf: "center",
-              alignItems: "center",
-              justifyContent: "center",
-              px: "10px",
-              py: "5px",
-            }}
-          >
-            {teamData.map((i, k) => {
-              return (
-                <Box
-                  key={k}
-                  onClick={() => {
-                    setSelected(i);
-                  }}
-                  sx={{
-                    width: "40%",
-                    marginY: "5px",
-                    marginX: "5px",
-                    borderRadius: "3px",
-                    border: "2px solid #2626261A",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    height: "50px",
-                    cursor: "pointer",
-                    background: selected === i ? "#0B4F26" : "#F8C851",
-                    overflow: "hidden",
-                  }}
-                >
-                  <Typography
+          {!stopAt && (
+            <Box
+              sx={{
+                width: "100%",
+                flexWrap: "wrap",
+                flexDirection: "row",
+                display: "flex",
+                alignSelf: "center",
+                alignItems: "center",
+                justifyContent: "center",
+                px: "10px",
+                py: "5px",
+              }}
+            >
+              {teamData.map((i, k) => {
+                return (
+                  <Box
+                    key={k}
+                    onClick={() => {
+                      setSelected(i);
+                    }}
                     sx={{
-                      fontSize: "14px",
-                      fontWeight: "700",
-                      color: selected === i ? "white" : "black",
-                      lineHeight: 1,
-                      overflowWrap: "anywhere",
+                      width: "40%",
+                      marginY: "5px",
+                      marginX: "5px",
+                      borderRadius: "3px",
+                      border: "2px solid #2626261A",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      height: "50px",
+                      cursor: "pointer",
+                      background: selected === i ? "#0B4F26" : "#F8C851",
+                      overflow: "hidden",
                     }}
                   >
-                    {i}
-                  </Typography>
-                </Box>
-              );
-            })}
-          </Box>}
+                    <Typography
+                      sx={{
+                        fontSize: "14px",
+                        fontWeight: "700",
+                        color: selected === i ? "white" : "black",
+                        lineHeight: 1,
+                        overflowWrap: "anywhere",
+                      }}
+                    >
+                      {i}
+                    </Typography>
+                  </Box>
+                );
+              })}
+            </Box>
+          )}
 
           <Box
             sx={{
@@ -185,7 +187,8 @@ const ResultComponent = ({
                         })
                       );
                     } else {
-                      liveData?.type === "matchOdd"
+                      liveData?.type === "matchOdd" ||
+                      liveData?.type === "quickbookmaker1"
                         ? dispatch(
                             otherUnDeclareMatchResult({
                               matchId: currentMatch?.id,
@@ -224,7 +227,8 @@ const ResultComponent = ({
                           })
                         );
                       } else {
-                        liveData?.type === "matchOdd"
+                        liveData?.type === "matchOdd" ||
+                        liveData?.type === "quickbookmaker1"
                           ? dispatch(
                               otherDeclareMatchResult({
                                 matchId: currentMatch?.id,
@@ -263,7 +267,8 @@ const ResultComponent = ({
                           })
                         );
                       } else {
-                        liveData?.type === "matchOdd"
+                        liveData?.type === "matchOdd" ||
+                        liveData?.type === "quickbookmaker1"
                           ? dispatch(
                               otherDeclareMatchResult({
                                 matchId: currentMatch?.id,

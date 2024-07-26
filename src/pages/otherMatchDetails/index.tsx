@@ -12,26 +12,26 @@ import {
 } from "../../socketManager";
 import {
   handleBetResultStatus,
-  removeSessionProLoss,
+  // removeSessionProLoss,
   updateMatchRates,
   updateMatchRatesOnMarketUndeclare,
   updateRates,
-  updateSessionProLoss,
+  // updateSessionProLoss,
 } from "../../store/actions/addMatch/addMatchAction";
-import {
-  setCurrentOdd,
-  updateApiSessionById,
-} from "../../store/actions/addSession";
+// import {
+//   setCurrentOdd,
+//   updateApiSessionById,
+// } from "../../store/actions/addSession";
 import {
   getPlacedBetsMatch,
   getSessionProfitLossMatchDetailReset,
   updateMatchBetsPlace,
   updateMatchBetsReason,
-  updateMaxLoss,
+  // updateMaxLoss,
   updateResultBoxStatus,
   updateResultStatusOfMatch,
-  updateResultStatusOfSession,
-  updateSessionBetsPlace,
+  // updateResultStatusOfSession,
+  // updateSessionBetsPlace,
   updateTeamRates,
 } from "../../store/actions/match/matchAction";
 import { AppDispatch, RootState } from "../../store/store";
@@ -43,6 +43,7 @@ import UnderOverMarket from "../../components/otherMatchDetails/UnderOverMarket"
 import SetWinner from "../../components/matchDetails/SetWinner";
 import HalfTime from "../../components/matchDetails/HalfTime";
 import { getOtherGamesMatchDetail } from "../../store/actions/otherGamesAction/matchDetailActions";
+import { convertString } from "../../helpers";
 
 const OtherMatchDetails = () => {
   const { state } = useLocation();
@@ -73,7 +74,9 @@ const OtherMatchDetails = () => {
           navigate("/expert/match");
         } else {
           dispatch(getPlacedBetsMatch(state?.id));
-          dispatch(updateResultBoxStatus({visible:false}))
+          dispatch(
+            updateResultBoxStatus({ visible: false, betId: event?.betId })
+          );
         }
       }
     } catch (e) {
@@ -124,41 +127,41 @@ const OtherMatchDetails = () => {
     }
   };
 
-  const updateSessionResultDeclared = (event: any) => {
-    try {
-      if (state?.id === event?.matchId) {
-        dispatch(updateApiSessionById(event));
-        dispatch(getPlacedBetsMatch(state?.id));
-        if (event?.activeStatus === "result") {
-          dispatch(
-            removeSessionProLoss({
-              id: event?.betId,
-            })
-          );
-        } else {
-          dispatch(
-            updateSessionProLoss({
-              id: event?.betId,
-              betPlaced: event?.profitLossObj
-                ? event?.profitLossObj?.betPlaced
-                : [],
-            })
-          );
-        }
-        dispatch(
-          updateMaxLoss({
-            id: event?.betId,
-            maxLoss: event?.profitLossObj
-              ? event?.profitLossObj?.maxLoss
-              : event?.profitLoss,
-            totalBet: event?.profitLossObj ? event?.profitLossObj?.totalBet : 0,
-          })
-        );
-      }
-    } catch (e) {
-      console.log(e);
-    }
-  };
+  // const updateSessionResultDeclared = (event: any) => {
+  //   try {
+  //     if (state?.id === event?.matchId) {
+  //       dispatch(updateApiSessionById(event));
+  //       dispatch(getPlacedBetsMatch(state?.id));
+  //       if (event?.activeStatus === "result") {
+  //         dispatch(
+  //           removeSessionProLoss({
+  //             id: event?.betId,
+  //           })
+  //         );
+  //       } else {
+  //         dispatch(
+  //           updateSessionProLoss({
+  //             id: event?.betId,
+  //             betPlaced: event?.profitLossObj
+  //               ? event?.profitLossObj?.betPlaced
+  //               : [],
+  //           })
+  //         );
+  //       }
+  //       dispatch(
+  //         updateMaxLoss({
+  //           id: event?.betId,
+  //           maxLoss: event?.profitLossObj
+  //             ? event?.profitLossObj?.maxLoss
+  //             : event?.profitLoss,
+  //           totalBet: event?.profitLossObj ? event?.profitLossObj?.totalBet : 0,
+  //         })
+  //       );
+  //     }
+  //   } catch (e) {
+  //     console.log(e);
+  //   }
+  // };
 
   const updateMatchBetPlaced = (event: any) => {
     try {
@@ -171,42 +174,41 @@ const OtherMatchDetails = () => {
     }
   };
 
-  const updateSessionBetPlaced = (event: any) => {
-    try {
-      if (event?.jobData?.placedBet?.matchId === state?.id) {
-        dispatch(updateSessionBetsPlace(event));
-        dispatch(
-          updateSessionProLoss({
-            id: event?.jobData?.placedBet?.betId,
-            betPlaced: event?.redisData?.betPlaced,
-          })
-        );
-        dispatch(
-          updateMaxLoss({
-            id: event?.jobData?.placedBet?.betId,
-            maxLoss: event?.redisData?.maxLoss,
-            totalBet: event?.redisData?.totalBet,
-          })
-        );
-        dispatch(
-          setCurrentOdd({
-            matchId: event?.jobData?.placedBet?.matchId,
-            betId: event?.jobData?.placedBet?.betId,
-            odds: event?.jobData?.placedBet?.odds,
-          })
-        );
-      }
-    } catch (e) {
-      console.log(e);
-    }
-  };
+  // const updateSessionBetPlaced = (event: any) => {
+  //   try {
+  //     if (event?.jobData?.placedBet?.matchId === state?.id) {
+  //       dispatch(updateSessionBetsPlace(event));
+  //       dispatch(
+  //         updateSessionProLoss({
+  //           id: event?.jobData?.placedBet?.betId,
+  //           betPlaced: event?.redisData?.betPlaced,
+  //         })
+  //       );
+  //       dispatch(
+  //         updateMaxLoss({
+  //           id: event?.jobData?.placedBet?.betId,
+  //           maxLoss: event?.redisData?.maxLoss,
+  //           totalBet: event?.redisData?.totalBet,
+  //         })
+  //       );
+  //       dispatch(
+  //         setCurrentOdd({
+  //           matchId: event?.jobData?.placedBet?.matchId,
+  //           betId: event?.jobData?.placedBet?.betId,
+  //           odds: event?.jobData?.placedBet?.odds,
+  //         })
+  //       );
+  //     }
+  //   } catch (e) {
+  //     console.log(e);
+  //   }
+  // };
 
   const updateSessionResultStatus = (event: any) => {
     try {
       if (event?.matchId === state?.id) {
-        dispatch(updateResultStatusOfSession(event));
         dispatch(updateResultStatusOfMatch(event));
-        dispatch(updateResultBoxStatus({visible:false}))
+        dispatch(updateResultBoxStatus({ visible: false }));
       }
     } catch (error) {
       console.error(error);
@@ -240,10 +242,10 @@ const OtherMatchDetails = () => {
         socketService.user.matchResultUnDeclaredOff();
         socketService.user.matchDeleteBetOff();
         socketService.user.sessionDeleteBetOff();
-        socketService.user.sessionAddedOff();
+        // socketService.user.sessionAddedOff();
         socketService.user.userMatchBetPlacedOff();
-        socketService.user.userSessionBetPlacedOff();
-        socketService.user.sessionResultDeclaredOff();
+        // socketService.user.userSessionBetPlacedOff();
+        // socketService.user.sessionResultDeclaredOff();
         socketService.user.updateInResultDeclareOff();
         expertSocketService.match.joinMatchRoom(state?.id, "expert");
         expertSocketService.match.getMatchRates(state?.id, (event: any) => {
@@ -252,10 +254,10 @@ const OtherMatchDetails = () => {
         socketService.user.matchResultDeclared(resultDeclared);
         socketService.user.matchResultUnDeclared(resultUnDeclared);
         socketService.user.matchDeleteBet(matchDeleteBet);
-        socketService.user.sessionDeleteBet(matchDeleteBet);
+        // socketService.user.sessionDeleteBet(matchDeleteBet);
         socketService.user.userMatchBetPlaced(updateMatchBetPlaced);
-        socketService.user.userSessionBetPlaced(updateSessionBetPlaced);
-        socketService.user.sessionResultDeclared(updateSessionResultDeclared);
+        // socketService.user.userSessionBetPlaced(updateSessionBetPlaced);
+        // socketService.user.sessionResultDeclared(updateSessionResultDeclared);
         socketService.user.updateInResultDeclare(updateSessionResultStatus);
         expertSocketService.match.connectError(handleSocketError);
         expertSocketService.match.onConnect(handleSocketConnection);
@@ -275,11 +277,11 @@ const OtherMatchDetails = () => {
           socketService.user.matchResultDeclaredOff();
           socketService.user.matchResultUnDeclaredOff();
           socketService.user.matchDeleteBetOff();
-          socketService.user.sessionDeleteBetOff();
-          socketService.user.sessionAddedOff();
+          // socketService.user.sessionDeleteBetOff();
+          // socketService.user.sessionAddedOff();
           socketService.user.userMatchBetPlacedOff();
-          socketService.user.userSessionBetPlacedOff();
-          socketService.user.sessionResultDeclaredOff();
+          // socketService.user.userSessionBetPlacedOff();
+          // socketService.user.sessionResultDeclaredOff();
           socketService.user.updateInResultDeclareOff();
           expertSocketService.match.connectErrorOff();
           expertSocketService.match.onConnectOff();
@@ -393,7 +395,7 @@ const OtherMatchDetails = () => {
                     key={market?.id}
                     currentMatch={matchDetail}
                     liveData={market}
-                    title={market?.name}
+                    title={convertString(market?.name)}
                   />
                 ))}
             {matchDetail?.overUnder &&
@@ -404,7 +406,7 @@ const OtherMatchDetails = () => {
                     key={market?.id}
                     currentMatch={matchDetail}
                     liveData={market}
-                    title={market?.name}
+                    title={convertString(market?.name)}
                   />
                 ))}
             {matchDetail?.setWinner &&
@@ -416,7 +418,7 @@ const OtherMatchDetails = () => {
                     key={market?.id}
                     currentMatch={matchDetail}
                     liveData={market}
-                    title={market?.name}
+                    title={convertString(market?.name)}
                   />
                 ))}
 

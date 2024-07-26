@@ -10,8 +10,11 @@ import { formatToINR } from "../../helpers";
 import { betLiveStatus } from "../../store/actions/match/matchAction";
 import { AppDispatch } from "../../store/store";
 import { profitLossDataForMatchConstants } from "../../utils/Constants";
+import ResultComponent from "../../components/updateBookmaker/BookmakerEdit/ResultComponent";
+import Result from "../../components/matchDetails/Result";
 
 const ManualMarket = ({ currentMatch, liveData, type }: any) => {
+  const [visible, setVisible] = useState(false);
   const dispatch: AppDispatch = useDispatch();
   const [visibleImg, setVisibleImg] = useState<boolean>(true);
   const [live, setLive] = useState<boolean>(
@@ -37,6 +40,7 @@ const ManualMarket = ({ currentMatch, liveData, type }: any) => {
           md: "center",
           lg: "flex-start",
         },
+        position: "relative",
       }}
     >
       <Box
@@ -98,6 +102,15 @@ const ManualMarket = ({ currentMatch, liveData, type }: any) => {
             justifyContent: "flex-end",
           }}
         >
+          {!currentMatch?.matchOdd && liveData?.type === "quickbookmaker1" && (
+            <Result
+              width={"80px"}
+              onClick={() => {
+                setVisible(true);
+              }}
+              invert={true}
+            />
+          )}
           {!currentMatch?.stopAt && (
             <SmallBox
               onClick={() => {
@@ -110,7 +123,7 @@ const ManualMarket = ({ currentMatch, liveData, type }: any) => {
                 );
                 setLive(!live);
               }}
-              width={"80px"}
+              // width={"80px"}
               title={live ? "Live" : "Go Live"}
               color={live ? "#46e080" : "#FF4D4D"}
               customStyle={{
@@ -133,6 +146,30 @@ const ManualMarket = ({ currentMatch, liveData, type }: any) => {
             }}
           />
         </Box>
+      </Box>
+      <Box
+        sx={{
+          position: "absolute",
+          zIndex: 999,
+          top: "26%",
+          right: "60px",
+          width: { lg: "50vh", xs: "30vh" },
+        }}
+      >
+        {visible && (
+          <ResultComponent
+            currentMatch={currentMatch}
+            teamA={currentMatch?.teamA}
+            stopAt={currentMatch?.stopAt}
+            teamB={currentMatch?.teamB}
+            tie={currentMatch?.matchType === "cricket" ? "Tie" : ""}
+            draw={currentMatch?.teamC ? currentMatch?.teamC : null}
+            onClick={() => {
+              setVisible(false);
+            }}
+            liveData={liveData}
+          />
+        )}
       </Box>
       <Divider />
       {visibleImg && (

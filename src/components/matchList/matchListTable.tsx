@@ -80,7 +80,7 @@ const MatchListTable = (props: any) => {
           sx={{
             display: "flex",
             width: "100px",
-            paddingLeft: "10px",
+            // paddingLeft: "10px",
             alignItems: "center",
             // height: "45px",
             borderRight: "2px solid white",
@@ -90,7 +90,7 @@ const MatchListTable = (props: any) => {
             ({index + 1 + Constants.pageLimit * (currentPage - 1)})
           </Typography>
           <Typography
-            sx={{ fontSize: "9px", padding: "4px", fontWeight: "700" }}
+            sx={{ fontSize: "9px", padding: "4px", fontWeight: "700", marginLeft: "2px" }}
           >
             {moment(data?.startAt).format("DD-MM-YYYY")} <br />
             {moment(data?.startAt).format("LT")}
@@ -103,7 +103,7 @@ const MatchListTable = (props: any) => {
             paddingX: "10px",
             alignItems: "center",
             justifyContent: "space-between",
-            flexDirection: { xs: "column", sm: "row", lg: "row" },
+            flexDirection: { xs: "column", sm: "row", lg: "row", },
             // height: "45px",
           }}
         >
@@ -154,7 +154,7 @@ const MatchListTable = (props: any) => {
           <Box
             display={"flex"}
             sx={{
-              flexDirection: { xs: "column", sm: "row", md: "row", lg: "row" },
+              flexDirection: { xs: "column", sm: "column", md: "row", lg: "row" },
               order: { xs: "1", sm: "2", md: "3" },
               width: { xs: "100%", sm: "auto" },
               py: { xs: 1, sm: 0 },
@@ -194,7 +194,7 @@ const MatchListTable = (props: any) => {
                 cursor="default"
               />
             )}
-            {data?.matchType === "cricket" &&  data?.stopAt && (
+            {data?.matchType === "cricket" && data?.stopAt && (
               <MatchListProfitLoss
                 onClick={() => handleMatchProfitLossClick(data?.id)}
                 updateMatchStatusLabel="Session P/L"
@@ -218,25 +218,26 @@ const MatchListTable = (props: any) => {
                 flexWrap: "wrap",
               }}
             >
-              {data?.matchType === "cricket" && (getProfile?.allPrivilege ||
-                getProfile?.sessionMatchPrivilege) && (
-                <CustomButton
-                  containerStyle={{
-                    // minWidth: { xs: "40%", sm: "100px" },
-                    // width: { xs: "40%", sm: "100px" },
-                    // marginLeft: { xs: "1%", sm: "10px" },
-                    // marginBottom: { xs: "1%", sm: "10px" },
-                    // gap: 0.5,
-                    margin: "5px",
-                  }}
-                  onClick={() => {
-                    navigate(`/expert/session`, {
-                      state: { id: data?.id, marketId: data?.marketId },
-                    });
-                  }}
-                  title={"Session"}
-                />
-              )}
+              {data?.matchType === "cricket" &&
+                (getProfile?.allPrivilege ||
+                  getProfile?.sessionMatchPrivilege) && (
+                  <CustomButton
+                    containerStyle={{
+                      // minWidth: { xs: "40%", sm: "100px" },
+                      // width: { xs: "40%", sm: "100px" },
+                      // marginLeft: { xs: "1%", sm: "10px" },
+                      // marginBottom: { xs: "1%", sm: "10px" },
+                      // gap: 0.5,
+                      margin: "5px",
+                    }}
+                    onClick={() => {
+                      navigate(`/expert/session`, {
+                        state: { id: data?.id, marketId: data?.marketId },
+                      });
+                    }}
+                    title={"Session"}
+                  />
+                )}
               {(getProfile?.allPrivilege ||
                 getProfile?.betFairMatchPrivilege) && (
                 <CustomButton

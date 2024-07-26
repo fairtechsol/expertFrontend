@@ -19,7 +19,7 @@ import GameTypeDropdown from "./GameTypeDropdown";
 
 const Header1 = () => {
   const theme = useTheme();
-  const matchesMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const matchesMobile = useMediaQuery(theme.breakpoints.down("md"));
   const navigate = useNavigate();
   const dispatch: AppDispatch = useDispatch();
   const { getProfile, loggedUserCount } = useSelector(
@@ -162,14 +162,14 @@ const Header1 = () => {
                       title={!dropDownLoading ? "ALL MATCH" : "Loading..."}
                       boxStyle={{
                         backgroundColor:
-                          currentSelected == 1 ? "white" : "transparent",
+                          currentSelected == 1 && (gameType || anchor) ? "white" : "transparent",
                         py: "5px",
                         borderRadius: "5px",
                         marginLeft: { lg: "15px", xs: "1px" },
                         cursor: "pointer",
                       }}
                       titleStyle={{
-                        color: currentSelected == 1 ? "green" : "white",
+                        color: currentSelected == 1 && (gameType || anchor) ? "green" : "white",
                       }}
                     />
                   )}
@@ -203,7 +203,7 @@ const Header1 = () => {
                   </NavLink>
 
                   <NavLink
-                    to={"/expert/race"}
+                    to={"/expert/race/horseRacing"}
                     style={{ textDecoration: "none" }}
                   >
                     <ButtonHead
@@ -234,12 +234,12 @@ const Header1 = () => {
                 <Box
                   sx={{
                     display: "flex",
-                    justifyContent: matchesMobile ? "flex-end" : "flex-end",
+                    justifyContent: "flex-end",
                     flex: 1,
                     minWidth: matchesMobile ? "0%" : "0px",
-                    alignItems: matchesMobile ? "center" : "center",
-                    marginTop: matchesMobile ? "0px" : "0px",
-                    flexDirection: matchesMobile ? "row" : "row",
+                    alignItems: "center",
+                    marginTop: "0px",
+                    flexDirection: "row",
                   }}
                 >
                   <Box
@@ -286,7 +286,7 @@ const Header1 = () => {
                   </Box>
                 </Box>
               </Box>
-              {matchListDropdown?.length > 0 && (
+              {/* {matchListDropdown?.length > 0 && (
                 <DropDownMenu
                   sx={{ alignItems: "center" }}
                   anchorEl={anchor}
@@ -296,7 +296,7 @@ const Header1 = () => {
                     setAnchor(null);
                   }}
                 />
-              )}
+              )} */}
             </Box>
           </AppBar>
           <Box sx={{ minHeight: { lg: 66, xs: 60 + 20 } }} />
@@ -315,7 +315,7 @@ const Header1 = () => {
                   width: "100%",
                   minHeight: { lg: 66, md: 80, xs: 60 },
                   display: "flex",
-                  flexDirection: { lg: "row", xs: "column", sm: "row" },
+                  flexDirection: { lg: "row", xs: "column", sm: "column", md: "" },
                   alignItems: !matchesMobile ? "center" : "flex-start",
                   justifyContent: "space-between",
                   paddingX: { lg: "0.5%", xs: "2%" },
@@ -435,14 +435,14 @@ const Header1 = () => {
                         title={!dropDownLoading ? "ALL MATCH" : "Loading..."}
                         boxStyle={{
                           backgroundColor:
-                            currentSelected == 1 ? "white" : "transparent",
+                            currentSelected == 1 && (gameType || anchor) ? "white" : "transparent",
                           py: "5px",
                           borderRadius: "5px",
                           marginLeft: { lg: "15px", xs: "15px" },
                           cursor: "pointer",
                         }}
                         titleStyle={{
-                          color: currentSelected == 1 ? "green" : "white",
+                          color: currentSelected == 1 && (gameType || anchor) ? "green" : "white",
                         }}
                       />
                     )}
@@ -476,7 +476,7 @@ const Header1 = () => {
                     </NavLink>
 
                     <NavLink
-                      to={"/expert/race"}
+                      to={"/expert/race/horseRacing"}
                       style={{ textDecoration: "none" }}
                     >
                       <ButtonHead

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Menu,useMediaQuery,useTheme } from "@mui/material";
+import { Menu, useMediaQuery, useTheme } from "@mui/material";
 import MenutItemsComponent from "./MenutItemsComponent";
 
 const DropDownMenu = ({ anchorEl, open, handleClose, allMatch }: any) => {
@@ -13,13 +13,17 @@ const DropDownMenu = ({ anchorEl, open, handleClose, allMatch }: any) => {
       anchorEl={anchorEl}
       open={open}
       onClose={handleClose}
-      sx={{ marginTop:{xs: "50px", md: "40px", lg: "35px"}, padding: 0,left:matchesMobile? "200px" :'260px' }}
+      sx={{
+        marginTop: { xs: "50px", md: "40px", lg: "35px" },
+        padding: 0,
+        left: matchesMobile ? "200px" : "260px",
+      }}
       MenuListProps={{
         "aria-labelledby": "basic-button",
       }}
       PaperProps={{
         sx: {
-          width: "230px",
+          width: "auto",
           padding: 0,
         },
       }}

@@ -1,3 +1,5 @@
+import moment from "moment-timezone";
+
 export const customSort = (a: any, b: any) => {
   const order: any = { live: 1, save: 2, result: 3 };
   const statusComparison =
@@ -45,4 +47,40 @@ export const numberInputOnWheelPreventChange = (e: any) => {
   setTimeout(() => {
     e.target.focus();
   }, 0);
+};
+
+export const getTimeLeft = (matchStartDate: string | any) => {
+  const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  const targetDate = moment(matchStartDate).tz(timezone);
+
+  const difference = targetDate.diff(moment().tz(timezone), "milliseconds");
+  if (difference <= 0) {
+    return {
+      hours: 0,
+      minutes: 0,
+      seconds: 0,
+    };
+  }
+
+  const hours = Math.floor(difference / (1000 * 60 * 60));
+  const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+  const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+  return {
+    hours: hours,
+    minutes: minutes,
+    seconds: seconds,
+  };
+};
+
+export const convertString = (str: string) => {
+  if (str?.includes("_")) {
+    let words = str.split("_");
+    for (let i = 0; i < words.length; i++) {
+      words[i] = words[i].charAt(0).toUpperCase() + words[i].slice(1);
+    }
+    return words.join(" ");
+  } else {
+    return str;
+  }
 };
