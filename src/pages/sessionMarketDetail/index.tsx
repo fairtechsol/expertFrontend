@@ -337,6 +337,9 @@ const SessionMarketDetail = () => {
               hideResult={false}
               currentMatch={matchDetail}
               hideEditMaxButton={true}
+              cstmStyle={{
+                maxHeight: { sm: "40vh" },
+              }}
             />
           )}
           {!(
@@ -352,7 +355,6 @@ const SessionMarketDetail = () => {
               hideResult={true}
               currentMatch={matchDetail}
               hideEditMaxButton={false}
-              maxHeight="85vh"
             />
           )}
           {declaredSessions?.length > 0 && (
@@ -365,6 +367,9 @@ const SessionMarketDetail = () => {
               hideResult={false}
               currentMatch={matchDetail}
               hideEditMaxButton={true}
+              cstmStyle={{
+                maxHeight: { sm: "40vh" },
+              }}
             />
           )}
         </Box>
