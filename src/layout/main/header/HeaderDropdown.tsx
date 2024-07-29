@@ -14,8 +14,13 @@ const menutItems = [
   // { title: "Bet Odds", navigateTo: "betodds" },
   // { title: "Market", navigateTo: "add_book_maker" },
   // { title: "Add Book Maker", navigateTo: "add_book_maker" },
-  { title: "Add Match", navigateTo: "add_match", privilege: "bookmakerMatchPrivilege" },
-  { title: "Change Password", navigateTo: "change-password" },
+  {
+    id: 1,
+    title: "Add Match",
+    navigateTo: "add_match",
+  },
+  { id: 2, title: "Add Race", navigateTo: "add_race" },
+  { id: 3, title: "Change Password", navigateTo: "change-password" },
 ];
 const HeaderDropdown = (props: any) => {
   const { anchorEl, open, handleClose } = props;
@@ -60,13 +65,13 @@ const HeaderDropdown = (props: any) => {
       transformOrigin={{ horizontal: "right", vertical: "top" }}
       anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
     >
-      {menutItems.map((x: any, i: any) => {
+      {menutItems.map((x: any) => {
         if (x?.title === "Add Match") {
           return (
-            <div key={i}>
+            <div key={x?.id}>
               {(getProfile?.allPrivilege || getProfile?.addMatchPrivilege) && (
                 <MenuItem
-                  key={i}
+                  key={x?.id}
                   dense={true}
                   sx={{
                     fontSize: { lg: "12px", xs: "10px" },
@@ -95,7 +100,7 @@ const HeaderDropdown = (props: any) => {
         } else {
           return (
             <MenuItem
-              key={i}
+              key={x?.id}
               dense={true}
               sx={{
                 fontSize: { lg: "12px", xs: "10px" },
