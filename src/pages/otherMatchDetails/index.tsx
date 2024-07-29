@@ -43,7 +43,7 @@ import UnderOverMarket from "../../components/otherMatchDetails/UnderOverMarket"
 import SetWinner from "../../components/matchDetails/SetWinner";
 import HalfTime from "../../components/matchDetails/HalfTime";
 import { getOtherGamesMatchDetail } from "../../store/actions/otherGamesAction/matchDetailActions";
-import { convertString } from "../../helpers";
+import { convertString, customSortOnName } from "../../helpers";
 
 const OtherMatchDetails = () => {
   const { state } = useLocation();
@@ -390,6 +390,8 @@ const OtherMatchDetails = () => {
             {matchDetail?.firstHalfGoal &&
               matchDetail?.firstHalfGoal
                 ?.filter((item: any) => item?.isActive)
+                ?.slice()
+                ?.sort(customSortOnName)
                 ?.map((market: any) => (
                   <UnderOverMarket
                     key={market?.id}
@@ -401,6 +403,8 @@ const OtherMatchDetails = () => {
             {matchDetail?.overUnder &&
               matchDetail?.overUnder
                 ?.filter((item: any) => item?.isActive)
+                ?.slice()
+                ?.sort(customSortOnName)
                 ?.map((market: any) => (
                   <UnderOverMarket
                     key={market?.id}
@@ -413,6 +417,8 @@ const OtherMatchDetails = () => {
               matchDetail?.setWinner?.length > 0 &&
               matchDetail?.setWinner
                 ?.filter((item: any) => item?.isActive)
+                ?.slice()
+                ?.sort(customSortOnName)
                 ?.map((market: any) => (
                   <SetWinner
                     key={market?.id}

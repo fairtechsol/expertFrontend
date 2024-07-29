@@ -84,3 +84,16 @@ export const convertString = (str: string) => {
     return str;
   }
 };
+
+export const customSortOnName = (a: any, b: any) => {
+  let nameA = a.name;
+  let nameB = b.name;
+
+  let numA = parseFloat(nameA.match(/[\d.]+$/));
+  let numB = parseFloat(nameB.match(/[\d.]+$/));
+
+  if (isNaN(numA)) numA = 0;
+  if (isNaN(numB)) numB = 0;
+
+  return numA - numB;
+};
