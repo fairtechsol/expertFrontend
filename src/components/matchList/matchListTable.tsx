@@ -112,8 +112,8 @@ const MatchListTable = (props: any) => {
             display="flex"
             alignItems="center"
             sx={{
-              order: { xs: "2", sm: "1" },
-              marginY: { xs: 1 },
+              order: { xs: "2", sm: "2" },
+              marginY: { sm: 1 },
             }}
           >
             <StyledImage
@@ -165,11 +165,15 @@ const MatchListTable = (props: any) => {
               // marginBottom: showUserModal ? { xs: "0%", sm: "-1%", lg: "-20%" } : "0%",
             }}
           >
-            {/* <Box sx={{
-            width: { xs: "90%", sm: "auto", lg: "100%" },
-               display: "flex",
-               flexDirection: "row"
-            }}> */}
+       
+            
+            <Box
+            sx={{
+              display: "flex",
+              flexDirection: { md: "row", sm: "column", lg: "row" }
+              
+            }} 
+            >
             {data?.stopAt && (
               <MatchListProfitLoss
                 // onClick={() => handleMatchProfitLossClick(data?.id)}
@@ -207,15 +211,17 @@ const MatchListTable = (props: any) => {
                 cursor="pointer"
               />
             )}
-
+            </Box>
             <Box
               display={"flex"}
               sx={{
                 // marginY: { xs: 1, sm: 0, lg: 0 },
                 // marginX: { xs: 1, sm: 1, lg: 1 },
+                display: "flex",
                 alignItems: "center",
+                flexDirection: { md: "row", sm: "row", lg: "row" },
                 justifyContent: "flex-end",
-                flexWrap: "wrap",
+                // flexWrap: "wrap",
               }}
             >
               {data?.matchType === "cricket" &&
@@ -282,6 +288,7 @@ const MatchListTable = (props: any) => {
                 />
               )}
             </Box>
+        
           </Box>
         </Box>
       </Box>

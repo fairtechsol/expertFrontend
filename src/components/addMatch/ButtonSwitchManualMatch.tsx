@@ -15,7 +15,7 @@ const BoxButtonManualMatch = (props: any) => {
       sx={[
         {
           height: "35px",
-          width: { xs: "30%", sm: "15%", md: "10%" },
+          width: { xs: "35%", sm: "15%", md: "10%" },
           marginTop: { xs: 1, md: 0 },
           marginLeft: "10px",
           borderRadius: "25px",
