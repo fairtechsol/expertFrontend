@@ -176,11 +176,13 @@ const MatchListTable = (props: any) => {
             }}
           >
             <Box
-              sx={{
-                display: "flex",
-                flexDirection: { md: "row", sm: "row", lg: "row" },
+            sx={{
+              display: "flex",
+              flexDirection: { md: "row", sm: "row", lg: "row" },
+             justifyContent:"center",alignItems:"center",
                 marginTop: { sm: "5px", lg: 0, md: 0 },
-              }}
+                paddingRight:"5px"
+            }} 
             >
               {data?.stopAt && (
                 <MatchListProfitLoss
@@ -229,8 +231,9 @@ const MatchListTable = (props: any) => {
                 display: "flex",
                 alignItems: "center",
                 flexDirection: { md: "row", sm: "row", lg: "row" },
-                justifyContent: "flex-end",
+                justifyContent: {lg:"flex-end",md:"flex-end",sm:"flex-end",xs:"center"},
                 // flexWrap: "wrap",
+                // backgroundColor:{xs:"red"}
               }}
             >
               {data?.matchType === "cricket" &&

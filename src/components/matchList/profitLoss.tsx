@@ -20,7 +20,7 @@ const MatchListProfitLoss = (Props: any) => {
         onClick={onClick}
         sx={{
           cursor: cursor,
-          height: { xs: "25px", lg: "35px" },
+          height: { xs: "35px", lg: "35px" },
           minWidth: { xs: "10%", md: "18%", lg: "12%" },
           marginLeft: { xs: "2px" },
           marginBottom: { xs: "2px" },
