@@ -113,7 +113,7 @@ const MatchListTable = (props: any) => {
             alignItems="center"
             sx={{
               order: { xs: "2", sm: "2" },
-              marginY: { sm: 1 },
+              // marginY: { sm: 1 },
             }}
           >
             <StyledImage
@@ -170,8 +170,8 @@ const MatchListTable = (props: any) => {
             <Box
             sx={{
               display: "flex",
-              flexDirection: { md: "row", sm: "column", lg: "row" }
-              
+              flexDirection: { md: "row", sm: "row", lg: "row" },
+             
             }} 
             >
             {data?.stopAt && (
@@ -215,6 +215,7 @@ const MatchListTable = (props: any) => {
             <Box
               display={"flex"}
               sx={{
+                width: "100%",
                 // marginY: { xs: 1, sm: 0, lg: 0 },
                 // marginX: { xs: 1, sm: 1, lg: 1 },
                 display: "flex",
