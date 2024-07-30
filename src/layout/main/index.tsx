@@ -6,6 +6,7 @@ import { socketService } from "../../socketManager";
 import { getProfile } from "../../store/actions/user/userAction";
 import { AppDispatch } from "../../store/store";
 import Header from "./header";
+import ScrollToTop from "../../components/Common/ScrollToTop";
 
 const MainLayout = () => {
   const navigate = useNavigate();
@@ -37,6 +38,7 @@ const MainLayout = () => {
 
   return (
     <>
+      <ScrollToTop />
       <Header />
       <BackgroundLayout>
         <Outlet />
