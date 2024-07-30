@@ -102,7 +102,7 @@ const SessionResultComponent = (props: any) => {
                 }}
               >
                 <Typography
-                  sx={{ color: "white", fontWeight: "600", fontSize: "12px" }}
+                  sx={{ color: "white", fontWeight: "600", fontSize: {xs:"9px",lg: "12px"} }}
                 >
                   RESULT
                 </Typography>
@@ -134,7 +134,7 @@ const SessionResultComponent = (props: any) => {
                 }}
               >
                 <Typography
-                  sx={{ color: "white", fontWeight: "600", fontSize: "12px" }}
+                  sx={{ color: "white", fontWeight: "600", fontSize: {xs:"9px",lg: "12px"} }}
                 >
                   PROFIT/LOSS
                 </Typography>
