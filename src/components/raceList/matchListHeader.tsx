@@ -129,7 +129,7 @@ const MatchListHeader = ({ value }: MatchListHeader) => {
         <Box sx={{ display: "flex", gap: "20px" }}>
           <Typography
             sx={{
-              fontSize: "16px",
+              fontSize: "20px",
               color: "white",
               fontWeight: "600",
               display: "flex",
@@ -168,6 +168,8 @@ const MatchListHeader = ({ value }: MatchListHeader) => {
                     sx={{
                       backgroundColor: value === index ? "#F8C851" : "#FFFFFF",
                       color: "black",
+                      height:"55px",
+                      fontSize:"20px"
                     }}
                     key={item?.countryCode}
                     label={item?.countryCode}
