@@ -79,7 +79,7 @@ const MatchListTable = (props: any) => {
         <Box
           sx={{
             display: "flex",
-            width: "100px",
+            width: {xs: "60px", sm: "100px", md: "100px", lg: "100px"},
             // paddingLeft: "10px",
             alignItems: "center",
             // height: "45px",
