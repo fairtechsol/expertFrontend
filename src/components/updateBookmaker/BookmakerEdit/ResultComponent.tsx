@@ -146,9 +146,11 @@ const ResultComponent = ({
                         color: selected === i ? "white" : "black",
                         lineHeight: 1,
                         overflowWrap: "anywhere",
+                        wordBreak: "break-word", 
+                        maxWidth: "200px", 
                       }}
                     >
-                      {i}
+                      {i.length > 20 ? `${i.slice(0, 19)}...` : i}
                     </Typography>
                   </Box>
                 );

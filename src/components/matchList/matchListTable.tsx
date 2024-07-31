@@ -90,7 +90,12 @@ const MatchListTable = (props: any) => {
             ({index + 1 + Constants.pageLimit * (currentPage - 1)})
           </Typography>
           <Typography
-            sx={{ fontSize: "9px", padding: "4px", fontWeight: "700", marginLeft: "2px" }}
+            sx={{
+              fontSize: "9px",
+              padding: "4px",
+              fontWeight: "700",
+              marginLeft: "2px",
+            }}
           >
             {moment(data?.startAt).format("DD-MM-YYYY")} <br />
             {moment(data?.startAt).format("LT")}
@@ -103,7 +108,7 @@ const MatchListTable = (props: any) => {
             paddingX: "10px",
             alignItems: "center",
             justifyContent: "space-between",
-            flexDirection: { xs: "column", sm: "row", lg: "row", },
+            flexDirection: { xs: "column", sm: "row", lg: "row" },
             // height: "45px",
           }}
         >
@@ -154,7 +159,12 @@ const MatchListTable = (props: any) => {
           <Box
             display={"flex"}
             sx={{
-              flexDirection: { xs: "column", sm: "column", md: "row", lg: "row" },
+              flexDirection: {
+                xs: "column",
+                sm: "column",
+                md: "row",
+                lg: "row",
+              },
               order: { xs: "1", sm: "2", md: "3" },
               width: { xs: "100%", sm: "auto" },
               py: { xs: 1, sm: 0 },
@@ -165,52 +175,52 @@ const MatchListTable = (props: any) => {
               // marginBottom: showUserModal ? { xs: "0%", sm: "-1%", lg: "-20%" } : "0%",
             }}
           >
-       
-            
             <Box
             sx={{
               display: "flex",
               flexDirection: { md: "row", sm: "row", lg: "row" },
-             
+             justifyContent:"center",alignItems:"center",
+                marginTop: { sm: "5px", lg: 0, md: 0 },
+                paddingRight:"5px"
             }} 
             >
-            {data?.stopAt && (
-              <MatchListProfitLoss
-                // onClick={() => handleMatchProfitLossClick(data?.id)}
-                updateMatchStatusLabel="Total P/L"
-                updateMatchStatus={
-                  data?.pl &&
-                  data?.pl?.length > 0 &&
-                  data?.pl[0]?.totalProfitLoss
-                }
-                place="1"
-                cursor="default"
-              />
-            )}
-            {data?.stopAt && (
-              <MatchListProfitLoss
-                // onClick={() => handleMatchProfitLossClick(data?.id)}
-                updateMatchStatusLabel="Commission"
-                updateMatchStatus={
-                  data?.pl && data?.pl?.length > 0 && data?.pl[0]?.commission
-                }
-                place="1"
-                cursor="default"
-              />
-            )}
-            {data?.matchType === "cricket" && data?.stopAt && (
-              <MatchListProfitLoss
-                onClick={() => handleMatchProfitLossClick(data?.id)}
-                updateMatchStatusLabel="Session P/L"
-                updateMatchStatus={
-                  data?.pl &&
-                  data?.pl?.length > 0 &&
-                  data?.pl[0]?.sessionTotalProfitLoss
-                }
-                place="1"
-                cursor="pointer"
-              />
-            )}
+              {data?.stopAt && (
+                <MatchListProfitLoss
+                  // onClick={() => handleMatchProfitLossClick(data?.id)}
+                  updateMatchStatusLabel="Total P/L"
+                  updateMatchStatus={
+                    data?.pl &&
+                    data?.pl?.length > 0 &&
+                    data?.pl[0]?.totalProfitLoss
+                  }
+                  place="1"
+                  cursor="default"
+                />
+              )}
+              {data?.stopAt && (
+                <MatchListProfitLoss
+                  // onClick={() => handleMatchProfitLossClick(data?.id)}
+                  updateMatchStatusLabel="Commission"
+                  updateMatchStatus={
+                    data?.pl && data?.pl?.length > 0 && data?.pl[0]?.commission
+                  }
+                  place="1"
+                  cursor="default"
+                />
+              )}
+              {data?.matchType === "cricket" && data?.stopAt && (
+                <MatchListProfitLoss
+                  onClick={() => handleMatchProfitLossClick(data?.id)}
+                  updateMatchStatusLabel="Session P/L"
+                  updateMatchStatus={
+                    data?.pl &&
+                    data?.pl?.length > 0 &&
+                    data?.pl[0]?.sessionTotalProfitLoss
+                  }
+                  place="1"
+                  cursor="pointer"
+                />
+              )}
             </Box>
             <Box
               display={"flex"}
@@ -221,8 +231,9 @@ const MatchListTable = (props: any) => {
                 display: "flex",
                 alignItems: "center",
                 flexDirection: { md: "row", sm: "row", lg: "row" },
-                justifyContent: "flex-end",
+                justifyContent: {lg:"flex-end",md:"flex-end",sm:"flex-end",xs:"center"},
                 // flexWrap: "wrap",
+                // backgroundColor:{xs:"red"}
               }}
             >
               {data?.matchType === "cricket" &&
@@ -289,7 +300,6 @@ const MatchListTable = (props: any) => {
                 />
               )}
             </Box>
-        
           </Box>
         </Box>
       </Box>

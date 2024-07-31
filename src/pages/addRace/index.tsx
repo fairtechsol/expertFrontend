@@ -464,7 +464,7 @@ const AddRace = () => {
                     marginLeft: "0px",
                     marginTop: "0px",
                     position: "absolute",
-                    maxHeight: "500px",
+                    maxHeight: "255px",
                     overflow: "auto",
                   }}
                   onChange={(e: any) => {
