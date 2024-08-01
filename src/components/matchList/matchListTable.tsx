@@ -105,7 +105,7 @@ const MatchListTable = (props: any) => {
           sx={{
             flex: 1,
             display: "flex",
-            paddingX: "10px",
+            // paddingX: "10px",
             alignItems: "center",
             justifyContent: "space-between",
             flexDirection: { xs: "column", sm: "row", lg: "row" },
@@ -178,7 +178,7 @@ const MatchListTable = (props: any) => {
             <Box
             sx={{
               display: "flex",
-              flexDirection: { md: "row", sm: "row", lg: "row" },
+              flexDirection: {xs: "column", md: "row", sm: "row", lg: "row" },
              justifyContent:"center",alignItems:"center",
                 marginTop: { sm: "5px", lg: 0, md: 0 },
                 paddingRight:"5px"
