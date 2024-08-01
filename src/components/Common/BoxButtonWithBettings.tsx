@@ -1,4 +1,4 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Tooltip, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 // import { useDispatch } from "react-redux";
 // import { updateMatchActiveStatus } from "../../store/actions/match/matchAction";
@@ -38,7 +38,7 @@ const BoxButtonWithBettings = ({
         {
           height: "35px",
           minWidth: "100px",
-          width: { xs: "100%", sm: "48%", md: "15%" },
+          width: { xs: "100%", sm: "48%", md: "25%" },
           marginLeft: "10px",
           margin: "10px",
           marginTop: { xs: 1, md: 0 },
@@ -51,6 +51,7 @@ const BoxButtonWithBettings = ({
         containerStyle,
       ]}
     >
+      <Tooltip title={title}>
       <Typography
         sx={[
           {
@@ -69,6 +70,7 @@ const BoxButtonWithBettings = ({
       >
         {title}
       </Typography>
+      </Tooltip>
       <MaterialUISwitch
         checked={checked}
         disabled={disable}
