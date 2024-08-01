@@ -34,16 +34,18 @@ const BoxComponent = ({
           background: "white",
           position: "relative",
           height: "40px",
-          width: "35%",
+          width: { lg: "35%", xs: "65%" },
           alignItems: "center",
+          justifyContent:"space-between"
         }}
       >
         <Box
           sx={{
             flexDirection: "row",
             display: "flex",
-            width: "100%",
+            width: { lg: "50%", xs: "60%" },
             alignItems: "center",
+            justifyContent:"space-between"
           }}
         >
           {/* {teamImage !== null && (
@@ -82,9 +84,9 @@ const BoxComponent = ({
         <Box
           sx={{
             display: "flex",
-            background: "white",
+            background: "#319E5B",
             height: "40px",
-            width: { lg: "65%", xs: "78%" },
+            width: { lg: "65%", xs: "35%" },
             justifyContent: { xs: "flex-end", lg: "center" },
             alignItems: "center",
           }}
@@ -93,7 +95,7 @@ const BoxComponent = ({
             sx={{
               background: "rgba(0,0,0,1)",
               height: "40px",
-              width: { lg: "100%", xs: "50.4%" },
+              width: { lg: "100%", xs: "100%" },
               justifyContent: "center",
               alignItems: "center",
               display: "flex",
