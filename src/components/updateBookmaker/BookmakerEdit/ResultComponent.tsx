@@ -150,7 +150,7 @@ const ResultComponent = ({
                         maxWidth: "200px", 
                       }}
                     >
-                      {i.length > 20 ? `${i.slice(0, 19)}...` : i}
+                      {i.length > 12 ? `${i.slice(0, 11)}...` : i}
                     </Typography>
                   </Box>
                 );
