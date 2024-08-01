@@ -225,9 +225,9 @@ const MatchOdds = ({ currentMatch, matchOddsLive }: any) => {
               <Box
                 sx={{
                   display: "flex",
-                  background: "'#319E5B'",
+                  background: "#319E5B",
                   height: "25px",
-                  width: "35%",
+                  width: { lg: "35%", xs: "65%" },
                   alignItems: "center",
                 }}
               >
@@ -265,14 +265,14 @@ const MatchOdds = ({ currentMatch, matchOddsLive }: any) => {
                   display: "flex",
                   background: "#319E5B",
                   height: "25px",
-                  width: { lg: "65%", xs: "80%" },
+                  width: { lg: "65%", xs: "35%" },
                   justifyContent: { lg: "center", xs: "flex-end" },
                 }}
               >
                 <Box
                   sx={{
                     background: "#00C0F9",
-                    width: { lg: "16.5%", xs: "25%" },
+                    width: { lg: "16.5%", xs: "50%" },
                     height: "100%",
                     display: "flex",
                     justifyContent: "center",
@@ -290,7 +290,7 @@ const MatchOdds = ({ currentMatch, matchOddsLive }: any) => {
                 <Box
                   sx={{
                     background: "#FF9292",
-                    width: { lg: "16.5%", xs: "24.7%" },
+                    width: { lg: "16.5%", xs: "50%" },
                     height: "100%",
                     display: "flex",
                     justifyContent: "center",
@@ -305,6 +305,7 @@ const MatchOdds = ({ currentMatch, matchOddsLive }: any) => {
                 </Box>
               </Box>
             </Box>
+            
             <Box
               sx={{
                 width: "100%",

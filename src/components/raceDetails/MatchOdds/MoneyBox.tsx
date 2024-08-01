@@ -15,14 +15,14 @@ const MoneyBox = ({ value }: any) => {
 
   const { integerPart, decimalPart } = formatValue(value);
   return (
-    <>
+    
       <Box
         sx={{
-          minWidth: { lg: "50%", xs: "60%" },
-          width: { lg: "60%", xs: "70%" },
+          minWidth: { lg: "30%", xs: "40%" },
+          width: { lg: "30%", xs: "40%" },
           justifyContent: "center",
-          position: matchesMobile ? "absolute" : "relative",
-          right: matchesMobile ? "-90%" : "10px",
+          
+          marginRight:"5px",
           alignItems: "center",
           display: "flex",
           height: "35px",
@@ -54,7 +54,7 @@ const MoneyBox = ({ value }: any) => {
           ""
         )}
       </Box>
-    </>
+    
   );
 };
 
