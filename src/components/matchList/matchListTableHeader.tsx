@@ -15,7 +15,7 @@ const MatchListTableHeader = () => {
       >
         <Box
           sx={{
-            width: "100px",
+            width: { xs: "60px",sm: "100px", md: "100px", lg: "100px"},
             display: "flex",
             paddingLeft: "10px",
             alignItems: "center",

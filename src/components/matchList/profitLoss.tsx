@@ -30,7 +30,7 @@ const MatchListProfitLoss = (Props: any) => {
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
-          width: { xs: "90%", md: "65%", lg: "160px" },
+          width: { xs: "100%", md: "65%", lg: "160px" },
           marginTop: showUserModal ? { xs: "1%", sm: "5%", lg: "0%" } : "0",
         }}
       >
