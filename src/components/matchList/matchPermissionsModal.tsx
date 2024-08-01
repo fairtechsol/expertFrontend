@@ -31,7 +31,7 @@ const MatchPermissionsModal = (props: any) => {
         background: "#ffe094",
         justifyContent: {xs:"end"},
         minHeight: { xs: "auto", md: "auto", lg: "7rem" },
-        paddingRight:{xs:"5%"}
+        // paddingRight:{xs:"5%"}
       }}
     >
       <Box
