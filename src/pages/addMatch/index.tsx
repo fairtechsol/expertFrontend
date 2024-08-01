@@ -195,6 +195,7 @@ const AddMatch = () => {
           marketData: [],
           betFairSessionMaxBet: value.betfairSessionMaxBet,
           bookmakers: bookmakers,
+          startAt: selected.startAt,
         };
 
         eventWiseMatchData[selected.gameType]?.manual?.forEach((item) => {
@@ -872,7 +873,9 @@ const AddMatch = () => {
                       Start Time*
                     </Typography>
                     <DateTimePicker
-                      disabled={state?.id || !manualMatchToggle}
+                      disabled={
+                        state?.id ? false : manualMatchToggle ? false : true
+                      }
                       sx={{
                         // height: "40px",
                         background: "#fff",
@@ -1040,7 +1043,7 @@ const AddMatch = () => {
                   );
                 })}
 
-            <Box sx={{ width: "100%",cursor:"pointer" }}>
+            <Box sx={{ width: "100%", cursor: "pointer" }}>
               <Box
                 sx={{
                   width: { xs: "100%", lg: "18%", md: "24%" },

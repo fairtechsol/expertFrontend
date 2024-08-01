@@ -9,19 +9,12 @@ import RaceList from "../pages/raceList";
 import AddMatch from "../pages/addMatch";
 import AddSession from "../pages/addSession";
 import UpdateBookmaker from "../pages/updateBookmaker";
-import MatchDetails from "../pages/matchDetails";
+// import MatchDetails from "../pages/matchDetails";
 import ChangePassword from "../pages/changePassword";
 import SessionMarketDetail from "../pages/sessionMarketDetail";
 import MatchMarketDetail from "../pages/matchMarketDetail";
 import AddRace from "../pages/addRace";
 import RaceDetails from "../pages/raceDetails";
-
-// const MatchList = Loadable(() => import("../pages/matchList"));
-// const AddMatch = Loadable(() => import("../pages/addMatch"));
-// const AddSession = Loadable(() => import("../pages/addSession"));
-// const MatchDetails = Loadable(() => import("../pages/matchDetails"));
-// const ChangePassword = Loadable(() => import("../pages/changePassword"));
-// const UpdateBookmaker = Loadable(() => import("../pages/updateBookmaker"));
 
 const MainRoutes = {
   path: Constants.MainPaths.root,
@@ -63,10 +56,10 @@ const MainRoutes = {
       path: Constants.MainPaths.addBookMaker,
       element: <UpdateBookmaker />,
     },
-    {
-      path: Constants.MainPaths.betOdds,
-      element: <MatchDetails />,
-    },
+    // {
+    //   path: Constants.MainPaths.betOdds,
+    //   element: <MatchDetails />,
+    // },
     {
       path: Constants.MainPaths.betOddsOtherGames,
       element: <OtherMatchDetails />,

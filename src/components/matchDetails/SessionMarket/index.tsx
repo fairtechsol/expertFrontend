@@ -19,7 +19,7 @@ const SessionMarket = ({
   sessionData,
   profitLossData,
   hideEditMaxButton,
-  maxHeight,
+  cstmStyle,
 }: any) => {
   const dispatch: AppDispatch = useDispatch();
   const [visible, setVisible] = useState(true);
@@ -207,19 +207,22 @@ const SessionMarket = ({
             </Box>
           }
           <Box
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              width: "100%",
-              position: "relative",
-              maxHeight: { lg: maxHeight ? maxHeight : "30vh", xs: "40vh" },
-              overflowY: "auto",
-              "::-webkit-scrollbar": {
-                display: "none",
+            sx={[
+              {
+                display: "flex",
+                flexDirection: "column",
+                width: "100%",
+                position: "relative",
+                // maxHeight: { lg: maxHeight ? maxHeight : "30vh", xs: "40vh" },
+                overflowY: "auto",
+                "::-webkit-scrollbar": {
+                  display: "none",
+                },
+                // maxHeight: "300px",
+                // overflowY: "scroll",
               },
-              // maxHeight: "300px",
-              // overflowY: "scroll",
-            }}
+              cstmStyle,
+            ]}
           >
             {sessionData?.length > 0 &&
               sessionData
