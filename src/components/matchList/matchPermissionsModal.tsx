@@ -29,18 +29,20 @@ const MatchPermissionsModal = (props: any) => {
         width: "100%",
         display: "flex",
         background: "#ffe094",
-        // justifyContent: "space-between",
+        justifyContent: {xs:"end"},
         minHeight: { xs: "auto", md: "auto", lg: "7rem" },
+        // paddingRight:{xs:"5%"}
       }}
     >
       <Box
         sx={{
           display: "flex",
-          width: "80%",
+          width: "85%",
           flexWrap: "wrap",
-          flex: 3,
+          // flex: 3,
           alignItems: "center",
           p: 2,
+          // borderLeft:{xs:"2px solid #fff"}
         }}
       >
         {!data?.eventId.includes("manual") &&
