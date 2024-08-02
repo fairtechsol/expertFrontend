@@ -4,7 +4,7 @@ import { formatToINR } from "../../helper";
 
 const MoneyBox = ({ value }: any) => {
   const theme = useTheme();
-  const matchesMobile = useMediaQuery(theme.breakpoints.down("lg"));
+  // const matchesMobile = useMediaQuery(theme.breakpoints.down("lg"));
 
   const formatValue = (value: any) => {
     const formattedValue = formatToINR(value === 0 ? "" : value);
