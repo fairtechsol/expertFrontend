@@ -23,6 +23,22 @@ const MatchPermissionsModal = (props: any) => {
   const { getProfile } = useSelector((state: RootState) => state.user.profile);
   const navigate = useNavigate();
   const matchesMobile = useMediaQuery(theme.breakpoints.down("lg"));
+
+
+  const uniqueNames :any = [];
+  let overUnderIncluded = false;
+
+const filteredData = data?.matchBettings.filter((item:any) => {
+  if (item.name.includes('over_under')) {
+    if (!overUnderIncluded) {
+      overUnderIncluded = true;
+      uniqueNames.push(item.name);
+      return true;
+    }
+    return false;
+  }
+  return true;
+});
   return (
     <Box
       sx={{
@@ -46,7 +62,7 @@ const MatchPermissionsModal = (props: any) => {
         }}
       >
         {!data?.eventId.includes("manual") &&
-          data?.matchBettings
+          filteredData
             .slice()
             .sort(handleSorting)
             ?.map((betting: any) => {
