@@ -41,7 +41,7 @@ const MatchPermissionsModal = (props: any) => {
           flexWrap: "wrap",
           // flex: 3,
           alignItems: "center",
-          p: 2,
+          p: 3,
           // borderLeft:{xs:"2px solid #fff"}
         }}
       >
@@ -134,9 +134,9 @@ const MatchPermissionsModal = (props: any) => {
             flex: 1,
             display: "flex",
             justifyContent: "flex-end",
-            marginRight: "10px",
+            // marginRight: "10px",
             alignItems: "end",
-            marginBottom: "10px",
+            // marginBottom: "10px",
             flexDirection: "column",
           }}
         >
@@ -195,7 +195,7 @@ const MatchPermissionsModal = (props: any) => {
               display: "flex",
               alignItems: "center",
               justifyContent: "flex-end",
-              marginBottom: "10px",
+              marginLeft: "10px",
             }}
           >
             {data?.matchType === "cricket" && (getProfile?.allPrivilege ||
