@@ -42,7 +42,8 @@ const BoxButtonWithSwitch = (props: any) => {
       sx={[
         {
           height: "35px",
-          width: { xs: "100%", sm: "48%", md: "15%" },
+          minWidth: "250px",
+          width: { xs: "100%", sm: "40%", md: "20%" },
           marginTop: { xs: 1, md: 0 },
           marginLeft: "10px",
           borderRadius: "5px",

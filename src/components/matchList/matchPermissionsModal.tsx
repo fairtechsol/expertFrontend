@@ -57,7 +57,7 @@ const filteredData = data?.matchBettings.filter((item:any) => {
           flexWrap: "wrap",
           // flex: 3,
           alignItems: "center",
-          p: 2,
+          p: 3,
           // borderLeft:{xs:"2px solid #fff"}
         }}
       >
@@ -150,9 +150,9 @@ const filteredData = data?.matchBettings.filter((item:any) => {
             flex: 1,
             display: "flex",
             justifyContent: "flex-end",
-            marginRight: "10px",
+            // marginRight: "10px",
             alignItems: "end",
-            marginBottom: "10px",
+            // marginBottom: "10px",
             flexDirection: "column",
           }}
         >
@@ -211,7 +211,7 @@ const filteredData = data?.matchBettings.filter((item:any) => {
               display: "flex",
               alignItems: "center",
               justifyContent: "flex-end",
-              marginBottom: "10px",
+              marginLeft: "10px",
             }}
           >
             {data?.matchType === "cricket" && (getProfile?.allPrivilege ||

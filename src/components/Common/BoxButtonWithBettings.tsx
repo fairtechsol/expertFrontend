@@ -37,7 +37,7 @@ const BoxButtonWithBettings = ({
       sx={[
         {
           height: "35px",
-          minWidth: "300px",
+          minWidth: "250px",
           width: { xs: "100%", sm: "40%", md: "20%" },
           marginLeft: "10px",
           margin: "10px",
