@@ -62,7 +62,8 @@ const MatchListTable = (props: any) => {
       }));
     }
   }, [data]);
-
+  const buttonBgColor = data?.matchType !== "cricket" ? "#FFE094" : undefined;
+  const isSmallOrMediumScreen = useMediaQuery(theme.breakpoints.down('md'));
   return (
     <>
       <Box
@@ -232,7 +233,7 @@ const MatchListTable = (props: any) => {
                 alignItems: "center",
                 flexDirection: { md: "row", sm: "row", lg: "row" },
                 justifyContent: {lg:"flex-end",md:"flex-end",sm:"flex-end",xs:"center"},
-                // flexWrap: "wrap",
+                flexWrap: "wrap",
                 // backgroundColor:{xs:"red"}
               }}
             >
@@ -256,6 +257,16 @@ const MatchListTable = (props: any) => {
                     title={"Session"}
                   />
                 )}
+                   {!isSmallOrMediumScreen && data?.matchType != "cricket"   &&
+                <CustomButton 
+                containerStyle={{
+                  margin: "5px",
+                  background: "#FFE094",
+                 marginRight:{ xs:"20px", md: "29px", sm: "10px", lg: "10px"},
+                }}
+                bgColor={buttonBgColor}
+                />
+              }
               {(getProfile?.allPrivilege ||
                 getProfile?.betFairMatchPrivilege) && (
                 <CustomButton
