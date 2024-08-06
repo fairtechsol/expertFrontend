@@ -194,7 +194,7 @@ const MatchListHeader = ({ value }: MatchListHeader) => {
               "& .MuiInputBase-input": {
                 color: "white",
 
-                marginLeft: "5px",
+                marginLeft: "12px",
                 marginTop: "7px",
 
                 height: "100%",
