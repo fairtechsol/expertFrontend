@@ -127,15 +127,19 @@ const MatchListHeader = ({ value }: MatchListHeader) => {
           alignItems: "center",
         }}
       >
-        <Box sx={{ display: "flex", gap: {
-                  lg: "20px",
-                  xl: "20px",
-                  md: "15px",
-                  sm: "30px",
-                  xs: "30px",
-                },
-               marginTop:"4px" 
-                }}>
+        <Box
+          sx={{
+            display: "flex",
+            gap: {
+              lg: "20px",
+              xl: "20px",
+              md: "15px",
+              sm: "30px",
+              xs: "30px",
+            },
+            marginTop: "4px",
+          }}
+        >
           <Typography
             sx={{
               fontSize: "16px",
@@ -154,7 +158,6 @@ const MatchListHeader = ({ value }: MatchListHeader) => {
               maxWidth: { lg: "60vw", md: "60%", sm: "50%" },
               display: "flex",
               alignItems: "center",
-            
             }}
           >
             <CustomTabs
@@ -183,8 +186,8 @@ const MatchListHeader = ({ value }: MatchListHeader) => {
                         backgroundColor:
                           selectedTab === index ? "#E0B744" : "#F0F0F0",
                       },
-                      height:"40px",
-                      marginTop:"2px"
+                      height: "40px",
+                      marginTop: "2px",
                     }}
                     key={item?.countryCode}
                     label={item?.countryCode}
@@ -202,6 +205,11 @@ const MatchListHeader = ({ value }: MatchListHeader) => {
             sx={{
               backgroundColor: "#0B4F26",
               color: "white",
+              marginRight: {
+                lg: "6px",
+                xl: "6px",
+              
+              },
               width: {
                 xs: "47%", // width for extra-small screens
                 sm: "50%", // width for small screens
@@ -231,13 +239,13 @@ const MatchListHeader = ({ value }: MatchListHeader) => {
               "& .MuiSvgIcon-root": {
                 color: "white",
                 paddingTop: "2px",
-                display:{
+                display: {
                   lg: "block",
                   xl: "block",
                   md: "block",
                   sm: "block",
                   xs: "block",
-                }
+                },
               },
               height: "40px",
             }}
