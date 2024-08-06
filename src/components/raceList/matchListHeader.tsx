@@ -127,7 +127,15 @@ const MatchListHeader = ({ value }: MatchListHeader) => {
           alignItems: "center",
         }}
       >
-        <Box sx={{ display: "flex", gap: "20px" }}>
+        <Box sx={{ display: "flex", gap: {
+                  lg: "20px",
+                  xl: "20px",
+                  md: "15px",
+                  sm: "30px",
+                  xs: "30px",
+                },
+               marginTop:"4px" 
+                }}>
           <Typography
             sx={{
               fontSize: "16px",
@@ -146,6 +154,7 @@ const MatchListHeader = ({ value }: MatchListHeader) => {
               maxWidth: { lg: "60vw", md: "60%", sm: "50%" },
               display: "flex",
               alignItems: "center",
+            
             }}
           >
             <CustomTabs
@@ -174,6 +183,8 @@ const MatchListHeader = ({ value }: MatchListHeader) => {
                         backgroundColor:
                           selectedTab === index ? "#E0B744" : "#F0F0F0",
                       },
+                      height:"40px",
+                      marginTop:"2px"
                     }}
                     key={item?.countryCode}
                     label={item?.countryCode}
@@ -191,10 +202,23 @@ const MatchListHeader = ({ value }: MatchListHeader) => {
             sx={{
               backgroundColor: "#0B4F26",
               color: "white",
+              width: {
+                xs: "47%", // width for extra-small screens
+                sm: "50%", // width for small screens
+                md: "30%", // width for medium screens
+                lg: "25%", // width for large screens
+                xl: "25%", // width for extra-large screens
+              },
+
               "& .MuiInputBase-input": {
                 color: "white",
-
-                marginLeft: "12px",
+                marginLeft: {
+                  lg: "12px",
+                  xl: "12px",
+                  md: "20px",
+                  sm: "20px",
+                  xs: "10px",
+                },
                 marginTop: "9px",
 
                 height: "100%",
