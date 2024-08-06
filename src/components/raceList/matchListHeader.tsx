@@ -124,6 +124,7 @@ const MatchListHeader = ({ value }: MatchListHeader) => {
           px: "10px",
           py: "10px",
           gap: "20px",
+          alignItems: "center",
         }}
       >
         <Box sx={{ display: "flex", gap: "20px" }}>
@@ -142,7 +143,6 @@ const MatchListHeader = ({ value }: MatchListHeader) => {
 
           <Box
             sx={{
-              // minWidth: "30vw",
               maxWidth: { lg: "60vw", md: "60%", sm: "50%" },
               display: "flex",
               alignItems: "center",
@@ -159,15 +159,21 @@ const MatchListHeader = ({ value }: MatchListHeader) => {
                 "& .MuiTab-root": {
                   minWidth: "2.5rem",
                   minHeight: "1rem",
+                  transition: "background-color 0.3s ease, color 0.3s ease",
                 },
               }}
             >
               {countryCode &&
-                countryCode.map((item: any, index: number) => (
+                countryCode.map((item: any, index: any) => (
                   <Tab
                     sx={{
-                      backgroundColor: value === index ? "#F8C851" : "#FFFFFF",
+                      backgroundColor:
+                        selectedTab === index ? "#F8C851" : "#FFFFFF",
                       color: "black",
+                      "&:hover": {
+                        backgroundColor:
+                          selectedTab === index ? "#E0B744" : "#F0F0F0",
+                      },
                     }}
                     key={item?.countryCode}
                     label={item?.countryCode}
@@ -182,6 +188,28 @@ const MatchListHeader = ({ value }: MatchListHeader) => {
             value={new Date(dated)}
             disableFuture
             onChange={handleDateChange}
+            sx={{
+              backgroundColor: "#0B4F26",
+              color: "white",
+              "& .MuiInputBase-input": {
+                color: "white",
+
+                marginLeft: "5px",
+                marginTop: "7px",
+
+                height: "100%",
+              },
+              "& .MuiOutlinedInput-input": {
+                padding: "0px",
+                paddingBottom: "3px",
+                height: "100%",
+              },
+              "& .MuiSvgIcon-root": {
+                color: "white",
+                paddingTop: "2px",
+              },
+              height: "35px",
+            }}
             slots={{
               day: (props) => {
                 const currentDate = props.day;
