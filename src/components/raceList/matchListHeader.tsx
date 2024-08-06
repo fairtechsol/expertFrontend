@@ -208,14 +208,13 @@ const MatchListHeader = ({ value }: MatchListHeader) => {
               marginRight: {
                 lg: "6px",
                 xl: "6px",
-              
               },
               width: {
-                xs: "47%", // width for extra-small screens
-                sm: "50%", // width for small screens
-                md: "30%", // width for medium screens
-                lg: "20%", // width for large screens
-                xl: "20%", // width for extra-large screens
+                xs: "47%",
+                sm: "50%",
+                md: "30%",
+                lg: "15%",
+                xl: "15%",
               },
 
               "& .MuiInputBase-input": {
