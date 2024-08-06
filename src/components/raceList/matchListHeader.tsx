@@ -206,8 +206,8 @@ const MatchListHeader = ({ value }: MatchListHeader) => {
                 xs: "47%", // width for extra-small screens
                 sm: "50%", // width for small screens
                 md: "30%", // width for medium screens
-                lg: "25%", // width for large screens
-                xl: "25%", // width for extra-large screens
+                lg: "20%", // width for large screens
+                xl: "20%", // width for extra-large screens
               },
 
               "& .MuiInputBase-input": {
@@ -231,6 +231,13 @@ const MatchListHeader = ({ value }: MatchListHeader) => {
               "& .MuiSvgIcon-root": {
                 color: "white",
                 paddingTop: "2px",
+                display:{
+                  lg: "block",
+                  xl: "block",
+                  md: "block",
+                  sm: "block",
+                  xs: "block",
+                }
               },
               height: "40px",
             }}
