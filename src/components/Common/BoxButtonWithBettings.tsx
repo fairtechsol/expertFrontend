@@ -37,7 +37,7 @@ const BoxButtonWithBettings = ({
       sx={[
         {
           height: "35px",
-          minWidth: "300px",
+          minWidth: "250px",
           width: { xs: "100%", sm: "40%", md: "20%" },
           marginLeft: "10px",
           margin: "10px",
@@ -51,7 +51,7 @@ const BoxButtonWithBettings = ({
         containerStyle,
       ]}
     >
-      <Tooltip title={title}>
+      <Tooltip title={title.includes('over_under') ? "Over under" : title}>
       <Typography
         sx={[
           {
@@ -68,7 +68,7 @@ const BoxButtonWithBettings = ({
           titleStyle,
         ]}
       >
-        {title}
+        {title.includes('over_under') ? "Over under" : title}
       </Typography>
       </Tooltip>
       <MaterialUISwitch
@@ -82,8 +82,16 @@ const BoxButtonWithBettings = ({
               type: matchBettingType,
               isActive: !checked,
             };
+            let overUnderPayload ={
+              matchId: matchId,
+              type: "over_under",
+              isActive: !checked,
+            }
             // dispatch(updateMatchActiveStatus(payload));
-            const resp: any = await service.post(
+            const resp: any = title.includes('over_under') ? await service.post(
+              ApiConstants.MATCH.UPDATEMULTIPLEACTIVESTATUS,
+              overUnderPayload
+            ) : await service.post(
               ApiConstants.MATCH.UPDATEACTIVESTATUS,
               payload
             );

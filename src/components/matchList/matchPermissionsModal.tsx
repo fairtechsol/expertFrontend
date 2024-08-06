@@ -23,6 +23,22 @@ const MatchPermissionsModal = (props: any) => {
   const { getProfile } = useSelector((state: RootState) => state.user.profile);
   const navigate = useNavigate();
   const matchesMobile = useMediaQuery(theme.breakpoints.down("lg"));
+
+
+  const uniqueNames :any = [];
+  let overUnderIncluded = false;
+
+const filteredData = data?.matchBettings.filter((item:any) => {
+  if (item.name.includes('over_under')) {
+    if (!overUnderIncluded) {
+      overUnderIncluded = true;
+      uniqueNames.push(item.name);
+      return true;
+    }
+    return false;
+  }
+  return true;
+});
   return (
     <Box
       sx={{
@@ -41,12 +57,12 @@ const MatchPermissionsModal = (props: any) => {
           flexWrap: "wrap",
           // flex: 3,
           alignItems: "center",
-          p: 2,
+          p: 3,
           // borderLeft:{xs:"2px solid #fff"}
         }}
       >
         {!data?.eventId.includes("manual") &&
-          data?.matchBettings
+          filteredData
             .slice()
             .sort(handleSorting)
             ?.map((betting: any) => {
@@ -134,9 +150,9 @@ const MatchPermissionsModal = (props: any) => {
             flex: 1,
             display: "flex",
             justifyContent: "flex-end",
-            marginRight: "10px",
+            // marginRight: "10px",
             alignItems: "end",
-            marginBottom: "10px",
+            // marginBottom: "10px",
             flexDirection: "column",
           }}
         >
@@ -195,7 +211,7 @@ const MatchPermissionsModal = (props: any) => {
               display: "flex",
               alignItems: "center",
               justifyContent: "flex-end",
-              marginBottom: "10px",
+              marginLeft: "10px",
             }}
           >
             {data?.matchType === "cricket" && (getProfile?.allPrivilege ||
