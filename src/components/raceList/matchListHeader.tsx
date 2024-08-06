@@ -142,7 +142,7 @@ const MatchListHeader = ({ value }: MatchListHeader) => {
         >
           <Typography
             sx={{
-              fontSize: "16px",
+              fontSize: "20px",
               color: "white",
               fontWeight: "600",
               display: "flex",

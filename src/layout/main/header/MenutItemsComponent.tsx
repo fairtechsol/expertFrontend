@@ -42,7 +42,7 @@ const MenutItemsComponent = ({
           fontSize: matchesMobile ? "10px" : "12px",
           fontWeight: "500",
           marginX: "0px",
-          width: { xs: "auto", md: "550px", lg: "550px" },
+          width: { xs: "auto", md: "auto", lg: "auto" },
           borderBottomWidth: 0,
           borderColor: "#EAEFEC",
           paddingY: "0px",
@@ -77,8 +77,8 @@ const MenutItemsComponent = ({
         <Box
           sx={{
             background: "#F8C851",
-            width: "80%",
-            marginLeft: "20%",
+            width: "95%",
+            marginLeft: "5%",
             borderRadius: "5px",
             paddingX: "5px",
             paddingY: "5px",

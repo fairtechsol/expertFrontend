@@ -1,10 +1,10 @@
-import { Box, Typography, useMediaQuery, useTheme } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { ArrowDownRed, ArrowUpGreen } from "../../../assets";
 import { formatToINR } from "../../helper";
 
 const MoneyBox = ({ value }: any) => {
-  const theme = useTheme();
-  const matchesMobile = useMediaQuery(theme.breakpoints.down("lg"));
+  // const theme = useTheme();
+  // const matchesMobile = useMediaQuery(theme.breakpoints.down("lg"));
 
   const formatValue = (value: any) => {
     const formattedValue = formatToINR(value === 0 ? "" : value);

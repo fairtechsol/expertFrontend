@@ -20,7 +20,7 @@ const MatchListProfitLoss = (Props: any) => {
         onClick={onClick}
         sx={{
           cursor: cursor,
-          height: { xs: "25px", lg: "35px" },
+          height: { xs: "35px", lg: "35px" },
           minWidth: { xs: "10%", md: "18%", lg: "12%" },
           marginLeft: { xs: "2px" },
           marginBottom: { xs: "2px" },
@@ -30,7 +30,7 @@ const MatchListProfitLoss = (Props: any) => {
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
-          width: { xs: "90%", md: "65%", lg: "160px" },
+          width: { xs: "100%", md: "65%", lg: "160px" },
           marginTop: showUserModal ? { xs: "1%", sm: "5%", lg: "0%" } : "0",
         }}
       >
