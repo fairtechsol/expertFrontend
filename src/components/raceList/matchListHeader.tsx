@@ -195,20 +195,20 @@ const MatchListHeader = ({ value }: MatchListHeader) => {
                 color: "white",
 
                 marginLeft: "12px",
-                marginTop: "7px",
+                marginTop: "9px",
 
                 height: "100%",
               },
               "& .MuiOutlinedInput-input": {
                 padding: "0px",
-                paddingBottom: "3px",
+                paddingBottom: "5px",
                 height: "100%",
               },
               "& .MuiSvgIcon-root": {
                 color: "white",
                 paddingTop: "2px",
               },
-              height: "35px",
+              height: "40px",
             }}
             slots={{
               day: (props) => {
