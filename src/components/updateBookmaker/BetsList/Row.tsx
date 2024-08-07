@@ -157,6 +157,7 @@ const Row = ({ index, values }: any) => {
               fontSize: { xs: "10px", md: "10px", lg: "12px" },
               lineHeight: 1,
               textAlign: "center",
+              overflowWrap: "anywhere"
             }}
           >
             {values.teamName}

@@ -24,7 +24,7 @@ const SessionLargeBox = ({ item, k }: any) => {
           textTransform: "capitalize",
           textAlign: "left",
           lineHeight: 1,
-          px: "2px",
+          // px: "2px",
           overflow: "hidden",
           display: " -webkit-box",
           WebkitLineClamp: 2,
@@ -40,8 +40,9 @@ const SessionLargeBox = ({ item, k }: any) => {
             fontWeight: "600",
             color: item?.color,
             overflowWrap: "anywhere",
-            padding: "2px",
+            // padding: "2px",
             overflow: "hidden",
+            lineHeight: 1
           }}
         >
           {item?.domain?.replace(/https?:\/\//, "")}

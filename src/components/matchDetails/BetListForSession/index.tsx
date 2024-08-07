@@ -264,7 +264,7 @@ const BetListForSession = ({ tag, allBetRates }: any) => {
                       >
                         <Typography
                           sx={{
-                            fontSize: !tag ? "10px" : "13px",
+                            fontSize: !tag ? "10px" : "11px",
                             fontWeight: tag ? "bold" : "600",
                             color: "white",
                           }}
