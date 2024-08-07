@@ -41,7 +41,7 @@ const LargeBox = ({ item, k }: any) => {
             color: item?.color,
           }}
         >
-          {item?.domain}
+          {item?.domain?.replace(/https?:\/\//, '')}
         </Typography>
       )}
       {item?.time && (

@@ -44,7 +44,7 @@ const SessionLargeBox = ({ item, k }: any) => {
             overflow: "hidden",
           }}
         >
-          {item?.domain}
+          {item?.domain?.replace(/https?:\/\//, "")}
         </Typography>
       )}
       {item?.time && (
