@@ -124,9 +124,22 @@ const MatchListHeader = ({ value }: MatchListHeader) => {
           px: "10px",
           py: "10px",
           gap: "20px",
+          alignItems: "center",
         }}
       >
-        <Box sx={{ display: "flex", gap: "20px" }}>
+        <Box
+          sx={{
+            display: "flex",
+            gap: {
+              lg: "20px",
+              xl: "20px",
+              md: "15px",
+              sm: "30px",
+              xs: "30px",
+            },
+            marginTop: "4px",
+          }}
+        >
           <Typography
             sx={{
               fontSize: "20px",
@@ -142,7 +155,6 @@ const MatchListHeader = ({ value }: MatchListHeader) => {
 
           <Box
             sx={{
-              // minWidth: "30vw",
               maxWidth: { lg: "60vw", md: "60%", sm: "50%" },
               display: "flex",
               alignItems: "center",
@@ -159,17 +171,23 @@ const MatchListHeader = ({ value }: MatchListHeader) => {
                 "& .MuiTab-root": {
                   minWidth: "2.5rem",
                   minHeight: "1rem",
+                  transition: "background-color 0.3s ease, color 0.3s ease",
                 },
               }}
             >
               {countryCode &&
-                countryCode.map((item: any, index: number) => (
+                countryCode.map((item: any, index: any) => (
                   <Tab
                     sx={{
-                      backgroundColor: value === index ? "#F8C851" : "#FFFFFF",
+                      backgroundColor:
+                        selectedTab === index ? "#F8C851" : "#FFFFFF",
                       color: "black",
-                      height:"55px",
-                      fontSize:"20px"
+                      "&:hover": {
+                        backgroundColor:
+                          selectedTab === index ? "#E0B744" : "#F0F0F0",
+                      },
+                      height: "40px",
+                      marginTop: "2px",
                     }}
                     key={item?.countryCode}
                     label={item?.countryCode}
@@ -184,6 +202,52 @@ const MatchListHeader = ({ value }: MatchListHeader) => {
             value={new Date(dated)}
             disableFuture
             onChange={handleDateChange}
+            sx={{
+              backgroundColor: "#0B4F26",
+              color: "white",
+              marginRight: {
+                lg: "6px",
+                xl: "6px",
+              },
+              width: {
+                xs: "47%",
+                sm: "50%",
+                md: "30%",
+                lg: "15%",
+                xl: "15%",
+              },
+
+              "& .MuiInputBase-input": {
+                color: "white",
+                marginLeft: {
+                  lg: "12px",
+                  xl: "12px",
+                  md: "20px",
+                  sm: "20px",
+                  xs: "10px",
+                },
+                marginTop: "9px",
+
+                height: "100%",
+              },
+              "& .MuiOutlinedInput-input": {
+                padding: "0px",
+                paddingBottom: "5px",
+                height: "100%",
+              },
+              "& .MuiSvgIcon-root": {
+                color: "white",
+                paddingTop: "2px",
+                display: {
+                  lg: "block",
+                  xl: "block",
+                  md: "block",
+                  sm: "block",
+                  xs: "block",
+                },
+              },
+              height: "40px",
+            }}
             slots={{
               day: (props) => {
                 const currentDate = props.day;

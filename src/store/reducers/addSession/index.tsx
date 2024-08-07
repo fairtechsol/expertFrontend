@@ -154,6 +154,7 @@ export const addSessionReducers = createReducer(initialState, (builder) => {
           userName: action?.payload?.betPlaceObject?.betPlacedData?.userName,
           fwPartnership: Number(fpartnerShip?.fwPartnership),
         },
+        domain: action?.payload?.domainUrl,
       };
 
       const id = objToUpdate?.id;
@@ -170,6 +171,7 @@ export const addSessionReducers = createReducer(initialState, (builder) => {
         user: {
           userName: jobData?.userName,
         },
+        domain: jobData?.domainUrl,
       };
       const id = objToUpdate?.id;
 

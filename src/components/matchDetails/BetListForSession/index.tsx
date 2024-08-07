@@ -30,6 +30,7 @@ const BetListForSession = ({ tag, allBetRates }: any) => {
                   : "#F1C550",
                 deleteReason: v?.deleteReason,
                 width: { lg: "17%", xs: "32%" },
+                domain: v?.domain,
               },
               // {
               //   name:

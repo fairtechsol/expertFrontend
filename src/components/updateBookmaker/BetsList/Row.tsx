@@ -90,6 +90,7 @@ const Row = ({ index, values }: any) => {
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
+            flexDirection: "column",
           }}
         >
           <Typography
@@ -100,6 +101,17 @@ const Row = ({ index, values }: any) => {
             }}
           >
             {values?.user?.userName || values?.userName}
+          </Typography>
+          <Typography
+            sx={{
+              fontWeight: "600",
+              fontSize: "8px",
+              color: "white",
+              wordWrap: "break-word",
+              maxWidth: "100%",
+            }}
+          >
+            {values?.domain}
           </Typography>
         </Box>
         {/* <Box
