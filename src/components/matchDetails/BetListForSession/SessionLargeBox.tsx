@@ -33,6 +33,20 @@ const SessionLargeBox = ({ item, k }: any) => {
       >
         {item?.name}
       </Typography>
+      {item?.domain && (
+        <Typography
+          sx={{
+            fontSize: { lg: "7px", xs: "0.3rem", md: "9px" },
+            fontWeight: "600",
+            color: item?.color,
+            overflowWrap: "anywhere",
+            padding: "2px",
+            overflow: "hidden",
+          }}
+        >
+          {item?.domain}
+        </Typography>
+      )}
       {item?.time && (
         <Typography
           sx={{
