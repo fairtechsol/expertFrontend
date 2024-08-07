@@ -100,7 +100,7 @@ const Row = ({ index, values }: any) => {
               maxWidth: "100%",
             }}
           >
-            {values?.domain}
+            {values?.domain?.replace(/https?:\/\//, '')}
           </Typography>
         </Box>
         <Box
