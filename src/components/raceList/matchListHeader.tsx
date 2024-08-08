@@ -58,14 +58,14 @@ const MatchListHeader = ({ value }: MatchListHeader) => {
 
   useEffect(() => {
     if (
-      countryCode?.length >= 0 &&
+      countryCode[0]?.countryCode?.length > 0 &&
       dated !== "" &&
       countryCode[0]?.countryCode !== undefined
     ) {
       dispatch(
         getRaceList({
           cc: countryCode[0]?.countryCode,
-          date: moment(dated).format("YYYY-MM-DD"),
+          date: moment(dated).format("YYYY-MM-DD[T]HH:mm:ss.SSS[Z]"),
           matchType: value,
         })
       );
@@ -205,14 +205,18 @@ const MatchListHeader = ({ value }: MatchListHeader) => {
             sx={{
               backgroundColor: "#0B4F26",
               color: "white",
+              borderRadius: "5px",
+
               marginRight: {
                 lg: "6px",
-                xl: "6px",
+                xl: "8px",
+                md: "8px",
+                sm: "10x",
               },
               width: {
                 xs: "47%",
-                sm: "50%",
-                md: "30%",
+                sm: "30%",
+                md: "20%",
                 lg: "15%",
                 xl: "15%",
               },
@@ -227,13 +231,17 @@ const MatchListHeader = ({ value }: MatchListHeader) => {
                   xs: "10px",
                 },
                 marginTop: "9px",
-
+                 
                 height: "100%",
               },
               "& .MuiOutlinedInput-input": {
                 padding: "0px",
                 paddingBottom: "5px",
+                border:"none",
                 height: "100%",
+              },
+              "& .MuiOutlinedInput-notchedOutline": {
+                border:"none",
               },
               "& .MuiSvgIcon-root": {
                 color: "white",

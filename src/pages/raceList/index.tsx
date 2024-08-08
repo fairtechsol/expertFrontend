@@ -4,7 +4,7 @@ import MatchListHeader from "../../components/raceList/matchListHeader";
 import MatchListTable from "../../components/raceList/matchListTable";
 import MatchListTableHeader from "../../components/raceList/matchListTableHeader";
 import "./style.css";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector,shallowEqual } from "react-redux";
 import { AppDispatch, RootState } from "../../store/store";
 import { matchListReset } from "../../store/actions/match/matchAction";
 import {
@@ -25,9 +25,13 @@ const RaceList = ({}) => {
   const { getProfile } = useSelector((state: RootState) => state.user.profile);
 
   const { success, raceList } = useSelector(
-    (state: RootState) => state.matchList
+    (state: RootState) => ({
+      success: state.matchList.success,
+      raceList: state.matchList.raceList,
+    }),
+    shallowEqual
   );
-
+ 
   const handleChange = (_: React.SyntheticEvent, newValue: string) => {
     setValue(newValue);
     navigate(`/expert/race/${newValue}`);
@@ -146,15 +150,16 @@ const RaceList = ({}) => {
         <MatchListHeader value={value} />
         <MatchListTableHeader />
         {raceList &&
-          Object.keys(raceList).map((item: any, index: number) => (
+          Object?.keys(raceList)?.map((item: any, index: number) => (
             <MatchListTable
-              key={item}
+              key={item?.[0]?.venue}
               data={item}
               index={index}
               currentPage={currentPage}
               race={raceList}
             />
           ))}
+          
         {/* <Pagination
           sx={{
             background: "#073c25",

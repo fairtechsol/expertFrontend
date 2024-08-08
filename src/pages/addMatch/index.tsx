@@ -17,6 +17,7 @@ import BoxButtonManualMatch from "../../components/addMatch/ButtonSwitchManualMa
 import LabelValueComponent from "../../components/addMatch/LabelValueComponent";
 import MatchListInput from "../../components/addMatch/MatchListInput";
 import Constants from "../../components/helper/constants";
+import { Checkbox, FormControlLabel } from "@mui/material";
 import {
   addMatchExpert,
   addMatchReset,
@@ -556,6 +557,13 @@ const AddMatch = () => {
   const handleDropDownOpen = (dropdownName: any) => {
     setOpenDropDown(openDropDown === dropdownName ? null : dropdownName);
   };
+
+  const [isChecked, setIsChecked] = useState(false);
+
+  const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setIsChecked(event.target.checked);
+  };
+
   return (
     <form onSubmit={handleSubmit}>
       <Box
@@ -936,7 +944,11 @@ const AddMatch = () => {
                 }}
               />
             </Box> */}
-            <Box sx={{ width: { xs: "100%", lg: "18%", md: "24%" } }}>
+            <Box
+              sx={{
+                width: { xs: "100%", lg: "18%", md: "24%" },
+              }}
+            >
               <MatchListInput
                 required={true}
                 disable={state?.id}
@@ -957,6 +969,7 @@ const AddMatch = () => {
                 errors={errors.minBet}
               />
             </Box>
+
             {selected.gameType === "cricket" && (
               <Box sx={{ width: { xs: "100%", lg: "18%", md: "24%" } }}>
                 <MatchListInput
@@ -1043,7 +1056,15 @@ const AddMatch = () => {
                   );
                 })}
 
-            <Box sx={{ width: "100%", cursor: "pointer" }}>
+            <Box
+              sx={{
+                width: "100%",
+                cursor: "pointer",
+                display: "flex",
+
+                gap: "15px",
+              }}
+            >
               <Box
                 sx={{
                   width: { xs: "100%", lg: "18%", md: "24%" },
@@ -1242,6 +1263,74 @@ const AddMatch = () => {
                 )}
               </Box>
             </Box>
+
+            <Box
+              sx={{
+                width: "100%",
+                cursor: "pointer",
+                display: "flex",
+
+                gap: "15px",
+              }}
+            >
+              <Box
+                sx={{
+                  width: { xs: "100%", lg: "18%", md: "24%" },
+                  marginTop: "17px",
+                }}
+              >
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={isChecked}
+                      onChange={handleCheckboxChange}
+                      disabled={state?.id ? true : false}
+                      sx={{
+                        color: "white",
+                        "&.MuiButtonBase-root": {
+                          margin: 0,
+                        },
+                        "&.MuiCheckbox-root": {
+                          margin: 0,
+                        },
+                        "&.MuiSvgIcon-root": {
+                          margin: 0,
+                        },
+                        "&.MuiTouchRipple-root": {
+                          margin: 0,
+                        },
+                        "&.MuiTypography-root": {
+                          margin: 0,
+                          marginRight: "5px",
+                        },
+                        "&.Mui-checked": {
+                          color: "#fff",
+                        },
+                        width: "100%",
+                        position: "relative",
+                        marginTop: "5px",
+                      }}
+                    />
+                  }
+                  label="Bookmaker"
+                  sx={{
+                    color: "#fff",
+                    background: "#0B4F26",
+                    border: "1px solid #DEDEDE",
+                    borderRadius: "5px",
+                    height: "45px",
+                    marginX: "0px",
+                    width: "100%",
+                    position: "relative",
+                    marginTop: "5px",
+                    paddingLeft: "1px",
+                    display: "flex",
+                    alignItems: "center",
+                  }}
+                />
+              </Box>
+            </Box>
+            
           </Box>
         </Box>
         <Box
