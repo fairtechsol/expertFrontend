@@ -30,6 +30,7 @@ const BetListForSession = ({ tag, allBetRates }: any) => {
                   : "#F1C550",
                 deleteReason: v?.deleteReason,
                 width: { lg: "17%", xs: "32%" },
+                domain: v?.domain,
               },
               // {
               //   name:
@@ -263,7 +264,7 @@ const BetListForSession = ({ tag, allBetRates }: any) => {
                       >
                         <Typography
                           sx={{
-                            fontSize: !tag ? "10px" : "13px",
+                            fontSize: !tag ? "10px" : "11px",
                             fontWeight: tag ? "bold" : "600",
                             color: "white",
                           }}

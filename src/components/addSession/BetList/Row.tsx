@@ -83,12 +83,24 @@ const Row = ({ index, values }: any) => {
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
+            flexDirection: "column",
           }}
         >
           <Typography
             sx={{ color: "white", fontWeight: "600", fontSize: "14px" }}
           >
             {values?.user?.userName}
+          </Typography>{" "}
+          <Typography
+            sx={{
+              fontWeight: "600",
+              fontSize: "8px",
+              color: "white",
+              wordWrap: "break-word",
+              maxWidth: "100%",
+            }}
+          >
+            {values?.domain?.replace(/https?:\/\//, '')}
           </Typography>
         </Box>
         <Box

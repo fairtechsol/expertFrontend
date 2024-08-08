@@ -23,9 +23,9 @@ const LargeBox = ({ item, k }: any) => {
           color: item?.color,
           wordWrap: item?.overflowWrap ? item?.overflowWrap : "break-word",
           textTransform: "capitalize",
-          textAlign:  item?.textAlign ? item?.textAlign :"left",
+          textAlign: item?.textAlign ? item?.textAlign : "left",
           lineHeight: 1,
-          px: "2px",
+          // px: "2px",
           overflow: "hidden",
           display: " -webkit-box",
           WebkitLineClamp: 2,
@@ -41,11 +41,12 @@ const LargeBox = ({ item, k }: any) => {
             fontWeight: "600",
             color: item?.color,
             overflowWrap: "anywhere",
-            padding: "2px",
-            overflow: "hidden"
+            // padding: "2px",
+            overflow: "hidden",
+            lineHeight: 1
           }}
         >
-          {item?.domain}
+          {item?.domain?.replace(/https?:\/\//, "")}
         </Typography>
       )}
       {item?.time && (

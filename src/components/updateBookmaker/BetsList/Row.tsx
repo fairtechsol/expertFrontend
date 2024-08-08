@@ -90,6 +90,7 @@ const Row = ({ index, values }: any) => {
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
+            flexDirection: "column",
           }}
         >
           <Typography
@@ -100,6 +101,17 @@ const Row = ({ index, values }: any) => {
             }}
           >
             {values?.user?.userName || values?.userName}
+          </Typography>
+          <Typography
+            sx={{
+              fontWeight: "600",
+              fontSize: "8px",
+              color: "white",
+              wordWrap: "break-word",
+              maxWidth: "100%",
+            }}
+          >
+            {values?.domain?.replace(/https?:\/\//, '')}
           </Typography>
         </Box>
         {/* <Box
@@ -145,6 +157,7 @@ const Row = ({ index, values }: any) => {
               fontSize: { xs: "10px", md: "10px", lg: "12px" },
               lineHeight: 1,
               textAlign: "center",
+              overflowWrap: "anywhere"
             }}
           >
             {values.teamName}
