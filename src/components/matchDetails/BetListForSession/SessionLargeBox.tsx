@@ -36,7 +36,7 @@ const SessionLargeBox = ({ item, k }: any) => {
       {item?.domain && (
         <Typography
           sx={{
-            fontSize: { lg: "7px", xs: "0.3rem", md: "9px" },
+            fontSize: { lg: "7px", xs: "8px", md: "9px" },
             fontWeight: "600",
             color: item?.color,
             overflowWrap: "anywhere",
