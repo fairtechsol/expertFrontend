@@ -89,6 +89,7 @@ const initialFormikValues = {
   marketName3: "",
   marketMaxBet3: "",
   marketId3: "",
+  rateThan100: "",
 };
 
 const initialValues = {
@@ -269,8 +270,11 @@ const AddMatch = () => {
             };
           });
           return;
+
+          
         }
         const addMatchpayload: any = {
+
           matchType: selected.gameType,
           competitionId: selected.tournamentId,
           competitionName: selected.competitionName,
@@ -365,6 +369,7 @@ const AddMatch = () => {
   }, [editSuccess]);
 
   const { handleSubmit, values, touched, errors, handleChange } = formik;
+  
   useEffect(() => {
     if (!state?.id) {
       setSelected((prev: any) => {
@@ -1264,38 +1269,42 @@ const AddMatch = () => {
               </Box>
             </Box>
 
-            
-
-            
             <Box
               sx={{
                 width: "100%",
                 cursor: "pointer",
                 display: "flex",
-                justifyContent:"center",
+                justifyContent: "center",
                 gap: "15px",
               }}
             >
               <Box
                 sx={{
-                  width: { xs: "100%", lg: "18%", md: "24%" },
+                  width: { xs: "100%", lg: "50%", md: "24%" },
                   marginTop: "17px",
                 }}
               >
                 <FormControlLabel
                   control={
                     <Checkbox
+                      required={true}
+                      name="rateThan100"
+                      id="rateThan100"
+                      value={values.rateThan100}
                       checked={isChecked}
-                      onChange={handleCheckboxChange}
-                      disabled={state?.id ? true : false}
+                      onChange={(e) => {
+                        handleCheckboxChange(e);
+                        handleChange(e);
+                      }}
+                      disabled={false}
                       sx={{
-                        color: "white",
+                        color: "#0B4F26",
                         "&.MuiButtonBase-root": {
                           margin: 0,
                         },
                         "&.MuiCheckbox-root": {
                           margin: 0,
-                          width:"20%"
+                          width: "40px",
                         },
                         "&.MuiSvgIcon-root": {
                           margin: 0,
@@ -1303,25 +1312,21 @@ const AddMatch = () => {
                         "&.MuiTouchRipple-root": {
                           margin: 0,
                         },
-                        "&.MuiTypography-root": {
-                          margin: 0,
-                          marginRight: "5px",
-                        },
                         "&.Mui-checked": {
-                          color: "#fff",
+                          color: "#0B4F26",
                         },
-                       
                         width: "100%",
                         position: "relative",
                         marginTop: "5px",
-                        textAlign:"center"
+                        textAlign: "center",
                       }}
                     />
                   }
-                  label="Exceed Rate limit."
+                  label="Manual bookmaker rate limit (more than 100)."
                   sx={{
-                    color: "#fff",
+                    color: "#0B4F26",
                     background: "#F8C851",
+                    fontWeight: "500", // This sets the fontWeight for the label text
                     border: "1px solid #F8C851",
                     borderRadius: "5px",
                     height: "45px",
@@ -1332,16 +1337,23 @@ const AddMatch = () => {
                     paddingLeft: "1px",
                     display: "flex",
                     alignItems: "center",
-                    "&.MuiFormControlLabel-root":{
-                      display:"flex",
-                      justifyContent:"center"
-                  },
-
+                    "& .MuiTypography-root": {
+                      fontWeight: "500", // Adjust fontWeight specifically for the label
+                    },
+                    "& .MuiTypography-body1": {
+                      fontWeight: "500", // Ensures body1 variant also has the correct fontWeight
+                    },
+                    "&.MuiFormControlLabel-root": {
+                      display: "flex",
+                      justifyContent: "center",
+                    },
+                    "& .MuiFormControlLabel-label": {
+                      fontWeight: "600", // Adjusts the fontWeight for the label text
+                    },
                   }}
                 />
               </Box>
             </Box>
-
           </Box>
         </Box>
         <Box
