@@ -1061,7 +1061,7 @@ const AddMatch = () => {
                 width: "100%",
                 cursor: "pointer",
                 display: "flex",
-
+                flexDirection:"column",
                 gap: "15px",
               }}
             >
@@ -1115,6 +1115,7 @@ const AddMatch = () => {
                   flexDirection: "column",
                   width: "100%",
                   gap: 1,
+                
                 }}
               >
                 {selected.manualBookmaker >= 1 && (
@@ -1264,7 +1265,7 @@ const AddMatch = () => {
               </Box>
             </Box>
 
-            <Box
+            {/* <Box
               sx={{
                 width: "100%",
                 cursor: "pointer",
@@ -1329,7 +1330,7 @@ const AddMatch = () => {
                   }}
                 />
               </Box>
-            </Box>
+            </Box> */}
             
           </Box>
         </Box>
