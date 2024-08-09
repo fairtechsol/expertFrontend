@@ -1061,7 +1061,7 @@ const AddMatch = () => {
                 width: "100%",
                 cursor: "pointer",
                 display: "flex",
-                flexDirection:"column",
+                flexDirection: "column",
                 gap: "15px",
               }}
             >
@@ -1115,7 +1115,6 @@ const AddMatch = () => {
                   flexDirection: "column",
                   width: "100%",
                   gap: 1,
-                
                 }}
               >
                 {selected.manualBookmaker >= 1 && (
@@ -1265,12 +1264,15 @@ const AddMatch = () => {
               </Box>
             </Box>
 
-            {/* <Box
+            
+
+            
+            <Box
               sx={{
                 width: "100%",
                 cursor: "pointer",
                 display: "flex",
-
+                justifyContent:"center",
                 gap: "15px",
               }}
             >
@@ -1293,6 +1295,7 @@ const AddMatch = () => {
                         },
                         "&.MuiCheckbox-root": {
                           margin: 0,
+                          width:"20%"
                         },
                         "&.MuiSvgIcon-root": {
                           margin: 0,
@@ -1307,17 +1310,19 @@ const AddMatch = () => {
                         "&.Mui-checked": {
                           color: "#fff",
                         },
+                       
                         width: "100%",
                         position: "relative",
                         marginTop: "5px",
+                        textAlign:"center"
                       }}
                     />
                   }
-                  label="Bookmaker"
+                  label="Exceed Rate limit."
                   sx={{
                     color: "#fff",
-                    background: "#0B4F26",
-                    border: "1px solid #DEDEDE",
+                    background: "#F8C851",
+                    border: "1px solid #F8C851",
                     borderRadius: "5px",
                     height: "45px",
                     marginX: "0px",
@@ -1327,11 +1332,16 @@ const AddMatch = () => {
                     paddingLeft: "1px",
                     display: "flex",
                     alignItems: "center",
+                    "&.MuiFormControlLabel-root":{
+                      display:"flex",
+                      justifyContent:"center"
+                  },
+
                   }}
                 />
               </Box>
-            </Box> */}
-            
+            </Box>
+
           </Box>
         </Box>
         <Box
