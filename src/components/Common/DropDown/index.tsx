@@ -23,7 +23,7 @@ const DropDown = (props: any) => {
     valued,
     gameType,
     onOpen,
-    isOpen
+    isOpen,
   } = props;
 
   const [value, setValue] = useState(valued);
@@ -42,7 +42,7 @@ const DropDown = (props: any) => {
     setValue(valued);
   }, [selected]);
   useEffect(() => {
-    setOpen(isOpen); 
+    setOpen(isOpen);
   }, [isOpen]);
   return (
     <Box sx={[{ width: "19%" }, containerStyle]}>
@@ -61,13 +61,10 @@ const DropDown = (props: any) => {
       </Typography>
       <Box
         onClick={() => {
-
           if (!disable) {
-
             setOpen((prev) => !prev);
             onOpen(name);
           }
-
         }}
         sx={[
           {
@@ -101,7 +98,7 @@ const DropDown = (props: any) => {
                 lg: "14px !important",
                 xs: "12px !important",
               },
-              lineHeight : 0.9
+              lineHeight: 0.9,
             }}
           >
             {valueToShow}
@@ -139,7 +136,7 @@ const DropDown = (props: any) => {
         >
           {matchesSelect
             ? data?.map((i: any, idx: any) => {
-                              return (
+                return (
                   <DropDownItem
                     key={idx}
                     i={i?.EventName}

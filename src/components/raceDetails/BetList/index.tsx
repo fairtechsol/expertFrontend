@@ -5,7 +5,6 @@ import { ARROWUP } from "../../../assets";
 import { formatToINR } from "../../helper";
 import HeaderRow from "./HeaderRow";
 import Row from "./Row";
-import { customBetSort } from "../../../helpers";
 
 const BetList = ({ tag, allBetRates }: any) => {
   const [newData, setNewBets] = useState([]);
@@ -13,116 +12,110 @@ const BetList = ({ tag, allBetRates }: any) => {
 
   useEffect(() => {
     if (allBetRates) {
-      const body = allBetRates
-        ?.slice()
-        .sort(customBetSort)
-        ?.map((v: any) => {
-          const values = {
-            values: [
-              {
-                name: v?.user?.userName,
-                color: ["NO", "YES"].includes(v?.betType) ? "#FFF" : "black",
-                background: ["NO", "YES"].includes(v?.betType)
-                  ? "#319E5B"
-                  : v?.marketType === "completeMatch" ||
-                    v?.marketType === "tiedMatch2" ||
-                    v?.marketType === "tiedMatch1"
-                  ? "#faf11b"
-                  : "#F1C550",
-                deleteReason: v?.deleteReason,
-                width: { lg: "16%", xs: "50%" },
-                domain:v?.domain,
-              },
-              {
-                name:
-                  v?.marketType == "MANUAL BOOKMAKER"
-                    ? "Quick Bookmaker"
-                    : v?.bettingName ?? v?.marketType,
-                color: ["NO", "YES"].includes(v?.betType) ? "#FFF" : "black",
-                background: ["NO", "YES"].includes(v?.betType)
-                  ? "#319E5B"
-                  : v?.marketType === "completeMatch" ||
-                    v?.marketType === "tiedMatch2" ||
-                    v?.marketType === "tiedMatch1"
-                  ? "#faf11b"
-                  : "#F1C550",
-                deleteReason: v?.deleteReason,
-                width: { lg: "17%", xs: "35%" },
-                overflowWrap: "anywhere",
-              },
-              {
-                name: v?.teamName,
-                color: "black",
-                background: ["YES", "BACK"].includes(v?.betType)
-                  ? "#B3E0FF"
-                  : "rgb(255, 146, 146)",
-                deleteReason: v?.deleteReason,
-                width: { lg: "20%", xs: "50%" },
-                overflowWrap: "anywhere",
-                textAlign: "center",
-              },
-              {
-                name: v?.odds,
-                color: "black",
-                rate: (v?.betType === "NO" || v?.betType === "YES") && v?.rate,
-                background: ["YES", "BACK"].includes(v?.betType)
-                  ? "#B3E0FF"
-                  : "rgb(255, 146, 146)",
-                small: true,
-                deleteReason: v?.deleteReason,
-                width: { lg: "7%", xs: "35%" },
-                fSize: "13px",
-                lHeight: 1,
-              },
-              {
-                name: v?.betType,
-                color: "black",
-                background: ["YES", "BACK"].includes(v?.betType)
-                  ? "#B3E0FF"
-                  : "rgb(255, 146, 146)",
-                small: true,
-                deleteReason: v?.deleteReason,
-                width: { lg: "7%", xs: "35%" },
-              },
-              {
-                name: formatToINR(v?.amount),
-                color: "black",
-                background: ["YES", "BACK"].includes(v?.betType)
-                  ? "#B3E0FF"
-                  : "rgb(255, 146, 146)",
-                deleteReason: v?.deleteReason,
-                width: { lg: "10%", xs: "35%" },
-                fSize: "12px",
-              },
-              {
-                name: +v.myStake
-                  ? formatToINR(+v.myStake)
-                  : formatToINR(
-                      (+v?.amount * +v?.user?.fwPartnership || 0) / 100
-                    ),
-                color: "white",
-                background: "#0B4F26",
-                deleteReason: v?.deleteReason,
-                width: { lg: "12%", xs: "35%" },
-              },
-              {
-                name: moment
-                  .utc(v?.createdAt)
-                  .utcOffset("+05:30")
-                  .format("LTS"),
-                color: "black",
-                background: ["YES", "BACK"].includes(v?.betType)
-                  ? "#B3E0FF"
-                  : "rgb(255, 146, 146)",
-                time: true,
-                date: moment.utc(v?.createdAt).utcOffset("+05:30").format("L"),
-                deleteReason: v?.deleteReason,
-                width: { lg: "11%", xs: "35%" },
-              },
-            ],
-          };
-          return values;
-        });
+      const body = allBetRates?.map((v: any) => {
+        const values = {
+          values: [
+            {
+              name: v?.user?.userName,
+              color: ["NO", "YES"].includes(v?.betType) ? "#FFF" : "black",
+              background: ["NO", "YES"].includes(v?.betType)
+                ? "#319E5B"
+                : v?.marketType === "completeMatch" ||
+                  v?.marketType === "tiedMatch2" ||
+                  v?.marketType === "tiedMatch1"
+                ? "#faf11b"
+                : "#F1C550",
+              deleteReason: v?.deleteReason,
+              width: { lg: "16%", xs: "50%" },
+              domain: v?.domain,
+            },
+            {
+              name:
+                v?.marketType == "MANUAL BOOKMAKER"
+                  ? "Quick Bookmaker"
+                  : v?.bettingName ?? v?.marketType,
+              color: ["NO", "YES"].includes(v?.betType) ? "#FFF" : "black",
+              background: ["NO", "YES"].includes(v?.betType)
+                ? "#319E5B"
+                : v?.marketType === "completeMatch" ||
+                  v?.marketType === "tiedMatch2" ||
+                  v?.marketType === "tiedMatch1"
+                ? "#faf11b"
+                : "#F1C550",
+              deleteReason: v?.deleteReason,
+              width: { lg: "17%", xs: "35%" },
+              overflowWrap: "anywhere",
+            },
+            {
+              name: v?.teamName,
+              color: "black",
+              background: ["YES", "BACK"].includes(v?.betType)
+                ? "#B3E0FF"
+                : "rgb(255, 146, 146)",
+              deleteReason: v?.deleteReason,
+              width: { lg: "20%", xs: "50%" },
+              overflowWrap: "anywhere",
+              textAlign: "center",
+            },
+            {
+              name: v?.odds,
+              color: "black",
+              rate: (v?.betType === "NO" || v?.betType === "YES") && v?.rate,
+              background: ["YES", "BACK"].includes(v?.betType)
+                ? "#B3E0FF"
+                : "rgb(255, 146, 146)",
+              small: true,
+              deleteReason: v?.deleteReason,
+              width: { lg: "7%", xs: "35%" },
+              fSize: "13px",
+              lHeight: 1,
+            },
+            {
+              name: v?.betType,
+              color: "black",
+              background: ["YES", "BACK"].includes(v?.betType)
+                ? "#B3E0FF"
+                : "rgb(255, 146, 146)",
+              small: true,
+              deleteReason: v?.deleteReason,
+              width: { lg: "7%", xs: "35%" },
+            },
+            {
+              name: formatToINR(v?.amount),
+              color: "black",
+              background: ["YES", "BACK"].includes(v?.betType)
+                ? "#B3E0FF"
+                : "rgb(255, 146, 146)",
+              deleteReason: v?.deleteReason,
+              width: { lg: "10%", xs: "35%" },
+              fSize: "12px",
+            },
+            {
+              name: +v.myStake
+                ? formatToINR(+v.myStake)
+                : formatToINR(
+                    (+v?.amount * +v?.user?.fwPartnership || 0) / 100
+                  ),
+              color: "white",
+              background: "#0B4F26",
+              deleteReason: v?.deleteReason,
+              width: { lg: "12%", xs: "35%" },
+            },
+            {
+              name: moment.utc(v?.createdAt).utcOffset("+05:30").format("LTS"),
+              color: "black",
+              background: ["YES", "BACK"].includes(v?.betType)
+                ? "#B3E0FF"
+                : "rgb(255, 146, 146)",
+              time: true,
+              date: moment.utc(v?.createdAt).utcOffset("+05:30").format("L"),
+              deleteReason: v?.deleteReason,
+              width: { lg: "11%", xs: "35%" },
+            },
+          ],
+        };
+        return values;
+      });
 
       setNewBets(body);
     }

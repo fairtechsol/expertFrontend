@@ -1085,6 +1085,7 @@ const AddMatch = () => {
                   setSelected={setSelected}
                   dropDownTextStyle={inputStyle}
                   place={4}
+                  onOpen={handleDropDownOpen}
                 />
               </Box>
 

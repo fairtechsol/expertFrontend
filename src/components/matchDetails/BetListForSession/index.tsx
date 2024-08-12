@@ -3,7 +3,6 @@ import moment from "moment";
 import { useEffect, useState } from "react";
 import { ARROWUP } from "../../../assets";
 import { formatToINR } from "../../helper";
-import { customBetSort } from "../../../helpers";
 import SessionHeaderRow from "./SessionHeaderRow";
 import SessionRow from "./SessionRow";
 
@@ -13,8 +12,6 @@ const BetListForSession = ({ tag, allBetRates }: any) => {
   useEffect(() => {
     if (allBetRates) {
       const body = allBetRates
-        ?.slice()
-        .sort(customBetSort)
         ?.map((v: any) => {
           const values = {
             values: [
