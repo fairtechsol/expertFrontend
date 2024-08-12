@@ -483,8 +483,10 @@ const AddMatch = () => {
             marketName3: matchDetail?.quickBookmaker[2]?.name ?? "",
             marketMaxBet3: matchDetail?.quickBookmaker[2]?.maxBet ?? "",
             marketId3: matchDetail?.quickBookmaker[2]?.id ?? "",
+            rateThan100: matchDetail?.rateThan100 ?? false,
           };
-
+          setIsChecked(matchDetail?.rateThan100)
+          
           if (!manualMatchToggle) {
             eventWiseMatchData[matchDetail?.matchType]?.market?.forEach(
               (item) => {
@@ -1285,7 +1287,7 @@ const AddMatch = () => {
                 <FormControlLabel
                   control={
                     <Checkbox
-                      required={true}
+                      required={false}
                       name="rateThan100"
                       id="rateThan100"
                       value={values.rateThan100}

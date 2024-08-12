@@ -14,7 +14,8 @@ export const handleKeysMatchEvents = (
   incGap: number,
   setIncGap: any,
   isTab: string,
-  setIsTab: any
+  setIsTab: any,
+  bookmakerById:any,
 ) => {
   try {
     e.preventDefault();
@@ -138,7 +139,7 @@ export const handleKeysMatchEvents = (
       let value = +targetValue ? +targetValue + +incGap : +incGap;
       if (e.target.name === "teamArate") {
         setLocalQuickBookmaker((prev: any) => {
-          let result = handleHunderedValue(+targetValue, +prev?.teamA?.lay);
+          let result = handleHunderedValue(+targetValue, +prev?.teamA?.lay,bookmakerById);
           if (result) {
             return prev;
           }
@@ -177,7 +178,7 @@ export const handleKeysMatchEvents = (
       }
       if (e.target.name === "teamBrate") {
         setLocalQuickBookmaker((prev: any) => {
-          let result = handleHunderedValue(+targetValue, +prev?.teamB?.lay);
+          let result = handleHunderedValue(+targetValue, +prev?.teamB?.lay,bookmakerById);
           if (result) {
             return prev;
           }
@@ -216,7 +217,7 @@ export const handleKeysMatchEvents = (
       }
       if (e.target.name === "teamCrate") {
         setLocalQuickBookmaker((prev: any) => {
-          let result = handleHunderedValue(+targetValue, +prev?.teamC?.lay);
+          let result = handleHunderedValue(+targetValue, +prev?.teamC?.lay,bookmakerById);
           if (result) {
             return prev;
           }
@@ -302,7 +303,7 @@ export const handleKeysMatchEvents = (
       let value = +targetValue ? +targetValue + +incGap : +incGap;
       if (e.target.name === "teamArate") {
         setLocalQuickBookmaker((prev: any) => {
-          let result = handleHunderedValue(+targetValue, +prev?.teamA?.lay);
+          let result = handleHunderedValue(+targetValue, +prev?.teamA?.lay,bookmakerById);
           if (result) {
             return prev;
           }
@@ -341,7 +342,7 @@ export const handleKeysMatchEvents = (
       }
       if (e.target.name === "teamBrate") {
         setLocalQuickBookmaker((prev: any) => {
-          let result = handleHunderedValue(+targetValue, +prev?.teamB?.lay);
+          let result = handleHunderedValue(+targetValue, +prev?.teamB?.lay,bookmakerById);
           if (result) {
             return prev;
           }
@@ -380,7 +381,7 @@ export const handleKeysMatchEvents = (
       }
       if (e.target.name === "teamCrate") {
         setLocalQuickBookmaker((prev: any) => {
-          let result = handleHunderedValue(+targetValue, +prev?.teamC?.lay);
+          let result = handleHunderedValue(+targetValue, +prev?.teamC?.lay,bookmakerById);
           if (result) {
             return prev;
           }
@@ -683,7 +684,7 @@ export const handleKeysMatchEvents = (
       }
       if (e.target.name === "teamArate") {
         setLocalQuickBookmaker((prev: any) => {
-          let result = handleHunderedValue(+targetValue, prev?.teamA?.lay);
+          let result = handleHunderedValue(+targetValue, prev?.teamA?.lay,bookmakerById);
           if (result) {
             return prev;
           }
@@ -728,7 +729,7 @@ export const handleKeysMatchEvents = (
         });
       } else if (e.target.name === "teamBrate") {
         setLocalQuickBookmaker((prev: any) => {
-          let result = handleHunderedValue(+targetValue, prev?.teamB?.lay);
+          let result = handleHunderedValue(+targetValue, prev?.teamB?.lay,bookmakerById);
           if (result) {
             return prev;
           }
@@ -773,7 +774,7 @@ export const handleKeysMatchEvents = (
         });
       } else if (e.target.name === "teamCrate") {
         setLocalQuickBookmaker((prev: any) => {
-          let result = handleHunderedValue(+targetValue, prev?.teamC?.lay);
+          let result = handleHunderedValue(+targetValue, prev?.teamC?.lay,bookmakerById);
           if (result) {
             return prev;
           }
@@ -867,7 +868,7 @@ export const handleKeysMatchEvents = (
       }
       if (e.target.name === "teamArate") {
         setLocalQuickBookmaker((prev: any) => {
-          let result = handleHunderedValue(+targetValue, prev?.teamA?.lay);
+          let result = handleHunderedValue(+targetValue, prev?.teamA?.lay,bookmakerById);
           if (result) {
             return prev;
           }
@@ -910,7 +911,7 @@ export const handleKeysMatchEvents = (
         });
       } else if (e.target.name === "teamBrate") {
         setLocalQuickBookmaker((prev: any) => {
-          let result = handleHunderedValue(+targetValue, prev?.teamB?.lay);
+          let result = handleHunderedValue(+targetValue, prev?.teamB?.lay,bookmakerById);
           if (result) {
             return prev;
           }
@@ -953,7 +954,7 @@ export const handleKeysMatchEvents = (
         });
       } else if (e.target.name === "teamCrate") {
         setLocalQuickBookmaker((prev: any) => {
-          let result = handleHunderedValue(+targetValue, prev?.teamC?.lay);
+          let result = handleHunderedValue(+targetValue, prev?.teamC?.lay,bookmakerById);
           if (result) {
             return prev;
           }
@@ -1774,7 +1775,7 @@ export const handleKeysMatchEvents = (
               : 0;
           }
 
-          let result = handleHunderedValue(value, value + 1.5);
+          let result = handleHunderedValue(value, value + 1.5,bookmakerById);
           if (result) {
             return prev;
           }
