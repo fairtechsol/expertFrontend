@@ -6,7 +6,7 @@ const SessionHeaderRow = ({ tag }: any) => {
       <Box sx={{ width: "auto", display: "flex" }}>
         <Box
           sx={{
-            width: { lg: "4%", xs: "6%" },
+            width: { lg: "5%", xs: "6%" },
             border: "1px solid white",
             background: "rgba(0,0,0)",
             height: "20px",
