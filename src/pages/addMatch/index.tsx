@@ -198,6 +198,7 @@ const AddMatch = () => {
           betFairSessionMaxBet: value.betfairSessionMaxBet,
           bookmakers: bookmakers,
           startAt: selected.startAt,
+          rateThan100: value.rateThan100,
         };
 
         eventWiseMatchData[selected.gameType]?.manual?.forEach((item) => {
@@ -270,11 +271,8 @@ const AddMatch = () => {
             };
           });
           return;
-
-          
         }
         const addMatchpayload: any = {
-
           matchType: selected.gameType,
           competitionId: selected.tournamentId,
           competitionName: selected.competitionName,
@@ -287,7 +285,7 @@ const AddMatch = () => {
           startAt: selected.startAt,
           minBet: value.minBet,
           marketData: [],
-
+          rateThan100: value.rateThan100,
           betFairSessionMaxBet:
             selected.gameType === "cricket"
               ? value.betfairSessionMaxBet
@@ -369,7 +367,7 @@ const AddMatch = () => {
   }, [editSuccess]);
 
   const { handleSubmit, values, touched, errors, handleChange } = formik;
-  
+
   useEffect(() => {
     if (!state?.id) {
       setSelected((prev: any) => {

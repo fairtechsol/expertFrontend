@@ -246,7 +246,7 @@ const MatchListTable = (props: any) => {
                   xs: "center",
                 },
                 flexWrap: "wrap",
-                background:"red"
+                
               }}
             >
               {data?.matchType === "cricket" &&
