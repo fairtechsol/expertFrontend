@@ -85,7 +85,8 @@ const Row = ({ index, values }: any) => {
         <Box
           sx={{
             background: "#0B4F26",
-            width: { lg: "20%", xs: "23%" },
+            minWidth: { lg: "16%", xs: "19.5%" },
+            maxWidth: { lg: "16%", xs: "19.5%" },
             borderLeft: "2px solid white",
             display: "flex",
             justifyContent: "center",
