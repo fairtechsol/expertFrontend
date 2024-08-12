@@ -1,9 +1,38 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import Header from "./Header";
 import Row from "./Row";
+import { useEffect, useRef, useState } from "react";
 
 const BetsList = (props: any) => {
   const { sessionEvent, betData } = props;
+  const scrollRef = useRef<HTMLDivElement | null>(null);
+  const [showButton, setShowButton] = useState(false);
+
+  const scrollToTop = () => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
+    }
+  };
+
+  const handleScroll = () => {
+    if (scrollRef.current) {
+      const { scrollTop } = scrollRef.current;
+      setShowButton(scrollTop > 0);
+    }
+  };
+
+  useEffect(() => {
+    const scrollElement = scrollRef.current;
+    if (scrollElement) {
+      scrollElement.addEventListener("scroll", handleScroll);
+      return () => {
+        scrollElement.removeEventListener("scroll", handleScroll);
+      };
+    }
+  }, []);
   return (
     <Box
       sx={{
@@ -32,6 +61,28 @@ const BetsList = (props: any) => {
         <Typography sx={{ color: "#000", fontSize: {lg:"20px", xs:"16px", md: "18px"}, fontWeight: "600" }}>
           {sessionEvent?.name}
         </Typography>
+        <Box>   
+        {showButton && (
+        <Button
+          variant="contained"
+          onClick={scrollToTop}
+          sx={{
+            position: "fixed", 
+            width: "100px",
+            fontSize: "9px",
+            bottom: 20,
+            right: 20,
+            backgroundColor: "#F8C851",
+            color: "#000",
+            "&:hover": {
+              backgroundColor: "#F8C851",
+            },
+            zIndex: 1000,
+          }}
+        >
+          Scroll to Top
+        </Button>
+      )}</Box>
         <Box
           sx={{
             height: "32px",
@@ -67,6 +118,7 @@ const BetsList = (props: any) => {
         <Header />
         <Box
           className="myScroll"
+          ref={scrollRef}
           sx={{
             maxHeight: "82vh",
             overflow: "hidden",

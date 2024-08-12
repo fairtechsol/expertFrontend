@@ -1,6 +1,6 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import moment from "moment";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ARROWUP } from "../../../assets";
 import { formatToINR } from "../../helper";
 import HeaderRow from "./HeaderRow";
@@ -10,6 +10,34 @@ import { customBetSort } from "../../../helpers";
 const BetList = ({ tag, allBetRates }: any) => {
   const [newData, setNewBets] = useState([]);
   const [visibleImg, setVisibleImg] = useState(true);
+  const scrollRef = useRef<HTMLDivElement | null>(null);
+  const [showButton, setShowButton] = useState(false);
+
+  const scrollToTop = () => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
+    }
+  };
+
+  const handleScroll = () => {
+    if (scrollRef.current) {
+      const { scrollTop } = scrollRef.current;
+      setShowButton(scrollTop > 0);
+    }
+  };
+
+  useEffect(() => {
+    const scrollElement = scrollRef.current;
+    if (scrollElement) {
+      scrollElement.addEventListener("scroll", handleScroll);
+      return () => {
+        scrollElement.removeEventListener("scroll", handleScroll);
+      };
+    }
+  }, []);
 
   useEffect(() => {
     if (allBetRates) {
@@ -146,6 +174,28 @@ const BetList = ({ tag, allBetRates }: any) => {
           alignSelf: "center",
         }}
       >
+         <Box>   
+        {showButton && (
+        <Button
+          variant="contained"
+          onClick={scrollToTop}
+          sx={{
+            position: "fixed", 
+            width: "100px",
+            fontSize: "9px",
+            bottom: 20,
+            right: 20,
+            backgroundColor: "#F8C851",
+            color: "#000",
+            "&:hover": {
+              backgroundColor: "#F8C851",
+            },
+            zIndex: 1000,
+          }}
+        >
+          Scroll to Top
+        </Button>
+      )}</Box>
         <Box
           sx={[
             {
@@ -235,6 +285,7 @@ const BetList = ({ tag, allBetRates }: any) => {
         {visibleImg && (
           <>
             <Box
+            ref={scrollRef}
               sx={{
                 maxHeight: "80vh",
                 width: { xs: "100vw", lg: "auto", md: "140vw" },

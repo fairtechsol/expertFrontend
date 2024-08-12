@@ -1,8 +1,37 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import Header from "./Header";
 import Row from "./Row";
+import { useEffect, useRef, useState } from "react";
 
 const BetsList = ({ betData }: any) => {
+  const scrollRef = useRef<HTMLDivElement | null>(null);
+  const [showButton, setShowButton] = useState(false);
+
+  const scrollToTop = () => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
+    }
+  };
+
+  const handleScroll = () => {
+    if (scrollRef.current) {
+      const { scrollTop } = scrollRef.current;
+      setShowButton(scrollTop > 0);
+    }
+  };
+
+  useEffect(() => {
+    const scrollElement = scrollRef.current;
+    if (scrollElement) {
+      scrollElement.addEventListener("scroll", handleScroll);
+      return () => {
+        scrollElement.removeEventListener("scroll", handleScroll);
+      };
+    }
+  }, []);
   return (
     <Box
       sx={{
@@ -11,8 +40,10 @@ const BetsList = ({ betData }: any) => {
         borderRadius: "5px",
         minHeight: "75vh",
         border: "2px solid white",
+        position: "relative",
       }}
     >
+     
       <Box
         sx={[
           {
@@ -30,6 +61,28 @@ const BetsList = ({ betData }: any) => {
         >
           Bookmaker Bets
         </Typography>
+        <Box>   
+        {showButton && (
+        <Button
+          variant="contained"
+          onClick={scrollToTop}
+          sx={{
+            position: "fixed", 
+            width: "100px",
+            fontSize: "9px",
+            bottom: 20,
+            right: 20,
+            backgroundColor: "#F8C851",
+            color: "#000",
+            "&:hover": {
+              backgroundColor: "#F8C851",
+            },
+            zIndex: 1000,
+          }}
+        >
+          Scroll to Top
+        </Button>
+      )}</Box>
         <Box
           sx={{
             height: "35px",
@@ -42,9 +95,10 @@ const BetsList = ({ betData }: any) => {
             alignItems: "center",
           }}
         >
+     
           <Typography
             sx={{ color: "red", fontWeight: "700", fontSize: "14px" }}
-          >
+          >    
             All Bets
           </Typography>
           <Typography
@@ -65,6 +119,7 @@ const BetsList = ({ betData }: any) => {
         <Header />
         <Box
           className="myScroll"
+          ref={scrollRef}
           sx={{
             maxHeight: "75vh",
             overflow: "hidden",
@@ -81,6 +136,7 @@ const BetsList = ({ betData }: any) => {
             })}
         </Box>
       </Box>
+     
     </Box>
   );
 };
