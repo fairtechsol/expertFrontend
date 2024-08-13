@@ -90,8 +90,6 @@ const EditBookmaker = (props: any) => {
         return true;
       }
 
-      
-
       setIsTab("");
 
       if (
@@ -582,8 +580,8 @@ const EditBookmaker = (props: any) => {
                     "l",
                   ]}
                   isDisabled={false}
-                  onKeyEvent={(key, e) => {
-                    return handleKeysMatchEvents(
+                  onKeyEvent={(key, e) =>
+                    handleKeysMatchEvents(
                       Bid,
                       type,
                       key,
@@ -598,8 +596,8 @@ const EditBookmaker = (props: any) => {
                       isTab,
                       setIsTab,
                       bookmakerById
-                    );
-                  }}
+                    )
+                  }
                 >
                   <TextField
                     className="InputChild"

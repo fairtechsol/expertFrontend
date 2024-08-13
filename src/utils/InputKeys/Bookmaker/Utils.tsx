@@ -74,12 +74,13 @@ export const updateLocalQuickBookmaker = (
   });
 };
 
-
-
-export const handleHunderedValue = (back: number, lay: number,bookmakerById:any) => {
-
-  if(bookmakerById?.rateThan100){
-    return false
+export const handleHunderedValue = (
+  back: number,
+  lay: number,
+  bookmakerById: any
+) => {
+  if (bookmakerById?.rateThan100) {
+    return false;
   }
   if (back >= 98.5) {
     return true;
@@ -87,7 +88,6 @@ export const handleHunderedValue = (back: number, lay: number,bookmakerById:any)
   if (lay >= 99.5) {
     return true;
   }
- 
 };
 
 export const handleZeroValue = (back: number, lay: number) => {
