@@ -91,7 +91,11 @@ const EditBookmaker = (props: any) => {
       }
 
       setIsTab("");
-      if (value < 100) {
+
+      if (
+        (!bookmakerById?.rateThan100 && value < 100) ||
+        bookmakerById?.rateThan100
+      ) {
         if (name === "teamArate") {
           updateLocalQuickBookmaker(
             match,
@@ -332,6 +336,7 @@ const EditBookmaker = (props: any) => {
 
   const formattedRateC = rateC.toFixed(2);
   const [integerPartC, decimalPartC] = formattedRateC.split(".");
+
   return (
     <>
       <Box
@@ -589,7 +594,8 @@ const EditBookmaker = (props: any) => {
                       incGap,
                       setIncGap,
                       isTab,
-                      setIsTab
+                      setIsTab,
+                      bookmakerById
                     )
                   }
                 >
@@ -760,7 +766,8 @@ const EditBookmaker = (props: any) => {
                       incGap,
                       setIncGap,
                       isTab,
-                      setIsTab
+                      setIsTab,
+                      bookmakerById
                     )
                   }
                 >
@@ -922,7 +929,8 @@ const EditBookmaker = (props: any) => {
                         incGap,
                         setIncGap,
                         isTab,
-                        setIsTab
+                        setIsTab,
+                        bookmakerById
                       )
                     }
                   >

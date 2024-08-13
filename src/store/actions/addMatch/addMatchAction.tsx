@@ -264,7 +264,10 @@ export const addRaceExpert = createAsyncThunk<any, any>(
   "addRaceExpert",
   async (requestData, thunkApi) => {
     try {
-      const resp = await service.post(`${ApiConstants.MATCH.ADD_RACE}`, requestData);
+      const resp = await service.post(
+        `${ApiConstants.MATCH.ADD_RACE}`,
+        requestData
+      );
       if (resp) {
         return resp?.data;
       }

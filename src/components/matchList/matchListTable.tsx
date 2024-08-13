@@ -63,7 +63,7 @@ const MatchListTable = (props: any) => {
     }
   }, [data]);
   const buttonBgColor = data?.matchType !== "cricket" ? "#FFE094" : undefined;
-  const isSmallOrMediumScreen = useMediaQuery(theme.breakpoints.down('md'));
+  const isSmallOrMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
   return (
     <>
       <Box
@@ -80,7 +80,7 @@ const MatchListTable = (props: any) => {
         <Box
           sx={{
             display: "flex",
-            width: {xs: "60px", sm: "100px", md: "100px", lg: "100px"},
+            width: { xs: "60px", sm: "100px", md: "100px", lg: "100px" },
             // paddingLeft: "10px",
             alignItems: "center",
             // height: "45px",
@@ -135,7 +135,7 @@ const MatchListTable = (props: any) => {
                   alignItems: "center",
                   marginRight: { lg: "10px", xs: "6px" },
                   justifyContent: "space-between",
-                  maxWidth: "200px",
+                  width: "200px",
                 },
               ]}
             >
@@ -167,23 +167,30 @@ const MatchListTable = (props: any) => {
                 lg: "row",
               },
               order: { xs: "1", sm: "2", md: "3" },
-              width: { xs: "100%", sm: "auto" },
+              width: { lg:"66%",xs: "100%", sm: "auto" },
               py: { xs: 1, sm: 0 },
               // px: "10px",
               // overflow: "hidden",
               display: showUserModal && !matchesMobile ? "none" : "flex",
               alignItems: "center",
+              
               // marginBottom: showUserModal ? { xs: "0%", sm: "-1%", lg: "-20%" } : "0%",
             }}
           >
             <Box
-            sx={{
-              display: "flex",
-              flexDirection: {xs: "column", md: "row", sm: "row", lg: "row" },
-             justifyContent:"center",alignItems:"center",
+              sx={{
+                display: "flex",
+                flexDirection: {
+                  xs: "column",
+                  md: "row",
+                  sm: "row",
+                  lg: "row",
+                },
+                justifyContent: "center",
+                alignItems: "center",
                 marginTop: { sm: "5px", lg: 0, md: 0 },
-                paddingRight:"5px"
-            }} 
+                paddingRight: "5px",
+              }}
             >
               {data?.stopAt && (
                 <MatchListProfitLoss
@@ -232,9 +239,14 @@ const MatchListTable = (props: any) => {
                 display: "flex",
                 alignItems: "center",
                 flexDirection: { md: "row", sm: "row", lg: "row" },
-                justifyContent: {lg:"flex-end",md:"flex-end",sm:"flex-end",xs:"center"},
+                justifyContent: {
+                  lg: "flex-end",
+                  md: "flex-end",
+                  sm: "flex-end",
+                  xs: "center",
+                },
                 flexWrap: "wrap",
-                // backgroundColor:{xs:"red"}
+                
               }}
             >
               {data?.matchType === "cricket" &&
@@ -257,16 +269,21 @@ const MatchListTable = (props: any) => {
                     title={"Session"}
                   />
                 )}
-                   {!isSmallOrMediumScreen && data?.matchType != "cricket"   &&
-                <CustomButton 
-                containerStyle={{
-                  margin: "5px",
-                  background: "#FFE094",
-                 marginRight:{ xs:"20px", md: "29px", sm: "10px", lg: "10px"},
-                }}
-                bgColor={buttonBgColor}
+              {/* {!isSmallOrMediumScreen && data?.matchType != "cricket" && (
+                <CustomButton
+                  containerStyle={{
+                    margin: "5px",
+                    background: "#FFE094",
+                    marginRight: {
+                      xs: "20px",
+                      md: "29px",
+                      sm: "10px",
+                      lg: "10px",
+                    },
+                  }}
+                  bgColor={buttonBgColor}
                 />
-              }
+              )} */}
               {(getProfile?.allPrivilege ||
                 getProfile?.betFairMatchPrivilege) && (
                 <CustomButton
