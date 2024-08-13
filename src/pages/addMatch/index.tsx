@@ -89,7 +89,7 @@ const initialFormikValues = {
   marketName3: "",
   marketMaxBet3: "",
   marketId3: "",
-  rateThan100: "",
+  rateThan100: false,
 };
 
 const initialValues = {
@@ -485,8 +485,8 @@ const AddMatch = () => {
             marketId3: matchDetail?.quickBookmaker[2]?.id ?? "",
             rateThan100: matchDetail?.rateThan100 ?? false,
           };
-          setIsChecked(matchDetail?.rateThan100)
-          
+          setIsChecked(matchDetail?.rateThan100);
+
           if (!manualMatchToggle) {
             eventWiseMatchData[matchDetail?.matchType]?.market?.forEach(
               (item) => {
