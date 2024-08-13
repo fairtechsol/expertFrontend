@@ -18,6 +18,7 @@ import {
   getPlacedBetsMatch,
   getRaceMatch,
   getSessionProfitLossMatchDetailReset,
+  updateDeletedBetReasonOnEdit,
   updateMatchBetsPlace,
   updateMatchBetsReason,
   updateResultStatusOfrace,
@@ -109,7 +110,15 @@ const RaceDetails = () => {
       console.log(e);
     }
   };
-
+  const updateDeleteBetReason = (event: any) => {
+    try {
+      if (event?.matchId === state?.id) {
+        dispatch(updateDeletedBetReasonOnEdit(event));
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
   const updateMatchBetPlaced = (event: any) => {
     try {
       if (event?.jobData?.newBet?.matchId === state?.id) {
@@ -153,6 +162,7 @@ const RaceDetails = () => {
         socketService.user.matchDeleteBetOff();
         socketService.user.userMatchBetPlacedOff();
         socketService.user.updateInResultDeclareOff();
+        socketService.user.updateDeleteReasonOff();
         expertSocketService.match.joinMatchRoom(state?.id, "expert");
         expertSocketService.match.getMatchRates(state?.id, (event: any) => {
           updateMatchDetailToRedux(event);
@@ -163,6 +173,7 @@ const RaceDetails = () => {
         socketService.user.matchDeleteBet(matchDeleteBet);
         socketService.user.userMatchBetPlaced(updateMatchBetPlaced);
         socketService.user.updateInResultDeclare(updateSessionResultStatus);
+        socketService.user.updateDeleteReason(updateDeleteBetReason);
       }
     } catch (e) {
       console.log(e);
@@ -180,6 +191,7 @@ const RaceDetails = () => {
         socketService.user.matchDeleteBetOff();
         socketService.user.userMatchBetPlacedOff();
         socketService.user.updateInResultDeclareOff();
+        socketService.user.updateDeleteReasonOff();
       };
     } catch (error) {
       console.log(error);

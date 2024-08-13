@@ -25,6 +25,7 @@ import {
 import {
   getPlacedBetsMatch,
   getSessionProfitLossMatchDetailReset,
+  updateDeletedBetReasonOnEdit,
   updateMatchBetsPlace,
   updateMatchBetsReason,
   // updateMaxLoss,
@@ -121,6 +122,16 @@ const OtherMatchDetails = () => {
         //     betPlaced: event?.profitLoss ? event?.profitLoss?.betPlaced : [],
         //   })
         // );
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const updateDeleteBetReason = (event: any) => {
+    try {
+      if (event?.matchId === state?.id) {
+        dispatch(updateDeletedBetReasonOnEdit(event));
       }
     } catch (e) {
       console.log(e);
@@ -247,6 +258,7 @@ const OtherMatchDetails = () => {
         // socketService.user.userSessionBetPlacedOff();
         // socketService.user.sessionResultDeclaredOff();
         socketService.user.updateInResultDeclareOff();
+        socketService.user.updateDeleteReasonOff();
         expertSocketService.match.joinMatchRoom(state?.id, "expert");
         expertSocketService.match.getMatchRates(state?.id, (event: any) => {
           updateMatchDetailToRedux(event);
@@ -259,6 +271,7 @@ const OtherMatchDetails = () => {
         // socketService.user.userSessionBetPlaced(updateSessionBetPlaced);
         // socketService.user.sessionResultDeclared(updateSessionResultDeclared);
         socketService.user.updateInResultDeclare(updateSessionResultStatus);
+        socketService.user.updateDeleteReason(updateDeleteBetReason);
         expertSocketService.match.connectError(handleSocketError);
         expertSocketService.match.onConnect(handleSocketConnection);
       }
@@ -283,6 +296,7 @@ const OtherMatchDetails = () => {
           // socketService.user.userSessionBetPlacedOff();
           // socketService.user.sessionResultDeclaredOff();
           socketService.user.updateInResultDeclareOff();
+          socketService.user.updateDeleteReasonOff();
           expertSocketService.match.connectErrorOff();
           expertSocketService.match.onConnectOff();
         };

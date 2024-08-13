@@ -7,6 +7,7 @@ import {
   getBookmakerById,
   getPlacedBets,
   updateDeleteReason,
+  updateDeleteReasonOnEdit,
   updateMatchBetsPlaced,
   updateRatesBook,
   updateTeamRatesOnManualMarket,
@@ -62,6 +63,16 @@ const UpdateBookmaker = () => {
     }
   };
 
+  const updateDeleteBetReason = (event: any) => {
+    try {
+      if (event?.matchId === state?.match?.id) {
+        dispatch(updateDeleteReasonOnEdit(event));
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   useEffect(() => {
     try {
       if (state?.id) {
@@ -81,13 +92,19 @@ const UpdateBookmaker = () => {
 
   useEffect(() => {
     if (socket) {
+      socketService.user.userMatchBetPlacedOff();
+      socketService.user.matchResultDeclaredOff();
+      socketService.user.matchDeleteBetOff();
+      socketService.user.updateDeleteReasonOff();
       socketService.user.userMatchBetPlaced(updateBetList);
       socketService.user.matchResultDeclared(resultDeclared);
       socketService.user.matchDeleteBet(matchDeleteBet);
+      socketService.user.updateDeleteReason(updateDeleteBetReason);
       return () => {
         socketService.user.userMatchBetPlacedOff();
         socketService.user.matchResultDeclaredOff();
         socketService.user.matchDeleteBetOff();
+        socketService.user.updateDeleteReasonOff();
       };
     }
   }, [socket, state?.id]);

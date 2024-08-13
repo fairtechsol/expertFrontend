@@ -390,6 +390,12 @@ export const updateMatchBetsReason = createAsyncThunk<any, SessionById>(
     return requestData;
   }
 );
+export const updateDeletedBetReasonOnEdit = createAsyncThunk<any, SessionById>(
+  "update/updateDeletedBetReasonOnEdit",
+  async (requestData) => {
+    return requestData;
+  }
+);
 export const getSessionProfitLossMatchDetailFilter = createAsyncThunk<
   any,
   SessionById
@@ -445,6 +451,4 @@ export const resetMatchListSessionProLoss = createAction(
 export const getSessionProfitLossMatchDetailReset = createAction(
   "getSessionProfitLossMatchDetail/reset"
 );
-export const resetRaceEdit = createAction(
-  "raceEdit/reset"
-);
+export const resetRaceEdit = createAction("raceEdit/reset");
