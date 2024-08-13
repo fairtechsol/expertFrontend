@@ -84,7 +84,7 @@ const EditBookmaker = (props: any) => {
   const handleChange = (event: any) => {
     try {
       let { name, value } = event.target;
-
+      const regex = /^\d+(\.\d+)?$/;
       const decimalValue = value.split(".");
       if (decimalValue[1]) {
         return true;
@@ -92,74 +92,74 @@ const EditBookmaker = (props: any) => {
 
       setIsTab("");
 
-      if (
-        (!bookmakerById?.rateThan100 && value < 100) ||
-        bookmakerById?.rateThan100
-      ) {
-        if (name === "teamArate") {
-          updateLocalQuickBookmaker(
-            match,
-            Bid,
-            type,
-            "teamA",
-            +value,
-            +value + 1,
-            setLocalQuickBookmaker
-          );
-        } else if (name === "teamBrate") {
-          updateLocalQuickBookmaker(
-            match,
-            Bid,
-            type,
-            "teamB",
-            +value,
-            +value + 1,
-            setLocalQuickBookmaker
-          );
-        } else if (name === "teamCrate") {
-          updateLocalQuickBookmaker(
-            match,
-            Bid,
-            type,
-            "teamC",
-            +value,
-            +value + 1,
-            setLocalQuickBookmaker
-          );
-        }
-        setLocalQuickBookmaker((prev: any) => {
-          if (
-            !prev?.teamA?.suspended ||
-            !prev?.teamB?.suspended ||
-            !prev?.teamC?.suspended ||
-            prev?.teamBall
-          ) {
-            let data = {
-              matchId: match?.id,
-              id: Bid,
-              type: type,
-              backTeamA: prev.teamA.back ? prev.teamA.back : 0,
-              backTeamB: prev.teamB.back ? prev.teamB.back : 0,
-              backTeamC: prev.teamC.back ? prev.teamC.back : 0,
-              layTeamA: prev.teamA.lay ? prev.teamA.lay : 0,
-              layTeamB: prev.teamB.lay ? prev.teamB.lay : 0,
-              layTeamC: prev.teamC.lay ? prev.teamC.lay : 0,
-              statusTeamA: "suspended",
-              statusTeamB: "suspended",
-              statusTeamC: "suspended",
-            };
-            socketService.user.updateMatchBettingRate(data);
+      if (regex.test(value)) {
+        if (
+          (!bookmakerById?.rateThan100 && value < 100) ||
+          bookmakerById?.rateThan100
+        ) {
+          if (name === "teamArate") {
+            updateLocalQuickBookmaker(
+              match,
+              Bid,
+              type,
+              "teamA",
+              +value,
+              +value + 1,
+              setLocalQuickBookmaker
+            );
+          } else if (name === "teamBrate") {
+            updateLocalQuickBookmaker(
+              match,
+              Bid,
+              type,
+              "teamB",
+              +value,
+              +value + 1,
+              setLocalQuickBookmaker
+            );
+          } else if (name === "teamCrate") {
+            updateLocalQuickBookmaker(
+              match,
+              Bid,
+              type,
+              "teamC",
+              +value,
+              +value + 1,
+              setLocalQuickBookmaker
+            );
           }
-          return {
-            ...prev,
-            teamA: { ...prev.teamA, suspended: true },
-            teamB: { ...prev.teamB, suspended: true },
-            teamC: { ...prev.teamC, suspended: true },
-            teamBall: false,
-          };
-        });
-      } else {
-        return;
+          setLocalQuickBookmaker((prev: any) => {
+            if (
+              !prev?.teamA?.suspended ||
+              !prev?.teamB?.suspended ||
+              !prev?.teamC?.suspended ||
+              prev?.teamBall
+            ) {
+              let data = {
+                matchId: match?.id,
+                id: Bid,
+                type: type,
+                backTeamA: prev.teamA.back ? prev.teamA.back : 0,
+                backTeamB: prev.teamB.back ? prev.teamB.back : 0,
+                backTeamC: prev.teamC.back ? prev.teamC.back : 0,
+                layTeamA: prev.teamA.lay ? prev.teamA.lay : 0,
+                layTeamB: prev.teamB.lay ? prev.teamB.lay : 0,
+                layTeamC: prev.teamC.lay ? prev.teamC.lay : 0,
+                statusTeamA: "suspended",
+                statusTeamB: "suspended",
+                statusTeamC: "suspended",
+              };
+              socketService.user.updateMatchBettingRate(data);
+            }
+            return {
+              ...prev,
+              teamA: { ...prev.teamA, suspended: true },
+              teamB: { ...prev.teamB, suspended: true },
+              teamC: { ...prev.teamC, suspended: true },
+              teamBall: false,
+            };
+          });
+        }
       }
     } catch (error) {
       console.error(error);
