@@ -22,6 +22,7 @@ import {
   sessionBetLiveStatus,
   sessionResultSuccessReset,
   undeclareResult,
+  updateDeletedBetReasonOnEdit,
   updateMatchActiveStatus,
   updateMatchActiveStatusReset,
   updateMatchBetsPlace,
@@ -229,6 +230,21 @@ const matchList = createSlice({
         const { betPlacedId, deleteReason } = action?.payload;
         const updateDeleteReason = (bet: any) => {
           if (betPlacedId?.includes(bet?.id)) {
+            bet.deleteReason = deleteReason;
+          }
+
+          return bet;
+        };
+
+        const updatedBetPlaced =
+          state?.placedBetsMatch?.map(updateDeleteReason);
+
+        state.placedBetsMatch = Array.from(new Set(updatedBetPlaced));
+      })
+      .addCase(updateDeletedBetReasonOnEdit.fulfilled, (state, action) => {
+        const { betIds, deleteReason } = action?.payload;
+        const updateDeleteReason = (bet: any) => {
+          if (betIds?.includes(bet?.id)) {
             bet.deleteReason = deleteReason;
           }
 
