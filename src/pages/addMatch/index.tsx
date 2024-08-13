@@ -568,6 +568,28 @@ const AddMatch = () => {
   const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setIsChecked(event.target.checked);
   };
+  const clearMaxBet=(obj:any)=>{
+    const newObj = { ...obj }; 
+  
+    Object.keys(newObj).forEach((key) => {
+      if (typeof newObj[key] === 'object' && newObj[key] !== null) {
+        if ('maxBet' in newObj[key]) {
+          newObj[key].maxBet = ""; 
+        }
+        newObj[key] = clearMaxBet(newObj[key]);
+      }
+    });
+  
+    return newObj;
+  }
+  
+  useEffect(() => {
+    const clearedValues = clearMaxBet(values);
+    formik.resetForm({
+      values: clearedValues, 
+    });
+  
+  }, [selected?.eventId])
 
   return (
     <form onSubmit={handleSubmit}>
