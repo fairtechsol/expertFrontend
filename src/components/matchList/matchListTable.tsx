@@ -15,6 +15,8 @@ import MatchListProfitLoss from "./profitLoss";
 import SessionResultComponent from "./sessionResultComponent";
 import { IconConstants } from "../helper/gameConstants";
 import { Constants } from "../../utils/Constants";
+import DummyMatchListProfitLoss from "./dummyProfitLoss";
+import { cursorTo } from "readline";
 
 const MatchListTable = (props: any) => {
   const { data, index, currentPage } = props;
@@ -62,6 +64,9 @@ const MatchListTable = (props: any) => {
       }));
     }
   }, [data]);
+
+  const buttonBgColor = data?.matchType !== "cricket" ? "#FFE094" : undefined;
+  const isSmallOrMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
   return (
     <>
       <Box
@@ -165,7 +170,7 @@ const MatchListTable = (props: any) => {
                 lg: "row",
               },
               order: { xs: "1", sm: "2", md: "3" },
-              width: { lg: "66%", xs: "100%", sm: "auto" },
+              // width: { lg: "66%", xs: "100%", sm: "auto" },
               py: { xs: 1, sm: 0 },
               // px: "10px",
               // overflow: "hidden",
@@ -227,6 +232,9 @@ const MatchListTable = (props: any) => {
                   cursor="pointer"
                 />
               )}
+              {!isSmallOrMediumScreen && data?.matchType != "cricket" && (
+                <DummyMatchListProfitLoss updateMatchStatusLabel="Session P/L"/>
+              )}
             </Box>
             <Box
               display={"flex"}
@@ -266,11 +274,13 @@ const MatchListTable = (props: any) => {
                     title={"Session"}
                   />
                 )}
-              {/* {!isSmallOrMediumScreen && data?.matchType != "cricket" && (
+              {!isSmallOrMediumScreen && data?.matchType != "cricket" && (
                 <CustomButton
                   containerStyle={{
-                    margin: "5px",
+                    // margin: "5px",
+                    cursor: "default",
                     background: "#FFE094",
+                    
                     marginRight: {
                       xs: "20px",
                       md: "29px",
@@ -280,7 +290,8 @@ const MatchListTable = (props: any) => {
                   }}
                   bgColor={buttonBgColor}
                 />
-              )} */}
+               
+              )}
               {(getProfile?.allPrivilege ||
                 getProfile?.betFairMatchPrivilege) && (
                 <CustomButton
