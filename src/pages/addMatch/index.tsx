@@ -17,6 +17,7 @@ import BoxButtonManualMatch from "../../components/addMatch/ButtonSwitchManualMa
 import LabelValueComponent from "../../components/addMatch/LabelValueComponent";
 import MatchListInput from "../../components/addMatch/MatchListInput";
 import Constants from "../../components/helper/constants";
+import { Checkbox, FormControlLabel } from "@mui/material";
 import {
   addMatchExpert,
   addMatchReset,
@@ -88,6 +89,7 @@ const initialFormikValues = {
   marketName3: "",
   marketMaxBet3: "",
   marketId3: "",
+  rateThan100: false,
 };
 
 const initialValues = {
@@ -196,6 +198,7 @@ const AddMatch = () => {
           betFairSessionMaxBet: value.betfairSessionMaxBet,
           bookmakers: bookmakers,
           startAt: selected.startAt,
+          rateThan100: value.rateThan100,
         };
 
         eventWiseMatchData[selected.gameType]?.manual?.forEach((item) => {
@@ -282,7 +285,7 @@ const AddMatch = () => {
           startAt: selected.startAt,
           minBet: value.minBet,
           marketData: [],
-
+          rateThan100: value.rateThan100,
           betFairSessionMaxBet:
             selected.gameType === "cricket"
               ? value.betfairSessionMaxBet
@@ -364,6 +367,7 @@ const AddMatch = () => {
   }, [editSuccess]);
 
   const { handleSubmit, values, touched, errors, handleChange } = formik;
+
   useEffect(() => {
     if (!state?.id) {
       setSelected((prev: any) => {
@@ -479,7 +483,9 @@ const AddMatch = () => {
             marketName3: matchDetail?.quickBookmaker[2]?.name ?? "",
             marketMaxBet3: matchDetail?.quickBookmaker[2]?.maxBet ?? "",
             marketId3: matchDetail?.quickBookmaker[2]?.id ?? "",
+            rateThan100: matchDetail?.rateThan100 ?? false,
           };
+          setIsChecked(matchDetail?.rateThan100);
 
           if (!manualMatchToggle) {
             eventWiseMatchData[matchDetail?.matchType]?.market?.forEach(
@@ -556,6 +562,13 @@ const AddMatch = () => {
   const handleDropDownOpen = (dropdownName: any) => {
     setOpenDropDown(openDropDown === dropdownName ? null : dropdownName);
   };
+
+  const [isChecked, setIsChecked] = useState(false);
+
+  const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setIsChecked(event.target.checked);
+  };
+
   return (
     <form onSubmit={handleSubmit}>
       <Box
@@ -936,7 +949,11 @@ const AddMatch = () => {
                 }}
               />
             </Box> */}
-            <Box sx={{ width: { xs: "100%", lg: "18%", md: "24%" } }}>
+            <Box
+              sx={{
+                width: { xs: "100%", lg: "18%", md: "24%" },
+              }}
+            >
               <MatchListInput
                 required={true}
                 disable={state?.id}
@@ -957,6 +974,7 @@ const AddMatch = () => {
                 errors={errors.minBet}
               />
             </Box>
+
             {selected.gameType === "cricket" && (
               <Box sx={{ width: { xs: "100%", lg: "18%", md: "24%" } }}>
                 <MatchListInput
@@ -1043,7 +1061,15 @@ const AddMatch = () => {
                   );
                 })}
 
-            <Box sx={{ width: "100%", cursor: "pointer" }}>
+            <Box
+              sx={{
+                width: "100%",
+                cursor: "pointer",
+                display: "flex",
+                flexDirection: "column",
+                gap: "15px",
+              }}
+            >
               <Box
                 sx={{
                   width: { xs: "100%", lg: "18%", md: "24%" },
@@ -1241,6 +1267,92 @@ const AddMatch = () => {
                     </Box>
                   </Box>
                 )}
+              </Box>
+            </Box>
+
+            <Box
+              sx={{
+                width: "100%",
+                cursor: "pointer",
+                display: "flex",
+                justifyContent: "center",
+                gap: "15px",
+              }}
+            >
+              <Box
+                sx={{
+                  width: { xs: "100%", lg: "50%", md: "24%" },
+                  marginTop: "17px",
+                }}
+              >
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      required={false}
+                      name="rateThan100"
+                      id="rateThan100"
+                      value={values.rateThan100}
+                      checked={isChecked}
+                      onChange={(e) => {
+                        handleCheckboxChange(e);
+                        handleChange(e);
+                      }}
+                      disabled={false}
+                      sx={{
+                        color: "#0B4F26",
+                        "&.MuiButtonBase-root": {
+                          margin: 0,
+                        },
+                        "&.MuiCheckbox-root": {
+                          margin: 0,
+                          width: "40px",
+                        },
+                        "&.MuiSvgIcon-root": {
+                          margin: 0,
+                        },
+                        "&.MuiTouchRipple-root": {
+                          margin: 0,
+                        },
+                        "&.Mui-checked": {
+                          color: "#0B4F26",
+                        },
+                        width: "100%",
+                        position: "relative",
+                        marginTop: "5px",
+                        textAlign: "center",
+                      }}
+                    />
+                  }
+                  label="Manual bookmaker rate limit (more than 100)."
+                  sx={{
+                    color: "#0B4F26",
+                    background: "#F8C851",
+                    fontWeight: "500", // This sets the fontWeight for the label text
+                    border: "1px solid #F8C851",
+                    borderRadius: "5px",
+                    height: "45px",
+                    marginX: "0px",
+                    width: "100%",
+                    position: "relative",
+                    marginTop: "5px",
+                    paddingLeft: "1px",
+                    display: "flex",
+                    alignItems: "center",
+                    "& .MuiTypography-root": {
+                      fontWeight: "500", // Adjust fontWeight specifically for the label
+                    },
+                    "& .MuiTypography-body1": {
+                      fontWeight: "500", // Ensures body1 variant also has the correct fontWeight
+                    },
+                    "&.MuiFormControlLabel-root": {
+                      display: "flex",
+                      justifyContent: "center",
+                    },
+                    "& .MuiFormControlLabel-label": {
+                      fontWeight: "600", // Adjusts the fontWeight for the label text
+                    },
+                  }}
+                />
               </Box>
             </Box>
           </Box>

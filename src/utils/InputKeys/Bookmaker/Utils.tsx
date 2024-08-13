@@ -1,5 +1,4 @@
 import { socketService } from "../../../socketManager";
-
 export const handleSuspend = (
   back: number,
   lay: number,
@@ -75,14 +74,20 @@ export const updateLocalQuickBookmaker = (
   });
 };
 
-export const handleHunderedValue = (back: number, lay: number) => {
+export const handleHunderedValue = (
+  back: number,
+  lay: number,
+  bookmakerById: any
+) => {
+  if (bookmakerById?.rateThan100) {
+    return false;
+  }
   if (back >= 98.5) {
     return true;
   }
   if (lay >= 99.5) {
     return true;
   }
-  return false;
 };
 
 export const handleZeroValue = (back: number, lay: number) => {
