@@ -7,6 +7,7 @@ import {
   getBookmakerById,
   getPlacedBets,
   updateDeleteReason,
+  updateDeleteReasonOnEdit,
   updateMatchBetsPlaced,
   updateRatesBook,
   updateTeamRatesOnManualMarket,
@@ -14,7 +15,6 @@ import {
 import { AppDispatch, RootState } from "../../store/store";
 import { useDispatch, useSelector } from "react-redux";
 import { socket, socketService } from "../../socketManager";
-import { updateDeletedBetReasonOnEdit } from "../../store/actions/match/matchAction";
 
 const UpdateBookmaker = () => {
   const { state }: any = useLocation();
@@ -65,8 +65,8 @@ const UpdateBookmaker = () => {
 
   const updateDeleteBetReason = (event: any) => {
     try {
-      if (event?.matchId === state?.id) {
-        dispatch(updateDeletedBetReasonOnEdit(event));
+      if (event?.matchId === state?.match?.id) {
+        dispatch(updateDeleteReasonOnEdit(event));
       }
     } catch (e) {
       console.log(e);
@@ -92,6 +92,10 @@ const UpdateBookmaker = () => {
 
   useEffect(() => {
     if (socket) {
+      socketService.user.userMatchBetPlacedOff();
+      socketService.user.matchResultDeclaredOff();
+      socketService.user.matchDeleteBetOff();
+      socketService.user.updateDeleteReasonOff();
       socketService.user.userMatchBetPlaced(updateBetList);
       socketService.user.matchResultDeclared(resultDeclared);
       socketService.user.matchDeleteBet(matchDeleteBet);

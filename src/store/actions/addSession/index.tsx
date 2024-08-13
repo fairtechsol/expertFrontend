@@ -213,6 +213,12 @@ export const updateDeleteReason = createAsyncThunk<any, any>(
     return detail;
   }
 );
+export const updateDeleteReasonOnEdit = createAsyncThunk<any, any>(
+  "/updateDeleteReasonOnEdit/update",
+  async (detail) => {
+    return detail;
+  }
+);
 export const updateResultStatusOfSessionById = createAsyncThunk<any, any>(
   "/update/resultStatusOfSessionById",
   async (detail) => {

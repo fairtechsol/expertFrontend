@@ -15,6 +15,7 @@ import {
   setCurrentOdd,
   updateBetsPlaced,
   updateDeleteReason,
+  updateDeleteReasonOnEdit,
   updateProLossSession,
   updateResultStatusOfSessionById,
   updateSessionById,
@@ -204,6 +205,16 @@ const SessionAddComponent = ({ createSession, match, setMode }: any) => {
     }
   };
 
+  const updateDeleteBetReason = (event: any) => {
+    try {
+      if (event?.matchId === match?.id) {
+        dispatch(updateDeleteReasonOnEdit(event));
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   useEffect(() => {
     try {
       if (addSuccess) {
@@ -353,6 +364,7 @@ const SessionAddComponent = ({ createSession, match, setMode }: any) => {
         socketService.user.sessionDeleteBet(sessionDeleteBet);
         socketService.user.sessionUpdated(updatedSessionMaxLmit);
         socketService.user.updateInResultDeclare(updateSessionResultStatus);
+        socketService.user.updateDeleteReason(updateDeleteBetReason);
       }
       if (match?.id || id) {
         socketService.user.sessionResultDeclared(updateResultDeclared);
@@ -364,6 +376,7 @@ const SessionAddComponent = ({ createSession, match, setMode }: any) => {
         socketService.user.sessionDeleteBetOff();
         socketService.user.sessionUpdatedOff();
         socketService.user.updateInResultDeclareOff();
+        socketService.user.updateDeleteReasonOff();
       };
     } catch (e) {
       console.log(e);
