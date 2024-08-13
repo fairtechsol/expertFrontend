@@ -191,8 +191,9 @@ const MatchListTable = (props: any) => {
                 },
                 justifyContent: "center",
                 alignItems: "center",
-                marginTop: { sm: "5px", lg: 0, md: 0 },
+                marginTop: { sm: "5px", lg: "2.5px", md: 0 },
                 paddingRight: "5px",
+                
               }}
             >
               {data?.stopAt && (
@@ -252,6 +253,7 @@ const MatchListTable = (props: any) => {
                   xs: "center",
                 },
                 flexWrap: "wrap",
+                
               }}
             >
               {data?.matchType === "cricket" &&
