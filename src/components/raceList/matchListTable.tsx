@@ -1,4 +1,4 @@
-import React, { useMemo, useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Box, Typography, useMediaQuery } from "@mui/material";
 import ModalMUI from "@mui/material/Modal";
 import moment from "moment";
@@ -34,14 +34,17 @@ const MatchListTable = React.memo((props: any) => {
     },
   });
 
-  const handleMatchProfitLossClick = useCallback((id: any) => {
-    try {
-      setShowPopup(true);
-      dispatch(getMatchListSessionProfitLoss(id));
-    } catch (e) {
-      console.log(e);
-    }
-  }, [dispatch]);
+  const handleMatchProfitLossClick = useCallback(
+    (id: any) => {
+      try {
+        setShowPopup(true);
+        dispatch(getMatchListSessionProfitLoss(id));
+      } catch (e) {
+        console.log(e);
+      }
+    },
+    [dispatch]
+  );
 
   useEffect(() => {
     if (data) {

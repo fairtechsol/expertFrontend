@@ -62,8 +62,6 @@ const MatchListTable = (props: any) => {
       }));
     }
   }, [data]);
-  const buttonBgColor = data?.matchType !== "cricket" ? "#FFE094" : undefined;
-  const isSmallOrMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
   return (
     <>
       <Box
@@ -167,13 +165,13 @@ const MatchListTable = (props: any) => {
                 lg: "row",
               },
               order: { xs: "1", sm: "2", md: "3" },
-              width: { lg:"66%",xs: "100%", sm: "auto" },
+              width: { lg: "66%", xs: "100%", sm: "auto" },
               py: { xs: 1, sm: 0 },
               // px: "10px",
               // overflow: "hidden",
               display: showUserModal && !matchesMobile ? "none" : "flex",
               alignItems: "center",
-              
+
               // marginBottom: showUserModal ? { xs: "0%", sm: "-1%", lg: "-20%" } : "0%",
             }}
           >
@@ -246,7 +244,6 @@ const MatchListTable = (props: any) => {
                   xs: "center",
                 },
                 flexWrap: "wrap",
-                
               }}
             >
               {data?.matchType === "cricket" &&
