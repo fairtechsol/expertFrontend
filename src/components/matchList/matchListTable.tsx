@@ -16,7 +16,6 @@ import SessionResultComponent from "./sessionResultComponent";
 import { IconConstants } from "../helper/gameConstants";
 import { Constants } from "../../utils/Constants";
 import DummyMatchListProfitLoss from "./dummyProfitLoss";
-import { cursorTo } from "readline";
 
 const MatchListTable = (props: any) => {
   const { data, index, currentPage } = props;
