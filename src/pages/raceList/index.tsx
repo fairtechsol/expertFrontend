@@ -4,7 +4,7 @@ import MatchListHeader from "../../components/raceList/matchListHeader";
 import MatchListTable from "../../components/raceList/matchListTable";
 import MatchListTableHeader from "../../components/raceList/matchListTableHeader";
 import "./style.css";
-import { useDispatch, useSelector,shallowEqual } from "react-redux";
+import { useDispatch, useSelector, shallowEqual } from "react-redux";
 import { AppDispatch, RootState } from "../../store/store";
 import { matchListReset } from "../../store/actions/match/matchAction";
 import {
@@ -31,9 +31,9 @@ const RaceList = ({}) => {
     }),
     shallowEqual
   );
- 
+
   const handleChange = (_: React.SyntheticEvent, newValue: string) => {
-    setValue(newValue);
+    // setValue(newValue);
     navigate(`/expert/race/${newValue}`);
   };
 
@@ -50,12 +50,6 @@ const RaceList = ({}) => {
       dispatch(matchListReset());
     }
   }, [success]);
-
-  useEffect(() => {
-    if (value) {
-      dispatch(getDateList({ matchType: value }));
-    }
-  }, [value]);
 
   useEffect(() => {
     try {
@@ -78,6 +72,7 @@ const RaceList = ({}) => {
   useEffect(() => {
     if (raceType) {
       setValue(raceType);
+      dispatch(getDateList({ matchType: raceType }));
     }
   }, [raceType]);
 
@@ -159,7 +154,7 @@ const RaceList = ({}) => {
               race={raceList}
             />
           ))}
-          
+
         {/* <Pagination
           sx={{
             background: "#073c25",
