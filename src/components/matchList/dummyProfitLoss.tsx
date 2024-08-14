@@ -6,7 +6,7 @@ const DummyMatchListProfitLoss = ({ updateMatchStatusLabel }: any) => {
       <Box
         sx={{
           height: { xs: "35px", lg: "35px" },
-          minWidth: { xs: "10%", md: "18%", lg: "12%" },
+          // minWidth: { xs: "10%", md: "18%", lg: "12%" },
           marginLeft: { xs: "2px" },
           marginBottom: { xs: "2px" },
           borderRadius: "5px",
@@ -15,7 +15,7 @@ const DummyMatchListProfitLoss = ({ updateMatchStatusLabel }: any) => {
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
-          width: { xs: "100%", md: "65%", lg: "160px" },
+          width: { xs: "100%", md: "130px", lg: "160px" },
           marginTop: "0",
         }}
       >
@@ -28,7 +28,7 @@ const DummyMatchListProfitLoss = ({ updateMatchStatusLabel }: any) => {
             lineHeight: "1.2",
             cursor:"default",
             marginLeft: "1vw",
-            overflow: "hidden",
+            // overflow: "hidden",
             display: "-webkit-box",
             WebkitLineClamp: 2,
             WebkitBoxOrient: "vertical",
