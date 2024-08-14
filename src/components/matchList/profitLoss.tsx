@@ -21,7 +21,7 @@ const MatchListProfitLoss = (Props: any) => {
         sx={{
           cursor: cursor,
           height: { xs: "35px", lg: "35px" },
-          minWidth: { xs: "10%", md: "18%", lg: "12%" },
+          // minWidth: { xs: "10%", md: "18%", lg: "12%" },
           marginLeft: { xs: "2px" },
           marginBottom: { xs: "2px" },
           borderRadius: "5px",
@@ -30,7 +30,7 @@ const MatchListProfitLoss = (Props: any) => {
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
-          width: { xs: "100%", md: "65%", lg: "160px" },
+          width: { xs: "100%", md: "130px", lg: "160px" },
           marginTop: showUserModal ? { xs: "1%", sm: "5%", lg: "0%" } : "0",
         }}
       >
@@ -43,7 +43,7 @@ const MatchListProfitLoss = (Props: any) => {
             lineHeight: "1.2",
             color: "#575757",
             marginLeft: "1vw",
-            overflow: "hidden",
+            // overflow: "hidden",
             display: "-webkit-box",
             WebkitLineClamp: 2,
             WebkitBoxOrient: "vertical",
