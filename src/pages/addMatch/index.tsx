@@ -584,11 +584,12 @@ const AddMatch = () => {
   }
   
   useEffect(() => {
-    const clearedValues = clearMaxBet(values);
-    formik.resetForm({
-      values: clearedValues, 
-    });
-  
+    if (!state?.id) {
+      const clearedValues = clearMaxBet(values);
+      formik.resetForm({
+        values: clearedValues, 
+      });
+    }
   }, [selected?.eventId])
 
   return (
