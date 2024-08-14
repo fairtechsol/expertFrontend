@@ -186,8 +186,10 @@ const MatchListHeader = ({ value }: MatchListHeader) => {
                         backgroundColor:
                           selectedTab === index ? "#E0B744" : "#F0F0F0",
                       },
-                      height: "40px",
-                      marginTop: "2px",
+                      height: "35px",
+                      marginTop: "4px",
+                      textAlign:"center",
+                       paddingTop:"15px"
                     }}
                     key={item?.countryCode}
                     label={item?.countryCode}
