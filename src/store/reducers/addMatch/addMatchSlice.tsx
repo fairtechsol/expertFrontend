@@ -193,6 +193,7 @@ const addMatch = createSlice({
           halfTime,
           setWinner,
           manualTideMatch,
+          completeManual,
           quickbookmaker,
         } = action.payload;
         state.matchDetail = {
@@ -210,6 +211,7 @@ const addMatch = createSlice({
           matchOdd,
           setWinner,
           manualTideMatch,
+          manualCompleteMatch: completeManual,
           quickBookmaker: quickbookmaker,
           sessionBettings: state.matchDetail?.sessionBettings?.map(
             (item: any) => {

@@ -16,6 +16,7 @@ import ResultComponent from "./ResultComponent";
 import theme from "../../../theme";
 import { formatToINR, numberInputOnWheelPreventChange } from "../../../helpers";
 import { useLocation } from "react-router-dom";
+import { profitLossDataForMatchConstants } from "../../../utils/Constants";
 
 const EditBookmaker = (props: any) => {
   const { state } = useLocation();
@@ -317,14 +318,14 @@ const EditBookmaker = (props: any) => {
   }, [state?.id, bookmakerById, Bid]);
 
   const rateA =
-    bookmakerById?.type !== "tiedMatch2"
-      ? +bookmakerById?.matchRates?.teamARate || 0
-      : +bookmakerById?.matchRates?.yesRateTie || 0;
+    +bookmakerById?.matchRates[
+      profitLossDataForMatchConstants[bookmakerById?.type]?.A
+    ] || 0;
 
   const rateB =
-    bookmakerById?.type !== "tiedMatch2"
-      ? +bookmakerById?.matchRates?.teamBRate || 0
-      : +bookmakerById?.matchRates?.noRateTie || 0;
+    +bookmakerById?.matchRates[
+      profitLossDataForMatchConstants[bookmakerById?.type]?.B
+    ] || 0;
 
   const formattedRateB = rateB.toFixed(2);
   const [integerPartB, decimalPartB] = formattedRateB.split(".");
@@ -389,22 +390,22 @@ const EditBookmaker = (props: any) => {
         >
           <BookButton
             rate={bookRatioA(
-              bookmakerById?.type !== "tiedMatch2"
-                ? bookmakerById?.matchRates?.teamARate
-                : bookmakerById?.matchRates?.yesRateTie,
-              bookmakerById?.type !== "tiedMatch2"
-                ? bookmakerById?.matchRates?.teamBRate
-                : bookmakerById?.matchRates?.noRateTie
+              +bookmakerById?.matchRates[
+                profitLossDataForMatchConstants[bookmakerById?.type]?.A
+              ] || 0,
+              +bookmakerById?.matchRates[
+                profitLossDataForMatchConstants[bookmakerById?.type]?.B
+              ] || 0
             )}
           />
           <BookButton
             rate={bookRatioB(
-              bookmakerById?.type !== "tiedMatch2"
-                ? bookmakerById?.matchRates?.teamARate
-                : bookmakerById?.matchRates?.yesRateTie,
-              bookmakerById?.type !== "tiedMatch2"
-                ? bookmakerById?.matchRates?.teamBRate
-                : bookmakerById?.matchRates?.noRateTie
+              +bookmakerById?.matchRates[
+                profitLossDataForMatchConstants[bookmakerById?.type]?.A
+              ] || 0,
+              +bookmakerById?.matchRates[
+                profitLossDataForMatchConstants[bookmakerById?.type]?.B
+              ] || 0
             )}
           />
         </Box>
@@ -529,9 +530,9 @@ const EditBookmaker = (props: any) => {
                     fontSize: "16px",
                     fontWeight: "bold",
                     color:
-                      (bookmakerById?.type !== "tiedMatch2"
-                        ? +bookmakerById?.matchRates?.teamARate || 0
-                        : +bookmakerById?.matchRates?.yesRateTie || 0) <= 0
+                      +bookmakerById?.matchRates[
+                        profitLossDataForMatchConstants[bookmakerById?.type]?.A
+                      ] <= 0
                         ? "#FF4D4D"
                         : "#319E5B",
                   }}
@@ -702,9 +703,9 @@ const EditBookmaker = (props: any) => {
                     fontSize: "16px",
                     fontWeight: "bold",
                     color:
-                      (bookmakerById?.type !== "tiedMatch2"
-                        ? +bookmakerById?.matchRates?.teamBRate || 0
-                        : +bookmakerById?.matchRates?.noRateTie || 0) <= 0
+                      +bookmakerById?.matchRates[
+                        profitLossDataForMatchConstants[bookmakerById?.type]?.B
+                      ] <= 0
                         ? "#FF4D4D"
                         : "#319E5B",
                   }}

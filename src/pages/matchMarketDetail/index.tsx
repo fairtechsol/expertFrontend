@@ -387,12 +387,12 @@ const MatchMarketDetail = () => {
                 liveData={matchDetail?.marketCompleteMatch}
                 title={matchDetail?.marketCompleteMatch?.name}
               />
-            )}{" "}
+            )}
             {matchDetail?.manualCompleteMatch?.isActive && (
-              <CompleteMatchMarket
+              <ManualMarket
                 currentMatch={matchDetail}
                 liveData={matchDetail?.manualCompleteMatch}
-                title={matchDetail?.manualCompleteMatch?.name}
+                type="manualTiedMatch"
               />
             )}
           </Box>
