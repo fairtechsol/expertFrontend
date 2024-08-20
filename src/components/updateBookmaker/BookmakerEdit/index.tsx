@@ -140,7 +140,8 @@ const BookmakerEditSection = ({ add, match, bookmakerId, type }: Props) => {
                       teamB={match?.teamB}
                       tie={match?.matchType === "cricket" ? "Tie" : ""}
                       draw={
-                        match?.teamC && !"tiedMatch2".includes(type)
+                        match?.teamC &&
+                        !["tiedMatch2", "completeManual"].includes(type)
                           ? match?.teamC
                           : ""
                       }
@@ -199,7 +200,8 @@ const BookmakerEditSection = ({ add, match, bookmakerId, type }: Props) => {
                       teamB={match?.teamB}
                       tie={match?.matchType === "cricket" ? "Tie" : ""}
                       draw={
-                        match?.teamC && !"tiedMatch2".includes(type)
+                        match?.teamC &&
+                        !["tiedMatch2", "completeManual"].includes(type)
                           ? match?.teamC
                           : ""
                       }

@@ -202,6 +202,12 @@ export const addSessionReducers = createReducer(initialState, (builder) => {
           yesRateTie: userRedisObj[jobData?.teamArateRedisKey],
           noRateTie: userRedisObj[jobData?.teamBrateRedisKey],
         };
+      } else if (["completeManual"].includes(jobData?.newBet?.marketType)) {
+        state.bookmakerById.matchRates = {
+          ...state.bookmakerById.matchRates,
+          yesRateComplete: userRedisObj[jobData?.teamArateRedisKey],
+          noRateComplete: userRedisObj[jobData?.teamBrateRedisKey],
+        };
       } else if (!["completeMatch"].includes(jobData?.newBet?.marketType)) {
         state.bookmakerById.matchRates = {
           ...state.bookmakerById.matchRates,

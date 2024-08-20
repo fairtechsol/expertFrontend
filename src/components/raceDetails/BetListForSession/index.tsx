@@ -48,7 +48,7 @@ const BetListForSession = ({ tag, allBetRates }: any) => {
               color: ["NO", "YES"].includes(v?.betType) ? "#FFF" : "black",
               background: ["NO", "YES"].includes(v?.betType)
                 ? "#319E5B"
-                : v?.marketType === "completeMatch" ||
+                : v?.marketType === "completeMatch" || v?.marketType === "completeManual" ||
                   v?.marketType === "tiedMatch2" ||
                   v?.marketType === "tiedMatch1"
                 ? "#faf11b"
