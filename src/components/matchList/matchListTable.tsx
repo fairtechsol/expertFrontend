@@ -189,6 +189,9 @@ const MatchListTable = (props: any) => {
                   lg: "row",
                 },
                 justifyContent: "center",
+
+
+                 
                 alignItems: "center",
                 marginTop: { sm: "5px", lg: "2.5px", md: 0 },
                 paddingRight: "5px",
