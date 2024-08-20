@@ -128,6 +128,7 @@ const ManualMarket = ({ currentMatch, liveData, type }: any) => {
               color={live ? "#46e080" : "#FF4D4D"}
               customStyle={{
                 justifyContent: "center",
+                textAlign: "center",
               }}
             />
           )}
@@ -268,6 +269,7 @@ const ManualMarket = ({ currentMatch, liveData, type }: any) => {
               ballStatus={liveData?.statusTeamA === "ball start" ? true : false}
               name={type === "manualTiedMatch" ? "Yes" : currentMatch?.teamA}
               isTeamC={currentMatch?.teamC}
+              currentMatch={currentMatch}
             />
 
             <Divider />
@@ -291,6 +293,7 @@ const ManualMarket = ({ currentMatch, liveData, type }: any) => {
               data={{ back: liveData?.backTeamB, lay: liveData?.layTeamB }}
               align="end"
               isTeamC={currentMatch?.teamC}
+              currentMatch={currentMatch}
             />
             {currentMatch?.teamC && type !== "manualTiedMatch" && (
               <>
@@ -319,6 +322,7 @@ const ManualMarket = ({ currentMatch, liveData, type }: any) => {
                   data={{ back: liveData?.backTeamC, lay: liveData?.layTeamC }}
                   align="end"
                   isTeamC={currentMatch?.teamC}
+                  currentMatch={currentMatch}
                 />
               </>
             )}

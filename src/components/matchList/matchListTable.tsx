@@ -16,7 +16,6 @@ import SessionResultComponent from "./sessionResultComponent";
 import { IconConstants } from "../helper/gameConstants";
 import { Constants } from "../../utils/Constants";
 import DummyMatchListProfitLoss from "./dummyProfitLoss";
-import { cursorTo } from "readline";
 
 const MatchListTable = (props: any) => {
   const { data, index, currentPage } = props;
@@ -196,7 +195,6 @@ const MatchListTable = (props: any) => {
                 alignItems: "center",
                 marginTop: { sm: "5px", lg: "2.5px", md: 0 },
                 paddingRight: "5px",
-                
               }}
             >
               {data?.stopAt && (
@@ -208,19 +206,15 @@ const MatchListTable = (props: any) => {
                     data?.pl?.length > 0 &&
                     data?.pl[0]?.totalProfitLoss
                   }
-                  place="1"
-                  cursor="default"
                 />
               )}
               {data?.stopAt && (
                 <MatchListProfitLoss
                   // onClick={() => handleMatchProfitLossClick(data?.id)}
-                  updateMatchStatusLabel="Commission"
+                  updateMatchStatusLabel={"Comm."}
                   updateMatchStatus={
                     data?.pl && data?.pl?.length > 0 && data?.pl[0]?.commission
                   }
-                  place="1"
-                  cursor="default"
                 />
               )}
               {data?.matchType === "cricket" && data?.stopAt && (
@@ -232,12 +226,11 @@ const MatchListTable = (props: any) => {
                     data?.pl?.length > 0 &&
                     data?.pl[0]?.sessionTotalProfitLoss
                   }
-                  place="1"
                   cursor="pointer"
                 />
               )}
               {!isSmallOrMediumScreen && data?.matchType != "cricket" && (
-                <DummyMatchListProfitLoss updateMatchStatusLabel="Session P/L"/>
+                <DummyMatchListProfitLoss updateMatchStatusLabel="Session P/L" />
               )}
             </Box>
             <Box
@@ -248,7 +241,7 @@ const MatchListTable = (props: any) => {
                 // marginX: { xs: 1, sm: 1, lg: 1 },
                 display: "flex",
                 alignItems: "center",
-                flexDirection: { md: "row", sm: "row", lg: "row" },
+                // flexDirection: { md: "row", sm: "row", lg: "row" },
                 justifyContent: {
                   lg: "flex-end",
                   md: "flex-end",
@@ -256,7 +249,6 @@ const MatchListTable = (props: any) => {
                   xs: "center",
                 },
                 flexWrap: "wrap",
-                
               }}
             >
               {data?.matchType === "cricket" &&
@@ -285,17 +277,16 @@ const MatchListTable = (props: any) => {
                     // margin: "5px",
                     cursor: "default",
                     background: "#FFE094",
-                    
-                    marginRight: {
-                      xs: "20px",
-                      md: "29px",
-                      sm: "10px",
-                      lg: "10px",
-                    },
+                    margin: "5px",
+                    // marginRight: {
+                    //   xs: "20px",
+                    //   md: "29px",
+                    //   sm: "10px",
+                    //   lg: "10px",
+                    // },
                   }}
                   bgColor={buttonBgColor}
                 />
-               
               )}
               {(getProfile?.allPrivilege ||
                 getProfile?.betFairMatchPrivilege) && (

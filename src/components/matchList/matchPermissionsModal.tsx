@@ -53,7 +53,7 @@ const filteredData = data?.matchBettings.filter((item:any) => {
       <Box
         sx={{
           display: "flex",
-          width: "85%",
+          // width: "85%",
           flexWrap: "wrap",
           // flex: 3,
           alignItems: "center",

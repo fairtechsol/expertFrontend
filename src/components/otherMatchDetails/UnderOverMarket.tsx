@@ -150,6 +150,7 @@ const UnderOverMarket = ({ currentMatch, liveData, title }: any) => {
                     color={live ? "#46e080" : "#FF4D4D"}
                     customStyle={{
                       justifyContent: "center",
+                      textAlign: "center"
                     }}
                   />
                 )}

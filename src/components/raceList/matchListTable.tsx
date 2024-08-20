@@ -1,66 +1,13 @@
-import React, { useCallback, useEffect, useState } from "react";
-import { Box, Typography, useMediaQuery } from "@mui/material";
-import ModalMUI from "@mui/material/Modal";
+import { Box, Typography } from "@mui/material";
 import moment from "moment";
-import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { getMatchListSessionProfitLoss } from "../../store/actions/match/matchAction";
-import { AppDispatch, RootState } from "../../store/store";
-import theme from "../../theme";
 import CustomButton from "../Common/CustomButton";
-import MatchPermissionsModal from "./matchPermissionsModal";
-import MatchListProfitLoss from "./profitLoss";
-import SessionResultComponent from "./sessionResultComponent";
 import { Constants } from "../../utils/Constants";
+import { memo } from "react";
 
-const MatchListTable = React.memo((props: any) => {
+const MatchListTable = (props: any) => {
   const { data, index, currentPage, race } = props;
   const navigate = useNavigate();
-  const dispatch: AppDispatch = useDispatch();
-  const { sessionProLoss } = useSelector((state: RootState) => state.matchList);
-  const [showPopup, setShowPopup] = useState(false);
-  const [showUserModal] = useState(false);
-  const matchesMobile = useMediaQuery(theme.breakpoints.down("lg"));
-  const [updateBettings, setUpdateBettings] = useState<any>([]);
-
-  const [updateMatchStatus, setUpdateMatchStatus] = useState({
-    1: {
-      field: "apiSessionActive",
-      val: data?.apiSessionActive,
-    },
-    2: {
-      field: "manualSessionActive",
-      val: data?.manualSessionActive,
-    },
-  });
-
-  const handleMatchProfitLossClick = useCallback(
-    (id: any) => {
-      try {
-        setShowPopup(true);
-        dispatch(getMatchListSessionProfitLoss(id));
-      } catch (e) {
-        console.log(e);
-      }
-    },
-    [dispatch]
-  );
-
-  useEffect(() => {
-    if (data) {
-      const newBody = data?.matchBettings?.map((betting: any) => ({
-        id: betting?.id,
-        name: betting?.name,
-        isActive: betting?.isActive,
-      }));
-      setUpdateBettings(newBody);
-      setUpdateMatchStatus((prevStatus) => ({
-        ...prevStatus,
-        1: { ...prevStatus[1], val: data?.apiSessionActive },
-        2: { ...prevStatus[2], val: data?.manualSessionActive },
-      }));
-    }
-  }, [data]);
 
   return (
     <>
@@ -124,33 +71,10 @@ const MatchListTable = React.memo((props: any) => {
               order: { xs: "1", sm: "2", md: "3" },
               width: { xs: "100%", sm: "auto" },
               py: { xs: 1, sm: 0 },
-              display: showUserModal && !matchesMobile ? "none" : "flex",
+              display: "flex",
               alignItems: "center",
             }}
           >
-            {data?.stopAt && (
-              <MatchListProfitLoss
-                updateMatchStatusLabel="Total P/L"
-                updateMatchStatus={
-                  data?.pl &&
-                  data?.pl?.length > 0 &&
-                  data?.pl[0]?.totalProfitLoss
-                }
-                place="1"
-                cursor="default"
-              />
-            )}
-            {data?.stopAt && (
-              <MatchListProfitLoss
-                updateMatchStatusLabel="Commission"
-                updateMatchStatus={
-                  data?.pl && data?.pl?.length > 0 && data?.pl[0]?.commission
-                }
-                place="1"
-                cursor="default"
-              />
-            )}
-
             <Box
               display="flex"
               sx={{
@@ -188,31 +112,8 @@ const MatchListTable = React.memo((props: any) => {
           </Box>
         </Box>
       </Box>
-      {showUserModal && (
-        <MatchPermissionsModal
-          showUserModal={showUserModal}
-          handleMatchProfitLossClick={handleMatchProfitLossClick}
-          data={data}
-          updateBettings={updateBettings}
-          setUpdateBettings={setUpdateBettings}
-          updateMatchStatus={updateMatchStatus}
-          setUpdateMatchStatus={setUpdateMatchStatus}
-        />
-      )}
-      <ModalMUI
-        open={showPopup}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <>
-          <SessionResultComponent
-            setShowPopup={setShowPopup}
-            sessionResults={sessionProLoss}
-          />
-        </>
-      </ModalMUI>
     </>
   );
-});
+};
 
-export default MatchListTable;
+export default memo(MatchListTable);
