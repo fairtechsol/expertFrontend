@@ -48,6 +48,7 @@ const MatchMarketDetail = () => {
   const { matchDetail, loading, success } = useSelector(
     (state: RootState) => state.addMatch.addMatch
   );
+  console.log("match", matchDetail);
   const { placedBetsMatch } = useSelector(
     (state: RootState) => state.matchList
   );
@@ -386,6 +387,13 @@ const MatchMarketDetail = () => {
                 currentMatch={matchDetail}
                 liveData={matchDetail?.marketCompleteMatch}
                 title={matchDetail?.marketCompleteMatch?.name}
+              />
+            )}{" "}
+            {matchDetail?.manualCompleteMatch?.isActive && (
+              <CompleteMatchMarket
+                currentMatch={matchDetail}
+                liveData={matchDetail?.manualCompleteMatch}
+                title={matchDetail?.manualCompleteMatch?.name}
               />
             )}
           </Box>
