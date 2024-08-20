@@ -41,37 +41,6 @@ const MatchListHeader = ({ value }: MatchListHeader) => {
   const [dated, setDated] = useState<any>("");
   const [selectedTab, setSelectedTab] = useState(0);
 
-  useEffect(() => {
-    if (dateList?.length > 0) {
-      setDated(dateList[0]?.date);
-      dispatch(
-        getCountryCode({
-          date: moment(new Date(dateList[0]?.date))
-            .utc()
-            .format("YYYY-MM-DD[T]HH:mm:ss.SSS[Z]"),
-          matchType: value,
-        })
-      );
-    }
-    setSelectedTab(0);
-  }, [dateList, value]);
-
-  useEffect(() => {
-    if (
-      countryCode[0]?.countryCode?.length > 0 &&
-      dated !== "" &&
-      countryCode[0]?.countryCode !== undefined
-    ) {
-      dispatch(
-        getRaceList({
-          cc: countryCode[0]?.countryCode,
-          date: moment(dated).format("YYYY-MM-DD[T]HH:mm:ss.SSS[Z]"),
-          matchType: value,
-        })
-      );
-    }
-  }, [countryCode, value]);
-
   const handleChangeDate = (date: any) => {
     setDated(date);
     setSelectedTab(0);
@@ -114,6 +83,38 @@ const MatchListHeader = ({ value }: MatchListHeader) => {
     handleChange(countryCode[newValue]?.countryCode);
     setSelectedTab(newValue);
   };
+  
+  useEffect(() => {
+    if (dateList?.length > 0) {
+      setDated(dateList[0]?.date);
+      dispatch(
+        getCountryCode({
+          date: moment(new Date(dateList[0]?.date))
+            .utc()
+            .format("YYYY-MM-DD[T]HH:mm:ss.SSS[Z]"),
+          matchType: value,
+        })
+      );
+    }
+    setSelectedTab(0);
+  }, [dateList]);
+
+  useEffect(() => {
+    if (
+      countryCode[0]?.countryCode?.length > 0 &&
+      dated !== "" &&
+      countryCode[0]?.countryCode !== undefined
+    ) {
+      dispatch(
+        getRaceList({
+          cc: countryCode[0]?.countryCode,
+          date: moment(dated).format("YYYY-MM-DD[T]HH:mm:ss.SSS[Z]"),
+          matchType: value,
+        })
+      );
+    }
+  }, [countryCode]);
+
   return (
     <>
       <Box
@@ -188,8 +189,8 @@ const MatchListHeader = ({ value }: MatchListHeader) => {
                       },
                       height: "35px",
                       marginTop: "4px",
-                      textAlign:"center",
-                       paddingTop:"15px"
+                      textAlign: "center",
+                      paddingTop: "15px",
                     }}
                     key={item?.countryCode}
                     label={item?.countryCode}
@@ -233,17 +234,17 @@ const MatchListHeader = ({ value }: MatchListHeader) => {
                   xs: "10px",
                 },
                 marginTop: "9px",
-                 
+
                 height: "100%",
               },
               "& .MuiOutlinedInput-input": {
                 padding: "0px",
                 paddingBottom: "5px",
-                border:"none",
+                border: "none",
                 height: "100%",
               },
               "& .MuiOutlinedInput-notchedOutline": {
-                border:"none",
+                border: "none",
               },
               "& .MuiSvgIcon-root": {
                 color: "white",
