@@ -48,7 +48,6 @@ const MatchMarketDetail = () => {
   const { matchDetail, loading, success } = useSelector(
     (state: RootState) => state.addMatch.addMatch
   );
-  console.log("match", matchDetail);
   const { placedBetsMatch } = useSelector(
     (state: RootState) => state.matchList
   );
