@@ -503,7 +503,7 @@ const EditBookmaker = (props: any) => {
               <Typography
                 sx={{ fontSize: "14px", fontWeight: "600", width: "50%" }}
               >
-                {type === "tiedMatch2"
+                {type === "tiedMatch2" || type === "completeManual"
                   ? "Yes"
                   : match?.teamA
                   ? match?.teamA.slice(0, 4) +
@@ -678,7 +678,7 @@ const EditBookmaker = (props: any) => {
               <Typography
                 sx={{ fontSize: "14px", fontWeight: "600", width: "50%" }}
               >
-                {type === "tiedMatch2"
+                {type === "tiedMatch2" || type === "completeManual"
                   ? "No"
                   : match?.teamB
                   ? match?.teamB.slice(0, 4) +
@@ -833,166 +833,167 @@ const EditBookmaker = (props: any) => {
                 />
               </Box>
             </Box>
-            {match?.teamC && !["tiedMatch2"].includes(type) && (
-              <Box
-                sx={{
-                  border: ".2px solid #2626264D",
-                  borderBottomWidth: 0,
-                  alignItems: "center",
-                  display: "flex",
-                  borderRightWidth: 0,
-                  paddingLeft: "10px",
-                  borderLeftWidth: 0,
-                  width: "100%",
-                  justifyContent: "space-between",
-                }}
-              >
-                <Typography
-                  sx={{ fontSize: "14px", fontWeight: "600", width: "50%" }}
-                >
-                  {match?.teamC}
-                </Typography>
+            {match?.teamC &&
+              !["tiedMatch2", "completeManual"].includes(type) && (
                 <Box
                   sx={{
-                    width: { lg: "220px", xs: "120px" },
-                    marginRight: "10px",
-                    border: "1px solid #2626264D",
-                    justifyContent: "center",
+                    border: ".2px solid #2626264D",
+                    borderBottomWidth: 0,
                     alignItems: "center",
                     display: "flex",
-                    height: "55px",
-                    background: "#F6F6F6",
-                    borderRadius: "7px",
+                    borderRightWidth: 0,
+                    paddingLeft: "10px",
+                    borderLeftWidth: 0,
+                    width: "100%",
+                    justifyContent: "space-between",
                   }}
                 >
                   <Typography
+                    sx={{ fontSize: "14px", fontWeight: "600", width: "50%" }}
+                  >
+                    {match?.teamC}
+                  </Typography>
+                  <Box
                     sx={{
-                      fontSize: "16px",
-                      fontWeight: "bold",
-                      color:
-                        (+bookmakerById?.matchRates?.teamCRate || 0) <= 0
-                          ? "#FF4D4D"
-                          : "#319E5B",
+                      width: { lg: "220px", xs: "120px" },
+                      marginRight: "10px",
+                      border: "1px solid #2626264D",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      display: "flex",
+                      height: "55px",
+                      background: "#F6F6F6",
+                      borderRadius: "7px",
                     }}
                   >
-                    {/* {bookmakerById?.matchRates?.teamCRate || 0} */}
-                    <span>{integerPartC}</span>
-                    <span
-                      style={{ fontSize: "0.8em", fontWeight: "normal" }}
-                    >{`.${decimalPartC}`}</span>
-                  </Typography>
-                </Box>
-                <Box
-                  sx={{
-                    display: "flex",
-                    width: "70%",
-                    borderTop: "2px solid white",
-                  }}
-                >
-                  <KeyboardEventHandler
-                    handleKeys={[
-                      "d",
-                      "a",
-                      "w",
-                      "z",
-                      "up",
-                      "down",
-                      "left",
-                      "right",
-                      "tab",
-                      "shift",
-                      "`",
-                      ",",
-                      ".",
-                      "/",
-                      "enter",
-                      "return",
-                      "esc",
-                      "*",
-                      "ctrl",
-                      "plus",
-                      "=",
-                      "minus",
-                      "l",
-                    ]}
-                    isDisabled={false}
-                    onKeyEvent={(key, e) =>
-                      handleKeysMatchEvents(
-                        Bid,
-                        type,
-                        key,
-                        e,
-                        setLocalQuickBookmaker,
-                        innerRefTeamB,
-                        innerRefTeamC,
-                        innerRefTeamA,
-                        match,
-                        incGap,
-                        setIncGap,
-                        isTab,
-                        setIsTab,
-                        bookmakerById
-                      )
-                    }
+                    <Typography
+                      sx={{
+                        fontSize: "16px",
+                        fontWeight: "bold",
+                        color:
+                          (+bookmakerById?.matchRates?.teamCRate || 0) <= 0
+                            ? "#FF4D4D"
+                            : "#319E5B",
+                      }}
+                    >
+                      {/* {bookmakerById?.matchRates?.teamCRate || 0} */}
+                      <span>{integerPartC}</span>
+                      <span
+                        style={{ fontSize: "0.8em", fontWeight: "normal" }}
+                      >{`.${decimalPartC}`}</span>
+                    </Typography>
+                  </Box>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      width: "70%",
+                      borderTop: "2px solid white",
+                    }}
                   >
+                    <KeyboardEventHandler
+                      handleKeys={[
+                        "d",
+                        "a",
+                        "w",
+                        "z",
+                        "up",
+                        "down",
+                        "left",
+                        "right",
+                        "tab",
+                        "shift",
+                        "`",
+                        ",",
+                        ".",
+                        "/",
+                        "enter",
+                        "return",
+                        "esc",
+                        "*",
+                        "ctrl",
+                        "plus",
+                        "=",
+                        "minus",
+                        "l",
+                      ]}
+                      isDisabled={false}
+                      onKeyEvent={(key, e) =>
+                        handleKeysMatchEvents(
+                          Bid,
+                          type,
+                          key,
+                          e,
+                          setLocalQuickBookmaker,
+                          innerRefTeamB,
+                          innerRefTeamC,
+                          innerRefTeamA,
+                          match,
+                          incGap,
+                          setIncGap,
+                          isTab,
+                          setIsTab,
+                          bookmakerById
+                        )
+                      }
+                    >
+                      <TextField
+                        className="InputChild"
+                        variant="standard"
+                        value={+localQuickBookmaker?.teamC?.back}
+                        onChange={(e) => handleChange(e)}
+                        onWheel={numberInputOnWheelPreventChange}
+                        name={"teamCrate"}
+                        inputRef={innerRefTeamC}
+                        type="text"
+                        autoComplete="off"
+                        InputProps={{
+                          disableUnderline: true,
+                          sx: {
+                            height: "55px",
+                            width: "90%",
+                            background: "#F6F6F6",
+                            alignSelf: "flex-end",
+                            textAlign: "center",
+                            alignItems: "center",
+                            paddingX: "2px",
+                            color: "#319E5B",
+                            fontWeight: "600",
+                            backgroundColor: "#A7DCFF",
+                          },
+                          inputProps: {
+                            style: { textAlign: "center" },
+                          },
+                        }}
+                      />
+                    </KeyboardEventHandler>
                     <TextField
                       className="InputChild"
                       variant="standard"
-                      value={+localQuickBookmaker?.teamC?.back}
-                      onChange={(e) => handleChange(e)}
-                      onWheel={numberInputOnWheelPreventChange}
-                      name={"teamCrate"}
-                      inputRef={innerRefTeamC}
-                      type="text"
-                      autoComplete="off"
+                      disabled
+                      value={+localQuickBookmaker?.teamC?.lay}
                       InputProps={{
                         disableUnderline: true,
+                        // inputProps: { min: "0", max: "100" },
                         sx: {
                           height: "55px",
-                          width: "90%",
+                          width: "97%",
                           background: "#F6F6F6",
                           alignSelf: "flex-end",
-                          textAlign: "center",
                           alignItems: "center",
                           paddingX: "2px",
                           color: "#319E5B",
                           fontWeight: "600",
-                          backgroundColor: "#A7DCFF",
+                          backgroundColor: "#FFB5B5",
+                          textAlign: "center",
                         },
                         inputProps: {
                           style: { textAlign: "center" },
                         },
                       }}
                     />
-                  </KeyboardEventHandler>
-                  <TextField
-                    className="InputChild"
-                    variant="standard"
-                    disabled
-                    value={+localQuickBookmaker?.teamC?.lay}
-                    InputProps={{
-                      disableUnderline: true,
-                      // inputProps: { min: "0", max: "100" },
-                      sx: {
-                        height: "55px",
-                        width: "97%",
-                        background: "#F6F6F6",
-                        alignSelf: "flex-end",
-                        alignItems: "center",
-                        paddingX: "2px",
-                        color: "#319E5B",
-                        fontWeight: "600",
-                        backgroundColor: "#FFB5B5",
-                        textAlign: "center",
-                      },
-                      inputProps: {
-                        style: { textAlign: "center" },
-                      },
-                    }}
-                  />
+                  </Box>
                 </Box>
-              </Box>
-            )}
+              )}
           </Box>
 
           <Box sx={{ borderLeft: "2px solid white", width: "35%" }}>
@@ -1002,7 +1003,8 @@ const EditBookmaker = (props: any) => {
                   borderTop: "2px solid white",
                   background: "rgba(0,0,0,1)",
                   height:
-                    match?.teamC && !"tiedMatch2".includes(type)
+                    match?.teamC &&
+                    !["tiedMatch2", "completeManual"].includes(type)
                       ? "170px"
                       : "112px",
                   right: 0,
@@ -1150,75 +1152,79 @@ const EditBookmaker = (props: any) => {
                     </Box>
                   }
                 </Box>
-                {match?.teamC && !"tiedMatch2".includes(type) && (
-                  <>
-                    <Box display={"flex"} sx={{ borderTop: "2px solid white" }}>
-                      {
-                        <Box
-                          sx={{
-                            background: localQuickBookmaker?.teamC?.suspended
-                              ? "#FDF21A"
-                              : "#A7DCFF",
-                            width: "50%",
-                            display: "flex",
-                            height: "56px",
-                            justifyContent: "center",
-                            alignItems: "center",
-                          }}
-                        >
-                          {!localQuickBookmaker?.teamC?.suspended &&
-                          localQuickBookmaker?.teamC?.rightBack > 0 ? (
-                            <Typography
-                              sx={{ fontWeight: "600", fontSize: "22px" }}
-                            >
-                              {localQuickBookmaker?.teamC?.suspended
-                                ? ""
-                                : +localQuickBookmaker?.teamC?.rightBack}
-                            </Typography>
-                          ) : (
-                            <img
-                              src={Lock}
-                              style={{ width: "10px", height: "15px" }}
-                            />
-                          )}
-                        </Box>
-                      }
-                      {
-                        <Box
-                          sx={{
-                            background:
-                              localQuickBookmaker?.teamC?.suspended ||
-                              localQuickBookmaker?.teamC?.rightLay === 0
+                {match?.teamC &&
+                  !["tiedMatch2", "completeManual"].includes(type) && (
+                    <>
+                      <Box
+                        display={"flex"}
+                        sx={{ borderTop: "2px solid white" }}
+                      >
+                        {
+                          <Box
+                            sx={{
+                              background: localQuickBookmaker?.teamC?.suspended
                                 ? "#FDF21A"
-                                : "#FFB5B5",
-                            width: "50%",
-                            borderLeft: "2px solid white",
-                            display: "flex",
-                            height: "56px",
-                            justifyContent: "center",
-                            alignItems: "center",
-                          }}
-                        >
-                          {!localQuickBookmaker?.teamC?.suspended &&
-                          localQuickBookmaker?.teamC?.rightLay ? (
-                            <Typography
-                              sx={{ fontWeight: "600", fontSize: "22px" }}
-                            >
-                              {localQuickBookmaker?.teamC?.suspended
-                                ? 0
-                                : +localQuickBookmaker?.teamC?.rightLay}
-                            </Typography>
-                          ) : (
-                            <img
-                              src={Lock}
-                              style={{ width: "10px", height: "15px" }}
-                            />
-                          )}
-                        </Box>
-                      }
-                    </Box>
-                  </>
-                )}
+                                : "#A7DCFF",
+                              width: "50%",
+                              display: "flex",
+                              height: "56px",
+                              justifyContent: "center",
+                              alignItems: "center",
+                            }}
+                          >
+                            {!localQuickBookmaker?.teamC?.suspended &&
+                            localQuickBookmaker?.teamC?.rightBack > 0 ? (
+                              <Typography
+                                sx={{ fontWeight: "600", fontSize: "22px" }}
+                              >
+                                {localQuickBookmaker?.teamC?.suspended
+                                  ? ""
+                                  : +localQuickBookmaker?.teamC?.rightBack}
+                              </Typography>
+                            ) : (
+                              <img
+                                src={Lock}
+                                style={{ width: "10px", height: "15px" }}
+                              />
+                            )}
+                          </Box>
+                        }
+                        {
+                          <Box
+                            sx={{
+                              background:
+                                localQuickBookmaker?.teamC?.suspended ||
+                                localQuickBookmaker?.teamC?.rightLay === 0
+                                  ? "#FDF21A"
+                                  : "#FFB5B5",
+                              width: "50%",
+                              borderLeft: "2px solid white",
+                              display: "flex",
+                              height: "56px",
+                              justifyContent: "center",
+                              alignItems: "center",
+                            }}
+                          >
+                            {!localQuickBookmaker?.teamC?.suspended &&
+                            localQuickBookmaker?.teamC?.rightLay ? (
+                              <Typography
+                                sx={{ fontWeight: "600", fontSize: "22px" }}
+                              >
+                                {localQuickBookmaker?.teamC?.suspended
+                                  ? 0
+                                  : +localQuickBookmaker?.teamC?.rightLay}
+                              </Typography>
+                            ) : (
+                              <img
+                                src={Lock}
+                                style={{ width: "10px", height: "15px" }}
+                              />
+                            )}
+                          </Box>
+                        }
+                      </Box>
+                    </>
+                  )}
               </>
             )}
           </Box>
@@ -1282,7 +1288,8 @@ const EditBookmaker = (props: any) => {
                     teamB={match?.teamB}
                     tie={match?.matchType === "cricket" ? "Tie" : ""}
                     draw={
-                      match?.teamC && !"tiedMatch2".includes(type)
+                      match?.teamC &&
+                      !["tiedMatch2", "completeManual"].includes(type)
                         ? match?.teamC
                         : ""
                     }
@@ -1340,7 +1347,8 @@ const EditBookmaker = (props: any) => {
                     teamB={match?.teamB}
                     tie={match?.matchType === "cricket" ? "Tie" : ""}
                     draw={
-                      match?.teamC && !"tiedMatch2".includes(type)
+                      match?.teamC &&
+                      !["tiedMatch2", "completeManual"].includes(type)
                         ? match?.teamC
                         : ""
                     }
