@@ -48,7 +48,8 @@ const BetList = ({ tag, allBetRates }: any) => {
               color: ["NO", "YES"].includes(v?.betType) ? "#FFF" : "black",
               background: ["NO", "YES"].includes(v?.betType)
                 ? "#319E5B"
-                : v?.marketType === "completeMatch" || v?.marketType === "completeManual" ||
+                : v?.marketType === "completeMatch" ||
+                  v?.marketType === "completeManual" ||
                   v?.marketType === "tiedMatch2" ||
                   v?.marketType === "tiedMatch1"
                 ? "#faf11b"
@@ -65,7 +66,8 @@ const BetList = ({ tag, allBetRates }: any) => {
               color: ["NO", "YES"].includes(v?.betType) ? "#FFF" : "black",
               background: ["NO", "YES"].includes(v?.betType)
                 ? "#319E5B"
-                : v?.marketType === "completeMatch" || v?.marketType === "completeManual" ||
+                : v?.marketType === "completeMatch" ||
+                  v?.marketType === "completeManual" ||
                   v?.marketType === "tiedMatch2" ||
                   v?.marketType === "tiedMatch1"
                 ? "#faf11b"
@@ -167,28 +169,29 @@ const BetList = ({ tag, allBetRates }: any) => {
           alignSelf: "center",
         }}
       >
-         <Box>   
-        {showButton && (
-        <Button
-          variant="contained"
-          onClick={scrollToTop}
-          sx={{
-            position: "fixed", 
-            width: "100px",
-            fontSize: "9px",
-            bottom: 20,
-            right: 20,
-            backgroundColor: "#F8C851",
-            color: "#000",
-            "&:hover": {
-              backgroundColor: "#F8C851",
-            },
-            zIndex: 1000,
-          }}
-        >
-          Scroll to Top
-        </Button>
-      )}</Box>
+        <Box>
+          {showButton && (
+            <Button
+              variant="contained"
+              onClick={scrollToTop}
+              sx={{
+                position: "fixed",
+                width: "100px",
+                fontSize: "9px",
+                bottom: 20,
+                right: 20,
+                backgroundColor: "#F8C851",
+                color: "#000",
+                "&:hover": {
+                  backgroundColor: "#F8C851",
+                },
+                zIndex: 1000,
+              }}
+            >
+              Scroll to Top
+            </Button>
+          )}
+        </Box>
         <Box
           sx={[
             {
@@ -278,7 +281,7 @@ const BetList = ({ tag, allBetRates }: any) => {
         {visibleImg && (
           <>
             <Box
-            ref={scrollRef}
+              ref={scrollRef}
               sx={{
                 maxHeight: "80vh",
                 width: { xs: "100vw", lg: "auto", md: "140vw" },
