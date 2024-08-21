@@ -16,11 +16,12 @@ export const handleSorting = (a: any, b: any) => {
       matchOdd: 1,
       bookmaker: 2,
       completeMatch: 3,
-      tiedMatch1: 4,
-      tiedMatch2: 5,
-      quickBookmaker1: 6,
-      quickBookmaker2: 7,
-      quickBookmaker3: 8,
+      completeManual: 4,
+      tiedMatch1: 5,
+      tiedMatch2: 6,
+      quickBookmaker1: 7,
+      quickBookmaker2: 8,
+      quickBookmaker3: 9,
     };
 
     const typeA = a?.type;
