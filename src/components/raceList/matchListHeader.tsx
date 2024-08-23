@@ -100,6 +100,7 @@ const MatchListHeader = ({ value }: MatchListHeader) => {
     } else if (dateList?.length === 0) {
       dispatch(resetRaceList());
       dispatch(resetContryCodeList());
+      setDated("");
     }
     setSelectedTab(0);
   }, [dateList]);
