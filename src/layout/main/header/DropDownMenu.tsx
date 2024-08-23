@@ -1,9 +1,8 @@
 import { useState } from "react";
-import { Menu, useMediaQuery, useTheme } from "@mui/material";
+import { Menu } from "@mui/material";
 import MenutItemsComponent from "./MenutItemsComponent";
 
 const DropDownMenu = ({ anchorEl, open, handleClose, allMatch }: any) => {
-  const theme = useTheme();
   const [selected, setSelected] = useState(0);
 
   return (
