@@ -5,6 +5,8 @@ import { useEffect, useState } from "react";
 import {
   getCountryCode,
   getRaceList,
+  resetContryCodeList,
+  resetRaceList,
 } from "../../store/actions/match/matchAction";
 import moment from "moment";
 import {
@@ -83,7 +85,7 @@ const MatchListHeader = ({ value }: MatchListHeader) => {
     handleChange(countryCode[newValue]?.countryCode);
     setSelectedTab(newValue);
   };
-  
+
   useEffect(() => {
     if (dateList?.length > 0) {
       setDated(dateList[0]?.date);
@@ -95,6 +97,9 @@ const MatchListHeader = ({ value }: MatchListHeader) => {
           matchType: value,
         })
       );
+    } else if (dateList?.length === 0) {
+      dispatch(resetRaceList());
+      dispatch(resetContryCodeList());
     }
     setSelectedTab(0);
   }, [dateList]);

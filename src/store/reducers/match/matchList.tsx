@@ -16,8 +16,10 @@ import {
   noResultDeclare,
   raceListReset,
   raceLiveStatus,
+  resetContryCodeList,
   resetMatchListSessionProLoss,
   resetRaceEdit,
+  resetRaceList,
   resultDeclare,
   sessionBetLiveStatus,
   sessionResultSuccessReset,
@@ -435,6 +437,12 @@ const matchList = createSlice({
       .addCase(resetRaceEdit, (state) => {
         state.loading = false;
         state.editRaceSuccess = false;
+      })
+      .addCase(resetRaceList, (state) => {
+        state.raceList = [];
+      })
+      .addCase(resetContryCodeList, (state) => {
+        state.countryCode = [];
       });
   },
 });
