@@ -49,7 +49,7 @@ const DropDown = (props: any) => {
       <Typography
         sx={[
           {
-            fontSize: "10px",
+            fontSize: "12px",
             fontWeight: "600",
             marginBottom: ".3vh",
             color: "#202020",

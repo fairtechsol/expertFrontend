@@ -452,3 +452,7 @@ export const getSessionProfitLossMatchDetailReset = createAction(
   "getSessionProfitLossMatchDetail/reset"
 );
 export const resetRaceEdit = createAction("raceEdit/reset");
+export const resetRaceList = createAction("raceListOnDateArrayEmpty/reset");
+export const resetContryCodeList = createAction(
+  "contryCodeOnDateArrayEmpty/reset"
+);
