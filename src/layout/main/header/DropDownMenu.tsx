@@ -5,7 +5,6 @@ import MenutItemsComponent from "./MenutItemsComponent";
 const DropDownMenu = ({ anchorEl, open, handleClose, allMatch }: any) => {
   const theme = useTheme();
   const [selected, setSelected] = useState(0);
-  const matchesMobile = useMediaQuery(theme.breakpoints.down("lg"));
 
   return (
     <Menu
@@ -16,7 +15,7 @@ const DropDownMenu = ({ anchorEl, open, handleClose, allMatch }: any) => {
       sx={{
         marginTop: { xs: "50px", md: "40px", lg: "35px" },
         padding: 0,
-        left: matchesMobile ? "200px" : "260px",
+        left: { xs: "120px", md: "240px", lg: "300px", sm: "350px" },
       }}
       MenuListProps={{
         "aria-labelledby": "basic-button",
