@@ -85,7 +85,7 @@ const EditBookmaker = (props: any) => {
   const handleChange = (event: any) => {
     try {
       let { name, value } = event.target;
-      const regex = /^\d+(\.\d+)?$/;
+      // const regex = /^\d+(\.\d+)?$/;
       const decimalValue = value.split(".");
       if (decimalValue[1]) {
         return true;
@@ -93,7 +93,7 @@ const EditBookmaker = (props: any) => {
 
       setIsTab("");
 
-      if (regex.test(value)) {
+      // if (regex.test(value)) {
         if (
           (!bookmakerById?.rateThan100 && value < 100) ||
           bookmakerById?.rateThan100
@@ -161,7 +161,7 @@ const EditBookmaker = (props: any) => {
             };
           });
         }
-      }
+      // }
     } catch (error) {
       console.error(error);
     }
