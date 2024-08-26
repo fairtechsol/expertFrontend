@@ -185,14 +185,14 @@ export const eventWiseMatchData = {
       {
         matchType: matchBettingType.tiedMatch1,
         apiKey: "apiTideMatch",
-        label: "Market Tied Match Max Bet",
+        label: "Betfair Tied Match Max Bet",
         name: "Tied",
         marketIdKey: "apiTideMatch",
       },
       {
         matchType: matchBettingType.completeMatch,
         apiKey: "marketCompleteMatch",
-        label: "Market Complete Match Max Bet",
+        label: "Betfair Complete Match Max Bet",
         name: "Complete",
         marketIdKey: "marketCompleteMatch",
       },

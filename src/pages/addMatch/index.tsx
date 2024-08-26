@@ -470,19 +470,31 @@ const AddMatch = () => {
     try {
       if (matchDetail && state?.id) {
         if (success) {
+          const quickBookmaker1 =
+            matchDetail?.quickBookmaker?.find(
+              (bookmaker:any) => bookmaker.type === "quickbookmaker1"
+            ) || {};
+          const quickBookmaker2 =
+            matchDetail?.quickBookmaker?.find(
+              (bookmaker:any) => bookmaker.type === "quickbookmaker2"
+            ) || {};
+          const quickBookmaker3 =
+            matchDetail?.quickBookmaker?.find(
+              (bookmaker:any) => bookmaker.type === "quickbookmaker3"
+            ) || {};
           const formikValues = {
             ...values,
             minBet: matchDetail?.betFairSessionMinBet ?? "",
             betfairSessionMaxBet: matchDetail?.betFairSessionMaxBet ?? "",
-            marketName1: matchDetail?.quickBookmaker[0].name ?? "",
-            marketMaxBet1: matchDetail?.quickBookmaker[0]?.maxBet ?? "",
-            marketId1: matchDetail?.quickBookmaker[0]?.id ?? "",
-            marketName2: matchDetail?.quickBookmaker[1]?.name ?? "",
-            marketMaxBet2: matchDetail?.quickBookmaker[1]?.maxBet ?? "",
-            marketId2: matchDetail?.quickBookmaker[1]?.id ?? "",
-            marketName3: matchDetail?.quickBookmaker[2]?.name ?? "",
-            marketMaxBet3: matchDetail?.quickBookmaker[2]?.maxBet ?? "",
-            marketId3: matchDetail?.quickBookmaker[2]?.id ?? "",
+            marketName1: quickBookmaker1.name ?? "",
+            marketMaxBet1: quickBookmaker1?.maxBet ?? "",
+            marketId1: quickBookmaker1?.id ?? "",
+            marketName2: quickBookmaker2?.name ?? "",
+            marketMaxBet2: quickBookmaker2?.maxBet ?? "",
+            marketId2: quickBookmaker2?.id ?? "",
+            marketName3: quickBookmaker3?.name ?? "",
+            marketMaxBet3: quickBookmaker3?.maxBet ?? "",
+            marketId3: quickBookmaker3?.id ?? "",
             rateThan100: matchDetail?.rateThan100 ?? false,
           };
           setIsChecked(matchDetail?.rateThan100);
@@ -568,29 +580,29 @@ const AddMatch = () => {
   const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setIsChecked(event.target.checked);
   };
-  const clearMaxBet=(obj:any)=>{
-    const newObj = { ...obj }; 
-  
+  const clearMaxBet = (obj: any) => {
+    const newObj = { ...obj };
+
     Object.keys(newObj).forEach((key) => {
-      if (typeof newObj[key] === 'object' && newObj[key] !== null) {
-        if ('maxBet' in newObj[key]) {
-          newObj[key].maxBet = ""; 
+      if (typeof newObj[key] === "object" && newObj[key] !== null) {
+        if ("maxBet" in newObj[key]) {
+          newObj[key].maxBet = "";
         }
         newObj[key] = clearMaxBet(newObj[key]);
       }
     });
-  
+
     return newObj;
-  }
-  
+  };
+
   useEffect(() => {
     if (!state?.id) {
       const clearedValues = clearMaxBet(values);
       formik.resetForm({
-        values: clearedValues, 
+        values: clearedValues,
       });
     }
-  }, [selected?.eventId])
+  }, [selected?.eventId]);
 
   return (
     <form onSubmit={handleSubmit}>
