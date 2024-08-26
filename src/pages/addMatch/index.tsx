@@ -561,12 +561,6 @@ const AddMatch = () => {
           dispatch(matchDetailSuccessReset());
         }
       }
-      console.log(
-        "values",
-        matchDetail?.quickBookmaker?.find(
-          (bookmaker: any) => bookmaker.type === "quickbookmaker1"
-        )
-      );
     } catch (e) {
       console.log(e);
     }
