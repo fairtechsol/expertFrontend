@@ -155,19 +155,26 @@ export const eventWiseMatchData = {
   [constants.matchType[0]]: {
     manual: [
       {
-        matchType: matchBettingType.tiedMatch2,
-        apiKey: "manualTiedMatch",
-        label: "Manual Tied Match Max Bet",
-        name: "ManualTide",
-      },
-      {
         matchType: matchBettingType.completeManual,
         apiKey: "manualCompleteMatch",
         label: "Complete Manual Match Max Bet",
         name: "CompleteManual",
       },
+      {
+        matchType: matchBettingType.tiedMatch2,
+        apiKey: "manualTiedMatch",
+        label: "Manual Tied Match Max Bet",
+        name: "ManualTide",
+      }
     ],
     market: [
+      {
+        matchType: matchBettingType.tiedMatch1,
+        apiKey: "apiTideMatch",
+        label: "Betfair Tied Match Max Bet",
+        name: "Tied",
+        marketIdKey: "apiTideMatch",
+      },
       {
         matchType: matchBettingType.matchOdd,
         apiKey: "matchOdd",
@@ -183,16 +190,9 @@ export const eventWiseMatchData = {
         marketIdKey: "matchOdd",
       },
       {
-        matchType: matchBettingType.tiedMatch1,
-        apiKey: "apiTideMatch",
-        label: "Market Tied Match Max Bet",
-        name: "Tied",
-        marketIdKey: "apiTideMatch",
-      },
-      {
         matchType: matchBettingType.completeMatch,
         apiKey: "marketCompleteMatch",
-        label: "Market Complete Match Max Bet",
+        label: "Betfair Complete Match Max Bet",
         name: "Complete",
         marketIdKey: "marketCompleteMatch",
       },
