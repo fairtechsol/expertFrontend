@@ -102,3 +102,4 @@ export const getDateList = createAsyncThunk<any, any>(
 export const changePasswordReset = createAction("changePassword/reset");
 export const profileReset = createAction("profile/reset");
 export const updateReset = createAction("update/reset");
+export const resetDateList = createAction("dateList/reset");

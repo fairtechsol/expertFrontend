@@ -14,7 +14,10 @@ import {
 } from "../../socketManager";
 import CustomButton from "../../components/Common/CustomButton";
 import { useNavigate, useParams } from "react-router-dom";
-import { getDateList } from "../../store/actions/user/userAction";
+import {
+  getDateList,
+  resetDateList,
+} from "../../store/actions/user/userAction";
 
 const RaceList = ({}) => {
   const dispatch: AppDispatch = useDispatch();
@@ -62,6 +65,7 @@ const RaceList = ({}) => {
           expertSocketService.match.matchAddedOff();
           socketService.user.matchResultUnDeclaredOff();
           socketService.user.matchResultUnDeclareAllUserOff();
+          dispatch(resetDateList());
         };
       }
     } catch (error) {
