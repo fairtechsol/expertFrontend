@@ -5,6 +5,7 @@ import {
   getDateList,
   getLoggedUserCount,
   getProfile,
+  resetDateList,
 } from "../../actions/user/userAction";
 
 interface InitialState {
@@ -14,7 +15,7 @@ interface InitialState {
   loading: boolean;
   error: any;
   getProfile: any;
-  dateList:any;
+  dateList: any;
 }
 
 const initialState: InitialState = {
@@ -24,7 +25,7 @@ const initialState: InitialState = {
   loading: false,
   success: false,
   error: null,
-  dateList:[],
+  dateList: [],
 };
 
 const profileSlice = createSlice({
@@ -88,6 +89,9 @@ const profileSlice = createSlice({
       .addCase(getDateList.rejected, (state, action) => {
         state.loading = false;
         state.error = action?.error?.message;
+      })
+      .addCase(resetDateList, (state) => {
+        state.dateList = [];
       });
   },
 });
