@@ -8,27 +8,35 @@ export const getAllLiveTournaments = createAsyncThunk<any, string>(
   async (requestData, thunkApi) => {
     try {
       const { data } = await axios.get(
-        `${addMatchThirdParty}/competitionList?type=${requestData}`
+        `${addMatchThirdParty}/sportsList?type=${requestData}`
+      );
+      const  response  = await axios.get(
+        `${addMatchThirdParty}/getDirectMatchList?type=${requestData}`
       );
       if (data) {
-        let tournamentList: any = [
+        let matchesList: any = [
           {
-            EventName: "No Tournaments Available",
+            EventName: "No Matches Available",
           },
         ];
         if (data && data.length > 0) {
-          let tournamentList1: any = [];
-          data.forEach((tournament: any) => {
-            tournamentList1.push({
-              EventName: tournament?.competition?.name,
-              EventId: tournament?.competition?.id,
-              competitionRegion: tournament?.competitionRegion,
-              marketCount: tournament?.marketCount,
+          let matchesList1: any = [];
+          let matchesList2: any = response?.data;
+          data.forEach((match: any) => {
+            let matchList = match?.eventName.split(" / ")
+            matchesList1.push({
+              EventName: matchList[0],
+              EventId: match?.gameId,
+              MarketId: match?.marketId,
+              EventDate: matchList[1],
+              f:match?.f==="True"?true:false,
+              tv:match?.tv==="True"?true:false,
+              m1:match?.m1==="True"?true:false,
             });
           });
-          tournamentList = tournamentList1;
+          matchesList = {matchesList1,matchesList2};
         }
-        return tournamentList;
+        return matchesList;
       }
     } catch (error) {
       const err = error as AxiosError;

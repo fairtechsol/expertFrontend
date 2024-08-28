@@ -39,7 +39,7 @@ const DropDownItem = (props: any) => {
                 dispatch(getExtraMarketList(data));
              
               let allrunners: any = [];
-              eventDetail.Runners.map((runner: any) => {
+              eventDetail.runners.map((runner: any) => {
                 allrunners.push(runner?.runnerName);
               });
               setSelected((prev: any) => {
@@ -48,12 +48,14 @@ const DropDownItem = (props: any) => {
                   teamA: allrunners[0],
                   teamB: allrunners[1],
                   teamC: allrunners[2] ? allrunners[2] : undefined,
-                  startAt: moment(eventDetail?.EventDate),
+                  startAt: new Date(eventDetail?.EventDate.replace('AM', ' AM').replace('PM', ' PM').replace(' (IST)', '')),
                   eventId: EventId,
                   marketId: mId,
-                  competitionName: CompetitionName,
                   matchName: i,
                   title: i,
+                  f:eventDetail?.f,
+                  tv:eventDetail?.tv,
+                  m1:eventDetail?.m1,
                 };
               });
             }

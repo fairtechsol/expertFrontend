@@ -85,7 +85,18 @@ const addMatch = createSlice({
         state.error = null;
       })
       .addCase(getAllLiveTournaments.fulfilled, (state, action) => {
-        state.tournamentList = action?.payload;
+        const {matchesList1,matchesList2} = action?.payload
+        matchesList1.forEach((item1:any) => {
+          const matchingItem = matchesList2.find((item2:any) => item2.marketId === item1.MarketId);
+          if (matchingItem) {
+            item1.runners = matchingItem.runners;
+          }else{
+            let teams = item1?.EventName.split(" v ");
+            let runners: any = [{runnerName:teams[0]},{runnerName:teams[1]}];
+            item1.runners = runners
+          }
+        });
+        state.eventsList = matchesList1;
         state.loading = false;
         state.success = true;
       })
