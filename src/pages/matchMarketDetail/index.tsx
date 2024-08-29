@@ -398,6 +398,13 @@ const MatchMarketDetail = () => {
                 title={matchDetail?.bookmaker?.name}
               />
             )}
+            {matchDetail?.bookmaker2 && (
+              <BookMarket
+                currentMatch={matchDetail}
+                liveData={matchDetail?.bookmaker2}
+                title={matchDetail?.bookmaker2?.name}
+              />
+            )}
             {matchDetail?.quickBookmaker
               ?.filter((item: any) => item?.isActive)
               ?.map((bookmaker: any) => (

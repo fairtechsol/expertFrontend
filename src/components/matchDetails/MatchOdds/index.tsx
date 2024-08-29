@@ -17,11 +17,11 @@ import Dialog from "@mui/material/Dialog";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import { updateMarketRates } from "../../../store/actions/addMatch/addMatchAction";
+import MaxBetAdd from "../MaxBetAdd";
 
 const MatchOdds = ({ currentMatch, matchOddsLive, id }: any) => {
   const [visible, setVisible] = useState(false);
   const [visibleImg, setVisibleImg] = useState(true);
-  const [selected, setSelected] = useState(0);
   const [live, setLive] = useState(
     matchOddsLive?.activeStatus === "live" ? true : false
   );
@@ -31,8 +31,8 @@ const MatchOdds = ({ currentMatch, matchOddsLive, id }: any) => {
     setOpen(true);
   };
 
-  const handleClose = () => {
-    setOpen(false);
+  const handleClose = (data:any) => {
+    setOpen(data);
   };
   const dispatch: AppDispatch = useDispatch();
 
@@ -72,18 +72,7 @@ const MatchOdds = ({ currentMatch, matchOddsLive, id }: any) => {
   useEffect(() => {
     setLive(matchOddsLive?.activeStatus === "live" ? true : false);
   }, [matchOddsLive?.activeStatus]);
-const handleSubmit=()=>{
-  let data ={
-    matchId:currentMatch?.id,
-    type:matchOddsLive?.type,
-    name:matchOddsLive?.name,
-    maxBet:selected,
-    marketId:matchOddsLive?.marketId,
-    gtype:matchOddsLive?.gtype
-  };
-  dispatch(updateMarketRates(data));
-  handleClose();
-}
+
   return (
     <>
       <Box
@@ -203,7 +192,33 @@ const handleSubmit=()=>{
                       textAlign: "center",
                     }}
                   />
+                  <div
+                  style={{
+                    width: "50px",
+                    height: "30px",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    borderRadius: "5px",
+                    backgroundColor: "#46e080",
+                    cursor: "pointer",
+                    marginRight:"10px"
+                  }}
+                  onClick={handleClickOpen}
+                >
+                  <span
+                    style={{
+                      fontSize: "12px",
+                      fontWeight: "500",
+                      color: "#fff",
+                      fontFamily:"Poppins, sans-serif"
+                    }}
+                  >
+                    Edit
+                  </span>
+                </div>
                 </>
+                
               )
             ) : (
               <>
@@ -250,7 +265,7 @@ const handleSubmit=()=>{
             />
           </Box>
         </Box>
-
+     
         <Box
           sx={{
             position: "absolute",
@@ -549,84 +564,14 @@ const handleSubmit=()=>{
           </>
         )}
       </Box>
-      <Dialog open={open} onClose={handleClose}>
-        <DialogTitle
-          sx={{
-            textAlign: "center",
-            color: "#fff",
-            background: "linear-gradient(90deg, #004A25 5%, #FDCB52 100%)",
-            fontFamily:"Poppins, sans-serif"
-          }}
-        >
-          Betfair Match odds maxbet
-        </DialogTitle>
-        <DialogContent sx={{ backgroundColor: "#fff" }}>
-          <div
-            style={{
-              width: "100%",
-              height: "80px",
-              backgroundColor: "#fff",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <input
-              type="text"
-              placeholder="Enter maximum bet value"
-              onChange={(e: any) => {
-                const numericValue = e.target.value.replace(/[^0-9]/g, "");
-                setSelected(numericValue);
-              }}
-              style={{
-                width: "80%",
-                height: "50px",
-                borderRadius: "5px",
-                border: "1px #8b8787 solid",
-              }}
-            />
-          </div>
-        </DialogContent>
-        <DialogActions
-          sx={{
-            background: "linear-gradient(90deg, #004A25 5%, #FDCB52 100%)",
-          }}
-        >
-          <button
-            style={{
-              width: "25%",
-              height: "40px",
-              color: "#fff",
-              backgroundColor: "#004A25",
-              fontSize: "14px",
-              borderRadius: "5px",
-              border: "1px #004A25 solid",
-              cursor: "pointer",
-              fontFamily:"Poppins, sans-serif"
-            }}
-            onClick={handleSubmit}
-          >
-            Submit
-          </button>
-
-          <button
-            style={{
-              width: "25%",
-              height: "40px",
-              color: "#fff",
-              backgroundColor: "#004A25",
-              fontSize: "14px",
-              borderRadius: "5px",
-              border: "1px #004A25 solid",
-              cursor: "pointer",
-              fontFamily:"Poppins, sans-serif"
-            }}
-            onClick={handleClose}
-          >
-            Cancel
-          </button>
-        </DialogActions>
-      </Dialog>
+      <MaxBetAdd 
+        open={open} 
+        handleClose={handleClose} 
+        matchOddsLive={matchOddsLive} 
+        currentMatch={currentMatch} 
+        title={"Betfair Match Odds Max Bet"}
+      />
+     
     </>
   );
 };

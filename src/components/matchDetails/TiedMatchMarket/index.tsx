@@ -9,10 +9,12 @@ import { formatToINR } from "../../helper";
 import BoxComponent from "../MatchOdds/BoxComponent";
 import Stop from "../SessionMarket/Stop";
 import SmallBox from "../SmallBox";
+import MaxBetAdd from "../MaxBetAdd";
 
 const TiedMatchMarket = ({ currentMatch, liveData, title }: any) => {
   const dispatch: AppDispatch = useDispatch();
-
+  
+  const [open, setOpen] = useState(false);
   const [visibleImg, setVisibleImg] = useState(true);
   const [live, setLive] = useState(
     liveData?.activeStatus === "live" ? true : false
@@ -22,6 +24,13 @@ const TiedMatchMarket = ({ currentMatch, liveData, title }: any) => {
     setLive(liveData?.activeStatus === "live" ? true : false);
   }, [liveData?.activeStatus]);
 
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = (data:any) => {
+    setOpen(data);
+  };
   return (
     <Box
       sx={{
@@ -99,7 +108,7 @@ const TiedMatchMarket = ({ currentMatch, liveData, title }: any) => {
             justifyContent: "flex-end",
           }}
         >
-          {!currentMatch?.stopAt && (
+          {liveData?.id ?  !currentMatch?.stopAt && (
             <>
               <SmallBox
                 onClick={() => {
@@ -119,7 +128,59 @@ const TiedMatchMarket = ({ currentMatch, liveData, title }: any) => {
                   justifyContent: "center",
                   textAlign: "center"
                 }}
-              />
+              /> <div
+              style={{
+                width: "50px",
+                height: "30px",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                borderRadius: "5px",
+                backgroundColor: "#46e080",
+                cursor: "pointer",
+                marginRight:"10px"
+              }}
+              onClick={handleClickOpen}
+            >
+              <span
+                style={{
+                  fontSize: "12px",
+                  fontWeight: "500",
+                  color: "#fff",
+                  fontFamily:"Poppins, sans-serif"
+                }}
+              >
+                Edit
+              </span>
+            </div>
+            </>
+          ): (
+            <>
+              <div
+                style={{
+                  width: "50px",
+                  height: "30px",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  borderRadius: "5px",
+                  backgroundColor: "#46e080",
+                  cursor: "pointer",
+                  marginRight:"10px"
+                }}
+                onClick={handleClickOpen}
+              >
+                <span
+                  style={{
+                    fontSize: "12px",
+                    fontWeight: "500",
+                    color: "#fff",
+                    fontFamily:"Poppins, sans-serif"
+                  }}
+                >
+                  Add
+                </span>
+              </div>
             </>
           )}
           <img
@@ -282,6 +343,13 @@ const TiedMatchMarket = ({ currentMatch, liveData, title }: any) => {
           </Box>
         </>
       )}
+      <MaxBetAdd 
+        open={open} 
+        handleClose={handleClose} 
+        matchOddsLive={liveData} 
+        currentMatch={currentMatch}
+        title={"Betfair Tied Match Max Bet"} 
+      />
     </Box>
   );
 };

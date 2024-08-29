@@ -9,6 +9,7 @@ import { formatToINR } from "../../helper";
 import BoxComponent from "../MatchOdds/BoxComponent";
 import Stop from "../SessionMarket/Stop";
 import SmallBox from "../SmallBox";
+import MaxBetAdd from "../MaxBetAdd";
 
 const CompleteMatchMarket = ({ currentMatch, liveData, title }: any) => {
   const dispatch: AppDispatch = useDispatch();
@@ -16,11 +17,19 @@ const CompleteMatchMarket = ({ currentMatch, liveData, title }: any) => {
   const [live, setLive] = useState(
     liveData?.activeStatus === "live" ? true : false
   );
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     setLive(liveData?.activeStatus === "live" ? true : false);
   }, [liveData?.activeStatus]);
 
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = (data:any) => {
+    setOpen(data);
+  };
   return (
     <Box
       sx={{
@@ -98,7 +107,7 @@ const CompleteMatchMarket = ({ currentMatch, liveData, title }: any) => {
             justifyContent: "flex-end",
           }}
         >
-          {!currentMatch?.stopAt && (
+          {liveData?.id ? !currentMatch?.stopAt && (
             <>
               <SmallBox
                 onClick={() => {
@@ -118,9 +127,61 @@ const CompleteMatchMarket = ({ currentMatch, liveData, title }: any) => {
                   justifyContent: "center",
                   textAlign: "center"
                 }}
-              />
+              /> <div
+              style={{
+                width: "50px",
+                height: "30px",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                borderRadius: "5px",
+                backgroundColor: "#46e080",
+                cursor: "pointer",
+                marginRight:"10px"
+              }}
+              onClick={handleClickOpen}
+            >
+              <span
+                style={{
+                  fontSize: "12px",
+                  fontWeight: "500",
+                  color: "#fff",
+                  fontFamily:"Poppins, sans-serif"
+                }}
+              >
+                Edit
+              </span>
+            </div>
             </>
-          )}
+          ):(
+            <>
+              <div
+                style={{
+                  width: "50px",
+                  height: "30px",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  borderRadius: "5px",
+                  backgroundColor: "#46e080",
+                  cursor: "pointer",
+                  marginRight: "10px",
+                }}
+                onClick={handleClickOpen}
+              >
+                <span
+                  style={{
+                    fontSize: "12px",
+                    fontWeight: "500",
+                    color: "#fff",
+                    fontFamily: "Poppins, sans-serif",
+                  }}
+                >
+                  Add
+                </span>
+              </div>
+            </>
+          ) }
           <img
             onClick={() => {
               setVisibleImg(!visibleImg);
@@ -280,6 +341,13 @@ const CompleteMatchMarket = ({ currentMatch, liveData, title }: any) => {
           </Box>
         </>
       )}
+      <MaxBetAdd
+        open={open}
+        handleClose={handleClose}
+        matchOddsLive={liveData}
+        currentMatch={currentMatch}
+        title={"Betfair Complete Match Max Bet"}
+      />
     </Box>
   );
 };
