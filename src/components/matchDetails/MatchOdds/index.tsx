@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Box, DialogActions, Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import Stop from "../SessionMarket/Stop";
 import Result from "../Result";
 import SmallBox from "../SmallBox";
@@ -13,10 +13,6 @@ import { AppDispatch } from "../../../store/store";
 import { useDispatch } from "react-redux";
 import { profitLossDataForMatchConstants } from "../../../utils/Constants";
 import { formatToINR } from "../../helper";
-import Dialog from "@mui/material/Dialog";
-import DialogContent from "@mui/material/DialogContent";
-import DialogTitle from "@mui/material/DialogTitle";
-import { updateMarketRates } from "../../../store/actions/addMatch/addMatchAction";
 import MaxBetAdd from "../MaxBetAdd";
 
 const MatchOdds = ({ currentMatch, matchOddsLive, id }: any) => {
