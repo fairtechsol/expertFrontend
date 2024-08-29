@@ -85,7 +85,18 @@ const addMatch = createSlice({
         state.error = null;
       })
       .addCase(getAllLiveTournaments.fulfilled, (state, action) => {
-        state.tournamentList = action?.payload;
+        const {matchesList1,matchesList2} = action?.payload
+        matchesList1.forEach((item1:any) => {
+          const matchingItem = matchesList2.find((item2:any) => item2.marketId === item1.MarketId);
+          if (matchingItem) {
+            item1.runners = matchingItem.runners;
+          }else{
+            let teams = item1?.EventName.split(" v ");
+            let runners: any = [{runnerName:teams[0]},{runnerName:teams[1]}];
+            item1.runners = runners
+          }
+        });
+        state.eventsList = matchesList1;
         state.loading = false;
         state.success = true;
       })
@@ -199,9 +210,9 @@ const addMatch = createSlice({
         state.matchDetail = {
           ...state.matchDetail,
           apiSessionActive: apiSession ? true : false,
-          apiSession: apiSession?.filter(
-            (item: any) => state.selectionIds[item?.SelectionId] == null
-          ),
+          // apiSession: apiSession?.filter(
+          //   (item: any) => state.selectionIds[item?.SelectionId] == null
+          // ),
           firstHalfGoal,
           overUnder,
           halfTime,
@@ -213,54 +224,54 @@ const addMatch = createSlice({
           manualTideMatch,
           manualCompleteMatch: completeManual,
           quickBookmaker: quickbookmaker,
-          sessionBettings: state.matchDetail?.sessionBettings?.map(
-            (item: any) => {
-              const parsedItem = JSON.parse(item);
-              let id = parsedItem?.id;
+          // sessionBettings: state.matchDetail?.sessionBettings?.map(
+          //   (item: any) => {
+          //     const parsedItem = JSON.parse(item);
+          //     let id = parsedItem?.id;
 
-              const matchingApiSession = apiSession?.find(
-                (sessionItem: any) => sessionItem?.id === id
-              );
+          //     const matchingApiSession = apiSession?.find(
+          //       (sessionItem: any) => sessionItem?.id === id
+          //     );
 
-              if (matchingApiSession) {
-                return JSON.stringify({
-                  ...parsedItem,
-                  noRate: matchingApiSession?.LayPrice1 ?? 0,
-                  noPercent: matchingApiSession?.LaySize1 ?? 0,
-                  yesRate: matchingApiSession?.BackPrice1 ?? 0,
-                  yesPercent: matchingApiSession?.BackSize1 ?? 0,
-                  activeStatus: matchingApiSession?.activeStatus,
-                  maxBet: matchingApiSession?.max,
-                  minBet: matchingApiSession?.min,
-                  status: matchingApiSession?.GameStatus,
-                  updatedAt: matchingApiSession?.updatedAt,
-                  isComplete:
-                    (!matchingApiSession?.LayPrice1 &&
-                      !matchingApiSession?.LaySize1 &&
-                      !matchingApiSession?.BackPrice1 &&
-                      !matchingApiSession?.BackSize1) ||
-                    matchingApiSession?.activeStatus !== "live"
-                      ? true
-                      : false,
-                  showSessions: true,
-                });
-              } else {
-                return JSON.stringify({
-                  ...parsedItem,
-                  noRate: 0,
-                  yesRate: 0,
-                  yesPercent: 0,
-                  noPercent: 0,
-                  activeStatus:
-                    parsedItem.activeStatus === "live"
-                      ? "save"
-                      : parsedItem.activeStatus,
-                  isComplete: true,
-                  showSessions: true,
-                });
-              }
-            }
-          ),
+          //     if (matchingApiSession) {
+          //       return JSON.stringify({
+          //         ...parsedItem,
+          //         noRate: matchingApiSession?.LayPrice1 ?? 0,
+          //         noPercent: matchingApiSession?.LaySize1 ?? 0,
+          //         yesRate: matchingApiSession?.BackPrice1 ?? 0,
+          //         yesPercent: matchingApiSession?.BackSize1 ?? 0,
+          //         activeStatus: matchingApiSession?.activeStatus,
+          //         maxBet: matchingApiSession?.max,
+          //         minBet: matchingApiSession?.min,
+          //         status: matchingApiSession?.GameStatus,
+          //         updatedAt: matchingApiSession?.updatedAt,
+          //         isComplete:
+          //           (!matchingApiSession?.LayPrice1 &&
+          //             !matchingApiSession?.LaySize1 &&
+          //             !matchingApiSession?.BackPrice1 &&
+          //             !matchingApiSession?.BackSize1) ||
+          //           matchingApiSession?.activeStatus !== "live"
+          //             ? true
+          //             : false,
+          //         showSessions: true,
+          //       });
+          //     } else {
+          //       return JSON.stringify({
+          //         ...parsedItem,
+          //         noRate: 0,
+          //         yesRate: 0,
+          //         yesPercent: 0,
+          //         noPercent: 0,
+          //         activeStatus:
+          //           parsedItem.activeStatus === "live"
+          //             ? "save"
+          //             : parsedItem.activeStatus,
+          //         isComplete: true,
+          //         showSessions: true,
+          //       });
+          //     }
+          //   }
+          // ),
         };
       })
       .addCase(updateApiSessionById.fulfilled, (state, action) => {

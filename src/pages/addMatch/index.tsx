@@ -36,15 +36,7 @@ import {
 } from "../../store/actions/match/matchAction";
 import { AppDispatch, RootState } from "../../store/store";
 import { eventWiseMatchData, matchBettingType } from "../../utils/Constants";
-// import { addMatchValidation } from "../../utils/Validations/login";
 
-// const useStyles = makeStyles(() => ({
-//   dateTimePicker: {
-//     "& .MuiFormControl-root": {
-//       height: "30px",
-//     },
-//   },
-// }));
 
 function flattenObject(obj: any) {
   if (obj) {
@@ -64,17 +56,9 @@ function flattenObject(obj: any) {
 
 const initialFormikValues = {
   minBet: "",
-  [matchBettingType.matchOdd]: {
-    maxBet: "",
-  },
   betfairSessionMaxBet: "",
-  [matchBettingType.bookmaker]: {
-    maxBet: "",
-  },
-  [matchBettingType.tiedMatch1]: {
-    maxBet: "",
-  },
-  [matchBettingType.completeMatch]: {
+ 
+  [matchBettingType.completeManual]: {
     maxBet: "",
   },
   [matchBettingType.tiedMatch2]: {
@@ -106,6 +90,9 @@ const initialValues = {
   eventId: "",
   marketId: "",
   startAt: new Date(),
+  f:false,
+  tv:false,
+  m1:false
 };
 
 const AddMatch = () => {
@@ -208,16 +195,16 @@ const AddMatch = () => {
           });
         });
 
-        if (!manualMatchToggle) {
-          eventWiseMatchData[selected.gameType]?.market?.forEach((item) => {
-            if (value?.[item?.matchType]?.maxBet) {
-              payload.marketData.push({
-                maxBet: value?.[item?.matchType]?.maxBet,
-                type: item?.matchType,
-              });
-            }
-          });
-        }
+        // if (!manualMatchToggle) {
+        //   eventWiseMatchData[selected.gameType]?.market?.forEach((item) => {
+        //     if (value?.[item?.matchType]?.maxBet) {
+        //       payload.marketData.push({
+        //         maxBet: value?.[item?.matchType]?.maxBet,
+        //         type: item?.matchType,
+        //       });
+        //     }
+        //   });
+        // }
         dispatch(editMatch(payload));
       } else {
         let bookmakers;
@@ -263,19 +250,9 @@ const AddMatch = () => {
             };
           });
           return;
-        } else if (selected.competitionName === "") {
-          setError((prev: any) => {
-            return {
-              ...prev,
-              competitionName: true,
-            };
-          });
-          return;
-        }
+        } 
         const addMatchpayload: any = {
           matchType: selected.gameType,
-          competitionId: selected.tournamentId,
-          competitionName: selected.competitionName,
           title: selected.title,
           marketId: selected.marketId,
           eventId: selected.eventId,
@@ -286,6 +263,9 @@ const AddMatch = () => {
           minBet: value.minBet,
           marketData: [],
           rateThan100: value.rateThan100,
+          isFancy:selected?.f,
+          isTv:selected?.tv,
+          isBookmaker:selected?.m1,
           betFairSessionMaxBet:
             selected.gameType === "cricket"
               ? value.betfairSessionMaxBet
@@ -300,17 +280,17 @@ const AddMatch = () => {
           });
         });
 
-        if (!manualMatchToggle) {
-          eventWiseMatchData[selected.gameType]?.market?.forEach((item) => {
-            if (extraMarketList?.[item?.marketIdKey]?.marketId) {
-              addMatchpayload.marketData.push({
-                maxBet: value?.[item?.matchType]?.maxBet,
-                type: item?.matchType,
-                marketId: extraMarketList?.[item?.marketIdKey]?.marketId,
-              });
-            }
-          });
-        }
+        // if (!manualMatchToggle) {
+        //   eventWiseMatchData[selected.gameType]?.market?.forEach((item) => {
+        //     if (extraMarketList?.[item?.marketIdKey]?.marketId) {
+        //       addMatchpayload.marketData.push({
+        //         maxBet: value?.[item?.matchType]?.maxBet,
+        //         type: item?.matchType,
+        //         marketId: extraMarketList?.[item?.marketIdKey]?.marketId,
+        //       });
+        //     }
+        //   });
+        // }
         if (manualMatchToggle) {
           const newPayload = {
             ...addMatchpayload,
@@ -390,7 +370,7 @@ const AddMatch = () => {
     }
     if (selected.gameType !== "" && !state?.id) {
       if (!manualMatchToggle) {
-        dispatch(tournamentListReset());
+        // dispatch(tournamentListReset());
         dispatch(getAllLiveTournaments(selected.gameType));
       }
       formik.setValues({
@@ -434,15 +414,7 @@ const AddMatch = () => {
         };
       });
     }
-    if (selected.competitionName !== "") {
-      setError((prev: any) => {
-        return {
-          ...prev,
-          competitionName: false,
-        };
-      });
-    }
-  }, [selected.competitionName, selected.title]);
+  }, [selected.title]);
 
   useEffect(() => {
     if (state?.id) {
@@ -472,15 +444,15 @@ const AddMatch = () => {
         if (success) {
           const quickBookmaker1 =
             matchDetail?.quickBookmaker?.find(
-              (bookmaker:any) => bookmaker.type === "quickbookmaker1"
+              (bookmaker: any) => bookmaker.type === "quickbookmaker1"
             ) || {};
           const quickBookmaker2 =
             matchDetail?.quickBookmaker?.find(
-              (bookmaker:any) => bookmaker.type === "quickbookmaker2"
+              (bookmaker: any) => bookmaker.type === "quickbookmaker2"
             ) || {};
           const quickBookmaker3 =
             matchDetail?.quickBookmaker?.find(
-              (bookmaker:any) => bookmaker.type === "quickbookmaker3"
+              (bookmaker: any) => bookmaker.type === "quickbookmaker3"
             ) || {};
           const formikValues = {
             ...values,
@@ -707,71 +679,58 @@ const AddMatch = () => {
               </p>
             )} */}
 
-            <Box
+            {/* <Box
               sx={{
                 position: "relative",
                 width: { xs: "100%", lg: "18%", md: "24%" },
+                marginTop:"5px"
               }}
             >
-              {!manualMatchToggle ? (
-                <DropDown
-                  name="tournamentName"
-                  valued="Select tournament"
-                  dropStyle={{
-                    filter:
-                      "invert(.9) sepia(1) saturate(5) hue-rotate(175deg);",
+              <Typography
+        sx={[
+          {
+            fontSize: "12px",
+            fontWeight: "600",
+            marginBottom: ".3vh",
+            color: "#202020",
+          },
+          // titleStyle,
+        ]}
+      >
+        {"Match Name*"}
+      </Typography>
+              <FormControl
+                variant="filled"
+                sx={{
+                  minWidth: "100%",
+                  backgroundColor: "#0b4f26",
+                  borderRadius: "5px",
+                  height: "44px",
+                  border: "1px #fff solid",
+                }}
+              >
+                <Select
+                  labelId="demo-simple-select-filled-label"
+                  id="demo-simple-select-filled"
+                  value={10}
+                  onChange={handleChange}
+                  IconComponent={CustomIcon}
+                  sx={{
+                    height: "30px",
+                    padding: "5px",
+                    color: "#fff",
+                    // paddingBottom:"15px"
                   }}
-                  disable={state?.id ? true : false}
-                  data={tournamentList}
-                  valueStyle={{ ...inputStyle, color: "white" }}
-                  title={"Tournament Name*"}
-                  valueContainerStyle={{
-                    height: "45px",
-                    marginX: "0px",
-                    background: "#0B4F26",
-                    border: "1px solid #DEDEDE",
-                    borderRadius: "5px",
-                    cursor: state?.id ? "not-allowed" : "pointer",
-                  }}
-                  containerStyle={{
-                    width: "100%",
-                    position: "relative",
-                    marginTop: "5px",
-                  }}
-                  type={"tournament"}
-                  titleStyle={{ marginLeft: "0px", color: "#575757" }}
-                  matchesSelect={true}
-                  dropDownStyle={{
-                    width: "100%",
-                    marginLeft: "0px",
-                    marginTop: "0px",
-                    position: "absolute",
-                    maxHeight: "500px",
-                    overflow: "auto",
-                  }}
-                  place={33}
-                  id="tournamentName"
-                  selected={selected}
-                  setSelected={setSelected}
-                  isOpen={openDropDown === "tournamentName"}
-                  onOpen={handleDropDownOpen}
-                />
-              ) : (
-                <MatchListInput
-                  required={true}
-                  label={"Tournament Name*"}
-                  type={"text"}
-                  onChange={handleInputChange}
-                  placeholder="Enter your Tournament Name"
-                  place={3}
-                  id="competitionName"
-                  name="competitionName"
-                />
-              )}
-              {error.torunamentName && (
-                <span style={{ color: "red" }}>{"Field is Required"}</span>
-              )}
-            </Box>
+                >
+                  <MenuItem value="">
+                    <em>None</em>
+                  </MenuItem>
+                  <MenuItem value={10}>Ten</MenuItem>
+                  <MenuItem value={20}>Twenty</MenuItem>
+                  <MenuItem value={30}>Thirty</MenuItem>
+                </Select>
+              </FormControl>
+            </Box> */}
             <Box
               sx={{
                 position: "relative",
@@ -846,9 +805,9 @@ const AddMatch = () => {
                   name="title"
                 />
               )}
-              {error.competitionName && (
+              {/* {error.competitionName && (
                 <span style={{ color: "red" }}>{"Field is Required"}</span>
-              )}
+              )} */}
             </Box>
 
             <Box sx={{ width: { xs: "100%", lg: "18%", md: "24%" } }}>
@@ -1057,7 +1016,7 @@ const AddMatch = () => {
               );
             })}
 
-            {!manualMatchToggle &&
+            {/* {!manualMatchToggle &&
               eventWiseMatchData[selected.gameType]?.market
                 ?.filter(
                   (item: any) =>
@@ -1094,7 +1053,7 @@ const AddMatch = () => {
                       />
                     </Box>
                   );
-                })}
+                })} */}
 
             <Box
               sx={{

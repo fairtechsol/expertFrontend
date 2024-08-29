@@ -144,7 +144,7 @@ const DropDown = (props: any) => {
                     EventId={i?.EventId}
                     matchesSelect={matchesSelect}
                     CompetitionName={i?.CompetitionName}
-                    eventDetail={i?.EventDetail}
+                    eventDetail={i}
                     type={type}
                     // disable={disable}
                     setValue={setValue}
