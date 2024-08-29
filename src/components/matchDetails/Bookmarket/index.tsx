@@ -10,6 +10,7 @@ import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../../store/store";
 import { profitLossDataForMatchConstants } from "../../../utils/Constants";
 import { formatToINR } from "../../helper";
+import MaxBetAdd from "../MaxBetAdd";
 
 const BookMarket = ({ currentMatch, liveData, title }: any) => {
   const dispatch: AppDispatch = useDispatch();
@@ -17,11 +18,19 @@ const BookMarket = ({ currentMatch, liveData, title }: any) => {
   const [live, setLive] = useState<boolean>(
     liveData?.activeStatus === "live" ? true : false
   );
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     setLive(liveData?.activeStatus === "live" ? true : false);
   }, [liveData?.activeStatus]);
 
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = (data: any) => {
+    setOpen(data);
+  };
   return (
     <Box
       sx={{
@@ -99,24 +108,78 @@ const BookMarket = ({ currentMatch, liveData, title }: any) => {
             justifyContent: "flex-end",
           }}
         >
-          <SmallBox
-            onClick={() => {
-              dispatch(
-                betLiveStatus({
-                  isStop: live,
-                  betId: liveData?.id,
-                  isManual: false,
-                })
-              );
-              setLive(!live);
-            }}
-            // width={"80px"}
-            title={live ? "Live" : "Go Live"}
-            color={live ? "#46e080" : "#FF4D4D"}
-            customStyle={{
+          {liveData?.id ? (<>
+            <SmallBox
+              onClick={() => {
+                dispatch(
+                  betLiveStatus({
+                    isStop: live,
+                    betId: liveData?.id,
+                    isManual: false,
+                  })
+                );
+                setLive(!live);
+              }}
+              // width={"80px"}
+              title={live ? "Live" : "Go Live"}
+              color={live ? "#46e080" : "#FF4D4D"}
+              customStyle={{
+                justifyContent: "center",
+              }}
+            /> <div
+            style={{
+              width: "50px",
+              height: "30px",
+              display: "flex",
               justifyContent: "center",
+              alignItems: "center",
+              borderRadius: "5px",
+              backgroundColor: "#46e080",
+              cursor: "pointer",
+              marginRight:"10px"
             }}
-          />
+            onClick={handleClickOpen}
+          >
+            <span
+              style={{
+                fontSize: "12px",
+                fontWeight: "500",
+                color: "#fff",
+                fontFamily:"Poppins, sans-serif"
+              }}
+            >
+              Edit
+            </span>
+          </div></>
+          ) : (
+            <>
+              <div
+                style={{
+                  width: "50px",
+                  height: "30px",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  borderRadius: "5px",
+                  backgroundColor: "#46e080",
+                  cursor: "pointer",
+                  marginRight: "10px",
+                }}
+                onClick={handleClickOpen}
+              >
+                <span
+                  style={{
+                    fontSize: "12px",
+                    fontWeight: "500",
+                    color: "#fff",
+                    fontFamily: "Poppins, sans-serif",
+                  }}
+                >
+                  Add
+                </span>
+              </div>
+            </>
+          )}
           <img
             onClick={() => {
               setVisibleImg(!visibleImg);
@@ -313,6 +376,13 @@ const BookMarket = ({ currentMatch, liveData, title }: any) => {
           </Box>
         </>
       )}
+      <MaxBetAdd
+        open={open}
+        handleClose={handleClose}
+        matchOddsLive={liveData}
+        currentMatch={currentMatch}
+        title={"Betfair Bookmaker Max Bet"}
+      />
     </Box>
   );
 };
