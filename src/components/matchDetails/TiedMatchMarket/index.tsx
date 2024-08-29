@@ -76,7 +76,7 @@ const TiedMatchMarket = ({ currentMatch, liveData, title }: any) => {
             {title}
           </Typography>
           {/* <img src={LOCKED} style={{ width: '14px', height: '20px' }} /> */}
-          <Stop
+          {liveData?.id && ( <Stop
             onClick={() => {
               dispatch(
                 betLiveStatus({
@@ -87,7 +87,7 @@ const TiedMatchMarket = ({ currentMatch, liveData, title }: any) => {
               );
               setLive(false);
             }}
-          />
+          />)}
         </Box>
         <Box
           sx={{
