@@ -101,9 +101,7 @@ const AddMatch = () => {
   const { state } = useLocation();
 
   const {
-    tournamentList,
     eventsList,
-    extraMarketList,
     matchDetail,
     success,
     matchAdded,

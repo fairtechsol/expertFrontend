@@ -224,8 +224,8 @@ const BookMarket = ({ currentMatch, liveData, title }: any) => {
                   marginLeft: "7px",
                 }}
               >
-                MIN: {formatToINR(currentMatch?.bookmaker?.minBet)} MAX:{" "}
-                {formatToINR(currentMatch?.bookmaker?.maxBet)}
+                MIN: {formatToINR(liveData?.minBet)} MAX:{" "}
+                {formatToINR(liveData?.maxBet)}
               </Typography>
             </Box>
             <Box
