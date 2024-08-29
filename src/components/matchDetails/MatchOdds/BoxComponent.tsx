@@ -3,10 +3,12 @@ import { memo } from "react";
 import SeparateBox from "../SeparateBox";
 import { formatNumber } from "../../helper";
 import MoneyBox from "./MoneyBox";
+import Whitebox from "../WhiteBox";
 const BoxComponent = ({
   name,
   data,
   // teamImage,
+  liveData,
   currentMatch,
   align,
   lock,
@@ -120,7 +122,7 @@ const BoxComponent = ({
             }}
           >
             {!matchesMobile && (
-              <SeparateBox
+             liveData?.type != "bookmaker2"? <SeparateBox
                 currentMatch={currentMatch}
                 align={align}
                 lock={lock}
@@ -135,13 +137,14 @@ const BoxComponent = ({
                     : 0
                 )}
                 color={"#CEEBFF"}
-              />
+              /> : 
+              <Whitebox />
             )}
             <Box
               sx={{ width: ".45%", display: "flex", background: "pink" }}
             ></Box>
             {!matchesMobile && (
-              <SeparateBox
+             liveData?.type != "bookmaker2"? <SeparateBox
                 currentMatch={currentMatch}
                 align={align}
                 lock={lock}
@@ -156,7 +159,8 @@ const BoxComponent = ({
                     : 0
                 )}
                 color={"#C2E6FF"}
-              />
+              /> : 
+              <Whitebox />
             )}
             <Box
               sx={{ width: ".45%", display: "flex", background: "pink" }}
@@ -202,7 +206,7 @@ const BoxComponent = ({
               ></Box>
             )}
             {!matchesMobile && (
-              <SeparateBox
+              liveData?.type != "bookmaker2" ? <SeparateBox
                 currentMatch={currentMatch}
                 back={true}
                 align={align}
@@ -218,7 +222,8 @@ const BoxComponent = ({
                     : 0
                 )}
                 color={"#FFB5B5"}
-              />
+              /> : 
+              <Whitebox />
             )}
             {!matchesMobile && (
               <Box
@@ -226,7 +231,7 @@ const BoxComponent = ({
               ></Box>
             )}
             {!matchesMobile && (
-              <SeparateBox
+             liveData?.type !="bookmaker2" ? <SeparateBox
                 currentMatch={currentMatch}
                 align={align}
                 value={
@@ -241,7 +246,8 @@ const BoxComponent = ({
                     : 0
                 )}
                 color={"#ECD6D6"}
-              />
+              /> : 
+              <Whitebox />
             )}
           </Box>
         </>

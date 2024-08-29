@@ -291,6 +291,7 @@ const BookMarket = ({ currentMatch, liveData, title }: any) => {
               data={liveData?.runners?.length > 0 ? liveData?.runners[0] : []}
               lock={liveData?.runners?.length > 0 ? false : true}
               name={currentMatch?.teamA}
+              liveData={liveData}
             />
 
             <Divider />
@@ -312,6 +313,7 @@ const BookMarket = ({ currentMatch, liveData, title }: any) => {
               name={currentMatch?.teamB}
               data={liveData?.runners?.length > 0 ? liveData?.runners[1] : []}
               align="end"
+              liveData={liveData}
             />
             {currentMatch?.teamC && (
               <>
@@ -337,6 +339,7 @@ const BookMarket = ({ currentMatch, liveData, title }: any) => {
                     liveData?.runners?.length > 0 ? liveData?.runners[2] : []
                   }
                   align="end"
+              liveData={liveData}
                 />
               </>
             )}
