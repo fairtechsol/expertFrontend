@@ -393,6 +393,23 @@ export const updateRaceRates = createAsyncThunk<any, any>(
     return matchDetails;
   }
 );
+export const updateMarketRates = createAsyncThunk<any, any>(
+  "/market/rates",
+  async (requestData, thunkApi) => {
+    try {
+      const resp = await service.post(
+        `${ApiConstants.BOOKMAKER.GET}/add`,
+        requestData
+      );
+      if (resp) {
+        return resp?.data;
+      }
+    } catch (error) {
+      const err = error as AxiosError;
+      return thunkApi.rejectWithValue(err.response?.status);
+    }
+  }
+);
 export const addMatchReset = createAction("add/reset");
 export const editMatchReset = createAction("edit/reset");
 export const matchDetailReset = createAction("matchDetail/reset");

@@ -384,14 +384,14 @@ const MatchMarketDetail = () => {
             {liveScoreBoardData && (
               <Scoreboard liveScoreData={liveScoreBoardData} />
             )}
-            {matchDetail?.matchOdd?.isActive && (
+            {matchDetail?.matchOdd && (
               <MatchOdds
                 showHeader={true}
                 currentMatch={matchDetail}
                 matchOddsLive={matchDetail?.matchOdd}
               />
-            )}
-            {matchDetail?.bookmaker?.isActive && (
+            )} 
+            {matchDetail?.bookmaker && (
               <BookMarket
                 currentMatch={matchDetail}
                 liveData={matchDetail?.bookmaker}
@@ -407,13 +407,13 @@ const MatchMarketDetail = () => {
                   liveData={bookmaker}
                 />
               ))}
-            {matchDetail?.apiTideMatch?.isActive && (
+            {matchDetail?.apiTideMatch && (
               <TiedMatchMarket
                 currentMatch={matchDetail}
                 liveData={matchDetail?.apiTideMatch}
                 title={matchDetail?.apiTideMatch?.name}
               />
-            )}
+            )} 
             {matchDetail?.manualTideMatch?.isActive && (
               <ManualMarket
                 currentMatch={matchDetail}
@@ -421,13 +421,13 @@ const MatchMarketDetail = () => {
                 type="manualTiedMatch"
               />
             )}
-            {matchDetail?.marketCompleteMatch?.isActive && (
+            {matchDetail?.marketCompleteMatch && (
               <CompleteMatchMarket
                 currentMatch={matchDetail}
                 liveData={matchDetail?.marketCompleteMatch}
                 title={matchDetail?.marketCompleteMatch?.name}
               />
-            )}
+            )} 
             {matchDetail?.manualCompleteMatch?.isActive && (
               <ManualMarket
                 currentMatch={matchDetail}

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Box, Typography } from "@mui/material";
+import { Box, DialogActions, Typography } from "@mui/material";
 import Stop from "../SessionMarket/Stop";
 import Result from "../Result";
 import SmallBox from "../SmallBox";
@@ -13,14 +13,27 @@ import { AppDispatch } from "../../../store/store";
 import { useDispatch } from "react-redux";
 import { profitLossDataForMatchConstants } from "../../../utils/Constants";
 import { formatToINR } from "../../helper";
+import Dialog from "@mui/material/Dialog";
+import DialogContent from "@mui/material/DialogContent";
+import DialogTitle from "@mui/material/DialogTitle";
+import { updateMarketRates } from "../../../store/actions/addMatch/addMatchAction";
 
 const MatchOdds = ({ currentMatch, matchOddsLive, id }: any) => {
   const [visible, setVisible] = useState(false);
   const [visibleImg, setVisibleImg] = useState(true);
-
+  const [selected, setSelected] = useState(0);
   const [live, setLive] = useState(
     matchOddsLive?.activeStatus === "live" ? true : false
   );
+  const [open, setOpen] = useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
   const dispatch: AppDispatch = useDispatch();
 
   const valueA = currentMatch?.teamRates?.teamARate;
@@ -59,7 +72,18 @@ const MatchOdds = ({ currentMatch, matchOddsLive, id }: any) => {
   useEffect(() => {
     setLive(matchOddsLive?.activeStatus === "live" ? true : false);
   }, [matchOddsLive?.activeStatus]);
-
+const handleSubmit=()=>{
+  let data ={
+    matchId:currentMatch?.id,
+    type:matchOddsLive?.type,
+    name:matchOddsLive?.name,
+    maxBet:selected,
+    marketId:matchOddsLive?.marketId,
+    gtype:matchOddsLive?.gtype
+  };
+  dispatch(updateMarketRates(data));
+  handleClose();
+}
   return (
     <>
       <Box
@@ -106,18 +130,20 @@ const MatchOdds = ({ currentMatch, matchOddsLive, id }: any) => {
             >
               Match Odds
             </Typography>
-            <Stop
-              onClick={() => {
-                dispatch(
-                  betLiveStatus({
-                    isStop: true,
-                    betId: matchOddsLive?.id,
-                    isManual: false,
-                  })
-                );
-                setLive(false);
-              }}
-            />
+            {matchOddsLive?.id && (
+              <Stop
+                onClick={() => {
+                  dispatch(
+                    betLiveStatus({
+                      isStop: true,
+                      betId: matchOddsLive?.id,
+                      isManual: false,
+                    })
+                  );
+                  setLive(false);
+                }}
+              />
+            )}
 
             <SmallBox2 valueA={bookRatioA} valueB={bookRatioB} />
           </Box>
@@ -143,14 +169,17 @@ const MatchOdds = ({ currentMatch, matchOddsLive, id }: any) => {
               marginLeft: "0px",
             }}
           >
-            <Result
-              width={"80px"}
-              onClick={() => {
-                setVisible(true);
-              }}
-              invert={true}
-            />
-            {!currentMatch?.stopAt &&
+            {matchOddsLive?.id && (
+              <Result
+                width={"80px"}
+                onClick={() => {
+                  setVisible(true);
+                }}
+                invert={true}
+              />
+            )}
+            {matchOddsLive?.id ? (
+              !currentMatch?.stopAt &&
               ((currentMatch?.resultStatus &&
                 !currentMatch?.resultStatus[matchOddsLive?.id]?.status) ||
                 !currentMatch?.resultStatus) && (
@@ -171,11 +200,40 @@ const MatchOdds = ({ currentMatch, matchOddsLive, id }: any) => {
                     color={live ? "#46e080" : "#FF4D4D"}
                     customStyle={{
                       justifyContent: "center",
-                      textAlign: "center"
+                      textAlign: "center",
                     }}
                   />
                 </>
-              )}
+              )
+            ) : (
+              <>
+                <div
+                  style={{
+                    width: "50px",
+                    height: "30px",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    borderRadius: "5px",
+                    backgroundColor: "#46e080",
+                    cursor: "pointer",
+                    marginRight:"10px"
+                  }}
+                  onClick={handleClickOpen}
+                >
+                  <span
+                    style={{
+                      fontSize: "12px",
+                      fontWeight: "500",
+                      color: "#fff",
+                      fontFamily:"Poppins, sans-serif"
+                    }}
+                  >
+                    Add
+                  </span>
+                </div>
+              </>
+            )}
             <img
               onClick={() => {
                 setVisibleImg(!visibleImg);
@@ -491,6 +549,84 @@ const MatchOdds = ({ currentMatch, matchOddsLive, id }: any) => {
           </>
         )}
       </Box>
+      <Dialog open={open} onClose={handleClose}>
+        <DialogTitle
+          sx={{
+            textAlign: "center",
+            color: "#fff",
+            background: "linear-gradient(90deg, #004A25 5%, #FDCB52 100%)",
+            fontFamily:"Poppins, sans-serif"
+          }}
+        >
+          Betfair Match odds maxbet
+        </DialogTitle>
+        <DialogContent sx={{ backgroundColor: "#fff" }}>
+          <div
+            style={{
+              width: "100%",
+              height: "80px",
+              backgroundColor: "#fff",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <input
+              type="text"
+              placeholder="Enter maximum bet value"
+              onChange={(e: any) => {
+                const numericValue = e.target.value.replace(/[^0-9]/g, "");
+                setSelected(numericValue);
+              }}
+              style={{
+                width: "80%",
+                height: "50px",
+                borderRadius: "5px",
+                border: "1px #8b8787 solid",
+              }}
+            />
+          </div>
+        </DialogContent>
+        <DialogActions
+          sx={{
+            background: "linear-gradient(90deg, #004A25 5%, #FDCB52 100%)",
+          }}
+        >
+          <button
+            style={{
+              width: "25%",
+              height: "40px",
+              color: "#fff",
+              backgroundColor: "#004A25",
+              fontSize: "14px",
+              borderRadius: "5px",
+              border: "1px #004A25 solid",
+              cursor: "pointer",
+              fontFamily:"Poppins, sans-serif"
+            }}
+            onClick={handleSubmit}
+          >
+            Submit
+          </button>
+
+          <button
+            style={{
+              width: "25%",
+              height: "40px",
+              color: "#fff",
+              backgroundColor: "#004A25",
+              fontSize: "14px",
+              borderRadius: "5px",
+              border: "1px #004A25 solid",
+              cursor: "pointer",
+              fontFamily:"Poppins, sans-serif"
+            }}
+            onClick={handleClose}
+          >
+            Cancel
+          </button>
+        </DialogActions>
+      </Dialog>
     </>
   );
 };
