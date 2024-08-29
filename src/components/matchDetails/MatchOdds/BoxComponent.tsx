@@ -126,12 +126,12 @@ const BoxComponent = ({
                 lock={lock}
                 value={
                   ex?.availableToBack?.length > 0
-                    ? ex?.availableToBack[2]?.price ?? 0
+                    ? ex?.availableToBack[0]?.price ?? 0
                     : 0
                 }
                 value2={formatNumber(
                   ex?.availableToBack?.length > 0
-                    ? ex?.availableToBack[2]?.size ?? 0
+                    ? ex?.availableToBack[0]?.size ?? 0
                     : 0
                 )}
                 color={"#CEEBFF"}
@@ -166,13 +166,13 @@ const BoxComponent = ({
               align={align}
               value={
                 ex?.availableToBack?.length > 0
-                  ? ex?.availableToBack[0]?.price ?? 0
+                  ? ex?.availableToBack[2]?.price ?? 0
                   : 0
               }
               lock={lock}
               value2={formatNumber(
                 ex?.availableToBack?.length > 0
-                  ? ex?.availableToBack[0]?.size ?? 0
+                  ? ex?.availableToBack[2]?.size ?? 0
                   : 0
               )}
               color={"#A7DCFF"}
