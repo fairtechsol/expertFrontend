@@ -304,30 +304,27 @@ const SessionMarketDetail = () => {
     }
   }, []);
 
-  let completedSessions = matchDetail?.sessionBettings?.filter(
-    (item: any) =>
-      JSON.parse(item)?.isComplete &&
-      JSON.parse(item)?.showSessions &&
-      ((JSON.parse(item)?.resultData &&
-        JSON.parse(item)?.resultData === null) ||
-        JSON.parse(item)?.result === null)
-  );
-  let declaredSessions = matchDetail?.sessionBettings?.filter(
-    (item: any) =>
-      JSON.parse(item)?.isComplete &&
-      JSON.parse(item)?.showSessions &&
-      ((JSON.parse(item)?.resultData &&
-        JSON.parse(item)?.resultData !== null) ||
-        JSON.parse(item)?.result !== null)
-  );
+  // let completedSessions = matchDetail?.sessionBettings?.filter(
+  //   (item: any) =>
+  //     JSON.parse(item)?.isComplete &&
+  //     JSON.parse(item)?.showSessions &&
+  //     ((JSON.parse(item)?.resultData &&
+  //       JSON.parse(item)?.resultData === null) ||
+  //       JSON.parse(item)?.result === null)
+  // );
+  // let declaredSessions = matchDetail?.sessionBettings?.filter(
+  //   (item: any) =>
+  //     JSON.parse(item)?.isComplete &&
+  //     JSON.parse(item)?.showSessions &&
+  //     ((JSON.parse(item)?.resultData &&
+  //       JSON.parse(item)?.resultData !== null) ||
+  //       JSON.parse(item)?.result !== null)
+  // );
 
-  let marketSessions = matchDetail?.sessionBettings?.filter(
-    (item: any) =>
-      !JSON.parse(item)?.isComplete && JSON.parse(item)?.showSessions
-  );
-
-  console.log(matchDetail?.apiSession, "abc");
-
+  // let marketSessions = matchDetail?.sessionBettings?.filter(
+  //   (item: any) =>
+  //     !JSON.parse(item)?.isComplete && JSON.parse(item)?.showSessions
+  // );
   return (
     <>
       <Stack spacing={2} direction={{ lg: "row", xs: "column" }}>
@@ -341,6 +338,7 @@ const SessionMarketDetail = () => {
                       s={name}
                       title={item?.mname}
                       sessionData={item}
+                      type={name}
                       currentMatch={matchDetail}
                     />
                   );
@@ -360,44 +358,89 @@ const SessionMarketDetail = () => {
                       key={name}
                       title={item?.mname}
                       sessionData={item}
+                      type={name}
                       currentMatch={matchDetail}
                     />
                   );
               }
             )}
         </Box>
-        <Box sx={{ width: { lg: "100%" } }}>
-          {completedSessions?.length > 0 && (
+        {/* {completedSessions?.length > 0 && (
             <SessionMarket
-              title="Session Completed"
-              hideTotalBet={false}
-              stopAllHide={true}
-              profitLossData={matchDetail?.sessionProfitLoss}
-              sessionData={completedSessions}
-              hideResult={false}
-              currentMatch={matchDetail}
-              hideEditMaxButton={true}
+            title="Session Completed"
+            hideTotalBet={false}
+            stopAllHide={true}
+            profitLossData={matchDetail?.sessionProfitLoss}
+            sessionData={completedSessions}
+            hideResult={false}
+            currentMatch={matchDetail}
+            hideEditMaxButton={true}
               cstmStyle={{
                 maxHeight: { sm: "40vh" },
-              }}
-            />
-          )}
-          {!(
+                }}
+                />
+                )} */}
+        {/* {!(
             (completedSessions?.length > 0 || declaredSessions?.length > 0) &&
             marketSessions?.length <= 0
-          ) && (
-            <SessionMarket
-              title="Session Market"
-              hideTotalBet={false}
-              stopAllHide={false}
-              profitLossData={matchDetail?.sessionProfitLoss}
-              sessionData={marketSessions}
-              hideResult={true}
-              currentMatch={matchDetail}
-              hideEditMaxButton={false}
-            />
-          )}
-          {declaredSessions?.length > 0 && (
+            ) && ( */}
+        <Box sx={{ width: { lg: "100%" } }}>
+          {matchDetail?.updatedSesssionBettings &&
+            Object.entries(matchDetail?.updatedSesssionBettings)?.map(
+              ([name, item]: any) => (
+                <>
+                  <SessionMarket
+                    key={name}
+                    title={`${name} Completed`}
+                    hideTotalBet={false}
+                    stopAllHide={false}
+                    profitLossData={matchDetail?.sessionProfitLoss}
+                    sessionData={item}
+                    hideResult={true}
+                    currentMatch={matchDetail}
+                    hideEditMaxButton={false}
+                    section="completed"
+                  />
+                  <SessionMarket
+                    key={name}
+                    title={`${name} Market`}
+                    hideTotalBet={false}
+                    stopAllHide={false}
+                    profitLossData={matchDetail?.sessionProfitLoss}
+                    sessionData={item}
+                    hideResult={true}
+                    currentMatch={matchDetail}
+                    hideEditMaxButton={false}
+                    section="market"
+                  />
+                  <SessionMarket
+                    key={name}
+                    title={`${name} Declared`}
+                    hideTotalBet={false}
+                    stopAllHide={false}
+                    profitLossData={matchDetail?.sessionProfitLoss}
+                    sessionData={item}
+                    hideResult={true}
+                    currentMatch={matchDetail}
+                    hideEditMaxButton={false}
+                    section="declared"
+                  />
+                </>
+              )
+            )}
+        </Box>
+        {/* <SessionMarket
+            title="Session Market"
+            hideTotalBet={false}
+            stopAllHide={false}
+            profitLossData={matchDetail?.sessionProfitLoss}
+            sessionData={marketSessions}
+            hideResult={true}
+            currentMatch={matchDetail}
+            hideEditMaxButton={false}
+          /> */}
+        {/* )} */}
+        {/* {declaredSessions?.length > 0 && (
             <SessionMarket
               title="Session Declared"
               hideTotalBet={false}
@@ -411,8 +454,7 @@ const SessionMarketDetail = () => {
                 maxHeight: { sm: "40vh" },
               }}
             />
-          )}
-        </Box>
+          )} */}
         {/* <Box sx={{ width: { lg: "100%" } }}>
           <BetListForSession allBetRates={placedBetsMatch} tag={true} />
         </Box> */}

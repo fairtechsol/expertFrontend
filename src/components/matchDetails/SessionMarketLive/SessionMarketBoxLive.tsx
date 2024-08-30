@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Box, Typography } from "@mui/material";
 import Divider from "../../Common/Divider";
 import SeparateBox from "../SeparateBox";
@@ -8,21 +8,23 @@ import { addSession } from "../../../store/actions/addSession";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../../store/store";
 
-const SessionMarketBoxLive = ({ currentMatch, newData, index }: any) => {
+const SessionMarketBoxLive = ({
+  currentMatch,
+  newData,
+  index,
+  gtype,
+  type,
+}: any) => {
   const dispatch: AppDispatch = useDispatch();
 
-  const [live, setLive] = useState<any>(
-    newData?.isActive === false ? true : false
-  );
+  const [live, setLive] = useState<any>(newData?.ActiveStatus ? true : false);
 
   const handleLive = () => {
     const payload = {
       matchId: currentMatch?.id,
-      type: "session",
+      type: type,
       name: newData?.RunnerName,
-      // minBet: "any",
-      // maxBet: "any",
-      gtype: "fancy",
+      gtype: gtype,
       selectionId: (newData?.SelectionId).toString(),
       yesRate: newData?.ex?.availableToBack[0]?.price,
       noRate: newData?.ex?.availableToLay[0]?.price,
@@ -31,6 +33,12 @@ const SessionMarketBoxLive = ({ currentMatch, newData, index }: any) => {
     };
     dispatch(addSession(payload));
   };
+
+  useEffect(() => {
+    if (newData?.ActiveStatus) {
+      setLive(true);
+    } else setLive(false);
+  }, [newData]);
 
   return (
     <div style={{ position: "relative" }}>
@@ -174,50 +182,61 @@ const SessionMarketBoxLive = ({ currentMatch, newData, index }: any) => {
         )}
       </Box>
       <Divider />
-      {newData?.ex?.availableToBack?.length > 1 && (
-        <Box
-          sx={{
-            display: "flex",
-            background: "white",
-            height: "40px",
-            width: "100%",
-          }}
-        >
-          <Box
-            sx={{
-              display: "flex",
-              position: "relative",
-              background: index % 2 === 0 ? "#FFE094" : "#ECECEC",
-              height: "40px",
-              width: "100%",
-              justifyContent: "flex-end",
-              alignItems: "center",
-            }}
-          >
-            <SeparateBox
-              width="13.8%"
-              mWidth="12.5%"
-              value={newData?.ex?.availableToLay[0]?.price}
-              value2={formatNumber(newData?.ex?.availableToLay[0]?.size)}
-              lock={newData?.GameStatus === "SUSPENDED"}
-              color="#F6D0CB"
-            />
+      {newData?.ex?.availableToBack?.length > 1 &&
+        [1, 2].map((item: any) => {
+          return (
+            <>
+              <Box
+                key={item}
+                sx={{
+                  display: "flex",
+                  background: "white",
+                  height: "40px",
+                  width: "100%",
+                }}
+              >
+                <Box
+                  sx={{
+                    display: "flex",
+                    position: "relative",
+                    background: index % 2 === 0 ? "#FFE094" : "#ECECEC",
+                    height: "40px",
+                    width: "100%",
+                    justifyContent: "flex-end",
+                    alignItems: "center",
+                  }}
+                >
+                  <SeparateBox
+                    width="13.8%"
+                    mWidth="12.5%"
+                    value={newData?.ex?.availableToLay[item]?.price}
+                    value2={formatNumber(
+                      newData?.ex?.availableToLay[item]?.size
+                    )}
+                    lock={newData?.GameStatus === "SUSPENDED"}
+                    color="#F6D0CB"
+                  />
 
-            <Box
-              sx={{ width: ".22%", display: "flex", background: "pink" }}
-            ></Box>
+                  <Box
+                    sx={{ width: ".22%", display: "flex", background: "pink" }}
+                  ></Box>
 
-            <SeparateBox
-              width="13.8%"
-              mWidth="12.5%"
-              value={newData?.ex?.availableToBack[0]?.price}
-              value2={formatNumber(newData?.ex?.availableToBack[0]?.size)}
-              lock={newData?.GameStatus === "SUSPENDED"}
-              color="#B3E0FF"
-            />
-          </Box>
-        </Box>
-      )}
+                  <SeparateBox
+                    width="13.8%"
+                    mWidth="12.5%"
+                    value={newData?.ex?.availableToBack[item]?.price}
+                    value2={formatNumber(
+                      newData?.ex?.availableToBack[item]?.size
+                    )}
+                    lock={newData?.GameStatus === "SUSPENDED"}
+                    color="#B3E0FF"
+                  />
+                </Box>
+              </Box>
+              <Divider />
+            </>
+          );
+        })}
     </div>
   );
 };

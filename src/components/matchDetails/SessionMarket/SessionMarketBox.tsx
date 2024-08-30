@@ -44,7 +44,7 @@ const SessionMarketBox = ({
       setVisible(false);
     }
   }, [success]);
-  // console.log(newData?.resultStatus)
+
   return (
     <div style={{ position: "relative" }}>
       {!["live"].includes(newData?.activeStatus) && (
@@ -109,7 +109,7 @@ const SessionMarketBox = ({
                 WebkitBoxOrient: "vertical",
               }}
             >
-              {newData?.name}
+              {newData?.RunnerName ?? newData?.name}
             </Typography>
             <Box sx={{ display: "flex", flexDirection: "row" }}>
               <Typography
@@ -185,7 +185,7 @@ const SessionMarketBox = ({
               loading={false}
               hide={false}
               textSize={newData?.result === "No Result" ? "0.55em" : "10px"}
-              width={{ lg: "60px", xs: "60px"}}
+              width={{ lg: "60px", xs: "60px" }}
               title={`${newData?.result || 0}`}
               color="#FFF"
             />
@@ -272,7 +272,7 @@ const SessionMarketBox = ({
             </h6>
           </Box>
         ) : !["ACTIVE", "active", "", undefined, null, 0].includes(
-            newData?.status
+            newData?.GameStatus
           ) || newData?.result ? (
           <Box
             sx={{
@@ -298,7 +298,7 @@ const SessionMarketBox = ({
                 fontWeight: "400",
               }}
             >
-              {newData?.result ? `Declared` : newData?.status}
+              {newData?.result ? `Declared` : newData?.GameStatus}
             </h6>
           </Box>
         ) : (
@@ -317,9 +317,9 @@ const SessionMarketBox = ({
             <SeparateBox
               session={true}
               back={true}
-              value={formatNumber(newData?.noRate)}
-              value2={formatNumber(newData?.noPercent)}
-              lock={newData?.status === "SUSPENDED"}
+              value={formatNumber(newData?.ex?.availableToLay[0]?.price || 0)}
+              value2={formatNumber(newData?.ex?.availableToLay[0]?.size || 0)}
+              lock={newData?.GameStatus === "SUSPENDED"}
               color="#F6D0CB"
             />
 
@@ -329,9 +329,9 @@ const SessionMarketBox = ({
 
             <SeparateBox
               session={true}
-              value={formatNumber(newData?.yesRate)}
-              value2={formatNumber(newData?.yesPercent)}
-              lock={newData?.status === "SUSPENDED"}
+              value={formatNumber(newData?.ex?.availableToBack[0]?.price || 0)}
+              value2={formatNumber(newData?.ex?.availableToBack[0]?.price || 0)}
+              lock={newData?.GameStatus === "SUSPENDED"}
               color="#B3E0FF"
             />
           </Box>

@@ -21,6 +21,26 @@ export const customSort = (a: any, b: any) => {
   }
 };
 
+export const customSortUpdated = (a: any, b: any) => {
+  const order: any = { live: 1, save: 2, result: 3 };
+  const statusComparison = order[a?.activeStatus] - order[b?.activeStatus];
+
+  if (statusComparison !== 0) {
+    return statusComparison;
+  } else {
+    // If activeStatus is the same, compare by updatedAt
+    const aUpdatedAt = a?.updatedAt;
+    const bUpdatedAt = b?.updatedAt;
+
+    // Convert string dates to actual Date objects for comparison
+    const aDate = new Date(aUpdatedAt);
+    const bDate = new Date(bUpdatedAt);
+
+    // Compare updatedAt values
+    return bDate.getTime() - aDate.getTime(); // Sort in descending order of updatedAt
+  }
+};
+
 export const customBetSort = (a: any, b: any) => {
   // If activeStatus is the same, compare by updatedAt
   const aUpdatedAt = a?.createdAt;

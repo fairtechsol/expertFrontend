@@ -33,6 +33,10 @@ import {
 } from "../../actions/match/matchAction";
 import { getOtherGamesMatchDetail } from "../../actions/otherGamesAction/matchDetailActions";
 import { profitLossDataForMatchConstants } from "../../../utils/Constants";
+import {
+  convertData,
+  updateSessionBettingsItem,
+} from "../../../helpers/sessionsHelpers";
 
 interface InitialState {
   tournamentList: any;
@@ -213,6 +217,21 @@ const addMatch = createSlice({
           completeManual,
           quickbookmaker,
         } = action.payload;
+
+        let parsedSessionBettings = state?.matchDetail?.sessionBettings?.map(
+          (item: any) => {
+            let parsedItem = JSON.parse(item);
+            return parsedItem;
+          }
+        );
+
+        let updatedFormat = convertData(parsedSessionBettings);
+
+        let updatedSessionBettings = updateSessionBettingsItem(
+          updatedFormat,
+          apiSession
+        );
+
         state.matchDetail = {
           ...state.matchDetail,
           apiSessionActive: apiSession ? true : false,
@@ -229,6 +248,7 @@ const addMatch = createSlice({
           manualTideMatch,
           manualCompleteMatch: completeManual,
           quickBookmaker: quickbookmaker,
+          updatedSesssionBettings: updatedSessionBettings || {},
           // sessionBettings: state.matchDetail?.sessionBettings?.map(
           //   (item: any) => {
           //     const parsedItem = JSON.parse(item);
