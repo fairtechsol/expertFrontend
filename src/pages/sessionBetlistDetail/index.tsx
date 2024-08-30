@@ -1,16 +1,8 @@
 import { Box, Stack } from "@mui/material";
-import { useEffect, useState } from "react";
+import { AppDispatch, RootState } from "../../store/store";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
-import RunsBox from "../../components/matchDetails/RunsBox";
-import SessionMarket from "../../components/matchDetails/SessionMarket";
-import SessionMarketLive from "../../components/matchDetails/SessionMarketLive";
-import {
-  expertSocketService,
-  socket,
-  socketService,
-} from "../../socketManager";
-import { matchSocketService } from "../../socketManager/matchSocket";
+import { useEffect, useState } from "react";
 import {
   getMatchDetail,
   removeSessionProLoss,
@@ -19,10 +11,6 @@ import {
   updateSessionAdded,
   updateSessionProLoss,
 } from "../../store/actions/addMatch/addMatchAction";
-import {
-  setCurrentOdd,
-  updateApiSessionById,
-} from "../../store/actions/addSession";
 import {
   getPlacedBetsForSessionDetail,
   getSessionProfitLossMatchDetailReset,
@@ -33,9 +21,21 @@ import {
   updateResultStatusOfSession,
   updateSessionBetsPlace,
 } from "../../store/actions/match/matchAction";
-import { AppDispatch, RootState } from "../../store/store";
+import {
+  setCurrentOdd,
+  updateApiSessionById,
+} from "../../store/actions/addSession";
+import {
+  expertSocketService,
+  socket,
+  socketService,
+} from "../../socketManager";
+import { matchSocketService } from "../../socketManager/matchSocket";
+import SessionMarket from "../../components/matchDetails/SessionMarket";
+import RunsBox from "../../components/matchDetails/RunsBox";
+import BetList from "../../components/matchDetails/BetList";
 
-const SessionMarketDetail = () => {
+const SessionBetlistDetail = () => {
   const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
   const { state } = useLocation();
@@ -45,6 +45,9 @@ const SessionMarketDetail = () => {
   );
   const { sessionProLoss } = useSelector((state: RootState) => state.match);
   const { currentOdd } = useSelector((state: RootState) => state.addSession);
+  const { placedBetsMatch } = useSelector(
+    (state: RootState) => state.matchList
+  );
 
   const updateMatchDetailToRedux = (event: any) => {
     try {
@@ -326,62 +329,10 @@ const SessionMarketDetail = () => {
       !JSON.parse(item)?.isComplete && JSON.parse(item)?.showSessions
   );
 
-  console.log(matchDetail?.apiSession, "abc");
-
   return (
     <>
       <Stack spacing={2} direction={{ lg: "row", xs: "column" }}>
         <Box sx={{ width: { lg: "100%" } }}>
-          {matchDetail?.apiSession &&
-            Object.entries(matchDetail?.apiSession)?.map(
-              ([name, item]: any) => {
-                if (name === "session" || name === "fancy1") {
-                  return (
-                    <SessionMarketLive
-                      s={name}
-                      title={item?.mname}
-                      sessionData={item}
-                      currentMatch={matchDetail}
-                    />
-                  );
-                } else return null;
-              }
-            )}
-        </Box>
-        <Box sx={{ width: { lg: "100%" } }}>
-          {matchDetail?.apiSession &&
-            Object.entries(matchDetail?.apiSession)?.map(
-              ([name, item]: any) => {
-                if (name === "session" || name === "fancy1") {
-                  return null;
-                } else
-                  return (
-                    <SessionMarketLive
-                      key={name}
-                      title={item?.mname}
-                      sessionData={item}
-                      currentMatch={matchDetail}
-                    />
-                  );
-              }
-            )}
-        </Box>
-        <Box sx={{ width: { lg: "100%" } }}>
-          {completedSessions?.length > 0 && (
-            <SessionMarket
-              title="Session Completed"
-              hideTotalBet={false}
-              stopAllHide={true}
-              profitLossData={matchDetail?.sessionProfitLoss}
-              sessionData={completedSessions}
-              hideResult={false}
-              currentMatch={matchDetail}
-              hideEditMaxButton={true}
-              cstmStyle={{
-                maxHeight: { sm: "40vh" },
-              }}
-            />
-          )}
           {!(
             (completedSessions?.length > 0 || declaredSessions?.length > 0) &&
             marketSessions?.length <= 0
@@ -397,25 +348,10 @@ const SessionMarketDetail = () => {
               hideEditMaxButton={false}
             />
           )}
-          {declaredSessions?.length > 0 && (
-            <SessionMarket
-              title="Session Declared"
-              hideTotalBet={false}
-              stopAllHide={true}
-              profitLossData={matchDetail?.sessionProfitLoss}
-              sessionData={declaredSessions}
-              hideResult={false}
-              currentMatch={matchDetail}
-              hideEditMaxButton={true}
-              cstmStyle={{
-                maxHeight: { sm: "40vh" },
-              }}
-            />
-          )}
         </Box>
-        {/* <Box sx={{ width: { lg: "100%" } }}>
-          <BetListForSession allBetRates={placedBetsMatch} tag={true} />
-        </Box> */}
+        <Box sx={{ width: { lg: "100%" } }}>
+          <BetList allBetRates={placedBetsMatch} tag={true} />
+        </Box>
       </Stack>
       {sessionProLoss?.length > 0 && (
         <Box
@@ -445,4 +381,4 @@ const SessionMarketDetail = () => {
   );
 };
 
-export default SessionMarketDetail;
+export default SessionBetlistDetail;

@@ -37,7 +37,6 @@ import {
 import { AppDispatch, RootState } from "../../store/store";
 import { eventWiseMatchData, matchBettingType } from "../../utils/Constants";
 
-
 function flattenObject(obj: any) {
   if (obj) {
     return Object.keys(obj).reduce((acc: any, key) => {
@@ -57,7 +56,7 @@ function flattenObject(obj: any) {
 const initialFormikValues = {
   minBet: "",
   betfairSessionMaxBet: "",
- 
+
   [matchBettingType.completeManual]: {
     maxBet: "",
   },
@@ -90,9 +89,9 @@ const initialValues = {
   eventId: "",
   marketId: "",
   startAt: new Date(),
-  f:false,
-  tv:false,
-  m1:false
+  f: false,
+  tv: false,
+  m1: false,
 };
 
 const AddMatch = () => {
@@ -100,17 +99,13 @@ const AddMatch = () => {
 
   const { state } = useLocation();
 
-  const {
-    eventsList,
-    matchDetail,
-    success,
-    matchAdded,
-    loading,
-  } = useSelector((state: RootState) => state.addMatch.addMatch);
+  const { eventsList, matchDetail, success, matchAdded, loading } = useSelector(
+    (state: RootState) => state.addMatch.addMatch
+  );
 
   const [selected, setSelected] = useState(initialValues);
   const [openDropDown, setOpenDropDown] = useState(null);
-  const [error, setError] = useState({
+  const [_, setError] = useState({
     torunamentName: false,
     competitionName: false,
   });
@@ -248,7 +243,7 @@ const AddMatch = () => {
             };
           });
           return;
-        } 
+        }
         const addMatchpayload: any = {
           matchType: selected.gameType,
           title: selected.title,
@@ -261,9 +256,9 @@ const AddMatch = () => {
           minBet: value.minBet,
           marketData: [],
           rateThan100: value.rateThan100,
-          isFancy:selected?.f,
-          isTv:selected?.tv,
-          isBookmaker:selected?.m1,
+          isFancy: selected?.f,
+          isTv: selected?.tv,
+          isBookmaker: selected?.m1,
           betFairSessionMaxBet:
             selected.gameType === "cricket"
               ? value.betfairSessionMaxBet
