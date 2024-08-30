@@ -224,9 +224,6 @@ const MatchDetails = () => {
     }
   }, [state?.id]);
 
-  console.log("isSocket ative;", socket?.active);
-  console.log("isSocket ative;");
-
   useEffect(() => {
     try {
       if (success && socket) {

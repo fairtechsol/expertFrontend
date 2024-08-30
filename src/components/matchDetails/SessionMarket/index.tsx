@@ -7,7 +7,7 @@ import SessionMarketBox from "./SessionMarketBox";
 import { sessionBetLiveStatus } from "../../../store/actions/match/matchAction";
 import { AppDispatch } from "../../../store/store";
 import { useDispatch } from "react-redux";
-import { customSort } from "../../../helpers";
+import { customSortUpdated } from "../../../helpers";
 // import { formatToINR } from "../../helper";
 
 const SessionMarket = ({
@@ -144,18 +144,19 @@ const SessionMarket = ({
               cstmStyle,
             ]}
           >
-            {sessionData?.length > 0 &&
-              sessionData
+            {sessionData?.section?.length > 0 &&
+              sessionData?.section
+                ?.filter((item: any) => item?.activeStatus === "live")
                 ?.slice()
-                .sort(customSort)
+                .sort(customSortUpdated)
                 ?.map((match: any, index: number) => {
-                  if (JSON.parse(match).selectionId) {
+                  if (match.id) {
                     return (
-                      <Box key={JSON.parse(match)?.id}>
+                      <Box key={match?.SelectionId}>
                         <SessionMarketBox
                           hideResult={hideResult}
                           hideTotalBet={hideTotalBet}
-                          newData={JSON.parse(match)}
+                          newData={match}
                           profitLossData={profitLossData}
                           index={index}
                           hideEditMaxButton={hideEditMaxButton}

@@ -6,7 +6,7 @@ import { ARROWUP } from "../../../assets";
 import SessionMarketBoxLive from "./SessionMarketBoxLive";
 import { formatToINR } from "../../helper";
 
-const SessionMarketLive = ({ title, sessionData, currentMatch }: any) => {
+const SessionMarketLive = ({ title, sessionData, currentMatch, type }: any) => {
   const [matchSessionData, setMatchSessionData] = useState(sessionData);
   useEffect(() => {
     setMatchSessionData(
@@ -129,6 +129,8 @@ const SessionMarketLive = ({ title, sessionData, currentMatch }: any) => {
                       currentMatch={currentMatch}
                       newData={match}
                       index={index}
+                      gtype={sessionData?.gtype}
+                      type={type}
                     />
                     <Divider />
                   </Box>
