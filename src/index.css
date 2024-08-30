@@ -1,7 +1,7 @@
-*{
-  box-sizing: border-box;  
+* {
+  box-sizing: border-box;
 }
-body{
+body {
   margin: 0;
 }
 
@@ -9,10 +9,9 @@ body{
   width: 400px;
   justify-content: space-around;
 }
-.mainMenu .mainMenu-list a{
-  
+.mainMenu .mainMenu-list a {
   margin: 0;
-  font-family: Poppins,sans-serif;
+  font-family: Poppins, sans-serif;
   line-height: 1.5;
   font-size: 11px;
   font-weight: 700;
@@ -20,14 +19,13 @@ body{
   text-transform: uppercase;
   text-decoration: none;
   border-radius: 5px;
- 
 }
-.mainMenu .mainMenu-list a.matchList{
+.mainMenu .mainMenu-list a.matchList {
   background-color: #fff;
   color: green;
   padding: 5px 10px;
 }
-.dropDownMenu ul{
+.dropDownMenu ul {
   margin: 0 !important;
   padding: 0 !important;
 }
@@ -35,11 +33,11 @@ body{
   padding: 0 !important;
   margin: 0 !important;
 }
-.dropDownMenu .dropDownMenu-list a{
+.dropDownMenu .dropDownMenu-list a {
   color: #212121;
   text-decoration: none;
   margin: 0;
-  font-family: Poppins,sans-serif;
+  font-family: Poppins, sans-serif;
   font-weight: 400;
   font-size: 1rem;
   line-height: 1.5;
@@ -47,9 +45,7 @@ body{
   font-weight: 600;
 }
 
-
 .slanted {
-
   background: "#f1c550";
   position: relative;
 }
@@ -57,9 +53,9 @@ body{
 .slanted:after {
   content: "";
   position: absolute;
-  align-self: 'center';
-  border-left: 38px solid #f1c550;
-  border-bottom: 38px solid #262626;
+  align-self: "center";
+  border-left: 35px solid #f1c550;
+  border-bottom: 35px solid #262626;
   /* page background color */
 }
 
@@ -69,8 +65,8 @@ input[type="number"] {
   appearance: textfield;
 }
 
-input[type=number]::-webkit-inner-spin-button,
-input[type=number]::-webkit-outer-spin-button {
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
   -webkit-appearance: none;
 }
 
@@ -102,7 +98,7 @@ input[type=number]::-webkit-outer-spin-button {
 .number-input button:after {
   display: inline-block;
   position: absolute;
-  content: '';
+  content: "";
   width: 1rem;
   height: 2px;
   background-color: #212121;
@@ -113,10 +109,10 @@ input[type=number]::-webkit-outer-spin-button {
   transform: translate(-50%, -50%) rotate(90deg);
 }
 
-.number-input input[type=number] {
+.number-input input[type="number"] {
   font-family: sans-serif;
   max-width: 5rem;
-  padding: .5rem;
+  padding: 0.5rem;
   border: solid #ddd;
   border-width: 0 2px;
   text-align: center;
@@ -124,11 +120,11 @@ input[type=number]::-webkit-outer-spin-button {
 
 /* Hide scrollbar for IE, Edge and Firefox */
 .scroll {
-  display: 'flex';
+  display: "flex";
   -ms-overflow-style: none;
   /* IE and Edge */
   scrollbar-width: none;
-  flex-direction: 'row';
+  flex-direction: "row";
   /* Firefox */
 }
 
@@ -155,10 +151,7 @@ input[type=number]::-webkit-outer-spin-button {
   }
 }
 
-
-
-.example-2
-{
+.example-2 {
   width: 100px;
   letter-spacing: 1px;
   color: #fff;

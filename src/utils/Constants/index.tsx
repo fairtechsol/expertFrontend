@@ -87,6 +87,7 @@ export const Constants = {
     betOddsOtherGames: "betOdds/otherGames",
     betOddsRace: "betOdds/race",
     session: "session",
+    sessionBetList: "sessionBetList",
     market: "market",
     changePassword: "change-password",
   },
@@ -165,7 +166,7 @@ export const eventWiseMatchData = {
         apiKey: "manualTiedMatch",
         label: "Manual Tied Match Max Bet",
         name: "ManualTide",
-      }
+      },
     ],
     market: [
       {
@@ -348,6 +349,15 @@ export const profitLossDataForMatchConstants = {
     },
     {}
   ),
+};
+
+export const gameTypeMatchBetting = {
+  match: "match",
+  match1: "match1",
+  fancy: "fancy",
+  fancy1: "fancy1",
+  oddeven: "oddeven",
+  cricketcasino: "cricketcasino",
 };
 
 export const addMatchThirdParty =
