@@ -237,86 +237,16 @@ const CasinoMarket = ({ title, sessionData, currentMatch, type }: any) => {
                 },
               }}
             >
-              <CasinoMarketBox
-                newData={
-                  sessionData?.section?.length > 0
-                    ? sessionData?.section[0]
-                    : {}
-                }
-                index={0}
-              />
-              <CasinoMarketBox
-                newData={
-                  sessionData?.section?.length > 0
-                    ? sessionData?.section[1]
-                    : {}
-                }
-                index={1}
-              />
-              <CasinoMarketBox
-                newData={
-                  sessionData?.section?.length > 0
-                    ? sessionData?.section[2]
-                    : {}
-                }
-                index={2}
-              />
-              <CasinoMarketBox
-                newData={
-                  sessionData?.section?.length > 0
-                    ? sessionData?.section[3]
-                    : {}
-                }
-                index={3}
-              />
-              <CasinoMarketBox
-                newData={
-                  sessionData?.section?.length > 0
-                    ? sessionData?.section[4]
-                    : {}
-                }
-                index={4}
-              />
-              <CasinoMarketBox
-                newData={
-                  sessionData?.section?.length > 0
-                    ? sessionData?.section[5]
-                    : {}
-                }
-                index={5}
-              />
-              <CasinoMarketBox
-                newData={
-                  sessionData?.section?.length > 0
-                    ? sessionData?.section[6]
-                    : {}
-                }
-                index={6}
-              />
-              <CasinoMarketBox
-                newData={
-                  sessionData?.section?.length > 0
-                    ? sessionData?.section[7]
-                    : {}
-                }
-                index={7}
-              />
-              <CasinoMarketBox
-                newData={
-                  sessionData?.section?.length > 0
-                    ? sessionData?.section[8]
-                    : {}
-                }
-                index={8}
-              />
-              <CasinoMarketBox
-                newData={
-                  sessionData?.section?.length > 0
-                    ? sessionData?.section[9]
-                    : {}
-                }
-                index={9}
-              />
+              {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]?.map((item: any) => (
+                <CasinoMarketBox
+                  newData={
+                    sessionData?.section?.length > 0
+                      ? sessionData?.section[item]
+                      : {}
+                  }
+                  index={item}
+                />
+              ))}
               <Divider />
             </Box>
           </Box>
