@@ -320,7 +320,7 @@ const SessionMarketBox = ({
               value={formatNumber(newData?.ex?.availableToLay[0]?.price || 0)}
               value2={formatNumber(newData?.ex?.availableToLay[0]?.size || 0)}
               lock={newData?.GameStatus === "SUSPENDED"}
-              color="#F6D0CB"
+              color={newData?.type === "oddEven" ? "#B3E0FF" : "#F6D0CB"}
             />
 
             <Box
@@ -467,7 +467,7 @@ const SessionMarketBox = ({
                     newData?.ex?.availableToLay[item]?.size || 0
                   )}
                   lock={newData?.GameStatus === "SUSPENDED"}
-                  color="#F6D0CB"
+                  color={newData?.type === "oddEven" ? "#B3E0FF" : "#F6D0CB"}
                 />
 
                 <Box

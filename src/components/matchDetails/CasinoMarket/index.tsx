@@ -1,13 +1,13 @@
-import { memo, useState } from "react";
 import { Box, Typography } from "@mui/material";
-import Divider from "../../Common/Divider";
-import { ARROWUP } from "../../../assets";
-import { formatToINR } from "../../helper";
-import { AppDispatch } from "../../../store/store";
+import { memo, useState } from "react";
 import { useDispatch } from "react-redux";
-import CasinoMarketBox from "./CasinoMarketBox";
+import { ARROWUP } from "../../../assets";
 import { sessionBetLiveStatus } from "../../../store/actions/match/matchAction";
+import { AppDispatch } from "../../../store/store";
+import Divider from "../../Common/Divider";
+import { formatToINR } from "../../helper";
 import Result from "../Result";
+import CasinoMarketBox from "./CasinoMarketBox";
 import CustomCasinoMarketResult from "./CustomCasinoMarketResult";
 import LiveStatusButtonBox from "./LiveStatusButtonBox";
 
@@ -237,26 +237,69 @@ const CasinoMarket = ({ title, sessionData, currentMatch, type }: any) => {
                 },
               }}
             >
-              {sessionData?.section?.length > 0 &&
-                sessionData?.section
-                  ?.filter((item: any) => !item?.activeStatus)
-                  ?.map((match: any, index: any) => {
-                    return (
-                      <Box key={index}>
-                        <CasinoMarketBox
-                          currentMatch={currentMatch}
-                          newData={match}
-                          index={index}
-                          gtype={sessionData?.gtype}
-                          type={type}
-                          activeStatus={sessionData?.activeStatus}
-                        />
-                        <Divider />
-                      </Box>
-                    );
-                  })}
+              <CasinoMarketBox
+                newData={
+                  (sessionData?.section[0] && sessionData?.section[0]) ?? {}
+                }
+                index={0}
+              />
+              <CasinoMarketBox
+                newData={
+                  (sessionData?.section[1] && sessionData?.section[1]) ?? {}
+                }
+                index={1}
+              />
+              <CasinoMarketBox
+                newData={
+                  (sessionData?.section[2] && sessionData?.section[2]) ?? {}
+                }
+                index={2}
+              />
+              <CasinoMarketBox
+                newData={
+                  (sessionData?.section[3] && sessionData?.section[3]) ?? {}
+                }
+                index={3}
+              />
+              <CasinoMarketBox
+                newData={
+                  (sessionData?.section[4] && sessionData?.section[4]) ?? {}
+                }
+                index={4}
+              />
+              <CasinoMarketBox
+                newData={
+                  (sessionData?.section[5] && sessionData?.section[5]) ?? {}
+                }
+                index={5}
+              />
+              <CasinoMarketBox
+                newData={
+                  (sessionData?.section[6] && sessionData?.section[6]) ?? {}
+                }
+                index={6}
+              />
+              <CasinoMarketBox
+                newData={
+                  (sessionData?.section[7] && sessionData?.section[7]) ?? {}
+                }
+                index={7}
+              />
+              <CasinoMarketBox
+                newData={
+                  (sessionData?.section[8] && sessionData?.section[8]) ?? {}
+                }
+                index={8}
+              />
+              <CasinoMarketBox
+                newData={
+                  (sessionData?.section[9] && sessionData?.section[9]) ?? {}
+                }
+                index={9}
+              />
+              <Divider />
             </Box>
-          </Box>{" "}
+          </Box>
         </>
       )}
     </Box>

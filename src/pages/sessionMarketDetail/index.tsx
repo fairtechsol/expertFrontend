@@ -1,5 +1,5 @@
 import { Box, Stack } from "@mui/material";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import RunsBox from "../../components/matchDetails/RunsBox";
@@ -328,8 +328,6 @@ const SessionMarketDetail = () => {
   //     !JSON.parse(item)?.isComplete && JSON.parse(item)?.showSessions
   // );
 
-  console.log(matchDetail?.updatedSesssionBettings, "abc");
-
   return (
     <>
       <Stack spacing={2} direction={{ lg: "row", xs: "column" }}>
@@ -340,7 +338,7 @@ const SessionMarketDetail = () => {
                 if (name === "session" || name === "fancy1") {
                   return (
                     <SessionMarketLive
-                      s={name}
+                      key={name}
                       title={item?.mname}
                       sessionData={item}
                       type={name}
@@ -359,7 +357,7 @@ const SessionMarketDetail = () => {
                   return null;
                 } else if (name === "cricketCasino") {
                   return (
-                    <>
+                    <React.Fragment key={name}>
                       {item?.section
                         ?.filter((items: any) => !items?.activeStatus)
                         ?.map((items: any) => (
@@ -372,7 +370,7 @@ const SessionMarketDetail = () => {
                             type={name}
                           />
                         ))}
-                    </>
+                    </React.Fragment>
                   );
                 } else
                   return (
