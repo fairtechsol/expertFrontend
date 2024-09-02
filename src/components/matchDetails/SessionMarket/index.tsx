@@ -62,7 +62,7 @@ const SessionMarket = ({
         >
           <Typography
             sx={{
-              fontSize: { lg: "13px", md: "12px", xs: "12px" },
+              fontSize: "10px",
               fontWeight: "bold",
               marginLeft: "7px",
             }}

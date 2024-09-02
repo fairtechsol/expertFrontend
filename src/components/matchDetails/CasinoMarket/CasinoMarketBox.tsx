@@ -3,22 +3,9 @@ import Divider from "../../Common/Divider";
 import SeparateBox from "../SeparateBox";
 import { formatNumber } from "../../helper";
 
-const CasinoMarketBox = ({ newData, index, activeStatus }: any) => {
+const CasinoMarketBox = ({ newData, index }: any) => {
   return (
-    <div style={{ position: "relative" }}>
-      {activeStatus !== "live" && (
-        <Box
-          sx={{
-            margin: "1px",
-            width: { lg: "100%", xs: "100%" },
-            height: "100%",
-            right: 0,
-            position: "absolute",
-            background: "rgba(0,0,0,0.4)",
-            zIndex: 2,
-          }}
-        ></Box>
-      )}
+    <div>
       <Box
         sx={{
           display: "flex",
