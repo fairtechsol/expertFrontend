@@ -181,61 +181,61 @@ const SessionMarketBoxLive = ({
         )}
       </Box>
       <Divider />
-      {newData?.ex?.availableToBack?.length > 1 &&
-        [1, 2].map((item: any) => {
-          return (
-            <>
+      {Array.from(
+        { length: newData?.ex?.availableToLay?.length - 1 },
+        (_, i) => i + 1
+      ).map((item: number) => {
+        return (
+          <>
+            <Box
+              key={item}
+              sx={{
+                display: "flex",
+                background: "white",
+                height: "40px",
+                width: "100%",
+              }}
+            >
               <Box
-                key={item}
                 sx={{
                   display: "flex",
-                  background: "white",
+                  position: "relative",
+                  background: index % 2 === 0 ? "#FFE094" : "#ECECEC",
                   height: "40px",
                   width: "100%",
+                  justifyContent: "flex-end",
+                  alignItems: "center",
                 }}
               >
+                <SeparateBox
+                  width="13.8%"
+                  mWidth="12.5%"
+                  value={newData?.ex?.availableToLay[item]?.price}
+                  value2={formatNumber(newData?.ex?.availableToLay[item]?.size)}
+                  lock={newData?.GameStatus === "SUSPENDED"}
+                  color="#F6D0CB"
+                />
+
                 <Box
-                  sx={{
-                    display: "flex",
-                    position: "relative",
-                    background: index % 2 === 0 ? "#FFE094" : "#ECECEC",
-                    height: "40px",
-                    width: "100%",
-                    justifyContent: "flex-end",
-                    alignItems: "center",
-                  }}
-                >
-                  <SeparateBox
-                    width="13.8%"
-                    mWidth="12.5%"
-                    value={newData?.ex?.availableToLay[item]?.price}
-                    value2={formatNumber(
-                      newData?.ex?.availableToLay[item]?.size
-                    )}
-                    lock={newData?.GameStatus === "SUSPENDED"}
-                    color="#F6D0CB"
-                  />
+                  sx={{ width: ".22%", display: "flex", background: "pink" }}
+                ></Box>
 
-                  <Box
-                    sx={{ width: ".22%", display: "flex", background: "pink" }}
-                  ></Box>
-
-                  <SeparateBox
-                    width="13.8%"
-                    mWidth="12.5%"
-                    value={newData?.ex?.availableToBack[item]?.price}
-                    value2={formatNumber(
-                      newData?.ex?.availableToBack[item]?.size
-                    )}
-                    lock={newData?.GameStatus === "SUSPENDED"}
-                    color="#B3E0FF"
-                  />
-                </Box>
+                <SeparateBox
+                  width="13.8%"
+                  mWidth="12.5%"
+                  value={newData?.ex?.availableToBack[item]?.price}
+                  value2={formatNumber(
+                    newData?.ex?.availableToBack[item]?.size
+                  )}
+                  lock={newData?.GameStatus === "SUSPENDED"}
+                  color="#B3E0FF"
+                />
               </Box>
-              <Divider />
-            </>
-          );
-        })}
+            </Box>
+            <Divider />
+          </>
+        );
+      })}
     </div>
   );
 };
