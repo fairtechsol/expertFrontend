@@ -9,7 +9,7 @@ import CasinoMarketBox from "./CasinoMarketBox";
 import { sessionBetLiveStatus } from "../../../store/actions/match/matchAction";
 import Result from "../Result";
 import CustomCasinoMarketResult from "./CustomCasinoMarketResult";
-import LiveStatusButtonBox from "./liveStatusButtonBox";
+import LiveStatusButtonBox from "./LiveStatusButtonBox";
 
 const CasinoMarket = ({ title, sessionData, currentMatch, type }: any) => {
   const [visible, setVisible] = useState(true);

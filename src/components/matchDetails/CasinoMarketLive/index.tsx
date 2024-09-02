@@ -8,7 +8,7 @@ import CasinoMarketBoxLive from "./CasinoMarketBoxLive";
 import { AppDispatch } from "../../../store/store";
 import { useDispatch } from "react-redux";
 import { addSession } from "../../../store/actions/addSession";
-import LiveStatusButtonBox from "../CasinoMarket/liveStatusButtonBox";
+import LiveStatusButtonBox from "../CasinoMarket/LiveStatusButtonBox";
 
 const CasinoMarketLive = ({
   title,
