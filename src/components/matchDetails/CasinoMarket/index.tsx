@@ -239,61 +239,81 @@ const CasinoMarket = ({ title, sessionData, currentMatch, type }: any) => {
             >
               <CasinoMarketBox
                 newData={
-                  (sessionData?.section[0] && sessionData?.section[0]) ?? {}
+                  sessionData?.section?.length > 0
+                    ? sessionData?.section[0]
+                    : {}
                 }
                 index={0}
               />
               <CasinoMarketBox
                 newData={
-                  (sessionData?.section[1] && sessionData?.section[1]) ?? {}
+                  sessionData?.section?.length > 0
+                    ? sessionData?.section[1]
+                    : {}
                 }
                 index={1}
               />
               <CasinoMarketBox
                 newData={
-                  (sessionData?.section[2] && sessionData?.section[2]) ?? {}
+                  sessionData?.section?.length > 0
+                    ? sessionData?.section[2]
+                    : {}
                 }
                 index={2}
               />
               <CasinoMarketBox
                 newData={
-                  (sessionData?.section[3] && sessionData?.section[3]) ?? {}
+                  sessionData?.section?.length > 0
+                    ? sessionData?.section[3]
+                    : {}
                 }
                 index={3}
               />
               <CasinoMarketBox
                 newData={
-                  (sessionData?.section[4] && sessionData?.section[4]) ?? {}
+                  sessionData?.section?.length > 0
+                    ? sessionData?.section[4]
+                    : {}
                 }
                 index={4}
               />
               <CasinoMarketBox
                 newData={
-                  (sessionData?.section[5] && sessionData?.section[5]) ?? {}
+                  sessionData?.section?.length > 0
+                    ? sessionData?.section[5]
+                    : {}
                 }
                 index={5}
               />
               <CasinoMarketBox
                 newData={
-                  (sessionData?.section[6] && sessionData?.section[6]) ?? {}
+                  sessionData?.section?.length > 0
+                    ? sessionData?.section[6]
+                    : {}
                 }
                 index={6}
               />
               <CasinoMarketBox
                 newData={
-                  (sessionData?.section[7] && sessionData?.section[7]) ?? {}
+                  sessionData?.section?.length > 0
+                    ? sessionData?.section[7]
+                    : {}
                 }
                 index={7}
               />
               <CasinoMarketBox
                 newData={
-                  (sessionData?.section[8] && sessionData?.section[8]) ?? {}
+                  sessionData?.section?.length > 0
+                    ? sessionData?.section[8]
+                    : {}
                 }
                 index={8}
               />
               <CasinoMarketBox
                 newData={
-                  (sessionData?.section[9] && sessionData?.section[9]) ?? {}
+                  sessionData?.section?.length > 0
+                    ? sessionData?.section[9]
+                    : {}
                 }
                 index={9}
               />
