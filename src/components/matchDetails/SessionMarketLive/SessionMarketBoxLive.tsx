@@ -111,7 +111,6 @@ const SessionMarketBoxLive = ({
             <SmallBox
               hide={true}
               onClick={(e: any) => {
-                debugger;
                 e.preventDefault();
               }}
               textSize="8px"
@@ -164,7 +163,7 @@ const SessionMarketBoxLive = ({
               value={newData?.ex?.availableToLay[0]?.price}
               value2={formatNumber(newData?.ex?.availableToLay[0]?.size)}
               lock={newData?.GameStatus === "SUSPENDED"}
-              color="#F6D0CB"
+              color={type === "oddEven" ? "#B3E0FF" : "#F6D0CB"}
             />
 
             <Box

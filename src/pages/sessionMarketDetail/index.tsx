@@ -34,6 +34,8 @@ import {
   updateSessionBetsPlace,
 } from "../../store/actions/match/matchAction";
 import { AppDispatch, RootState } from "../../store/store";
+import CasinoMarketLive from "../../components/matchDetails/CasinoMarketLive";
+import CasinoMarket from "../../components/matchDetails/CasinoMarket";
 
 const SessionMarketDetail = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -325,6 +327,9 @@ const SessionMarketDetail = () => {
   //   (item: any) =>
   //     !JSON.parse(item)?.isComplete && JSON.parse(item)?.showSessions
   // );
+
+  console.log(matchDetail?.updatedSesssionBettings, "abc");
+
   return (
     <>
       <Stack spacing={2} direction={{ lg: "row", xs: "column" }}>
@@ -342,7 +347,7 @@ const SessionMarketDetail = () => {
                       currentMatch={matchDetail}
                     />
                   );
-                } else return null;
+                }
               }
             )}
         </Box>
@@ -352,6 +357,23 @@ const SessionMarketDetail = () => {
               ([name, item]: any) => {
                 if (name === "session" || name === "fancy1") {
                   return null;
+                } else if (name === "cricketCasino") {
+                  return (
+                    <>
+                      {item?.section
+                        ?.filter((items: any) => !items?.activeStatus)
+                        ?.map((items: any) => (
+                          <CasinoMarketLive
+                            key={items?.SelectionId}
+                            title={items?.RunnerName}
+                            sessionData={items}
+                            currentMatch={matchDetail}
+                            gtype={items?.gtype}
+                            type={name}
+                          />
+                        ))}
+                    </>
+                  );
                 } else
                   return (
                     <SessionMarketLive
@@ -365,99 +387,86 @@ const SessionMarketDetail = () => {
               }
             )}
         </Box>
-        {/* {completedSessions?.length > 0 && (
-            <SessionMarket
-            title="Session Completed"
-            hideTotalBet={false}
-            stopAllHide={true}
-            profitLossData={matchDetail?.sessionProfitLoss}
-            sessionData={completedSessions}
-            hideResult={false}
-            currentMatch={matchDetail}
-            hideEditMaxButton={true}
-              cstmStyle={{
-                maxHeight: { sm: "40vh" },
-                }}
-                />
-                )} */}
-        {/* {!(
-            (completedSessions?.length > 0 || declaredSessions?.length > 0) &&
-            marketSessions?.length <= 0
-            ) && ( */}
         <Box sx={{ width: { lg: "100%" } }}>
           {matchDetail?.updatedSesssionBettings &&
             Object.entries(matchDetail?.updatedSesssionBettings)?.map(
-              ([name, item]: any) => (
-                <>
-                  <SessionMarket
-                    key={name}
-                    title={`${name} Completed`}
-                    hideTotalBet={false}
-                    stopAllHide={false}
-                    profitLossData={matchDetail?.sessionProfitLoss}
-                    sessionData={item}
-                    hideResult={true}
-                    currentMatch={matchDetail}
-                    hideEditMaxButton={false}
-                    section="completed"
-                  />
-                  <SessionMarket
-                    key={name}
-                    title={`${name} Market`}
-                    hideTotalBet={false}
-                    stopAllHide={false}
-                    profitLossData={matchDetail?.sessionProfitLoss}
-                    sessionData={item}
-                    hideResult={true}
-                    currentMatch={matchDetail}
-                    hideEditMaxButton={false}
-                    section="market"
-                  />
-                  <SessionMarket
-                    key={name}
-                    title={`${name} Declared`}
-                    hideTotalBet={false}
-                    stopAllHide={false}
-                    profitLossData={matchDetail?.sessionProfitLoss}
-                    sessionData={item}
-                    hideResult={true}
-                    currentMatch={matchDetail}
-                    hideEditMaxButton={false}
-                    section="declared"
-                  />
-                </>
-              )
+              ([name, item]: any) => {
+                if (name !== "cricketCasino") {
+                  return (
+                    <div key={name}>
+                      {item?.section?.filter(
+                        (item: any) =>
+                          item?.activeStatus !== "live" &&
+                          ((item?.resultData && item?.resultData === null) ||
+                            item?.result === null)
+                      )?.length > 0 && (
+                        <SessionMarket
+                          title={`${name} Completed`}
+                          hideTotalBet={false}
+                          stopAllHide={true}
+                          profitLossData={matchDetail?.sessionProfitLoss}
+                          sessionData={item}
+                          hideResult={false}
+                          currentMatch={matchDetail}
+                          hideEditMaxButton={true}
+                          cstmStyle={{
+                            maxHeight: { sm: "40vh" },
+                          }}
+                          section="completed"
+                        />
+                      )}
+                      <SessionMarket
+                        title={`${name} Market`}
+                        hideTotalBet={false}
+                        stopAllHide={false}
+                        profitLossData={matchDetail?.sessionProfitLoss}
+                        sessionData={item}
+                        hideResult={true}
+                        currentMatch={matchDetail}
+                        hideEditMaxButton={false}
+                        section="market"
+                      />
+                      {item?.section?.filter(
+                        (item: any) =>
+                          (item?.resultData && item?.resultData !== null) ||
+                          item?.result !== null
+                      )?.length > 0 && (
+                        <SessionMarket
+                          title={`${name} Declared`}
+                          hideTotalBet={false}
+                          stopAllHide={true}
+                          profitLossData={matchDetail?.sessionProfitLoss}
+                          sessionData={item}
+                          hideResult={false}
+                          currentMatch={matchDetail}
+                          hideEditMaxButton={true}
+                          cstmStyle={{
+                            maxHeight: { sm: "40vh" },
+                          }}
+                          section="declared"
+                        />
+                      )}
+                    </div>
+                  );
+                } else {
+                  return (
+                    <>
+                      {item?.section?.map((items: any) => (
+                        <CasinoMarket
+                          key={items?.SelectionId}
+                          title={items?.RunnerName}
+                          sessionData={items}
+                          currentMatch={matchDetail}
+                          gtype={items?.gtype}
+                          type={name}
+                        />
+                      ))}
+                    </>
+                  );
+                }
+              }
             )}
         </Box>
-        {/* <SessionMarket
-            title="Session Market"
-            hideTotalBet={false}
-            stopAllHide={false}
-            profitLossData={matchDetail?.sessionProfitLoss}
-            sessionData={marketSessions}
-            hideResult={true}
-            currentMatch={matchDetail}
-            hideEditMaxButton={false}
-          /> */}
-        {/* )} */}
-        {/* {declaredSessions?.length > 0 && (
-            <SessionMarket
-              title="Session Declared"
-              hideTotalBet={false}
-              stopAllHide={true}
-              profitLossData={matchDetail?.sessionProfitLoss}
-              sessionData={declaredSessions}
-              hideResult={false}
-              currentMatch={matchDetail}
-              hideEditMaxButton={true}
-              cstmStyle={{
-                maxHeight: { sm: "40vh" },
-              }}
-            />
-          )} */}
-        {/* <Box sx={{ width: { lg: "100%" } }}>
-          <BetListForSession allBetRates={placedBetsMatch} tag={true} />
-        </Box> */}
       </Stack>
       {sessionProLoss?.length > 0 && (
         <Box
