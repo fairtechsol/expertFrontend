@@ -3,20 +3,24 @@ import { Box, Typography } from "@mui/material";
 import Divider from "../../Common/Divider";
 import { ARROWUP } from "../../../assets";
 import { formatToINR } from "../../helper";
-import SmallBox from "../SmallBox";
 import { AppDispatch } from "../../../store/store";
 import { useDispatch } from "react-redux";
 import CasinoMarketBox from "./CasinoMarketBox";
 import { sessionBetLiveStatus } from "../../../store/actions/match/matchAction";
+import Result from "../Result";
+import CustomCasinoMarketResult from "./CustomCasinoMarketResult";
+import LiveStatusButtonBox from "./liveStatusButtonBox";
 
 const CasinoMarket = ({ title, sessionData, currentMatch, type }: any) => {
   const [visible, setVisible] = useState(true);
+  const [showResultModal, setShowResultModal] = useState(false);
   const dispatch: AppDispatch = useDispatch();
 
   return (
     <Box
       sx={{
         display: "flex",
+        position: "relative",
         backgroundColor: "white",
         flexDirection: "column",
         marginY: { lg: "4px" },
@@ -58,43 +62,42 @@ const CasinoMarket = ({ title, sessionData, currentMatch, type }: any) => {
             {title}{" "}
             {`(MIN: ${formatToINR(currentMatch?.betFairSessionMinBet)})`}
           </Typography>
+          <Box>
+            {sessionData?.activeStatus !== "live" && (
+              <LiveStatusButtonBox
+                hide={true}
+                onClick={(e: any) => {
+                  e.preventDefault();
+                  dispatch(
+                    sessionBetLiveStatus({
+                      status: "live",
+                      betId: sessionData?.id,
+                    })
+                  );
+                }}
+                textSize="8px"
+                width="28px"
+                color="#FF4D4D"
+              />
+            )}
+            {sessionData?.activeStatus === "live" && (
+              <LiveStatusButtonBox
+                hide={true}
+                onClick={(e: any) => {
+                  e.preventDefault();
+                  dispatch(
+                    sessionBetLiveStatus({
+                      status: "save",
+                      betId: sessionData?.id,
+                    })
+                  );
+                }}
+                textSize="8px"
+                width="33px"
+              />
+            )}
+          </Box>
         </Box>
-        <Box>
-          {sessionData?.activeStatus !== "live" && (
-            <SmallBox
-              hide={true}
-              onClick={(e: any) => {
-                e.preventDefault();
-                dispatch(
-                  sessionBetLiveStatus({
-                    status: "live",
-                    betId: sessionData?.id,
-                  })
-                );
-              }}
-              textSize="8px"
-              width="28px"
-              color="#FF4D4D"
-            />
-          )}
-          {sessionData?.activeStatus === "live" && (
-            <SmallBox
-              hide={true}
-              onClick={(e: any) => {
-                e.preventDefault();
-                dispatch(
-                  sessionBetLiveStatus({
-                    status: "save",
-                    betId: sessionData?.id,
-                  })
-                );
-              }}
-              textSize="8px"
-              width="33px"
-            />
-          )}
-        </Box>
-
         <Box
           sx={{
             flex: 0.1,
@@ -104,6 +107,7 @@ const CasinoMarket = ({ title, sessionData, currentMatch, type }: any) => {
         >
           <div className="slanted"></div>
         </Box>
+
         <Box
           sx={{
             flex: 0.5,
@@ -114,7 +118,35 @@ const CasinoMarket = ({ title, sessionData, currentMatch, type }: any) => {
             justifyContent: "flex-end",
           }}
         >
-          {/* <SmallBoxSeason /> */}
+          {sessionData?.activeStatus !== "live" && (
+            <Result
+              width={7}
+              onClick={() => {
+                setShowResultModal(true);
+              }}
+            />
+          )}
+          {showResultModal && (
+            <Box
+              sx={{
+                position: "absolute",
+                zIndex: 105,
+                top: 0,
+                right: 0,
+                width: "100%",
+                display: "flex",
+                justifyContent: "end",
+              }}
+              className="example-2"
+            >
+              <CustomCasinoMarketResult
+                newData={sessionData}
+                onClick={() => {
+                  setShowResultModal(false);
+                }}
+              />
+            </Box>
+          )}
           <img
             onClick={() => {
               setVisible(!visible);
@@ -132,47 +164,100 @@ const CasinoMarket = ({ title, sessionData, currentMatch, type }: any) => {
         </Box>
       </Box>
       {visible && (
-        <Box
-          sx={{
-            width: "100%",
-            alignItems: "center",
-            display: "flex",
-            flexDirection: "column",
-          }}
-        >
+        <>
           <Box
             sx={{
+              position: "relative",
+              width: "100%",
+              alignItems: "center",
               display: "flex",
               flexDirection: "column",
-              width: "100%",
-              position: "relative",
-              maxHeight: { lg: "85vh", xs: "40vh" },
-              overflowY: "auto",
-              "::-webkit-scrollbar": {
-                display: "none",
-              },
             }}
           >
-            {sessionData?.section?.length > 0 &&
-              sessionData?.section
-                ?.filter((item: any) => !item?.activeStatus)
-                ?.map((match: any, index: any) => {
-                  return (
-                    <Box key={index}>
-                      <CasinoMarketBox
-                        currentMatch={currentMatch}
-                        newData={match}
-                        index={index}
-                        gtype={sessionData?.gtype}
-                        type={type}
-                        activeStatus={sessionData?.activeStatus}
-                      />
-                      <Divider />
-                    </Box>
-                  );
-                })}
-          </Box>
-        </Box>
+            {sessionData?.activeStatus !== "live" && (
+              <Box
+                sx={{
+                  margin: "1px",
+                  width: "100%",
+                  height: "100%",
+                  right: 0,
+                  position: "absolute",
+                  background: "rgba(0,0,0,0.4)",
+                  zIndex: 2,
+                }}
+              >
+                {sessionData?.resultStatus ? (
+                  <Typography
+                    sx={{
+                      color: "#fff",
+                      height: "100%",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      fontWeight: "500",
+                      textTransform: "uppercase",
+                    }}
+                  >
+                    Result {sessionData?.resultStatus}
+                  </Typography>
+                ) : (
+                  !["ACTIVE", "active", "", undefined, null, 0].includes(
+                    sessionData?.GameStatus
+                  ) ||
+                  (sessionData?.result && (
+                    <Typography
+                      sx={{
+                        color: "#fff",
+                        height: "100%",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        fontWeight: "500",
+                        textTransform: "uppercase",
+                      }}
+                    >
+                      {sessionData?.result
+                        ? `Declared`
+                        : sessionData?.GameStatus}
+                    </Typography>
+                  ))
+                )}
+              </Box>
+            )}
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                width: "100%",
+                position: "relative",
+                maxHeight: { lg: "85vh", xs: "40vh" },
+                overflowY: "auto",
+                "::-webkit-scrollbar": {
+                  display: "none",
+                },
+              }}
+            >
+              {sessionData?.section?.length > 0 &&
+                sessionData?.section
+                  ?.filter((item: any) => !item?.activeStatus)
+                  ?.map((match: any, index: any) => {
+                    return (
+                      <Box key={index}>
+                        <CasinoMarketBox
+                          currentMatch={currentMatch}
+                          newData={match}
+                          index={index}
+                          gtype={sessionData?.gtype}
+                          type={type}
+                          activeStatus={sessionData?.activeStatus}
+                        />
+                        <Divider />
+                      </Box>
+                    );
+                  })}
+            </Box>
+          </Box>{" "}
+        </>
       )}
     </Box>
   );

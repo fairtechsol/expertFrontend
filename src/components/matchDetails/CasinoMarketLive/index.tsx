@@ -5,10 +5,10 @@ import Divider from "../../Common/Divider";
 import { ARROWUP } from "../../../assets";
 import { formatToINR } from "../../helper";
 import CasinoMarketBoxLive from "./CasinoMarketBoxLive";
-import SmallBox from "../SmallBox";
 import { AppDispatch } from "../../../store/store";
 import { useDispatch } from "react-redux";
 import { addSession } from "../../../store/actions/addSession";
+import LiveStatusButtonBox from "../CasinoMarket/liveStatusButtonBox";
 
 const CasinoMarketLive = ({
   title,
@@ -100,7 +100,7 @@ const CasinoMarketLive = ({
           }
         >
           {!live && (
-            <SmallBox
+            <LiveStatusButtonBox
               hide={true}
               onClick={(e: any) => {
                 e.preventDefault();
@@ -113,7 +113,7 @@ const CasinoMarketLive = ({
             />
           )}
           {live && (
-            <SmallBox
+            <LiveStatusButtonBox
               hide={true}
               onClick={(e: any) => {
                 e.preventDefault();
