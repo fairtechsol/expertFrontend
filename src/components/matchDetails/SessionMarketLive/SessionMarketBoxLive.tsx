@@ -18,22 +18,6 @@ const SessionMarketBoxLive = ({
   const dispatch: AppDispatch = useDispatch();
 
   const [live, setLive] = useState<any>(newData?.ActiveStatus ? true : false);
-  let arr: any = [];
-
-  function fillArrayBasedOnLength(data: any) {
-    try {
-      let arr: any = [];
-
-      for (let i = 1; i < data?.length; i++) {
-        arr.push(i);
-      }
-      return arr;
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
-  fillArrayBasedOnLength(newData?.ex?.availableToLay || []);
 
   const handleLive = () => {
     const payload = {
@@ -197,7 +181,10 @@ const SessionMarketBoxLive = ({
         )}
       </Box>
       <Divider />
-      {arr.map((item: number) => {
+      {Array.from(
+        { length: newData?.ex?.availableToLay?.length - 1 },
+        (_, i) => i + 1
+      ).map((item: number) => {
         return (
           <>
             <Box

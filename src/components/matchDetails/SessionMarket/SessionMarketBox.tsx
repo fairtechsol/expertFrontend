@@ -30,23 +30,6 @@ const SessionMarketBox = ({
   const [visible, setVisible] = useState(false);
   const [maxLimitModal, setShowMaxLimitModal] = useState(false);
 
-  let arr: any = [];
-
-  function fillArrayBasedOnLength(data: any) {
-    try {
-      let arr: any = [];
-
-      for (let i = 1; i < data?.length; i++) {
-        arr.push(i);
-      }
-      return arr;
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
-  fillArrayBasedOnLength(newData?.ex?.availableToLay);
-
   useEffect(() => {
     if (statusBetLive) {
       setLoading(false);
@@ -362,7 +345,10 @@ const SessionMarketBox = ({
         )}
       </Box>
       <Divider />
-      {arr?.map((item: number) => (
+      {Array.from(
+        { length: newData?.ex?.availableToLay?.length - 1 },
+        (_, i) => i + 1
+      )?.map((item: number) => (
         <Box
           sx={{
             display: "flex",
