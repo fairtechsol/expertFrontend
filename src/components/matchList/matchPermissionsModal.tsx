@@ -24,28 +24,27 @@ const MatchPermissionsModal = (props: any) => {
   const navigate = useNavigate();
   const matchesMobile = useMediaQuery(theme.breakpoints.down("lg"));
 
-
-  const uniqueNames :any = [];
+  const uniqueNames: any = [];
   let overUnderIncluded = false;
 
-const filteredData = data?.matchBettings.filter((item:any) => {
-  if (item.name.includes('over_under')) {
-    if (!overUnderIncluded) {
-      overUnderIncluded = true;
-      uniqueNames.push(item.name);
-      return true;
+  const filteredData = data?.matchBettings.filter((item: any) => {
+    if (item.name.includes("over_under")) {
+      if (!overUnderIncluded) {
+        overUnderIncluded = true;
+        uniqueNames.push(item.name);
+        return true;
+      }
+      return false;
     }
-    return false;
-  }
-  return true;
-});
+    return true;
+  });
   return (
     <Box
       sx={{
         width: "100%",
         display: "flex",
         background: "#ffe094",
-        justifyContent: {xs:"end"},
+        justifyContent: { xs: "end" },
         minHeight: { xs: "auto", md: "auto", lg: "7rem" },
         // paddingRight:{xs:"5%"}
       }}
@@ -214,20 +213,36 @@ const filteredData = data?.matchBettings.filter((item:any) => {
               marginLeft: "10px",
             }}
           >
-            {data?.matchType === "cricket" && (getProfile?.allPrivilege ||
-              getProfile?.sessionMatchPrivilege) && (
-              <CustomButton
-                containerStyle={{
-                  margin: "5px",
-                }}
-                onClick={() => {
-                  navigate(`/expert/session`, {
-                    state: { id: data?.id, marketId: data?.marketId },
-                  });
-                }}
-                title={"Session"}
-              />
-            )}
+            {data?.matchType === "cricket" &&
+              (getProfile?.allPrivilege ||
+                getProfile?.sessionMatchPrivilege) && (
+                <CustomButton
+                  containerStyle={{
+                    margin: "5px",
+                  }}
+                  onClick={() => {
+                    navigate(`/expert/sessionBetList`, {
+                      state: { id: data?.id, marketId: data?.marketId },
+                    });
+                  }}
+                  title={"Market"}
+                />
+              )}
+            {data?.matchType === "cricket" &&
+              (getProfile?.allPrivilege ||
+                getProfile?.sessionMatchPrivilege) && (
+                <CustomButton
+                  containerStyle={{
+                    margin: "5px",
+                  }}
+                  onClick={() => {
+                    navigate(`/expert/session`, {
+                      state: { id: data?.id, marketId: data?.marketId },
+                    });
+                  }}
+                  title={"Session"}
+                />
+              )}
             {(getProfile?.allPrivilege ||
               getProfile?.betFairMatchPrivilege) && (
               <CustomButton

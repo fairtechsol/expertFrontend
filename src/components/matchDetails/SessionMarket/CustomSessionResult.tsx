@@ -118,7 +118,7 @@ const CustomSessionResult = ({ onClick, newData }: any) => {
                 value={selected}
                 // onChange={(e) => setSelected(e?.target.value)}
                 onChange={(e: any) => {
-                  const numericValue = e.target.replace(/[^0-9]/g, "");
+                  const numericValue = e.target.value.replace(/[^0-9]/g, "");
                   setSelected(numericValue);
                 }}
                 onKeyDown={handleInputKeyPress}

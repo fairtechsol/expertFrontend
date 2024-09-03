@@ -306,29 +306,6 @@ const SessionMarketDetail = () => {
     }
   }, []);
 
-  // let completedSessions = matchDetail?.sessionBettings?.filter(
-  //   (item: any) =>
-  //     JSON.parse(item)?.isComplete &&
-  //     JSON.parse(item)?.showSessions &&
-  //     ((JSON.parse(item)?.resultData &&
-  //       JSON.parse(item)?.resultData === null) ||
-  //       JSON.parse(item)?.result === null)
-  // );
-  // let declaredSessions = matchDetail?.sessionBettings?.filter(
-  //   (item: any) =>
-  //     JSON.parse(item)?.isComplete &&
-  //     JSON.parse(item)?.showSessions &&
-  //     ((JSON.parse(item)?.resultData &&
-  //       JSON.parse(item)?.resultData !== null) ||
-  //       JSON.parse(item)?.result !== null)
-  // );
-
-  // let marketSessions = matchDetail?.sessionBettings?.filter(
-  //   (item: any) =>
-  //     !JSON.parse(item)?.isComplete && JSON.parse(item)?.showSessions
-  // );
-
-  console.log(matchDetail?.updatedSesssionBettings, "abc");
   return (
     <>
       <Stack spacing={2} direction={{ lg: "row", xs: "column" }}>

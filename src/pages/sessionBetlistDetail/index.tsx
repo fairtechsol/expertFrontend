@@ -1,8 +1,16 @@
 import { Box, Stack } from "@mui/material";
-import { AppDispatch, RootState } from "../../store/store";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import CasinoMarket from "../../components/matchDetails/CasinoMarket";
+import RunsBox from "../../components/matchDetails/RunsBox";
+import SessionMarket from "../../components/matchDetails/SessionMarket";
+import {
+  expertSocketService,
+  socket,
+  socketService,
+} from "../../socketManager";
+import { matchSocketService } from "../../socketManager/matchSocket";
 import {
   getMatchDetail,
   removeSessionProLoss,
@@ -11,6 +19,10 @@ import {
   updateSessionAdded,
   updateSessionProLoss,
 } from "../../store/actions/addMatch/addMatchAction";
+import {
+  setCurrentOdd,
+  updateApiSessionById,
+} from "../../store/actions/addSession";
 import {
   getPlacedBetsForSessionDetail,
   getSessionProfitLossMatchDetailReset,
@@ -21,18 +33,7 @@ import {
   updateResultStatusOfSession,
   updateSessionBetsPlace,
 } from "../../store/actions/match/matchAction";
-import {
-  setCurrentOdd,
-  updateApiSessionById,
-} from "../../store/actions/addSession";
-import {
-  expertSocketService,
-  socket,
-  socketService,
-} from "../../socketManager";
-import { matchSocketService } from "../../socketManager/matchSocket";
-import SessionMarket from "../../components/matchDetails/SessionMarket";
-import RunsBox from "../../components/matchDetails/RunsBox";
+import { AppDispatch, RootState } from "../../store/store";
 import BetList from "../../components/matchDetails/BetList";
 
 const SessionBetlistDetail = () => {
@@ -306,48 +307,51 @@ const SessionBetlistDetail = () => {
       console.error(error);
     }
   }, []);
-
-  let completedSessions = matchDetail?.sessionBettings?.filter(
-    (item: any) =>
-      JSON.parse(item)?.isComplete &&
-      JSON.parse(item)?.showSessions &&
-      ((JSON.parse(item)?.resultData &&
-        JSON.parse(item)?.resultData === null) ||
-        JSON.parse(item)?.result === null)
-  );
-  let declaredSessions = matchDetail?.sessionBettings?.filter(
-    (item: any) =>
-      JSON.parse(item)?.isComplete &&
-      JSON.parse(item)?.showSessions &&
-      ((JSON.parse(item)?.resultData &&
-        JSON.parse(item)?.resultData !== null) ||
-        JSON.parse(item)?.result !== null)
-  );
-
-  let marketSessions = matchDetail?.sessionBettings?.filter(
-    (item: any) =>
-      !JSON.parse(item)?.isComplete && JSON.parse(item)?.showSessions
-  );
-
+console.log(matchDetail?.updatedSesssionBettings, "abc");
   return (
     <>
       <Stack spacing={2} direction={{ lg: "row", xs: "column" }}>
         <Box sx={{ width: { lg: "100%" } }}>
-          {!(
-            (completedSessions?.length > 0 || declaredSessions?.length > 0) &&
-            marketSessions?.length <= 0
-          ) && (
-            <SessionMarket
-              title="Session Market"
-              hideTotalBet={false}
-              stopAllHide={false}
-              profitLossData={matchDetail?.sessionProfitLoss}
-              sessionData={marketSessions}
-              hideResult={true}
-              currentMatch={matchDetail}
-              hideEditMaxButton={false}
-            />
-          )}
+          {matchDetail?.updatedSesssionBettings &&
+            Object.entries(matchDetail?.updatedSesssionBettings)?.map(
+              ([name, item]: any) => {
+                if (name !== "cricketCasino") {
+                  return (
+                    <div key={name}>
+                      {item?.section?.filter((items: any) => !items?.isComplete)
+                        ?.length > 0 && (
+                        <SessionMarket
+                          title={`${name} Market`}
+                          hideTotalBet={false}
+                          stopAllHide={false}
+                          profitLossData={matchDetail?.sessionProfitLoss}
+                          sessionData={item}
+                          hideResult={true}
+                          currentMatch={matchDetail}
+                          hideEditMaxButton={false}
+                          section="market"
+                        />
+                      )}
+                    </div>
+                  );
+                } else {
+                  return (
+                    <>
+                      {item?.section?.map((items: any) => (
+                        <CasinoMarket
+                          key={items?.SelectionId}
+                          title={items?.RunnerName || items?.name}
+                          sessionData={items}
+                          currentMatch={matchDetail}
+                          gtype={items?.gtype}
+                          type={name}
+                        />
+                      ))}
+                    </>
+                  );
+                }
+              }
+            )}
         </Box>
         <Box sx={{ width: { lg: "100%" } }}>
           <BetList allBetRates={placedBetsMatch} tag={true} />
