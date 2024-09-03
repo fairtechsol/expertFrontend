@@ -24,7 +24,7 @@ import {
   updateApiSessionById,
 } from "../../store/actions/addSession";
 import {
-  getPlacedBetsForSessionDetail,
+  getPlacedBetsMatch,
   getSessionProfitLossMatchDetailReset,
   updateDeletedBetReasonOnEdit,
   updateMatchBetsReason,
@@ -73,7 +73,7 @@ const SessionBetlistDetail = () => {
     try {
       if (event?.matchId === state?.id) {
         dispatch(getMatchDetail(state?.id));
-        dispatch(getPlacedBetsForSessionDetail(state?.id));
+        dispatch(getPlacedBetsMatch(state?.id));
       }
     } catch (e) {
       console.log(e);
@@ -121,7 +121,7 @@ const SessionBetlistDetail = () => {
     try {
       if (state?.id === event?.matchId) {
         dispatch(updateApiSessionById(event));
-        dispatch(getPlacedBetsForSessionDetail(state?.id));
+        dispatch(getPlacedBetsMatch(state?.id));
         if (event?.activeStatus === "result") {
           dispatch(
             removeSessionProLoss({
@@ -216,7 +216,7 @@ const SessionBetlistDetail = () => {
       if (state?.id) {
         dispatch(getSessionProfitLossMatchDetailReset());
         dispatch(getMatchDetail(state?.id));
-        dispatch(getPlacedBetsForSessionDetail(state?.id));
+        dispatch(getPlacedBetsMatch(state?.id));
       }
     } catch (e) {
       console.log(e);
