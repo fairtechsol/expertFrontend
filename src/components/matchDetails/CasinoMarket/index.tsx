@@ -11,7 +11,7 @@ import CasinoMarketBox from "./CasinoMarketBox";
 import CustomCasinoMarketResult from "./CustomCasinoMarketResult";
 import LiveStatusButtonBox from "./LiveStatusButtonBox";
 
-const CasinoMarket = ({ title, sessionData, currentMatch, type }: any) => {
+const CasinoMarket = ({ title, sessionData, currentMatch }: any) => {
   const [visible, setVisible] = useState(true);
   const [showResultModal, setShowResultModal] = useState(false);
   const dispatch: AppDispatch = useDispatch();

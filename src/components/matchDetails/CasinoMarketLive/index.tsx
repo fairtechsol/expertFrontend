@@ -85,7 +85,7 @@ const CasinoMarketLive = ({
               marginLeft: "7px",
             }}
           >
-            {title}{" "}
+            {title}
             {`(MIN: ${formatToINR(currentMatch?.betFairSessionMinBet)})`}
           </Typography>
         </Box>

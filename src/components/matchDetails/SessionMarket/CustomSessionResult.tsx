@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { CancelDark } from "../../../assets";
-import { Box, TextField, Typography } from "@mui/material";
+import { Box, Button, TextField, Typography } from "@mui/material";
 import SessionResultCustomButton from "../../addSession/AddSession/SessionResultCustomButton";
 import { AppDispatch, RootState } from "../../../store/store";
 import { useDispatch, useSelector } from "react-redux";
@@ -17,28 +17,29 @@ const CustomSessionResult = ({ onClick, newData }: any) => {
   const [loader, setLoading] = useState({ id: "", value: false });
   const [confirmNoResult, setConfirmNoResults] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
+  const [selectedFancyButton, setSelectedFancyButton] = useState("yes");
 
   const handleUndeclareResult = async () => {
     const payload = {
-      matchId: JSON.parse(newData)?.matchId,
-      betId: JSON.parse(newData)?.id,
+      matchId: newData?.matchId,
+      betId: newData?.id,
     };
     dispatch(undeclareResult(payload));
   };
 
   const handleNoResultDeclare = async () => {
     const payload = {
-      matchId: JSON.parse(newData)?.matchId,
-      betId: JSON.parse(newData)?.id,
+      matchId: newData?.matchId,
+      betId: newData?.id,
     };
     dispatch(noResultDeclare(payload));
   };
 
   const handleDeclare = () => {
     const payload = {
-      score: selected,
-      matchId: JSON.parse(newData)?.matchId,
-      betId: JSON.parse(newData)?.id,
+      score: newData?.type === "fancy1" ? selectedFancyButton : selected,
+      matchId: newData?.matchId,
+      betId: newData?.id,
     };
     dispatch(resultDeclare(payload));
   };
@@ -46,9 +47,9 @@ const CustomSessionResult = ({ onClick, newData }: any) => {
   const handleInputKeyPress = (event: any) => {
     try {
       if (event.key === "Enter") {
-        if (JSON.parse(newData)?.activeStatus !== "result") {
+        if (newData?.activeStatus !== "result") {
           handleDeclare();
-        } else if (JSON.parse(newData)?.activeStatus === "result") {
+        } else if (newData?.activeStatus === "result") {
           handleUndeclareResult();
         }
       }
@@ -83,36 +84,61 @@ const CustomSessionResult = ({ onClick, newData }: any) => {
     >
       {!confirmNoResult ? (
         <>
-          {JSON.parse(newData)?.activeStatus !== "result" && (
-            <TextField
-              autoFocus
-              placeholder="Score"
-              variant="standard"
-              value={selected}
-              // onChange={(e) => setSelected(e?.target.value)}
-              onChange={(e: any) => {
-                const numericValue = e.target.value.replace(/[^0-9]/g, "");
-                setSelected(numericValue);
-              }}
-              onKeyDown={handleInputKeyPress}
-              InputProps={{
-                disableUnderline: true,
-                sx: {
-                  alignSelf: "center",
-                  border: "1px solid #303030",
-                  borderRadius: "5px",
-                  paddingY: "5px",
-                  paddingX: "0.5vw",
-                  height: "28px",
-                  backgroundColor: "white",
-                },
-              }}
-            />
-          )}
+          {newData?.activeStatus !== "result" &&
+            (newData?.type === "fancy1" ? (
+              <>
+                <Button
+                  sx={{
+                    padding: 0,
+                    minWidth: "30px",
+                    color: selectedFancyButton === "yes" ? "white" : "",
+                    background: selectedFancyButton === "yes" ? "red" : "",
+                  }}
+                  onClick={() => setSelectedFancyButton("yes")}
+                >
+                  YES
+                </Button>
+                <Button
+                  sx={{
+                    padding: 0,
+                    minWidth: "30px",
+                    color: selectedFancyButton === "no" ? "white" : "",
+                    background: selectedFancyButton === "no" ? "red" : "",
+                  }}
+                  onClick={() => setSelectedFancyButton("no")}
+                >
+                  NO
+                </Button>
+              </>
+            ) : (
+              <TextField
+                autoFocus
+                placeholder="Score"
+                variant="standard"
+                value={selected}
+                // onChange={(e) => setSelected(e?.target.value)}
+                onChange={(e: any) => {
+                  const numericValue = e.target.replace(/[^0-9]/g, "");
+                  setSelected(numericValue);
+                }}
+                onKeyDown={handleInputKeyPress}
+                InputProps={{
+                  disableUnderline: true,
+                  sx: {
+                    alignSelf: "center",
+                    border: "1px solid #303030",
+                    borderRadius: "5px",
+                    paddingY: "5px",
+                    paddingX: "0.5vw",
+                    height: "28px",
+                    backgroundColor: "white",
+                  },
+                }}
+              />
+            ))}
           {!showPopup ? (
             <>
-              {JSON.parse(newData)?.activeStatus === "result" &&
-              JSON.parse(newData)?.result ? (
+              {newData?.activeStatus === "result" && newData?.result ? (
                 <SessionResultCustomButton
                   color={"#FF4D4D"}
                   title={"Un Declare"}
@@ -126,7 +152,7 @@ const CustomSessionResult = ({ onClick, newData }: any) => {
                 />
               ) : (
                 <>
-                  {JSON.parse(newData)?.activeStatus !== "result" ? (
+                  {newData?.activeStatus !== "result" ? (
                     <SessionResultCustomButton
                       color={"#0B4F26"}
                       id="DR"
@@ -161,7 +187,7 @@ const CustomSessionResult = ({ onClick, newData }: any) => {
               >
                 Are you sure to Undeclare Result ?
               </Typography>
-              {JSON.parse(newData)?.activeStatus === "result" && (
+              {newData?.activeStatus === "result" && (
                 <SessionResultCustomButton
                   color={"rgb(106 90 90)"}
                   title={"Yes"}
@@ -182,7 +208,7 @@ const CustomSessionResult = ({ onClick, newData }: any) => {
             </>
           )}
 
-          {JSON.parse(newData)?.activeStatus !== "result" && (
+          {newData?.activeStatus !== "result" && (
             <SessionResultCustomButton
               color={"rgb(106 90 90)"}
               title={"No Result"}
@@ -210,7 +236,7 @@ const CustomSessionResult = ({ onClick, newData }: any) => {
           >
             Are you sure to set No Result ?
           </Typography>
-          {JSON.parse(newData)?.activeStatus !== "result" && (
+          {newData?.activeStatus !== "result" && (
             <SessionResultCustomButton
               color={"rgb(106 90 90)"}
               title={"Yes"}
