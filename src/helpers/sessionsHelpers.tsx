@@ -50,7 +50,8 @@ export const updateSessionBettingsItem = (
               isComplete: apiSection?.ex
                 ? apiSection?.ex?.availableToBack?.length > 0 &&
                   apiSection?.ex?.availableToLay?.length > 0
-                  ? (!apiSection?.ex?.availableToBack[0]?.price &&
+                  ? ([""].includes(apiSection?.GameStatus) &&
+                      !apiSection?.ex?.availableToBack[0]?.price &&
                       !apiSection?.ex?.availableToBack[0]?.size &&
                       !apiSection?.ex?.availableToLay?.price &&
                       !apiSection?.ex?.availableToLay?.size) ||

@@ -4,6 +4,7 @@ import SeparateBox from "../SeparateBox";
 import { formatNumber } from "../../helper";
 
 const CasinoMarketBox = ({ newData, index }: any) => {
+  
   return (
     <div>
       <Box

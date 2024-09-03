@@ -58,7 +58,7 @@ const CasinoMarketBoxLive = ({ newData, index }: any) => {
           </Typography>
         </Box>
 
-        {!["ACTIVE", "", undefined, null].includes(newData?.GameStatus) ? (
+        {!["ACTIVE", "", undefined, null].includes(newData?.gstatus) ? (
           <Box
             sx={{
               margin: "1px",
@@ -82,7 +82,7 @@ const CasinoMarketBoxLive = ({ newData, index }: any) => {
                 fontWeight: "400",
               }}
             >
-              {newData?.GameStatus}
+              {newData?.gstatus}
             </Typography>
           </Box>
         ) : (
@@ -101,7 +101,7 @@ const CasinoMarketBoxLive = ({ newData, index }: any) => {
               width="30%"
               value={newData?.odds[0]?.odds || 0}
               value2={formatNumber(newData?.odds[0]?.size) || 0}
-              lock={newData?.GameStatus === "SUSPENDED"}
+              lock={newData?.gstatus === "SUSPENDED"}
               color="#B3E0FF"
             />
           </Box>
