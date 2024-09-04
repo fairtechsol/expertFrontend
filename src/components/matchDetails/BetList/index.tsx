@@ -5,6 +5,7 @@ import { ARROWUP } from "../../../assets";
 import { formatToINR } from "../../helper";
 import HeaderRow from "./HeaderRow";
 import Row from "./Row";
+import { betListColorConstants } from "../../../utils/Constants";
 
 const BetList = ({ tag, allBetRates }: any) => {
   const [newData, setNewBets] = useState([]);
@@ -48,12 +49,7 @@ const BetList = ({ tag, allBetRates }: any) => {
               color: ["NO", "YES"].includes(v?.betType) ? "#FFF" : "black",
               background: ["NO", "YES"].includes(v?.betType)
                 ? "#319E5B"
-                : v?.marketType === "completeMatch" ||
-                  v?.marketType === "completeManual" ||
-                  v?.marketType === "tiedMatch2" ||
-                  v?.marketType === "tiedMatch1"
-                ? "#faf11b"
-                : "#F1C550",
+                : betListColorConstants[v?.marketType],
               deleteReason: v?.deleteReason,
               width: { lg: "16%", xs: "50%" },
               domain: v?.domain,
@@ -66,12 +62,7 @@ const BetList = ({ tag, allBetRates }: any) => {
               color: ["NO", "YES"].includes(v?.betType) ? "#FFF" : "black",
               background: ["NO", "YES"].includes(v?.betType)
                 ? "#319E5B"
-                : v?.marketType === "completeMatch" ||
-                  v?.marketType === "completeManual" ||
-                  v?.marketType === "tiedMatch2" ||
-                  v?.marketType === "tiedMatch1"
-                ? "#faf11b"
-                : "#F1C550",
+                : betListColorConstants[v?.marketType],
               deleteReason: v?.deleteReason,
               width: { lg: "17%", xs: "35%" },
               overflowWrap: "anywhere",

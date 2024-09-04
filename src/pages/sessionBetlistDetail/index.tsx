@@ -24,7 +24,7 @@ import {
   updateApiSessionById,
 } from "../../store/actions/addSession";
 import {
-  getPlacedBetsMatch,
+  getPlacedBetsForSessionDetail,
   getSessionProfitLossMatchDetailReset,
   updateDeletedBetReasonOnEdit,
   updateMatchBetsReason,
@@ -73,7 +73,7 @@ const SessionBetlistDetail = () => {
     try {
       if (event?.matchId === state?.id) {
         dispatch(getMatchDetail(state?.id));
-        dispatch(getPlacedBetsMatch(state?.id));
+        dispatch(getPlacedBetsForSessionDetail(state?.id));
       }
     } catch (e) {
       console.log(e);
@@ -121,7 +121,7 @@ const SessionBetlistDetail = () => {
     try {
       if (state?.id === event?.matchId) {
         dispatch(updateApiSessionById(event));
-        dispatch(getPlacedBetsMatch(state?.id));
+        dispatch(getPlacedBetsForSessionDetail(state?.id));
         if (event?.activeStatus === "result") {
           dispatch(
             removeSessionProLoss({
@@ -216,7 +216,7 @@ const SessionBetlistDetail = () => {
       if (state?.id) {
         dispatch(getSessionProfitLossMatchDetailReset());
         dispatch(getMatchDetail(state?.id));
-        dispatch(getPlacedBetsMatch(state?.id));
+        dispatch(getPlacedBetsForSessionDetail(state?.id));
       }
     } catch (e) {
       console.log(e);
@@ -357,8 +357,11 @@ const SessionBetlistDetail = () => {
                           section="completed"
                         />
                       )}
-                      {item?.section?.filter((items: any) => !items?.isComplete)
-                        ?.length > 0 && (
+                      {item?.section?.filter((items: any) =>
+                        item?.isComplete
+                          ? item?.isComplete
+                          : false || items?.activeStatus === "live"
+                      )?.length > 0 && (
                         <SessionMarket
                           title={`${name} Market`}
                           hideTotalBet={false}
