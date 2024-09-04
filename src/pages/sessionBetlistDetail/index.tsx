@@ -357,8 +357,11 @@ const SessionBetlistDetail = () => {
                           section="completed"
                         />
                       )}
-                      {item?.section?.filter((items: any) => !items?.isComplete)
-                        ?.length > 0 && (
+                      {item?.section?.filter((items: any) =>
+                        item?.isComplete
+                          ? item?.isComplete
+                          : false || items?.activeStatus === "live"
+                      )?.length > 0 && (
                         <SessionMarket
                           title={`${name} Market`}
                           hideTotalBet={false}
