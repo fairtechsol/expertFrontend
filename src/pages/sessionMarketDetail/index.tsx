@@ -26,7 +26,7 @@ import {
   updateApiSessionById,
 } from "../../store/actions/addSession";
 import {
-  getPlacedBetsForSessionDetail,
+  // getPlacedBetsForSessionDetail,
   getSessionProfitLossMatchDetailReset,
   updateDeletedBetReasonOnEdit,
   updateMatchBetsReason,
@@ -71,7 +71,7 @@ const SessionMarketDetail = () => {
     try {
       if (event?.matchId === state?.id) {
         dispatch(getMatchDetail(state?.id));
-        dispatch(getPlacedBetsForSessionDetail(state?.id));
+        // dispatch(getPlacedBetsForSessionDetail(state?.id));
       }
     } catch (e) {
       console.log(e);
@@ -119,7 +119,7 @@ const SessionMarketDetail = () => {
     try {
       if (state?.id === event?.matchId) {
         dispatch(updateApiSessionById(event));
-        dispatch(getPlacedBetsForSessionDetail(state?.id));
+        // dispatch(getPlacedBetsForSessionDetail(state?.id));
         if (event?.activeStatus === "result") {
           dispatch(
             removeSessionProLoss({
@@ -176,6 +176,7 @@ const SessionMarketDetail = () => {
             id: event?.jobData?.placedBet?.betId,
             maxLoss: event?.redisData?.maxLoss,
             totalBet: event?.redisData?.totalBet,
+            profitLoss: event?.redisData?.betPlaced,
           })
         );
         dispatch(
@@ -214,7 +215,7 @@ const SessionMarketDetail = () => {
       if (state?.id) {
         dispatch(getSessionProfitLossMatchDetailReset());
         dispatch(getMatchDetail(state?.id));
-        dispatch(getPlacedBetsForSessionDetail(state?.id));
+        // dispatch(getPlacedBetsForSessionDetail(state?.id));
       }
     } catch (e) {
       console.log(e);
@@ -333,13 +334,19 @@ const SessionMarketDetail = () => {
               ([name, item]: any) => {
                 if (name === "session" || name === "fancy1") {
                   return (
-                    <SessionMarketLive
-                      key={name}
-                      title={item?.mname}
-                      sessionData={item}
-                      type={name}
-                      currentMatch={matchDetail}
-                    />
+                    <>
+                      {item?.section?.filter(
+                        (items: any) => !items?.activeStatus
+                      )?.length > 0 && (
+                        <SessionMarketLive
+                          key={name}
+                          title={item?.mname}
+                          sessionData={item}
+                          type={name}
+                          currentMatch={matchDetail}
+                        />
+                      )}
+                    </>
                   );
                 }
               }
@@ -370,21 +377,28 @@ const SessionMarketDetail = () => {
                   );
                 } else
                   return (
-                    <SessionMarketLive
-                      key={name}
-                      title={item?.mname}
-                      sessionData={item}
-                      type={name}
-                      currentMatch={matchDetail}
-                    />
+                    <>
+                      {item?.section?.filter(
+                        (items: any) => !items?.activeStatus
+                      )?.length > 0 && (
+                        <SessionMarketLive
+                          key={name}
+                          title={item?.mname}
+                          sessionData={item}
+                          type={name}
+                          currentMatch={matchDetail}
+                        />
+                      )}
+                    </>
                   );
               }
             )}
         </Box>
         <Box sx={{ width: { lg: "100%" } }}>
           {matchDetail?.updatedSesssionBettings &&
-            Object.entries(matchDetail?.updatedSesssionBettings)?.map(
-              ([name, item]: any) => {
+            Object.entries(matchDetail?.updatedSesssionBettings)
+              ?.sort(([nameA], [nameB]) => nameA.localeCompare(nameB))
+              ?.map(([name, item]: any) => {
                 if (name !== "cricketCasino") {
                   return (
                     <div key={name}>
@@ -456,13 +470,13 @@ const SessionMarketDetail = () => {
                           currentMatch={matchDetail}
                           gtype={items?.gtype}
                           type={name}
+                          profitLossData={matchDetail?.sessionProfitLoss}
                         />
                       ))}
                     </>
                   );
                 }
-              }
-            )}
+              })}
         </Box>
       </Stack>
       {sessionProLoss?.length > 0 && (

@@ -11,7 +11,12 @@ import CasinoMarketBox from "./CasinoMarketBox";
 import CustomCasinoMarketResult from "./CustomCasinoMarketResult";
 import LiveStatusButtonBox from "./LiveStatusButtonBox";
 
-const CasinoMarket = ({ title, sessionData, currentMatch }: any) => {
+const CasinoMarket = ({
+  title,
+  sessionData,
+  currentMatch,
+  profitLossData,
+}: any) => {
   const [visible, setVisible] = useState(true);
   const [showResultModal, setShowResultModal] = useState(false);
   const dispatch: AppDispatch = useDispatch();
@@ -244,6 +249,7 @@ const CasinoMarket = ({ title, sessionData, currentMatch }: any) => {
                       ? sessionData?.section[item]
                       : {}
                   }
+                  profitLoss={profitLossData && profitLossData[sessionData?.id]}
                   index={item}
                 />
               ))}
