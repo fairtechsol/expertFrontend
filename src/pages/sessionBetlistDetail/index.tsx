@@ -336,6 +336,27 @@ const SessionBetlistDetail = () => {
                 if (name !== "cricketCasino") {
                   return (
                     <div key={name}>
+                      {item?.section?.filter(
+                        (items: any) =>
+                          items?.isComplete &&
+                          ((items?.resultData && items?.resultData === null) ||
+                            items?.result === null)
+                      )?.length > 0 && (
+                        <SessionMarket
+                          title={`${name} Completed`}
+                          hideTotalBet={false}
+                          stopAllHide={true}
+                          profitLossData={matchDetail?.sessionProfitLoss}
+                          sessionData={item}
+                          hideResult={false}
+                          currentMatch={matchDetail}
+                          hideEditMaxButton={true}
+                          cstmStyle={{
+                            maxHeight: { sm: "40vh" },
+                          }}
+                          section="completed"
+                        />
+                      )}
                       {item?.section?.filter((items: any) => !items?.isComplete)
                         ?.length > 0 && (
                         <SessionMarket
@@ -348,6 +369,26 @@ const SessionBetlistDetail = () => {
                           currentMatch={matchDetail}
                           hideEditMaxButton={false}
                           section="market"
+                        />
+                      )}
+                      {item?.section?.filter(
+                        (items: any) =>
+                          (items?.resultData && items?.resultData !== null) ||
+                          items?.result !== null
+                      )?.length > 0 && (
+                        <SessionMarket
+                          title={`${name} Declared`}
+                          hideTotalBet={false}
+                          stopAllHide={true}
+                          profitLossData={matchDetail?.sessionProfitLoss}
+                          sessionData={item}
+                          hideResult={false}
+                          currentMatch={matchDetail}
+                          hideEditMaxButton={true}
+                          cstmStyle={{
+                            maxHeight: { sm: "40vh" },
+                          }}
+                          section="declared"
                         />
                       )}
                     </div>

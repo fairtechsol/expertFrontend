@@ -10,12 +10,16 @@ const PlaceBetComponent = ({ profitLossData, newData }: any) => {
     <>
       <Box
         onClick={() => {
-          dispatch(
-            getSessionProfitLossMatchDetail({
-              id: newData?.id,
-              name: newData?.name,
-            })
-          );
+          if (newData?.type === "fancy1" || newData?.type === "oddEven") {
+            return;
+          } else {
+            dispatch(
+              getSessionProfitLossMatchDetail({
+                id: newData?.id,
+                name: newData?.name,
+              })
+            );
+          }
         }}
         sx={{
           background: "#0B4F26",
@@ -74,7 +78,7 @@ const PlaceBetComponent = ({ profitLossData, newData }: any) => {
             alignItems: "center",
             justifyContent: "center",
             display: "flex",
-            overflowWrap: "anywhere"
+            overflowWrap: "anywhere",
           }}
         >
           <Typography

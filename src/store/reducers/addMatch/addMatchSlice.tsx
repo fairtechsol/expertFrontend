@@ -396,7 +396,7 @@ const addMatch = createSlice({
         state.matchAdded = false;
       })
       .addCase(updateMaxLoss.fulfilled, (state, action) => {
-        const { id, maxLoss, totalBet } = action?.payload;
+        const { id, maxLoss, totalBet, profitLoss } = action?.payload;
         state.matchDetail = {
           ...state.matchDetail,
           sessionProfitLoss: {
@@ -404,6 +404,7 @@ const addMatch = createSlice({
             [id]: {
               maxLoss,
               totalBet,
+              profitLoss,
             },
           },
         };

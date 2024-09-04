@@ -35,8 +35,8 @@ export const updateSessionBettingsItem = (
     }
     return matchDetailBettings;
   } else
-    for (const key in apiResponseBettings) {
-      if (matchDetailBettings.hasOwnProperty(key)) {
+    for (const key in matchDetailBettings) {
+      if (apiResponseBettings.hasOwnProperty(key)) {
         const apiSections = apiResponseBettings[key].section;
         const matchDetailSections = matchDetailBettings[key].section;
         for (const apiSection of apiSections) {

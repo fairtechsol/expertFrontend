@@ -151,7 +151,7 @@ const matchDeclare = createSlice({
       .addCase(declareMatchStatusReset, (state) => {
         state.success = false;
       })
-      
+
       .addCase(UnDeclareRaceResult.pending, (state) => {
         state.loading = true;
         state.success = false;

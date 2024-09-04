@@ -1,10 +1,9 @@
 import { Box, Typography } from "@mui/material";
 import Divider from "../../Common/Divider";
-import SeparateBox from "../SeparateBox";
 import { formatNumber } from "../../helper";
+import SeparateBox from "../SeparateBox";
 
-const CasinoMarketBox = ({ newData, index }: any) => {
-  
+const CasinoMarketBox = ({ newData, index, profitLoss }: any) => {
   return (
     <div>
       <Box
@@ -21,19 +20,42 @@ const CasinoMarketBox = ({ newData, index }: any) => {
             background: index % 2 === 0 ? "#FFE094" : "#ECECEC",
             height: "40px",
             width: "100%",
-            alignItems: "center",
+            justifyContent: "center",
+            flexDirection: "column",
           }}
         >
           <Typography
             sx={{
               color: "black",
+              fontSize: "10px",
+              marginLeft: { lg: "7px", md: "20px", xs: "20px" },
+              fontWeight: "600",
+              lineHeight: 1,
+              margin: "4px",
+            }}
+          >
+            {`${index} Number`}
+          </Typography>
+          <Typography
+            sx={{
+              color: profitLoss?.profitLoss
+                ? profitLoss?.profitLoss[index]
+                  ? profitLoss?.profitLoss[index] > 0
+                    ? "red"
+                    : profitLoss?.profitLoss[index] < 0
+                    ? "green"
+                    : "black"
+                  : "black"
+                : "black",
               fontSize: { lg: "10px", md: "10px", xs: "10px" },
               marginLeft: { lg: "7px", md: "20px", xs: "20px" },
               fontWeight: "600",
               lineHeight: 1,
             }}
           >
-            {`${index} Number`}
+            {profitLoss?.profitLoss
+              ? parseFloat(profitLoss?.profitLoss[index]).toFixed(2)
+              : 0}
           </Typography>
         </Box>
 
