@@ -118,7 +118,7 @@ const SessionLimit = (props: any) => {
       >
         <TextField
           autoFocus
-          placeholder="Betfair Session Max Bet"
+          placeholder="API Session Max Bet"
           variant="standard"
           type="number"
           // value={selected}

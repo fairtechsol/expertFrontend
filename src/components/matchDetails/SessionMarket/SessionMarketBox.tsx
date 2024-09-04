@@ -234,7 +234,7 @@ const SessionMarketBox = ({
             className="example-2"
           >
             <CustomSessionResult
-              newData={JSON.stringify(newData)}
+              newData={newData}
               onClick={() => {
                 setVisible(false);
               }}

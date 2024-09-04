@@ -1,5 +1,6 @@
 import { Box, Button, Typography } from "@mui/material";
 // import { makeStyles } from "@mui/styles";
+import { Checkbox, FormControlLabel } from "@mui/material";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
@@ -17,7 +18,6 @@ import BoxButtonManualMatch from "../../components/addMatch/ButtonSwitchManualMa
 import LabelValueComponent from "../../components/addMatch/LabelValueComponent";
 import MatchListInput from "../../components/addMatch/MatchListInput";
 import Constants from "../../components/helper/constants";
-import { Checkbox, FormControlLabel } from "@mui/material";
 import {
   addMatchExpert,
   addMatchReset,
@@ -967,9 +967,9 @@ const AddMatch = () => {
                 <MatchListInput
                   required={true}
                   containerStyle={{ flex: 1, width: "100%" }}
-                  label={"Betfair Session Max Bet*"}
+                  label={"API Session Max Bet*"}
                   type={"Number"}
-                  placeholder="Betfair Session Max Bet..."
+                  placeholder="API Session Max Bet..."
                   place={11}
                   name="betfairSessionMaxBet"
                   id="betfairSessionMaxBet"

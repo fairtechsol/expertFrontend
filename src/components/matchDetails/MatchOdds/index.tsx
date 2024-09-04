@@ -1,19 +1,19 @@
-import { useEffect, useState } from "react";
 import { Box, Typography } from "@mui/material";
-import Stop from "../SessionMarket/Stop";
-import Result from "../Result";
-import SmallBox from "../SmallBox";
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import { ARROWUP } from "../../../assets";
-import ResultComponent from "../../updateBookmaker/BookmakerEdit/ResultComponent";
-import Divider from "../../Common/Divider";
-import BoxComponent from "./BoxComponent";
-import SmallBox2 from "./SmallBox2";
 import { betLiveStatus } from "../../../store/actions/match/matchAction";
 import { AppDispatch } from "../../../store/store";
-import { useDispatch } from "react-redux";
 import { profitLossDataForMatchConstants } from "../../../utils/Constants";
+import Divider from "../../Common/Divider";
 import { formatToINR } from "../../helper";
+import ResultComponent from "../../updateBookmaker/BookmakerEdit/ResultComponent";
 import MaxBetAdd from "../MaxBetAdd";
+import Result from "../Result";
+import Stop from "../SessionMarket/Stop";
+import SmallBox from "../SmallBox";
+import BoxComponent from "./BoxComponent";
+import SmallBox2 from "./SmallBox2";
 
 const MatchOdds = ({ currentMatch, matchOddsLive, id }: any) => {
   const [visible, setVisible] = useState(false);
@@ -27,7 +27,7 @@ const MatchOdds = ({ currentMatch, matchOddsLive, id }: any) => {
     setOpen(true);
   };
 
-  const handleClose = (data:any) => {
+  const handleClose = (data: any) => {
     setOpen(data);
   };
   const dispatch: AppDispatch = useDispatch();
@@ -189,32 +189,31 @@ const MatchOdds = ({ currentMatch, matchOddsLive, id }: any) => {
                     }}
                   />
                   <div
-                  style={{
-                    width: "50px",
-                    height: "30px",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    borderRadius: "5px",
-                    backgroundColor: "#46e080",
-                    cursor: "pointer",
-                    marginRight:"10px"
-                  }}
-                  onClick={handleClickOpen}
-                >
-                  <span
                     style={{
-                      fontSize: "12px",
-                      fontWeight: "500",
-                      color: "#fff",
-                      fontFamily:"Poppins, sans-serif"
+                      width: "50px",
+                      height: "30px",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      borderRadius: "5px",
+                      backgroundColor: "#46e080",
+                      cursor: "pointer",
+                      marginRight: "10px",
                     }}
+                    onClick={handleClickOpen}
                   >
-                    Edit
-                  </span>
-                </div>
+                    <span
+                      style={{
+                        fontSize: "12px",
+                        fontWeight: "500",
+                        color: "#fff",
+                        fontFamily: "Poppins, sans-serif",
+                      }}
+                    >
+                      Edit
+                    </span>
+                  </div>
                 </>
-                
               )
             ) : (
               <>
@@ -228,7 +227,7 @@ const MatchOdds = ({ currentMatch, matchOddsLive, id }: any) => {
                     borderRadius: "5px",
                     backgroundColor: "#46e080",
                     cursor: "pointer",
-                    marginRight:"10px"
+                    marginRight: "10px",
                   }}
                   onClick={handleClickOpen}
                 >
@@ -237,7 +236,7 @@ const MatchOdds = ({ currentMatch, matchOddsLive, id }: any) => {
                       fontSize: "12px",
                       fontWeight: "500",
                       color: "#fff",
-                      fontFamily:"Poppins, sans-serif"
+                      fontFamily: "Poppins, sans-serif",
                     }}
                   >
                     Add
@@ -261,7 +260,7 @@ const MatchOdds = ({ currentMatch, matchOddsLive, id }: any) => {
             />
           </Box>
         </Box>
-     
+
         <Box
           sx={{
             position: "absolute",
@@ -560,14 +559,13 @@ const MatchOdds = ({ currentMatch, matchOddsLive, id }: any) => {
           </>
         )}
       </Box>
-      <MaxBetAdd 
-        open={open} 
-        handleClose={handleClose} 
-        matchOddsLive={matchOddsLive} 
-        currentMatch={currentMatch} 
-        title={"Betfair Match Odds Max Bet"}
+      <MaxBetAdd
+        open={open}
+        handleClose={handleClose}
+        matchOddsLive={matchOddsLive}
+        currentMatch={currentMatch}
+        title={"API Match Odds Max Bet"}
       />
-     
     </>
   );
 };

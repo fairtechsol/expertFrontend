@@ -7,13 +7,13 @@ import { AppDispatch } from "../../../store/store";
 import Divider from "../../Common/Divider";
 import { formatToINR } from "../../helper";
 import BoxComponent from "../MatchOdds/BoxComponent";
+import MaxBetAdd from "../MaxBetAdd";
 import Stop from "../SessionMarket/Stop";
 import SmallBox from "../SmallBox";
-import MaxBetAdd from "../MaxBetAdd";
 
 const TiedMatchMarket = ({ currentMatch, liveData, title }: any) => {
   const dispatch: AppDispatch = useDispatch();
-  
+
   const [open, setOpen] = useState(false);
   const [visibleImg, setVisibleImg] = useState(true);
   const [live, setLive] = useState(
@@ -28,7 +28,7 @@ const TiedMatchMarket = ({ currentMatch, liveData, title }: any) => {
     setOpen(true);
   };
 
-  const handleClose = (data:any) => {
+  const handleClose = (data: any) => {
     setOpen(data);
   };
   return (
@@ -76,18 +76,20 @@ const TiedMatchMarket = ({ currentMatch, liveData, title }: any) => {
             {title}
           </Typography>
           {/* <img src={LOCKED} style={{ width: '14px', height: '20px' }} /> */}
-          {liveData?.id && ( <Stop
-            onClick={() => {
-              dispatch(
-                betLiveStatus({
-                  isStop: true,
-                  betId: liveData?.id,
-                  isManual: false,
-                })
-              );
-              setLive(false);
-            }}
-          />)}
+          {liveData?.id && (
+            <Stop
+              onClick={() => {
+                dispatch(
+                  betLiveStatus({
+                    isStop: true,
+                    betId: liveData?.id,
+                    isManual: false,
+                  })
+                );
+                setLive(false);
+              }}
+            />
+          )}
         </Box>
         <Box
           sx={{
@@ -108,53 +110,56 @@ const TiedMatchMarket = ({ currentMatch, liveData, title }: any) => {
             justifyContent: "flex-end",
           }}
         >
-          {liveData?.id ?  !currentMatch?.stopAt && (
-            <>
-              <SmallBox
-                onClick={() => {
-                  dispatch(
-                    betLiveStatus({
-                      isStop: live,
-                      betId: liveData?.id,
-                      isManual: false,
-                    })
-                  );
-                  setLive(!live);
-                }}
-                // width={"80px"}
-                title={live ? "Live" : "Go Live"}
-                color={live ? "#46e080" : "#FF4D4D"}
-                customStyle={{
-                  justifyContent: "center",
-                  textAlign: "center"
-                }}
-              /> <div
-              style={{
-                width: "50px",
-                height: "30px",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                borderRadius: "5px",
-                backgroundColor: "#46e080",
-                cursor: "pointer",
-                marginRight:"10px"
-              }}
-              onClick={handleClickOpen}
-            >
-              <span
-                style={{
-                  fontSize: "12px",
-                  fontWeight: "500",
-                  color: "#fff",
-                  fontFamily:"Poppins, sans-serif"
-                }}
-              >
-                Edit
-              </span>
-            </div>
-            </>
-          ): (
+          {liveData?.id ? (
+            !currentMatch?.stopAt && (
+              <>
+                <SmallBox
+                  onClick={() => {
+                    dispatch(
+                      betLiveStatus({
+                        isStop: live,
+                        betId: liveData?.id,
+                        isManual: false,
+                      })
+                    );
+                    setLive(!live);
+                  }}
+                  // width={"80px"}
+                  title={live ? "Live" : "Go Live"}
+                  color={live ? "#46e080" : "#FF4D4D"}
+                  customStyle={{
+                    justifyContent: "center",
+                    textAlign: "center",
+                  }}
+                />{" "}
+                <div
+                  style={{
+                    width: "50px",
+                    height: "30px",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    borderRadius: "5px",
+                    backgroundColor: "#46e080",
+                    cursor: "pointer",
+                    marginRight: "10px",
+                  }}
+                  onClick={handleClickOpen}
+                >
+                  <span
+                    style={{
+                      fontSize: "12px",
+                      fontWeight: "500",
+                      color: "#fff",
+                      fontFamily: "Poppins, sans-serif",
+                    }}
+                  >
+                    Edit
+                  </span>
+                </div>
+              </>
+            )
+          ) : (
             <>
               <div
                 style={{
@@ -166,7 +171,7 @@ const TiedMatchMarket = ({ currentMatch, liveData, title }: any) => {
                   borderRadius: "5px",
                   backgroundColor: "#46e080",
                   cursor: "pointer",
-                  marginRight:"10px"
+                  marginRight: "10px",
                 }}
                 onClick={handleClickOpen}
               >
@@ -175,7 +180,7 @@ const TiedMatchMarket = ({ currentMatch, liveData, title }: any) => {
                     fontSize: "12px",
                     fontWeight: "500",
                     color: "#fff",
-                    fontFamily:"Poppins, sans-serif"
+                    fontFamily: "Poppins, sans-serif",
                   }}
                 >
                   Add
@@ -343,12 +348,12 @@ const TiedMatchMarket = ({ currentMatch, liveData, title }: any) => {
           </Box>
         </>
       )}
-      <MaxBetAdd 
-        open={open} 
-        handleClose={handleClose} 
-        matchOddsLive={liveData} 
+      <MaxBetAdd
+        open={open}
+        handleClose={handleClose}
+        matchOddsLive={liveData}
         currentMatch={currentMatch}
-        title={"Betfair Tied Match Max Bet"} 
+        title={"API Tied Match Max Bet"}
       />
     </Box>
   );

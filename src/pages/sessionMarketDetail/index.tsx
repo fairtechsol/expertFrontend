@@ -1,7 +1,9 @@
-import { Box, Stack } from "@mui/material";
+import { Box, Stack, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
+import CasinoMarket from "../../components/matchDetails/CasinoMarket";
+import CasinoMarketLive from "../../components/matchDetails/CasinoMarketLive";
 import RunsBox from "../../components/matchDetails/RunsBox";
 import SessionMarket from "../../components/matchDetails/SessionMarket";
 import SessionMarketLive from "../../components/matchDetails/SessionMarketLive";
@@ -34,8 +36,6 @@ import {
   updateSessionBetsPlace,
 } from "../../store/actions/match/matchAction";
 import { AppDispatch, RootState } from "../../store/store";
-import CasinoMarketLive from "../../components/matchDetails/CasinoMarketLive";
-import CasinoMarket from "../../components/matchDetails/CasinoMarket";
 
 const SessionMarketDetail = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -306,30 +306,26 @@ const SessionMarketDetail = () => {
     }
   }, []);
 
-  // let completedSessions = matchDetail?.sessionBettings?.filter(
-  //   (item: any) =>
-  //     JSON.parse(item)?.isComplete &&
-  //     JSON.parse(item)?.showSessions &&
-  //     ((JSON.parse(item)?.resultData &&
-  //       JSON.parse(item)?.resultData === null) ||
-  //       JSON.parse(item)?.result === null)
-  // );
-  // let declaredSessions = matchDetail?.sessionBettings?.filter(
-  //   (item: any) =>
-  //     JSON.parse(item)?.isComplete &&
-  //     JSON.parse(item)?.showSessions &&
-  //     ((JSON.parse(item)?.resultData &&
-  //       JSON.parse(item)?.resultData !== null) ||
-  //       JSON.parse(item)?.result !== null)
-  // );
-
-  // let marketSessions = matchDetail?.sessionBettings?.filter(
-  //   (item: any) =>
-  //     !JSON.parse(item)?.isComplete && JSON.parse(item)?.showSessions
-  // );
-
   return (
     <>
+      <Box
+        sx={{
+          width: { lg: "50%", xs: "100%", md: "100%" },
+          paddingLeft: "5px",
+          marginTop: { xs: "10px", lg: "0" },
+        }}
+      >
+        <Typography
+          sx={{
+            fontSize: "16px",
+            color: "white",
+            fontWeight: "700",
+            alignSelf: "start",
+          }}
+        >
+          {matchDetail?.title}
+        </Typography>
+      </Box>
       <Stack spacing={2} direction={{ lg: "row", xs: "column" }}>
         <Box sx={{ width: { lg: "100%" } }}>
           {matchDetail?.apiSession &&
@@ -363,7 +359,7 @@ const SessionMarketDetail = () => {
                         ?.map((items: any) => (
                           <CasinoMarketLive
                             key={items?.SelectionId}
-                            title={items?.RunnerName}
+                            title={items?.RunnerName || items?.name}
                             sessionData={items}
                             currentMatch={matchDetail}
                             gtype={items?.gtype}
@@ -393,10 +389,10 @@ const SessionMarketDetail = () => {
                   return (
                     <div key={name}>
                       {item?.section?.filter(
-                        (item: any) =>
-                          item?.activeStatus !== "live" &&
-                          ((item?.resultData && item?.resultData === null) ||
-                            item?.result === null)
+                        (items: any) =>
+                          items?.isComplete &&
+                          ((items?.resultData && items?.resultData === null) ||
+                            items?.result === null)
                       )?.length > 0 && (
                         <SessionMarket
                           title={`${name} Completed`}
@@ -413,21 +409,24 @@ const SessionMarketDetail = () => {
                           section="completed"
                         />
                       )}
-                      <SessionMarket
-                        title={`${name} Market`}
-                        hideTotalBet={false}
-                        stopAllHide={false}
-                        profitLossData={matchDetail?.sessionProfitLoss}
-                        sessionData={item}
-                        hideResult={true}
-                        currentMatch={matchDetail}
-                        hideEditMaxButton={false}
-                        section="market"
-                      />
+                      {item?.section?.filter((items: any) => !items?.isComplete)
+                        ?.length > 0 && (
+                        <SessionMarket
+                          title={`${name} Market`}
+                          hideTotalBet={false}
+                          stopAllHide={false}
+                          profitLossData={matchDetail?.sessionProfitLoss}
+                          sessionData={item}
+                          hideResult={true}
+                          currentMatch={matchDetail}
+                          hideEditMaxButton={false}
+                          section="market"
+                        />
+                      )}
                       {item?.section?.filter(
-                        (item: any) =>
-                          (item?.resultData && item?.resultData !== null) ||
-                          item?.result !== null
+                        (items: any) =>
+                          (items?.resultData && items?.resultData !== null) ||
+                          items?.result !== null
                       )?.length > 0 && (
                         <SessionMarket
                           title={`${name} Declared`}
@@ -452,7 +451,7 @@ const SessionMarketDetail = () => {
                       {item?.section?.map((items: any) => (
                         <CasinoMarket
                           key={items?.SelectionId}
-                          title={items?.RunnerName}
+                          title={items?.RunnerName || items?.name}
                           sessionData={items}
                           currentMatch={matchDetail}
                           gtype={items?.gtype}

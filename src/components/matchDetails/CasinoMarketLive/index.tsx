@@ -85,20 +85,9 @@ const CasinoMarketLive = ({
               marginLeft: "7px",
             }}
           >
-            {title}{" "}
+            {title}
             {`(MIN: ${formatToINR(currentMatch?.betFairSessionMinBet)})`}
           </Typography>
-        </Box>
-        <Box
-          sx={
-            {
-              // top: "5px",
-              // right: { lg: "30%", md: "35%", xs: "30%" },
-              // display: "flex",
-              // zIndex: 100,
-            }
-          }
-        >
           {!live && (
             <LiveStatusButtonBox
               hide={true}
@@ -112,7 +101,7 @@ const CasinoMarketLive = ({
               color="#FF4D4D"
             />
           )}
-          {live && (
+          {/* {live && (
             <LiveStatusButtonBox
               hide={true}
               onClick={(e: any) => {
@@ -121,9 +110,8 @@ const CasinoMarketLive = ({
               textSize="8px"
               width="33px"
             />
-          )}
+          )} */}
         </Box>
-
         <Box
           sx={{
             flex: 0.1,

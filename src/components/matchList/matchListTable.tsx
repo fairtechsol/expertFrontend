@@ -190,8 +190,6 @@ const MatchListTable = (props: any) => {
                 },
                 justifyContent: "center",
 
-
-                 
                 alignItems: "center",
                 marginTop: { sm: "5px", lg: "2.5px", md: 0 },
                 paddingRight: "5px",
@@ -264,6 +262,26 @@ const MatchListTable = (props: any) => {
                       margin: "5px",
                     }}
                     onClick={() => {
+                      navigate(`/expert/sessionBetList`, {
+                        state: { id: data?.id, marketId: data?.marketId },
+                      });
+                    }}
+                    title="Market"
+                  />
+                )}
+              {data?.matchType === "cricket" &&
+                (getProfile?.allPrivilege ||
+                  getProfile?.sessionMatchPrivilege) && (
+                  <CustomButton
+                    containerStyle={{
+                      // minWidth: { xs: "40%", sm: "100px" },
+                      // width: { xs: "40%", sm: "100px" },
+                      // marginLeft: { xs: "1%", sm: "10px" },
+                      // marginBottom: { xs: "1%", sm: "10px" },
+                      // gap: 0.5,
+                      margin: "5px",
+                    }}
+                    onClick={() => {
                       navigate(`/expert/session`, {
                         state: { id: data?.id, marketId: data?.marketId },
                       });
@@ -271,6 +289,23 @@ const MatchListTable = (props: any) => {
                     title={"Session"}
                   />
                 )}
+              {!isSmallOrMediumScreen && data?.matchType != "cricket" && (
+                <CustomButton
+                  containerStyle={{
+                    // margin: "5px",
+                    cursor: "default",
+                    background: "#FFE094",
+                    margin: "5px",
+                    // marginRight: {
+                    //   xs: "20px",
+                    //   md: "29px",
+                    //   sm: "10px",
+                    //   lg: "10px",
+                    // },
+                  }}
+                  bgColor={buttonBgColor}
+                />
+              )}
               {!isSmallOrMediumScreen && data?.matchType != "cricket" && (
                 <CustomButton
                   containerStyle={{
