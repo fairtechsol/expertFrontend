@@ -1,16 +1,16 @@
 import { Box, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
-import Stop from "../SessionMarket/Stop";
-import SmallBox from "../SmallBox";
-import { ARROWUP } from "../../../assets";
-import Divider from "../../Common/Divider";
-import BoxComponent from "../MatchOdds/BoxComponent";
-import { betLiveStatus } from "../../../store/actions/match/matchAction";
 import { useDispatch } from "react-redux";
+import { ARROWUP } from "../../../assets";
+import { betLiveStatus } from "../../../store/actions/match/matchAction";
 import { AppDispatch } from "../../../store/store";
 import { profitLossDataForMatchConstants } from "../../../utils/Constants";
+import Divider from "../../Common/Divider";
 import { formatToINR } from "../../helper";
+import BoxComponent from "../MatchOdds/BoxComponent";
 import MaxBetAdd from "../MaxBetAdd";
+import Stop from "../SessionMarket/Stop";
+import SmallBox from "../SmallBox";
 
 const BookMarket = ({ currentMatch, liveData, title }: any) => {
   const dispatch: AppDispatch = useDispatch();
@@ -76,18 +76,20 @@ const BookMarket = ({ currentMatch, liveData, title }: any) => {
             {title}
           </Typography>
           {/* <img src={LOCKED} style={{ width: '14px', height: '20px' }} /> */}
-          {liveData?.id && ( <Stop
-            onClick={() => {
-              dispatch(
-                betLiveStatus({
-                  isStop: true,
-                  betId: liveData?.id,
-                  isManual: false,
-                })
-              );
-              setLive(false);
-            }}
-          />)}
+          {liveData?.id && (
+            <Stop
+              onClick={() => {
+                dispatch(
+                  betLiveStatus({
+                    isStop: true,
+                    betId: liveData?.id,
+                    isManual: false,
+                  })
+                );
+                setLive(false);
+              }}
+            />
+          )}
         </Box>
         <Box
           sx={{
@@ -108,49 +110,52 @@ const BookMarket = ({ currentMatch, liveData, title }: any) => {
             justifyContent: "flex-end",
           }}
         >
-          {liveData?.id ? (<>
-            <SmallBox
-              onClick={() => {
-                dispatch(
-                  betLiveStatus({
-                    isStop: live,
-                    betId: liveData?.id,
-                    isManual: false,
-                  })
-                );
-                setLive(!live);
-              }}
-              // width={"80px"}
-              title={live ? "Live" : "Go Live"}
-              color={live ? "#46e080" : "#FF4D4D"}
-              customStyle={{
-                justifyContent: "center",
-              }}
-            /> <div
-            style={{
-              width: "50px",
-              height: "30px",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              borderRadius: "5px",
-              backgroundColor: "#46e080",
-              cursor: "pointer",
-              marginRight:"10px"
-            }}
-            onClick={handleClickOpen}
-          >
-            <span
-              style={{
-                fontSize: "12px",
-                fontWeight: "500",
-                color: "#fff",
-                fontFamily:"Poppins, sans-serif"
-              }}
-            >
-              Edit
-            </span>
-          </div></>
+          {liveData?.id ? (
+            <>
+              <SmallBox
+                onClick={() => {
+                  dispatch(
+                    betLiveStatus({
+                      isStop: live,
+                      betId: liveData?.id,
+                      isManual: false,
+                    })
+                  );
+                  setLive(!live);
+                }}
+                // width={"80px"}
+                title={live ? "Live" : "Go Live"}
+                color={live ? "#46e080" : "#FF4D4D"}
+                customStyle={{
+                  justifyContent: "center",
+                }}
+              />{" "}
+              <div
+                style={{
+                  width: "50px",
+                  height: "30px",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  borderRadius: "5px",
+                  backgroundColor: "#46e080",
+                  cursor: "pointer",
+                  marginRight: "10px",
+                }}
+                onClick={handleClickOpen}
+              >
+                <span
+                  style={{
+                    fontSize: "12px",
+                    fontWeight: "500",
+                    color: "#fff",
+                    fontFamily: "Poppins, sans-serif",
+                  }}
+                >
+                  Edit
+                </span>
+              </div>
+            </>
           ) : (
             <>
               <div
@@ -339,7 +344,7 @@ const BookMarket = ({ currentMatch, liveData, title }: any) => {
                     liveData?.runners?.length > 0 ? liveData?.runners[2] : []
                   }
                   align="end"
-              liveData={liveData}
+                  liveData={liveData}
                 />
               </>
             )}
@@ -384,7 +389,7 @@ const BookMarket = ({ currentMatch, liveData, title }: any) => {
         handleClose={handleClose}
         matchOddsLive={liveData}
         currentMatch={currentMatch}
-        title={"Betfair Bookmaker Max Bet"}
+        title={"API Bookmaker Max Bet"}
       />
     </Box>
   );
