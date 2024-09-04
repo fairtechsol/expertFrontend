@@ -195,7 +195,7 @@ const CasinoMarket = ({
                   height: "100%",
                   right: 0,
                   position: "absolute",
-                  background: "rgba(0,0,0,0.4)",
+                  background: "rgb(1 1 1 / 76%)",
                   zIndex: 2,
                 }}
               >
@@ -230,7 +230,7 @@ const CasinoMarket = ({
                       }}
                     >
                       {sessionData?.result
-                        ? `Declared`
+                        ? `Declared (Score = ${sessionData?.result})`
                         : sessionData?.GameStatus}
                     </Typography>
                   ))
