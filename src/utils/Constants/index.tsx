@@ -360,6 +360,24 @@ export const gameTypeMatchBetting = {
   cricketcasino: "cricketcasino",
 };
 
+export const betListColorConstants: any = {
+  session: "#319E5B",
+  matchOdd: "#F1C550",
+  bookmaker: "#F1C550",
+  quickbookmaker1: "#F1C550",
+  quickbookmaker2: "#F1C550",
+  quickbookmaker3: "#F1C550",
+  completeMatch: "#faf11b",
+  completeManual: "#faf11b",
+  tiedMatch1: "#faf11b",
+  tiedMatch2: "#faf11b",
+  cricketCasino: "#00c0f987",
+  oddEven: "#bebebe",
+  fancy1: "#46e080",
+  overByOver: "#f5c0c0",
+  ballByBall: "#e5ffd5",
+};
+
 export const addMatchThirdParty =
   process.env.NODE_ENV === Constants.PRODUCTION
     ? Constants.thirdParty
