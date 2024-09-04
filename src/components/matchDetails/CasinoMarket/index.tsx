@@ -1,9 +1,9 @@
 import { Box, Typography } from "@mui/material";
-import { memo, useState } from "react";
-import { useDispatch } from "react-redux";
+import { memo, useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { ARROWUP } from "../../../assets";
 import { sessionBetLiveStatus } from "../../../store/actions/match/matchAction";
-import { AppDispatch } from "../../../store/store";
+import { AppDispatch, RootState } from "../../../store/store";
 import Divider from "../../Common/Divider";
 import { formatToINR } from "../../helper";
 import Result from "../Result";
@@ -20,6 +20,14 @@ const CasinoMarket = ({
   const [visible, setVisible] = useState(true);
   const [showResultModal, setShowResultModal] = useState(false);
   const dispatch: AppDispatch = useDispatch();
+
+  const { success } = useSelector((state: RootState) => state.matchList);
+
+  useEffect(() => {
+    if (success) {
+      setShowResultModal(false);
+    }
+  }, [success]);
 
   return (
     <Box
