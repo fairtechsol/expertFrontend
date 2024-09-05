@@ -147,6 +147,7 @@ const SessionMarket = ({
           >
             {sessionData?.section?.length > 0 &&
               sessionData?.section
+                ?.filter((item: any) => !item?.isManual)
                 ?.filter((item: any) =>
                   section === "market"
                     ? item?.activeStatus === "live" &&

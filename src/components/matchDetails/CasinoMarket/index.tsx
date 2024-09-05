@@ -195,7 +195,7 @@ const CasinoMarket = ({
                   height: "100%",
                   right: 0,
                   position: "absolute",
-                  background: "rgb(1 1 1 / 76%)",
+                  background: "rgba(0, 0, 0, 0.4)",
                   zIndex: 2,
                 }}
               >
