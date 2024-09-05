@@ -122,7 +122,7 @@ const SessionMarketLive = ({ title, sessionData, currentMatch, type }: any) => {
           >
             {matchSessionData?.length > 0 &&
               matchSessionData?.map((match: any, index: any) => {
-                // if (!match?.id) {
+                if (!match?.id) {
                 return (
                   <Box key={index}>
                     <SessionMarketBoxLive
@@ -135,7 +135,7 @@ const SessionMarketLive = ({ title, sessionData, currentMatch, type }: any) => {
                     <Divider />
                   </Box>
                 );
-                // }
+                }
               })}
           </Box>
         </Box>
