@@ -423,10 +423,11 @@ const SessionMarketDetail = () => {
                           section="completed"
                         />
                       )}
-                      {item?.section?.filter((items: any) =>
-                        item?.isComplete
-                          ? item?.isComplete
-                          : false || items?.activeStatus === "live"
+                      {item?.section?.filter(
+                        (items: any) =>
+                          items?.activeStatus === "live" &&
+                          ((items?.resultData && items?.resultData === null) ||
+                            items?.result === null)
                       )?.length > 0 && (
                         <SessionMarket
                           title={`${name} Market`}

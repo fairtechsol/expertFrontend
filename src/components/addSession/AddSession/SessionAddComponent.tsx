@@ -104,6 +104,7 @@ const SessionAddComponent = ({ createSession, match, setMode }: any) => {
           ? parseInt(maxBetValue)
           : match?.betFairSessionMaxBet,
         minBet: match?.betFairSessionMinBet,
+        gtype: "fancy",
       };
       dispatch(addSession(payload));
     } catch (error) {
