@@ -308,6 +308,7 @@ const SessionBetlistDetail = () => {
     }
   }, []);
 
+  console.log("sessionProLoss",sessionProLoss)
   return (
     <>
       <Box
@@ -407,6 +408,7 @@ const SessionBetlistDetail = () => {
                           currentMatch={matchDetail}
                           gtype={items?.gtype}
                           type={name}
+                          profitLossData={matchDetail?.sessionProfitLoss}
                         />
                       ))}
                     </>
