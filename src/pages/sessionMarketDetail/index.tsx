@@ -483,30 +483,7 @@ const SessionMarketDetail = () => {
               })}
         </Box>
       </Stack>
-      {sessionProLoss?.length > 0 && (
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "row",
-            flexWrap: "wrap",
-            gap: "1px",
-            rowGap: "5px",
-            height: "524px",
-            overflow: "scroll",
-            marginTop: "1.25vw",
-          }}
-        >
-          {sessionProLoss?.map((v: any) => {
-            return (
-              <RunsBox
-                key={v?.id}
-                item={v}
-                currentOdd={currentOdd?.betId === v?.id ? currentOdd : null}
-              />
-            );
-          })}
-        </Box>
-      )}
+     
     </>
   );
 };
