@@ -2,8 +2,14 @@ import { Box, Typography } from "@mui/material";
 import Divider from "../../Common/Divider";
 import { formatNumber } from "../../helper";
 import SeparateBox from "../SeparateBox";
+import PlaceBetComponent from "../SessionMarket/PlaceBetComponent";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../store/store";
 
 const CasinoMarketBox = ({ newData, index, profitLoss }: any) => {
+  const { matchDetail } = useSelector(
+    (state: RootState) => state.addMatch.addMatch
+  );
   return (
     <div>
       <Box
@@ -93,7 +99,7 @@ const CasinoMarketBox = ({ newData, index, profitLoss }: any) => {
               position: "relative",
               background: index % 2 === 0 ? "#FFE094" : "#ECECEC",
               height: "40px",
-              width: { lg: "85%", xs: "100%", md: "100%" },
+              width: { lg: "65%", xs: "67%", md: "61%" },
               justifyContent: "flex-end",
               alignItems: "center",
             }}
@@ -107,6 +113,23 @@ const CasinoMarketBox = ({ newData, index, profitLoss }: any) => {
               lock={newData?.gstatus === "Suspended"}
               color="#B3E0FF"
             />
+
+            {/* {
+              <PlaceBetComponent
+                width={7}
+                profitLossData={
+                  matchDetail?.sessionProfitLoss &&
+                  matchDetail?.sessionProfitLoss[
+                    matchDetail?.updatedSesssionBettings?.cricketCasino
+                      ?.section?.[0]?.id
+                  ]
+                }
+                newData={
+                  matchDetail?.updatedSesssionBettings?.cricketCasino
+                    ?.section?.[0]?.id
+                }
+              />
+            } */}
           </Box>
         )}
       </Box>

@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import CasinoMarket from "../../components/matchDetails/CasinoMarket";
 import RunsBox from "../../components/matchDetails/RunsBox";
-import SessionMarket from "../../components/matchDetails/SessionMarket";
+import SessionMarket2 from "../../components/matchDetails/CasinoMarket/SessionMarket2";
 import {
   expertSocketService,
   socket,
@@ -308,7 +308,7 @@ const SessionBetlistDetail = () => {
     }
   }, []);
 
-  console.log("matchdetail",matchDetail)
+  console.log("matchdetail", matchDetail);
   return (
     <>
       <Box
@@ -329,8 +329,8 @@ const SessionBetlistDetail = () => {
           {matchDetail?.title}
         </Typography>
       </Box>
-      <Stack spacing={2} direction={{ lg: "row", xs: "column" }}>
-        <Box sx={{ width: { lg: "100%" } }}>
+      <Stack spacing={2} direction={{ lg: "row",md:"row" ,xs: "column",sm:"row" }}>
+        <Box sx={{ width: { lg: "40%",md:"40%" ,xs: "100%",sm:"40%" } }}>
           {matchDetail?.updatedSesssionBettings &&
             Object.entries(matchDetail?.updatedSesssionBettings)?.map(
               ([name, item]: any) => {
@@ -343,7 +343,7 @@ const SessionBetlistDetail = () => {
                           ((items?.resultData && items?.resultData === null) ||
                             items?.result === null)
                       )?.length > 0 && (
-                        <SessionMarket
+                        <SessionMarket2
                           title={`${name} Completed`}
                           hideTotalBet={false}
                           stopAllHide={true}
@@ -363,7 +363,7 @@ const SessionBetlistDetail = () => {
                           ? item?.isComplete
                           : false || items?.activeStatus === "live"
                       )?.length > 0 && (
-                        <SessionMarket
+                        <SessionMarket2
                           title={`${name} Market`}
                           hideTotalBet={false}
                           stopAllHide={false}
@@ -380,7 +380,7 @@ const SessionBetlistDetail = () => {
                           (items?.resultData && items?.resultData !== null) ||
                           items?.result !== null
                       )?.length > 0 && (
-                        <SessionMarket
+                        <SessionMarket2
                           title={`${name} Declared`}
                           hideTotalBet={false}
                           stopAllHide={true}
@@ -399,7 +399,7 @@ const SessionBetlistDetail = () => {
                   );
                 } else {
                   return (
-                    <>
+                    <div style={{ width: "100%" }}>
                       {item?.section?.map((items: any) => (
                         <CasinoMarket
                           key={items?.SelectionId}
@@ -411,13 +411,14 @@ const SessionBetlistDetail = () => {
                           profitLossData={matchDetail?.sessionProfitLoss}
                         />
                       ))}
-                    </>
+                    </div>
                   );
                 }
               }
             )}
         </Box>
-        <Box sx={{ width: { lg: "100%" } }}>
+
+        <Box sx={{ width:{ lg: "60%",md:"60%" ,xs: "100%",sm:"60%" }}}>
           <BetList allBetRates={placedBetsMatch} tag={true} />
         </Box>
       </Stack>

@@ -96,7 +96,7 @@ const CasinoMarket = ({
                 color="#FF4D4D"
               />
             )}
-            {sessionData?.activeStatus === "live" && (
+            {/* {sessionData?.activeStatus === "live" && (
               <LiveStatusButtonBox
                 hide={true}
                 onClick={(e: any) => {
@@ -111,7 +111,7 @@ const CasinoMarket = ({
                 textSize="8px"
                 width="33px"
               />
-            )}
+            )} */}
           </Box>
         </Box>
         <Box
@@ -165,21 +165,76 @@ const CasinoMarket = ({
           )}
 
           {
-            <PlaceBetComponent
-              width={7}
-              profitLossData={
-                profitLossData &&
-                profitLossData[
-                  matchDetail?.updatedSesssionBettings?.cricketCasino
-                    ?.section?.[0]?.id
-                ]
-              }
-              newData={
-                matchDetail?.updatedSesssionBettings?.cricketCasino
-                  ?.section?.[0]?.id
-              }
-            />
+            // <PlaceBetComponent
+            //   width={7}
+            //   profitLossData={
+            //     profitLossData &&
+            //     profitLossData[
+            //       matchDetail?.updatedSesssionBettings?.cricketCasino
+            //         ?.section?.[0]?.id
+            //     ]
+            //   }
+            //   newData={
+            //     matchDetail?.updatedSesssionBettings?.cricketCasino
+            //       ?.section?.[0]?.id
+            //   }
+            // />
+
+            // <PlaceBetComponent
+            //   width={7}
+            //   profitLossData={
+            //     matchDetail?.sessionProfitLoss &&
+            //     matchDetail?.sessionProfitLoss[
+            //       matchDetail?.updatedSesssionBettings?.cricketCasino
+            //         ?.section?.[0]?.id
+            //     ]
+            //   }
+            //   newData={matchDetail}
+            // />
+
+            <Box
+              sx={{
+                background: "#FDF21A",
+                borderRadius: "3px",
+                width: "35%",
+                height: "85%",
+                alignItems: "center",
+                justifyContent: "center",
+                display: "flex",
+
+                flexDirection: "column",
+                marginLeft: "2px",
+              }}
+            >
+              <Typography
+                sx={{
+                  fontSize: { lg: "7px", xs: "6px", md: "9px" },
+                  fontWeight: "bold",
+                  textAlign: "center",
+                  color: "#FF4D4D",
+                  lineHeight: "1",
+                }}
+              >
+                Total Bet
+              </Typography>
+              <Typography
+                sx={{
+                  fontSize: { lg: ".6vw", xs: "1.5vw", md: "1.5vw" },
+                  fontWeight: "bold",
+                  color: "#0B4F26",
+                  lineHeight: 1,
+                }}
+              >
+                {`${
+                  matchDetail?.sessionProfitLoss?.[
+                    matchDetail?.updatedSesssionBettings?.cricketCasino
+                      ?.section?.[0]?.id
+                  ].totalBet || 0
+                }`}
+              </Typography>
+            </Box>
           }
+
           <img
             onClick={() => {
               setVisible(!visible);
@@ -196,6 +251,7 @@ const CasinoMarket = ({
           />
         </Box>
       </Box>
+
       {visible && (
         <>
           <Box
