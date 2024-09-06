@@ -312,7 +312,7 @@ const SessionMarketBox = ({
               // right: { lg: "-17.5%", xs: "-5%", md: "-7%" },
               // background: "white",
               height: "40px",
-              width: { lg: "30%", xs: "30%" },
+              width: { lg: "25%",md:"38%",sm:"39%", xs: "38%" },
               justifyContent: "flex-end",
               alignItems: "center",
               
