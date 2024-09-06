@@ -390,7 +390,7 @@ export const handleKeysMatchEvents = (
       setIncGap(5);
       setIsBall(false);
       setInputDetail((prev: any) => {
-        if (+prev.leftNoRate - 1 >= 0) {
+        if (+prev.leftNoRate - 1 >= 1) {
           return {
             ...prev,
             noRate: +prev.leftYesRate - 1,
