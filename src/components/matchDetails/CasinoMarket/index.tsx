@@ -10,7 +10,7 @@ import Result from "../Result";
 import CasinoMarketBox from "./CasinoMarketBox";
 import CustomCasinoMarketResult from "./CustomCasinoMarketResult";
 import LiveStatusButtonBox from "./LiveStatusButtonBox";
-
+import PlaceBetComponent from "../SessionMarket/PlaceBetComponent";
 const CasinoMarket = ({
   title,
   sessionData,
@@ -22,6 +22,9 @@ const CasinoMarket = ({
   const dispatch: AppDispatch = useDispatch();
 
   const { success } = useSelector((state: RootState) => state.matchList);
+  const { matchDetail } = useSelector(
+    (state: RootState) => state.addMatch.addMatch
+  );
 
   useEffect(() => {
     if (success) {
@@ -160,6 +163,23 @@ const CasinoMarket = ({
               />
             </Box>
           )}
+
+          {
+            <PlaceBetComponent
+              width={7}
+              profitLossData={
+                profitLossData &&
+                profitLossData[
+                  matchDetail?.updatedSesssionBettings?.cricketCasino
+                    ?.section?.[0]?.id
+                ]
+              }
+              newData={
+                matchDetail?.updatedSesssionBettings?.cricketCasino
+                  ?.section?.[0]?.id
+              }
+            />
+          }
           <img
             onClick={() => {
               setVisible(!visible);

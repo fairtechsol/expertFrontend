@@ -308,7 +308,7 @@ const SessionBetlistDetail = () => {
     }
   }, []);
 
-  console.log("sessionProLoss",sessionProLoss)
+  console.log("matchdetail",matchDetail)
   return (
     <>
       <Box
