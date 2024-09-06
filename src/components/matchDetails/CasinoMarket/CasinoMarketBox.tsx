@@ -40,7 +40,7 @@ const CasinoMarketBox = ({ newData, index, profitLoss }: any) => {
               margin: "4px",
             }}
           >
-            {`${index} Number`}
+            {newData?.nat || `${index} Number`}
           </Typography>
           <Typography
             sx={{
