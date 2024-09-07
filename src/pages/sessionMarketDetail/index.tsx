@@ -35,6 +35,7 @@ import {
   updateSessionBetsPlace,
 } from "../../store/actions/match/matchAction";
 import { AppDispatch, RootState } from "../../store/store";
+import RunsBox from "../../components/matchDetails/RunsBox";
 
 const SessionMarketDetail = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -44,8 +45,8 @@ const SessionMarketDetail = () => {
   const { matchDetail, success } = useSelector(
     (state: RootState) => state.addMatch.addMatch
   );
-  // const { sessionProLoss } = useSelector((state: RootState) => state.match);
-  // const { currentOdd } = useSelector((state: RootState) => state.addSession);
+  const { sessionProLoss } = useSelector((state: RootState) => state.match);
+  const { currentOdd } = useSelector((state: RootState) => state.addSession);
 
   const updateMatchDetailToRedux = (event: any) => {
     try {
@@ -514,6 +515,30 @@ const SessionMarketDetail = () => {
               })}
         </Box>
       </Stack>
+      {sessionProLoss?.length > 0 && (
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+            flexWrap: "wrap",
+            gap: "1px",
+            rowGap: "5px",
+            height: "524px",
+            overflow: "scroll",
+            marginTop: "1.25vw",
+          }}
+        >
+          {sessionProLoss?.map((v: any) => {
+            return (
+              <RunsBox
+                key={v?.id}
+                item={v}
+                currentOdd={currentOdd?.betId === v?.id ? currentOdd : null}
+              />
+            );
+          })}
+        </Box>
+      )}
     </>
   );
 };
