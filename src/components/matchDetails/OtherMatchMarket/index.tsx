@@ -8,9 +8,9 @@ import { profitLossDataForMatchConstants } from "../../../utils/Constants";
 import Divider from "../../Common/Divider";
 import { formatToINR } from "../../helper";
 import BoxComponent from "../MatchOdds/BoxComponent";
-import MaxBetAdd from "../MaxBetAdd";
 import Stop from "../SessionMarket/Stop";
 import SmallBox from "../SmallBox";
+import OtherMarketAdd from "./OtherMarketAdd";
 
 const OtherMatchMarket = ({ currentMatch, liveData, title }: any) => {
   const dispatch: AppDispatch = useDispatch();
@@ -368,7 +368,7 @@ const OtherMatchMarket = ({ currentMatch, liveData, title }: any) => {
           </Box>
         </>
       )}
-      <MaxBetAdd
+      <OtherMarketAdd
         open={open}
         handleClose={handleClose}
         matchOddsLive={liveData}
