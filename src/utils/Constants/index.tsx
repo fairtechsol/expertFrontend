@@ -384,21 +384,21 @@ export const betListColorConstants: any = {
 };
 
 export const addMatchThirdParty =
-  process.env.NODE_ENV !== Constants.PRODUCTION
+  process.env.NODE_ENV === Constants.PRODUCTION
     ? Constants.thirdParty
     : Constants.localPathThird;
 
 export const baseUrls = {
   socket:
-    process.env.NODE_ENV !== Constants.PRODUCTION
+    process.env.NODE_ENV === Constants.PRODUCTION
       ? Constants.apiBasePath
       : Constants.localPath,
   expertSocket:
-    process.env.NODE_ENV !== Constants.PRODUCTION
+    process.env.NODE_ENV === Constants.PRODUCTION
       ? Constants.expertSocketBasePath
       : Constants.localPathExpert,
   matchSocket:
-    process.env.NODE_ENV !== Constants.PRODUCTION
+    process.env.NODE_ENV === Constants.PRODUCTION
       ? Constants.thirdParty
       : Constants.localPathThird,
 };
