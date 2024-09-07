@@ -31,7 +31,8 @@ const CasinoMarket = ({
       setShowResultModal(false);
     }
   }, [success]);
-
+  
+  let totalBet=0
   return (
     <Box
       sx={{
@@ -79,7 +80,7 @@ const CasinoMarket = ({
             {`(MIN: ${formatToINR(currentMatch?.betFairSessionMinBet)})`}
           </Typography>
           <Box>
-            {sessionData?.activeStatus !== "live" && (
+            {/* {sessionData?.activeStatus !== "live" && (
               <LiveStatusButtonBox
                 hide={true}
                 onClick={(e: any) => {
@@ -95,7 +96,7 @@ const CasinoMarket = ({
                 width="28px"
                 color="#FF4D4D"
               />
-            )}
+            )} */}
             {/* {sessionData?.activeStatus === "live" && (
               <LiveStatusButtonBox
                 hide={true}
@@ -215,21 +216,27 @@ const CasinoMarket = ({
               >
                 Total Bet
               </Typography>
-              <Typography
-                sx={{
-                  fontSize: { lg: ".6vw", xs: "1.5vw", md: "1.5vw" },
-                  fontWeight: "bold",
-                  color: "#0B4F26",
-                  lineHeight: 1,
-                }}
-              >
-                {`${
-                  matchDetail?.sessionProfitLoss?.[
-                    matchDetail?.updatedSesssionBettings?.cricketCasino
-                      ?.section?.[0]?.id
-                  ]?.totalBet || 0
-                }`}
-              </Typography>
+              {matchDetail?.updatedSesssionBettings?.cricketCasino?.section?.map(
+                (sectionItem: any, index: number) => {
+                   totalBet =
+                   sectionItem?.RunnerName == title? matchDetail?.sessionProfitLoss?.[sectionItem?.id]
+                      ?.totalBet || 0:""
+                   
+                  return (
+                    <Typography
+                      key={index}
+                      sx={{
+                        fontSize: { lg: ".6vw", xs: "1.5vw", md: "1.5vw" },
+                        fontWeight: "bold",
+                        color: "#0B4F26",
+                        lineHeight: 1,
+                      }}
+                    >
+                      {`${totalBet}`}
+                    </Typography>
+                  );
+                }
+              )}
             </Box>
           }
 

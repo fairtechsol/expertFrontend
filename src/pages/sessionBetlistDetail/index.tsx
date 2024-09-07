@@ -308,7 +308,7 @@ const SessionBetlistDetail = () => {
     }
   }, []);
 
-  console.log("matchdetail", matchDetail);
+
   return (
     <>
       <Box
