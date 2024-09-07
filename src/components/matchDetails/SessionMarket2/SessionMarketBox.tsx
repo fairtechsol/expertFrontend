@@ -1,17 +1,16 @@
 import { Box, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { sessionBetLiveStatus } from "../../../../store/actions/match/matchAction";
-import { AppDispatch,RootState } from "../../../../store/store";
-import Divider from "../../../Common/Divider";
-import { formatNumber,formatToINR } from "../../../helper";
-import Result from "../../Result";
-import SeparateBox from "../../SeparateBox";
-import SmallBox from "../../SmallBox";
+import { sessionBetLiveStatus } from "../../../store/actions/match/matchAction";
+import { AppDispatch,RootState } from "../../../store/store";
+import Divider from "../../Common/Divider";
+import { formatNumber,formatToINR } from "../../helper";
+import Result from "../Result";
+import SeparateBox from "../SeparateBox";
+import SmallBox from "../SmallBox";
 import CustomSessionResult from "./CustomSessionResult";
 import PlaceBetComponent from "./PlaceBetComponent";
-
-import { edit } from "../../../../assets";
+import { edit } from "../../../assets";
 import SessionLimitEdit from "./SessionLimitEdit";
 import ModalMUI from "@mui/material/Modal";
 

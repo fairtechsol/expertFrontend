@@ -384,13 +384,18 @@ const MatchMarketDetail = () => {
             {liveScoreBoardData && (
               <Scoreboard liveScoreData={liveScoreBoardData} />
             )}
+            <iframe
+              width="100%"
+              height="110px"
+              src={`https://dpmatka.in/dcasino/score.php?matchId=${matchDetail?.eventId}`}
+            ></iframe>
             {matchDetail?.matchOdd && (
               <MatchOdds
                 showHeader={true}
                 currentMatch={matchDetail}
                 matchOddsLive={matchDetail?.matchOdd}
               />
-            )} 
+            )}
             {matchDetail?.bookmaker && (
               <BookMarket
                 currentMatch={matchDetail}
@@ -420,7 +425,7 @@ const MatchMarketDetail = () => {
                 liveData={matchDetail?.apiTideMatch}
                 title={matchDetail?.apiTideMatch?.name}
               />
-            )} 
+            )}
             {matchDetail?.manualTideMatch?.isActive && (
               <ManualMarket
                 currentMatch={matchDetail}
@@ -434,7 +439,7 @@ const MatchMarketDetail = () => {
                 liveData={matchDetail?.marketCompleteMatch}
                 title={matchDetail?.marketCompleteMatch?.name}
               />
-            )} 
+            )}
             {matchDetail?.manualCompleteMatch?.isActive && (
               <ManualMarket
                 currentMatch={matchDetail}

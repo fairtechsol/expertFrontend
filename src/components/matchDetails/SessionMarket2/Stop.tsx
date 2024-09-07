@@ -1,5 +1,5 @@
 import { Box, Typography } from "@mui/material";
-import { BroadCast_ } from "../../../../assets";
+import { BroadCast_ } from "../../../assets";
 const Stop = ({ color, onClick }: any) => {
   return (
     <>

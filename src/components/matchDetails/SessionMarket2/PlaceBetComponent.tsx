@@ -1,8 +1,8 @@
 import { Box, Typography } from "@mui/material";
 import { useDispatch } from "react-redux";
-import { UD } from "../../../../assets";
-import { getSessionProfitLossMatchDetail } from "../../../../store/actions/match/matchAction";
-import { AppDispatch } from "../../../../store/store";
+import { UD } from "../../../assets";
+import { getSessionProfitLossMatchDetail } from "../../../store/actions/match/matchAction";
+import { AppDispatch } from "../../../store/store";
 const PlaceBetComponent = ({ profitLossData, newData }: any) => {
   const dispatch: AppDispatch = useDispatch();
   return (

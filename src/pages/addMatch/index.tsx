@@ -770,6 +770,7 @@ const AddMatch = () => {
                     position: "absolute",
                     maxHeight: "500px",
                     overflow: "auto",
+                    // padding: "4px 7px 4px 7px"
                   }}
                   onChange={(e: any) => {
                     setSelected((prev) => {

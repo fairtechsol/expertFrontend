@@ -2,9 +2,9 @@ import { Box, Stack, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
-import CasinoMarket from "../../components/matchDetails/CasinoMarket";
+import CasinoMarket2 from "../../components/matchDetails/CasinoMarket2";
 import RunsBox from "../../components/matchDetails/RunsBox";
-import SessionMarket2 from "../../components/matchDetails/CasinoMarket/SessionMarket2";
+import SessionMarket2 from "../../components/matchDetails/SessionMarket2";
 import {
   expertSocketService,
   socket,
@@ -402,7 +402,7 @@ const SessionBetlistDetail = () => {
                   return (
                     <div style={{ width: "100%" }}>
                       {item?.section?.map((items: any) => (
-                        <CasinoMarket
+                        <CasinoMarket2
                           key={items?.SelectionId}
                           title={items?.RunnerName || items?.name}
                           sessionData={items}

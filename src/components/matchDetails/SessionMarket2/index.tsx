@@ -1,13 +1,13 @@
 import { Box, Typography } from "@mui/material";
 import { useState } from "react";
-import { ARROWUP } from "../../../../assets";
-import Divider from "../../../Common/Divider";
+import { ARROWUP } from "../../../assets";
+import Divider from "../../Common/Divider";
 import Stop from "./Stop";
 import SessionMarketBox from "./SessionMarketBox";
-import { sessionBetLiveStatus } from "../../../../store/actions/match/matchAction";
-import { AppDispatch } from "../../../../store/store";
+import { sessionBetLiveStatus } from "../../../store/actions/match/matchAction";
+import { AppDispatch } from "../../../store/store";
 import { useDispatch } from "react-redux";
-import { customSortUpdated } from "../../../../helpers";
+import { customSortUpdated } from "../../../helpers";
 // import { formatToINR } from "../../helper";
 
 const SessionMarket2 = ({

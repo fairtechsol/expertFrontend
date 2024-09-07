@@ -1,10 +1,10 @@
 import { Box, TextField, Typography } from "@mui/material";
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { CancelDark } from "../../../../assets";
-import SessionResultCustomButton from "../../../addSession/AddSession/SessionResultCustomButton";
-import { resetSessionMaxLimitSuccess,updateSession } from "../../../../store/actions/addSession";
-import { AppDispatch, RootState} from "../../../../store/store";
+import { CancelDark } from "../../../assets";
+import SessionResultCustomButton from "../../addSession/AddSession/SessionResultCustomButton";
+import { resetSessionMaxLimitSuccess,updateSession } from "../../../store/actions/addSession";
+import { AppDispatch,RootState } from "../../../store/store";
 const SessionLimitEdit = (props: any) => {
   const { newData, visible, onClickCancel } = props;
   const dispatch: AppDispatch = useDispatch();

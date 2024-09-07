@@ -1,12 +1,15 @@
 import { useEffect, useState } from "react";
-import { CancelDark } from "../../../../assets";
+import { CancelDark } from "../../../assets";
 import { Box, Button, TextField, Typography } from "@mui/material";
-import SessionResultCustomButton from "../../../addSession/AddSession/SessionResultCustomButton";
-import { AppDispatch,RootState } from "../../../../store/store";
+import SessionResultCustomButton from "../../addSession/AddSession/SessionResultCustomButton";
+import { AppDispatch, RootState } from "../../../store/store";
 import { useDispatch, useSelector } from "react-redux";
 
-import { noResultDeclare, resultDeclare,
-  undeclareResult, } from "../../../../store/actions/match/matchAction";
+import {
+  noResultDeclare,
+  resultDeclare,
+  undeclareResult,
+} from "../../../store/actions/match/matchAction";
 const CustomSessionResult = ({ onClick, newData }: any) => {
   const dispatch: AppDispatch = useDispatch();
   const { declareLoading } = useSelector((state: RootState) => state.matchList);
