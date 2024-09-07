@@ -2,14 +2,14 @@ import { Box, Typography } from "@mui/material";
 import Divider from "../../Common/Divider";
 import { formatNumber } from "../../helper";
 import SeparateBox from "../SeparateBox";
-import PlaceBetComponent from "../SessionMarket/PlaceBetComponent";
-import { useSelector } from "react-redux";
-import { RootState } from "../../../store/store";
+// import PlaceBetComponent from "../SessionMarket/PlaceBetComponent";
+// import { useSelector } from "react-redux";
+// import { RootState } from "../../../store/store";
 
 const CasinoMarketBox = ({ newData, index, profitLoss }: any) => {
-  const { matchDetail } = useSelector(
-    (state: RootState) => state.addMatch.addMatch
-  );
+  // const { matchDetail } = useSelector(
+  //   (state: RootState) => state.addMatch.addMatch
+  // );
   return (
     <div>
       <Box

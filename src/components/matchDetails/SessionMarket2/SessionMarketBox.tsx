@@ -2,10 +2,10 @@ import { Box, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { sessionBetLiveStatus } from "../../../store/actions/match/matchAction";
-import { AppDispatch,RootState } from "../../../store/store";
+import { AppDispatch, RootState } from "../../../store/store";
 import Divider from "../../Common/Divider";
-import { formatNumber,formatToINR } from "../../helper";
-import Result from "../Result";
+import { formatNumber } from "../../helper";
+// import Result from "../Result";
 import SeparateBox from "../SeparateBox";
 import SmallBox from "../SmallBox";
 import CustomSessionResult from "./CustomSessionResult";
@@ -16,7 +16,7 @@ import ModalMUI from "@mui/material/Modal";
 
 const SessionMarketBox = ({
   newData,
-  hideResult,
+  // hideResult,
   hideTotalBet,
   profitLossData,
   index,
@@ -72,7 +72,7 @@ const SessionMarketBox = ({
           height: "40px",
           width: "100%",
           boxShadow: visible ? 3 : 0,
-          justifyContent:"space-between"
+          justifyContent: "space-between",
         }}
         // className="example-2"
       >
@@ -156,7 +156,6 @@ const SessionMarketBox = ({
             display: "flex",
             zIndex: 100,
             gap: 0,
-            
           }}
         >
           {/* {newData?.activeStatus === "live" && !newData?.result && (
@@ -229,7 +228,7 @@ const SessionMarketBox = ({
               zIndex: 105,
               top: 0,
               right: 0,
-                width: { lg: "70%", xs: "70%" },
+              width: { lg: "70%", xs: "70%" },
               display: "flex",
               justifyContent: "end",
             }}
@@ -311,10 +310,9 @@ const SessionMarketBox = ({
               // right: { lg: "-17.5%", xs: "-5%", md: "-7%" },
               // background: "white",
               height: "40px",
-              width: { lg: "25%",md:"38%",sm:"39%", xs: "38%" },
+              width: { lg: "25%", md: "38%", sm: "39%", xs: "38%" },
               justifyContent: "flex-end",
               alignItems: "center",
-              
             }}
           >
             <SeparateBox

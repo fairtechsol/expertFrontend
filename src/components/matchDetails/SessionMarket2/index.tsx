@@ -2,18 +2,18 @@ import { Box, Typography } from "@mui/material";
 import { useState } from "react";
 import { ARROWUP } from "../../../assets";
 import Divider from "../../Common/Divider";
-import Stop from "./Stop";
+// import Stop from "./Stop";
 import SessionMarketBox from "./SessionMarketBox";
-import { sessionBetLiveStatus } from "../../../store/actions/match/matchAction";
-import { AppDispatch } from "../../../store/store";
-import { useDispatch } from "react-redux";
+// import { sessionBetLiveStatus } from "../../../store/actions/match/matchAction";
+// import { AppDispatch } from "../../../store/store";
+// import { useDispatch } from "react-redux";
 import { customSortUpdated } from "../../../helpers";
 // import { formatToINR } from "../../helper";
 
 const SessionMarket2 = ({
-  currentMatch,
+  // currentMatch,
   hideResult,
-  stopAllHide,
+  // stopAllHide,
   title,
   hideTotalBet,
   sessionData,
@@ -22,7 +22,7 @@ const SessionMarket2 = ({
   cstmStyle,
   section,
 }: any) => {
-  const dispatch: AppDispatch = useDispatch();
+  // const dispatch: AppDispatch = useDispatch();
   const [visible, setVisible] = useState(true);
 
   return (

@@ -1,15 +1,15 @@
 import { Box, Typography } from "@mui/material";
-import { memo, useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { memo, useState } from "react";
 import { ARROWUP } from "../../../assets";
-import { sessionBetLiveStatus } from "../../../store/actions/match/matchAction";
-import { AppDispatch, RootState } from "../../../store/store";
+// import { sessionBetLiveStatus } from "../../../store/actions/match/matchAction";
+import { RootState } from "../../../store/store";
 import Divider from "../../Common/Divider";
 import { formatToINR } from "../../helper";
-import Result from "../Result";
+// import Result from "../Result";
 import CasinoMarketBox from "./CasinoMarketBox";
-import CustomCasinoMarketResult from "./CustomCasinoMarketResult";
-import LiveStatusButtonBox from "./LiveStatusButtonBox";
+import { useSelector } from "react-redux";
+// import CustomCasinoMarketResult from "./CustomCasinoMarketResult";
+// import LiveStatusButtonBox from "./LiveStatusButtonBox";
 // import PlaceBetComponent from "../SessionMarket/PlaceBetComponent";
 const CasinoMarket = ({
   title,
@@ -18,21 +18,21 @@ const CasinoMarket = ({
   profitLossData,
 }: any) => {
   const [visible, setVisible] = useState(true);
-  const [showResultModal, setShowResultModal] = useState(false);
-  const dispatch: AppDispatch = useDispatch();
+  // const [showResultModal, setShowResultModal] = useState(false);
+  // const dispatch: AppDispatch = useDispatch();
 
-  const { success } = useSelector((state: RootState) => state.matchList);
+  // const { success } = useSelector((state: RootState) => state.matchList);
   const { matchDetail } = useSelector(
     (state: RootState) => state.addMatch.addMatch
   );
 
-  useEffect(() => {
-    if (success) {
-      setShowResultModal(false);
-    }
-  }, [success]);
-  
-  let totalBet=0
+  // useEffect(() => {
+  //   if (success) {
+  //     setShowResultModal(false);
+  //   }
+  // }, [success]);
+
+  let totalBet = 0;
   return (
     <Box
       sx={{
@@ -218,10 +218,12 @@ const CasinoMarket = ({
               </Typography>
               {matchDetail?.updatedSesssionBettings?.cricketCasino?.section?.map(
                 (sectionItem: any, index: number) => {
-                   totalBet =
-                   sectionItem?.RunnerName == title? matchDetail?.sessionProfitLoss?.[sectionItem?.id]
-                      ?.totalBet || 0:""
-                   
+                  totalBet =
+                    sectionItem?.RunnerName == title
+                      ? matchDetail?.sessionProfitLoss?.[sectionItem?.id]
+                          ?.totalBet || 0
+                      : "";
+
                   return (
                     <Typography
                       key={index}
