@@ -142,6 +142,7 @@ const SessionMarketDetail = () => {
               ? event?.profitLossObj?.maxLoss
               : event?.profitLoss,
             totalBet: event?.profitLossObj ? event?.profitLossObj?.totalBet : 0,
+            profitLoss: event?.redisData?.betPlaced,
           })
         );
       }
@@ -352,6 +353,38 @@ const SessionMarketDetail = () => {
             )}
         </Box>
         <Box sx={{ width: { lg: "100%" } }}>
+          {matchDetail?.updatedSesssionBettings &&
+            Object.entries(matchDetail?.updatedSesssionBettings)
+              ?.sort(([nameA], [nameB]) => nameA.localeCompare(nameB))
+              ?.map(([name, item]: any) => {
+                if (name !== "cricketCasino") {
+                  return (
+                    <div key={name}>
+                      {item?.section?.filter(
+                        (items: any) =>
+                          items?.isComplete &&
+                          ((items?.resultData && items?.resultData === null) ||
+                            items?.result === null)
+                      )?.length > 0 && (
+                        <SessionMarket
+                          title={`${name} Completed`}
+                          hideTotalBet={false}
+                          stopAllHide={true}
+                          profitLossData={matchDetail?.sessionProfitLoss}
+                          sessionData={item}
+                          hideResult={false}
+                          currentMatch={matchDetail}
+                          hideEditMaxButton={true}
+                          cstmStyle={{
+                            maxHeight: { sm: "40vh" },
+                          }}
+                          section="completed"
+                        />
+                      )}
+                    </div>
+                  );
+                }
+              })}
           {matchDetail?.apiSession &&
             Object.entries(matchDetail?.apiSession)?.map(
               ([name, item]: any) => {
@@ -401,32 +434,11 @@ const SessionMarketDetail = () => {
                 if (name !== "cricketCasino") {
                   return (
                     <div key={name}>
-                      {item?.section?.filter(
-                        (items: any) =>
-                          items?.isComplete &&
-                          ((items?.resultData && items?.resultData === null) ||
-                            items?.result === null)
-                      )?.length > 0 && (
-                        <SessionMarket
-                          title={`${name} Completed`}
-                          hideTotalBet={false}
-                          stopAllHide={true}
-                          profitLossData={matchDetail?.sessionProfitLoss}
-                          sessionData={item}
-                          hideResult={false}
-                          currentMatch={matchDetail}
-                          hideEditMaxButton={true}
-                          cstmStyle={{
-                            maxHeight: { sm: "40vh" },
-                          }}
-                          section="completed"
-                        />
-                      )}
                       {item?.section
                         ?.filter((item: any) => !item?.isManual)
                         ?.filter(
                           (items: any) =>
-                            items?.activeStatus === "live" &&
+                            !items?.isComplete &&
                             ((items?.resultData &&
                               items?.resultData === null) ||
                               items?.result === null)
@@ -443,6 +455,39 @@ const SessionMarketDetail = () => {
                           section="market"
                         />
                       )}
+                    </div>
+                  );
+                }
+              })}
+          {matchDetail?.updatedSesssionBettings &&
+            Object.entries(matchDetail?.updatedSesssionBettings)
+              ?.sort(([nameA], [nameB]) => nameA.localeCompare(nameB))
+              ?.map(([name, item]: any) => {
+                if (name === "cricketCasino") {
+                  return (
+                    <>
+                      {item?.section?.map((items: any) => (
+                        <CasinoMarket
+                          key={items?.SelectionId}
+                          title={items?.RunnerName || items?.name}
+                          sessionData={items}
+                          currentMatch={matchDetail}
+                          gtype={items?.gtype}
+                          type={name}
+                          profitLossData={matchDetail?.sessionProfitLoss}
+                        />
+                      ))}
+                    </>
+                  );
+                }
+              })}
+          {matchDetail?.updatedSesssionBettings &&
+            Object.entries(matchDetail?.updatedSesssionBettings)
+              ?.sort(([nameA], [nameB]) => nameA.localeCompare(nameB))
+              ?.map(([name, item]: any) => {
+                if (name !== "cricketCasino") {
+                  return (
+                    <div key={name}>
                       {item?.section?.filter(
                         (items: any) =>
                           (items?.resultData && items?.resultData !== null) ||
@@ -464,22 +509,6 @@ const SessionMarketDetail = () => {
                         />
                       )}
                     </div>
-                  );
-                } else {
-                  return (
-                    <>
-                      {item?.section?.map((items: any) => (
-                        <CasinoMarket
-                          key={items?.SelectionId}
-                          title={items?.RunnerName || items?.name}
-                          sessionData={items}
-                          currentMatch={matchDetail}
-                          gtype={items?.gtype}
-                          type={name}
-                          profitLossData={matchDetail?.sessionProfitLoss}
-                        />
-                      ))}
-                    </>
                   );
                 }
               })}
