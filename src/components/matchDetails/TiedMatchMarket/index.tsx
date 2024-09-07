@@ -289,7 +289,12 @@ const TiedMatchMarket = ({ currentMatch, liveData, title }: any) => {
                   : 0
               }
               teamImage={currentMatch?.apiTideMatch?.teamA_Image}
-              livestatus={liveData?.status === "SUSPENDED" ? true : false}
+              livestatus={
+                liveData?.runners?.length > 0 &&
+                liveData?.runners[0]?.status === "SUSPENDED"
+                  ? true
+                  : false
+              }
               data={liveData?.runners?.length > 0 ? liveData?.runners[0] : []}
               lock={liveData?.runners?.length > 0 ? false : true}
               name={"Yes"}
@@ -297,7 +302,12 @@ const TiedMatchMarket = ({ currentMatch, liveData, title }: any) => {
 
             <Divider />
             <BoxComponent
-              livestatus={liveData?.status === "SUSPENDED" ? true : false}
+              livestatus={
+                liveData?.runners?.length > 0 &&
+                liveData?.runners[1]?.status === "SUSPENDED"
+                  ? true
+                  : false
+              }
               teamRates={
                 currentMatch?.teamRates?.noRateTie
                   ? currentMatch?.teamRates?.noRateTie

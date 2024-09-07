@@ -292,7 +292,12 @@ const OtherMatchMarket = ({ currentMatch, liveData, title }: any) => {
                   : 0
               }
               // teamImage={currentMatch?.bookmaker?.teamA_Image}
-              livestatus={liveData?.status === "live" ? true : false}
+              livestatus={
+                liveData?.runners?.length > 0 &&
+                liveData?.runners[0]?.status === "SUSPENDED"
+                  ? true
+                  : false
+              }
               data={liveData?.runners?.length > 0 ? liveData?.runners[0] : []}
               lock={liveData?.runners?.length > 0 ? false : true}
               name={
@@ -303,7 +308,12 @@ const OtherMatchMarket = ({ currentMatch, liveData, title }: any) => {
 
             <Divider />
             <BoxComponent
-              livestatus={liveData?.status === "live" ? true : false}
+              livestatus={
+                liveData?.runners?.length > 0 &&
+                liveData?.runners[0]?.status === "SUSPENDED"
+                  ? true
+                  : false
+              }
               teamRates={
                 currentMatch?.teamRates
                   ? currentMatch?.teamRates[
@@ -324,40 +334,6 @@ const OtherMatchMarket = ({ currentMatch, liveData, title }: any) => {
               align="end"
               liveData={liveData}
             />
-            {currentMatch?.teamC && (
-              <>
-                <Divider />
-                <BoxComponent
-                  color={"#FF4D4D"}
-                  livestatus={liveData?.status === "live" ? true : false}
-                  teamRates={
-                    currentMatch?.teamRates
-                      ? currentMatch?.teamRates[
-                          profitLossDataForMatchConstants[liveData?.type]?.C
-                        ]
-                        ? currentMatch?.teamRates[
-                            profitLossDataForMatchConstants[liveData?.type]?.C
-                          ]
-                        : 0
-                      : 0
-                  }
-                  teamImage={null}
-                  lock={liveData?.runners?.length > 0 ? false : true}
-                  name={
-                    liveData?.runners?.length > 0
-                      ? liveData?.runners[2]?.nat
-                      : ""
-                  }
-                  data={
-                    liveData?.runners?.length > 0 ? liveData?.runners[2] : []
-                  }
-                  align="end"
-                  liveData={liveData}
-                />
-              </>
-            )}
-
-            <Divider />
             {!live && (
               <Box
                 sx={{
