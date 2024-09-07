@@ -191,57 +191,8 @@ const SessionMarketBox = ({
               color="#FFF"
             />
           )}
-          {newData?.activeStatus === "save" && !newData?.result && (
-            <SmallBox
-              hide={true}
-              loading={loading}
-              onClick={(e: any) => {
-                e.preventDefault();
-                setLoading(true);
-                dispatch(
-                  sessionBetLiveStatus({
-                    status: "live",
-                    betId: newData?.id,
-                  })
-                );
-              }}
-              textSize="8px"
-              // width={"80px"}
-              width="33px"
-              color={newData?.activeStatus === "live" ? "#46e080" : "#FF4D4D"}
-              // title={"Live"}
-            />
-          )}
-          {/* {!hideResult && (
-            <Result
-              width={7}
-              onClick={() => {
-                setVisible(true);
-              }}
-            />
-          )} */}
         </Box>
-        {visible && (
-          <Box
-            sx={{
-              position: "absolute",
-              zIndex: 105,
-              top: 0,
-              right: 0,
-              width: { lg: "70%", xs: "70%" },
-              display: "flex",
-              justifyContent: "end",
-            }}
-            className="example-2"
-          >
-            <CustomSessionResult
-              newData={newData}
-              onClick={() => {
-                setVisible(false);
-              }}
-            />
-          </Box>
-        )}
+
         {newData?.resultStatus ? (
           <Box
             sx={{
@@ -280,9 +231,9 @@ const SessionMarketBox = ({
               margin: "1px",
               background: "rgba(0,0,0,1)",
               height: "40px",
-              right: { lg: "25%", xs: "25%", md: "23%" },
-              position: "absolute",
-              width: { lg: "16%", xs: "20%" },
+              // right: { lg: "25%", xs: "25%", md: "23%" },
+              position: "relative",
+              width: { lg: "23%", md: "19%", sm: "19%", xs: "19%" },
               justifyContent: { xs: "center", lg: "center" },
               alignItems: "center",
               display: "flex",

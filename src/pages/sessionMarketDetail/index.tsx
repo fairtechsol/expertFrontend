@@ -36,6 +36,7 @@ import {
 } from "../../store/actions/match/matchAction";
 import { AppDispatch, RootState } from "../../store/store";
 import RunsBox from "../../components/matchDetails/RunsBox";
+import { customSortBySessionMarketName } from "../../helpers";
 
 const SessionMarketDetail = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -331,8 +332,9 @@ const SessionMarketDetail = () => {
       <Stack spacing={2} direction={{ lg: "row", xs: "column" }}>
         <Box sx={{ width: { lg: "100%" } }}>
           {matchDetail?.apiSession &&
-            Object.entries(matchDetail?.apiSession)?.map(
-              ([name, item]: any) => {
+            Object.entries(matchDetail?.apiSession)
+              ?.sort(customSortBySessionMarketName)
+              ?.map(([name, item]: any) => {
                 if (name === "session" || name === "fancy1") {
                   return (
                     <>
@@ -350,13 +352,12 @@ const SessionMarketDetail = () => {
                     </>
                   );
                 }
-              }
-            )}
+              })}
         </Box>
         <Box sx={{ width: { lg: "100%" } }}>
           {matchDetail?.updatedSesssionBettings &&
             Object.entries(matchDetail?.updatedSesssionBettings)
-              ?.sort(([nameA], [nameB]) => nameA.localeCompare(nameB))
+              ?.sort(customSortBySessionMarketName)
               ?.map(([name, item]: any) => {
                 if (name !== "cricketCasino") {
                   return (
@@ -387,8 +388,9 @@ const SessionMarketDetail = () => {
                 }
               })}
           {matchDetail?.apiSession &&
-            Object.entries(matchDetail?.apiSession)?.map(
-              ([name, item]: any) => {
+            Object.entries(matchDetail?.apiSession)
+              ?.sort(customSortBySessionMarketName)
+              ?.map(([name, item]: any) => {
                 if (name === "session" || name === "fancy1") {
                   return null;
                 } else if (name === "cricketCasino") {
@@ -424,13 +426,12 @@ const SessionMarketDetail = () => {
                       )}
                     </>
                   );
-              }
-            )}
+              })}
         </Box>
         <Box sx={{ width: { lg: "100%" } }}>
           {matchDetail?.updatedSesssionBettings &&
             Object.entries(matchDetail?.updatedSesssionBettings)
-              ?.sort(([nameA], [nameB]) => nameA.localeCompare(nameB))
+              ?.sort(customSortBySessionMarketName)
               ?.map(([name, item]: any) => {
                 if (name !== "cricketCasino") {
                   return (
@@ -462,7 +463,7 @@ const SessionMarketDetail = () => {
               })}
           {matchDetail?.updatedSesssionBettings &&
             Object.entries(matchDetail?.updatedSesssionBettings)
-              ?.sort(([nameA], [nameB]) => nameA.localeCompare(nameB))
+              ?.sort(customSortBySessionMarketName)
               ?.map(([name, item]: any) => {
                 if (name === "cricketCasino") {
                   return (
@@ -484,7 +485,7 @@ const SessionMarketDetail = () => {
               })}
           {matchDetail?.updatedSesssionBettings &&
             Object.entries(matchDetail?.updatedSesssionBettings)
-              ?.sort(([nameA], [nameB]) => nameA.localeCompare(nameB))
+              ?.sort(customSortBySessionMarketName)
               ?.map(([name, item]: any) => {
                 if (name !== "cricketCasino") {
                   return (
