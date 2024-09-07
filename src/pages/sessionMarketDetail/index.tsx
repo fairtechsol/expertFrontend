@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import CasinoMarket from "../../components/matchDetails/CasinoMarket";
 import CasinoMarketLive from "../../components/matchDetails/CasinoMarketLive";
-import RunsBox from "../../components/matchDetails/RunsBox";
 import SessionMarket from "../../components/matchDetails/SessionMarket";
 import SessionMarketLive from "../../components/matchDetails/SessionMarketLive";
 import {
@@ -45,8 +44,8 @@ const SessionMarketDetail = () => {
   const { matchDetail, success } = useSelector(
     (state: RootState) => state.addMatch.addMatch
   );
-  const { sessionProLoss } = useSelector((state: RootState) => state.match);
-  const { currentOdd } = useSelector((state: RootState) => state.addSession);
+  // const { sessionProLoss } = useSelector((state: RootState) => state.match);
+  // const { currentOdd } = useSelector((state: RootState) => state.addSession);
 
   const updateMatchDetailToRedux = (event: any) => {
     try {
@@ -483,7 +482,6 @@ const SessionMarketDetail = () => {
               })}
         </Box>
       </Stack>
-     
     </>
   );
 };
