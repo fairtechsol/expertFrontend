@@ -1,16 +1,13 @@
 import { Box, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { sessionBetLiveStatus } from "../../../store/actions/match/matchAction";
 import { AppDispatch, RootState } from "../../../store/store";
 import Divider from "../../Common/Divider";
 import { formatNumber } from "../../helper";
 // import Result from "../Result";
 import SeparateBox from "../SeparateBox";
 import SmallBox from "../SmallBox";
-import CustomSessionResult from "./CustomSessionResult";
 import PlaceBetComponent from "./PlaceBetComponent";
-import { edit } from "../../../assets";
 import SessionLimitEdit from "./SessionLimitEdit";
 import ModalMUI from "@mui/material/Modal";
 
@@ -26,18 +23,18 @@ const SessionMarketBox = ({
   const { statusBetLive, error, success } = useSelector(
     (state: RootState) => state.matchList
   );
-  const [loading, setLoading] = useState(false);
+  // const [loading, setLoading] = useState(false);
   const [visible, setVisible] = useState(false);
   const [maxLimitModal, setShowMaxLimitModal] = useState(false);
 
-  useEffect(() => {
-    if (statusBetLive) {
-      setLoading(false);
-    }
-    if (error) {
-      setLoading(false);
-    }
-  }, [statusBetLive, error]);
+  // useEffect(() => {
+  //   if (statusBetLive) {
+  //     setLoading(false);
+  //   }
+  //   if (error) {
+  //     setLoading(false);
+  //   }
+  // }, [statusBetLive, error]);
 
   useEffect(() => {
     if (success) {

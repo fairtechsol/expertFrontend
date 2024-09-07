@@ -4,7 +4,7 @@ import { ARROWUP } from "../../../assets";
 // import { sessionBetLiveStatus } from "../../../store/actions/match/matchAction";
 import { RootState } from "../../../store/store";
 import Divider from "../../Common/Divider";
-import { formatToINR } from "../../helper";
+// import { formatToINR } from "../../helper";
 // import Result from "../Result";
 import CasinoMarketBox from "./CasinoMarketBox";
 import { useSelector } from "react-redux";
@@ -14,7 +14,7 @@ import { useSelector } from "react-redux";
 const CasinoMarket = ({
   title,
   sessionData,
-  currentMatch,
+  // currentMatch,
   profitLossData,
 }: any) => {
   const [visible, setVisible] = useState(true);
@@ -22,9 +22,9 @@ const CasinoMarket = ({
   // const dispatch: AppDispatch = useDispatch();
 
   // const { success } = useSelector((state: RootState) => state.matchList);
-  const { matchDetail } = useSelector(
-    (state: RootState) => state.addMatch.addMatch
-  );
+  // const { matchDetail } = useSelector(
+  //   (state: RootState) => state.addMatch.addMatch
+  // );
 
   // useEffect(() => {
   //   if (success) {
@@ -32,7 +32,7 @@ const CasinoMarket = ({
   //   }
   // }, [success]);
 
-  let totalBet = 0;
+  // let totalBet = 0;
   return (
     <Box
       sx={{
