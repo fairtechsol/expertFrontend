@@ -10,7 +10,7 @@ import Result from "../Result";
 import CasinoMarketBox from "./CasinoMarketBox";
 import CustomCasinoMarketResult from "./CustomCasinoMarketResult";
 import LiveStatusButtonBox from "./LiveStatusButtonBox";
-import PlaceBetComponent from "../SessionMarket/PlaceBetComponent";
+// import PlaceBetComponent from "../SessionMarket/PlaceBetComponent";
 const CasinoMarket = ({
   title,
   sessionData,
@@ -134,14 +134,12 @@ const CasinoMarket = ({
             justifyContent: "flex-end",
           }}
         >
-          {sessionData?.activeStatus !== "live" && (
-            <Result
-              width={7}
-              onClick={() => {
-                setShowResultModal(true);
-              }}
-            />
-          )}
+          <Result
+            width={7}
+            onClick={() => {
+              setShowResultModal(true);
+            }}
+          />
           {showResultModal && (
             <Box
               sx={{

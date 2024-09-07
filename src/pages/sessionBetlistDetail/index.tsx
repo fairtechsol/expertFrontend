@@ -360,7 +360,7 @@ const SessionBetlistDetail = () => {
                       )}
                       {item?.section?.filter(
                         (items: any) =>
-                          items?.activeStatus === "live" &&
+                          !items?.isComplete &&
                           ((items?.resultData && items?.resultData === null) ||
                             items?.result === null)
                       )?.length > 0 && (

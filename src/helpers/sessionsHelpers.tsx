@@ -49,17 +49,18 @@ export const updateSessionBettingsItem = (
               (section: any) => section?.id === apiSection?.id
             );
             if (matchDetailSectionIndex !== -1) {
+              debugger
               matchDetailBettings[key].section[matchDetailSectionIndex] = {
                 ...matchDetailBettings[key].section[matchDetailSectionIndex],
                 ...apiSection,
                 isComplete: apiSection?.ex
                   ? apiSection?.ex?.availableToBack?.length > 0 &&
                     apiSection?.ex?.availableToLay?.length > 0
-                    ? ([""].includes(apiSection?.GameStatus) &&
+                    ? (["", "OPEN", "open"].includes(apiSection?.GameStatus) &&
                         !apiSection?.ex?.availableToBack[0]?.price &&
                         !apiSection?.ex?.availableToBack[0]?.size &&
-                        !apiSection?.ex?.availableToLay?.price &&
-                        !apiSection?.ex?.availableToLay?.size) ||
+                        !apiSection?.ex?.availableToLay[0]?.price &&
+                        !apiSection?.ex?.availableToLay[0]?.size) ||
                       apiSection?.activeStatus !== "live"
                       ? true
                       : false
