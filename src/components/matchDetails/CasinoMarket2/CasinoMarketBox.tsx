@@ -16,7 +16,7 @@ const CasinoMarketBox = ({ newData, index, profitLoss }: any) => {
         sx={{
           display: "flex",
           background: "white",
-          height: "40px",
+          height: "35px",
           width: "100%",
         }}
       >
