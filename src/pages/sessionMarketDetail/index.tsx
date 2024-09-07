@@ -422,12 +422,15 @@ const SessionMarketDetail = () => {
                           section="completed"
                         />
                       )}
-                      {item?.section?.filter(
-                        (items: any) =>
-                          items?.activeStatus === "live" &&
-                          ((items?.resultData && items?.resultData === null) ||
-                            items?.result === null)
-                      )?.length > 0 && (
+                      {item?.section
+                        ?.filter((item: any) => !item?.isManual)
+                        ?.filter(
+                          (items: any) =>
+                            items?.activeStatus === "live" &&
+                            ((items?.resultData &&
+                              items?.resultData === null) ||
+                              items?.result === null)
+                        )?.length > 0 && (
                         <SessionMarket
                           title={`${name} Market`}
                           hideTotalBet={false}
