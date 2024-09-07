@@ -229,7 +229,7 @@ const CasinoMarket = ({
                   matchDetail?.sessionProfitLoss?.[
                     matchDetail?.updatedSesssionBettings?.cricketCasino
                       ?.section?.[0]?.id
-                  ].totalBet || 0
+                  ]?.totalBet || 0
                 }`}
               </Typography>
             </Box>
