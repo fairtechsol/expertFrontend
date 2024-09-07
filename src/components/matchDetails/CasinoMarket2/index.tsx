@@ -40,7 +40,7 @@ const CasinoMarket = ({
         position: "relative",
         backgroundColor: "white",
         flexDirection: "column",
-        marginY: { lg: "4px" },
+        marginY: { lg: "6px" },
         width: { lg: "100%", xs: "100%" },
         alignSelf: {
           xs: "center",
@@ -77,7 +77,7 @@ const CasinoMarket = ({
             }}
           >
             {title}{" "}
-            {`(MIN: ${formatToINR(currentMatch?.betFairSessionMinBet)})`}
+            {/* {`(MIN: ${formatToINR(currentMatch?.betFairSessionMinBet)})`} */}
           </Typography>
           <Box>
             {/* {sessionData?.activeStatus !== "live" && (
@@ -178,7 +178,6 @@ const CasinoMarket = ({
             //       ?.section?.[0]?.id
             //   }
             // />
-
             // <PlaceBetComponent
             //   width={7}
             //   profitLossData={
@@ -190,56 +189,53 @@ const CasinoMarket = ({
             //   }
             //   newData={matchDetail}
             // />
-
-            <Box
-              sx={{
-                background: "#FDF21A",
-                borderRadius: "3px",
-                width: "35%",
-                height: "85%",
-                alignItems: "center",
-                justifyContent: "center",
-                display: "flex",
-
-                flexDirection: "column",
-                marginLeft: "2px",
-              }}
-            >
-              <Typography
-                sx={{
-                  fontSize: { lg: "7px", xs: "6px", md: "9px" },
-                  fontWeight: "bold",
-                  textAlign: "center",
-                  color: "#FF4D4D",
-                  lineHeight: "1",
-                }}
-              >
-                Total Bet
-              </Typography>
-              {matchDetail?.updatedSesssionBettings?.cricketCasino?.section?.map(
-                (sectionItem: any, index: number) => {
-                  totalBet =
-                    sectionItem?.RunnerName == title
-                      ? matchDetail?.sessionProfitLoss?.[sectionItem?.id]
-                          ?.totalBet || 0
-                      : "";
-
-                  return (
-                    <Typography
-                      key={index}
-                      sx={{
-                        fontSize: { lg: ".6vw", xs: "1.5vw", md: "1.5vw" },
-                        fontWeight: "bold",
-                        color: "#0B4F26",
-                        lineHeight: 1,
-                      }}
-                    >
-                      {`${totalBet}`}
-                    </Typography>
-                  );
-                }
-              )}
-            </Box>
+            // <Box
+            //   sx={{
+            //     background: "#FDF21A",
+            //     borderRadius: "3px",
+            //     width: "35%",
+            //     height: "85%",
+            //     alignItems: "center",
+            //     justifyContent: "center",
+            //     display: "flex",
+            //     flexDirection: "column",
+            //     marginLeft: "2px",
+            //   }}
+            // >
+            //   <Typography
+            //     sx={{
+            //       fontSize: { lg: "7px", xs: "6px", md: "9px" },
+            //       fontWeight: "bold",
+            //       textAlign: "center",
+            //       color: "#FF4D4D",
+            //       lineHeight: "1",
+            //     }}
+            //   >
+            //     Total Bet
+            //   </Typography>
+            //   {matchDetail?.updatedSesssionBettings?.cricketCasino?.section?.map(
+            //     (sectionItem: any, index: number) => {
+            //       totalBet =
+            //         sectionItem?.RunnerName == title
+            //           ? matchDetail?.sessionProfitLoss?.[sectionItem?.id]
+            //               ?.totalBet || 0
+            //           : "";
+            //       return (
+            //         <Typography
+            //           key={index}
+            //           sx={{
+            //             fontSize: { lg: ".6vw", xs: "1.5vw", md: "1.5vw" },
+            //             fontWeight: "bold",
+            //             color: "#0B4F26",
+            //             lineHeight: 1,
+            //           }}
+            //         >
+            //           {`${totalBet}`}
+            //         </Typography>
+            //       );
+            //     }
+            //   )}
+            // </Box>
           }
 
           <img
