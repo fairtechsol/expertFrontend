@@ -385,8 +385,8 @@ const MatchMarketDetail = () => {
               <Scoreboard liveScoreData={liveScoreBoardData} />
             )}
             <iframe
-              width={"100%"}
-              height={"100px"}
+              width="100%"
+              height="110px"
               src={`https://dpmatka.in/dcasino/score.php?matchId=${matchDetail?.eventId}`}
             ></iframe>
             {matchDetail?.matchOdd && (
