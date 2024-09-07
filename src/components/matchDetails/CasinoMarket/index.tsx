@@ -96,7 +96,7 @@ const CasinoMarket = ({
                 color="#FF4D4D"
               />
             )}
-            {/* {sessionData?.activeStatus === "live" && (
+            {sessionData?.activeStatus === "live" && (
               <LiveStatusButtonBox
                 hide={true}
                 onClick={(e: any) => {
@@ -111,7 +111,7 @@ const CasinoMarket = ({
                 textSize="8px"
                 width="33px"
               />
-            )} */}
+            )}
           </Box>
         </Box>
         <Box
