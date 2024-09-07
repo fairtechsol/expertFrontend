@@ -149,7 +149,7 @@ const SessionMarket2 = ({
               sessionData?.section
                 ?.filter((item: any) =>
                   section === "market"
-                    ? item?.activeStatus === "live" &&
+                    ? !item?.isComplete &&
                       ((item?.resultData && item?.resultData === null) ||
                         item?.result === null)
                     : section === "completed"
