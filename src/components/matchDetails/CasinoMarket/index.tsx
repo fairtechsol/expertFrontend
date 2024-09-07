@@ -164,7 +164,7 @@ const CasinoMarket = ({
             </Box>
           )}
 
-          {
+          {/* {
             <PlaceBetComponent
               width={7}
               profitLossData={
@@ -179,7 +179,7 @@ const CasinoMarket = ({
                   ?.section?.[0]?.id
               }
             />
-          }
+          } */}
           <img
             onClick={() => {
               setVisible(!visible);
