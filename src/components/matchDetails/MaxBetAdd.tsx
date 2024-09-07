@@ -6,8 +6,15 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
+import { TextField } from "@mui/material";
 
-const MaxBetAdd = ({ open, handleClose, matchOddsLive, currentMatch,title }: any) => {
+const MaxBetAdd = ({
+  open,
+  handleClose,
+  matchOddsLive,
+  currentMatch,
+  title,
+}: any) => {
   const [selected, setSelected] = useState<any>();
   const dispatch: AppDispatch = useDispatch();
 
@@ -24,9 +31,9 @@ const MaxBetAdd = ({ open, handleClose, matchOddsLive, currentMatch,title }: any
     dispatch(updateMarketRates(data));
     handleClose(); // Close the dialog after submission
   };
-const handlclose=()=>{
+  const handlclose = () => {
     handleClose();
-}
+  };
   return (
     <Dialog open={open} onClose={handleClose}>
       <DialogTitle
@@ -50,18 +57,16 @@ const handlclose=()=>{
             alignItems: "center",
           }}
         >
-          <input
+          <TextField
             type="number"
             placeholder="Enter maximum bet value"
             onChange={(e: any) => {
               setSelected(e.target.value);
             }}
-            style={{
-              width: "80%",
-              height: "50px",
-              borderRadius: "5px",
-              border: "1px #8b8787 solid",
-            }}
+            // style={{
+            //   width: "80%",
+            //   height: "50px",
+            // }}
           />
         </div>
       </DialogContent>

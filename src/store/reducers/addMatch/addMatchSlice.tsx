@@ -205,6 +205,7 @@ const addMatch = createSlice({
         const {
           apiSession,
           apiTiedMatch,
+          apiTiedMatch2,
           bookmaker,
           bookmaker2,
           marketCompleteMatch,
@@ -216,6 +217,7 @@ const addMatch = createSlice({
           manualTideMatch,
           completeManual,
           quickbookmaker,
+          other,
         } = action.payload;
 
         let parsedSessionBettings = state?.matchDetail?.sessionBettings?.map(
@@ -240,6 +242,7 @@ const addMatch = createSlice({
           overUnder,
           halfTime,
           apiTideMatch: apiTiedMatch,
+          apiTiedMatch2: apiTiedMatch2,
           bookmaker,
           bookmaker2,
           marketCompleteMatch,
@@ -249,6 +252,7 @@ const addMatch = createSlice({
           manualCompleteMatch: completeManual,
           quickBookmaker: quickbookmaker,
           updatedSesssionBettings: updatedSessionBettings || {},
+          other,
           // sessionBettings: state.matchDetail?.sessionBettings?.map(
           //   (item: any) => {
           //     const parsedItem = JSON.parse(item);
