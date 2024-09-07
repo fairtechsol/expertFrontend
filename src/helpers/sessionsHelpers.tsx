@@ -49,7 +49,6 @@ export const updateSessionBettingsItem = (
               (section: any) => section?.id === apiSection?.id
             );
             if (matchDetailSectionIndex !== -1) {
-              debugger
               matchDetailBettings[key].section[matchDetailSectionIndex] = {
                 ...matchDetailBettings[key].section[matchDetailSectionIndex],
                 ...apiSection,
