@@ -150,7 +150,7 @@ const SessionMarket = ({
                 ?.filter((item: any) => !item?.isManual)
                 ?.filter((item: any) =>
                   section === "market"
-                    ? item?.activeStatus === "live" &&
+                    ? !item?.isComplete &&
                       ((item?.resultData && item?.resultData === null) ||
                         item?.result === null)
                     : section === "completed"
