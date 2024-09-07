@@ -7,7 +7,7 @@ import HeaderRow from "./HeaderRow";
 import Row from "./Row";
 import { betListColorConstants } from "../../../utils/Constants";
 
-const BetList = ({ tag, allBetRates }: any) => {
+const BetList = ({ tag, allBetRates, title }: any) => {
   const [newData, setNewBets] = useState([]);
   const [visibleImg, setVisibleImg] = useState(true);
   const scrollRef = useRef<HTMLDivElement | null>(null);
@@ -201,7 +201,7 @@ const BetList = ({ tag, allBetRates }: any) => {
               marginLeft: "7px",
             }}
           >
-            All Bets
+            {`All Bets${title ? ` (${title})` : ""}`}
           </Typography>
         </Box>
         <Box
@@ -263,7 +263,7 @@ const BetList = ({ tag, allBetRates }: any) => {
           />
         </Box>
       </Box>
-      
+
       <Box
         sx={{
           overflowX: { xs: "scroll", lg: "auto" },
@@ -360,7 +360,6 @@ const BetList = ({ tag, allBetRates }: any) => {
           </>
         )}
       </Box>
-
     </Box>
   );
 };

@@ -375,30 +375,30 @@ export const betListColorConstants: any = {
   completeMatch: "#faf11b",
   completeManual: "#fbf11b",
   tiedMatch1: "#fcf11b",
-  tiedMatch2: "#fdf11b",
-  cricketCasino: "#00c0a987",
-  oddEven: "#cecebe",
-  fancy1: "#46e080",
-  overByOver: "#f5c0c0",
-  ballByBall: "#e5ffd5",
+  tiedMatch2: "#EE82EE",
+  cricketCasino: "#FF4500",
+  oddEven: "#7c46e6",
+  fancy1: "#808080",
+  overByOver: "#FFA07A",
+  ballByBall: "#FFA500",
 };
 
 export const addMatchThirdParty =
-  process.env.NODE_ENV === Constants.PRODUCTION
+  process.env.NODE_ENV !== Constants.PRODUCTION
     ? Constants.thirdParty
     : Constants.localPathThird;
 
 export const baseUrls = {
   socket:
-    process.env.NODE_ENV === Constants.PRODUCTION
+    process.env.NODE_ENV !== Constants.PRODUCTION
       ? Constants.apiBasePath
       : Constants.localPath,
   expertSocket:
-    process.env.NODE_ENV === Constants.PRODUCTION
+    process.env.NODE_ENV !== Constants.PRODUCTION
       ? Constants.expertSocketBasePath
       : Constants.localPathExpert,
   matchSocket:
-    process.env.NODE_ENV === Constants.PRODUCTION
+    process.env.NODE_ENV !== Constants.PRODUCTION
       ? Constants.thirdParty
       : Constants.localPathThird,
 };

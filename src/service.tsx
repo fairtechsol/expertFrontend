@@ -11,7 +11,7 @@ const toastOptions = {
 
 const service = axios.create({
   baseURL:
-    process.env.NODE_ENV === Constants.PRODUCTION
+    process.env.NODE_ENV !== Constants.PRODUCTION
       ? Constants.expertSocketBasePath
       : Constants.localPathExpert,
 });

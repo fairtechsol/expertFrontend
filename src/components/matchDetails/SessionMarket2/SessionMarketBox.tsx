@@ -86,14 +86,15 @@ const SessionMarketBox = ({
               : "#ECECEC", // Change color based on selected state and index
 
             height: "39px",
-            width: "40%",
+            // width: "40%",
+            width: "50%",
             alignItems: "center",
             boxShadow: visible ? 3 : 0,
             // backgroundColor:'red'
           }}
           // className="example-2"
         >
-          <Box sx={{ paddingTop: "3px", width: { lg: "100%", xs: "70%" } }}>
+          <Box sx={{ paddingTop: "3px", width: { lg: "100%", xs: "100%" } }}>
             <Typography
               sx={{
                 color: "black",
@@ -139,7 +140,7 @@ const SessionMarketBox = ({
                   }}
                   onClick={() => setShowMaxLimitModal(true)}
                 >
-                  <img src={edit} style={{ width: "18px", height: "12px" }} />
+                  {/* <img src={edit} style={{ width: "18px", height: "12px" }} /> */}
                 </Box>
               )}
             </Box>

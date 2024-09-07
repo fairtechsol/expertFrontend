@@ -308,10 +308,9 @@ const SessionBetlistDetail = () => {
     }
   }, []);
 
-
   return (
     <>
-      <Box
+      {/* <Box
         sx={{
           width: { lg: "50%", xs: "100%", md: "100%" },
           paddingLeft: "5px",
@@ -328,9 +327,19 @@ const SessionBetlistDetail = () => {
         >
           {matchDetail?.title}
         </Typography>
-      </Box>
-      <Stack spacing={2} direction={{ lg: "row",md:"row" ,xs: "column",sm:"row" }}>
-        <Box sx={{ width: { lg: "40%",md:"40%" ,xs: "100%",sm:"40%" } }}>
+      </Box> */}
+      <Stack
+        spacing={2}
+        direction={{ lg: "row", md: "row", xs: "column", sm: "row" }}
+      >
+        <Box
+          sx={{
+            width: { lg: "44%", md: "44%", xs: "100%", sm: "40%" },
+            display: "grid",
+            gridTemplateColumns: "auto auto",
+            gap: "5px",
+          }}
+        >
           {matchDetail?.updatedSesssionBettings &&
             Object.entries(matchDetail?.updatedSesssionBettings)?.map(
               ([name, item]: any) => {
@@ -419,8 +428,12 @@ const SessionBetlistDetail = () => {
             )}
         </Box>
 
-        <Box sx={{ width:{ lg: "60%",md:"60%" ,xs: "100%",sm:"60%" }}}>
-          <BetList allBetRates={placedBetsMatch} tag={true} />
+        <Box sx={{ width: { lg: "56%", md: "56%", xs: "100%", sm: "60%" } }}>
+          <BetList
+            allBetRates={placedBetsMatch}
+            tag={true}
+            title={matchDetail?.title}
+          />
         </Box>
       </Stack>
       {sessionProLoss?.length > 0 && (
