@@ -41,6 +41,7 @@ import { matchSocketService } from "../../socketManager/matchSocket";
 import ManualMarket from "../manualMarket";
 import Scoreboard from "../../components/matchDetails/Scoreboard";
 import service from "../../service";
+import OtherMatchMarket from "../../components/matchDetails/OtherMatchMarket";
 
 const MatchMarketDetail = () => {
   const { state } = useLocation();
@@ -426,6 +427,13 @@ const MatchMarketDetail = () => {
                 title={matchDetail?.apiTideMatch?.name}
               />
             )}
+            {matchDetail?.apiTiedMatch2 && (
+              <TiedMatchMarket
+                currentMatch={matchDetail}
+                liveData={matchDetail?.apiTiedMatch2}
+                title={matchDetail?.apiTiedMatch2?.name}
+              />
+            )}
             {matchDetail?.manualTideMatch?.isActive && (
               <ManualMarket
                 currentMatch={matchDetail}
@@ -447,6 +455,21 @@ const MatchMarketDetail = () => {
                 type="manualTiedMatch"
               />
             )}
+            {matchDetail?.other &&
+              matchDetail?.other
+                // ?.filter((item: any) => item?.isActive)
+                ?.map((market: any) => (
+                  <OtherMatchMarket
+                    key={market?.id}
+                    currentMatch={matchDetail}
+                    liveData={{
+                      ...market,
+                      type: "other",
+                      marketId: market?.mid ? market?.mid?.toString() : "",
+                    }}
+                    title={market?.name}
+                  />
+                ))}
           </Box>
           <Box
             sx={{
