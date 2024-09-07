@@ -288,14 +288,24 @@ const CompleteMatchMarket = ({ currentMatch, liveData, title }: any) => {
                   : 0
               }
               teamImage={currentMatch?.marketCompleteMatch?.teamA_Image}
-              livestatus={liveData?.status === "SUSPENDED" ? true : false}
+              livestatus={
+                liveData?.runners?.length > 0 &&
+                liveData?.runners[0]?.status === "SUSPENDED"
+                  ? true
+                  : false
+              }
               data={liveData?.runners?.length > 0 ? liveData?.runners[0] : []}
               lock={liveData?.runners?.length > 0 ? false : true}
               name={"Yes"}
             />
             <Divider />
             <BoxComponent
-              livestatus={liveData?.status === "SUSPENDED" ? true : false}
+              livestatus={
+                liveData?.runners?.length > 0 &&
+                liveData?.runners[0]?.status === "SUSPENDED"
+                  ? true
+                  : false
+              }
               teamRates={
                 currentMatch?.teamRates?.noRateComplete
                   ? currentMatch?.teamRates?.noRateComplete
