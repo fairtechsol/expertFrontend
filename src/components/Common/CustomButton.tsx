@@ -53,7 +53,8 @@ const CustomButton = ({
         {
           cursor: "pointer",
           height: "35px",
-          minWidth: "80px",
+          //minWidth: "80px",
+          width:{lg:"90px",md:"80px",sm:"80px",xs:"80px"},
           // marginLeft: "10px",
           borderRadius: "5px",
           background: bgColor ? bgColor : "#0B4F26",
@@ -66,7 +67,8 @@ const CustomButton = ({
       <Typography
         sx={{
           color: "white",
-          fontSize: { lg: "13px", xs: "10px", md: "10px" },
+          fontSize: { lg: "11px", xs: "10px", md: "10px" },
+          
           ...inlineStyle,
         }}
       >

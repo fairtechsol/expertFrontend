@@ -31,8 +31,8 @@ const CasinoMarket = ({
       setShowResultModal(false);
     }
   }, [success]);
- let totalBet=0;
- 
+  
+  let totalBet=0
   return (
     <Box
       sx={{
@@ -80,7 +80,7 @@ const CasinoMarket = ({
             {`(MIN: ${formatToINR(currentMatch?.betFairSessionMinBet)})`}
           </Typography>
           <Box>
-            {sessionData?.activeStatus !== "live" && (
+            {/* {sessionData?.activeStatus !== "live" && (
               <LiveStatusButtonBox
                 hide={true}
                 onClick={(e: any) => {
@@ -96,8 +96,8 @@ const CasinoMarket = ({
                 width="28px"
                 color="#FF4D4D"
               />
-            )}
-            {sessionData?.activeStatus === "live" && (
+            )} */}
+            {/* {sessionData?.activeStatus === "live" && (
               <LiveStatusButtonBox
                 hide={true}
                 onClick={(e: any) => {
@@ -112,7 +112,7 @@ const CasinoMarket = ({
                 textSize="8px"
                 width="33px"
               />
-            )}
+            )} */}
           </Box>
         </Box>
         <Box
@@ -135,13 +135,13 @@ const CasinoMarket = ({
             justifyContent: "flex-end",
           }}
         >
-          <Result
+          {/* <Result
             width={7}
             onClick={() => {
               setShowResultModal(true);
             }}
-          />
-          {showResultModal && (
+          /> */}
+          {/* {showResultModal && (
             <Box
               sx={{
                 position: "absolute",
@@ -161,7 +161,7 @@ const CasinoMarket = ({
                 }}
               />
             </Box>
-          )}
+          )} */}
 
           {
             // <PlaceBetComponent
@@ -216,7 +216,6 @@ const CasinoMarket = ({
               >
                 Total Bet
               </Typography>
-
               {matchDetail?.updatedSesssionBettings?.cricketCasino?.section?.map(
                 (sectionItem: any, index: number) => {
                    totalBet =
@@ -238,22 +237,6 @@ const CasinoMarket = ({
                   );
                 }
               )}
-
-              {/* <Typography
-                sx={{
-                  fontSize: { lg: ".6vw", xs: "1.5vw", md: "1.5vw" },
-                  fontWeight: "bold",
-                  color: "#0B4F26",
-                  lineHeight: 1,
-                }}
-              >
-                {`${
-                  matchDetail?.sessionProfitLoss?.[
-                    matchDetail?.updatedSesssionBettings?.cricketCasino
-                      ?.section?.[0]?.id
-                  ]?.totalBet || 0
-                }`}
-              </Typography> */}
             </Box>
           }
 

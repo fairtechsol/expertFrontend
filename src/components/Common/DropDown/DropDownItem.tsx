@@ -80,8 +80,7 @@ const DropDownItem = (props: any) => {
       }}
       sx={[
         {
-          paddingY: "4px",
-          paddingLeft: "7px",
+          padding: "4px 7px 4px 7px",
           fontSize: "10px",
           fontWeight: "500",
           color: "black",

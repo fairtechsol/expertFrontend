@@ -263,6 +263,7 @@ const BetList = ({ tag, allBetRates }: any) => {
           />
         </Box>
       </Box>
+      
       <Box
         sx={{
           overflowX: { xs: "scroll", lg: "auto" },
@@ -275,7 +276,7 @@ const BetList = ({ tag, allBetRates }: any) => {
               ref={scrollRef}
               sx={{
                 maxHeight: "80vh",
-                width: { xs: "100vw", lg: "auto", md: "140vw" },
+                width: { xs: "auto", lg: "auto", md: "auto" },
                 overflow: "auto",
               }}
             >
@@ -359,6 +360,7 @@ const BetList = ({ tag, allBetRates }: any) => {
           </>
         )}
       </Box>
+
     </Box>
   );
 };
