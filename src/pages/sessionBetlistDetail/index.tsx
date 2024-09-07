@@ -35,6 +35,7 @@ import {
 } from "../../store/actions/match/matchAction";
 import { AppDispatch, RootState } from "../../store/store";
 import BetList from "../../components/matchDetails/BetList";
+import { customSortBySessionMarketName } from "../../helpers";
 
 const SessionBetlistDetail = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -308,7 +309,6 @@ const SessionBetlistDetail = () => {
     }
   }, []);
 
-
   return (
     <>
       <Box
@@ -329,11 +329,15 @@ const SessionBetlistDetail = () => {
           {matchDetail?.title}
         </Typography>
       </Box>
-      <Stack spacing={2} direction={{ lg: "row",md:"row" ,xs: "column",sm:"row" }}>
-        <Box sx={{ width: { lg: "40%",md:"40%" ,xs: "100%",sm:"40%" } }}>
+      <Stack
+        spacing={2}
+        direction={{ lg: "row", md: "row", xs: "column", sm: "row" }}
+      >
+        <Box sx={{ width: { lg: "40%", md: "40%", xs: "100%", sm: "40%" } }}>
           {matchDetail?.updatedSesssionBettings &&
-            Object.entries(matchDetail?.updatedSesssionBettings)?.map(
-              ([name, item]: any) => {
+            Object.entries(matchDetail?.updatedSesssionBettings)
+              ?.sort(customSortBySessionMarketName)
+              ?.map(([name, item]: any) => {
                 if (name !== "cricketCasino") {
                   return (
                     <div key={name}>
@@ -358,6 +362,17 @@ const SessionBetlistDetail = () => {
                           section="completed"
                         />
                       )}
+                    </div>
+                  );
+                }
+              })}
+          {matchDetail?.updatedSesssionBettings &&
+            Object.entries(matchDetail?.updatedSesssionBettings)
+              ?.sort(customSortBySessionMarketName)
+              ?.map(([name, item]: any) => {
+                if (name !== "cricketCasino") {
+                  return (
+                    <div key={name}>
                       {item?.section?.filter(
                         (items: any) =>
                           !items?.isComplete &&
@@ -376,6 +391,39 @@ const SessionBetlistDetail = () => {
                           section="market"
                         />
                       )}
+                    </div>
+                  );
+                }
+              })}
+          {matchDetail?.updatedSesssionBettings &&
+            Object.entries(matchDetail?.updatedSesssionBettings)
+              ?.sort(customSortBySessionMarketName)
+              ?.map(([name, item]: any) => {
+                if (name === "cricketCasino") {
+                  return (
+                    <div style={{ width: "100%" }}>
+                      {item?.section?.map((items: any) => (
+                        <CasinoMarket2
+                          key={items?.SelectionId}
+                          title={items?.RunnerName || items?.name}
+                          sessionData={items}
+                          currentMatch={matchDetail}
+                          gtype={items?.gtype}
+                          type={name}
+                          profitLossData={matchDetail?.sessionProfitLoss}
+                        />
+                      ))}
+                    </div>
+                  );
+                }
+              })}
+          {matchDetail?.updatedSesssionBettings &&
+            Object.entries(matchDetail?.updatedSesssionBettings)
+              ?.sort(customSortBySessionMarketName)
+              ?.map(([name, item]: any) => {
+                if (name !== "cricketCasino") {
+                  return (
+                    <div key={name}>
                       {item?.section?.filter(
                         (items: any) =>
                           (items?.resultData && items?.resultData !== null) ||
@@ -398,28 +446,11 @@ const SessionBetlistDetail = () => {
                       )}
                     </div>
                   );
-                } else {
-                  return (
-                    <div style={{ width: "100%" }}>
-                      {item?.section?.map((items: any) => (
-                        <CasinoMarket2
-                          key={items?.SelectionId}
-                          title={items?.RunnerName || items?.name}
-                          sessionData={items}
-                          currentMatch={matchDetail}
-                          gtype={items?.gtype}
-                          type={name}
-                          profitLossData={matchDetail?.sessionProfitLoss}
-                        />
-                      ))}
-                    </div>
-                  );
                 }
-              }
-            )}
+              })}
         </Box>
 
-        <Box sx={{ width:{ lg: "60%",md:"60%" ,xs: "100%",sm:"60%" }}}>
+        <Box sx={{ width: { lg: "60%", md: "60%", xs: "100%", sm: "60%" } }}>
           <BetList allBetRates={placedBetsMatch} tag={true} />
         </Box>
       </Stack>
