@@ -346,11 +346,18 @@ const SessionMarketBox = ({
       </Box>
       <Divider />
       {Array.from(
-        { length: newData?.ex?.availableToLay?.length - 1 },
+        {
+          length:
+            Math.max(
+              newData?.ex?.availableToLay?.length ?? 0,
+              newData?.ex?.availableToBack?.length ?? 0
+            ) - 1,
+        },
         (_, i) => i + 1
       )?.map((item: number) => (
         <>
           <Box
+            key={item}
             sx={{
               display: "flex",
               background: visible

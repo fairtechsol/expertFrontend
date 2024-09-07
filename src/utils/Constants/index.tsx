@@ -131,6 +131,7 @@ export const matchBettingType = {
   quickbookmaker3: "quickbookmaker3",
   tiedMatch1: "tiedMatch1",
   tiedMatch2: "tiedMatch2",
+  tiedMatch3: "tiedMatch3",
   completeMatch: "completeMatch",
   completeManual: "completeManual",
   setWinner1: "setWinner1",
@@ -301,6 +302,10 @@ export const profitLossDataForMatchConstants = {
     B: "noRateTie",
   },
   [matchBettingType.tiedMatch2]: {
+    A: "yesRateTie",
+    B: "noRateTie",
+  },
+  [matchBettingType.tiedMatch3]: {
     A: "yesRateTie",
     B: "noRateTie",
   },
