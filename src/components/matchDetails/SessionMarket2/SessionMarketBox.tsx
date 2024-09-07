@@ -1,7 +1,7 @@
 import { Box, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../../../store/store";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../store/store";
 import Divider from "../../Common/Divider";
 import { formatNumber } from "../../helper";
 // import Result from "../Result";
@@ -19,10 +19,8 @@ const SessionMarketBox = ({
   index,
   hideEditMaxButton,
 }: any) => {
-  const dispatch: AppDispatch = useDispatch();
-  const { statusBetLive, error, success } = useSelector(
-    (state: RootState) => state.matchList
-  );
+  // const dispatch: AppDispatch = useDispatch();
+  const { success } = useSelector((state: RootState) => state.matchList);
   // const [loading, setLoading] = useState(false);
   const [visible, setVisible] = useState(false);
   const [maxLimitModal, setShowMaxLimitModal] = useState(false);
