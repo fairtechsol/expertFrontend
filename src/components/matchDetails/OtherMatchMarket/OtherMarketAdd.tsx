@@ -35,6 +35,10 @@ const OtherMarketAdd = ({
           (matchOddsLive?.runners?.length > 0 &&
             matchOddsLive?.runners[1]?.nat) ??
           "",
+        teamC:
+          (matchOddsLive?.runners?.length > 0 &&
+            matchOddsLive?.runners[2]?.nat) ??
+          null,
       },
       ...(matchOddsLive?.id && { id: matchOddsLive.id }),
     };
