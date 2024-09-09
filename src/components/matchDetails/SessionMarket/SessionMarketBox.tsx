@@ -151,7 +151,7 @@ const SessionMarketBox = ({
             top: "4px",
             minWidth: { lg: "36%", xs: "45%", md: "25%" },
             justifyContent: "flex-end",
-            left: { lg: "7vw", md: "29vw", xs: "10vw" },
+            left: { lg: "7vw", md: "21vw", },
             display: "flex",
             zIndex: 100,
             gap: 0,
@@ -252,7 +252,7 @@ const SessionMarketBox = ({
               height: "30px",
               right: { lg: "25%", xs: "25%", md: "23%" },
               position: "absolute",
-              width: { lg: "16%", xs: "20%" },
+              width: { lg: "18.6%", xs: "40%" },
               justifyContent: { xs: "center", lg: "center" },
               alignItems: "center",
               display: "flex",
@@ -368,7 +368,7 @@ const SessionMarketBox = ({
                 : index % 2 === 0
                 ? "#FFE094"
                 : "#ECECEC",
-              height: "40px",
+              height: "30px",
               width: "100%",
               boxShadow: visible ? 3 : 0,
             }}

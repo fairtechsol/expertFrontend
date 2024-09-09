@@ -53,7 +53,7 @@ const CasinoMarket = ({
       <Box
         sx={{
           display: "flex",
-          height: "35px",
+          height: "22px",
           flexDirection: "row",
           width: "99.7%",
           alignSelf: "center",
@@ -71,7 +71,7 @@ const CasinoMarket = ({
         >
           <Typography
             sx={{
-              fontSize: "10px",
+              fontSize: "9px",
               fontWeight: "bold",
               marginLeft: "7px",
             }}
@@ -245,8 +245,8 @@ const CasinoMarket = ({
             src={ARROWUP}
             style={{
               transform: visible ? "rotate(180deg)" : "rotate(0deg)",
-              width: "15px",
-              height: "15px",
+              width: "12px",
+              height: "12px",
               marginRight: "5px",
               marginLeft: "5px",
               cursor: "pointer",
