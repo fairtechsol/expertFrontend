@@ -26,8 +26,6 @@ const DropDown = (props: any) => {
     isOpen,
   } = props;
 
-  console.log(data, "abc");
-
   const [value, setValue] = useState(valued);
   const [open, setOpen] = useState(false);
 
