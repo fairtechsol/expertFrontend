@@ -59,7 +59,7 @@ const SessionMarketBoxLive = ({
         sx={{
           display: "flex",
           background: "white",
-          height: "40px",
+          height: "25px",
           width: "100%",
         }}
       >
@@ -67,7 +67,7 @@ const SessionMarketBoxLive = ({
           sx={{
             display: "flex",
             background: index % 2 === 0 ? "#FFE094" : "#ECECEC",
-            height: "40px",
+            height: "25px",
             width: "100%",
             alignItems: "center",
           }}
@@ -89,7 +89,7 @@ const SessionMarketBoxLive = ({
           sx={{
             position: "absolute",
             top: "5px",
-            right: { lg: "30%", md: "35%", xs: "30%" },
+            right: { lg: "30%", md: "45%", xs: "45%" },
             display: "flex",
             zIndex: 100,
           }}
@@ -103,8 +103,9 @@ const SessionMarketBoxLive = ({
                 handleLive();
               }}
               textSize="8px"
-              width="28px"
+              width={{ lg: "20px", xs: "20px" }}
               color="#FF4D4D"
+              height="20px"
             />
           )}
           {live && (
@@ -114,7 +115,8 @@ const SessionMarketBoxLive = ({
                 e.preventDefault();
               }}
               textSize="8px"
-              width="33px"
+              width={{ lg: "20px", xs: "20px" }}
+              height="20px"
             />
           )}
         </Box>
@@ -124,7 +126,7 @@ const SessionMarketBoxLive = ({
             sx={{
               margin: "1px",
               background: "rgba(0,0,0,1)",
-              height: "40px",
+              height: "25px",
               right: "0vh",
               position: "absolute",
               width: { lg: "27%", xs: "25%", md: "25.5%" },
@@ -152,7 +154,7 @@ const SessionMarketBoxLive = ({
               display: "flex",
               position: "relative",
               background: index % 2 === 0 ? "#FFE094" : "#ECECEC",
-              height: "40px",
+              height: "28px",
               width: { lg: "85%", xs: "100%", md: "100%" },
               justifyContent: "flex-end",
               alignItems: "center",
@@ -192,7 +194,7 @@ const SessionMarketBoxLive = ({
               sx={{
                 display: "flex",
                 background: "white",
-                height: "40px",
+                height: "25px",
                 width: "100%",
               }}
             >
@@ -201,7 +203,7 @@ const SessionMarketBoxLive = ({
                   display: "flex",
                   position: "relative",
                   background: index % 2 === 0 ? "#FFE094" : "#ECECEC",
-                  height: "40px",
+                  height: "28px",
                   width: "100%",
                   justifyContent: "flex-end",
                   alignItems: "center",

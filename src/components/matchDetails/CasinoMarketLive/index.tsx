@@ -62,7 +62,7 @@ const CasinoMarketLive = ({
       <Box
         sx={{
           display: "flex",
-          height: "35px",
+          height: "20px",
           flexDirection: "row",
           width: "99.7%",
           alignSelf: "center",
@@ -97,8 +97,9 @@ const CasinoMarketLive = ({
                 handleLive();
               }}
               textSize="8px"
-              width="28px"
+              width={{ lg: "20px", xs: "20px" }}
               color="#FF4D4D"
+              height="20px"
             />
           )}
           {/* {live && (

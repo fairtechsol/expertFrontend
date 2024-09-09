@@ -1,19 +1,19 @@
 import { Box, Typography } from "@mui/material";
 import { BroadCast_ } from "../../../assets";
 
-const Stop = ({ color, onClick }: any) => {
+const Stop = ({ color, onClick, height }: any) => {
   return (
     <>
       <Box
         onClick={onClick}
         sx={{
-          width: { lg: "90px", xs: "17vw" },
+          width: { lg: "60px", xs: "17vw" },
           display: "flex",
           marginRight: "10px",
           justifyContent: "space-between",
           paddingX: 1,
           alignItems: "center",
-          height: "30px",
+          height: height ? height : "30px",
           background: "#FF4D4D",
           borderRadius: "3px",
           cursor: "pointer",
@@ -21,16 +21,16 @@ const Stop = ({ color, onClick }: any) => {
       >
         <Typography
           sx={{
-            fontSize: { lg: "11px", xs: "10px" },
+            fontSize: { lg: "10px", xs: "9px" },
             fontWeight: "600",
             color: color ? "white" : "white",
           }}
         >
-          {"Stop"}
+          Stop
         </Typography>
         <img
           src={BroadCast_}
-          style={{ height: "15px", width: "20px", backgroundSize: "contains" }}
+          style={{ height: "10px", width: "15px", backgroundSize: "contains" }}
         />
       </Box>
     </>
