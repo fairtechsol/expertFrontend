@@ -1,5 +1,5 @@
 import { Box, Stack } from "@mui/material";
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import CasinoMarket2 from "../../components/matchDetails/CasinoMarket2";
@@ -347,39 +347,7 @@ const SessionBetlistDetail = () => {
               ?.map(([name, item]: any) => {
                 if (name !== "cricketCasino") {
                   return (
-                    <div key={name}>
-                      {item?.section?.filter(
-                        (items: any) =>
-                          items?.isComplete &&
-                          ((items?.resultData && items?.resultData === null) ||
-                            items?.result === null)
-                      )?.length > 0 && (
-                        <SessionMarket2
-                          title={`${name} Completed`}
-                          hideTotalBet={false}
-                          stopAllHide={true}
-                          profitLossData={matchDetail?.sessionProfitLoss}
-                          sessionData={item}
-                          hideResult={false}
-                          currentMatch={matchDetail}
-                          hideEditMaxButton={true}
-                          cstmStyle={{
-                            maxHeight: { sm: "40vh" },
-                          }}
-                          section="completed"
-                        />
-                      )}
-                    </div>
-                  );
-                }
-              })}
-          {matchDetail?.updatedSesssionBettings &&
-            Object.entries(matchDetail?.updatedSesssionBettings)
-              ?.sort(customSortBySessionMarketName)
-              ?.map(([name, item]: any) => {
-                if (name !== "cricketCasino") {
-                  return (
-                    <div key={name}>
+                    <Fragment key={name}>
                       {item?.section?.filter(
                         (items: any) =>
                           !items?.isComplete &&
@@ -398,9 +366,9 @@ const SessionBetlistDetail = () => {
                           section="market"
                         />
                       )}
-                    </div>
+                    </Fragment>
                   );
-                }
+                } else return null;
               })}
           {matchDetail?.updatedSesssionBettings &&
             Object.entries(matchDetail?.updatedSesssionBettings)
@@ -422,38 +390,7 @@ const SessionBetlistDetail = () => {
                       ))}
                     </div>
                   );
-                }
-              })}
-          {matchDetail?.updatedSesssionBettings &&
-            Object.entries(matchDetail?.updatedSesssionBettings)
-              ?.sort(customSortBySessionMarketName)
-              ?.map(([name, item]: any) => {
-                if (name !== "cricketCasino") {
-                  return (
-                    <div key={name}>
-                      {item?.section?.filter(
-                        (items: any) =>
-                          (items?.resultData && items?.resultData !== null) ||
-                          items?.result !== null
-                      )?.length > 0 && (
-                        <SessionMarket2
-                          title={`${name} Declared`}
-                          hideTotalBet={false}
-                          stopAllHide={true}
-                          profitLossData={matchDetail?.sessionProfitLoss}
-                          sessionData={item}
-                          hideResult={false}
-                          currentMatch={matchDetail}
-                          hideEditMaxButton={true}
-                          cstmStyle={{
-                            maxHeight: { sm: "40vh" },
-                          }}
-                          section="declared"
-                        />
-                      )}
-                    </div>
-                  );
-                }
+                } else return null;
               })}
         </Box>
 

@@ -1,5 +1,5 @@
 import { Box, Stack, Typography } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import CasinoMarket from "../../components/matchDetails/CasinoMarket";
@@ -361,7 +361,7 @@ const SessionMarketDetail = () => {
               ?.map(([name, item]: any) => {
                 if (name !== "cricketCasino") {
                   return (
-                    <div key={name}>
+                    <Fragment key={name}>
                       {item?.section?.filter(
                         (items: any) =>
                           items?.isComplete &&
@@ -383,9 +383,9 @@ const SessionMarketDetail = () => {
                           section="completed"
                         />
                       )}
-                    </div>
+                    </Fragment>
                   );
-                }
+                } else return null;
               })}
           {matchDetail?.apiSession &&
             Object.entries(matchDetail?.apiSession)
@@ -435,7 +435,7 @@ const SessionMarketDetail = () => {
               ?.map(([name, item]: any) => {
                 if (name !== "cricketCasino") {
                   return (
-                    <div key={name}>
+                    <Fragment key={name}>
                       {item?.section
                         ?.filter((item: any) => !item?.isManual)
                         ?.filter(
@@ -457,9 +457,9 @@ const SessionMarketDetail = () => {
                           section="market"
                         />
                       )}
-                    </div>
+                    </Fragment>
                   );
-                }
+                } else return null;
               })}
           {matchDetail?.updatedSesssionBettings &&
             Object.entries(matchDetail?.updatedSesssionBettings)
@@ -481,7 +481,7 @@ const SessionMarketDetail = () => {
                       ))}
                     </>
                   );
-                }
+                } else return null;
               })}
           {matchDetail?.updatedSesssionBettings &&
             Object.entries(matchDetail?.updatedSesssionBettings)
@@ -489,7 +489,7 @@ const SessionMarketDetail = () => {
               ?.map(([name, item]: any) => {
                 if (name !== "cricketCasino") {
                   return (
-                    <div key={name}>
+                    <Fragment key={name}>
                       {item?.section?.filter(
                         (items: any) =>
                           (items?.resultData && items?.resultData !== null) ||
@@ -510,9 +510,9 @@ const SessionMarketDetail = () => {
                           section="declared"
                         />
                       )}
-                    </div>
+                    </Fragment>
                   );
-                }
+                } else return null;
               })}
         </Box>
       </Stack>
