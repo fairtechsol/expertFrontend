@@ -29,7 +29,7 @@ const PlaceBetComponent = ({ profitLossData, newData }: any) => {
           top: "2px",
           width: { lg: "7vw", xs: "20vw", md: "20vw" },
           borderRadius: "5px",
-          height: "35px",
+          height: "25px",
           right: "6px",
           position: "absolute",
           cursor: "pointer",

@@ -54,8 +54,8 @@ body {
   content: "";
   position: absolute;
   align-self: "center";
-  border-left: 35px solid #f1c550;
-  border-bottom: 35px solid #262626;
+  border-left: 20px solid #f1c550;
+  border-bottom: 20px solid #262626;
   /* page background color */
 }
 

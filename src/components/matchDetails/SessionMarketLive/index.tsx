@@ -34,7 +34,7 @@ const SessionMarketLive = ({ title, sessionData, currentMatch, type }: any) => {
       <Box
         sx={{
           display: "flex",
-          height: "35px",
+          height: "20px",
           flexDirection: "row",
           width: "99.7%",
           alignSelf: "center",
@@ -89,8 +89,8 @@ const SessionMarketLive = ({ title, sessionData, currentMatch, type }: any) => {
             src={ARROWUP}
             style={{
               transform: visible ? "rotate(180deg)" : "rotate(0deg)",
-              width: "15px",
-              height: "15px",
+              width: "12px",
+              height: "12px",
               marginRight: "5px",
               marginLeft: "5px",
               cursor: "pointer",

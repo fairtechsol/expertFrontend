@@ -10,6 +10,7 @@ const SmallBox = ({
   hide,
   customStyle,
   loading,
+  height,
 }: any) => {
   return (
     <>
@@ -17,13 +18,16 @@ const SmallBox = ({
         onClick={onClick}
         sx={[
           {
-            width: { lg: width ? width.lg : "80px", xs: width ? width.xs : "25%" },
+            width: {
+              lg: width ? width.lg : "80px",
+              xs: width ? width.xs : "25%",
+            },
             display: "flex",
             marginRight: "10px",
             justifyContent: "center",
             paddingX: 1,
             alignItems: "center",
-            height: "32px",
+            height: height ? height : "32px",
             background: color ? color : "#46e080",
             borderRadius: "3px",
             cursor: "pointer",

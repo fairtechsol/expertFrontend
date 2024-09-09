@@ -1,4 +1,4 @@
-import { Box, Stack, Typography } from "@mui/material";
+import { Box, Stack } from "@mui/material";
 import React, { Fragment, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -311,7 +311,7 @@ const SessionMarketDetail = () => {
 
   return (
     <>
-      <Box
+      {/* <Box
         sx={{
           width: { lg: "50%", xs: "100%", md: "100%" },
           paddingLeft: "5px",
@@ -328,7 +328,7 @@ const SessionMarketDetail = () => {
         >
           {matchDetail?.title}
         </Typography>
-      </Box>
+      </Box> */}
       <Stack spacing={2} direction={{ lg: "row", xs: "column" }}>
         <Box sx={{ width: { lg: "100%" } }}>
           {matchDetail?.apiSession &&

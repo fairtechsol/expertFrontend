@@ -10,6 +10,7 @@ const LiveStatusButtonBox = ({
   hide,
   customStyle,
   loading,
+  height,
 }: any) => {
   return (
     <>
@@ -26,7 +27,7 @@ const LiveStatusButtonBox = ({
             justifyContent: "center",
             paddingX: 1,
             alignItems: "center",
-            height: "32px",
+            height: height ? height : "32px",
             background: color ? color : "#46e080",
             borderRadius: "3px",
             cursor: "pointer",

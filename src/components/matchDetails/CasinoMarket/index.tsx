@@ -31,8 +31,8 @@ const CasinoMarket = ({
       setShowResultModal(false);
     }
   }, [success]);
- let totalBet=0;
- 
+  let totalBet = 0;
+
   return (
     <Box
       sx={{
@@ -53,7 +53,7 @@ const CasinoMarket = ({
       <Box
         sx={{
           display: "flex",
-          height: "35px",
+          height: "20px",
           flexDirection: "row",
           width: "99.7%",
           alignSelf: "center",
@@ -93,8 +93,9 @@ const CasinoMarket = ({
                   );
                 }}
                 textSize="8px"
-                width="28px"
+                width={{ lg: "20px" }}
                 color="#FF4D4D"
+                height="20px"
               />
             )}
             {sessionData?.activeStatus === "live" && (
@@ -110,7 +111,8 @@ const CasinoMarket = ({
                   );
                 }}
                 textSize="8px"
-                width="33px"
+                width={{ lg: "20px" }}
+                height="20px"
               />
             )}
           </Box>
@@ -219,10 +221,12 @@ const CasinoMarket = ({
 
               {matchDetail?.updatedSesssionBettings?.cricketCasino?.section?.map(
                 (sectionItem: any, index: number) => {
-                   totalBet =
-                   sectionItem?.RunnerName == title? matchDetail?.sessionProfitLoss?.[sectionItem?.id]
-                      ?.totalBet || 0:""
-                   
+                  totalBet =
+                    sectionItem?.RunnerName == title
+                      ? matchDetail?.sessionProfitLoss?.[sectionItem?.id]
+                          ?.totalBet || 0
+                      : "";
+
                   return (
                     <Typography
                       key={index}
@@ -264,8 +268,8 @@ const CasinoMarket = ({
             src={ARROWUP}
             style={{
               transform: visible ? "rotate(180deg)" : "rotate(0deg)",
-              width: "15px",
-              height: "15px",
+              width: "12px",
+              height: "12px",
               marginRight: "5px",
               marginLeft: "5px",
               cursor: "pointer",

@@ -16,7 +16,7 @@ const CasinoMarketBox = ({ newData, index, profitLoss }: any) => {
         sx={{
           display: "flex",
           background: "white",
-          height: "40px",
+          height: "30px",
           width: "100%",
         }}
       >
@@ -24,7 +24,7 @@ const CasinoMarketBox = ({ newData, index, profitLoss }: any) => {
           sx={{
             display: "flex",
             background: index % 2 === 0 ? "#FFE094" : "#ECECEC",
-            height: "40px",
+            height: "30px",
             width: "100%",
             justifyContent: "center",
             flexDirection: "column",
@@ -70,7 +70,7 @@ const CasinoMarketBox = ({ newData, index, profitLoss }: any) => {
             sx={{
               margin: "1px",
               background: "rgba(0,0,0,1)",
-              height: "40px",
+              height: "30px",
               right: "0vh",
               position: "absolute",
               width: { lg: "27%", xs: "25%", md: "25.5%" },
@@ -98,8 +98,8 @@ const CasinoMarketBox = ({ newData, index, profitLoss }: any) => {
               display: "flex",
               position: "relative",
               background: index % 2 === 0 ? "#FFE094" : "#ECECEC",
-              height: "40px",
-              width: { lg: "65%", xs: "67%", md: "61%" },
+              height: "30px",
+              width: { lg: "60%", xs: "67%", md: "61%" },
               justifyContent: "flex-end",
               alignItems: "center",
             }}
