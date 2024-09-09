@@ -65,6 +65,8 @@ export const updateSessionBettingsItem = (
                       : false
                     : true
                   : true,
+                minBet: apiSection?.min,
+                maxBet: apiSection?.max,
               };
             } else {
             }

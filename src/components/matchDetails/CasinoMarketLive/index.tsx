@@ -49,7 +49,7 @@ const CasinoMarketLive = ({
         display: "flex",
         backgroundColor: "white",
         flexDirection: "column",
-        marginY: { lg: "4px" },
+        marginY: "4px",
         width: { lg: "100%", xs: "100%" },
         alignSelf: {
           xs: "center",
@@ -140,8 +140,8 @@ const CasinoMarketLive = ({
             src={ARROWUP}
             style={{
               transform: visible ? "rotate(180deg)" : "rotate(0deg)",
-              width: "15px",
-              height: "15px",
+              width: "12px",
+              height: "12px",
               marginRight: "5px",
               marginLeft: "5px",
               cursor: "pointer",

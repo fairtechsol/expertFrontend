@@ -31,7 +31,7 @@ const SessionMarket = ({
         display: "flex",
         backgroundColor: "white",
         flexDirection: "column",
-        marginY: { lg: ".5vh" },
+        marginY: "4px",
         width: "100%",
         alignSelf: {
           xs: "center",
@@ -39,7 +39,7 @@ const SessionMarket = ({
           lg: "flex-start",
           boxShadow: "0px 5px 10px #0000001A",
         },
-        marginBottom: "1rem",
+        // marginBottom: "1rem",
       }}
     >
       <Box

@@ -366,21 +366,21 @@ export const gameTypeMatchBetting = {
 };
 
 export const betListColorConstants: any = {
-  session: "#319E5B",
-  matchOdd: "#F6C550",
-  bookmaker: "#F4C550",
-  quickbookmaker1: "#F1C550",
-  quickbookmaker2: "#F2C550",
-  quickbookmaker3: "#F3C550",
-  completeMatch: "#faf11b",
-  completeManual: "#fbf11b",
-  tiedMatch1: "#fcf11b",
-  tiedMatch2: "#EE82EE",
-  cricketCasino: "#FF4500",
-  oddEven: "#7c46e6",
-  fancy1: "#808080",
-  overByOver: "#FFA07A",
-  ballByBall: "#FFA500",
+  session: { background: "#319E5B", textColor: "" },
+  matchOdd: { background: "#F6C550", textColor: "" },
+  bookmaker: { background: "#F4C550", textColor: "" },
+  quickbookmaker1: { background: "#F1C550", textColor: "" },
+  quickbookmaker2: { background: "#F2C550", textColor: "" },
+  quickbookmaker3: { background: "#F3C550", textColor: "" },
+  completeMatch: { background: "#faf11b", textColor: "" },
+  completeManual: { background: "#fbf11b", textColor: "" },
+  tiedMatch1: { background: "#fcf11b", textColor: "" },
+  tiedMatch2: { background: "#EE82EE", textColor: "" },
+  cricketCasino: { background: "#FF1111", textColor: "#fff" },
+  oddEven: { background: "#7c46e6", textColor: "#fff" },
+  fancy1: { background: "#808080", textColor: "" },
+  overByOver: { background: "#FFA07A", textColor: "" },
+  ballByBall: { background: "#FFA500", textColor: "" },
 };
 
 export const addMatchThirdParty =
