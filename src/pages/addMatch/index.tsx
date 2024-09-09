@@ -740,7 +740,7 @@ const AddMatch = () => {
                   }}
                   disable={state?.id ? true : false}
                   valueStyle={{ ...inputStyle, color: "white" }}
-                  title={"Match Name*"}
+                  title="Match Name*"
                   valueContainerStyle={{
                     height: "45px",
                     marginX: "0px",
@@ -759,7 +759,7 @@ const AddMatch = () => {
                     position: "relative",
                     marginTop: "5px",
                   }}
-                  type={"cricket"}
+                  type="cricket"
                   titleStyle={{ marginLeft: "0px", color: "#575757" }}
                   data={eventsList}
                   matchesSelect={true}
