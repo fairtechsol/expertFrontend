@@ -508,7 +508,7 @@ const Header1 = () => {
             </Box>
           </AppBar>
 
-          <Box sx={{ minHeight: { lg: 66, sm: 70, md: 80, xs: 80 } }} />
+          <Box sx={{ minHeight: { lg: 66, sm: 80, md: 80, xs: 80 } }} />
         </>
       )}
       {matchListDropdown?.length > 0 && (

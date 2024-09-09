@@ -13,6 +13,7 @@ import SmallBox from "../SmallBox";
 import OtherMarketAdd from "./OtherMarketAdd";
 
 const OtherMatchMarket = ({ currentMatch, liveData, title }: any) => {
+  console.log(liveData?.runners?.length > 0 && liveData?.runners[0], "abc");
   const dispatch: AppDispatch = useDispatch();
   const [visibleImg, setVisibleImg] = useState<boolean>(true);
   const [live, setLive] = useState<boolean>(
@@ -310,7 +311,7 @@ const OtherMatchMarket = ({ currentMatch, liveData, title }: any) => {
             <BoxComponent
               livestatus={
                 liveData?.runners?.length > 0 &&
-                liveData?.runners[0]?.status === "SUSPENDED"
+                liveData?.runners[1]?.status === "SUSPENDED"
                   ? true
                   : false
               }
