@@ -329,7 +329,7 @@ const SessionMarketDetail = () => {
           {matchDetail?.title}
         </Typography>
       </Box> */}
-      <Stack spacing={2} direction={{ lg: "row", xs: "column" }}>
+      <Stack spacing={{ lg: 2, xs: 0 }} direction={{ lg: "row", xs: "column" }}>
         <Box sx={{ width: { lg: "100%" } }}>
           {matchDetail?.apiSession &&
             Object.entries(matchDetail?.apiSession)

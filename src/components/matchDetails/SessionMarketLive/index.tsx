@@ -21,7 +21,7 @@ const SessionMarketLive = ({ title, sessionData, currentMatch, type }: any) => {
         display: "flex",
         backgroundColor: "white",
         flexDirection: "column",
-        marginY: { lg: "4px" },
+        marginY: "4px",
         width: { lg: "100%", xs: "100%" },
         alignSelf: {
           xs: "center",
@@ -57,7 +57,7 @@ const SessionMarketLive = ({ title, sessionData, currentMatch, type }: any) => {
               marginLeft: "7px",
             }}
           >
-            {title}{" "}
+            {title}
             {`(MIN: ${formatToINR(currentMatch?.betFairSessionMinBet)})`}
           </Typography>
         </Box>
@@ -123,18 +123,18 @@ const SessionMarketLive = ({ title, sessionData, currentMatch, type }: any) => {
             {matchSessionData?.length > 0 &&
               matchSessionData?.map((match: any, index: any) => {
                 if (!match?.id) {
-                return (
-                  <Box key={index}>
-                    <SessionMarketBoxLive
-                      currentMatch={currentMatch}
-                      newData={match}
-                      index={index}
-                      gtype={sessionData?.gtype}
-                      type={type}
-                    />
-                    <Divider />
-                  </Box>
-                );
+                  return (
+                    <Box key={index}>
+                      <SessionMarketBoxLive
+                        currentMatch={currentMatch}
+                        newData={match}
+                        index={index}
+                        gtype={sessionData?.gtype}
+                        type={type}
+                      />
+                      <Divider />
+                    </Box>
+                  );
                 }
               })}
           </Box>

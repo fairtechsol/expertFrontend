@@ -179,6 +179,7 @@ const SessionBetlistDetail = () => {
             id: event?.jobData?.placedBet?.betId,
             maxLoss: event?.redisData?.maxLoss,
             totalBet: event?.redisData?.totalBet,
+            profitLoss: event?.redisData?.betPlaced,
           })
         );
         dispatch(

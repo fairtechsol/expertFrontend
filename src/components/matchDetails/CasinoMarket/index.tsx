@@ -40,7 +40,7 @@ const CasinoMarket = ({
         position: "relative",
         backgroundColor: "white",
         flexDirection: "column",
-        marginY: { lg: "4px" },
+        marginY: "4px",
         width: { lg: "100%", xs: "100%" },
         alignSelf: {
           xs: "center",
@@ -80,24 +80,25 @@ const CasinoMarket = ({
             {`(MIN: ${formatToINR(currentMatch?.betFairSessionMinBet)})`}
           </Typography>
           <Box>
-            {sessionData?.activeStatus !== "live" && (
-              <LiveStatusButtonBox
-                hide={true}
-                onClick={(e: any) => {
-                  e.preventDefault();
-                  dispatch(
-                    sessionBetLiveStatus({
-                      status: "live",
-                      betId: sessionData?.id,
-                    })
-                  );
-                }}
-                textSize="8px"
-                width={{ lg: "20px" }}
-                color="#FF4D4D"
-                height="20px"
-              />
-            )}
+            {sessionData?.activeStatus !== "live" &&
+              !sessionData?.resultStatus && (
+                <LiveStatusButtonBox
+                  hide={true}
+                  onClick={(e: any) => {
+                    e.preventDefault();
+                    dispatch(
+                      sessionBetLiveStatus({
+                        status: "live",
+                        betId: sessionData?.id,
+                      })
+                    );
+                  }}
+                  textSize="8px"
+                  width={{ lg: "20px" }}
+                  color="#FF4D4D"
+                  height="20px"
+                />
+              )}
             {sessionData?.activeStatus === "live" && (
               <LiveStatusButtonBox
                 hide={true}

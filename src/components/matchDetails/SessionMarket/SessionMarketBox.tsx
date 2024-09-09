@@ -92,12 +92,19 @@ const SessionMarketBox = ({
           }}
           // className="example-2"
         >
+          {!hideEditMaxButton && (
+            <img
+              onClick={() => setShowMaxLimitModal(true)}
+              src={edit}
+              style={{ width: "14px", height: "12px", marginLeft: "4px" }}
+            />
+          )}
           <Box sx={{ paddingTop: "3px", width: { lg: "100%", xs: "70%" } }}>
             <Typography
               sx={{
                 color: "black",
                 maxHeight: "30px",
-                fontSize: { lg: "10px", md: "9px", xs: "8px" },
+                fontSize: { lg: "9px", md: "9px", xs: "8px" },
                 marginLeft: "3px",
                 fontWeight: "600",
                 lineHeight: "11px",
@@ -122,25 +129,6 @@ const SessionMarketBox = ({
               >
                 max : {formatToINR(newData?.maxBet)}
               </Typography>
-              {!hideEditMaxButton && (
-                <Box
-                  sx={{
-                    width: "30px",
-                    height: "18px",
-                    background: "transparent",
-                    marginLeft: "5px",
-                    zIndex: "999",
-                    // borderRadius: "3px",
-                    // display: "flex",
-                    // justifyContent: "center",
-                    // alignItems: "center",
-                    // paddingY: "2px",
-                  }}
-                  onClick={() => setShowMaxLimitModal(true)}
-                >
-                  <img src={edit} style={{ width: "18px", height: "12px" }} />
-                </Box>
-              )}
             </Box>
           </Box>
         </Box>
@@ -151,7 +139,7 @@ const SessionMarketBox = ({
             top: "4px",
             minWidth: { lg: "36%", xs: "45%", md: "25%" },
             justifyContent: "flex-end",
-            left: { lg: "7vw", md: "21vw", },
+            left: { lg: "7vw", md: "21vw" },
             display: "flex",
             zIndex: 100,
             gap: 0,
@@ -175,7 +163,7 @@ const SessionMarketBox = ({
                   })
                 );
               }}
-              textSize={"8px"}
+              textSize="8px"
               width={{ lg: "20px", xs: "20px", md: "20px" }}
               color={newData?.activeStatus === "live" ? "#46e080" : "#FF4D4D"}
               height="20px"
@@ -186,34 +174,36 @@ const SessionMarketBox = ({
               loading={false}
               hide={false}
               textSize={newData?.result === "No Result" ? "0.55em" : "10px"}
-              width={{ lg: "20px", xs: "20px", md: "20px" }}
+              width={{ lg: "35px", xs: "35px", md: "35px" }}
               title={`${newData?.result || 0}`}
               color="#FFF"
               height="20px"
             />
           )}
-          {newData?.activeStatus === "save" && !newData?.result && (
-            <SmallBox
-              hide={true}
-              loading={loading}
-              onClick={(e: any) => {
-                e.preventDefault();
-                setLoading(true);
-                dispatch(
-                  sessionBetLiveStatus({
-                    status: "live",
-                    betId: newData?.id,
-                  })
-                );
-              }}
-              textSize="8px"
-              // width={"80px"}
-              width={{ lg: "20px", xs: "20px", md: "20px" }}
-              color={newData?.activeStatus === "live" ? "#46e080" : "#FF4D4D"}
-              // title={"Live"}
-              height="20px"
-            />
-          )}
+          {newData?.activeStatus === "save" &&
+            !newData?.result &&
+            !newData?.resultStatus && (
+              <SmallBox
+                hide={true}
+                loading={loading}
+                onClick={(e: any) => {
+                  e.preventDefault();
+                  setLoading(true);
+                  dispatch(
+                    sessionBetLiveStatus({
+                      status: "live",
+                      betId: newData?.id,
+                    })
+                  );
+                }}
+                textSize="8px"
+                // width={"80px"}
+                width={{ lg: "20px", xs: "20px", md: "20px" }}
+                color={newData?.activeStatus === "live" ? "#46e080" : "#FF4D4D"}
+                // title={"Live"}
+                height="20px"
+              />
+            )}
           {!hideResult && (
             <Result
               width={7}
@@ -250,9 +240,9 @@ const SessionMarketBox = ({
               margin: "1px",
               background: "rgba(0,0,0,1)",
               height: "30px",
-              right: { lg: "25%", xs: "25%", md: "23%" },
+              right: { lg: "23.7%", xs: "16.8%", md: "14.9%" },
               position: "absolute",
-              width: { lg: "18.6%", xs: "40%" },
+              width: { lg: "18.6%", xs: "36%" },
               justifyContent: { xs: "center", lg: "center" },
               alignItems: "center",
               display: "flex",
