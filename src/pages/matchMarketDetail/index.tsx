@@ -411,6 +411,21 @@ const MatchMarketDetail = () => {
                 title={matchDetail?.bookmaker2?.name}
               />
             )}
+            {matchDetail?.other &&
+              matchDetail?.other
+                // ?.filter((item: any) => item?.isActive)
+                ?.map((market: any) => (
+                  <OtherMatchMarket
+                    key={market?.id}
+                    currentMatch={matchDetail}
+                    liveData={{
+                      ...market,
+                      type: "other",
+                      marketId: market?.mid ? market?.mid?.toString() : "",
+                    }}
+                    title={market?.name}
+                  />
+                ))}
             {matchDetail?.quickBookmaker
               ?.filter((item: any) => item?.isActive)
               ?.map((bookmaker: any) => (
@@ -455,21 +470,6 @@ const MatchMarketDetail = () => {
                 type="manualTiedMatch"
               />
             )}
-            {matchDetail?.other &&
-              matchDetail?.other
-                // ?.filter((item: any) => item?.isActive)
-                ?.map((market: any) => (
-                  <OtherMatchMarket
-                    key={market?.id}
-                    currentMatch={matchDetail}
-                    liveData={{
-                      ...market,
-                      type: "other",
-                      marketId: market?.mid ? market?.mid?.toString() : "",
-                    }}
-                    title={market?.name}
-                  />
-                ))}
           </Box>
           <Box
             sx={{

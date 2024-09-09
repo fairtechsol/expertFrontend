@@ -16,11 +16,10 @@ const DropDownItem = (props: any) => {
     dropDownTextStyle,
     setSelected,
     name,
-    gameType
+    gameType,
   } = props;
 
   const dispatch: AppDispatch = useDispatch();
-
 
   return (
     <Box
@@ -29,14 +28,14 @@ const DropDownItem = (props: any) => {
           setValue(i);
           if (eventDetail) {
             function setDetailWithRunners() {
-              let data ={
-                id : EventId ,
-                eventType : gameType,
-                matchOddId : mId
-              }
-            
-                dispatch(getExtraMarketList(data));
-             
+              let data = {
+                id: EventId,
+                eventType: gameType,
+                matchOddId: mId,
+              };
+
+              dispatch(getExtraMarketList(data));
+
               let allrunners: any = [];
               eventDetail.runners.map((runner: any) => {
                 allrunners.push(runner?.runnerName);
@@ -47,14 +46,18 @@ const DropDownItem = (props: any) => {
                   teamA: allrunners[0],
                   teamB: allrunners[1],
                   teamC: allrunners[2] ? allrunners[2] : undefined,
-                  startAt: new Date(eventDetail?.EventDate.replace('AM', ' AM').replace('PM', ' PM').replace(' (IST)', '')),
+                  startAt: new Date(
+                    eventDetail?.EventDate.replace("AM", " AM")
+                      .replace("PM", " PM")
+                      .replace(" (IST)", "")
+                  ),
                   eventId: EventId,
                   marketId: mId,
                   matchName: i,
                   title: i,
-                  f:eventDetail?.f,
-                  tv:eventDetail?.tv,
-                  m1:eventDetail?.m1,
+                  f: eventDetail?.f,
+                  tv: eventDetail?.tv,
+                  m1: eventDetail?.m1,
                 };
               });
             }
