@@ -254,10 +254,14 @@ const ManualMarket = ({ currentMatch, liveData, type }: any) => {
               teamRates={
                 currentMatch?.teamRates
                   ? currentMatch?.teamRates[
-                      profitLossDataForMatchConstants[liveData?.type]?.A
+                      profitLossDataForMatchConstants[liveData?.type]?.A +
+                      "_" +
+                      currentMatch?.id
                     ]
                     ? currentMatch?.teamRates[
-                        profitLossDataForMatchConstants[liveData?.type]?.A
+                        profitLossDataForMatchConstants[liveData?.type]?.A +
+                        "_" +
+                        currentMatch?.id
                       ]
                     : 0
                   : 0
@@ -278,10 +282,14 @@ const ManualMarket = ({ currentMatch, liveData, type }: any) => {
               teamRates={
                 currentMatch?.teamRates
                   ? currentMatch?.teamRates[
-                      profitLossDataForMatchConstants[liveData?.type]?.B
+                      profitLossDataForMatchConstants[liveData?.type]?.B +
+                      "_" +
+                      currentMatch?.id
                     ]
                     ? currentMatch?.teamRates[
-                        profitLossDataForMatchConstants[liveData?.type]?.B
+                        profitLossDataForMatchConstants[liveData?.type]?.B +
+                        "_" +
+                        currentMatch?.id
                       ]
                     : 0
                   : 0
@@ -306,10 +314,14 @@ const ManualMarket = ({ currentMatch, liveData, type }: any) => {
                   teamRates={
                     currentMatch?.teamRates
                       ? currentMatch?.teamRates[
-                          profitLossDataForMatchConstants[liveData?.type]?.C
+                          profitLossDataForMatchConstants[liveData?.type]?.C +
+                          "_" +
+                          currentMatch?.id
                         ]
                         ? currentMatch?.teamRates[
-                            profitLossDataForMatchConstants[liveData?.type]?.C
+                            profitLossDataForMatchConstants[liveData?.type]?.C +
+                            "_" +
+                            currentMatch?.id
                           ]
                         : 0
                       : 0

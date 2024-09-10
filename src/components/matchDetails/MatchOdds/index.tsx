@@ -431,11 +431,16 @@ const MatchOdds = ({ currentMatch, matchOddsLive, id }: any) => {
                 teamRates={
                   currentMatch?.teamRates
                     ? currentMatch?.teamRates[
-                        profitLossDataForMatchConstants[matchOddsLive?.type]?.A
+                        profitLossDataForMatchConstants[matchOddsLive?.type]
+                          ?.A +
+                          "_" +
+                          currentMatch?.id
                       ]
                       ? currentMatch?.teamRates[
                           profitLossDataForMatchConstants[matchOddsLive?.type]
-                            ?.A
+                            ?.A +
+                            "_" +
+                            currentMatch?.id
                         ]
                       : 0
                     : 0
@@ -447,10 +452,14 @@ const MatchOdds = ({ currentMatch, matchOddsLive, id }: any) => {
                   currentMatch?.teamRates
                     ? currentMatch?.teamRates[
                         profitLossDataForMatchConstants[matchOddsLive?.type]?.B
-                      ]
+                      ] +
+                      "_" +
+                      currentMatch?.id
                       ? currentMatch?.teamRates[
                           profitLossDataForMatchConstants[matchOddsLive?.type]
-                            ?.B
+                            ?.B +
+                            "_" +
+                            currentMatch?.id
                         ]
                       : 0
                     : 0
@@ -477,12 +486,16 @@ const MatchOdds = ({ currentMatch, matchOddsLive, id }: any) => {
                       currentMatch?.teamRates
                         ? currentMatch?.teamRates[
                             profitLossDataForMatchConstants[matchOddsLive?.type]
-                              ?.C
+                              ?.C +
+                              "_" +
+                              currentMatch?.id
                           ]
                           ? currentMatch?.teamRates[
                               profitLossDataForMatchConstants[
                                 matchOddsLive?.type
-                              ]?.C
+                              ]?.C +
+                                "_" +
+                                currentMatch?.id
                             ]
                           : 0
                         : 0
