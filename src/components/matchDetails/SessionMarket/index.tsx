@@ -77,6 +77,7 @@ const SessionMarket = ({
                     status: "save",
                     matchId: currentMatch?.id,
                     stopAllSessions: true,
+                    type: sessionData?.mname,
                   })
                 );
               }}

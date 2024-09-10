@@ -311,26 +311,8 @@ const SessionMarketDetail = () => {
 
   return (
     <>
-      {/* <Box
-        sx={{
-          width: { lg: "50%", xs: "100%", md: "100%" },
-          paddingLeft: "5px",
-          marginTop: { xs: "10px", lg: "0" },
-        }}
-      >
-        <Typography
-          sx={{
-            fontSize: "16px",
-            color: "white",
-            fontWeight: "700",
-            alignSelf: "start",
-          }}
-        >
-          {matchDetail?.title}
-        </Typography>
-      </Box> */}
       <Stack spacing={{ lg: 2, xs: 0 }} direction={{ lg: "row", xs: "column" }}>
-        <Box sx={{ width: { lg: "100%" } }}>
+        <Box sx={{ width: { lg: "70%" } }}>
           {matchDetail?.apiSession &&
             Object.entries(matchDetail?.apiSession)
               ?.sort(customSortBySessionMarketName)
@@ -354,7 +336,7 @@ const SessionMarketDetail = () => {
                 }
               })}
         </Box>
-        <Box sx={{ width: { lg: "100%" } }}>
+        <Box sx={{ width: { lg: "70%" } }}>
           {matchDetail?.apiSession &&
             Object.entries(matchDetail?.apiSession)
               ?.sort(customSortBySessionMarketName)
