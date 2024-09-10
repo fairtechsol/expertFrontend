@@ -10,7 +10,9 @@ const SessionMarketLive = ({ title, sessionData, currentMatch, type }: any) => {
   const [matchSessionData, setMatchSessionData] = useState(sessionData);
   useEffect(() => {
     setMatchSessionData(
-      sessionData?.section?.filter((item: any) => !item?.activeStatus)
+      sessionData?.section?.filter(
+        (item: any) => !item?.activeStatus || item?.activeStatus === "unSave"
+      )
     );
   }, [sessionData]);
   const [visible, setVisible] = useState(true);
@@ -122,7 +124,7 @@ const SessionMarketLive = ({ title, sessionData, currentMatch, type }: any) => {
           >
             {matchSessionData?.length > 0 &&
               matchSessionData?.map((match: any, index: any) => {
-                if (!match?.id) {
+                if (!match?.id || match?.activeStatus === "unSave") {
                   return (
                     <Box key={index}>
                       <SessionMarketBoxLive

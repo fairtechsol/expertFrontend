@@ -7,6 +7,7 @@ import SmallBox from "../SmallBox";
 import { addSession } from "../../../store/actions/addSession";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../../store/store";
+import { sessionBetLiveStatus } from "../../../store/actions/match/matchAction";
 
 const SessionMarketBoxLive = ({
   currentMatch,
@@ -100,7 +101,14 @@ const SessionMarketBoxLive = ({
               onClick={(e: any) => {
                 e.preventDefault();
                 setLive(!live);
-                handleLive();
+                if (newData?.id) {
+                  dispatch(
+                    sessionBetLiveStatus({
+                      status: "live",
+                      betId: newData?.id,
+                    })
+                  );
+                } else handleLive();
               }}
               textSize="8px"
               width={{ lg: "20px", xs: "20px" }}

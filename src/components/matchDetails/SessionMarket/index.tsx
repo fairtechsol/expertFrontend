@@ -157,6 +157,7 @@ const SessionMarket = ({
                         item?.result === null)
                     : section === "completed"
                     ? item?.isComplete &&
+                      item?.activeStatus !== "unSave" &&
                       ((item?.resultData && item?.resultData === null) ||
                         item?.result === null)
                     : (item?.resultData && item?.resultData !== null) ||

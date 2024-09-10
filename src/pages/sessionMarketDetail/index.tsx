@@ -321,7 +321,9 @@ const SessionMarketDetail = () => {
                   return (
                     <>
                       {item?.section?.filter(
-                        (items: any) => !items?.activeStatus
+                        (items: any) =>
+                          !items?.activeStatus ||
+                          items?.activeStatus === "unSave"
                       )?.length > 0 && (
                         <SessionMarketLive
                           key={name}
@@ -364,7 +366,9 @@ const SessionMarketDetail = () => {
                   return (
                     <>
                       {item?.section?.filter(
-                        (items: any) => !items?.activeStatus
+                        (items: any) =>
+                          !items?.activeStatus ||
+                          items?.activeStatus === "unSave"
                       )?.length > 0 && (
                         <SessionMarketLive
                           key={name}
@@ -389,6 +393,7 @@ const SessionMarketDetail = () => {
                       {item?.section?.filter(
                         (items: any) =>
                           items?.isComplete &&
+                          item?.activeStatus !== "unSave" &&
                           ((items?.resultData && items?.resultData === null) ||
                             items?.result === null)
                       )?.length > 0 && (
