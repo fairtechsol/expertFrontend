@@ -10,6 +10,7 @@ import BoxComponent from "../MatchOdds/BoxComponent";
 import MaxBetAdd from "../MaxBetAdd";
 import Stop from "../SessionMarket/Stop";
 import SmallBox from "../SmallBox";
+import { profitLossDataForMatchConstants } from "../../../utils/Constants";
 
 const CompleteMatchMarket = ({ currentMatch, liveData, title }: any) => {
   const dispatch: AppDispatch = useDispatch();
@@ -283,8 +284,18 @@ const CompleteMatchMarket = ({ currentMatch, liveData, title }: any) => {
           <Box sx={{ position: "relative" }}>
             <BoxComponent
               teamRates={
-                currentMatch?.teamRates?.yesRateComplete
-                  ? currentMatch?.teamRates?.yesRateComplete
+                currentMatch?.teamRates
+                  ? currentMatch?.teamRates[
+                      profitLossDataForMatchConstants[liveData?.type]?.A +
+                        "_" +
+                        currentMatch?.id
+                    ]
+                    ? currentMatch?.teamRates[
+                        profitLossDataForMatchConstants[liveData?.type]?.A +
+                          "_" +
+                          currentMatch?.id
+                      ]
+                    : 0
                   : 0
               }
               teamImage={currentMatch?.marketCompleteMatch?.teamA_Image}
@@ -307,8 +318,18 @@ const CompleteMatchMarket = ({ currentMatch, liveData, title }: any) => {
                   : false
               }
               teamRates={
-                currentMatch?.teamRates?.noRateComplete
-                  ? currentMatch?.teamRates?.noRateComplete
+                currentMatch?.teamRates
+                  ? currentMatch?.teamRates[
+                      profitLossDataForMatchConstants[liveData?.type]?.B +
+                        "_" +
+                        currentMatch?.id
+                    ]
+                    ? currentMatch?.teamRates[
+                        profitLossDataForMatchConstants[liveData?.type]?.B +
+                          "_" +
+                          currentMatch?.id
+                      ]
+                    : 0
                   : 0
               }
               teamImage={currentMatch?.marketCompleteMatch?.teamB_Image}

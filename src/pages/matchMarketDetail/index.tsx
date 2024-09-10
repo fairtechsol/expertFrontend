@@ -404,11 +404,11 @@ const MatchMarketDetail = () => {
                 title={matchDetail?.bookmaker?.name}
               />
             )}
-            {matchDetail?.bookmaker2 && (
+            {matchDetail?.marketBookmaker2 && (
               <BookMarket
                 currentMatch={matchDetail}
-                liveData={matchDetail?.bookmaker2}
-                title={matchDetail?.bookmaker2?.name}
+                liveData={matchDetail?.marketBookmaker2}
+                title={matchDetail?.marketBookmaker2?.name}
               />
             )}
 
@@ -462,6 +462,13 @@ const MatchMarketDetail = () => {
                 currentMatch={matchDetail}
                 liveData={matchDetail?.marketCompleteMatch}
                 title={matchDetail?.marketCompleteMatch?.name}
+              />
+            )}
+            {matchDetail?.marketCompleteMatch1 && (
+              <CompleteMatchMarket
+                currentMatch={matchDetail}
+                liveData={matchDetail?.marketCompleteMatch1}
+                title={matchDetail?.marketCompleteMatch1?.name}
               />
             )}
             {matchDetail?.manualCompleteMatch?.isActive && (
