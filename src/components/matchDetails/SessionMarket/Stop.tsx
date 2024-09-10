@@ -7,7 +7,7 @@ const Stop = ({ color, onClick, height }: any) => {
       <Box
         onClick={onClick}
         sx={{
-          width: { lg: "60px", xs: "17vw" },
+          width: { lg: "4vw", xs: "11vw" },
           display: "flex",
           marginRight: "10px",
           justifyContent: "space-between",

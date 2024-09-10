@@ -99,15 +99,21 @@ const SessionMarketBox = ({
               style={{ width: "14px", height: "12px", marginLeft: "4px" }}
             />
           )}
-          <Box sx={{ paddingTop: "3px", width: { lg: "100%", xs: "70%" } }}>
+          <Box
+            sx={{
+              paddingTop: "3px",
+              width: { lg: "100%", xs: "70%" },
+              display: "flex",
+            }}
+          >
             <Typography
               sx={{
                 color: "black",
                 maxHeight: "30px",
                 fontSize: { lg: "9px", md: "9px", xs: "8px" },
                 marginLeft: "3px",
-                fontWeight: "600",
-                lineHeight: "11px",
+                fontWeight: "bold",
+                // lineHeight: 1,
                 overflow: "hidden",
                 // textOverflow: "ellipsis",
                 // whiteSpace: "nowrap",
@@ -118,20 +124,30 @@ const SessionMarketBox = ({
             >
               {newData?.RunnerName ?? newData?.name}
             </Typography>
-            <Box sx={{ display: "flex", flexDirection: "row" }}>
-              <Typography
-                sx={{
-                  color: "black",
-                  fontSize: { lg: "9px", md: "9px", xs: "7px" },
-                  marginLeft: "7px",
-                  fontWeight: "500",
-                }}
-              >
-                max : {formatToINR(newData?.maxBet)}
-              </Typography>
-            </Box>
+            <Typography
+              sx={{
+                color: "black",
+                fontSize: { lg: "9px", md: "9px", xs: "7px" },
+                marginLeft: "7px",
+                fontWeight: "500",
+              }}
+            >
+              {!hideEditMaxButton && <>max : {formatToINR(newData?.maxBet)} </>}
+            </Typography>
           </Box>
         </Box>
+        <Box
+          sx={{
+            position: "absolute",
+            top: "4px",
+            minWidth: { lg: "36%", xs: "45%", md: "25%" },
+            justifyContent: "flex-end",
+            left: { lg: "7vw", md: "21vw" },
+            display: "flex",
+            zIndex: 100,
+            gap: 0,
+          }}
+        ></Box>
 
         <Box
           sx={{
@@ -246,7 +262,7 @@ const SessionMarketBox = ({
               justifyContent: { xs: "center", lg: "center" },
               alignItems: "center",
               display: "flex",
-              backgroundColor: "#FF4D4D",
+              backgroundColor: newData?.selfDeclare ? "#46e080" : "#FF4D4D",
             }}
           >
             <h6
@@ -323,7 +339,7 @@ const SessionMarketBox = ({
             <SeparateBox
               session={true}
               value={formatNumber(newData?.ex?.availableToBack[0]?.price || 0)}
-              value2={formatNumber(newData?.ex?.availableToBack[0]?.price || 0)}
+              value2={formatNumber(newData?.ex?.availableToBack[0]?.size || 0)}
               lock={newData?.GameStatus === "SUSPENDED"}
               color="#B3E0FF"
             />
@@ -480,7 +496,7 @@ const SessionMarketBox = ({
                     newData?.ex?.availableToBack[item]?.price || 0
                   )}
                   value2={formatNumber(
-                    newData?.ex?.availableToBack[item]?.price || 0
+                    newData?.ex?.availableToBack[item]?.size || 0
                   )}
                   lock={newData?.GameStatus === "SUSPENDED"}
                   color="#B3E0FF"

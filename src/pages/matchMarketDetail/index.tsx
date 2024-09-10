@@ -411,6 +411,16 @@ const MatchMarketDetail = () => {
                 title={matchDetail?.bookmaker2?.name}
               />
             )}
+
+            {matchDetail?.quickBookmaker
+              ?.filter((item: any) => item?.isActive)
+              ?.map((bookmaker: any) => (
+                <ManualMarket
+                  key={bookmaker?.id}
+                  currentMatch={matchDetail}
+                  liveData={bookmaker}
+                />
+              ))}
             {matchDetail?.other &&
               matchDetail?.other
                 // ?.filter((item: any) => item?.isActive)
@@ -426,15 +436,6 @@ const MatchMarketDetail = () => {
                     title={market?.name}
                   />
                 ))}
-            {matchDetail?.quickBookmaker
-              ?.filter((item: any) => item?.isActive)
-              ?.map((bookmaker: any) => (
-                <ManualMarket
-                  key={bookmaker?.id}
-                  currentMatch={matchDetail}
-                  liveData={bookmaker}
-                />
-              ))}
             {matchDetail?.apiTideMatch && (
               <TiedMatchMarket
                 currentMatch={matchDetail}

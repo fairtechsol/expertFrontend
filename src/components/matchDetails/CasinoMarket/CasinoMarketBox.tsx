@@ -16,7 +16,7 @@ const CasinoMarketBox = ({ newData, index, profitLoss }: any) => {
         sx={{
           display: "flex",
           background: "white",
-          height: "30px",
+          height: "28px",
           width: "100%",
         }}
       >
@@ -24,10 +24,11 @@ const CasinoMarketBox = ({ newData, index, profitLoss }: any) => {
           sx={{
             display: "flex",
             background: index % 2 === 0 ? "#FFE094" : "#ECECEC",
-            height: "30px",
+            height: "28px",
             width: "100%",
-            justifyContent: "center",
-            flexDirection: "column",
+            justifyContent: "space-between",
+            // flexDirection: "column",
+            alignItems: "center",
           }}
         >
           <Typography
@@ -57,6 +58,7 @@ const CasinoMarketBox = ({ newData, index, profitLoss }: any) => {
               marginLeft: { lg: "7px", md: "20px", xs: "20px" },
               fontWeight: "600",
               lineHeight: 1,
+              textAlign: "center",
             }}
           >
             {profitLoss?.profitLoss
@@ -70,10 +72,10 @@ const CasinoMarketBox = ({ newData, index, profitLoss }: any) => {
             sx={{
               margin: "1px",
               background: "rgba(0,0,0,1)",
-              height: "30px",
+              height: "28px",
               right: "0vh",
               position: "absolute",
-              width: { lg: "27%", xs: "25%", md: "25.5%" },
+              width: { lg: "12%", xs: "13%", md: "8%" },
               justifyContent: { xs: "center", lg: "center" },
               alignItems: "center",
               display: "flex",
@@ -98,20 +100,21 @@ const CasinoMarketBox = ({ newData, index, profitLoss }: any) => {
               display: "flex",
               position: "relative",
               background: index % 2 === 0 ? "#FFE094" : "#ECECEC",
-              height: "30px",
-              width: { lg: "60%", xs: "67%", md: "61%" },
+              height: "28px",
+              width: { lg: "20%", xs: "17%", md: "10%" },
               justifyContent: "flex-end",
               alignItems: "center",
             }}
           >
             <SeparateBox
-              width="30%"
+              width="75%"
               value={(newData?.odds && newData?.odds[0]?.odds) || 0}
               value2={
                 formatNumber(newData?.odds && newData?.odds[0]?.size) || 0
               }
               lock={newData?.gstatus === "Suspended"}
               color="#B3E0FF"
+              mWidth="90%"
             />
 
             {/* {

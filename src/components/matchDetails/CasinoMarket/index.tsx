@@ -210,7 +210,7 @@ const CasinoMarket = ({
             >
               <Typography
                 sx={{
-                  fontSize: { lg: "7px", xs: "6px", md: "9px" },
+                  fontSize: { lg: "7px", xs: "6px", md: "6px" },
                   fontWeight: "bold",
                   textAlign: "center",
                   color: "#FF4D4D",

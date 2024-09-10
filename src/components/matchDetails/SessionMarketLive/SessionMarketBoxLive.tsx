@@ -77,7 +77,7 @@ const SessionMarketBoxLive = ({
               color: "black",
               fontSize: { lg: "10px", md: "10px", xs: "10px" },
               marginLeft: { lg: "7px", md: "20px", xs: "20px" },
-              fontWeight: "600",
+              fontWeight: "bold",
               lineHeight: 1,
             }}
           >
