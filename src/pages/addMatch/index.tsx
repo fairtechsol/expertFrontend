@@ -482,6 +482,10 @@ const AddMatch = () => {
                 formikValues[item?.matchType] = {
                   maxBet: matchDetail[item?.apiKey].maxBet,
                 };
+              }else if(matchDetail["manualTiedMatch"]){
+                formikValues[item?.matchType] = {
+                  maxBet: matchDetail["manualTiedMatch"].maxBet,
+                };
               }
             }
           );
