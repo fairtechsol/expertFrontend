@@ -27,7 +27,6 @@ any) => {
   const [visible, setVisible] = useState(true);
   return (
     <Box
-      id="your-id-here"
       sx={{
         display: "flex",
         backgroundColor: "white",
@@ -66,6 +65,7 @@ any) => {
               fontSize: "10px",
               fontWeight: "bold",
               marginLeft: "7px",
+              lineHeight: 1,
             }}
           >
             {title}

@@ -2,7 +2,7 @@ import { Box, Stack } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
-import CasinoMarket2 from "../../components/matchDetails/CasinoMarket2";
+// import CasinoMarket2 from "../../components/matchDetails/CasinoMarket2";
 import RunsBox from "../../components/matchDetails/RunsBox";
 import SessionMarket2 from "../../components/matchDetails/SessionMarket2";
 import {
