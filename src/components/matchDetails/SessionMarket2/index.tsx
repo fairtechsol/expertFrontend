@@ -1,5 +1,5 @@
 import { Box, Typography } from "@mui/material";
-import { useState } from "react";
+import { useState, memo } from "react";
 import { ARROWUP } from "../../../assets";
 import Divider from "../../Common/Divider";
 // import Stop from "./Stop";
@@ -21,12 +21,13 @@ const SessionMarket2 = ({
   hideEditMaxButton,
   cstmStyle,
   section,
-}: any) => {
+}: // maxHeight,
+any) => {
   // const dispatch: AppDispatch = useDispatch();
   const [visible, setVisible] = useState(true);
-
   return (
     <Box
+      id="your-id-here"
       sx={{
         display: "flex",
         backgroundColor: "white",
@@ -139,8 +140,8 @@ const SessionMarket2 = ({
                 "::-webkit-scrollbar": {
                   display: "none",
                 },
-                // maxHeight: "300px",
-                // overflowY: "scroll",
+                maxHeight: "300px",
+                overflowY: "scroll",
               },
               cstmStyle,
             ]}
@@ -187,4 +188,4 @@ const SessionMarket2 = ({
   );
 };
 
-export default SessionMarket2;
+export default memo(SessionMarket2);

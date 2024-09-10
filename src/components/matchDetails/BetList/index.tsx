@@ -211,6 +211,7 @@ const BetList = ({ tag, allBetRates, title }: any) => {
               fontSize: "9px",
               fontWeight: "bold",
               marginLeft: "7px",
+              lineHeight: 1,
             }}
           >
             {`All Bets${title ? ` (${title})` : ""}`}

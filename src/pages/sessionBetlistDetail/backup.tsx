@@ -50,7 +50,7 @@ const SessionBetlistDetail = () => {
   const { placedBetsMatch } = useSelector(
     (state: RootState) => state.matchList
   );
-  console.log("dddddd :", JSON.stringify(matchDetail?.updatedSesssionBettings));
+
   const updateMatchDetailToRedux = (event: any) => {
     try {
       if (state?.id === event?.id) {
@@ -319,79 +319,128 @@ const SessionBetlistDetail = () => {
         direction={{ lg: "row", md: "row", xs: "column", sm: "row" }}
       >
         <Box
-          id="dddddd"
           sx={{
             width: { lg: "44%", md: "44%", xs: "100%", sm: "40%" },
             display: "grid",
             gridTemplateColumns: "auto auto",
             gap: "5px",
-            height: "0",
           }}
         >
+          {/* {matchDetail?.updatedSesssionBettings &&
+            Object.entries(matchDetail?.updatedSesssionBettings)
+              ?.sort(customSortBySessionMarketName)
+              ?.map(([name, item]: any) => {
+                if (name !== "cricketCasino") {
+                  return (
+                    <div key={name}>
+                      {item?.section?.filter(
+                        (items: any) =>
+                          items?.isComplete &&
+                          ((items?.resultData && items?.resultData === null) ||
+                            items?.result === null)
+                      )?.length > 0 && (
+                        <SessionMarket2
+                          title={`${name} Completed`}
+                          hideTotalBet={false}
+                          stopAllHide={true}
+                          profitLossData={matchDetail?.sessionProfitLoss}
+                          sessionData={item}
+                          hideResult={false}
+                          currentMatch={matchDetail}
+                          hideEditMaxButton={true}
+                          cstmStyle={{
+                            maxHeight: { sm: "40vh" },
+                          }}
+                          section="completed"
+                        />
+                      )}
+                    </div>
+                  );
+                }
+              })} */}
           {matchDetail?.updatedSesssionBettings &&
             Object.entries(matchDetail?.updatedSesssionBettings)
               ?.sort(customSortBySessionMarketName)
               ?.map(([name, item]: any) => {
                 if (name !== "cricketCasino") {
-                  const activeSessions = item?.section?.filter(
-                    (items: any) =>
-                      !items?.isComplete &&
-                      ((items?.resultData && items?.resultData === null) ||
-                        items?.result === null)
+                  return (
+                    <div key={name}>
+                      {item?.section?.filter(
+                        (items: any) =>
+                          !items?.isComplete &&
+                          ((items?.resultData && items?.resultData === null) ||
+                            items?.result === null)
+                      )?.length > 0 && (
+                        <SessionMarket2
+                          title={`${name} Market`}
+                          hideTotalBet={false}
+                          stopAllHide={false}
+                          profitLossData={matchDetail?.sessionProfitLoss}
+                          sessionData={item}
+                          hideResult={true}
+                          currentMatch={matchDetail}
+                          hideEditMaxButton={false}
+                          section="market"
+                        />
+                      )}
+                    </div>
                   );
-
-                  if (activeSessions?.length > 0) {
-                    return (
-                      <SessionMarket2
-                        key={`${name}-active`} // Use a unique key
-                        title={`${name} Market`}
-                        hideTotalBet={false}
-                        stopAllHide={false}
-                        profitLossData={matchDetail?.sessionProfitLoss}
-                        sessionData={item}
-                        hideResult={true}
-                        currentMatch={matchDetail}
-                        hideEditMaxButton={false}
-                        section="market"
-                      />
-                    );
-                  }
                 }
-                return null; // Skip rendering if no active session
+                return null;
               })}
-
+          {/* {matchDetail?.updatedSesssionBettings &&
+            Object.entries(matchDetail?.updatedSesssionBettings)
+              ?.sort(customSortBySessionMarketName)
+              ?.map(([name, item]: any) => {
+                if (name === "cricketCasino") {
+                  return (
+                    <div style={{ width: "100%" }}>
+                      {item?.section?.map((items: any) => (
+                        <CasinoMarket2
+                          key={items?.SelectionId}
+                          title={items?.RunnerName || items?.name}
+                          sessionData={items}
+                          currentMatch={matchDetail}
+                          gtype={items?.gtype}
+                          type={name}
+                          profitLossData={matchDetail?.sessionProfitLoss}
+                        />
+                      ))}
+                    </div>
+                  );
+                }
+              })} */}
           {matchDetail?.updatedSesssionBettings &&
             Object.entries(matchDetail?.updatedSesssionBettings)
               ?.sort(customSortBySessionMarketName)
               ?.map(([name, item]: any) => {
                 if (name !== "cricketCasino") {
-                  const declaredSessions = item?.section?.filter(
-                    (items: any) =>
-                      (items?.resultData && items?.resultData !== null) ||
-                      items?.result !== null
+                  return (
+                    <div key={name}>
+                      {item?.section?.filter(
+                        (items: any) =>
+                          (items?.resultData && items?.resultData !== null) ||
+                          items?.result !== null
+                      )?.length > 0 && (
+                        <SessionMarket2
+                          title={`${name} Declared`}
+                          hideTotalBet={false}
+                          stopAllHide={true}
+                          profitLossData={matchDetail?.sessionProfitLoss}
+                          sessionData={item}
+                          hideResult={false}
+                          currentMatch={matchDetail}
+                          hideEditMaxButton={true}
+                          cstmStyle={{
+                            maxHeight: { sm: "40vh" },
+                          }}
+                          section="declared"
+                        />
+                      )}
+                    </div>
                   );
-
-                  if (declaredSessions?.length > 0) {
-                    return (
-                      <SessionMarket2
-                        key={`${name}-declared`} // Use a unique key
-                        title={`${name} Declared`}
-                        hideTotalBet={false}
-                        stopAllHide={true}
-                        profitLossData={matchDetail?.sessionProfitLoss}
-                        sessionData={item}
-                        hideResult={false}
-                        currentMatch={matchDetail}
-                        hideEditMaxButton={true}
-                        cstmStyle={{
-                          maxHeight: { sm: "40vh" },
-                        }}
-                        section="declared"
-                      />
-                    );
-                  }
                 }
-                return null; // Skip rendering if no declared session
+                return null;
               })}
         </Box>
 
