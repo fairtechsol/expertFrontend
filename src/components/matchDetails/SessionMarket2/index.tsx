@@ -136,7 +136,7 @@ any) => {
                 width: "100%",
                 position: "relative",
                 // maxHeight: { lg: maxHeight ? maxHeight : "30vh", xs: "40vh" },
-                overflowY: "auto",
+                // overflowY: "auto",
                 "::-webkit-scrollbar": {
                   display: "none",
                 },
