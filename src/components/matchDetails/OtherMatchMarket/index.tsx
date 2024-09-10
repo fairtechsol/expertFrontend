@@ -286,10 +286,14 @@ const OtherMatchMarket = ({ currentMatch, liveData, title }: any) => {
                   ? currentMatch?.teamRates[
                       profitLossDataForMatchConstants[liveData?.type]?.A +
                         "_" +
+                        liveData?.id +
+                        "_" +
                         currentMatch?.id
                     ]
                     ? currentMatch?.teamRates[
                         profitLossDataForMatchConstants[liveData?.type]?.A +
+                          "_" +
+                          liveData?.id +
                           "_" +
                           currentMatch?.id
                       ]
@@ -326,10 +330,14 @@ const OtherMatchMarket = ({ currentMatch, liveData, title }: any) => {
                   ? currentMatch?.teamRates[
                       profitLossDataForMatchConstants[liveData?.type]?.B +
                         "_" +
+                        liveData?.id +
+                        "_" +
                         currentMatch?.id
                     ]
                     ? currentMatch?.teamRates[
                         profitLossDataForMatchConstants[liveData?.type]?.B +
+                          "_" +
+                          liveData?.id +
                           "_" +
                           currentMatch?.id
                       ]
