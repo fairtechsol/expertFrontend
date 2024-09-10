@@ -13,6 +13,7 @@ import PlaceBetComponent from "./PlaceBetComponent";
 import { edit } from "../../../assets";
 import SessionLimitEdit from "./SessionLimitEdit";
 import ModalMUI from "@mui/material/Modal";
+import { TiArrowLeftThick } from "react-icons/ti";
 
 const SessionMarketBox = ({
   newData,
@@ -136,18 +137,6 @@ const SessionMarketBox = ({
             </Typography>
           </Box>
         </Box>
-        <Box
-          sx={{
-            position: "absolute",
-            top: "4px",
-            minWidth: { lg: "36%", xs: "45%", md: "25%" },
-            justifyContent: "flex-end",
-            left: { lg: "7vw", md: "21vw" },
-            display: "flex",
-            zIndex: 100,
-            gap: 0,
-          }}
-        ></Box>
 
         <Box
           sx={{
@@ -161,6 +150,29 @@ const SessionMarketBox = ({
             gap: 0,
           }}
         >
+          <Typography sx={{ marginRight: "10px", zIndex: "999" }}>
+            {!hideEditMaxButton && (
+              <TiArrowLeftThick
+                cursor={"pointer"}
+                color="blue"
+                height={50}
+                onClick={(e: any) => {
+                  if (loading) {
+                    return;
+                  }
+                  e.preventDefault();
+                  // setLoading(true);
+                  // setLive(false);
+                  dispatch(
+                    sessionBetLiveStatus({
+                      status: "unSave",
+                      betId: newData?.id,
+                    })
+                  );
+                }}
+              />
+            )}
+          </Typography>
           {newData?.activeStatus === "live" && !newData?.result && (
             <SmallBox
               loading={loading}
