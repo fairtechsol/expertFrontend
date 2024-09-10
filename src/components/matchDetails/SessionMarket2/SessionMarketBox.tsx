@@ -278,7 +278,7 @@ const SessionMarketBox = ({
             <SeparateBox
               session={true}
               value={formatNumber(newData?.ex?.availableToBack[0]?.price || 0)}
-              value2={formatNumber(newData?.ex?.availableToBack[0]?.price || 0)}
+              value2={formatNumber(newData?.ex?.availableToBack[0]?.size || 0)}
               lock={newData?.GameStatus === "SUSPENDED"}
               color="#B3E0FF"
             />
@@ -428,7 +428,7 @@ const SessionMarketBox = ({
                     newData?.ex?.availableToBack[item]?.price || 0
                   )}
                   value2={formatNumber(
-                    newData?.ex?.availableToBack[item]?.price || 0
+                    newData?.ex?.availableToBack[item]?.size || 0
                   )}
                   lock={newData?.GameStatus === "SUSPENDED"}
                   color="#B3E0FF"
