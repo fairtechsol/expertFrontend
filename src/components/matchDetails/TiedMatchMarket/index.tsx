@@ -10,6 +10,7 @@ import BoxComponent from "../MatchOdds/BoxComponent";
 import MaxBetAdd from "../MaxBetAdd";
 import Stop from "../SessionMarket/Stop";
 import SmallBox from "../SmallBox";
+import { profitLossDataForMatchConstants } from "../../../utils/Constants";
 
 const TiedMatchMarket = ({ currentMatch, liveData, title }: any) => {
   const dispatch: AppDispatch = useDispatch();
@@ -284,8 +285,18 @@ const TiedMatchMarket = ({ currentMatch, liveData, title }: any) => {
           <Box sx={{ position: "relative" }}>
             <BoxComponent
               teamRates={
-                currentMatch?.teamRates?.yesRateTie
-                  ? currentMatch?.teamRates?.yesRateTie
+                currentMatch?.teamRates
+                  ? currentMatch?.teamRates[
+                      profitLossDataForMatchConstants[liveData?.type]?.A +
+                        "_" +
+                        currentMatch?.id
+                    ]
+                    ? currentMatch?.teamRates[
+                        profitLossDataForMatchConstants[liveData?.type]?.A +
+                          "_" +
+                          currentMatch?.id
+                      ]
+                    : 0
                   : 0
               }
               teamImage={currentMatch?.apiTideMatch?.teamA_Image}
@@ -309,8 +320,18 @@ const TiedMatchMarket = ({ currentMatch, liveData, title }: any) => {
                   : false
               }
               teamRates={
-                currentMatch?.teamRates?.noRateTie
-                  ? currentMatch?.teamRates?.noRateTie
+                currentMatch?.teamRates
+                  ? currentMatch?.teamRates[
+                      profitLossDataForMatchConstants[liveData?.type]?.B +
+                        "_" +
+                        currentMatch?.id
+                    ]
+                    ? currentMatch?.teamRates[
+                        profitLossDataForMatchConstants[liveData?.type]?.B +
+                          "_" +
+                          currentMatch?.id
+                      ]
+                    : 0
                   : 0
               }
               teamImage={currentMatch?.apiTideMatch?.teamB_Image}

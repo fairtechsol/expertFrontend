@@ -225,7 +225,7 @@ const MatchPermissionsModal = (props: any) => {
                       state: { id: data?.id, marketId: data?.marketId },
                     });
                   }}
-                  title={"Market"}
+                  title={"View Session"}
                 />
               )}
             {data?.matchType === "cricket" &&
@@ -240,7 +240,7 @@ const MatchPermissionsModal = (props: any) => {
                       state: { id: data?.id, marketId: data?.marketId },
                     });
                   }}
-                  title={"Session"}
+                  title={"Expert Session"}
                 />
               )}
             {(getProfile?.allPrivilege ||
@@ -249,7 +249,7 @@ const MatchPermissionsModal = (props: any) => {
                 containerStyle={{
                   margin: "5px",
                 }}
-                title={"Match"}
+                title={"View Match"}
                 onClick={() => {
                   if (data?.matchType === "cricket") {
                     navigate(`/expert/market`, {

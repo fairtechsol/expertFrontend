@@ -385,11 +385,11 @@ const MatchMarketDetail = () => {
             {liveScoreBoardData && (
               <Scoreboard liveScoreData={liveScoreBoardData} />
             )}
-            <iframe
+            {/* <iframe
               width="100%"
               height="110px"
               src={`https://dpmatka.in/dcasino/score.php?matchId=${matchDetail?.eventId}`}
-            ></iframe>
+            ></iframe> */}
             {matchDetail?.matchOdd && (
               <MatchOdds
                 showHeader={true}
@@ -404,13 +404,14 @@ const MatchMarketDetail = () => {
                 title={matchDetail?.bookmaker?.name}
               />
             )}
-            {matchDetail?.bookmaker2 && (
+            {matchDetail?.marketBookmaker2 && (
               <BookMarket
                 currentMatch={matchDetail}
-                liveData={matchDetail?.bookmaker2}
-                title={matchDetail?.bookmaker2?.name}
+                liveData={matchDetail?.marketBookmaker2}
+                title={matchDetail?.marketBookmaker2?.name}
               />
             )}
+
             {matchDetail?.quickBookmaker
               ?.filter((item: any) => item?.isActive)
               ?.map((bookmaker: any) => (
@@ -420,6 +421,21 @@ const MatchMarketDetail = () => {
                   liveData={bookmaker}
                 />
               ))}
+            {matchDetail?.other &&
+              matchDetail?.other
+                // ?.filter((item: any) => item?.isActive)
+                ?.map((market: any) => (
+                  <OtherMatchMarket
+                    key={market?.id}
+                    currentMatch={matchDetail}
+                    liveData={{
+                      ...market,
+                      type: "other",
+                      marketId: market?.mid ? market?.mid?.toString() : "",
+                    }}
+                    title={market?.name}
+                  />
+                ))}
             {matchDetail?.apiTideMatch && (
               <TiedMatchMarket
                 currentMatch={matchDetail}
@@ -448,6 +464,13 @@ const MatchMarketDetail = () => {
                 title={matchDetail?.marketCompleteMatch?.name}
               />
             )}
+            {matchDetail?.marketCompleteMatch1 && (
+              <CompleteMatchMarket
+                currentMatch={matchDetail}
+                liveData={matchDetail?.marketCompleteMatch1}
+                title={matchDetail?.marketCompleteMatch1?.name}
+              />
+            )}
             {matchDetail?.manualCompleteMatch?.isActive && (
               <ManualMarket
                 currentMatch={matchDetail}
@@ -455,21 +478,6 @@ const MatchMarketDetail = () => {
                 type="manualTiedMatch"
               />
             )}
-            {matchDetail?.other &&
-              matchDetail?.other
-                // ?.filter((item: any) => item?.isActive)
-                ?.map((market: any) => (
-                  <OtherMatchMarket
-                    key={market?.id}
-                    currentMatch={matchDetail}
-                    liveData={{
-                      ...market,
-                      type: "other",
-                      marketId: market?.mid ? market?.mid?.toString() : "",
-                    }}
-                    title={market?.name}
-                  />
-                ))}
           </Box>
           <Box
             sx={{

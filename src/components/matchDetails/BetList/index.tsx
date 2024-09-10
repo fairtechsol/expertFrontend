@@ -3,11 +3,11 @@ import moment from "moment";
 import { useEffect, useRef, useState } from "react";
 import { ARROWUP } from "../../../assets";
 import { formatToINR } from "../../helper";
-import HeaderRow from "./HeaderRow";
+// import HeaderRow from "./HeaderRow";
 import Row from "./Row";
 import { betListColorConstants } from "../../../utils/Constants";
 
-const BetList = ({ tag, allBetRates }: any) => {
+const BetList = ({ tag, allBetRates, title }: any) => {
   const [newData, setNewBets] = useState([]);
   const [visibleImg, setVisibleImg] = useState(true);
   const scrollRef = useRef<HTMLDivElement | null>(null);
@@ -46,10 +46,16 @@ const BetList = ({ tag, allBetRates }: any) => {
           values: [
             {
               name: v?.user?.userName,
-              color: ["NO", "YES"].includes(v?.betType) ? "#FFF" : "black",
+              color: ["NO", "YES"].includes(v?.betType)
+                ? "#FFF"
+                : betListColorConstants[v?.marketType]
+                ? betListColorConstants[v?.marketType]?.textColor
+                : "#fff",
               background: ["NO", "YES"].includes(v?.betType)
                 ? "#319E5B"
-                : betListColorConstants[v?.marketType],
+                : betListColorConstants[v?.marketType]
+                ? betListColorConstants[v?.marketType]?.background
+                : "#319E5B",
               deleteReason: v?.deleteReason,
               width: { lg: "16%", xs: "50%" },
               domain: v?.domain,
@@ -59,10 +65,16 @@ const BetList = ({ tag, allBetRates }: any) => {
                 v?.marketType == "MANUAL BOOKMAKER"
                   ? "Quick Bookmaker"
                   : v?.bettingName ?? v?.marketType,
-              color: ["NO", "YES"].includes(v?.betType) ? "#FFF" : "black",
+              color: ["NO", "YES"].includes(v?.betType)
+                ? "#FFF"
+                : betListColorConstants[v?.marketType]
+                ? betListColorConstants[v?.marketType]?.textColor
+                : "#fff",
               background: ["NO", "YES"].includes(v?.betType)
                 ? "#319E5B"
-                : betListColorConstants[v?.marketType],
+                : betListColorConstants[v?.marketType]
+                ? betListColorConstants[v?.marketType]?.background
+                : "#319E5B",
               deleteReason: v?.deleteReason,
               width: { lg: "17%", xs: "35%" },
               overflowWrap: "anywhere",
@@ -154,7 +166,7 @@ const BetList = ({ tag, allBetRates }: any) => {
       <Box
         sx={{
           display: "flex",
-          height: 38,
+          height: 20,
           flexDirection: "row",
           width: "100%",
           alignSelf: "center",
@@ -196,12 +208,12 @@ const BetList = ({ tag, allBetRates }: any) => {
         >
           <Typography
             sx={{
-              fontSize: { lg: "13px", md: "12px", xs: "12px" },
+              fontSize: "9px",
               fontWeight: "bold",
               marginLeft: "7px",
             }}
           >
-            All Bets
+            {`All Bets${title ? ` (${title})` : ""}`}
           </Typography>
         </Box>
         <Box
@@ -226,7 +238,7 @@ const BetList = ({ tag, allBetRates }: any) => {
         >
           <Box
             sx={{
-              width: "100px",
+              width: "90px",
               height: "90%",
               background: "white",
               justifyContent: "center",
@@ -237,12 +249,12 @@ const BetList = ({ tag, allBetRates }: any) => {
             }}
           >
             <Typography
-              sx={{ fontSize: "12px", fontWeight: "700", color: "#FF1111" }}
+              sx={{ fontSize: "6px", fontWeight: "700", color: "#FF1111" }}
             >
               Total Bet
             </Typography>
             <Typography
-              sx={{ fontSize: "12px", fontWeight: "700", color: "#0B4F26" }}
+              sx={{ fontSize: "8px", fontWeight: "700", color: "#0B4F26" }}
             >
               {newData?.length || 0}
             </Typography>
@@ -254,8 +266,8 @@ const BetList = ({ tag, allBetRates }: any) => {
             src={ARROWUP}
             style={{
               transform: visibleImg ? "rotate(180deg)" : "rotate(0deg)",
-              width: "15px",
-              height: "15px",
+              width: "12px",
+              height: "12px",
               marginRight: "5px",
               marginLeft: "5px",
               cursor: "pointer",
@@ -263,7 +275,7 @@ const BetList = ({ tag, allBetRates }: any) => {
           />
         </Box>
       </Box>
-      
+
       <Box
         sx={{
           overflowX: { xs: "scroll", lg: "auto" },
@@ -280,7 +292,7 @@ const BetList = ({ tag, allBetRates }: any) => {
                 overflow: "auto",
               }}
             >
-              <HeaderRow tag={tag} />
+              {/* <HeaderRow tag={tag} /> */}
 
               {newData?.length > 0 &&
                 newData?.map((i: any, k: any) => {
@@ -360,7 +372,6 @@ const BetList = ({ tag, allBetRates }: any) => {
           </>
         )}
       </Box>
-
     </Box>
   );
 };

@@ -69,7 +69,7 @@ const SessionMarketBox = ({
             ? "#FFE094"
             : "#ECECEC", // Change color based on selected state and index
 
-          height: "40px",
+          height: "30px",
           width: "100%",
           boxShadow: visible ? 3 : 0,
         }}
@@ -84,7 +84,7 @@ const SessionMarketBox = ({
               ? "#FFE094"
               : "#ECECEC", // Change color based on selected state and index
 
-            height: "39px",
+            height: "30px",
             width: "40%",
             alignItems: "center",
             boxShadow: visible ? 3 : 0,
@@ -92,15 +92,28 @@ const SessionMarketBox = ({
           }}
           // className="example-2"
         >
-          <Box sx={{ paddingTop: "3px", width: { lg: "100%", xs: "70%" } }}>
+          {!hideEditMaxButton && (
+            <img
+              onClick={() => setShowMaxLimitModal(true)}
+              src={edit}
+              style={{ width: "14px", height: "12px", marginLeft: "4px" }}
+            />
+          )}
+          <Box
+            sx={{
+              paddingTop: "3px",
+              width: { lg: "100%", xs: "70%" },
+              display: "flex",
+            }}
+          >
             <Typography
               sx={{
                 color: "black",
                 maxHeight: "30px",
-                fontSize: { lg: "11px", md: "10px", xs: "9px" },
+                fontSize: { lg: "9px", md: "9px", xs: "8px" },
                 marginLeft: "3px",
-                fontWeight: "600",
-                lineHeight: "11px",
+                fontWeight: "bold",
+                // lineHeight: 1,
                 overflow: "hidden",
                 // textOverflow: "ellipsis",
                 // whiteSpace: "nowrap",
@@ -111,39 +124,30 @@ const SessionMarketBox = ({
             >
               {newData?.RunnerName ?? newData?.name}
             </Typography>
-            <Box sx={{ display: "flex", flexDirection: "row" }}>
-              <Typography
-                sx={{
-                  color: "black",
-                  fontSize: { lg: "9px", md: "9px", xs: "7px" },
-                  marginLeft: "7px",
-                  fontWeight: "500",
-                }}
-              >
-                max : {formatToINR(newData?.maxBet)}
-              </Typography>
-              {!hideEditMaxButton && (
-                <Box
-                  sx={{
-                    width: "30px",
-                    height: "18px",
-                    background: "transparent",
-                    marginLeft: "5px",
-                    zIndex: "999",
-                    // borderRadius: "3px",
-                    // display: "flex",
-                    // justifyContent: "center",
-                    // alignItems: "center",
-                    // paddingY: "2px",
-                  }}
-                  onClick={() => setShowMaxLimitModal(true)}
-                >
-                  <img src={edit} style={{ width: "18px", height: "12px" }} />
-                </Box>
-              )}
-            </Box>
+            <Typography
+              sx={{
+                color: "black",
+                fontSize: { lg: "9px", md: "9px", xs: "7px" },
+                marginLeft: "7px",
+                fontWeight: "500",
+              }}
+            >
+              {!hideEditMaxButton && <>max : {formatToINR(newData?.maxBet)} </>}
+            </Typography>
           </Box>
         </Box>
+        <Box
+          sx={{
+            position: "absolute",
+            top: "4px",
+            minWidth: { lg: "36%", xs: "45%", md: "25%" },
+            justifyContent: "flex-end",
+            left: { lg: "7vw", md: "21vw" },
+            display: "flex",
+            zIndex: 100,
+            gap: 0,
+          }}
+        ></Box>
 
         <Box
           sx={{
@@ -151,7 +155,7 @@ const SessionMarketBox = ({
             top: "4px",
             minWidth: { lg: "36%", xs: "45%", md: "25%" },
             justifyContent: "flex-end",
-            left: { lg: "7vw", md: "29vw", xs: "10vw" },
+            left: { lg: "7vw", md: "21vw" },
             display: "flex",
             zIndex: 100,
             gap: 0,
@@ -175,9 +179,10 @@ const SessionMarketBox = ({
                   })
                 );
               }}
-              textSize={"8px"}
-              width={{ lg: "33px", xs: "30px", md: "25px" }}
+              textSize="8px"
+              width={{ lg: "20px", xs: "20px", md: "20px" }}
               color={newData?.activeStatus === "live" ? "#46e080" : "#FF4D4D"}
+              height="20px"
             />
           )}
           {newData?.result && (
@@ -185,32 +190,36 @@ const SessionMarketBox = ({
               loading={false}
               hide={false}
               textSize={newData?.result === "No Result" ? "0.55em" : "10px"}
-              width={{ lg: "60px", xs: "60px" }}
+              width={{ lg: "35px", xs: "35px", md: "35px" }}
               title={`${newData?.result || 0}`}
               color="#FFF"
+              height="20px"
             />
           )}
-          {newData?.activeStatus === "save" && !newData?.result && (
-            <SmallBox
-              hide={true}
-              loading={loading}
-              onClick={(e: any) => {
-                e.preventDefault();
-                setLoading(true);
-                dispatch(
-                  sessionBetLiveStatus({
-                    status: "live",
-                    betId: newData?.id,
-                  })
-                );
-              }}
-              textSize="8px"
-              // width={"80px"}
-              width="33px"
-              color={newData?.activeStatus === "live" ? "#46e080" : "#FF4D4D"}
-              // title={"Live"}
-            />
-          )}
+          {newData?.activeStatus === "save" &&
+            !newData?.result &&
+            !newData?.resultStatus && (
+              <SmallBox
+                hide={true}
+                loading={loading}
+                onClick={(e: any) => {
+                  e.preventDefault();
+                  setLoading(true);
+                  dispatch(
+                    sessionBetLiveStatus({
+                      status: "live",
+                      betId: newData?.id,
+                    })
+                  );
+                }}
+                textSize="8px"
+                // width={"80px"}
+                width={{ lg: "20px", xs: "20px", md: "20px" }}
+                color={newData?.activeStatus === "live" ? "#46e080" : "#FF4D4D"}
+                // title={"Live"}
+                height="20px"
+              />
+            )}
           {!hideResult && (
             <Result
               width={7}
@@ -246,14 +255,14 @@ const SessionMarketBox = ({
             sx={{
               margin: "1px",
               background: "rgba(0,0,0,1)",
-              height: "40px",
-              right: { lg: "25%", xs: "25%", md: "23%" },
+              height: "30px",
+              right: { lg: "23.7%", xs: "16.8%", md: "14.9%" },
               position: "absolute",
-              width: { lg: "16%", xs: "20%" },
+              width: { lg: "18.6%", xs: "36%" },
               justifyContent: { xs: "center", lg: "center" },
               alignItems: "center",
               display: "flex",
-              backgroundColor: "#FF4D4D",
+              backgroundColor: newData?.selfDeclare ? "#46e080" : "#FF4D4D",
             }}
           >
             <h6
@@ -278,7 +287,7 @@ const SessionMarketBox = ({
             sx={{
               margin: "1px",
               background: "rgba(0,0,0,1)",
-              height: "40px",
+              height: "30px",
               right: { lg: "25%", xs: "25%", md: "23%" },
               position: "absolute",
               width: { lg: "16%", xs: "20%" },
@@ -308,7 +317,7 @@ const SessionMarketBox = ({
               position: "relative",
               right: { lg: "-17.5%", xs: "-5%", md: "-7%" },
               // background: "white",
-              height: "40px",
+              height: "30px",
               width: { lg: "18.6%", xs: "40%" },
               justifyContent: "center",
               alignItems: "center",
@@ -330,7 +339,7 @@ const SessionMarketBox = ({
             <SeparateBox
               session={true}
               value={formatNumber(newData?.ex?.availableToBack[0]?.price || 0)}
-              value2={formatNumber(newData?.ex?.availableToBack[0]?.price || 0)}
+              value2={formatNumber(newData?.ex?.availableToBack[0]?.size || 0)}
               lock={newData?.GameStatus === "SUSPENDED"}
               color="#B3E0FF"
             />
@@ -365,7 +374,7 @@ const SessionMarketBox = ({
                 : index % 2 === 0
                 ? "#FFE094"
                 : "#ECECEC",
-              height: "40px",
+              height: "30px",
               width: "100%",
               boxShadow: visible ? 3 : 0,
             }}
@@ -379,7 +388,7 @@ const SessionMarketBox = ({
                   ? "#FFE094"
                   : "#ECECEC",
 
-                height: "39px",
+                height: "30px",
                 width: "40%",
                 alignItems: "center",
                 boxShadow: visible ? 3 : 0,
@@ -396,7 +405,7 @@ const SessionMarketBox = ({
                 sx={{
                   margin: "1px",
                   background: "rgba(0,0,0,1)",
-                  height: "40px",
+                  height: "30px",
                   right: { lg: "25%", xs: "25%", md: "23%" },
                   position: "absolute",
                   width: { lg: "16%", xs: "20%" },
@@ -428,7 +437,7 @@ const SessionMarketBox = ({
                 sx={{
                   margin: "1px",
                   background: "rgba(0,0,0,1)",
-                  height: "40px",
+                  height: "30px",
                   right: { lg: "25%", xs: "25%", md: "23%" },
                   position: "absolute",
                   width: { lg: "16%", xs: "20%" },
@@ -458,7 +467,7 @@ const SessionMarketBox = ({
                   position: "relative",
                   right: { lg: "-17.5%", xs: "-5%", md: "-7%" },
                   // background: "white",
-                  height: "40px",
+                  height: "30px",
                   width: { lg: "18.6%", xs: "40%" },
                   justifyContent: "center",
                   alignItems: "center",
@@ -487,7 +496,7 @@ const SessionMarketBox = ({
                     newData?.ex?.availableToBack[item]?.price || 0
                   )}
                   value2={formatNumber(
-                    newData?.ex?.availableToBack[item]?.price || 0
+                    newData?.ex?.availableToBack[item]?.size || 0
                   )}
                   lock={newData?.GameStatus === "SUSPENDED"}
                   color="#B3E0FF"

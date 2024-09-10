@@ -27,9 +27,9 @@ const PlaceBetComponent = ({ profitLossData, newData }: any) => {
           display: "flex",
           alignItems: "center",
           top: "2px",
-          width: { lg: "7vw", xs: "20vw", md: "20vw" },
+          width: { lg: "7vw", xs: "14vw", md: "13vw" },
           borderRadius: "5px",
-          height: "35px",
+          height: "25px",
           right: "6px",
           position: "absolute",
           cursor: "pointer",
@@ -51,7 +51,7 @@ const PlaceBetComponent = ({ profitLossData, newData }: any) => {
         >
           <Typography
             sx={{
-              fontSize: { lg: "7px", xs: "6px", md: "9px" },
+              fontSize: { lg: "7px", xs: "6px", md: "7px" },
               fontWeight: "bold",
               textAlign: "center",
               color: "#FF4D4D",
@@ -62,7 +62,7 @@ const PlaceBetComponent = ({ profitLossData, newData }: any) => {
           </Typography>
           <Typography
             sx={{
-              fontSize: { lg: ".6vw", xs: "1.5vw", md: "1.5vw" },
+              fontSize: { lg: ".6vw", xs: "1.5vw", md: "1vw" },
               fontWeight: "bold",
               color: "#0B4F26",
               lineHeight: 1,

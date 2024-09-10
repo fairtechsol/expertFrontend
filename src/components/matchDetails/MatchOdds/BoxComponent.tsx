@@ -116,13 +116,14 @@ const BoxComponent = ({
               display: "flex",
               background: "white",
               height: "40px",
-              width: { lg: "65%", xs: "78%" },
+              width: { lg: "65%", xs: "38%" },
               justifyContent: { xs: "flex-end", lg: "center" },
               alignItems: "center",
             }}
           >
             {!matchesMobile &&
-              (liveData?.type != "bookmaker2" ? (
+              (liveData?.type != "bookmaker2" ||
+              liveData?.type != "tiedMatch3" ? (
                 <SeparateBox
                   currentMatch={currentMatch}
                   align={align}
@@ -150,7 +151,8 @@ const BoxComponent = ({
               sx={{ width: ".45%", display: "flex", background: "pink" }}
             ></Box>
             {!matchesMobile &&
-              (liveData?.type != "bookmaker2" ? (
+              (liveData?.type != "bookmaker2" ||
+              liveData?.type != "tiedMatch3" ? (
                 <SeparateBox
                   currentMatch={currentMatch}
                   align={align}
@@ -216,7 +218,8 @@ const BoxComponent = ({
               ></Box>
             )}
             {!matchesMobile &&
-              (liveData?.type != "bookmaker2" ? (
+              (liveData?.type != "bookmaker2" ||
+              liveData?.type != "tiedMatch3" ? (
                 <SeparateBox
                   currentMatch={currentMatch}
                   back={true}
@@ -243,7 +246,8 @@ const BoxComponent = ({
               ></Box>
             )}
             {!matchesMobile &&
-              (liveData?.type != "bookmaker2" ? (
+              (liveData?.type != "bookmaker2" ||
+              liveData?.type != "tiedMatch3" ? (
                 <SeparateBox
                   currentMatch={currentMatch}
                   align={align}

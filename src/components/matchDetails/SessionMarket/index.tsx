@@ -31,7 +31,7 @@ const SessionMarket = ({
         display: "flex",
         backgroundColor: "white",
         flexDirection: "column",
-        marginY: { lg: ".5vh" },
+        marginY: "4px",
         width: "100%",
         alignSelf: {
           xs: "center",
@@ -39,13 +39,13 @@ const SessionMarket = ({
           lg: "flex-start",
           boxShadow: "0px 5px 10px #0000001A",
         },
-        marginBottom: "1rem",
+        // marginBottom: "1rem",
       }}
     >
       <Box
         sx={{
           display: "flex",
-          height: "35px",
+          height: "20px",
           flexDirection: "row",
           width: "99.7%",
           alignSelf: "center",
@@ -77,9 +77,11 @@ const SessionMarket = ({
                     status: "save",
                     matchId: currentMatch?.id,
                     stopAllSessions: true,
+                    type: sessionData?.mname,
                   })
                 );
               }}
+              height="18px"
             />
           )}
         </Box>
@@ -109,8 +111,8 @@ const SessionMarket = ({
             alt={"Up Arrow"}
             style={{
               transform: visible ? "rotate(180deg)" : "rotate(0deg)",
-              width: "15px",
-              height: "15px",
+              width: "12px",
+              height: "12px",
               marginRight: "5px",
               marginLeft: "5px",
               cursor: "pointer",

@@ -13,6 +13,7 @@ import SmallBox from "../SmallBox";
 import OtherMarketAdd from "./OtherMarketAdd";
 
 const OtherMatchMarket = ({ currentMatch, liveData, title }: any) => {
+  console.log(liveData?.runners?.length > 0 && liveData?.runners[0], "abc");
   const dispatch: AppDispatch = useDispatch();
   const [visibleImg, setVisibleImg] = useState<boolean>(true);
   const [live, setLive] = useState<boolean>(
@@ -283,10 +284,18 @@ const OtherMatchMarket = ({ currentMatch, liveData, title }: any) => {
               teamRates={
                 currentMatch?.teamRates
                   ? currentMatch?.teamRates[
-                      profitLossDataForMatchConstants[liveData?.type]?.A
+                      profitLossDataForMatchConstants[liveData?.type]?.A +
+                        "_" +
+                        liveData?.id +
+                        "_" +
+                        currentMatch?.id
                     ]
                     ? currentMatch?.teamRates[
-                        profitLossDataForMatchConstants[liveData?.type]?.A
+                        profitLossDataForMatchConstants[liveData?.type]?.A +
+                          "_" +
+                          liveData?.id +
+                          "_" +
+                          currentMatch?.id
                       ]
                     : 0
                   : 0
@@ -301,7 +310,9 @@ const OtherMatchMarket = ({ currentMatch, liveData, title }: any) => {
               data={liveData?.runners?.length > 0 ? liveData?.runners[0] : []}
               lock={liveData?.runners?.length > 0 ? false : true}
               name={
-                liveData?.runners?.length > 0 ? liveData?.runners[0]?.nat : ""
+                liveData?.runners?.length > 0
+                  ? liveData?.runners[0]?.nat
+                  : liveData?.metaData?.teamA
               }
               liveData={liveData}
             />
@@ -310,17 +321,25 @@ const OtherMatchMarket = ({ currentMatch, liveData, title }: any) => {
             <BoxComponent
               livestatus={
                 liveData?.runners?.length > 0 &&
-                liveData?.runners[0]?.status === "SUSPENDED"
+                liveData?.runners[1]?.status === "SUSPENDED"
                   ? true
                   : false
               }
               teamRates={
                 currentMatch?.teamRates
                   ? currentMatch?.teamRates[
-                      profitLossDataForMatchConstants[liveData?.type]?.B
+                      profitLossDataForMatchConstants[liveData?.type]?.B +
+                        "_" +
+                        liveData?.id +
+                        "_" +
+                        currentMatch?.id
                     ]
                     ? currentMatch?.teamRates[
-                        profitLossDataForMatchConstants[liveData?.type]?.B
+                        profitLossDataForMatchConstants[liveData?.type]?.B +
+                          "_" +
+                          liveData?.id +
+                          "_" +
+                          currentMatch?.id
                       ]
                     : 0
                   : 0
@@ -328,7 +347,9 @@ const OtherMatchMarket = ({ currentMatch, liveData, title }: any) => {
               teamImage={currentMatch?.bookmaker?.teamB_Image}
               lock={liveData?.runners?.length > 0 ? false : true}
               name={
-                liveData?.runners?.length > 0 ? liveData?.runners[1]?.nat : ""
+                liveData?.runners?.length > 0
+                  ? liveData?.runners[1]?.nat
+                  : liveData?.metaData?.teamB
               }
               data={liveData?.runners?.length > 0 ? liveData?.runners[1] : []}
               align="end"

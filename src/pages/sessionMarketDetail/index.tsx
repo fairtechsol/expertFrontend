@@ -1,5 +1,5 @@
-import { Box, Stack, Typography } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import { Box, Stack } from "@mui/material";
+import React, { Fragment, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import CasinoMarket from "../../components/matchDetails/CasinoMarket";
@@ -36,6 +36,7 @@ import {
 } from "../../store/actions/match/matchAction";
 import { AppDispatch, RootState } from "../../store/store";
 import RunsBox from "../../components/matchDetails/RunsBox";
+import { customSortBySessionMarketName } from "../../helpers";
 
 const SessionMarketDetail = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -310,29 +311,12 @@ const SessionMarketDetail = () => {
 
   return (
     <>
-      <Box
-        sx={{
-          width: { lg: "50%", xs: "100%", md: "100%" },
-          paddingLeft: "5px",
-          marginTop: { xs: "10px", lg: "0" },
-        }}
-      >
-        <Typography
-          sx={{
-            fontSize: "16px",
-            color: "white",
-            fontWeight: "700",
-            alignSelf: "start",
-          }}
-        >
-          {matchDetail?.title}
-        </Typography>
-      </Box>
-      <Stack spacing={2} direction={{ lg: "row", xs: "column" }}>
-        <Box sx={{ width: { lg: "100%" } }}>
+      <Stack spacing={{ lg: 2, xs: 0 }} direction={{ lg: "row", xs: "column" }}>
+        <Box sx={{ width: { lg: "70%" } }}>
           {matchDetail?.apiSession &&
-            Object.entries(matchDetail?.apiSession)?.map(
-              ([name, item]: any) => {
+            Object.entries(matchDetail?.apiSession)
+              ?.sort(customSortBySessionMarketName)
+              ?.map(([name, item]: any) => {
                 if (name === "session" || name === "fancy1") {
                   return (
                     <>
@@ -350,45 +334,13 @@ const SessionMarketDetail = () => {
                     </>
                   );
                 }
-              }
-            )}
-        </Box>
-        <Box sx={{ width: { lg: "100%" } }}>
-          {matchDetail?.updatedSesssionBettings &&
-            Object.entries(matchDetail?.updatedSesssionBettings)
-              ?.sort(([nameA], [nameB]) => nameA.localeCompare(nameB))
-              ?.map(([name, item]: any) => {
-                if (name !== "cricketCasino") {
-                  return (
-                    <div key={name}>
-                      {item?.section?.filter(
-                        (items: any) =>
-                          items?.isComplete &&
-                          ((items?.resultData && items?.resultData === null) ||
-                            items?.result === null)
-                      )?.length > 0 && (
-                        <SessionMarket
-                          title={`${name} Completed`}
-                          hideTotalBet={false}
-                          stopAllHide={true}
-                          profitLossData={matchDetail?.sessionProfitLoss}
-                          sessionData={item}
-                          hideResult={false}
-                          currentMatch={matchDetail}
-                          hideEditMaxButton={true}
-                          cstmStyle={{
-                            maxHeight: { sm: "40vh" },
-                          }}
-                          section="completed"
-                        />
-                      )}
-                    </div>
-                  );
-                }
               })}
+        </Box>
+        <Box sx={{ width: { lg: "70%" } }}>
           {matchDetail?.apiSession &&
-            Object.entries(matchDetail?.apiSession)?.map(
-              ([name, item]: any) => {
+            Object.entries(matchDetail?.apiSession)
+              ?.sort(customSortBySessionMarketName)
+              ?.map(([name, item]: any) => {
                 if (name === "session" || name === "fancy1") {
                   return null;
                 } else if (name === "cricketCasino") {
@@ -424,17 +376,48 @@ const SessionMarketDetail = () => {
                       )}
                     </>
                   );
-              }
-            )}
+              })}
         </Box>
         <Box sx={{ width: { lg: "100%" } }}>
           {matchDetail?.updatedSesssionBettings &&
             Object.entries(matchDetail?.updatedSesssionBettings)
-              ?.sort(([nameA], [nameB]) => nameA.localeCompare(nameB))
+              ?.sort(customSortBySessionMarketName)
               ?.map(([name, item]: any) => {
                 if (name !== "cricketCasino") {
                   return (
-                    <div key={name}>
+                    <Fragment key={name}>
+                      {item?.section?.filter(
+                        (items: any) =>
+                          items?.isComplete &&
+                          ((items?.resultData && items?.resultData === null) ||
+                            items?.result === null)
+                      )?.length > 0 && (
+                        <SessionMarket
+                          title={`${name} Completed`}
+                          hideTotalBet={false}
+                          stopAllHide={true}
+                          profitLossData={matchDetail?.sessionProfitLoss}
+                          sessionData={item}
+                          hideResult={false}
+                          currentMatch={matchDetail}
+                          hideEditMaxButton={true}
+                          cstmStyle={{
+                            maxHeight: { sm: "40vh" },
+                          }}
+                          section="completed"
+                        />
+                      )}
+                    </Fragment>
+                  );
+                } else return null;
+              })}
+          {matchDetail?.updatedSesssionBettings &&
+            Object.entries(matchDetail?.updatedSesssionBettings)
+              ?.sort(customSortBySessionMarketName)
+              ?.map(([name, item]: any) => {
+                if (name !== "cricketCasino") {
+                  return (
+                    <Fragment key={name}>
                       {item?.section
                         ?.filter((item: any) => !item?.isManual)
                         ?.filter(
@@ -456,13 +439,13 @@ const SessionMarketDetail = () => {
                           section="market"
                         />
                       )}
-                    </div>
+                    </Fragment>
                   );
-                }
+                } else return null;
               })}
           {matchDetail?.updatedSesssionBettings &&
             Object.entries(matchDetail?.updatedSesssionBettings)
-              ?.sort(([nameA], [nameB]) => nameA.localeCompare(nameB))
+              ?.sort(customSortBySessionMarketName)
               ?.map(([name, item]: any) => {
                 if (name === "cricketCasino") {
                   return (
@@ -480,15 +463,15 @@ const SessionMarketDetail = () => {
                       ))}
                     </>
                   );
-                }
+                } else return null;
               })}
           {matchDetail?.updatedSesssionBettings &&
             Object.entries(matchDetail?.updatedSesssionBettings)
-              ?.sort(([nameA], [nameB]) => nameA.localeCompare(nameB))
+              ?.sort(customSortBySessionMarketName)
               ?.map(([name, item]: any) => {
                 if (name !== "cricketCasino") {
                   return (
-                    <div key={name}>
+                    <Fragment key={name}>
                       {item?.section?.filter(
                         (items: any) =>
                           (items?.resultData && items?.resultData !== null) ||
@@ -509,9 +492,9 @@ const SessionMarketDetail = () => {
                           section="declared"
                         />
                       )}
-                    </div>
+                    </Fragment>
                   );
-                }
+                } else return null;
               })}
         </Box>
       </Stack>

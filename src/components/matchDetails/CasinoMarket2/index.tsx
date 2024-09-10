@@ -1,38 +1,38 @@
 import { Box, Typography } from "@mui/material";
-import { memo, useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { memo, useState } from "react";
 import { ARROWUP } from "../../../assets";
-import { sessionBetLiveStatus } from "../../../store/actions/match/matchAction";
-import { AppDispatch, RootState } from "../../../store/store";
+// import { sessionBetLiveStatus } from "../../../store/actions/match/matchAction";
+// import { RootState } from "../../../store/store";
 import Divider from "../../Common/Divider";
-import { formatToINR } from "../../helper";
-import Result from "../Result";
+// import { formatToINR } from "../../helper";
+// import Result from "../Result";
 import CasinoMarketBox from "./CasinoMarketBox";
-import CustomCasinoMarketResult from "./CustomCasinoMarketResult";
-import LiveStatusButtonBox from "./LiveStatusButtonBox";
+// import { useSelector } from "react-redux";
+// import CustomCasinoMarketResult from "./CustomCasinoMarketResult";
+// import LiveStatusButtonBox from "./LiveStatusButtonBox";
 // import PlaceBetComponent from "../SessionMarket/PlaceBetComponent";
 const CasinoMarket = ({
   title,
   sessionData,
-  currentMatch,
+  // currentMatch,
   profitLossData,
 }: any) => {
   const [visible, setVisible] = useState(true);
-  const [showResultModal, setShowResultModal] = useState(false);
-  const dispatch: AppDispatch = useDispatch();
+  // const [showResultModal, setShowResultModal] = useState(false);
+  // const dispatch: AppDispatch = useDispatch();
 
-  const { success } = useSelector((state: RootState) => state.matchList);
-  const { matchDetail } = useSelector(
-    (state: RootState) => state.addMatch.addMatch
-  );
+  // const { success } = useSelector((state: RootState) => state.matchList);
+  // const { matchDetail } = useSelector(
+  //   (state: RootState) => state.addMatch.addMatch
+  // );
 
-  useEffect(() => {
-    if (success) {
-      setShowResultModal(false);
-    }
-  }, [success]);
-  
-  let totalBet=0
+  // useEffect(() => {
+  //   if (success) {
+  //     setShowResultModal(false);
+  //   }
+  // }, [success]);
+
+  // let totalBet = 0;
   return (
     <Box
       sx={{
@@ -40,7 +40,7 @@ const CasinoMarket = ({
         position: "relative",
         backgroundColor: "white",
         flexDirection: "column",
-        marginY: { lg: "4px" },
+        marginY: { lg: "6px" },
         width: { lg: "100%", xs: "100%" },
         alignSelf: {
           xs: "center",
@@ -53,7 +53,7 @@ const CasinoMarket = ({
       <Box
         sx={{
           display: "flex",
-          height: "35px",
+          height: "22px",
           flexDirection: "row",
           width: "99.7%",
           alignSelf: "center",
@@ -71,13 +71,13 @@ const CasinoMarket = ({
         >
           <Typography
             sx={{
-              fontSize: "10px",
+              fontSize: "9px",
               fontWeight: "bold",
               marginLeft: "7px",
             }}
           >
             {title}{" "}
-            {`(MIN: ${formatToINR(currentMatch?.betFairSessionMinBet)})`}
+            {/* {`(MIN: ${formatToINR(currentMatch?.betFairSessionMinBet)})`} */}
           </Typography>
           <Box>
             {/* {sessionData?.activeStatus !== "live" && (
@@ -178,7 +178,6 @@ const CasinoMarket = ({
             //       ?.section?.[0]?.id
             //   }
             // />
-
             // <PlaceBetComponent
             //   width={7}
             //   profitLossData={
@@ -190,54 +189,53 @@ const CasinoMarket = ({
             //   }
             //   newData={matchDetail}
             // />
-
-            <Box
-              sx={{
-                background: "#FDF21A",
-                borderRadius: "3px",
-                width: "35%",
-                height: "85%",
-                alignItems: "center",
-                justifyContent: "center",
-                display: "flex",
-
-                flexDirection: "column",
-                marginLeft: "2px",
-              }}
-            >
-              <Typography
-                sx={{
-                  fontSize: { lg: "7px", xs: "6px", md: "9px" },
-                  fontWeight: "bold",
-                  textAlign: "center",
-                  color: "#FF4D4D",
-                  lineHeight: "1",
-                }}
-              >
-                Total Bet
-              </Typography>
-              {matchDetail?.updatedSesssionBettings?.cricketCasino?.section?.map(
-                (sectionItem: any, index: number) => {
-                   totalBet =
-                   sectionItem?.RunnerName == title? matchDetail?.sessionProfitLoss?.[sectionItem?.id]
-                      ?.totalBet || 0:""
-                   
-                  return (
-                    <Typography
-                      key={index}
-                      sx={{
-                        fontSize: { lg: ".6vw", xs: "1.5vw", md: "1.5vw" },
-                        fontWeight: "bold",
-                        color: "#0B4F26",
-                        lineHeight: 1,
-                      }}
-                    >
-                      {`${totalBet}`}
-                    </Typography>
-                  );
-                }
-              )}
-            </Box>
+            // <Box
+            //   sx={{
+            //     background: "#FDF21A",
+            //     borderRadius: "3px",
+            //     width: "35%",
+            //     height: "85%",
+            //     alignItems: "center",
+            //     justifyContent: "center",
+            //     display: "flex",
+            //     flexDirection: "column",
+            //     marginLeft: "2px",
+            //   }}
+            // >
+            //   <Typography
+            //     sx={{
+            //       fontSize: { lg: "7px", xs: "6px", md: "9px" },
+            //       fontWeight: "bold",
+            //       textAlign: "center",
+            //       color: "#FF4D4D",
+            //       lineHeight: "1",
+            //     }}
+            //   >
+            //     Total Bet
+            //   </Typography>
+            //   {matchDetail?.updatedSesssionBettings?.cricketCasino?.section?.map(
+            //     (sectionItem: any, index: number) => {
+            //       totalBet =
+            //         sectionItem?.RunnerName == title
+            //           ? matchDetail?.sessionProfitLoss?.[sectionItem?.id]
+            //               ?.totalBet || 0
+            //           : "";
+            //       return (
+            //         <Typography
+            //           key={index}
+            //           sx={{
+            //             fontSize: { lg: ".6vw", xs: "1.5vw", md: "1.5vw" },
+            //             fontWeight: "bold",
+            //             color: "#0B4F26",
+            //             lineHeight: 1,
+            //           }}
+            //         >
+            //           {`${totalBet}`}
+            //         </Typography>
+            //       );
+            //     }
+            //   )}
+            // </Box>
           }
 
           <img
@@ -247,8 +245,8 @@ const CasinoMarket = ({
             src={ARROWUP}
             style={{
               transform: visible ? "rotate(180deg)" : "rotate(0deg)",
-              width: "15px",
-              height: "15px",
+              width: "12px",
+              height: "12px",
               marginRight: "5px",
               marginLeft: "5px",
               cursor: "pointer",

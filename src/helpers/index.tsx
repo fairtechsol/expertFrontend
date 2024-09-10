@@ -117,3 +117,17 @@ export const customSortOnName = (a: any, b: any) => {
 
   return numA - numB;
 };
+
+const order: any = {
+  ballByBall: 1,
+  overByover: 2,
+  session: 3,
+  fancy1: 4,
+  oddEven: 5,
+};
+
+export const customSortBySessionMarketName = ([nameA]: any, [nameB]: any) => {
+  const orderA = order[nameA] || Infinity;
+  const orderB = order[nameB] || Infinity;
+  return orderA - orderB;
+};

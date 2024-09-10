@@ -18,11 +18,6 @@ const OtherMarketAdd = ({
   const [selected, setSelected] = useState<any>();
   const dispatch: AppDispatch = useDispatch();
 
-  console.log(
-    matchOddsLive?.runners?.length > 0 && matchOddsLive?.runners[1]?.nat,
-    "abc"
-  );
-
   const handleSubmit = () => {
     let data = {
       matchId: currentMatch?.id,
@@ -40,6 +35,10 @@ const OtherMarketAdd = ({
           (matchOddsLive?.runners?.length > 0 &&
             matchOddsLive?.runners[1]?.nat) ??
           "",
+        teamC:
+          (matchOddsLive?.runners?.length > 0 &&
+            matchOddsLive?.runners[2]?.nat) ??
+          null,
       },
       ...(matchOddsLive?.id && { id: matchOddsLive.id }),
     };

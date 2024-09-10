@@ -31,8 +31,8 @@ const CasinoMarket = ({
       setShowResultModal(false);
     }
   }, [success]);
- let totalBet=0;
- 
+  let totalBet = 0;
+
   return (
     <Box
       sx={{
@@ -40,7 +40,7 @@ const CasinoMarket = ({
         position: "relative",
         backgroundColor: "white",
         flexDirection: "column",
-        marginY: { lg: "4px" },
+        marginY: "4px",
         width: { lg: "100%", xs: "100%" },
         alignSelf: {
           xs: "center",
@@ -53,7 +53,7 @@ const CasinoMarket = ({
       <Box
         sx={{
           display: "flex",
-          height: "35px",
+          height: "20px",
           flexDirection: "row",
           width: "99.7%",
           alignSelf: "center",
@@ -80,23 +80,25 @@ const CasinoMarket = ({
             {`(MIN: ${formatToINR(currentMatch?.betFairSessionMinBet)})`}
           </Typography>
           <Box>
-            {sessionData?.activeStatus !== "live" && (
-              <LiveStatusButtonBox
-                hide={true}
-                onClick={(e: any) => {
-                  e.preventDefault();
-                  dispatch(
-                    sessionBetLiveStatus({
-                      status: "live",
-                      betId: sessionData?.id,
-                    })
-                  );
-                }}
-                textSize="8px"
-                width="28px"
-                color="#FF4D4D"
-              />
-            )}
+            {sessionData?.activeStatus !== "live" &&
+              !sessionData?.resultStatus && (
+                <LiveStatusButtonBox
+                  hide={true}
+                  onClick={(e: any) => {
+                    e.preventDefault();
+                    dispatch(
+                      sessionBetLiveStatus({
+                        status: "live",
+                        betId: sessionData?.id,
+                      })
+                    );
+                  }}
+                  textSize="8px"
+                  width={{ lg: "20px" }}
+                  color="#FF4D4D"
+                  height="20px"
+                />
+              )}
             {sessionData?.activeStatus === "live" && (
               <LiveStatusButtonBox
                 hide={true}
@@ -110,7 +112,8 @@ const CasinoMarket = ({
                   );
                 }}
                 textSize="8px"
-                width="33px"
+                width={{ lg: "20px" }}
+                height="20px"
               />
             )}
           </Box>
@@ -207,7 +210,7 @@ const CasinoMarket = ({
             >
               <Typography
                 sx={{
-                  fontSize: { lg: "7px", xs: "6px", md: "9px" },
+                  fontSize: { lg: "7px", xs: "6px", md: "6px" },
                   fontWeight: "bold",
                   textAlign: "center",
                   color: "#FF4D4D",
@@ -219,10 +222,12 @@ const CasinoMarket = ({
 
               {matchDetail?.updatedSesssionBettings?.cricketCasino?.section?.map(
                 (sectionItem: any, index: number) => {
-                   totalBet =
-                   sectionItem?.RunnerName == title? matchDetail?.sessionProfitLoss?.[sectionItem?.id]
-                      ?.totalBet || 0:""
-                   
+                  totalBet =
+                    sectionItem?.RunnerName == title
+                      ? matchDetail?.sessionProfitLoss?.[sectionItem?.id]
+                          ?.totalBet || 0
+                      : "";
+
                   return (
                     <Typography
                       key={index}
@@ -264,8 +269,8 @@ const CasinoMarket = ({
             src={ARROWUP}
             style={{
               transform: visible ? "rotate(180deg)" : "rotate(0deg)",
-              width: "15px",
-              height: "15px",
+              width: "12px",
+              height: "12px",
               marginRight: "5px",
               marginLeft: "5px",
               cursor: "pointer",

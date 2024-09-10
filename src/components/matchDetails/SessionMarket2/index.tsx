@@ -2,18 +2,18 @@ import { Box, Typography } from "@mui/material";
 import { useState } from "react";
 import { ARROWUP } from "../../../assets";
 import Divider from "../../Common/Divider";
-import Stop from "./Stop";
+// import Stop from "./Stop";
 import SessionMarketBox from "./SessionMarketBox";
-import { sessionBetLiveStatus } from "../../../store/actions/match/matchAction";
-import { AppDispatch } from "../../../store/store";
-import { useDispatch } from "react-redux";
+// import { sessionBetLiveStatus } from "../../../store/actions/match/matchAction";
+// import { AppDispatch } from "../../../store/store";
+// import { useDispatch } from "react-redux";
 import { customSortUpdated } from "../../../helpers";
 // import { formatToINR } from "../../helper";
 
 const SessionMarket2 = ({
-  currentMatch,
+  // currentMatch,
   hideResult,
-  stopAllHide,
+  // stopAllHide,
   title,
   hideTotalBet,
   sessionData,
@@ -22,7 +22,7 @@ const SessionMarket2 = ({
   cstmStyle,
   section,
 }: any) => {
-  const dispatch: AppDispatch = useDispatch();
+  // const dispatch: AppDispatch = useDispatch();
   const [visible, setVisible] = useState(true);
 
   return (
@@ -31,7 +31,7 @@ const SessionMarket2 = ({
         display: "flex",
         backgroundColor: "white",
         flexDirection: "column",
-        marginY: { lg: ".5vh" },
+        marginY: { lg: "6px" },
         width: "100%",
         alignSelf: {
           xs: "center",
@@ -45,7 +45,7 @@ const SessionMarket2 = ({
       <Box
         sx={{
           display: "flex",
-          height: "35px",
+          height: "20px",
           flexDirection: "row",
           width: "99.7%",
           alignSelf: "center",
@@ -109,8 +109,8 @@ const SessionMarket2 = ({
             alt={"Up Arrow"}
             style={{
               transform: visible ? "rotate(180deg)" : "rotate(0deg)",
-              width: "15px",
-              height: "15px",
+              width: "12px",
+              height: "12px",
               marginRight: "5px",
               marginLeft: "5px",
               cursor: "pointer",
@@ -149,7 +149,7 @@ const SessionMarket2 = ({
               sessionData?.section
                 ?.filter((item: any) =>
                   section === "market"
-                    ? item?.activeStatus === "live" &&
+                    ? !item?.isComplete &&
                       ((item?.resultData && item?.resultData === null) ||
                         item?.result === null)
                     : section === "completed"

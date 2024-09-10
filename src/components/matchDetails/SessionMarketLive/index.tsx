@@ -21,7 +21,7 @@ const SessionMarketLive = ({ title, sessionData, currentMatch, type }: any) => {
         display: "flex",
         backgroundColor: "white",
         flexDirection: "column",
-        marginY: { lg: "4px" },
+        marginY: "4px",
         width: { lg: "100%", xs: "100%" },
         alignSelf: {
           xs: "center",
@@ -34,7 +34,7 @@ const SessionMarketLive = ({ title, sessionData, currentMatch, type }: any) => {
       <Box
         sx={{
           display: "flex",
-          height: "35px",
+          height: "20px",
           flexDirection: "row",
           width: "99.7%",
           alignSelf: "center",
@@ -57,7 +57,7 @@ const SessionMarketLive = ({ title, sessionData, currentMatch, type }: any) => {
               marginLeft: "7px",
             }}
           >
-            {title}{" "}
+            {title}
             {`(MIN: ${formatToINR(currentMatch?.betFairSessionMinBet)})`}
           </Typography>
         </Box>
@@ -89,8 +89,8 @@ const SessionMarketLive = ({ title, sessionData, currentMatch, type }: any) => {
             src={ARROWUP}
             style={{
               transform: visible ? "rotate(180deg)" : "rotate(0deg)",
-              width: "15px",
-              height: "15px",
+              width: "12px",
+              height: "12px",
               marginRight: "5px",
               marginLeft: "5px",
               cursor: "pointer",
@@ -123,18 +123,18 @@ const SessionMarketLive = ({ title, sessionData, currentMatch, type }: any) => {
             {matchSessionData?.length > 0 &&
               matchSessionData?.map((match: any, index: any) => {
                 if (!match?.id) {
-                return (
-                  <Box key={index}>
-                    <SessionMarketBoxLive
-                      currentMatch={currentMatch}
-                      newData={match}
-                      index={index}
-                      gtype={sessionData?.gtype}
-                      type={type}
-                    />
-                    <Divider />
-                  </Box>
-                );
+                  return (
+                    <Box key={index}>
+                      <SessionMarketBoxLive
+                        currentMatch={currentMatch}
+                        newData={match}
+                        index={index}
+                        gtype={sessionData?.gtype}
+                        type={type}
+                      />
+                      <Divider />
+                    </Box>
+                  );
                 }
               })}
           </Box>

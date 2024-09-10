@@ -36,7 +36,8 @@ const SeparateBox = ({
             background: lock || [0, "0"].includes(value) ? "#FDF21A" : color,
             border:
               color != "white" ? "1px solid #2626264D" : "0px solid white",
-            width: { xs: mWidth ? mWidth : "25%", lg: width ? width : "45%" },
+            // width: { xs: mWidth ? mWidth : "25%", lg: width ? width : "45%" },
+            width: { xs: mWidth ? mWidth : "45%", lg: width ? width : "100%" },
             height: "94%",
             display: "flex",
             justifyContent: "center",
