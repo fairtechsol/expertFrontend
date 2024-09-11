@@ -10,6 +10,7 @@ import Result from "../Result";
 import CasinoMarketBox from "./CasinoMarketBox";
 import CustomCasinoMarketResult from "./CustomCasinoMarketResult";
 import LiveStatusButtonBox from "./LiveStatusButtonBox";
+import { TiArrowLeftThick } from "react-icons/ti";
 // import PlaceBetComponent from "../SessionMarket/PlaceBetComponent";
 const CasinoMarket = ({
   title,
@@ -18,8 +19,12 @@ const CasinoMarket = ({
   profitLossData,
 }: any) => {
   const [visible, setVisible] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [showResultModal, setShowResultModal] = useState(false);
   const dispatch: AppDispatch = useDispatch();
+  const { statusBetLive, error } = useSelector(
+    (state: RootState) => state.matchList
+  );
 
   const { success } = useSelector((state: RootState) => state.matchList);
   const { matchDetail } = useSelector(
@@ -32,6 +37,15 @@ const CasinoMarket = ({
     }
   }, [success]);
   let totalBet = 0;
+
+  useEffect(() => {
+    if (statusBetLive) {
+      setLoading(false);
+    }
+    if (error) {
+      setLoading(false);
+    }
+  }, [statusBetLive, error]);
 
   return (
     <Box
@@ -79,7 +93,40 @@ const CasinoMarket = ({
             {title}{" "}
             {`(MIN: ${formatToINR(currentMatch?.betFairSessionMinBet)})`}
           </Typography>
-          <Box>
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+            }}
+          >
+            <Typography sx={{ marginRight: "10px", zIndex: "999" }}>
+              {(sessionData?.activeStatus === "live" ||
+                sessionData?.activeStatus === "save") &&
+                !sessionData?.result && (
+                  <TiArrowLeftThick
+                    cursor={"pointer"}
+                    color="blue"
+                    size={15}
+                    style={{
+                      backgroundColor: "lightgray",
+                      alignItems: "center",
+                      display: "flex",
+                    }}
+                    onClick={(e: any) => {
+                      if (loading) {
+                        return;
+                      }
+                      e.preventDefault();
+                      dispatch(
+                        sessionBetLiveStatus({
+                          status: "unSave",
+                          betId: sessionData?.id,
+                        })
+                      );
+                    }}
+                  />
+                )}
+            </Typography>
             {sessionData?.activeStatus !== "live" &&
               !sessionData?.resultStatus && (
                 <LiveStatusButtonBox
