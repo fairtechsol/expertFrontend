@@ -120,9 +120,9 @@ export const customSortOnName = (a: any, b: any) => {
 
 const order: any = {
   ballByBall: 1,
-  overByover: 2,
+  fancy1: 2, // changed position of fancy1 from 4 to 2 as client changed
   session: 3,
-  fancy1: 4,
+  overByover: 4,
   oddEven: 5,
 };
 

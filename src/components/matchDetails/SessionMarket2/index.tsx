@@ -31,7 +31,7 @@ any) => {
         display: "flex",
         backgroundColor: "white",
         flexDirection: "column",
-        marginY: { lg: "6px" },
+        marginY: { lg: "3px" },
         width: "100%",
         alignSelf: {
           xs: "center",
@@ -140,8 +140,8 @@ any) => {
                 "::-webkit-scrollbar": {
                   display: "none",
                 },
-                maxHeight: "300px",
-                overflowY: "scroll",
+                // maxHeight: "300px",
+                // overflowY: "scroll",
               },
               cstmStyle,
             ]}

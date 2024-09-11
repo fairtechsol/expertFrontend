@@ -1,5 +1,5 @@
 import { Box, Stack } from "@mui/material";
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 // import CasinoMarket2 from "../../components/matchDetails/CasinoMarket2";
@@ -36,6 +36,7 @@ import {
 import { AppDispatch, RootState } from "../../store/store";
 import BetList from "../../components/matchDetails/BetList";
 import { customSortBySessionMarketName } from "../../helpers";
+import CasinoMarket2 from "../../components/matchDetails/CasinoMarket2";
 
 const SessionBetlistDetail = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -318,31 +319,25 @@ const SessionBetlistDetail = () => {
         spacing={2}
         direction={{ lg: "row", md: "row", xs: "column", sm: "row" }}
       >
-        <Box
-          sx={{
-            width: { lg: "44%", md: "44%", xs: "100%", sm: "40%" },
-            display: "grid",
-            gridTemplateColumns: "auto auto",
-            gap: "5px",
-            height: "0",
-          }}
-        >
+        <Box sx={{ width: { lg: "20%" } }}>
           {matchDetail?.updatedSesssionBettings &&
             Object.entries(matchDetail?.updatedSesssionBettings)
               ?.sort(customSortBySessionMarketName)
               ?.map(([name, item]: any) => {
-                if (name !== "cricketCasino") {
+                if (
+                  name !== "cricketCasino" &&
+                  (name === "session" || name === "oddEven")
+                ) {
                   const activeSessions = item?.section?.filter(
                     (items: any) =>
                       !items?.isComplete &&
                       ((items?.resultData && items?.resultData === null) ||
                         items?.result === null)
                   );
-
                   if (activeSessions?.length > 0) {
                     return (
                       <SessionMarket2
-                        key={`${name}-active`} // Use a unique key
+                        key={`${name}-active`}
                         title={`${name} Market`}
                         hideTotalBet={false}
                         stopAllHide={false}
@@ -356,41 +351,65 @@ const SessionBetlistDetail = () => {
                     );
                   }
                 }
-                return null; // Skip rendering if no active session
+                return null;
               })}
-
+        </Box>
+        <Box sx={{ width: { lg: "20%" } }}>
           {matchDetail?.updatedSesssionBettings &&
             Object.entries(matchDetail?.updatedSesssionBettings)
               ?.sort(customSortBySessionMarketName)
               ?.map(([name, item]: any) => {
-                if (name !== "cricketCasino") {
-                  const declaredSessions = item?.section?.filter(
+                if (
+                  name !== "cricketCasino" &&
+                  name !== "session" &&
+                  name !== "oddEven"
+                ) {
+                  const activeSessions = item?.section?.filter(
                     (items: any) =>
-                      (items?.resultData && items?.resultData !== null) ||
-                      items?.result !== null
+                      !items?.isComplete &&
+                      ((items?.resultData && items?.resultData === null) ||
+                        items?.result === null)
                   );
-
-                  if (declaredSessions?.length > 0) {
+                  if (activeSessions?.length > 0) {
                     return (
                       <SessionMarket2
-                        key={`${name}-declared`} // Use a unique key
-                        title={`${name} Declared`}
+                        key={`${name}-active`}
+                        title={`${name} Market`}
                         hideTotalBet={false}
-                        stopAllHide={true}
+                        stopAllHide={false}
                         profitLossData={matchDetail?.sessionProfitLoss}
                         sessionData={item}
-                        hideResult={false}
+                        hideResult={true}
                         currentMatch={matchDetail}
-                        hideEditMaxButton={true}
-                        cstmStyle={{
-                          maxHeight: { sm: "40vh" },
-                        }}
-                        section="declared"
+                        hideEditMaxButton={false}
+                        section="market"
                       />
                     );
                   }
                 }
-                return null; // Skip rendering if no declared session
+                return null;
+              })}
+          {matchDetail?.updatedSesssionBettings &&
+            Object.entries(matchDetail?.updatedSesssionBettings)
+              ?.sort(customSortBySessionMarketName)
+              ?.map(([name, item]: any) => {
+                if (name === "cricketCasino") {
+                  return (
+                    <Fragment key={name}>
+                      {item?.section?.map((items: any) => (
+                        <CasinoMarket2
+                          key={items?.SelectionId}
+                          title={items?.RunnerName || items?.name}
+                          sessionData={items}
+                          currentMatch={matchDetail}
+                          gtype={items?.gtype}
+                          type={name}
+                          profitLossData={matchDetail?.sessionProfitLoss}
+                        />
+                      ))}
+                    </Fragment>
+                  );
+                }
               })}
         </Box>
 
