@@ -19,11 +19,21 @@ const ResultComponentOtherMarket = ({
 }: any) => {
   const dispatch: AppDispatch = useDispatch();
   const { success, error } = useSelector((state: RootState) => state.match);
-  const [selected, setSelected] = useState(liveData?.runners[0]?.nat);
+  const [selected, setSelected] = useState("");
   const [loading, setLoading] = useState({ id: "", value: false });
   const handleSubmit = (e: any) => {
     e.preventDefault();
   };
+
+  useEffect(() => {
+    try {
+      if (liveData?.runners?.length > 0) {
+        setSelected(liveData?.runners[0]?.nat);
+      } else setSelected(liveData?.metaData?.teamA);
+    } catch (error) {
+      console.log(error);
+    }
+  }, []);
 
   useEffect(() => {
     try {
@@ -102,12 +112,17 @@ const ResultComponentOtherMarket = ({
                 py: "5px",
               }}
             >
-              {liveData?.runners.map((item: any, k: number) => {
+              {[0, 1].map((item: any, k: number) => {
                 return (
                   <Box
                     key={k}
                     onClick={() => {
-                      setSelected(item?.nat);
+                      setSelected(
+                        liveData?.runners?.[item]?.nat ||
+                          (item === 0
+                            ? liveData?.metaData?.teamA
+                            : liveData?.metaData?.teamB)
+                      );
                     }}
                     sx={{
                       width: "40%",
@@ -121,7 +136,13 @@ const ResultComponentOtherMarket = ({
                       height: "50px",
                       cursor: "pointer",
                       background:
-                        selected === item?.nat ? "#0B4F26" : "#F8C851",
+                        selected ===
+                        (liveData?.runners?.[item]?.nat ||
+                          (item === 0
+                            ? liveData?.metaData?.teamA
+                            : liveData?.metaData?.teamB))
+                          ? "#0B4F26"
+                          : "#F8C851",
                       overflow: "hidden",
                     }}
                   >
@@ -129,7 +150,14 @@ const ResultComponentOtherMarket = ({
                       sx={{
                         fontSize: "14px",
                         fontWeight: "700",
-                        color: selected === item?.nat ? "white" : "black",
+                        color:
+                          selected ===
+                          (liveData?.runners?.[item]?.nat ||
+                            (item === 0
+                              ? liveData?.metaData?.teamA
+                              : liveData?.metaData?.teamB))
+                            ? "white"
+                            : "black",
                         lineHeight: 1,
                         overflowWrap: "anywhere",
                         whiteSpace: "nowrap",
@@ -137,7 +165,10 @@ const ResultComponentOtherMarket = ({
                         textOverflow: "ellipsis",
                       }}
                     >
-                      {item?.nat}
+                      {liveData?.runners?.[item]?.nat ||
+                        (item === 0
+                          ? liveData?.metaData?.teamA
+                          : liveData?.metaData?.teamB)}
                     </Typography>
                   </Box>
                 );

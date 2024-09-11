@@ -15,7 +15,6 @@ import Result from "../Result";
 import ResultComponentOtherMarket from "./ResultComponentOtherMarket";
 
 const OtherMatchMarket = ({ currentMatch, liveData, title }: any) => {
-  console.log(liveData?.runners?.length > 0 && liveData?.runners[0], "abc");
   const dispatch: AppDispatch = useDispatch();
   const [visibleImg, setVisibleImg] = useState<boolean>(true);
   const [visible, setVisible] = useState<boolean>(false);
@@ -217,7 +216,7 @@ const OtherMatchMarket = ({ currentMatch, liveData, title }: any) => {
         {visible && (
           <ResultComponentOtherMarket
             currentMatch={currentMatch}
-            stopAt={currentMatch?.stopAt}
+            stopAt={liveData?.stopAt}
             onClick={() => {
               setVisible(false);
             }}
@@ -405,6 +404,26 @@ const OtherMatchMarket = ({ currentMatch, liveData, title }: any) => {
                 >
                   <Typography sx={{ color: "#fff" }}>
                     RESULT {currentMatch?.resultStatus[liveData?.id]?.status}
+                  </Typography>
+                </Box>
+              )}
+            {currentMatch?.otherBettings &&
+              currentMatch?.otherBettings[liveData?.id] && (
+                <Box
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    width: "100%",
+                    position: "absolute",
+                    height: "100%",
+                    bottom: 0,
+                    color: "#fff",
+                    backgroundColor: "rgba(203 24 24 / 70%)",
+                  }}
+                >
+                  <Typography sx={{ color: "#fff" }}>
+                    RESULT {currentMatch?.otherBettings[liveData?.id]}
                   </Typography>
                 </Box>
               )}
