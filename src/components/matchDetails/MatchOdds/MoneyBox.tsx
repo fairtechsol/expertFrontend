@@ -8,8 +8,10 @@ const MoneyBox = ({ value }: any) => {
 
   const formatValue = (value: any) => {
     const formattedValue = formatToINR(value === 0 ? "" : value);
-    const [integerPart, decimalPart] = formattedValue.split('.');
-    const formattedDecimalPart = decimalPart ? decimalPart.padEnd(2, '0').slice(0, 2) : '00'; // Ensure exactly 2 digits after the decimal point
+    const [integerPart, decimalPart] = formattedValue.split(".");
+    const formattedDecimalPart = decimalPart
+      ? decimalPart.padEnd(2, "0").slice(0, 2)
+      : "00"; // Ensure exactly 2 digits after the decimal point
     return { integerPart, decimalPart: formattedDecimalPart };
   };
 
@@ -41,7 +43,9 @@ const MoneyBox = ({ value }: any) => {
           {value !== 0 && (
             <>
               <span>{integerPart}</span>
-              <span style={{ fontSize: "0.8em", fontWeight: 'normal' }}>{`.${decimalPart}`}</span>
+              <span
+                style={{ fontSize: "0.8em", fontWeight: "normal" }}
+              >{`.${decimalPart}`}</span>
             </>
           )}
         </Typography>

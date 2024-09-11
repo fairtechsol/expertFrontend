@@ -97,7 +97,13 @@ const SessionMarketBox = ({
             <img
               onClick={() => setShowMaxLimitModal(true)}
               src={edit}
-              style={{ width: "14px", height: "12px", marginLeft: "4px" }}
+              style={{
+                width: "14px",
+                height: "12px",
+                marginLeft: "4px",
+                zIndex: "999",
+                cursor: "pointer",
+              }}
             />
           )}
           <Box
@@ -167,7 +173,7 @@ const SessionMarketBox = ({
                     if (loading) {
                       return;
                     }
-                    e.preventDefault();
+                    e.stopPropogation();
                     dispatch(
                       sessionBetLiveStatus({
                         status: "unSave",
