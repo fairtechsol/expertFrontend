@@ -11,11 +11,14 @@ import BoxComponent from "../MatchOdds/BoxComponent";
 import Stop from "../SessionMarket/Stop";
 import SmallBox from "../SmallBox";
 import OtherMarketAdd from "./OtherMarketAdd";
+import Result from "../Result";
+import ResultComponentOtherMarket from "./ResultComponentOtherMarket";
 
 const OtherMatchMarket = ({ currentMatch, liveData, title }: any) => {
   console.log(liveData?.runners?.length > 0 && liveData?.runners[0], "abc");
   const dispatch: AppDispatch = useDispatch();
   const [visibleImg, setVisibleImg] = useState<boolean>(true);
+  const [visible, setVisible] = useState<boolean>(false);
   const [live, setLive] = useState<boolean>(
     liveData?.activeStatus === "live" ? true : false
   );
@@ -46,6 +49,7 @@ const OtherMatchMarket = ({ currentMatch, liveData, title }: any) => {
           xs: "center",
           md: "center",
           lg: "flex-start",
+          position: "relative",
         },
       }}
     >
@@ -76,7 +80,6 @@ const OtherMatchMarket = ({ currentMatch, liveData, title }: any) => {
           >
             {title}
           </Typography>
-          {/* <img src={LOCKED} style={{ width: '14px', height: '20px' }} /> */}
           {liveData?.id && (
             <Stop
               onClick={() => {
@@ -94,15 +97,6 @@ const OtherMatchMarket = ({ currentMatch, liveData, title }: any) => {
         </Box>
         <Box
           sx={{
-            flex: 0.1,
-            background: "#262626",
-            // '#262626'
-          }}
-        >
-          <div className="slanted"></div>
-        </Box>
-        <Box
-          sx={{
             flex: 1,
             background: "#262626",
             // '#262626' ,
@@ -113,6 +107,13 @@ const OtherMatchMarket = ({ currentMatch, liveData, title }: any) => {
         >
           {liveData?.id ? (
             <>
+              <Result
+                width={"80px"}
+                onClick={() => {
+                  setVisible(true);
+                }}
+                invert={true}
+              />
               <SmallBox
                 onClick={() => {
                   dispatch(
@@ -130,7 +131,8 @@ const OtherMatchMarket = ({ currentMatch, liveData, title }: any) => {
                 customStyle={{
                   justifyContent: "center",
                 }}
-              />{" "}
+              />
+
               <div
                 style={{
                   width: "50px",
@@ -203,6 +205,26 @@ const OtherMatchMarket = ({ currentMatch, liveData, title }: any) => {
         </Box>
       </Box>
       <Divider />
+      <Box
+        sx={{
+          position: "absolute",
+          zIndex: 999,
+          top: "26%",
+          right: "60px",
+          width: { lg: "50vh", xs: "30vh" },
+        }}
+      >
+        {visible && (
+          <ResultComponentOtherMarket
+            currentMatch={currentMatch}
+            stopAt={currentMatch?.stopAt}
+            onClick={() => {
+              setVisible(false);
+            }}
+            liveData={liveData}
+          />
+        )}
+      </Box>
       {visibleImg && (
         <>
           <Box

@@ -1,8 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {
+  UnDeclareOtherMarketCricketResult,
   UnDeclareRaceResult,
   declareMatchResult,
   declareMatchStatusReset,
+  declareOtherMarketCricketResult,
   declareRaceResult,
   otherDeclareMatchResult,
   otherUnDeclareMatchResult,
@@ -151,7 +153,6 @@ const matchDeclare = createSlice({
       .addCase(declareMatchStatusReset, (state) => {
         state.success = false;
       })
-
       .addCase(UnDeclareRaceResult.pending, (state) => {
         state.loading = true;
         state.success = false;
@@ -162,6 +163,32 @@ const matchDeclare = createSlice({
         state.loading = false;
       })
       .addCase(UnDeclareRaceResult.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action?.error?.message;
+      })
+      .addCase(UnDeclareOtherMarketCricketResult.pending, (state) => {
+        state.loading = true;
+        state.success = false;
+        state.error = null;
+      })
+      .addCase(UnDeclareOtherMarketCricketResult.fulfilled, (state) => {
+        state.success = true;
+        state.loading = false;
+      })
+      .addCase(UnDeclareOtherMarketCricketResult.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action?.error?.message;
+      })
+      .addCase(declareOtherMarketCricketResult.pending, (state) => {
+        state.loading = true;
+        state.success = false;
+        state.error = null;
+      })
+      .addCase(declareOtherMarketCricketResult.fulfilled, (state) => {
+        state.success = true;
+        state.loading = false;
+      })
+      .addCase(declareOtherMarketCricketResult.rejected, (state, action) => {
         state.loading = false;
         state.error = action?.error?.message;
       })

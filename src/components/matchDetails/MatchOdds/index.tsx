@@ -286,7 +286,7 @@ const MatchOdds = ({ currentMatch, matchOddsLive, id }: any) => {
           )}
         </Box>
 
-        <Box
+        {/* <Box
           sx={{
             flex: 1,
             background: "#262626",
@@ -295,7 +295,7 @@ const MatchOdds = ({ currentMatch, matchOddsLive, id }: any) => {
             alignItems: "center",
             justifyContent: "flex-end",
           }}
-        >
+        > */}
           {/* {!currentMatch?.bookMakerRateLive ? (
             <>
               <SmallBox
@@ -330,7 +330,7 @@ const MatchOdds = ({ currentMatch, matchOddsLive, id }: any) => {
               }}
             />
           )} */}
-        </Box>
+        {/* </Box> */}
 
         {visibleImg && (
           <>
