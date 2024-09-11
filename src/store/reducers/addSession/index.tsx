@@ -196,30 +196,42 @@ export const addSessionReducers = createReducer(initialState, (builder) => {
     })
     .addCase(updateTeamRatesOnManualMarket.fulfilled, (state, action) => {
       const { userRedisObj, jobData } = action?.payload;
-      if (["tiedMatch2", "tiedMatch1"].includes(jobData?.newBet?.marketType)) {
-        state.bookmakerById.matchRates = {
-          ...state.bookmakerById.matchRates,
-          yesRateTie: userRedisObj[jobData?.teamArateRedisKey],
-          noRateTie: userRedisObj[jobData?.teamBrateRedisKey],
-        };
-      } else if (
-        ["completeMatch", "completeManual"].includes(
-          jobData?.newBet?.marketType
-        )
-      ) {
-        state.bookmakerById.matchRates = {
-          ...state.bookmakerById.matchRates,
-          yesRateComplete: userRedisObj[jobData?.teamArateRedisKey],
-          noRateComplete: userRedisObj[jobData?.teamBrateRedisKey],
-        };
-      } else {
-        state.bookmakerById.matchRates = {
-          ...state.bookmakerById.matchRates,
-          teamARate: userRedisObj[jobData?.teamArateRedisKey],
-          teamBRate: userRedisObj[jobData?.teamBrateRedisKey],
-          teamCRate: userRedisObj[jobData?.teamCrateRedisKey] ?? "",
-        };
-      }
+      state.bookmakerById.matchRates = {
+        ...state.bookmakerById.matchRates,
+        [profitLossDataForMatchConstants[jobData?.newBet?.marketType].A +
+        "_" +
+        state.bookmakerById?.matchId]: userRedisObj[jobData?.teamArateRedisKey],
+        [profitLossDataForMatchConstants[jobData?.newBet?.marketType].B +
+        "_" +
+        state.bookmakerById?.matchId]: userRedisObj[jobData?.teamBrateRedisKey],
+        [profitLossDataForMatchConstants[jobData?.newBet?.marketType].C +
+        "_" +
+        state.bookmakerById?.matchId]: userRedisObj[jobData?.teamCrateRedisKey],
+      };
+      // if (["tiedMatch2", "tiedMatch1"].includes(jobData?.newBet?.marketType)) {
+      //   state.bookmakerById.matchRates = {
+      //     ...state.bookmakerById.matchRates,
+      //     yesRateTie: userRedisObj[jobData?.teamArateRedisKey],
+      //     noRateTie: userRedisObj[jobData?.teamBrateRedisKey],
+      //   };
+      // } else if (
+      //   ["completeMatch", "completeManual"].includes(
+      //     jobData?.newBet?.marketType
+      //   )
+      // ) {
+      //   state.bookmakerById.matchRates = {
+      //     ...state.bookmakerById.matchRates,
+      //     yesRateComplete: userRedisObj[jobData?.teamArateRedisKey],
+      //     noRateComplete: userRedisObj[jobData?.teamBrateRedisKey],
+      //   };
+      // } else {
+      //   state.bookmakerById.matchRates = {
+      //     ...state.bookmakerById.matchRates,
+      //     teamARate: userRedisObj[jobData?.teamArateRedisKey],
+      //     teamBRate: userRedisObj[jobData?.teamBrateRedisKey],
+      //     teamCRate: userRedisObj[jobData?.teamCrateRedisKey] ?? "",
+      //   };
+      // }
     })
     .addCase(updateSessionById.fulfilled, (state, action) => {
       state.sessionById = {
