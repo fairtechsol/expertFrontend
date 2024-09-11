@@ -407,7 +407,7 @@ const SessionMarketDetail = () => {
                           currentMatch={matchDetail}
                           hideEditMaxButton={true}
                           cstmStyle={{
-                            maxHeight: { sm: "40vh" },
+                            // maxHeight: { sm: "40vh" },
                           }}
                           section="completed"
                         />
@@ -492,7 +492,7 @@ const SessionMarketDetail = () => {
                           currentMatch={matchDetail}
                           hideEditMaxButton={true}
                           cstmStyle={{
-                            maxHeight: { sm: "40vh" },
+                            // maxHeight: { sm: "40vh" },
                           }}
                           section="declared"
                         />

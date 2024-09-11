@@ -319,12 +319,16 @@ const EditBookmaker = (props: any) => {
 
   const rateA =
     +bookmakerById?.matchRates[
-      profitLossDataForMatchConstants[bookmakerById?.type]?.A
+      profitLossDataForMatchConstants[bookmakerById?.type]?.A +
+        "_" +
+        bookmakerById?.matchId
     ] || 0;
 
   const rateB =
     +bookmakerById?.matchRates[
-      profitLossDataForMatchConstants[bookmakerById?.type]?.B
+      profitLossDataForMatchConstants[bookmakerById?.type]?.B +
+        "_" +
+        bookmakerById?.matchId
     ] || 0;
 
   const formattedRateB = rateB.toFixed(2);
@@ -333,7 +337,12 @@ const EditBookmaker = (props: any) => {
   const formattedRate = rateA.toFixed(2);
   const [integerPart, decimalPart] = formattedRate.split(".");
 
-  const rateC = +bookmakerById?.matchRates?.teamCRate || 0;
+  const rateC =
+    +bookmakerById?.matchRates[
+      profitLossDataForMatchConstants[bookmakerById?.type]?.C +
+        "_" +
+        bookmakerById?.matchId
+    ] || 0;
 
   const formattedRateC = rateC.toFixed(2);
   const [integerPartC, decimalPartC] = formattedRateC.split(".");
@@ -531,7 +540,10 @@ const EditBookmaker = (props: any) => {
                     fontWeight: "bold",
                     color:
                       +bookmakerById?.matchRates[
-                        profitLossDataForMatchConstants[bookmakerById?.type]?.A
+                        profitLossDataForMatchConstants[bookmakerById?.type]
+                          ?.A +
+                          "_" +
+                          bookmakerById?.matchId
                       ] <= 0
                         ? "#FF4D4D"
                         : "#319E5B",
@@ -704,7 +716,10 @@ const EditBookmaker = (props: any) => {
                     fontWeight: "bold",
                     color:
                       +bookmakerById?.matchRates[
-                        profitLossDataForMatchConstants[bookmakerById?.type]?.B
+                        profitLossDataForMatchConstants[bookmakerById?.type]
+                          ?.B +
+                          "_" +
+                          bookmakerById?.matchId
                       ] <= 0
                         ? "#FF4D4D"
                         : "#319E5B",
@@ -871,7 +886,12 @@ const EditBookmaker = (props: any) => {
                         fontSize: "16px",
                         fontWeight: "bold",
                         color:
-                          (+bookmakerById?.matchRates?.teamCRate || 0) <= 0
+                          +bookmakerById?.matchRates[
+                            profitLossDataForMatchConstants[bookmakerById?.type]
+                              ?.C +
+                              "_" +
+                              bookmakerById?.matchId
+                          ] <= 0
                             ? "#FF4D4D"
                             : "#319E5B",
                       }}
