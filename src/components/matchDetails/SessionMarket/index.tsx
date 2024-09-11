@@ -65,6 +65,7 @@ const SessionMarket = ({
               fontSize: "10px",
               fontWeight: "bold",
               marginLeft: "7px",
+              textTransform: "capitalize"
             }}
           >
             {title}
