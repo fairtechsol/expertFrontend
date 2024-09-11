@@ -525,7 +525,7 @@ const addMatch = createSlice({
                 ...parsedItem,
                 resultStatus: action?.payload?.status,
                 selfDeclare:
-                  action?.payload?.userId === action?.payload?.loggedUserId,
+                action?.payload?.status === "" ? false : action?.payload?.userId === action?.payload?.loggedUserId,
               });
             } else return item;
           }
