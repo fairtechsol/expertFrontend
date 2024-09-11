@@ -157,7 +157,12 @@ const SessionMarketBox = ({
                 <TiArrowLeftThick
                   cursor={"pointer"}
                   color="blue"
-                  height={50}
+                  size={20}
+                  style={{
+                    backgroundColor: "lightgray",
+                    // padding: "10px",
+                    // borderRadius: "8px",
+                  }}
                   onClick={(e: any) => {
                     if (loading) {
                       return;
