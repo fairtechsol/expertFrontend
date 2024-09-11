@@ -400,7 +400,7 @@ const SessionMarketDetail = () => {
                       {item?.section?.filter(
                         (items: any) =>
                           items?.isComplete &&
-                          item?.activeStatus !== "unSave" &&
+                          items?.activeStatus !== "unSave" &&
                           ((items?.resultData && items?.resultData === null) ||
                             items?.result === null)
                       )?.length > 0 && (
