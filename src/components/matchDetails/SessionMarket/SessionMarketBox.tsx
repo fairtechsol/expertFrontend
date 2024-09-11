@@ -173,7 +173,7 @@ const SessionMarketBox = ({
                     if (loading) {
                       return;
                     }
-                    e.stopPropogation();
+                    e.preventDefault();
                     dispatch(
                       sessionBetLiveStatus({
                         status: "unSave",
