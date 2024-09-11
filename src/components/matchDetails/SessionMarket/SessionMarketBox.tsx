@@ -151,27 +151,27 @@ const SessionMarketBox = ({
           }}
         >
           <Typography sx={{ marginRight: "10px", zIndex: "999" }}>
-            {!hideEditMaxButton && (
-              <TiArrowLeftThick
-                cursor={"pointer"}
-                color="blue"
-                height={50}
-                onClick={(e: any) => {
-                  if (loading) {
-                    return;
-                  }
-                  e.preventDefault();
-                  // setLoading(true);
-                  // setLive(false);
-                  dispatch(
-                    sessionBetLiveStatus({
-                      status: "unSave",
-                      betId: newData?.id,
-                    })
-                  );
-                }}
-              />
-            )}
+            {(newData?.activeStatus === "live" ||
+              newData?.activeStatus === "save") &&
+              !newData?.result && (
+                <TiArrowLeftThick
+                  cursor={"pointer"}
+                  color="blue"
+                  height={50}
+                  onClick={(e: any) => {
+                    if (loading) {
+                      return;
+                    }
+                    e.preventDefault();
+                    dispatch(
+                      sessionBetLiveStatus({
+                        status: "unSave",
+                        betId: newData?.id,
+                      })
+                    );
+                  }}
+                />
+              )}
           </Typography>
           {newData?.activeStatus === "live" && !newData?.result && (
             <SmallBox

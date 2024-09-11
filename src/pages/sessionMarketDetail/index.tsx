@@ -317,7 +317,7 @@ const SessionMarketDetail = () => {
             Object.entries(matchDetail?.apiSession)
               ?.sort(customSortBySessionMarketName)
               ?.map(([name, item]: any) => {
-                if (name === "session" || name === "fancy1") {
+                if (name === "session" || name === "oddEven") {
                   return (
                     <>
                       {item?.section?.filter(
@@ -343,7 +343,7 @@ const SessionMarketDetail = () => {
             Object.entries(matchDetail?.apiSession)
               ?.sort(customSortBySessionMarketName)
               ?.map(([name, item]: any) => {
-                if (name === "session" || name === "fancy1") {
+                if (name === "session" || name === "oddEven") {
                   return null;
                 } else if (name === "cricketCasino") {
                   return (
