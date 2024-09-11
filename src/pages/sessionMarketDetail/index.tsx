@@ -42,6 +42,8 @@ const SessionMarketDetail = () => {
   const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
   const { state } = useLocation();
+
+  const { getProfile } = useSelector((state: RootState) => state.user.profile);
   const [socketConnected, setSocketConnected] = useState(true);
   const { matchDetail, success } = useSelector(
     (state: RootState) => state.addMatch.addMatch
@@ -197,7 +199,12 @@ const SessionMarketDetail = () => {
   const updateSessionResultStatus = (event: any) => {
     try {
       if (event?.matchId === state?.id) {
-        dispatch(updateResultStatusOfSession(event));
+        dispatch(
+          updateResultStatusOfSession({
+            ...event,
+            loggedUserId: getProfile?.id,
+          })
+        );
         dispatch(updateResultStatusOfMatch(event));
       }
     } catch (error) {

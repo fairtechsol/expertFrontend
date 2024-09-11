@@ -524,6 +524,8 @@ const addMatch = createSlice({
               return JSON.stringify({
                 ...parsedItem,
                 resultStatus: action?.payload?.status,
+                selfDeclare:
+                  action?.payload?.userId === action?.payload?.loggedUserId,
               });
             } else return item;
           }
