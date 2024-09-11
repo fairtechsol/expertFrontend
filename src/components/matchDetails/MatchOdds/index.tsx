@@ -296,7 +296,7 @@ const MatchOdds = ({ currentMatch, matchOddsLive, id }: any) => {
             justifyContent: "flex-end",
           }}
         > */}
-          {/* {!currentMatch?.bookMakerRateLive ? (
+        {/* {!currentMatch?.bookMakerRateLive ? (
             <>
               <SmallBox
                 onClick={() => {
@@ -451,10 +451,11 @@ const MatchOdds = ({ currentMatch, matchOddsLive, id }: any) => {
                 teamRates={
                   currentMatch?.teamRates
                     ? currentMatch?.teamRates[
-                        profitLossDataForMatchConstants[matchOddsLive?.type]?.B
-                      ] +
-                      "_" +
-                      currentMatch?.id
+                        profitLossDataForMatchConstants[matchOddsLive?.type]
+                          ?.B +
+                          "_" +
+                          currentMatch?.id
+                      ]
                       ? currentMatch?.teamRates[
                           profitLossDataForMatchConstants[matchOddsLive?.type]
                             ?.B +
