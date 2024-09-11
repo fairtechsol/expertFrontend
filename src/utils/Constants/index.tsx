@@ -19,6 +19,8 @@ export const ApiConstants = {
     DECLARE: "bet/declare/result/match",
     OTHER_DECLARE: "bet/declare/result/other/match",
     RACE_DECLARE: "bet/declare/result/race/match",
+    OTHER_MARKET_DECLARE: "bet/declare/result/other/market",
+    OTHER_MARKET_UNDECLARE: "bet/unDeclare/result/other/market",
     UNDECLARE: "bet/unDeclare/result/match",
     OTHER_UNDECLARE: "bet/unDeclare/result/other/match",
     RACE_UNDECLARE: "bet/unDeclare/result/race/match",

@@ -88,12 +88,46 @@ export const UnDeclareRaceResult = createAsyncThunk<any, any>(
     }
   }
 );
+export const UnDeclareOtherMarketCricketResult = createAsyncThunk<any, any>(
+  "/race/UnDeclareOtherMarketCricketResult",
+  async (requestData, thunkApi) => {
+    try {
+      const response = await service.post(
+        `${ApiConstants.MATCH.OTHER_MARKET_UNDECLARE}`,
+        requestData
+      );
+      if (response?.status === 200) {
+        return response?.data;
+      }
+    } catch (error) {
+      const err = error as AxiosError;
+      return thunkApi.rejectWithValue(err.response?.status);
+    }
+  }
+);
 export const declareRaceResult = createAsyncThunk<any, any>(
   "/race/declareRaceResult",
   async (requestData, thunkApi) => {
     try {
       const response = await service.post(
         `${ApiConstants.MATCH.RACE_DECLARE}`,
+        requestData
+      );
+      if (response?.status === 200) {
+        return response?.data;
+      }
+    } catch (error) {
+      const err = error as AxiosError;
+      return thunkApi.rejectWithValue(err.response?.status);
+    }
+  }
+);
+export const declareOtherMarketCricketResult = createAsyncThunk<any, any>(
+  "/race/declareOtherMarketCricketResult",
+  async (requestData, thunkApi) => {
+    try {
+      const response = await service.post(
+        `${ApiConstants.MATCH.OTHER_MARKET_DECLARE}`,
         requestData
       );
       if (response?.status === 200) {
