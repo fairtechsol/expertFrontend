@@ -525,7 +525,9 @@ const addMatch = createSlice({
                 ...parsedItem,
                 resultStatus: action?.payload?.status,
                 selfDeclare:
-                action?.payload?.status === "" ? false : action?.payload?.userId === action?.payload?.loggedUserId,
+                  action?.payload?.status === ""
+                    ? false
+                    : action?.payload?.userId === action?.payload?.loggedUserId,
               });
             } else return item;
           }
@@ -536,7 +538,7 @@ const addMatch = createSlice({
         };
       })
       .addCase(updateResultStatusOfMatch.fulfilled, (state, action) => {
-        const { status, betId } = action?.payload;
+        const { status, betId, betType } = action?.payload;
         const index = state.matchDetail?.quickBookmaker?.findIndex(
           (item: any) => item.type === "quickbookmaker1"
         );
@@ -563,6 +565,17 @@ const addMatch = createSlice({
                   betId,
                   status,
                 },
+              },
+            };
+          } else if (
+            state.matchDetail?.matchType === "cricket" &&
+            betType === "other"
+          ) {
+            state.matchDetail = {
+              ...state.matchDetail,
+              otherBettings: {
+                ...state.matchDetail?.otherBettings,
+                [betId]: status ?? null,
               },
             };
           }
