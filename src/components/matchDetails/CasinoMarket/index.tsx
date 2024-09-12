@@ -99,7 +99,9 @@ const CasinoMarket = ({
               alignItems: "center",
             }}
           >
-            <Typography sx={{ marginRight: "10px", zIndex: "999" }}>
+            <Typography
+              sx={{ marginRight: "10px", zIndex: showResultModal ? "" : "999" }}
+            >
               {(sessionData?.activeStatus === "live" ||
                 sessionData?.activeStatus === "save") &&
                 !sessionData?.result && (

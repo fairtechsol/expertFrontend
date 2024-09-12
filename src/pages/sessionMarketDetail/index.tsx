@@ -102,6 +102,14 @@ const SessionMarketDetail = () => {
             betPlaced: event?.profitLoss ? event?.profitLoss?.betPlaced : [],
           })
         );
+        dispatch(
+          updateMaxLoss({
+            id: event?.betId,
+            maxLoss: event?.profitLoss?.maxLoss,
+            totalBet: event?.profitLoss?.totalBet,
+            profitLoss: event?.profitLoss?.betPlaced,
+          })
+        );
       }
     } catch (e) {
       console.log(e);
