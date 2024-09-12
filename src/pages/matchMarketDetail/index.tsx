@@ -69,8 +69,10 @@ const MatchMarketDetail = () => {
 
   const resultDeclared = (event: any) => {
     try {
-      if (event?.matchId === state?.id) {
+      if (event?.matchId === state?.id && event?.betType !== "other") {
         navigate("/expert/match");
+      } else if (event?.matchId === state?.id && event?.betType === "other") {
+        dispatch(updateResultStatusOfMatch(event));
       }
     } catch (e) {
       console.log(e);

@@ -113,24 +113,26 @@ const OtherMatchMarket = ({ currentMatch, liveData, title }: any) => {
                 }}
                 invert={true}
               />
-              <SmallBox
-                onClick={() => {
-                  dispatch(
-                    betLiveStatus({
-                      isStop: live,
-                      betId: liveData?.id,
-                      isManual: false,
-                    })
-                  );
-                  setLive(!live);
-                }}
-                // width={"80px"}
-                title={live ? "Live" : "Go Live"}
-                color={live ? "#46e080" : "#FF4D4D"}
-                customStyle={{
-                  justifyContent: "center",
-                }}
-              />
+              {liveData?.activeStatus !== "result" && (
+                <SmallBox
+                  onClick={() => {
+                    dispatch(
+                      betLiveStatus({
+                        isStop: live,
+                        betId: liveData?.id,
+                        isManual: false,
+                      })
+                    );
+                    setLive(!live);
+                  }}
+                  // width={"80px"}
+                  title={live ? "Live" : "Go Live"}
+                  color={live ? "#46e080" : "#FF4D4D"}
+                  customStyle={{
+                    justifyContent: "center",
+                  }}
+                />
+              )}
 
               <div
                 style={{
@@ -407,26 +409,28 @@ const OtherMatchMarket = ({ currentMatch, liveData, title }: any) => {
                   </Typography>
                 </Box>
               )}
-            {currentMatch?.otherBettings &&
-              currentMatch?.otherBettings[liveData?.id] && (
-                <Box
-                  sx={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    width: "100%",
-                    position: "absolute",
-                    height: "100%",
-                    bottom: 0,
-                    color: "#fff",
-                    backgroundColor: "rgba(203 24 24 / 70%)",
-                  }}
-                >
-                  <Typography sx={{ color: "#fff" }}>
-                    RESULT {currentMatch?.otherBettings[liveData?.id]}
-                  </Typography>
-                </Box>
-              )}
+            {currentMatch?.otherBettings?.[liveData?.id] && (
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  width: "100%",
+                  position: "absolute",
+                  height: "100%",
+                  bottom: 0,
+                  color: "#fff",
+                  backgroundColor: "rgba(203 24 24 / 70%)",
+                }}
+              >
+                <Typography sx={{ color: "#fff" }}>
+                  RESULT{" "}
+                  {liveData?.activeStatus === "result"
+                    ? "DECLARED"
+                    : currentMatch?.otherBettings?.[liveData?.id]}
+                </Typography>
+              </Box>
+            )}
           </Box>
         </>
       )}

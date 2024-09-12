@@ -51,6 +51,7 @@ interface InitialState {
   error: any;
   raceRunners: any;
   resultBox: any;
+  quickBookmaker1: any;
 }
 
 const initialState: InitialState = {
@@ -74,6 +75,7 @@ const initialState: InitialState = {
   success: false,
   error: null,
   resultBox: { visible: false, betId: "" },
+  quickBookmaker1: [],
 };
 
 const addMatch = createSlice({
@@ -162,6 +164,7 @@ const addMatch = createSlice({
       })
       .addCase(getMatchDetail.fulfilled, (state, action) => {
         state.matchDetail = action?.payload;
+        state.quickBookmaker1 = action?.payload?.quickBookmaker;
         state.success = true;
         state.loading = false;
 
@@ -539,7 +542,7 @@ const addMatch = createSlice({
       })
       .addCase(updateResultStatusOfMatch.fulfilled, (state, action) => {
         const { status, betId, betType } = action?.payload;
-        const index = state.matchDetail?.quickBookmaker?.findIndex(
+        const index = state.quickBookmaker1?.findIndex(
           (item: any) => item.type === "quickbookmaker1"
         );
 
@@ -548,7 +551,7 @@ const addMatch = createSlice({
         if (
           index !== -1 &&
           isCricketMatch &&
-          betId === state.matchDetail?.quickBookmaker[index]?.id
+          betId === state.quickBookmaker1?.[index]?.id
         ) {
           state.matchDetail = {
             ...state.matchDetail,
