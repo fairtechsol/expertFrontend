@@ -66,7 +66,7 @@ any) => {
               fontWeight: "bold",
               marginLeft: "7px",
               lineHeight: 1,
-              textTransform: "capitalize"
+              textTransform: "capitalize",
             }}
           >
             {title}
@@ -149,17 +149,12 @@ any) => {
           >
             {sessionData?.section?.length > 0 &&
               sessionData?.section
-                ?.filter((item: any) =>
-                  section === "market"
-                    ? !item?.isComplete &&
-                      ((item?.resultData && item?.resultData === null) ||
-                        item?.result === null)
-                    : section === "completed"
-                    ? item?.isComplete &&
-                      ((item?.resultData && item?.resultData === null) ||
-                        item?.result === null)
-                    : (item?.resultData && item?.resultData !== null) ||
-                      item?.result !== null
+                ?.filter(
+                  (item: any) =>
+                    !item?.isComplete &&
+                    item?.activeStatus !== "unSave" &&
+                    ((item?.resultData && item?.resultData === null) ||
+                      item?.result === null)
                 )
                 ?.slice()
                 .sort(customSortUpdated)

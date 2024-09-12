@@ -65,7 +65,7 @@ const SessionMarket = ({
               fontSize: "10px",
               fontWeight: "bold",
               marginLeft: "7px",
-              textTransform: "capitalize"
+              textTransform: "capitalize",
             }}
           >
             {title}
@@ -154,6 +154,7 @@ const SessionMarket = ({
                 ?.filter((item: any) =>
                   section === "market"
                     ? !item?.isComplete &&
+                      item?.activeStatus !== "unSave" &&
                       ((item?.resultData && item?.resultData === null) ||
                         item?.result === null)
                     : section === "completed"

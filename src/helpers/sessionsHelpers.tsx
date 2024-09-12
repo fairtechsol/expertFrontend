@@ -44,33 +44,69 @@ export const updateSessionBettingsItem = (
         if (apiResponseBettings.hasOwnProperty(key)) {
           const apiSections = apiResponseBettings[key].section;
           const matchDetailSections = matchDetailBettings[key]?.section;
-          for (const apiSection of apiSections) {
-            const matchDetailSectionIndex = matchDetailSections?.findIndex(
-              (section: any) => section?.id === apiSection?.id
+
+          if (matchDetailSections) {
+            matchDetailSections.forEach(
+              (matchDetailSection: any, index: number) => {
+                const matchDetailSectionIndex = apiSections?.findIndex(
+                  (section: any) => section?.id === matchDetailSection?.id
+                );
+
+                if (matchDetailSectionIndex !== -1) {
+                  matchDetailSections[index] = {
+                    ...matchDetailSection,
+                    ...apiSections[matchDetailSectionIndex],
+                    isComplete:
+                      key === "cricketCasino"
+                        ? apiSections[matchDetailSectionIndex]?.section
+                          ? false
+                          : true
+                        : apiSections[matchDetailSectionIndex]?.activeStatus ===
+                          "unSave"
+                        ? false
+                        : apiSections[matchDetailSectionIndex]?.ex
+                        ? apiSections[matchDetailSectionIndex]?.ex
+                            ?.availableToBack?.length > 0 &&
+                          apiSections[matchDetailSectionIndex]?.ex
+                            ?.availableToLay?.length > 0
+                          ? (["", "OPEN", "open"].includes(
+                              apiSections[matchDetailSectionIndex]?.GameStatus
+                            ) &&
+                              !apiSections[matchDetailSectionIndex]?.ex
+                                ?.availableToBack[0]?.price &&
+                              !apiSections[matchDetailSectionIndex]?.ex
+                                ?.availableToBack[0]?.size &&
+                              !apiSections[matchDetailSectionIndex]?.ex
+                                ?.availableToLay[0]?.price &&
+                              !apiSections[matchDetailSectionIndex]?.ex
+                                ?.availableToLay[0]?.size) ||
+                            apiSections[matchDetailSectionIndex]
+                              ?.activeStatus !== "live"
+                            ? true
+                            : false
+                          : true
+                        : true,
+                    minBet: apiSections[matchDetailSectionIndex]?.min,
+                    maxBet: apiSections[matchDetailSectionIndex]?.max,
+                  };
+                } else {
+                  matchDetailSections[index] = {
+                    ...matchDetailSection,
+                    isComplete: true,
+                  };
+                }
+              }
             );
-            if (matchDetailSectionIndex !== -1) {
-              matchDetailBettings[key].section[matchDetailSectionIndex] = {
-                ...matchDetailBettings[key].section[matchDetailSectionIndex],
-                ...apiSection,
-                isComplete: apiSection?.ex
-                  ? apiSection?.ex?.availableToBack?.length > 0 &&
-                    apiSection?.ex?.availableToLay?.length > 0
-                    ? (["", "OPEN", "open"].includes(apiSection?.GameStatus) &&
-                        !apiSection?.ex?.availableToBack[0]?.price &&
-                        !apiSection?.ex?.availableToBack[0]?.size &&
-                        !apiSection?.ex?.availableToLay[0]?.price &&
-                        !apiSection?.ex?.availableToLay[0]?.size) ||
-                      apiSection?.activeStatus !== "live"
-                      ? true
-                      : false
-                    : true
-                  : true,
-                minBet: apiSection?.min,
-                maxBet: apiSection?.max,
-              };
-            } else {
-            }
           }
+        } else {
+          matchDetailBettings[key]?.section?.forEach(
+            (item: any, index: number) => {
+              matchDetailBettings[key].section[index] = {
+                ...item,
+                isComplete: true,
+              };
+            }
+          );
         }
       }
     return matchDetailBettings;

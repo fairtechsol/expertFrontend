@@ -51,7 +51,6 @@ const SessionBetlistDetail = () => {
   const { placedBetsMatch } = useSelector(
     (state: RootState) => state.matchList
   );
-  console.log("dddddd :", JSON.stringify(matchDetail?.updatedSesssionBettings));
   const updateMatchDetailToRedux = (event: any) => {
     try {
       if (state?.id === event?.id) {
@@ -323,21 +322,24 @@ const SessionBetlistDetail = () => {
           {matchDetail?.updatedSesssionBettings &&
             Object.entries(matchDetail?.updatedSesssionBettings)
               ?.sort(customSortBySessionMarketName)
-              ?.map(([name, item]: any) => {
-                if (
+              ?.filter(
+                ([name]: any) =>
                   name !== "cricketCasino" &&
                   (name === "session" || name === "oddEven")
-                ) {
-                  const activeSessions = item?.section?.filter(
-                    (items: any) =>
-                      !items?.isComplete &&
-                      ((items?.resultData && items?.resultData === null) ||
-                        items?.result === null)
-                  );
-                  if (activeSessions?.length > 0) {
-                    return (
+              )
+              ?.map(([name, item]: any) => {
+                return (
+                  <Fragment key={name}>
+                    {item?.section
+                      ?.filter((item: any) => !item?.isManual)
+                      ?.filter(
+                        (items: any) =>
+                          !items?.isComplete &&
+                          items?.activeStatus !== "unSave" &&
+                          ((items?.resultData && items?.resultData === null) ||
+                            items?.result === null)
+                      )?.length > 0 && (
                       <SessionMarket2
-                        key={`${name}-active`}
                         title={`${name} Market`}
                         hideTotalBet={false}
                         stopAllHide={false}
@@ -348,55 +350,63 @@ const SessionBetlistDetail = () => {
                         hideEditMaxButton={false}
                         section="market"
                       />
-                    );
-                  }
-                }
-                return null;
+                    )}
+                  </Fragment>
+                );
               })}
         </Box>
         <Box sx={{ width: { lg: "20%" } }}>
           {matchDetail?.updatedSesssionBettings &&
             Object.entries(matchDetail?.updatedSesssionBettings)
               ?.sort(customSortBySessionMarketName)
-              ?.map(([name, item]: any) => {
-                if (
+              ?.filter(
+                ([name]: any) =>
                   name !== "cricketCasino" &&
                   name !== "session" &&
                   name !== "oddEven"
-                ) {
-                  const activeSessions = item?.section?.filter(
-                    (items: any) =>
-                      !items?.isComplete &&
-                      ((items?.resultData && items?.resultData === null) ||
-                        items?.result === null)
-                  );
-                  if (activeSessions?.length > 0) {
-                    return (
-                      <SessionMarket2
-                        key={`${name}-active`}
-                        title={`${name} Market`}
-                        hideTotalBet={false}
-                        stopAllHide={false}
-                        profitLossData={matchDetail?.sessionProfitLoss}
-                        sessionData={item}
-                        hideResult={true}
-                        currentMatch={matchDetail}
-                        hideEditMaxButton={false}
-                        section="market"
-                      />
-                    );
-                  }
-                }
-                return null;
-              })}
+              )
+              ?.map(([name, item]: any) => (
+                <Fragment key={name}>
+                  {item?.section
+                    ?.filter((item: any) => !item?.isManual)
+                    ?.filter(
+                      (items: any) =>
+                        !items?.isComplete &&
+                        items?.activeStatus !== "unSave" &&
+                        ((items?.resultData && items?.resultData === null) ||
+                          items?.result === null)
+                    )?.length > 0 && (
+                    <SessionMarket2
+                      title={`${name} Market`}
+                      hideTotalBet={false}
+                      stopAllHide={false}
+                      profitLossData={matchDetail?.sessionProfitLoss}
+                      sessionData={item}
+                      hideResult={true}
+                      currentMatch={matchDetail}
+                      hideEditMaxButton={false}
+                      section="market"
+                    />
+                  )}
+                </Fragment>
+              ))}
           {matchDetail?.updatedSesssionBettings &&
             Object.entries(matchDetail?.updatedSesssionBettings)
               ?.sort(customSortBySessionMarketName)
+              ?.filter(([name]: any) => name === "cricketCasino")
               ?.map(([name, item]: any) => {
-                if (name === "cricketCasino") {
-                  return (
-                    <Fragment key={name}>
-                      {item?.section?.map((items: any) => (
+                console.log(item, "abc", name);
+                return (
+                  <Fragment key={name}>
+                    {item?.section
+                      ?.filter(
+                        (items: any) =>
+                          !items?.isComplete &&
+                          items?.activeStatus !== "unSave" &&
+                          ((items?.resultData && items?.resultData === null) ||
+                            items?.result === null)
+                      )
+                      ?.map((items: any) => (
                         <CasinoMarket2
                           key={items?.SelectionId}
                           title={items?.RunnerName || items?.name}
@@ -407,9 +417,9 @@ const SessionBetlistDetail = () => {
                           profitLossData={matchDetail?.sessionProfitLoss}
                         />
                       ))}
-                    </Fragment>
-                  );
-                }
+                  </Fragment>
+                );
+                // }
               })}
         </Box>
 
