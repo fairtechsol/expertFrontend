@@ -9,6 +9,7 @@ import { AppDispatch } from "../../../store/store";
 import { useDispatch } from "react-redux";
 import { addSession } from "../../../store/actions/addSession";
 import LiveStatusButtonBox from "../CasinoMarket/LiveStatusButtonBox";
+import { sessionBetLiveStatus } from "../../../store/actions/match/matchAction";
 
 const CasinoMarketLive = ({
   title,
@@ -39,7 +40,9 @@ const CasinoMarketLive = ({
 
   useEffect(() => {
     setMatchSessionData(
-      sessionData?.section?.filter((item: any) => !item?.activeStatus)
+      sessionData?.section?.filter(
+        (item: any) => !item?.activeStatus || item?.activeStatus === "unSave"
+      )
     );
   }, [sessionData]);
 
@@ -94,7 +97,14 @@ const CasinoMarketLive = ({
               onClick={(e: any) => {
                 e.preventDefault();
                 setLive(!live);
-                handleLive();
+                if (sessionData?.id) {
+                  dispatch(
+                    sessionBetLiveStatus({
+                      status: "live",
+                      betId: sessionData?.id,
+                    })
+                  );
+                } else handleLive();
               }}
               textSize="8px"
               width={{ lg: "20px", xs: "20px" }}
@@ -171,21 +181,24 @@ const CasinoMarketLive = ({
               },
             }}
           >
-            {matchSessionData?.length > 0 &&
-              matchSessionData?.map((match: any, index: any) => {
-                return (
-                  <Box key={index}>
-                    <CasinoMarketBoxLive
-                      currentMatch={currentMatch}
-                      newData={match}
-                      index={index}
-                      gtype={sessionData?.gtype}
-                      type={type}
-                    />
-                    <Divider />
-                  </Box>
-                );
-              })}
+            {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]?.map((match: any, index: any) => {
+              return (
+                <Box key={index}>
+                  <CasinoMarketBoxLive
+                    currentMatch={currentMatch}
+                    newData={
+                      matchSessionData?.section?.length > 0
+                        ? matchSessionData?.section[match]
+                        : {}
+                    }
+                    index={index}
+                    gtype={sessionData?.gtype}
+                    type={type}
+                  />
+                  <Divider />
+                </Box>
+              );
+            })}
           </Box>
         </Box>
       )}

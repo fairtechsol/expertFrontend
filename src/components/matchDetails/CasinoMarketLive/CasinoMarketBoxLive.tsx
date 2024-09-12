@@ -54,7 +54,7 @@ const CasinoMarketBoxLive = ({ newData, index }: any) => {
               lineHeight: 1,
             }}
           >
-            {`${newData?.nat}`}
+            {`${index} number`}
           </Typography>
         </Box>
 
@@ -99,8 +99,8 @@ const CasinoMarketBoxLive = ({ newData, index }: any) => {
           >
             <SeparateBox
               width="30%"
-              value={newData?.odds[0]?.odds || 0}
-              value2={formatNumber(newData?.odds[0]?.size) || 0}
+              value={newData?.odds?.[0]?.odds || 0}
+              value2={formatNumber(newData?.odds?.[0]?.size) || 0}
               lock={newData?.gstatus === "SUSPENDED"}
               color="#B3E0FF"
             />

@@ -52,19 +52,24 @@ export const updateSessionBettingsItem = (
               matchDetailBettings[key].section[matchDetailSectionIndex] = {
                 ...matchDetailBettings[key].section[matchDetailSectionIndex],
                 ...apiSection,
-                isComplete: apiSection?.ex
-                  ? apiSection?.ex?.availableToBack?.length > 0 &&
-                    apiSection?.ex?.availableToLay?.length > 0
-                    ? (["", "OPEN", "open"].includes(apiSection?.GameStatus) &&
-                        !apiSection?.ex?.availableToBack[0]?.price &&
-                        !apiSection?.ex?.availableToBack[0]?.size &&
-                        !apiSection?.ex?.availableToLay[0]?.price &&
-                        !apiSection?.ex?.availableToLay[0]?.size) ||
-                      apiSection?.activeStatus !== "live"
-                      ? true
-                      : false
-                    : true
-                  : true,
+                isComplete:
+                  apiSection?.activeStatus === "unSave"
+                    ? apiSection?.ex
+                      ? apiSection?.ex?.availableToBack?.length > 0 &&
+                        apiSection?.ex?.availableToLay?.length > 0
+                        ? (["", "OPEN", "open"].includes(
+                            apiSection?.GameStatus
+                          ) &&
+                            !apiSection?.ex?.availableToBack[0]?.price &&
+                            !apiSection?.ex?.availableToBack[0]?.size &&
+                            !apiSection?.ex?.availableToLay[0]?.price &&
+                            !apiSection?.ex?.availableToLay[0]?.size) ||
+                          apiSection?.activeStatus !== "live"
+                          ? true
+                          : false
+                        : true
+                      : true
+                    : false,
                 minBet: apiSection?.min,
                 maxBet: apiSection?.max,
               };
