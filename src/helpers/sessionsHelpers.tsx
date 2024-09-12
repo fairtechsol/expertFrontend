@@ -58,7 +58,9 @@ export const updateSessionBettingsItem = (
                     ...apiSections[matchDetailSectionIndex],
                     isComplete:
                       key === "cricketCasino"
-                        ? apiSections[matchDetailSectionIndex]?.section
+                        ? apiSections[matchDetailSectionIndex]?.section &&
+                          apiSections[matchDetailSectionIndex]?.activeStatus ===
+                            "live"
                           ? false
                           : true
                         : apiSections[matchDetailSectionIndex]?.activeStatus ===
