@@ -66,6 +66,7 @@ any) => {
               fontWeight: "bold",
               marginLeft: "7px",
               lineHeight: 1,
+              textTransform: "capitalize"
             }}
           >
             {title}
