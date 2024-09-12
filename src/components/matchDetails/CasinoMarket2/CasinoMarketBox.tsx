@@ -6,7 +6,7 @@ import SeparateBox from "../SeparateBox";
 // import { useSelector } from "react-redux";
 // import { RootState } from "../../../store/store";
 
-const CasinoMarketBox = ({ newData, index, profitLoss }: any) => {
+const CasinoMarketBox = ({ newData, index }: any) => {
   // const { matchDetail } = useSelector(
   //   (state: RootState) => state.addMatch.addMatch
   // );

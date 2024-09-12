@@ -395,7 +395,6 @@ const SessionBetlistDetail = () => {
               ?.sort(customSortBySessionMarketName)
               ?.filter(([name]: any) => name === "cricketCasino")
               ?.map(([name, item]: any) => {
-                console.log(item, "abc", name);
                 return (
                   <Fragment key={name}>
                     {item?.section

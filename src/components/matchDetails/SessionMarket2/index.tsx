@@ -20,7 +20,6 @@ const SessionMarket2 = ({
   profitLossData,
   hideEditMaxButton,
   cstmStyle,
-  section,
 }: // maxHeight,
 any) => {
   // const dispatch: AppDispatch = useDispatch();
