@@ -1,5 +1,4 @@
 import { memo, useState } from "react";
-import { useEffect } from "react";
 import { Box, Typography } from "@mui/material";
 import Divider from "../../Common/Divider";
 import { ARROWUP } from "../../../assets";
@@ -18,7 +17,6 @@ const CasinoMarketLive = ({
   type,
   gtype,
 }: any) => {
-  const [matchSessionData, setMatchSessionData] = useState(sessionData);
   const [live, setLive] = useState<any>(false);
   const [visible, setVisible] = useState(true);
   const dispatch: AppDispatch = useDispatch();
@@ -37,14 +35,6 @@ const CasinoMarketLive = ({
     };
     dispatch(addSession(payload));
   };
-
-  useEffect(() => {
-    setMatchSessionData(
-      sessionData?.section?.filter(
-        (item: any) => !item?.activeStatus || item?.activeStatus === "unSave"
-      )
-    );
-  }, [sessionData]);
 
   return (
     <Box
