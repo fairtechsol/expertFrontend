@@ -42,27 +42,6 @@ const CasinoMarketBox = ({ newData, index, profitLoss }: any) => {
           >
             {newData?.nat || `${index} Number`}
           </Typography>
-          <Typography
-            sx={{
-              color: profitLoss?.profitLoss
-                ? profitLoss?.profitLoss[index]
-                  ? profitLoss?.profitLoss[index] > 0
-                    ? "red"
-                    : profitLoss?.profitLoss[index] < 0
-                    ? "green"
-                    : "black"
-                  : "black"
-                : "black",
-              fontSize: { lg: "10px", md: "10px", xs: "10px" },
-              marginLeft: { lg: "7px", md: "20px", xs: "20px" },
-              fontWeight: "600",
-              lineHeight: 1,
-            }}
-          >
-            {profitLoss?.profitLoss
-              ? parseFloat(profitLoss?.profitLoss[index]).toFixed(2)
-              : 0}
-          </Typography>
         </Box>
 
         {!["ACTIVE", "", undefined, null].includes(newData?.gstatus) ? (

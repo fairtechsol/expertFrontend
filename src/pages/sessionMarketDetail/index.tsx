@@ -438,6 +438,7 @@ const SessionMarketDetail = () => {
                       ?.filter(
                         (items: any) =>
                           !items?.isComplete &&
+                          items?.activeStatus !== "unSave" &&
                           ((items?.resultData && items?.resultData === null) ||
                             items?.result === null)
                       )?.length > 0 && (

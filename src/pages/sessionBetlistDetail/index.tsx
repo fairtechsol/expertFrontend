@@ -51,7 +51,6 @@ const SessionBetlistDetail = () => {
   const { placedBetsMatch } = useSelector(
     (state: RootState) => state.matchList
   );
-  console.log("dddddd :", JSON.stringify(matchDetail?.updatedSesssionBettings));
   const updateMatchDetailToRedux = (event: any) => {
     try {
       if (state?.id === event?.id) {
@@ -336,6 +335,7 @@ const SessionBetlistDetail = () => {
                       ?.filter(
                         (items: any) =>
                           !items?.isComplete &&
+                          items?.activeStatus !== "unSave" &&
                           ((items?.resultData && items?.resultData === null) ||
                             items?.result === null)
                       )?.length > 0 && (
@@ -365,13 +365,14 @@ const SessionBetlistDetail = () => {
                   name !== "session" &&
                   name !== "oddEven"
               )
-              ?.map(([name, item]: any) => {
+              ?.map(([name, item]: any) => (
                 <Fragment key={name}>
                   {item?.section
                     ?.filter((item: any) => !item?.isManual)
                     ?.filter(
                       (items: any) =>
                         !items?.isComplete &&
+                        items?.activeStatus !== "unSave" &&
                         ((items?.resultData && items?.resultData === null) ||
                           items?.result === null)
                     )?.length > 0 && (
@@ -387,19 +388,21 @@ const SessionBetlistDetail = () => {
                       section="market"
                     />
                   )}
-                </Fragment>;
-              })}
+                </Fragment>
+              ))}
           {matchDetail?.updatedSesssionBettings &&
             Object.entries(matchDetail?.updatedSesssionBettings)
               ?.sort(customSortBySessionMarketName)
               ?.filter(([name]: any) => name === "cricketCasino")
               ?.map(([name, item]: any) => {
+                console.log(item, "abc", name);
                 return (
                   <Fragment key={name}>
                     {item?.section
                       ?.filter(
                         (items: any) =>
                           !items?.isComplete &&
+                          items?.activeStatus !== "unSave" &&
                           ((items?.resultData && items?.resultData === null) ||
                             items?.result === null)
                       )

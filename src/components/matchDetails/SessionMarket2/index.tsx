@@ -66,7 +66,7 @@ any) => {
               fontWeight: "bold",
               marginLeft: "7px",
               lineHeight: 1,
-              textTransform: "capitalize"
+              textTransform: "capitalize",
             }}
           >
             {title}
@@ -152,6 +152,7 @@ any) => {
                 ?.filter(
                   (item: any) =>
                     !item?.isComplete &&
+                    item?.activeStatus !== "unSave" &&
                     ((item?.resultData && item?.resultData === null) ||
                       item?.result === null)
                 )

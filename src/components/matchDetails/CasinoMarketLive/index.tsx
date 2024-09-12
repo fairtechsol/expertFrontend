@@ -185,15 +185,12 @@ const CasinoMarketLive = ({
               return (
                 <Box key={index}>
                   <CasinoMarketBoxLive
-                    currentMatch={currentMatch}
                     newData={
-                      matchSessionData?.section?.length > 0
-                        ? matchSessionData?.section[match]
+                      sessionData?.section?.length > 0
+                        ? sessionData?.section[match]
                         : {}
                     }
                     index={index}
-                    gtype={sessionData?.gtype}
-                    type={type}
                   />
                   <Divider />
                 </Box>
