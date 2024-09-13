@@ -28,8 +28,10 @@ const ResultComponentTournamentMarket = ({
   useEffect(() => {
     try {
       if (liveData?.runners?.length > 0) {
-        setSelected(liveData?.runners[0]?.nat);
-      } else setSelected(liveData?.metaData?.teamA);
+        setSelected(
+          liveData?.runners[0]?.nat || liveData?.runners[0]?.runnerName
+        );
+      }
     } catch (error) {
       console.log(error);
     }
@@ -112,17 +114,12 @@ const ResultComponentTournamentMarket = ({
                 py: "5px",
               }}
             >
-              {[0, 1].map((item: any, k: number) => {
+              {liveData?.runners?.map((item: any, k: number) => {
                 return (
                   <Box
                     key={k}
                     onClick={() => {
-                      setSelected(
-                        liveData?.runners?.[item]?.nat ||
-                          (item === 0
-                            ? liveData?.metaData?.teamA
-                            : liveData?.metaData?.teamB)
-                      );
+                      setSelected(item?.nat || item?.runnerName);
                     }}
                     sx={{
                       width: "40%",
@@ -136,11 +133,7 @@ const ResultComponentTournamentMarket = ({
                       height: "50px",
                       cursor: "pointer",
                       background:
-                        selected ===
-                        (liveData?.runners?.[item]?.nat ||
-                          (item === 0
-                            ? liveData?.metaData?.teamA
-                            : liveData?.metaData?.teamB))
+                        selected === (item?.nat || item?.runnerName)
                           ? "#0B4F26"
                           : "#F8C851",
                       overflow: "hidden",
@@ -151,11 +144,7 @@ const ResultComponentTournamentMarket = ({
                         fontSize: "14px",
                         fontWeight: "700",
                         color:
-                          selected ===
-                          (liveData?.runners?.[item]?.nat ||
-                            (item === 0
-                              ? liveData?.metaData?.teamA
-                              : liveData?.metaData?.teamB))
+                          selected === (item?.nat || item?.runnerName)
                             ? "white"
                             : "black",
                         lineHeight: 1,
@@ -165,10 +154,7 @@ const ResultComponentTournamentMarket = ({
                         textOverflow: "ellipsis",
                       }}
                     >
-                      {liveData?.runners?.[item]?.nat ||
-                        (item === 0
-                          ? liveData?.metaData?.teamA
-                          : liveData?.metaData?.teamB)}
+                      {item?.nat || item?.runnerName}
                     </Typography>
                   </Box>
                 );

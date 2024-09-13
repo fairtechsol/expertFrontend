@@ -105,7 +105,7 @@ const ManualBoxComponent = ({
           <Typography
             sx={{
               color: "black",
-              fontSize: { lg: "10px", xs: "13px" },
+              fontSize: { lg: "8px", xs: "8px" },
               fontWeight: "600",
               marginLeft: "10px",
               lineHeight: "0.8",
@@ -187,7 +187,7 @@ const ManualBoxComponent = ({
                 textTransform: "uppercase",
                 color: "#FFF",
                 fontWeight: "400",
-                fontSize: matchesMobile ? "12px" : "22px",
+                fontSize: matchesMobile ? "12px" : "12px",
               }}
             >
               {livestatus ? "SUSPENDED" : status}

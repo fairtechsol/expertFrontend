@@ -395,13 +395,7 @@ const MatchMarketDetail = () => {
                 matchOddsLive={matchDetail?.matchOdd}
               />
             )}
-            {matchDetail?.bookmaker && (
-              <BookMarket
-                currentMatch={matchDetail}
-                liveData={matchDetail?.bookmaker}
-                title={matchDetail?.bookmaker?.name}
-              />
-            )}
+
             {matchDetail?.marketBookmaker2 && (
               <BookMarket
                 currentMatch={matchDetail}
@@ -410,15 +404,6 @@ const MatchMarketDetail = () => {
               />
             )}
 
-            {matchDetail?.quickBookmaker
-              ?.filter((item: any) => item?.isActive)
-              ?.map((bookmaker: any) => (
-                <ManualMarket
-                  key={bookmaker?.id}
-                  currentMatch={matchDetail}
-                  liveData={bookmaker}
-                />
-              ))}
             {matchDetail?.other &&
               matchDetail?.other
                 // ?.filter((item: any) => item?.isActive)
@@ -434,6 +419,7 @@ const MatchMarketDetail = () => {
                     title={market?.name}
                   />
                 ))}
+
             {matchDetail?.apiTideMatch && (
               <TiedMatchMarket
                 currentMatch={matchDetail}
@@ -441,13 +427,7 @@ const MatchMarketDetail = () => {
                 title={matchDetail?.apiTideMatch?.name}
               />
             )}
-            {matchDetail?.apiTiedMatch2 && (
-              <TiedMatchMarket
-                currentMatch={matchDetail}
-                liveData={matchDetail?.apiTiedMatch2}
-                title={matchDetail?.apiTiedMatch2?.name}
-              />
-            )}
+
             {matchDetail?.manualTideMatch?.isActive && (
               <ManualMarket
                 currentMatch={matchDetail}
@@ -455,25 +435,12 @@ const MatchMarketDetail = () => {
                 type="manualTiedMatch"
               />
             )}
-            {matchDetail?.marketCompleteMatch && (
-              <CompleteMatchMarket
-                currentMatch={matchDetail}
-                liveData={matchDetail?.marketCompleteMatch}
-                title={matchDetail?.marketCompleteMatch?.name}
-              />
-            )}
+
             {matchDetail?.marketCompleteMatch1 && (
               <CompleteMatchMarket
                 currentMatch={matchDetail}
                 liveData={matchDetail?.marketCompleteMatch1}
                 title={matchDetail?.marketCompleteMatch1?.name}
-              />
-            )}
-            {matchDetail?.manualCompleteMatch?.isActive && (
-              <ManualMarket
-                currentMatch={matchDetail}
-                liveData={matchDetail?.manualCompleteMatch}
-                type="manualTiedMatch"
               />
             )}
           </Box>
@@ -486,28 +453,11 @@ const MatchMarketDetail = () => {
               marginTop: { xs: "10px", lg: "0" },
             }}
           >
-            {liveScoreBoardData && (
-              <Scoreboard liveScoreData={liveScoreBoardData} />
-            )}
-            {matchDetail?.matchOdd && (
-              <MatchOdds
-                showHeader={true}
-                currentMatch={matchDetail}
-                matchOddsLive={matchDetail?.matchOdd}
-              />
-            )}
             {matchDetail?.bookmaker && (
               <BookMarket
                 currentMatch={matchDetail}
                 liveData={matchDetail?.bookmaker}
                 title={matchDetail?.bookmaker?.name}
-              />
-            )}
-            {matchDetail?.marketBookmaker2 && (
-              <BookMarket
-                currentMatch={matchDetail}
-                liveData={matchDetail?.marketBookmaker2}
-                title={matchDetail?.marketBookmaker2?.name}
               />
             )}
 
@@ -520,21 +470,7 @@ const MatchMarketDetail = () => {
                   liveData={bookmaker}
                 />
               ))}
-            {matchDetail?.other &&
-              matchDetail?.other
-                // ?.filter((item: any) => item?.isActive)
-                ?.map((market: any) => (
-                  <OtherMatchMarket
-                    key={market?.id}
-                    currentMatch={matchDetail}
-                    liveData={{
-                      ...market,
-                      type: "other",
-                      marketId: market?.mid ? market?.mid?.toString() : "",
-                    }}
-                    title={market?.name}
-                  />
-                ))}
+
             {matchDetail?.tournament &&
               matchDetail?.tournament?.map((market: any) => (
                 <TournamentMarket
@@ -545,13 +481,6 @@ const MatchMarketDetail = () => {
                 />
               ))}
 
-            {matchDetail?.apiTideMatch && (
-              <TiedMatchMarket
-                currentMatch={matchDetail}
-                liveData={matchDetail?.apiTideMatch}
-                title={matchDetail?.apiTideMatch?.name}
-              />
-            )}
             {matchDetail?.apiTiedMatch2 && (
               <TiedMatchMarket
                 currentMatch={matchDetail}
@@ -559,13 +488,7 @@ const MatchMarketDetail = () => {
                 title={matchDetail?.apiTiedMatch2?.name}
               />
             )}
-            {matchDetail?.manualTideMatch?.isActive && (
-              <ManualMarket
-                currentMatch={matchDetail}
-                liveData={matchDetail?.manualTideMatch}
-                type="manualTiedMatch"
-              />
-            )}
+
             {matchDetail?.marketCompleteMatch && (
               <CompleteMatchMarket
                 currentMatch={matchDetail}
@@ -573,13 +496,7 @@ const MatchMarketDetail = () => {
                 title={matchDetail?.marketCompleteMatch?.name}
               />
             )}
-            {matchDetail?.marketCompleteMatch1 && (
-              <CompleteMatchMarket
-                currentMatch={matchDetail}
-                liveData={matchDetail?.marketCompleteMatch1}
-                title={matchDetail?.marketCompleteMatch1?.name}
-              />
-            )}
+
             {matchDetail?.manualCompleteMatch?.isActive && (
               <ManualMarket
                 currentMatch={matchDetail}

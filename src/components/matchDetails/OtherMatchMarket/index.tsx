@@ -72,9 +72,10 @@ const OtherMatchMarket = ({ currentMatch, liveData, title }: any) => {
         >
           <Typography
             sx={{
-              fontSize: { lg: "13px", md: "12px", xs: "12px" },
+              fontSize: { lg: "9px", md: "9px", xs: "10px" },
               fontWeight: "bold",
               marginLeft: "7px",
+              lineHeight: 1,
             }}
           >
             {title}
@@ -155,7 +156,7 @@ const OtherMatchMarket = ({ currentMatch, liveData, title }: any) => {
                   borderRadius: "2px",
                   backgroundColor: "#46e080",
                   cursor: "pointer",
-                  marginRight: "10px",
+                  // marginRight: "10px",
                 }}
                 onClick={handleClickOpen}
               >
@@ -183,7 +184,7 @@ const OtherMatchMarket = ({ currentMatch, liveData, title }: any) => {
                   borderRadius: "5px",
                   backgroundColor: "#46e080",
                   cursor: "pointer",
-                  marginRight: "10px",
+                  // marginRight: "10px",
                 }}
                 onClick={handleClickOpen}
               >
@@ -253,7 +254,7 @@ const OtherMatchMarket = ({ currentMatch, liveData, title }: any) => {
                 display: "flex",
                 background: "'#319E5B'",
                 height: "15px",
-                width: "35%",
+                width: "50%",
                 alignItems: "center",
               }}
             >
@@ -273,14 +274,14 @@ const OtherMatchMarket = ({ currentMatch, liveData, title }: any) => {
                 display: "flex",
                 background: "#319E5B",
                 height: "15px",
-                width: { lg: "65%", xs: "80%" },
+                width: { lg: "65%", xs: "50%" },
                 justifyContent: { lg: "flex-end", xs: "flex-end" },
               }}
             >
               <Box
                 sx={{
                   background: "#00C0F9",
-                  width: { lg: "16.5%", xs: "25%" },
+                  width: { lg: "19%", xs: "34.6%" },
                   height: "100%",
                   display: "flex",
                   justifyContent: "center",
@@ -288,7 +289,7 @@ const OtherMatchMarket = ({ currentMatch, liveData, title }: any) => {
                 }}
               >
                 <Typography
-                  sx={{ fontSize: "12px", color: "black", fontWeight: "600" }}
+                  sx={{ fontSize: "10px", color: "black", fontWeight: "600" }}
                 >
                   Back
                 </Typography>
@@ -297,7 +298,7 @@ const OtherMatchMarket = ({ currentMatch, liveData, title }: any) => {
               <Box
                 sx={{
                   background: "#FF9292",
-                  width: { lg: "16.5%", xs: "24.7%" },
+                  width: { lg: "19%", xs: "34.6%" },
                   height: "100%",
                   display: "flex",
                   justifyContent: "center",
@@ -305,7 +306,7 @@ const OtherMatchMarket = ({ currentMatch, liveData, title }: any) => {
                 }}
               >
                 <Typography
-                  sx={{ fontSize: "12px", color: "black", fontWeight: "600" }}
+                  sx={{ fontSize: "10px", color: "black", fontWeight: "600" }}
                 >
                   Lay
                 </Typography>

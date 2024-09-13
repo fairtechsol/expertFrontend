@@ -23,7 +23,7 @@ const SmallBox = ({
               xs: width ? width.xs : "25%",
             },
             display: "flex",
-            marginRight: "10px",
+            marginRight: "4px",
             justifyContent: "center",
             paddingX: 1,
             alignItems: "center",
