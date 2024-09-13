@@ -27,7 +27,7 @@ const MoneyBox = ({ value }: any) => {
           right: matchesMobile ? "-90%" : "10px",
           alignItems: "center",
           display: "flex",
-          height: "35px",
+          height: "28px",
           borderRadius: "7px",
           border: value === 0 ? "0" : "1px solid #ddd",
         }}

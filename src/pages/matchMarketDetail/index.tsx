@@ -42,6 +42,7 @@ import ManualMarket from "../manualMarket";
 import Scoreboard from "../../components/matchDetails/Scoreboard";
 import service from "../../service";
 import OtherMatchMarket from "../../components/matchDetails/OtherMatchMarket";
+import TournamentMarket from "../../components/matchDetails/TournamentMarkets";
 
 const MatchMarketDetail = () => {
   const { state } = useLocation();
@@ -356,7 +357,7 @@ const MatchMarketDetail = () => {
   return (
     <Box
       sx={{
-        display: { lg: "flex" },
+        display: { lg: "flex", md: "flex" },
         alignSelf: "center",
         borderRadius: "10px",
         flexDirection: "row",
@@ -377,7 +378,7 @@ const MatchMarketDetail = () => {
         <>
           <Box
             sx={{
-              width: { lg: "50%", xs: "100%", md: "100%" },
+              width: { lg: "30%", xs: "100%", md: "30%" },
               flexDirection: "column",
               display: "flex",
               paddingLeft: "5px",
@@ -387,11 +388,6 @@ const MatchMarketDetail = () => {
             {liveScoreBoardData && (
               <Scoreboard liveScoreData={liveScoreBoardData} />
             )}
-            {/* <iframe
-              width="100%"
-              height="110px"
-              src={`https://dpmatka.in/dcasino/score.php?matchId=${matchDetail?.eventId}`}
-            ></iframe> */}
             {matchDetail?.matchOdd && (
               <MatchOdds
                 showHeader={true}
@@ -483,7 +479,118 @@ const MatchMarketDetail = () => {
           </Box>
           <Box
             sx={{
-              width: { lg: "50%", xs: "100%", md: "100%" },
+              width: { lg: "30%", xs: "100%", md: "30%" },
+              flexDirection: "column",
+              display: "flex",
+              paddingLeft: "5px",
+              marginTop: { xs: "10px", lg: "0" },
+            }}
+          >
+            {liveScoreBoardData && (
+              <Scoreboard liveScoreData={liveScoreBoardData} />
+            )}
+            {matchDetail?.matchOdd && (
+              <MatchOdds
+                showHeader={true}
+                currentMatch={matchDetail}
+                matchOddsLive={matchDetail?.matchOdd}
+              />
+            )}
+            {matchDetail?.bookmaker && (
+              <BookMarket
+                currentMatch={matchDetail}
+                liveData={matchDetail?.bookmaker}
+                title={matchDetail?.bookmaker?.name}
+              />
+            )}
+            {matchDetail?.marketBookmaker2 && (
+              <BookMarket
+                currentMatch={matchDetail}
+                liveData={matchDetail?.marketBookmaker2}
+                title={matchDetail?.marketBookmaker2?.name}
+              />
+            )}
+
+            {matchDetail?.quickBookmaker
+              ?.filter((item: any) => item?.isActive)
+              ?.map((bookmaker: any) => (
+                <ManualMarket
+                  key={bookmaker?.id}
+                  currentMatch={matchDetail}
+                  liveData={bookmaker}
+                />
+              ))}
+            {matchDetail?.other &&
+              matchDetail?.other
+                // ?.filter((item: any) => item?.isActive)
+                ?.map((market: any) => (
+                  <OtherMatchMarket
+                    key={market?.id}
+                    currentMatch={matchDetail}
+                    liveData={{
+                      ...market,
+                      type: "other",
+                      marketId: market?.mid ? market?.mid?.toString() : "",
+                    }}
+                    title={market?.name}
+                  />
+                ))}
+            {matchDetail?.tournament &&
+              matchDetail?.tournament?.map((market: any) => (
+                <TournamentMarket
+                  key={market?.mid}
+                  liveData={market}
+                  currentMatch={matchDetail}
+                  title={market?.name}
+                />
+              ))}
+
+            {matchDetail?.apiTideMatch && (
+              <TiedMatchMarket
+                currentMatch={matchDetail}
+                liveData={matchDetail?.apiTideMatch}
+                title={matchDetail?.apiTideMatch?.name}
+              />
+            )}
+            {matchDetail?.apiTiedMatch2 && (
+              <TiedMatchMarket
+                currentMatch={matchDetail}
+                liveData={matchDetail?.apiTiedMatch2}
+                title={matchDetail?.apiTiedMatch2?.name}
+              />
+            )}
+            {matchDetail?.manualTideMatch?.isActive && (
+              <ManualMarket
+                currentMatch={matchDetail}
+                liveData={matchDetail?.manualTideMatch}
+                type="manualTiedMatch"
+              />
+            )}
+            {matchDetail?.marketCompleteMatch && (
+              <CompleteMatchMarket
+                currentMatch={matchDetail}
+                liveData={matchDetail?.marketCompleteMatch}
+                title={matchDetail?.marketCompleteMatch?.name}
+              />
+            )}
+            {matchDetail?.marketCompleteMatch1 && (
+              <CompleteMatchMarket
+                currentMatch={matchDetail}
+                liveData={matchDetail?.marketCompleteMatch1}
+                title={matchDetail?.marketCompleteMatch1?.name}
+              />
+            )}
+            {matchDetail?.manualCompleteMatch?.isActive && (
+              <ManualMarket
+                currentMatch={matchDetail}
+                liveData={matchDetail?.manualCompleteMatch}
+                type="manualTiedMatch"
+              />
+            )}
+          </Box>
+          <Box
+            sx={{
+              width: { lg: "40%", xs: "100%", md: "60%" },
               flexDirection: "column",
               display: "flex",
               paddingLeft: "5px",

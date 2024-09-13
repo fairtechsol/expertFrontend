@@ -8,13 +8,16 @@ import { profitLossDataForMatchConstants } from "../../../utils/Constants";
 import Divider from "../../Common/Divider";
 import { formatToINR } from "../../helper";
 import BoxComponent from "../MatchOdds/BoxComponent";
-import MaxBetAdd from "../MaxBetAdd";
 import Stop from "../SessionMarket/Stop";
 import SmallBox from "../SmallBox";
+import Result from "../Result";
+import TournamentMarketAdd from "./TournamentMarketAdd";
+import ResultComponentTournamentMarket from "./ResultComponentTournamentMarket";
 
-const BookMarket = ({ currentMatch, liveData, title }: any) => {
+const TournamentMarket = ({ currentMatch, liveData, title }: any) => {
   const dispatch: AppDispatch = useDispatch();
   const [visibleImg, setVisibleImg] = useState<boolean>(true);
+  const [visible, setVisible] = useState<boolean>(false);
   const [live, setLive] = useState<boolean>(
     liveData?.activeStatus === "live" ? true : false
   );
@@ -45,6 +48,7 @@ const BookMarket = ({ currentMatch, liveData, title }: any) => {
           xs: "center",
           md: "center",
           lg: "flex-start",
+          position: "relative",
         },
       }}
     >
@@ -68,14 +72,13 @@ const BookMarket = ({ currentMatch, liveData, title }: any) => {
         >
           <Typography
             sx={{
-              fontSize: { lg: "9px", md: "9px", xs: "12px" },
+              fontSize: { lg: "13px", md: "12px", xs: "12px" },
               fontWeight: "bold",
               marginLeft: "7px",
             }}
           >
             {title}
           </Typography>
-          {/* <img src={LOCKED} style={{ width: '14px', height: '20px' }} /> */}
           {liveData?.id && (
             <Stop
               onClick={() => {
@@ -113,25 +116,35 @@ const BookMarket = ({ currentMatch, liveData, title }: any) => {
         >
           {liveData?.id ? (
             <>
-              <SmallBox
+              <Result
+                width={"80px"}
                 onClick={() => {
-                  dispatch(
-                    betLiveStatus({
-                      isStop: live,
-                      betId: liveData?.id,
-                      isManual: false,
-                    })
-                  );
-                  setLive(!live);
+                  setVisible(true);
                 }}
-                width={{lg: "60px", xs: "20%"}}
-                title={live ? "Live" : "Go Live"}
-                color={live ? "#46e080" : "#FF4D4D"}
-                customStyle={{
-                  justifyContent: "center",
-                }}
-                height="18px"
+                invert={true}
               />
+              {liveData?.activeStatus !== "result" && (
+                <SmallBox
+                  onClick={() => {
+                    dispatch(
+                      betLiveStatus({
+                        isStop: live,
+                        betId: liveData?.id,
+                        isManual: false,
+                      })
+                    );
+                    setLive(!live);
+                  }}
+                  width={{ lg: "60px", xs: "20%" }}
+                  title={live ? "Live" : "Go Live"}
+                  color={live ? "#46e080" : "#FF4D4D"}
+                  customStyle={{
+                    justifyContent: "center",
+                  }}
+                  height="18px"
+                />
+              )}
+
               <div
                 style={{
                   width: "40px",
@@ -167,7 +180,7 @@ const BookMarket = ({ currentMatch, liveData, title }: any) => {
                   display: "flex",
                   justifyContent: "center",
                   alignItems: "center",
-                  borderRadius: "2px",
+                  borderRadius: "5px",
                   backgroundColor: "#46e080",
                   cursor: "pointer",
                   marginRight: "10px",
@@ -204,6 +217,26 @@ const BookMarket = ({ currentMatch, liveData, title }: any) => {
         </Box>
       </Box>
       <Divider />
+      <Box
+        sx={{
+          position: "absolute",
+          zIndex: 999,
+          top: "26%",
+          right: "60px",
+          width: { lg: "50vh", xs: "30vh" },
+        }}
+      >
+        {visible && (
+          <ResultComponentTournamentMarket
+            currentMatch={currentMatch}
+            stopAt={liveData?.stopAt}
+            onClick={() => {
+              setVisible(false);
+            }}
+            liveData={liveData}
+          />
+        )}
+      </Box>
       {visibleImg && (
         <>
           <Box
@@ -227,7 +260,7 @@ const BookMarket = ({ currentMatch, liveData, title }: any) => {
               <Typography
                 sx={{
                   color: "white",
-                  fontSize: "9px",
+                  fontSize: { lg: "9px", xs: "9px" },
                   marginLeft: "7px",
                 }}
               >
@@ -281,36 +314,41 @@ const BookMarket = ({ currentMatch, liveData, title }: any) => {
           </Box>
 
           <Box sx={{ position: "relative" }}>
-            <BoxComponent
-              teamRates={
-                currentMatch?.teamRates
-                  ? currentMatch?.teamRates[
-                      profitLossDataForMatchConstants[liveData?.type]?.A +
-                        "_" +
-                        currentMatch?.id
-                    ]
-                    ? currentMatch?.teamRates[
-                        profitLossDataForMatchConstants[liveData?.type]?.A +
-                          "_" +
-                          currentMatch?.id
-                      ]
-                    : 0
-                  : 0
-              }
-              // teamImage={currentMatch?.bookmaker?.teamA_Image}
-              livestatus={
-                liveData?.runners?.length > 0 &&
-                liveData?.runners[0]?.status === "SUSPENDED"
-                  ? true
-                  : false
-              }
-              data={liveData?.runners?.length > 0 ? liveData?.runners[0] : []}
-              lock={liveData?.runners?.length > 0 ? false : true}
-              name={currentMatch?.teamA}
-              liveData={liveData}
-            />
-            <Divider />
-            <BoxComponent
+            {liveData?.runners?.map((item: any) => (
+              <>
+                <BoxComponent
+                  teamRates={
+                    currentMatch?.teamRates
+                      ? currentMatch?.teamRates[
+                          profitLossDataForMatchConstants[liveData?.type]?.A +
+                            "_" +
+                            liveData?.id +
+                            "_" +
+                            currentMatch?.id
+                        ]
+                        ? currentMatch?.teamRates[
+                            profitLossDataForMatchConstants[liveData?.type]?.A +
+                              "_" +
+                              liveData?.id +
+                              "_" +
+                              currentMatch?.id
+                          ]
+                        : 0
+                      : 0
+                  }
+                  // teamImage={currentMatch?.bookmaker?.teamA_Image}
+                  livestatus={item?.status === "SUSPENDED" ? true : false}
+                  data={item}
+                  lock={liveData?.runners?.length > 0 ? false : true}
+                  name={item?.nat}
+                  liveData={liveData}
+                />
+
+                <Divider />
+              </>
+            ))}
+
+            {/* <BoxComponent
               livestatus={
                 liveData?.runners?.length > 0 &&
                 liveData?.runners[1]?.status === "SUSPENDED"
@@ -322,10 +360,14 @@ const BookMarket = ({ currentMatch, liveData, title }: any) => {
                   ? currentMatch?.teamRates[
                       profitLossDataForMatchConstants[liveData?.type]?.B +
                         "_" +
+                        liveData?.id +
+                        "_" +
                         currentMatch?.id
                     ]
                     ? currentMatch?.teamRates[
                         profitLossDataForMatchConstants[liveData?.type]?.B +
+                          "_" +
+                          liveData?.id +
                           "_" +
                           currentMatch?.id
                       ]
@@ -334,50 +376,15 @@ const BookMarket = ({ currentMatch, liveData, title }: any) => {
               }
               teamImage={currentMatch?.bookmaker?.teamB_Image}
               lock={liveData?.runners?.length > 0 ? false : true}
-              name={currentMatch?.teamB}
+              name={
+                liveData?.runners?.length > 0
+                  ? liveData?.runners[1]?.nat
+                  : liveData?.metaData?.teamB
+              }
               data={liveData?.runners?.length > 0 ? liveData?.runners[1] : []}
               align="end"
               liveData={liveData}
-            />
-            {currentMatch?.teamC && (
-              <>
-                <Divider />
-                <BoxComponent
-                  color={"#FF4D4D"}
-                  livestatus={
-                    liveData?.runners?.length > 0 &&
-                    liveData?.runners[2]?.status === "SUSPENDED"
-                      ? true
-                      : false
-                  }
-                  teamRates={
-                    currentMatch?.teamRates
-                      ? currentMatch?.teamRates[
-                          profitLossDataForMatchConstants[liveData?.type]?.C +
-                            "_" +
-                            currentMatch?.id
-                        ]
-                        ? currentMatch?.teamRates[
-                            profitLossDataForMatchConstants[liveData?.type]?.C +
-                              "_" +
-                              currentMatch?.id
-                          ]
-                        : 0
-                      : 0
-                  }
-                  teamImage={null}
-                  lock={liveData?.runners?.length > 0 ? false : true}
-                  name={currentMatch?.teamC}
-                  data={
-                    liveData?.runners?.length > 0 ? liveData?.runners[2] : []
-                  }
-                  align="end"
-                  liveData={liveData}
-                />
-              </>
-            )}
-
-            <Divider />
+            /> */}
             {!live && (
               <Box
                 sx={{
@@ -409,10 +416,32 @@ const BookMarket = ({ currentMatch, liveData, title }: any) => {
                   </Typography>
                 </Box>
               )}
+            {currentMatch?.otherBettings?.[liveData?.id] && (
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  width: "100%",
+                  position: "absolute",
+                  height: "100%",
+                  bottom: 0,
+                  color: "#fff",
+                  backgroundColor: "rgba(203 24 24 / 70%)",
+                }}
+              >
+                <Typography sx={{ color: "#fff" }}>
+                  RESULT{" "}
+                  {liveData?.activeStatus === "result"
+                    ? "DECLARED"
+                    : currentMatch?.otherBettings?.[liveData?.id]}
+                </Typography>
+              </Box>
+            )}
           </Box>
         </>
       )}
-      <MaxBetAdd
+      <TournamentMarketAdd
         open={open}
         handleClose={handleClose}
         matchOddsLive={liveData}
@@ -423,4 +452,4 @@ const BookMarket = ({ currentMatch, liveData, title }: any) => {
   );
 };
 
-export default BookMarket;
+export default TournamentMarket;

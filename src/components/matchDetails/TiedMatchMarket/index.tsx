@@ -52,7 +52,7 @@ const TiedMatchMarket = ({ currentMatch, liveData, title }: any) => {
       <Box
         sx={{
           display: "flex",
-          height: 38,
+          height: 20,
           flexDirection: "row",
           width: "100%",
           alignSelf: "center",
@@ -89,6 +89,7 @@ const TiedMatchMarket = ({ currentMatch, liveData, title }: any) => {
                 );
                 setLive(false);
               }}
+              height="18px"
             />
           )}
         </Box>
@@ -125,22 +126,23 @@ const TiedMatchMarket = ({ currentMatch, liveData, title }: any) => {
                     );
                     setLive(!live);
                   }}
-                  // width={"80px"}
+                  width={{ lg: "60px", xs: "20%" }}
                   title={live ? "Live" : "Go Live"}
                   color={live ? "#46e080" : "#FF4D4D"}
                   customStyle={{
                     justifyContent: "center",
                     textAlign: "center",
                   }}
-                />{" "}
+                  height="18px"
+                />
                 <div
                   style={{
-                    width: "50px",
-                    height: "30px",
+                    width: "40px",
+                    height: "18px",
                     display: "flex",
                     justifyContent: "center",
                     alignItems: "center",
-                    borderRadius: "5px",
+                    borderRadius: "2px",
                     backgroundColor: "#46e080",
                     cursor: "pointer",
                     marginRight: "10px",
@@ -164,12 +166,12 @@ const TiedMatchMarket = ({ currentMatch, liveData, title }: any) => {
             <>
               <div
                 style={{
-                  width: "50px",
-                  height: "30px",
+                  width: "40px",
+                  height: "18px",
                   display: "flex",
                   justifyContent: "center",
                   alignItems: "center",
-                  borderRadius: "5px",
+                  borderRadius: "2px",
                   backgroundColor: "#46e080",
                   cursor: "pointer",
                   marginRight: "10px",
@@ -196,8 +198,8 @@ const TiedMatchMarket = ({ currentMatch, liveData, title }: any) => {
             src={ARROWUP}
             style={{
               transform: visibleImg ? "rotate(180deg)" : "rotate(0deg)",
-              width: "15px",
-              height: "15px",
+              width: "12px",
+              height: "12px",
               marginRight: "5px",
               marginLeft: "5px",
               cursor: "pointer",
@@ -212,7 +214,7 @@ const TiedMatchMarket = ({ currentMatch, liveData, title }: any) => {
             sx={{
               display: "flex",
               background: "#319E5B",
-              height: "25px",
+              height: "15px",
               width: "100%",
               alignSelf: "center",
             }}
@@ -221,7 +223,7 @@ const TiedMatchMarket = ({ currentMatch, liveData, title }: any) => {
               sx={{
                 display: "flex",
                 background: "'#319E5B'",
-                height: "25px",
+                height: "15px",
                 width: "35%",
                 alignItems: "center",
               }}
@@ -241,9 +243,9 @@ const TiedMatchMarket = ({ currentMatch, liveData, title }: any) => {
               sx={{
                 display: "flex",
                 background: "#319E5B",
-                height: "25px",
+                height: "15px",
                 width: { lg: "65%", xs: "80%" },
-                justifyContent: { lg: "center", xs: "flex-end" },
+                justifyContent: { lg: "flex-end", xs: "flex-end" },
               }}
             >
               <Box

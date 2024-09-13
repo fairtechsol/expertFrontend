@@ -46,7 +46,7 @@ const ManualMarket = ({ currentMatch, liveData, type }: any) => {
       <Box
         sx={{
           display: "flex",
-          height: 38,
+          height: 20,
           flexDirection: "row",
           width: "100%",
           alignSelf: "center",
@@ -81,6 +81,7 @@ const ManualMarket = ({ currentMatch, liveData, type }: any) => {
               );
               setLive(false);
             }}
+            height="18px"
           />
         </Box>
         <Box
@@ -123,13 +124,14 @@ const ManualMarket = ({ currentMatch, liveData, type }: any) => {
                 );
                 setLive(!live);
               }}
-              // width={"80px"}
+              width={{ lg: "60px", xs: "20%" }}
               title={live ? "Live" : "Go Live"}
               color={live ? "#46e080" : "#FF4D4D"}
               customStyle={{
                 justifyContent: "center",
                 textAlign: "center",
               }}
+              height="18px"
             />
           )}
           <img
@@ -139,8 +141,8 @@ const ManualMarket = ({ currentMatch, liveData, type }: any) => {
             src={ARROWUP}
             style={{
               transform: visibleImg ? "rotate(180deg)" : "rotate(0deg)",
-              width: "15px",
-              height: "15px",
+              width: "12px",
+              height: "12px",
               marginRight: "5px",
               marginLeft: "5px",
               cursor: "pointer",
@@ -179,7 +181,7 @@ const ManualMarket = ({ currentMatch, liveData, type }: any) => {
             sx={{
               display: "flex",
               background: "#319E5B",
-              height: "25px",
+              height: "15px",
               width: "100%",
               alignSelf: "center",
             }}
@@ -188,7 +190,7 @@ const ManualMarket = ({ currentMatch, liveData, type }: any) => {
               sx={{
                 display: "flex",
                 background: "'#319E5B'",
-                height: "25px",
+                height: "15px",
                 width: "35%",
                 alignItems: "center",
               }}
@@ -208,9 +210,9 @@ const ManualMarket = ({ currentMatch, liveData, type }: any) => {
               sx={{
                 display: "flex",
                 background: "#319E5B",
-                height: "25px",
+                height: "15px",
                 width: { lg: "65%", xs: "80%" },
-                justifyContent: { lg: "center", xs: "flex-end" },
+                justifyContent: { lg: "flex-end", xs: "flex-end" },
               }}
             >
               <Box
@@ -255,13 +257,13 @@ const ManualMarket = ({ currentMatch, liveData, type }: any) => {
                 currentMatch?.teamRates
                   ? currentMatch?.teamRates[
                       profitLossDataForMatchConstants[liveData?.type]?.A +
-                      "_" +
-                      currentMatch?.id
+                        "_" +
+                        currentMatch?.id
                     ]
                     ? currentMatch?.teamRates[
                         profitLossDataForMatchConstants[liveData?.type]?.A +
-                        "_" +
-                        currentMatch?.id
+                          "_" +
+                          currentMatch?.id
                       ]
                     : 0
                   : 0
@@ -283,13 +285,13 @@ const ManualMarket = ({ currentMatch, liveData, type }: any) => {
                 currentMatch?.teamRates
                   ? currentMatch?.teamRates[
                       profitLossDataForMatchConstants[liveData?.type]?.B +
-                      "_" +
-                      currentMatch?.id
+                        "_" +
+                        currentMatch?.id
                     ]
                     ? currentMatch?.teamRates[
                         profitLossDataForMatchConstants[liveData?.type]?.B +
-                        "_" +
-                        currentMatch?.id
+                          "_" +
+                          currentMatch?.id
                       ]
                     : 0
                   : 0
@@ -315,13 +317,13 @@ const ManualMarket = ({ currentMatch, liveData, type }: any) => {
                     currentMatch?.teamRates
                       ? currentMatch?.teamRates[
                           profitLossDataForMatchConstants[liveData?.type]?.C +
-                          "_" +
-                          currentMatch?.id
+                            "_" +
+                            currentMatch?.id
                         ]
                         ? currentMatch?.teamRates[
                             profitLossDataForMatchConstants[liveData?.type]?.C +
-                            "_" +
-                            currentMatch?.id
+                              "_" +
+                              currentMatch?.id
                           ]
                         : 0
                       : 0

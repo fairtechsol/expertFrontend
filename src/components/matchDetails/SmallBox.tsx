@@ -29,7 +29,7 @@ const SmallBox = ({
             alignItems: "center",
             height: height ? height : "32px",
             background: color ? color : "#46e080",
-            borderRadius: "3px",
+            borderRadius: "2px",
             cursor: "pointer",
           },
           customStyle,

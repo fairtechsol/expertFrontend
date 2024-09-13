@@ -3,12 +3,12 @@ import { memo } from "react";
 import SeparateBox from "../SeparateBox";
 import { formatNumber } from "../../helper";
 import MoneyBox from "./MoneyBox";
-import Whitebox from "../WhiteBox";
+// import Whitebox from "../WhiteBox";
 const BoxComponent = ({
   name,
   data,
   // teamImage,
-  liveData,
+  // liveData,
   currentMatch,
   align,
   lock,
@@ -23,7 +23,7 @@ const BoxComponent = ({
       sx={{
         display: "flex",
         background: "white",
-        height: "40px",
+        height: "30px",
         width: "100%",
         alignItems: "center",
         justifyContent: "space-between",
@@ -34,7 +34,7 @@ const BoxComponent = ({
           display: "flex",
           background: "white",
           position: "relative",
-          height: "40px",
+          height: "30px",
           width: "35%",
           alignItems: "center",
         }}
@@ -64,7 +64,7 @@ const BoxComponent = ({
           <Typography
             sx={{
               color: "black",
-              fontSize: { lg: "10px", xs: "13px" },
+              fontSize: { lg: "8px", xs: "13px" },
               fontWeight: "600",
               marginLeft: "10px",
               lineHeight: "1.2",
@@ -81,17 +81,17 @@ const BoxComponent = ({
           sx={{
             display: "flex",
             background: "white",
-            height: "40px",
+            height: "30px",
             width: { lg: "65%", xs: "78%" },
-            justifyContent: { xs: "flex-end", lg: "center" },
+            justifyContent: { xs: "flex-end", lg: "flex-end" },
             alignItems: "center",
           }}
         >
           <Box
             sx={{
               background: "rgba(0,0,0,1)",
-              height: "40px",
-              width: { lg: "100%", xs: "50.4%" },
+              height: "30px",
+              width: { lg: "33.4%", xs: "50.4%" },
               justifyContent: "center",
               alignItems: "center",
               display: "flex",
@@ -102,7 +102,7 @@ const BoxComponent = ({
                 textTransform: "uppercase",
                 color: "#FFF",
                 fontWeight: "400",
-                fontSize: matchesMobile ? "12px" : "22px",
+                fontSize: matchesMobile ? "12px" : "12px",
               }}
             >
               {livestatus ? "SUSPENDED" : status}
@@ -115,13 +115,13 @@ const BoxComponent = ({
             sx={{
               display: "flex",
               background: "white",
-              height: "40px",
-              width: { lg: "65%", xs: "38%" },
-              justifyContent: { xs: "flex-end", lg: "center" },
+              height: "30px",
+              width: { lg: "23.7%", xs: "38%" },
+              justifyContent: { xs: "flex-end", lg: "flex-end" },
               alignItems: "center",
             }}
           >
-            {!matchesMobile &&
+            {/* {!matchesMobile &&
               (liveData?.type != "bookmaker2" ||
               liveData?.type != "tiedMatch3" ? (
                 <SeparateBox
@@ -174,7 +174,7 @@ const BoxComponent = ({
               ))}
             <Box
               sx={{ width: ".45%", display: "flex", background: "pink" }}
-            ></Box>
+            ></Box> */}
             <SeparateBox
               currentMatch={currentMatch}
               align={align}
@@ -212,12 +212,12 @@ const BoxComponent = ({
               )}
               color={"#FFB5B5"}
             />
-            {!matchesMobile && (
+            {/* {!matchesMobile && (
               <Box
                 sx={{ width: ".45%", display: "flex", background: "pink" }}
               ></Box>
-            )}
-            {!matchesMobile &&
+            )} */}
+            {/* {!matchesMobile &&
               (liveData?.type != "bookmaker2" ||
               liveData?.type != "tiedMatch3" ? (
                 <SeparateBox
@@ -266,7 +266,7 @@ const BoxComponent = ({
                 />
               ) : (
                 <Whitebox />
-              ))}
+              ))} */}
           </Box>
         </>
       )}
