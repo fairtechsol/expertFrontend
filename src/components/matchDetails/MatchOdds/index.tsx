@@ -91,7 +91,7 @@ const MatchOdds = ({ currentMatch, matchOddsLive, id }: any) => {
         <Box
           sx={{
             display: "flex",
-            height: 38,
+            height: 20,
             flexDirection: "row",
             width: "100%",
             alignSelf: "center",
@@ -103,14 +103,16 @@ const MatchOdds = ({ currentMatch, matchOddsLive, id }: any) => {
               background: "#f1c550",
               alignItems: "center",
               display: "flex",
+              width: "50%",
               justifyContent: "space-between",
             }}
           >
             <Typography
               sx={{
-                fontSize: { lg: "13px", md: "12px", xs: "12px" },
+                fontSize: { lg: "9px", md: "9px", xs: "10px" },
                 fontWeight: "bold",
                 marginLeft: "7px",
+                lineHeight: 1,
               }}
             >
               Match Odds
@@ -127,6 +129,7 @@ const MatchOdds = ({ currentMatch, matchOddsLive, id }: any) => {
                   );
                   setLive(false);
                 }}
+                height="18px"
               />
             )}
 
@@ -180,25 +183,26 @@ const MatchOdds = ({ currentMatch, matchOddsLive, id }: any) => {
                       );
                       setLive(!live);
                     }}
-                    // width={{lg: "80px", xs: "40px"}}
+                    width={{ lg: "40px", xs: "20%" }}
                     title={live ? "Live" : "Go Live"}
                     color={live ? "#46e080" : "#FF4D4D"}
                     customStyle={{
                       justifyContent: "center",
                       textAlign: "center",
                     }}
+                    height="18px"
                   />
                   <div
                     style={{
-                      width: "50px",
-                      height: "30px",
+                      width: "40px",
+                      height: "18px",
                       display: "flex",
                       justifyContent: "center",
                       alignItems: "center",
-                      borderRadius: "5px",
+                      borderRadius: "2px",
                       backgroundColor: "#46e080",
                       cursor: "pointer",
-                      marginRight: "10px",
+                      // marginRight: "10px",
                     }}
                     onClick={handleClickOpen}
                   >
@@ -219,15 +223,15 @@ const MatchOdds = ({ currentMatch, matchOddsLive, id }: any) => {
               <>
                 <div
                   style={{
-                    width: "50px",
-                    height: "30px",
+                    width: "40px",
+                    height: "18px",
                     display: "flex",
                     justifyContent: "center",
                     alignItems: "center",
-                    borderRadius: "5px",
+                    borderRadius: "2px",
                     backgroundColor: "#46e080",
                     cursor: "pointer",
-                    marginRight: "10px",
+                    // marginRight: "10px",
                   }}
                   onClick={handleClickOpen}
                 >
@@ -251,8 +255,8 @@ const MatchOdds = ({ currentMatch, matchOddsLive, id }: any) => {
               src={ARROWUP}
               style={{
                 transform: visibleImg ? "rotate(180deg)" : "rotate(0deg)",
-                width: "15px",
-                height: "15px",
+                width: "12px",
+                height: "12px",
                 marginRight: "5px",
                 marginLeft: "5px",
                 cursor: "pointer",
@@ -338,7 +342,7 @@ const MatchOdds = ({ currentMatch, matchOddsLive, id }: any) => {
               sx={{
                 display: "flex",
                 background: "#319E5B",
-                height: "25px",
+                height: "15px",
                 width: "100%",
                 alignSelf: "center",
               }}
@@ -347,15 +351,15 @@ const MatchOdds = ({ currentMatch, matchOddsLive, id }: any) => {
                 sx={{
                   display: "flex",
                   background: "'#319E5B'",
-                  height: "25px",
-                  width: "35%",
+                  height: "15px",
+                  width: "50%",
                   alignItems: "center",
                 }}
               >
                 <Typography
                   sx={{
                     color: "white",
-                    fontSize: { lg: "11px", xs: "9px" },
+                    fontSize: { lg: "10px", xs: "9px" },
                     marginLeft: "7px",
                   }}
                 >
@@ -367,15 +371,15 @@ const MatchOdds = ({ currentMatch, matchOddsLive, id }: any) => {
                 sx={{
                   display: "flex",
                   background: "#319E5B",
-                  height: "25px",
-                  width: { lg: "65%", xs: "80%" },
-                  justifyContent: { lg: "center", xs: "flex-end" },
+                  height: "15px",
+                  width: { lg: "65%", xs: "50%" },
+                  justifyContent: { lg: "flex-end", xs: "flex-end" },
                 }}
               >
                 <Box
                   sx={{
                     background: "#00C0F9",
-                    width: { lg: "16.5%", xs: "25%" },
+                    width: { lg: "19%", xs: "34.6%" },
                     height: "100%",
                     display: "flex",
                     justifyContent: "center",
@@ -383,7 +387,7 @@ const MatchOdds = ({ currentMatch, matchOddsLive, id }: any) => {
                   }}
                 >
                   <Typography
-                    sx={{ fontSize: "12px", color: "black", fontWeight: "600" }}
+                    sx={{ fontSize: "10px", color: "black", fontWeight: "600" }}
                   >
                     Back
                   </Typography>
@@ -393,7 +397,7 @@ const MatchOdds = ({ currentMatch, matchOddsLive, id }: any) => {
                 <Box
                   sx={{
                     background: "#FF9292",
-                    width: { lg: "16.5%", xs: "24.7%" },
+                    width: { lg: "19%", xs: "34.6%" },
                     height: "100%",
                     display: "flex",
                     justifyContent: "center",
@@ -401,7 +405,7 @@ const MatchOdds = ({ currentMatch, matchOddsLive, id }: any) => {
                   }}
                 >
                   <Typography
-                    sx={{ fontSize: "12px", color: "black", fontWeight: "600" }}
+                    sx={{ fontSize: "10px", color: "black", fontWeight: "600" }}
                   >
                     Lay
                   </Typography>

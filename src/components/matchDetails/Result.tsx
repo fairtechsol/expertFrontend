@@ -11,9 +11,9 @@ const Result = ({ invert, onClick }: any) => {
           justifyContent: "center",
           paddingX: 1,
           alignItems: "center",
-          height: "20px",
+          height: "18px",
           background: invert ? "white" : "#0B4F26",
-          borderRadius: "3px",
+          borderRadius: "2px",
           cursor: "pointer",
         }}
       >

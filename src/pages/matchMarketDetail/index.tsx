@@ -42,6 +42,7 @@ import ManualMarket from "../manualMarket";
 import Scoreboard from "../../components/matchDetails/Scoreboard";
 import service from "../../service";
 import OtherMatchMarket from "../../components/matchDetails/OtherMatchMarket";
+import TournamentMarket from "../../components/matchDetails/TournamentMarkets";
 
 const MatchMarketDetail = () => {
   const { state } = useLocation();
@@ -356,7 +357,7 @@ const MatchMarketDetail = () => {
   return (
     <Box
       sx={{
-        display: { lg: "flex" },
+        display: { lg: "flex", md: "flex" },
         alignSelf: "center",
         borderRadius: "10px",
         flexDirection: "row",
@@ -377,7 +378,7 @@ const MatchMarketDetail = () => {
         <>
           <Box
             sx={{
-              width: { lg: "50%", xs: "100%", md: "100%" },
+              width: { lg: "30%", xs: "100%", md: "30%" },
               flexDirection: "column",
               display: "flex",
               paddingLeft: "5px",
@@ -387,11 +388,6 @@ const MatchMarketDetail = () => {
             {liveScoreBoardData && (
               <Scoreboard liveScoreData={liveScoreBoardData} />
             )}
-            {/* <iframe
-              width="100%"
-              height="110px"
-              src={`https://dpmatka.in/dcasino/score.php?matchId=${matchDetail?.eventId}`}
-            ></iframe> */}
             {matchDetail?.matchOdd && (
               <MatchOdds
                 showHeader={true}
@@ -399,13 +395,7 @@ const MatchMarketDetail = () => {
                 matchOddsLive={matchDetail?.matchOdd}
               />
             )}
-            {matchDetail?.bookmaker && (
-              <BookMarket
-                currentMatch={matchDetail}
-                liveData={matchDetail?.bookmaker}
-                title={matchDetail?.bookmaker?.name}
-              />
-            )}
+
             {matchDetail?.marketBookmaker2 && (
               <BookMarket
                 currentMatch={matchDetail}
@@ -414,15 +404,6 @@ const MatchMarketDetail = () => {
               />
             )}
 
-            {matchDetail?.quickBookmaker
-              ?.filter((item: any) => item?.isActive)
-              ?.map((bookmaker: any) => (
-                <ManualMarket
-                  key={bookmaker?.id}
-                  currentMatch={matchDetail}
-                  liveData={bookmaker}
-                />
-              ))}
             {matchDetail?.other &&
               matchDetail?.other
                 // ?.filter((item: any) => item?.isActive)
@@ -438,6 +419,7 @@ const MatchMarketDetail = () => {
                     title={market?.name}
                   />
                 ))}
+
             {matchDetail?.apiTideMatch && (
               <TiedMatchMarket
                 currentMatch={matchDetail}
@@ -445,13 +427,7 @@ const MatchMarketDetail = () => {
                 title={matchDetail?.apiTideMatch?.name}
               />
             )}
-            {matchDetail?.apiTiedMatch2 && (
-              <TiedMatchMarket
-                currentMatch={matchDetail}
-                liveData={matchDetail?.apiTiedMatch2}
-                title={matchDetail?.apiTiedMatch2?.name}
-              />
-            )}
+
             {matchDetail?.manualTideMatch?.isActive && (
               <ManualMarket
                 currentMatch={matchDetail}
@@ -459,13 +435,7 @@ const MatchMarketDetail = () => {
                 type="manualTiedMatch"
               />
             )}
-            {matchDetail?.marketCompleteMatch && (
-              <CompleteMatchMarket
-                currentMatch={matchDetail}
-                liveData={matchDetail?.marketCompleteMatch}
-                title={matchDetail?.marketCompleteMatch?.name}
-              />
-            )}
+
             {matchDetail?.marketCompleteMatch1 && (
               <CompleteMatchMarket
                 currentMatch={matchDetail}
@@ -473,6 +443,60 @@ const MatchMarketDetail = () => {
                 title={matchDetail?.marketCompleteMatch1?.name}
               />
             )}
+          </Box>
+          <Box
+            sx={{
+              width: { lg: "30%", xs: "100%", md: "30%" },
+              flexDirection: "column",
+              display: "flex",
+              paddingLeft: "5px",
+              marginTop: { xs: "10px", lg: "0" },
+            }}
+          >
+            {matchDetail?.bookmaker && (
+              <BookMarket
+                currentMatch={matchDetail}
+                liveData={matchDetail?.bookmaker}
+                title={matchDetail?.bookmaker?.name}
+              />
+            )}
+
+            {matchDetail?.quickBookmaker
+              ?.filter((item: any) => item?.isActive)
+              ?.map((bookmaker: any) => (
+                <ManualMarket
+                  key={bookmaker?.id}
+                  currentMatch={matchDetail}
+                  liveData={bookmaker}
+                />
+              ))}
+
+            {matchDetail?.tournament &&
+              matchDetail?.tournament?.map((market: any) => (
+                <TournamentMarket
+                  key={market?.mid}
+                  liveData={market}
+                  currentMatch={matchDetail}
+                  title={market?.name}
+                />
+              ))}
+
+            {matchDetail?.apiTiedMatch2 && (
+              <TiedMatchMarket
+                currentMatch={matchDetail}
+                liveData={matchDetail?.apiTiedMatch2}
+                title={matchDetail?.apiTiedMatch2?.name}
+              />
+            )}
+
+            {matchDetail?.marketCompleteMatch && (
+              <CompleteMatchMarket
+                currentMatch={matchDetail}
+                liveData={matchDetail?.marketCompleteMatch}
+                title={matchDetail?.marketCompleteMatch?.name}
+              />
+            )}
+
             {matchDetail?.manualCompleteMatch?.isActive && (
               <ManualMarket
                 currentMatch={matchDetail}
@@ -483,7 +507,7 @@ const MatchMarketDetail = () => {
           </Box>
           <Box
             sx={{
-              width: { lg: "50%", xs: "100%", md: "100%" },
+              width: { lg: "40%", xs: "100%", md: "60%" },
               flexDirection: "column",
               display: "flex",
               paddingLeft: "5px",

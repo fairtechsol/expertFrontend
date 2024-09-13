@@ -222,6 +222,7 @@ const addMatch = createSlice({
           quickbookmaker,
           other,
           marketCompleteMatch1,
+          tournament,
         } = action.payload;
 
         let parsedSessionBettings = state?.matchDetail?.sessionBettings?.map(
@@ -258,6 +259,7 @@ const addMatch = createSlice({
           quickBookmaker: quickbookmaker,
           updatedSesssionBettings: updatedSessionBettings || {},
           other,
+          tournament,
           // sessionBettings: state.matchDetail?.sessionBettings?.map(
           //   (item: any) => {
           //     const parsedItem = JSON.parse(item);

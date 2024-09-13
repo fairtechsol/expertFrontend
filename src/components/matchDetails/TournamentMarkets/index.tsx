@@ -4,18 +4,21 @@ import { useDispatch } from "react-redux";
 import { ARROWUP } from "../../../assets";
 import { betLiveStatus } from "../../../store/actions/match/matchAction";
 import { AppDispatch } from "../../../store/store";
+import { profitLossDataForMatchConstants } from "../../../utils/Constants";
 import Divider from "../../Common/Divider";
 import { formatToINR } from "../../helper";
 import BoxComponent from "../MatchOdds/BoxComponent";
-import MaxBetAdd from "../MaxBetAdd";
 import Stop from "../SessionMarket/Stop";
 import SmallBox from "../SmallBox";
-import { profitLossDataForMatchConstants } from "../../../utils/Constants";
+import Result from "../Result";
+import TournamentMarketAdd from "./TournamentMarketAdd";
+import ResultComponentTournamentMarket from "./ResultComponentTournamentMarket";
 
-const CompleteMatchMarket = ({ currentMatch, liveData, title }: any) => {
+const TournamentMarket = ({ currentMatch, liveData, title }: any) => {
   const dispatch: AppDispatch = useDispatch();
-  const [visibleImg, setVisibleImg] = useState(true);
-  const [live, setLive] = useState(
+  const [visibleImg, setVisibleImg] = useState<boolean>(true);
+  const [visible, setVisible] = useState<boolean>(false);
+  const [live, setLive] = useState<boolean>(
     liveData?.activeStatus === "live" ? true : false
   );
   const [open, setOpen] = useState(false);
@@ -45,6 +48,7 @@ const CompleteMatchMarket = ({ currentMatch, liveData, title }: any) => {
           xs: "center",
           md: "center",
           lg: "flex-start",
+          position: "relative",
         },
       }}
     >
@@ -75,7 +79,6 @@ const CompleteMatchMarket = ({ currentMatch, liveData, title }: any) => {
           >
             {title}
           </Typography>
-          {/* <img src={LOCKED} style={{ width: '14px', height: '20px' }} /> */}
           {liveData?.id && (
             <Stop
               onClick={() => {
@@ -84,6 +87,7 @@ const CompleteMatchMarket = ({ currentMatch, liveData, title }: any) => {
                     isStop: true,
                     betId: liveData?.id,
                     isManual: false,
+                    isTournament: true,
                   })
                 );
                 setLive(false);
@@ -112,8 +116,15 @@ const CompleteMatchMarket = ({ currentMatch, liveData, title }: any) => {
           }}
         >
           {liveData?.id ? (
-            !currentMatch?.stopAt && (
-              <>
+            <>
+              <Result
+                width={"80px"}
+                onClick={() => {
+                  setVisible(true);
+                }}
+                invert={true}
+              />
+              {liveData?.activeStatus !== "result" && (
                 <SmallBox
                   onClick={() => {
                     dispatch(
@@ -121,6 +132,7 @@ const CompleteMatchMarket = ({ currentMatch, liveData, title }: any) => {
                         isStop: live,
                         betId: liveData?.id,
                         isManual: false,
+                        isTournament: true,
                       })
                     );
                     setLive(!live);
@@ -130,37 +142,37 @@ const CompleteMatchMarket = ({ currentMatch, liveData, title }: any) => {
                   color={live ? "#46e080" : "#FF4D4D"}
                   customStyle={{
                     justifyContent: "center",
-                    textAlign: "center",
                   }}
                   height="18px"
                 />
-                <div
+              )}
+
+              <div
+                style={{
+                  width: "40px",
+                  height: "18px",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  borderRadius: "2px",
+                  backgroundColor: "#46e080",
+                  cursor: "pointer",
+                  // marginRight: "10px",
+                }}
+                onClick={handleClickOpen}
+              >
+                <span
                   style={{
-                    width: "40px",
-                    height: "18px",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    borderRadius: "2px",
-                    backgroundColor: "#46e080",
-                    cursor: "pointer",
-                    // marginRight: "10px",
+                    fontSize: "12px",
+                    fontWeight: "500",
+                    color: "#fff",
+                    fontFamily: "Poppins, sans-serif",
                   }}
-                  onClick={handleClickOpen}
                 >
-                  <span
-                    style={{
-                      fontSize: "12px",
-                      fontWeight: "500",
-                      color: "#fff",
-                      fontFamily: "Poppins, sans-serif",
-                    }}
-                  >
-                    Edit
-                  </span>
-                </div>
-              </>
-            )
+                  Edit
+                </span>
+              </div>
+            </>
           ) : (
             <>
               <div
@@ -170,7 +182,7 @@ const CompleteMatchMarket = ({ currentMatch, liveData, title }: any) => {
                   display: "flex",
                   justifyContent: "center",
                   alignItems: "center",
-                  borderRadius: "2px",
+                  borderRadius: "5px",
                   backgroundColor: "#46e080",
                   cursor: "pointer",
                   // marginRight: "10px",
@@ -207,6 +219,26 @@ const CompleteMatchMarket = ({ currentMatch, liveData, title }: any) => {
         </Box>
       </Box>
       <Divider />
+      <Box
+        sx={{
+          position: "absolute",
+          zIndex: 999,
+          top: "26%",
+          right: "60px",
+          width: { lg: "50vh", xs: "30vh" },
+        }}
+      >
+        {visible && (
+          <ResultComponentTournamentMarket
+            currentMatch={currentMatch}
+            stopAt={liveData?.stopAt}
+            onClick={() => {
+              setVisible(false);
+            }}
+            liveData={liveData}
+          />
+        )}
+      </Box>
       {visibleImg && (
         <>
           <Box
@@ -284,38 +316,44 @@ const CompleteMatchMarket = ({ currentMatch, liveData, title }: any) => {
           </Box>
 
           <Box sx={{ position: "relative" }}>
-            <BoxComponent
-              teamRates={
-                currentMatch?.teamRates
-                  ? currentMatch?.teamRates[
-                      profitLossDataForMatchConstants[liveData?.type]?.A +
-                        "_" +
-                        currentMatch?.id
-                    ]
-                    ? currentMatch?.teamRates[
-                        profitLossDataForMatchConstants[liveData?.type]?.A +
-                          "_" +
-                          currentMatch?.id
-                      ]
-                    : 0
-                  : 0
-              }
-              teamImage={currentMatch?.marketCompleteMatch?.teamA_Image}
+            {liveData?.runners?.map((item: any) => (
+              <>
+                <BoxComponent
+                  teamRates={
+                    currentMatch?.teamRates
+                      ? currentMatch?.teamRates[
+                          profitLossDataForMatchConstants[liveData?.type]?.A +
+                            "_" +
+                            liveData?.id +
+                            "_" +
+                            currentMatch?.id
+                        ]
+                        ? currentMatch?.teamRates[
+                            profitLossDataForMatchConstants[liveData?.type]?.A +
+                              "_" +
+                              liveData?.id +
+                              "_" +
+                              currentMatch?.id
+                          ]
+                        : 0
+                      : 0
+                  }
+                  // teamImage={currentMatch?.bookmaker?.teamA_Image}
+                  livestatus={item?.status === "SUSPENDED" ? true : false}
+                  data={item}
+                  lock={liveData?.runners?.length > 0 ? false : true}
+                  name={item?.nat ?? item?.runnerName}
+                  liveData={liveData}
+                />
+
+                <Divider />
+              </>
+            ))}
+
+            {/* <BoxComponent
               livestatus={
                 liveData?.runners?.length > 0 &&
-                liveData?.runners[0]?.status === "SUSPENDED"
-                  ? true
-                  : false
-              }
-              data={liveData?.runners?.length > 0 ? liveData?.runners[0] : []}
-              lock={liveData?.runners?.length > 0 ? false : true}
-              name={"Yes"}
-            />
-            <Divider />
-            <BoxComponent
-              livestatus={
-                liveData?.runners?.length > 0 &&
-                liveData?.runners[0]?.status === "SUSPENDED"
+                liveData?.runners[1]?.status === "SUSPENDED"
                   ? true
                   : false
               }
@@ -324,24 +362,31 @@ const CompleteMatchMarket = ({ currentMatch, liveData, title }: any) => {
                   ? currentMatch?.teamRates[
                       profitLossDataForMatchConstants[liveData?.type]?.B +
                         "_" +
+                        liveData?.id +
+                        "_" +
                         currentMatch?.id
                     ]
                     ? currentMatch?.teamRates[
                         profitLossDataForMatchConstants[liveData?.type]?.B +
+                          "_" +
+                          liveData?.id +
                           "_" +
                           currentMatch?.id
                       ]
                     : 0
                   : 0
               }
-              teamImage={currentMatch?.marketCompleteMatch?.teamB_Image}
+              teamImage={currentMatch?.bookmaker?.teamB_Image}
               lock={liveData?.runners?.length > 0 ? false : true}
-              name={"No"}
+              name={
+                liveData?.runners?.length > 0
+                  ? liveData?.runners[1]?.nat
+                  : liveData?.metaData?.teamB
+              }
               data={liveData?.runners?.length > 0 ? liveData?.runners[1] : []}
               align="end"
-            />
-
-            <Divider />
+              liveData={liveData}
+            /> */}
             {!live && (
               <Box
                 sx={{
@@ -369,25 +414,44 @@ const CompleteMatchMarket = ({ currentMatch, liveData, title }: any) => {
                   }}
                 >
                   <Typography sx={{ color: "#fff" }}>
-                    RESULT{" "}
-                    {liveData?.stopAt || liveData?.activeStatus === "result"
-                      ? "DECLARED"
-                      : currentMatch?.resultStatus[liveData?.id]?.status}
+                    RESULT {currentMatch?.resultStatus[liveData?.id]?.status}
                   </Typography>
                 </Box>
               )}
+            {currentMatch?.otherBettings?.[liveData?.id] && (
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  width: "100%",
+                  position: "absolute",
+                  height: "100%",
+                  bottom: 0,
+                  color: "#fff",
+                  backgroundColor: "rgba(203 24 24 / 70%)",
+                }}
+              >
+                <Typography sx={{ color: "#fff" }}>
+                  RESULT{" "}
+                  {liveData?.activeStatus === "result"
+                    ? "DECLARED"
+                    : currentMatch?.otherBettings?.[liveData?.id]}
+                </Typography>
+              </Box>
+            )}
           </Box>
         </>
       )}
-      <MaxBetAdd
+      <TournamentMarketAdd
         open={open}
         handleClose={handleClose}
         matchOddsLive={liveData}
         currentMatch={currentMatch}
-        title={"API Complete Match Max Bet"}
+        title={"API Bookmaker Max Bet"}
       />
     </Box>
   );
 };
 
-export default CompleteMatchMarket;
+export default TournamentMarket;
