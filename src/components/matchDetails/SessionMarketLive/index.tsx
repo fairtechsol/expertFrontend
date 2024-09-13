@@ -58,6 +58,7 @@ const SessionMarketLive = ({ title, sessionData, currentMatch, type }: any) => {
               fontWeight: "bold",
               marginLeft: "7px",
               textTransform: "capitalize",
+              lineHeight: 1,
             }}
           >
             {title}
