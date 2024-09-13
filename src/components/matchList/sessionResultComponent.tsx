@@ -102,7 +102,11 @@ const SessionResultComponent = (props: any) => {
                 }}
               >
                 <Typography
-                  sx={{ color: "white", fontWeight: "600", fontSize: {xs:"9px",lg: "12px"} }}
+                  sx={{
+                    color: "white",
+                    fontWeight: "600",
+                    fontSize: { xs: "9px", lg: "12px" },
+                  }}
                 >
                   RESULT
                 </Typography>
@@ -134,7 +138,11 @@ const SessionResultComponent = (props: any) => {
                 }}
               >
                 <Typography
-                  sx={{ color: "white", fontWeight: "600", fontSize: {xs:"9px",lg: "12px"} }}
+                  sx={{
+                    color: "white",
+                    fontWeight: "600",
+                    fontSize: { xs: "9px", lg: "12px" },
+                  }}
                 >
                   PROFIT/LOSS
                 </Typography>
@@ -142,7 +150,7 @@ const SessionResultComponent = (props: any) => {
             </Box>
             {sessionResults?.length > 0 &&
               sessionResults?.map((item: any) => {
-                let profitLoss = parseInt(item.profitLoss);
+                let profitLoss = parseFloat(item.profitLoss).toFixed(2);
                 return (
                   <Box
                     key={item?.betId?.id}
@@ -199,7 +207,7 @@ const SessionResultComponent = (props: any) => {
                     </Box> */}
                     <Box
                       sx={{
-                        background: profitLoss > 0 ? "#10DC61" : "#FF4D4D",
+                        background: +profitLoss > 0 ? "#10DC61" : "#FF4D4D",
                         width: "20%",
                         borderLeft: "2px solid white",
                         display: "flex",
@@ -218,7 +226,7 @@ const SessionResultComponent = (props: any) => {
                         {formatToINR(profitLoss)}
                         <StyledImage
                           src={
-                            profitLoss > 0
+                            +profitLoss > 0
                               ? "https://fontawesomeicons.com/images/svg/trending-up-sharp.svg"
                               : "https://fontawesomeicons.com/images/svg/trending-down-sharp.svg"
                           }
