@@ -11,6 +11,8 @@ import BoxComponent from "../MatchOdds/BoxComponent";
 import MaxBetAdd from "../MaxBetAdd";
 import Stop from "../SessionMarket/Stop";
 import SmallBox from "../SmallBox";
+import MaxLimitEditButton from "../../Common/MaxLimitEditButton";
+import AddMarketButton from "../../Common/AddMarketButton";
 
 const BookMarket = ({ currentMatch, liveData, title }: any) => {
   const dispatch: AppDispatch = useDispatch();
@@ -124,7 +126,7 @@ const BookMarket = ({ currentMatch, liveData, title }: any) => {
                   );
                   setLive(!live);
                 }}
-                width={{lg: "60px", xs: "20%"}}
+                width={{ lg: "60px", xs: "20%" }}
                 title={live ? "Live" : "Go Live"}
                 color={live ? "#46e080" : "#FF4D4D"}
                 customStyle={{
@@ -132,60 +134,10 @@ const BookMarket = ({ currentMatch, liveData, title }: any) => {
                 }}
                 height="18px"
               />
-              <div
-                style={{
-                  width: "40px",
-                  height: "18px",
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  borderRadius: "2px",
-                  backgroundColor: "#46e080",
-                  cursor: "pointer",
-                  // marginRight: "10px",
-                }}
-                onClick={handleClickOpen}
-              >
-                <span
-                  style={{
-                    fontSize: "12px",
-                    fontWeight: "500",
-                    color: "#fff",
-                    fontFamily: "Poppins, sans-serif",
-                  }}
-                >
-                  Edit
-                </span>
-              </div>
+              <MaxLimitEditButton handleClickOpen={handleClickOpen} />
             </>
           ) : (
-            <>
-              <div
-                style={{
-                  width: "40px",
-                  height: "18px",
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  borderRadius: "2px",
-                  backgroundColor: "#46e080",
-                  cursor: "pointer",
-                  // marginRight: "10px",
-                }}
-                onClick={handleClickOpen}
-              >
-                <span
-                  style={{
-                    fontSize: "12px",
-                    fontWeight: "500",
-                    color: "#fff",
-                    fontFamily: "Poppins, sans-serif",
-                  }}
-                >
-                  Add
-                </span>
-              </div>
-            </>
+            <AddMarketButton handleClickOpen={handleClickOpen} />
           )}
           <img
             onClick={() => {

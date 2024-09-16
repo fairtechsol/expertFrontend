@@ -11,6 +11,8 @@ import MaxBetAdd from "../MaxBetAdd";
 import Stop from "../SessionMarket/Stop";
 import SmallBox from "../SmallBox";
 import { profitLossDataForMatchConstants } from "../../../utils/Constants";
+import MaxLimitEditButton from "../../Common/MaxLimitEditButton";
+import AddMarketButton from "../../Common/AddMarketButton";
 
 const TiedMatchMarket = ({ currentMatch, liveData, title }: any) => {
   const dispatch: AppDispatch = useDispatch();
@@ -135,61 +137,11 @@ const TiedMatchMarket = ({ currentMatch, liveData, title }: any) => {
                   }}
                   height="18px"
                 />
-                <div
-                  style={{
-                    width: "40px",
-                    height: "18px",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    borderRadius: "2px",
-                    backgroundColor: "#46e080",
-                    cursor: "pointer",
-                    // marginRight: "10px",
-                  }}
-                  onClick={handleClickOpen}
-                >
-                  <span
-                    style={{
-                      fontSize: "12px",
-                      fontWeight: "500",
-                      color: "#fff",
-                      fontFamily: "Poppins, sans-serif",
-                    }}
-                  >
-                    Edit
-                  </span>
-                </div>
+                <MaxLimitEditButton handleClickOpen={handleClickOpen} />
               </>
             )
           ) : (
-            <>
-              <div
-                style={{
-                  width: "40px",
-                  height: "18px",
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  borderRadius: "2px",
-                  backgroundColor: "#46e080",
-                  cursor: "pointer",
-                  // marginRight: "10px",
-                }}
-                onClick={handleClickOpen}
-              >
-                <span
-                  style={{
-                    fontSize: "12px",
-                    fontWeight: "500",
-                    color: "#fff",
-                    fontFamily: "Poppins, sans-serif",
-                  }}
-                >
-                  Add
-                </span>
-              </div>
-            </>
+            <AddMarketButton handleClickOpen={handleClickOpen} />
           )}
           <img
             onClick={() => {
