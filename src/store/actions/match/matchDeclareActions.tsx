@@ -105,6 +105,26 @@ export const UnDeclareOtherMarketCricketResult = createAsyncThunk<any, any>(
     }
   }
 );
+export const UnDeclareTournamentMarketCricketResult = createAsyncThunk<
+  any,
+  any
+>(
+  "/race/UnDeclareTournamentMarketCricketResult",
+  async (requestData, thunkApi) => {
+    try {
+      const response = await service.post(
+        `${ApiConstants.MATCH.TOURNAMENT_MARKET_UNDECLARE}`,
+        requestData
+      );
+      if (response?.status === 200) {
+        return response?.data;
+      }
+    } catch (error) {
+      const err = error as AxiosError;
+      return thunkApi.rejectWithValue(err.response?.status);
+    }
+  }
+);
 export const declareRaceResult = createAsyncThunk<any, any>(
   "/race/declareRaceResult",
   async (requestData, thunkApi) => {
@@ -128,6 +148,23 @@ export const declareOtherMarketCricketResult = createAsyncThunk<any, any>(
     try {
       const response = await service.post(
         `${ApiConstants.MATCH.OTHER_MARKET_DECLARE}`,
+        requestData
+      );
+      if (response?.status === 200) {
+        return response?.data;
+      }
+    } catch (error) {
+      const err = error as AxiosError;
+      return thunkApi.rejectWithValue(err.response?.status);
+    }
+  }
+);
+export const declareTournamentMarketCricketResult = createAsyncThunk<any, any>(
+  "/race/declareTournamentMarketCricketResult",
+  async (requestData, thunkApi) => {
+    try {
+      const response = await service.post(
+        `${ApiConstants.MATCH.TOURNAMENT_MARKET_DECLARE}`,
         requestData
       );
       if (response?.status === 200) {

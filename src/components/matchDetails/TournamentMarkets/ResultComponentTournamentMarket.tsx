@@ -5,8 +5,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../store/store";
 import {
   declareMatchStatusReset,
-  declareOtherMarketCricketResult,
-  UnDeclareOtherMarketCricketResult,
+  declareTournamentMarketCricketResult,
+  UnDeclareTournamentMarketCricketResult,
 } from "../../../store/actions/match/matchDeclareActions";
 import { CancelDark } from "../../../assets";
 import MatchOddsResultCustomButton from "../../updateBookmaker/BookmakerEdit/MatchOddsResultCustomButton";
@@ -28,9 +28,7 @@ const ResultComponentTournamentMarket = ({
   useEffect(() => {
     try {
       if (liveData?.runners?.length > 0) {
-        setSelected(
-          liveData?.runners[0]?.nat || liveData?.runners[0]?.runnerName
-        );
+        setSelected(liveData?.runners[0]?.id);
       }
     } catch (error) {
       console.log(error);
@@ -73,7 +71,7 @@ const ResultComponentTournamentMarket = ({
             paddingX: "10px",
             display: "flex",
             alignItems: "center",
-            height: "50px",
+            height: "30px",
             borderRadius: "8px 8px 0 0",
             background: "#ff4d4d",
           },
@@ -83,7 +81,7 @@ const ResultComponentTournamentMarket = ({
           sx={{
             fontWeight: "bold",
             color: "white",
-            fontSize: "18px",
+            fontSize: "12px",
             lineHeight: "0.9",
           }}
         >
@@ -95,7 +93,7 @@ const ResultComponentTournamentMarket = ({
             onClick();
           }}
           src={CancelDark}
-          style={{ width: "25px", height: "25px", cursor: "pointer" }}
+          style={{ width: "15px", height: "15px", cursor: "pointer" }}
         />
       </Box>
       <Box sx={{ padding: 0 }}>
@@ -119,7 +117,7 @@ const ResultComponentTournamentMarket = ({
                   <Box
                     key={k}
                     onClick={() => {
-                      setSelected(item?.nat || item?.runnerName);
+                      setSelected(item?.id);
                     }}
                     sx={{
                       width: "40%",
@@ -130,23 +128,17 @@ const ResultComponentTournamentMarket = ({
                       display: "flex",
                       justifyContent: "center",
                       alignItems: "center",
-                      height: "50px",
+                      height: "30px",
                       cursor: "pointer",
-                      background:
-                        selected === (item?.nat || item?.runnerName)
-                          ? "#0B4F26"
-                          : "#F8C851",
+                      background: selected === item?.id ? "#0B4F26" : "#F8C851",
                       overflow: "hidden",
                     }}
                   >
                     <Typography
                       sx={{
-                        fontSize: "14px",
+                        fontSize: "12px",
                         fontWeight: "700",
-                        color:
-                          selected === (item?.nat || item?.runnerName)
-                            ? "white"
-                            : "black",
+                        color: selected === item?.id ? "white" : "black",
                         lineHeight: 1,
                         overflowWrap: "anywhere",
                         whiteSpace: "nowrap",
@@ -187,7 +179,7 @@ const ResultComponentTournamentMarket = ({
                     }
                     setLoading({ id: "UD", value: true });
                     dispatch(
-                      UnDeclareOtherMarketCricketResult({
+                      UnDeclareTournamentMarketCricketResult({
                         matchId: currentMatch?.id,
                         betId: liveData?.id,
                       })
@@ -211,7 +203,7 @@ const ResultComponentTournamentMarket = ({
                       }
                       setLoading({ id: "DR", value: true });
                       dispatch(
-                        declareOtherMarketCricketResult({
+                        declareTournamentMarketCricketResult({
                           matchId: currentMatch?.id,
                           result: selected,
                           betId: liveData?.id,
@@ -234,7 +226,7 @@ const ResultComponentTournamentMarket = ({
                       }
                       setLoading({ id: "DNR", value: true });
                       dispatch(
-                        declareOtherMarketCricketResult({
+                        declareTournamentMarketCricketResult({
                           matchId: currentMatch?.id,
                           result: "No Result",
                           betId: liveData?.id,
