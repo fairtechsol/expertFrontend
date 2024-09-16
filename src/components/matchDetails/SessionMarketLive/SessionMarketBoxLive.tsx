@@ -1,6 +1,5 @@
 import { Fragment, useEffect, useState } from "react";
 import { Box, Typography } from "@mui/material";
-import Divider from "../../Common/Divider";
 import SeparateBox from "../SeparateBox";
 import { formatNumber } from "../../helper";
 import SmallBox from "../SmallBox";
@@ -137,7 +136,7 @@ const SessionMarketBoxLive = ({
               height: "25px",
               right: "0vh",
               position: "absolute",
-              width: { lg: "27%", xs: "25.4%", md: "25.5%" },
+              width: { lg: "27.6%", xs: "25.4%", md: "25.5%" },
               justifyContent: { xs: "center", lg: "center" },
               alignItems: "center",
               display: "flex",
@@ -190,7 +189,6 @@ const SessionMarketBoxLive = ({
           </Box>
         )}
       </Box>
-      <Divider />
       {Array.from(
         {
           length:
@@ -244,7 +242,7 @@ const SessionMarketBoxLive = ({
                     display: "flex",
                     position: "relative",
                     background: index % 2 === 0 ? "#FFE094" : "#ECECEC",
-                    height: "28px",
+                    height: "25px",
                     width: "100%",
                     justifyContent: "flex-end",
                     alignItems: "center",
@@ -278,7 +276,6 @@ const SessionMarketBoxLive = ({
                 </Box>
               </Box>
             )}
-            <Divider />
           </Fragment>
         );
       })}
