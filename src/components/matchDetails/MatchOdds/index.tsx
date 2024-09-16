@@ -270,8 +270,8 @@ const MatchOdds = ({ currentMatch, matchOddsLive, id }: any) => {
             position: "absolute",
             zIndex: 999,
             top: "26%",
-            right: "60px",
-            width: { lg: "50vh", xs: "30vh" },
+            right: "1%",
+            width: { lg: "30vh", xs: "30vh" },
           }}
         >
           {visible && (

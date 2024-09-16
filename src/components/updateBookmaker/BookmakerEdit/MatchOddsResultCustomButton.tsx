@@ -17,7 +17,7 @@ const MatchOddsResultCustomButton = ({
       sx={[
         {
           width: "45%",
-          height: "40px",
+          height: "30px",
           borderRadius: "5px",
           background: color,
           cursor: "pointer",
@@ -30,7 +30,7 @@ const MatchOddsResultCustomButton = ({
         customStyle,
       ]}
     >
-      <Typography sx={{ fontSize: "16px", fontWeight: "500", color: "white" }}>
+      <Typography sx={{ fontSize: "12px", fontWeight: "500", color: "white" }}>
         {loading?.id === id ? (
           <CircularProgress
             sx={{
