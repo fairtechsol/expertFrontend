@@ -116,12 +116,22 @@ const BoxComponent = ({
               display: "flex",
               background: "white",
               height: "30px",
-              width: { lg: "23.7%", xs: "38%" },
+              width: { lg: "65%", xs: "78%" },
               justifyContent: { xs: "flex-end", lg: "flex-end" },
               alignItems: "center",
             }}
           >
-            {/* {!matchesMobile &&
+            <Box
+              sx={{
+                display: "flex",
+                background: "white",
+                height: "30px",
+                width: { lg: "36.5%", xs: "55%" },
+                justifyContent: { xs: "flex-end", lg: "flex-end" },
+                alignItems: "center",
+              }}
+            >
+              {/* {!matchesMobile &&
               (liveData?.type != "bookmaker2" ||
               liveData?.type != "tiedMatch3" ? (
                 <SeparateBox
@@ -175,49 +185,51 @@ const BoxComponent = ({
             <Box
               sx={{ width: ".45%", display: "flex", background: "pink" }}
             ></Box> */}
-            <SeparateBox
-              currentMatch={currentMatch}
-              align={align}
-              value={
-                ex?.availableToBack?.length > 0
-                  ? ex?.availableToBack[ex?.availableToBack?.length > 1 ? 2 : 0]
-                      ?.price ?? 0
-                  : 0
-              }
-              lock={lock}
-              value2={formatNumber(
-                ex?.availableToBack?.length > 0
-                  ? ex?.availableToBack[ex?.availableToBack?.length > 1 ? 2 : 0]
-                      ?.size ?? 0
-                  : 0
-              )}
-              color={"#A7DCFF"}
-            />
-            <Box
-              sx={{ width: ".45%", display: "flex", background: "pink" }}
-            ></Box>
-            <SeparateBox
-              currentMatch={currentMatch}
-              align={align}
-              value={
-                ex?.availableToLay?.length > 0
-                  ? ex?.availableToLay[0]?.price ?? 0
-                  : 0
-              }
-              lock={lock}
-              value2={formatNumber(
-                ex?.availableToLay?.length > 0
-                  ? ex?.availableToLay[0]?.size ?? 0
-                  : 0
-              )}
-              color={"#FFB5B5"}
-            />
-            {/* {!matchesMobile && (
+              <SeparateBox
+                currentMatch={currentMatch}
+                align={align}
+                value={
+                  ex?.availableToBack?.length > 0
+                    ? ex?.availableToBack[
+                        ex?.availableToBack?.length > 1 ? 2 : 0
+                      ]?.price ?? 0
+                    : 0
+                }
+                lock={lock}
+                value2={formatNumber(
+                  ex?.availableToBack?.length > 0
+                    ? ex?.availableToBack[
+                        ex?.availableToBack?.length > 1 ? 2 : 0
+                      ]?.size ?? 0
+                    : 0
+                )}
+                color={"#A7DCFF"}
+              />
+              <Box
+                sx={{ width: ".45%", display: "flex", background: "pink" }}
+              ></Box>
+              <SeparateBox
+                currentMatch={currentMatch}
+                align={align}
+                value={
+                  ex?.availableToLay?.length > 0
+                    ? ex?.availableToLay[0]?.price ?? 0
+                    : 0
+                }
+                lock={lock}
+                value2={formatNumber(
+                  ex?.availableToLay?.length > 0
+                    ? ex?.availableToLay[0]?.size ?? 0
+                    : 0
+                )}
+                color={"#FFB5B5"}
+              />
+              {/* {!matchesMobile && (
               <Box
                 sx={{ width: ".45%", display: "flex", background: "pink" }}
               ></Box>
             )} */}
-            {/* {!matchesMobile &&
+              {/* {!matchesMobile &&
               (liveData?.type != "bookmaker2" ||
               liveData?.type != "tiedMatch3" ? (
                 <SeparateBox
@@ -267,6 +279,7 @@ const BoxComponent = ({
               ) : (
                 <Whitebox />
               ))} */}
+            </Box>
           </Box>
         </>
       )}
