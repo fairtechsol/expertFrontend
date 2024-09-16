@@ -246,16 +246,24 @@ const BetList = ({ tag, allBetRates, title }: any) => {
               borderRadius: "3px",
               alignItems: "center",
               display: "flex",
-              flexDirection: "column",
+              // flexDirection: "column",
             }}
           >
             <Typography
-              sx={{ fontSize: "6px", fontWeight: "700", color: "#FF1111" }}
+              sx={{
+                fontSize: "8px",
+                fontWeight: "700",
+                color: "#FF1111",
+              }}
             >
-              Total Bet
+              Total Bet:&nbsp;
             </Typography>
             <Typography
-              sx={{ fontSize: "8px", fontWeight: "700", color: "#0B4F26" }}
+              sx={{
+                fontSize: "8px",
+                fontWeight: "700",
+                color: "#0B4F26",
+              }}
             >
               {newData?.length || 0}
             </Typography>
