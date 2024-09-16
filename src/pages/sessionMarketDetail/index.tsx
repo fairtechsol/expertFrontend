@@ -154,7 +154,8 @@ const SessionMarketDetail = () => {
               ? event?.profitLossObj?.maxLoss
               : event?.profitLoss,
             totalBet: event?.profitLossObj ? event?.profitLossObj?.totalBet : 0,
-            profitLoss: event?.redisData?.betPlaced ?? event?.profitLossObj?.betPlaced,
+            profitLoss:
+              event?.redisData?.betPlaced ?? event?.profitLossObj?.betPlaced,
           })
         );
       }
@@ -337,10 +338,13 @@ const SessionMarketDetail = () => {
               ?.map(([name, item]: any) => {
                 return (
                   <>
-                    {item?.section?.filter(
-                      (items: any) =>
-                        !items?.activeStatus || items?.activeStatus === "unSave"
-                    )?.length > 0 && (
+                    {item?.section
+                      ?.filter((items: any) => !items?.isManual)
+                      ?.filter(
+                        (items: any) =>
+                          !items?.activeStatus ||
+                          items?.activeStatus === "unSave"
+                      )?.length > 0 && (
                       <SessionMarketLive
                         key={name}
                         title={item?.mname || name}
@@ -384,11 +388,13 @@ const SessionMarketDetail = () => {
                 } else
                   return (
                     <>
-                      {item?.section?.filter(
-                        (items: any) =>
-                          !items?.activeStatus ||
-                          items?.activeStatus === "unSave"
-                      )?.length > 0 && (
+                      {item?.section
+                        ?.filter((items: any) => !items?.isManual)
+                        ?.filter(
+                          (items: any) =>
+                            !items?.activeStatus ||
+                            items?.activeStatus === "unSave"
+                        )?.length > 0 && (
                         <SessionMarketLive
                           key={name}
                           title={item?.mname || name}
@@ -409,13 +415,15 @@ const SessionMarketDetail = () => {
               ?.map(([name, item]: any) => {
                 return (
                   <Fragment key={name}>
-                    {item?.section?.filter(
-                      (items: any) =>
-                        items?.isComplete &&
-                        items?.activeStatus !== "unSave" &&
-                        ((items?.resultData && items?.resultData === null) ||
-                          items?.result === null)
-                    )?.length > 0 && (
+                    {item?.section
+                      ?.filter((item: any) => !item?.isManual)
+                      ?.filter(
+                        (items: any) =>
+                          items?.isComplete &&
+                          items?.activeStatus !== "unSave" &&
+                          ((items?.resultData && items?.resultData === null) ||
+                            items?.result === null)
+                      )?.length > 0 && (
                       <SessionMarket
                         title={`${name} Completed`}
                         hideTotalBet={false}
@@ -495,11 +503,13 @@ const SessionMarketDetail = () => {
               ?.map(([name, item]: any) => {
                 return (
                   <Fragment key={name}>
-                    {item?.section?.filter(
-                      (items: any) =>
-                        (items?.resultData && items?.resultData !== null) ||
-                        items?.result !== null
-                    )?.length > 0 && (
+                    {item?.section
+                      ?.filter((items: any) => !items?.isManual)
+                      ?.filter(
+                        (items: any) =>
+                          (items?.resultData && items?.resultData !== null) ||
+                          items?.result !== null
+                      )?.length > 0 && (
                       <SessionMarket
                         title={`${name} Declared`}
                         hideTotalBet={false}
