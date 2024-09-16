@@ -408,6 +408,11 @@ export const addMatchThirdParty =
     ? Constants.thirdParty
     : Constants.localPathThird;
 
+export const serviceUrl =
+  process.env.NODE_ENV === Constants.PRODUCTION
+    ? Constants.expertSocketBasePath
+    : Constants.localPathExpert;
+
 export const baseUrls = {
   socket:
     process.env.NODE_ENV === Constants.PRODUCTION
@@ -427,6 +432,11 @@ export const baseUrls = {
 //   process.env.NODE_ENV === Constants.PRODUCTION
 //     ? Constants.thirdPartyLive
 //     : Constants.localPathThird;
+
+// export const serviceUrl =
+//   process.env.NODE_ENV === Constants.PRODUCTION
+//     ? Constants.expertSocketBasePathLive
+//     : Constants.localPathExpert;
 
 // export const baseUrls = {
 //   socket:
