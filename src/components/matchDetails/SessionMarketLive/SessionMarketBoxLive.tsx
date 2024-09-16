@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { Box, Typography } from "@mui/material";
 import Divider from "../../Common/Divider";
 import SeparateBox from "../SeparateBox";
@@ -137,7 +137,7 @@ const SessionMarketBoxLive = ({
               height: "25px",
               right: "0vh",
               position: "absolute",
-              width: { lg: "27%", xs: "25%", md: "25.5%" },
+              width: { lg: "27%", xs: "25.4%", md: "25.5%" },
               justifyContent: { xs: "center", lg: "center" },
               alignItems: "center",
               display: "flex",
@@ -192,58 +192,94 @@ const SessionMarketBoxLive = ({
       </Box>
       <Divider />
       {Array.from(
-        { length: newData?.ex?.availableToLay?.length - 1 },
+        {
+          length:
+            Math.max(
+              newData?.ex?.availableToLay?.length ?? 0,
+              newData?.ex?.availableToBack?.length ?? 0
+            ) - 1,
+        },
         (_, i) => i + 1
       ).map((item: number) => {
         return (
-          <>
-            <Box
-              key={item}
-              sx={{
-                display: "flex",
-                background: "white",
-                height: "25px",
-                width: "100%",
-              }}
-            >
+          <Fragment key={item}>
+            {!["ACTIVE", "", undefined, null].includes(newData?.GameStatus) ? (
+              <Box
+                sx={{
+                  margin: "1px",
+                  background: "rgba(0,0,0,1)",
+                  height: "25px",
+                  right: "0vh",
+                  position: "absolute",
+                  width: { lg: "27%", xs: "25.4%", md: "25.5%" },
+                  justifyContent: { xs: "center", lg: "center" },
+                  alignItems: "center",
+                  display: "flex",
+                }}
+              >
+                <Typography
+                  style={{
+                    fontSize: "10px",
+                    textTransform: "uppercase",
+                    textAlign: "center",
+                    width: "100%",
+                    color: "white",
+                    fontWeight: "400",
+                  }}
+                >
+                  {newData?.GameStatus}
+                </Typography>
+              </Box>
+            ) : (
               <Box
                 sx={{
                   display: "flex",
-                  position: "relative",
-                  background: index % 2 === 0 ? "#FFE094" : "#ECECEC",
-                  height: "28px",
+                  background: "white",
+                  height: "25px",
                   width: "100%",
-                  justifyContent: "flex-end",
-                  alignItems: "center",
                 }}
               >
-                <SeparateBox
-                  width="13.8%"
-                  mWidth="12.5%"
-                  value={newData?.ex?.availableToLay[item]?.price}
-                  value2={formatNumber(newData?.ex?.availableToLay[item]?.size)}
-                  lock={newData?.GameStatus === "SUSPENDED"}
-                  color="#F6D0CB"
-                />
-
                 <Box
-                  sx={{ width: ".22%", display: "flex", background: "pink" }}
-                ></Box>
+                  sx={{
+                    display: "flex",
+                    position: "relative",
+                    background: index % 2 === 0 ? "#FFE094" : "#ECECEC",
+                    height: "28px",
+                    width: "100%",
+                    justifyContent: "flex-end",
+                    alignItems: "center",
+                  }}
+                >
+                  <SeparateBox
+                    width="13.8%"
+                    mWidth="12.7%"
+                    value={newData?.ex?.availableToLay[item]?.price}
+                    value2={formatNumber(
+                      newData?.ex?.availableToLay[item]?.size
+                    )}
+                    lock={newData?.GameStatus === "SUSPENDED"}
+                    color="#F6D0CB"
+                  />
 
-                <SeparateBox
-                  width="13.8%"
-                  mWidth="12.5%"
-                  value={newData?.ex?.availableToBack[item]?.price}
-                  value2={formatNumber(
-                    newData?.ex?.availableToBack[item]?.size
-                  )}
-                  lock={newData?.GameStatus === "SUSPENDED"}
-                  color="#B3E0FF"
-                />
+                  <Box
+                    sx={{ width: ".20%", display: "flex", background: "pink" }}
+                  ></Box>
+
+                  <SeparateBox
+                    width="13.8%"
+                    mWidth="12.7%"
+                    value={newData?.ex?.availableToBack[item]?.price}
+                    value2={formatNumber(
+                      newData?.ex?.availableToBack[item]?.size
+                    )}
+                    lock={newData?.GameStatus === "SUSPENDED"}
+                    color="#B3E0FF"
+                  />
+                </Box>
               </Box>
-            </Box>
+            )}
             <Divider />
-          </>
+          </Fragment>
         );
       })}
     </div>

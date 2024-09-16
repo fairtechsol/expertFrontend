@@ -154,7 +154,7 @@ const SessionMarketDetail = () => {
               ? event?.profitLossObj?.maxLoss
               : event?.profitLoss,
             totalBet: event?.profitLossObj ? event?.profitLossObj?.totalBet : 0,
-            profitLoss: event?.redisData?.betPlaced,
+            profitLoss: event?.redisData?.betPlaced ?? event?.profitLossObj?.betPlaced,
           })
         );
       }
