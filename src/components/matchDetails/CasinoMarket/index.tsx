@@ -1,7 +1,7 @@
 import { Box, Typography } from "@mui/material";
 import { memo, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { ARROWUP } from "../../../assets";
+import { ARROWUP, UD } from "../../../assets";
 import { sessionBetLiveStatus } from "../../../store/actions/match/matchAction";
 import { AppDispatch, RootState } from "../../../store/store";
 import Divider from "../../Common/Divider";
@@ -11,7 +11,6 @@ import CasinoMarketBox from "./CasinoMarketBox";
 import CustomCasinoMarketResult from "./CustomCasinoMarketResult";
 import LiveStatusButtonBox from "./LiveStatusButtonBox";
 import { TiArrowLeftThick } from "react-icons/ti";
-// import PlaceBetComponent from "../SessionMarket/PlaceBetComponent";
 const CasinoMarket = ({
   title,
   sessionData,
@@ -214,35 +213,22 @@ const CasinoMarket = ({
               />
             </Box>
           )}
-
-          {
-            // <PlaceBetComponent
-            //   width={7}
-            //   profitLossData={
-            //     profitLossData &&
-            //     profitLossData[
-            //       matchDetail?.updatedSesssionBettings?.cricketCasino
-            //         ?.section?.[0]?.id
-            //     ]
-            //   }
-            //   newData={
-            //     matchDetail?.updatedSesssionBettings?.cricketCasino
-            //       ?.section?.[0]?.id
-            //   }
-            // />
-
-            // <PlaceBetComponent
-            //   width={7}
-            //   profitLossData={
-            //     matchDetail?.sessionProfitLoss &&
-            //     matchDetail?.sessionProfitLoss[
-            //       matchDetail?.updatedSesssionBettings?.cricketCasino
-            //         ?.section?.[0]?.id
-            //     ]
-            //   }
-            //   newData={matchDetail}
-            // />
-
+          <Box
+            sx={{
+              background: "#0B4F26",
+              flexDirection: "row",
+              display: "flex",
+              alignItems: "center",
+              top: "2px",
+              width: { lg: "7vw", xs: "14vw", md: "13vw" },
+              borderRadius: "5px",
+              height: "18px",
+              right: "6px",
+              marginRight: "2%",
+              // position: "absolute",
+              cursor: "pointer",
+            }}
+          >
             <Box
               sx={{
                 background: "#FDF21A",
@@ -268,49 +254,72 @@ const CasinoMarket = ({
               >
                 Total Bet
               </Typography>
-
-              {matchDetail?.updatedSesssionBettings?.cricketCasino?.section?.map(
-                (sectionItem: any, index: number) => {
-                  totalBet =
-                    sectionItem?.RunnerName == title
-                      ? matchDetail?.sessionProfitLoss?.[sectionItem?.id]
-                          ?.totalBet || 0
-                      : "";
-
-                  return (
-                    <Typography
-                      key={index}
-                      sx={{
-                        fontSize: { lg: ".6vw", xs: "1.5vw", md: "1.5vw" },
-                        fontWeight: "bold",
-                        color: "#0B4F26",
-                        lineHeight: 1,
-                      }}
-                    >
-                      {`${totalBet}`}
-                    </Typography>
-                  );
-                }
-              )}
-
-              {/* <Typography
+              <Typography
                 sx={{
-                  fontSize: { lg: ".6vw", xs: "1.5vw", md: "1.5vw" },
+                  fontSize: { lg: ".6vw", xs: "1vw", md: "1vw" },
                   fontWeight: "bold",
                   color: "#0B4F26",
                   lineHeight: 1,
                 }}
               >
-                {`${
-                  matchDetail?.sessionProfitLoss?.[
-                    matchDetail?.updatedSesssionBettings?.cricketCasino
-                      ?.section?.[0]?.id
-                  ]?.totalBet || 0
-                }`}
-              </Typography> */}
-            </Box>
-          }
+                {matchDetail?.updatedSesssionBettings?.cricketCasino?.section?.map(
+                  (sectionItem: any, index: number) => {
+                    totalBet =
+                      sectionItem?.RunnerName == title
+                        ? matchDetail?.sessionProfitLoss?.[sectionItem?.id]
+                            ?.totalBet || 0
+                        : "";
 
+                    return (
+                      <Typography
+                        key={index}
+                        sx={{
+                          fontSize: { lg: ".6vw", xs: "1vw", md: "1vw" },
+                          fontWeight: "bold",
+                          color: "#0B4F26",
+                          lineHeight: 1,
+                        }}
+                      >
+                        {`${totalBet}`}
+                      </Typography>
+                    );
+                  }
+                )}
+              </Typography>
+            </Box>
+            <Box
+              sx={{
+                paddingX: "2px",
+                width: "60%",
+                alignItems: "center",
+                justifyContent: "center",
+                display: "flex",
+                overflowWrap: "anywhere",
+              }}
+            >
+              <Typography
+                sx={{
+                  fontSize: {
+                    lg: !profitLossData?.maxLoss ? "9px" : "9px",
+                    xs: !profitLossData?.maxLoss ? "7px" : "7px",
+                    md: !profitLossData?.maxLoss ? "9px" : "9px",
+                  },
+                  fontWeight: "bold",
+                  color: "white",
+                }}
+              >
+                {sessionData?.result
+                  ? sessionData?.resultData?.profitLoss ?? 0
+                  : !profitLossData?.maxLoss
+                  ? "P/L"
+                  : profitLossData?.maxLoss ?? 0}
+              </Typography>
+              <img
+                src={UD}
+                style={{ width: "10px", height: "10px", marginLeft: "4px" }}
+              />
+            </Box>
+          </Box>
           <img
             onClick={() => {
               setVisible(!visible);
