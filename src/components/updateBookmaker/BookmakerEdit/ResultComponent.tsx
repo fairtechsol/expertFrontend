@@ -76,7 +76,7 @@ const ResultComponent = ({
             paddingX: "10px",
             display: "flex",
             alignItems: "center",
-            height: "50px",
+            height: "30px",
             borderRadius: "8px 8px 0 0",
             background: "#ff4d4d",
           },
@@ -86,7 +86,7 @@ const ResultComponent = ({
           sx={{
             fontWeight: "bold",
             color: "white",
-            fontSize: "18px",
+            fontSize: "12px",
             lineHeight: "0.9",
           }}
         >
@@ -98,7 +98,7 @@ const ResultComponent = ({
             onClick();
           }}
           src={CancelDark}
-          style={{ width: "25px", height: "25px", cursor: "pointer" }}
+          style={{ width: "15px", height: "15px", cursor: "pointer" }}
         />
       </Box>
       <Box sx={{ padding: 0 }}>
@@ -133,7 +133,7 @@ const ResultComponent = ({
                       display: "flex",
                       justifyContent: "center",
                       alignItems: "center",
-                      height: "50px",
+                      height: "30px",
                       cursor: "pointer",
                       background: selected === i ? "#0B4F26" : "#F8C851",
                       overflow: "hidden",
@@ -141,7 +141,7 @@ const ResultComponent = ({
                   >
                     <Typography
                       sx={{
-                        fontSize: "14px",
+                        fontSize: "12px",
                         fontWeight: "700",
                         color: selected === i ? "white" : "black",
                         lineHeight: 1,
