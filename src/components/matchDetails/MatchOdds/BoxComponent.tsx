@@ -76,7 +76,7 @@ const BoxComponent = ({
         {name != "DRAW" && <MoneyBox value={teamRates} />}
       </Box>
 
-      {!["ACTIVE", "", undefined, null].includes(status) || livestatus ? (
+      {!["ACTIVE", "", undefined, null, "OPEN"].includes(status) || livestatus ? (
         <Box
           sx={{
             display: "flex",
