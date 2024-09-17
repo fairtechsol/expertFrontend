@@ -259,19 +259,7 @@ const addMatch = createSlice({
           quickBookmaker: quickbookmaker,
           updatedSesssionBettings: updatedSessionBettings || {},
           other,
-          tournament: state.matchDetail?.tournament?.map((items: any) => {
-            const matchingTournament = tournament?.find(
-              (item: any) => item?.id === items?.id
-            );
-
-            if (matchingTournament) {
-              return {
-                ...matchingTournament,
-                ...items,
-                runners: matchingTournament?.runners,
-              };
-            } else return items;
-          }),
+          tournament: tournament,
           // sessionBettings: state.matchDetail?.sessionBettings?.map(
           //   (item: any) => {
           //     const parsedItem = JSON.parse(item);
