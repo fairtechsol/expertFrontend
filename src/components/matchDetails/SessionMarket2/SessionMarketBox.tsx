@@ -265,8 +265,16 @@ any) => {
             <SeparateBox
               session={true}
               back={true}
-              value={formatNumber(newData?.ex?.availableToLay[0]?.price || 0)}
-              value2={formatNumber(newData?.ex?.availableToLay[0]?.size || 0)}
+              value={formatNumber(
+                newData?.type === "oddEven"
+                  ? newData?.ex?.availableToBack[0]?.price || 0
+                  : newData?.ex?.availableToLay[0]?.price || 0
+              )}
+              value2={formatNumber(
+                newData?.type === "oddEven"
+                  ? newData?.ex?.availableToBack[0]?.size || 0
+                  : newData?.ex?.availableToLay[0]?.size || 0
+              )}
               lock={newData?.GameStatus === "SUSPENDED"}
               color={newData?.type === "oddEven" ? "#B3E0FF" : "#F6D0CB"}
             />
@@ -277,8 +285,16 @@ any) => {
 
             <SeparateBox
               session={true}
-              value={formatNumber(newData?.ex?.availableToBack[0]?.price || 0)}
-              value2={formatNumber(newData?.ex?.availableToBack[0]?.size || 0)}
+              value={formatNumber(
+                newData?.type === "oddEven"
+                  ? newData?.ex?.availableToLay[0]?.price || 0
+                  : newData?.ex?.availableToBack[0]?.price || 0
+              )}
+              value2={formatNumber(
+                newData?.type === "oddEven"
+                  ? newData?.ex?.availableToLay[0]?.size || 0
+                  : newData?.ex?.availableToBack[0]?.size || 0
+              )}
               lock={newData?.GameStatus === "SUSPENDED"}
               color="#B3E0FF"
             />
@@ -416,10 +432,14 @@ any) => {
                   session={true}
                   back={true}
                   value={formatNumber(
-                    newData?.ex?.availableToLay[item]?.price || 0
+                    newData?.type === "oddEven"
+                      ? newData?.ex?.availableToBack[item]?.price || 0
+                      : newData?.ex?.availableToLay[item]?.price || 0
                   )}
                   value2={formatNumber(
-                    newData?.ex?.availableToLay[item]?.size || 0
+                    newData?.type === "oddEven"
+                      ? newData?.ex?.availableToBack[item]?.size || 0
+                      : newData?.ex?.availableToLay[item]?.size || 0
                   )}
                   lock={newData?.GameStatus === "SUSPENDED"}
                   color={newData?.type === "oddEven" ? "#B3E0FF" : "#F6D0CB"}
@@ -432,10 +452,14 @@ any) => {
                 <SeparateBox
                   session={true}
                   value={formatNumber(
-                    newData?.ex?.availableToBack[item]?.price || 0
+                    newData?.type === "oddEven"
+                      ? newData?.ex?.availableToLay[item]?.price || 0
+                      : newData?.ex?.availableToBack[item]?.price || 0
                   )}
                   value2={formatNumber(
-                    newData?.ex?.availableToBack[item]?.size || 0
+                    newData?.type === "oddEven"
+                      ? newData?.ex?.availableToLay[item]?.size || 0
+                      : newData?.ex?.availableToBack[item]?.size || 0
                   )}
                   lock={newData?.GameStatus === "SUSPENDED"}
                   color="#B3E0FF"
