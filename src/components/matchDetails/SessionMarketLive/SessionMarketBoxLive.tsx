@@ -169,8 +169,16 @@ const SessionMarketBoxLive = ({
           >
             <SeparateBox
               width="30%"
-              value={newData?.ex?.availableToLay[0]?.price}
-              value2={formatNumber(newData?.ex?.availableToLay[0]?.size)}
+              value={
+                type === "oddEven"
+                  ? newData?.ex?.availableToBack[0]?.price
+                  : newData?.ex?.availableToLay[0]?.price
+              }
+              value2={formatNumber(
+                type === "oddEven"
+                  ? newData?.ex?.availableToBack[0]?.size
+                  : newData?.ex?.availableToLay[0]?.size
+              )}
               lock={newData?.GameStatus === "SUSPENDED"}
               color={type === "oddEven" ? "#B3E0FF" : "#F6D0CB"}
             />
@@ -181,8 +189,16 @@ const SessionMarketBoxLive = ({
 
             <SeparateBox
               width="30%"
-              value={newData?.ex?.availableToBack[0]?.price}
-              value2={formatNumber(newData?.ex?.availableToBack[0]?.size)}
+              value={
+                type === "oddEven"
+                  ? newData?.ex?.availableToLay[0]?.price
+                  : newData?.ex?.availableToBack[0]?.price
+              }
+              value2={formatNumber(
+                type === "oddEven"
+                  ? newData?.ex?.availableToLay[0]?.size
+                  : newData?.ex?.availableToBack[0]?.size
+              )}
               lock={newData?.GameStatus === "SUSPENDED"}
               color="#B3E0FF"
             />
@@ -251,9 +267,15 @@ const SessionMarketBoxLive = ({
                   <SeparateBox
                     width="13.8%"
                     mWidth="12.7%"
-                    value={newData?.ex?.availableToLay[item]?.price}
+                    value={
+                      type === "oddEven"
+                        ? newData?.ex?.availableToBack[item]?.price
+                        : newData?.ex?.availableToLay[item]?.price
+                    }
                     value2={formatNumber(
-                      newData?.ex?.availableToLay[item]?.size
+                      type === "oddEven"
+                        ? newData?.ex?.availableToBack[item]?.size
+                        : newData?.ex?.availableToLay[item]?.size
                     )}
                     lock={newData?.GameStatus === "SUSPENDED"}
                     color="#F6D0CB"
@@ -266,9 +288,15 @@ const SessionMarketBoxLive = ({
                   <SeparateBox
                     width="13.8%"
                     mWidth="12.7%"
-                    value={newData?.ex?.availableToBack[item]?.price}
+                    value={
+                      type === "oddEven"
+                        ? newData?.ex?.availableToLay[item]?.price
+                        : newData?.ex?.availableToBack[item]?.price
+                    }
                     value2={formatNumber(
-                      newData?.ex?.availableToBack[item]?.size
+                      type === "oddEven"
+                        ? newData?.ex?.availableToLay[item]?.size
+                        : newData?.ex?.availableToBack[item]?.size
                     )}
                     lock={newData?.GameStatus === "SUSPENDED"}
                     color="#B3E0FF"
