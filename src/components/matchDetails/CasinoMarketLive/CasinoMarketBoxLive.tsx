@@ -107,7 +107,7 @@ const CasinoMarketBoxLive = ({ newData, index }: any) => {
           </Box>
         )}
       </Box>
-      <Divider />
+      {/* <Divider /> */}
     </div>
   );
 };

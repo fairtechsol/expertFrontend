@@ -136,7 +136,7 @@ const SessionMarketLive = ({ title, sessionData, currentMatch, type }: any) => {
                         gtype={sessionData?.gtype}
                         type={type}
                       />
-                      <Divider />
+                      {/* <Divider /> */}
                     </Box>
                   );
                 }

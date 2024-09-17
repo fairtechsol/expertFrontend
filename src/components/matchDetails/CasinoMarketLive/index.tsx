@@ -182,7 +182,7 @@ const CasinoMarketLive = ({
                     }
                     index={index}
                   />
-                  <Divider />
+                  {/* <Divider /> */}
                 </Box>
               );
             })}
