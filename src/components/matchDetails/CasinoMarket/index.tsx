@@ -103,7 +103,8 @@ const CasinoMarket = ({
             >
               {(sessionData?.activeStatus === "live" ||
                 sessionData?.activeStatus === "save") &&
-                !sessionData?.result && (
+                !sessionData?.result &&
+                !sessionData?.resultStatus && (
                   <TiArrowLeftThick
                     cursor={"pointer"}
                     color="blue"
@@ -128,24 +129,26 @@ const CasinoMarket = ({
                   />
                 )}
             </Typography>
-            {sessionData?.activeStatus !== "live" && !sessionData?.result && (
-              <LiveStatusButtonBox
-                hide={true}
-                onClick={(e: any) => {
-                  e.preventDefault();
-                  dispatch(
-                    sessionBetLiveStatus({
-                      status: "live",
-                      betId: sessionData?.id,
-                    })
-                  );
-                }}
-                textSize="8px"
-                width={{ lg: "20px" }}
-                color="#FF4D4D"
-                height="20px"
-              />
-            )}
+            {sessionData?.activeStatus !== "live" &&
+              !sessionData?.result &&
+              !sessionData?.resultStatus && (
+                <LiveStatusButtonBox
+                  hide={true}
+                  onClick={(e: any) => {
+                    e.preventDefault();
+                    dispatch(
+                      sessionBetLiveStatus({
+                        status: "live",
+                        betId: sessionData?.id,
+                      })
+                    );
+                  }}
+                  textSize="8px"
+                  width={{ lg: "20px" }}
+                  color="#FF4D4D"
+                  height="20px"
+                />
+              )}
             {sessionData?.activeStatus === "live" && (
               <LiveStatusButtonBox
                 hide={true}
