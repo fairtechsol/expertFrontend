@@ -45,6 +45,7 @@ import SetWinner from "../../components/matchDetails/SetWinner";
 import HalfTime from "../../components/matchDetails/HalfTime";
 import { getOtherGamesMatchDetail } from "../../store/actions/otherGamesAction/matchDetailActions";
 import { convertString, customSortOnName } from "../../helpers";
+import TournamentMarket from "../../components/matchDetails/TournamentMarkets";
 
 const OtherMatchDetails = () => {
   const { state } = useLocation();
@@ -386,6 +387,15 @@ const OtherMatchDetails = () => {
                   key={bookmaker?.id}
                   currentMatch={matchDetail}
                   liveData={bookmaker}
+                />
+              ))}
+            {matchDetail?.tournament &&
+              matchDetail?.tournament?.map((market: any) => (
+                <TournamentMarket
+                  key={market?.mid}
+                  liveData={market}
+                  currentMatch={matchDetail}
+                  title={market?.name}
                 />
               ))}
             {/* {matchDetail?.bookmaker?.isActive && (
