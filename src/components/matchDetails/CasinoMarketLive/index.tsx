@@ -1,6 +1,6 @@
 import { memo, useState } from "react";
 import { Box, Typography } from "@mui/material";
-import Divider from "../../Common/Divider";
+// import Divider from "../../Common/Divider";
 import { ARROWUP } from "../../../assets";
 import { formatToINR } from "../../helper";
 import CasinoMarketBoxLive from "./CasinoMarketBoxLive";
