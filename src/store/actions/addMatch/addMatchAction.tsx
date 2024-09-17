@@ -22,18 +22,34 @@ export const getAllLiveTournaments = createAsyncThunk<any, string>(
         if (data && data.length > 0) {
           let matchesList1: any = [];
           let matchesList2: any = response?.data;
-          data.forEach((match: any) => {
-            let matchList = match?.eventName.split(" / ")
-            matchesList1.push({
-              EventName: matchList[0],
-              EventId: match?.gameId,
-              MarketId: match?.marketId,
-              EventDate: matchList[1],
-              f:match?.f==="True"?true:false,
-              tv:match?.tv==="True"?true:false,
-              m1:match?.m1==="True"?true:false,
+          if(requestData==="cricket"){
+            data.forEach((match: any) => {
+              let matchList = match?.eventName.split(" / ")
+              matchesList1.push({
+                EventName: matchList[0],
+                EventId: match?.gameId,
+                MarketId: match?.marketId,
+                EventDate: matchList[1],
+                f:match?.f==="True"?true:false,
+                tv:match?.tv==="True"?true:false,
+                m1:match?.m1==="True"?true:false,
+              });
             });
-          });
+          }else{
+            data.forEach((match: any) => {
+              let matchList = match?.ename
+              matchesList1.push({
+                EventName: matchList,
+                EventId: JSON.stringify(match?.gmid),
+                MarketId: JSON.stringify(match?.mid),
+                EventDate: match?.stime,
+                f:match?.f==="True"?true:false,
+                tv:match?.tv==="True"?true:false,
+                m1:match?.m1==="True"?true:false,
+              });
+            });
+          }
+         
           matchesList = {matchesList1,matchesList2};
         }
         return matchesList;
