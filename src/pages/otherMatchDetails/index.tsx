@@ -376,7 +376,7 @@ const OtherMatchDetails = () => {
         <>
           <Box
             sx={{
-              width: { lg: "50%", xs: "100%", md: "100%" },
+              width: { lg: "60%", xs: "100%", md: "60%" },
               // flexDirection: "column",
               display: "flex",
               flexWrap: "wrap",
@@ -547,7 +547,7 @@ const OtherMatchDetails = () => {
           </Box>
           <Box
             sx={{
-              width: { lg: "50%", xs: "100%", md: "100%" },
+              width: { lg: "40%", xs: "100%", md: "40%" },
               flexDirection: "column",
               display: "flex",
               paddingLeft: "5px",
