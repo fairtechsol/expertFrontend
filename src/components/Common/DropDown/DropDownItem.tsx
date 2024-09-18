@@ -58,6 +58,8 @@ const DropDownItem = (props: any) => {
                   f: eventDetail?.f,
                   tv: eventDetail?.tv,
                   m1: eventDetail?.m1,
+                  competitionId:eventDetail?.competitionId,
+                  competitionName:eventDetail?.competitionName
                 };
               });
             }
