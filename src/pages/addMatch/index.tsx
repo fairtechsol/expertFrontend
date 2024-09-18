@@ -86,6 +86,7 @@ const initialValues = {
   tournamentId: "",
   matchName: "",
   competitionName: "",
+  competitionId: "",
   eventId: "",
   marketId: "",
   startAt: new Date(),
@@ -278,6 +279,8 @@ const AddMatch = () => {
                 ? value.betfairSessionMaxBet
                 : value.minBet + 1,
             bookmakers: bookmakers,
+            competitionName:selected?.competitionName,
+            competitionId:selected?.competitionId
           };
 
           eventWiseMatchData[selected.gameType]?.manual?.forEach((item) => {
@@ -301,6 +304,8 @@ const AddMatch = () => {
             isFancy: selected?.f,
             isTv: selected?.tv,
             isBookmaker: selected?.m1,
+            competitionName:selected?.competitionName,
+            competitionId:selected?.competitionId,
             betFairSessionMaxBet:
               selected.gameType === "cricket"
                 ? value.betfairSessionMaxBet
