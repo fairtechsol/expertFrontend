@@ -46,6 +46,8 @@ import HalfTime from "../../components/matchDetails/HalfTime";
 import { getOtherGamesMatchDetail } from "../../store/actions/otherGamesAction/matchDetailActions";
 import { convertString, customSortOnName } from "../../helpers";
 import TournamentMarket from "../../components/matchDetails/TournamentMarkets";
+import BookMarket from "../../components/matchDetails/Bookmarket";
+import OtherMatchMarket from "../../components/matchDetails/OtherMatchMarket";
 
 const OtherMatchDetails = () => {
   const { state } = useLocation();
@@ -366,7 +368,7 @@ const OtherMatchDetails = () => {
               marginTop: { xs: "10px", lg: "0" },
             }}
           >
-            {matchDetail?.matchOdd?.isActive && (
+            {matchDetail?.matchOdd && (
               <MatchOdds
                 showHeader={true}
                 currentMatch={matchDetail}
@@ -380,6 +382,20 @@ const OtherMatchDetails = () => {
                 }
               />
             )}
+            {matchDetail?.bookmaker && (
+              <BookMarket
+                currentMatch={matchDetail}
+                liveData={matchDetail?.bookmaker}
+                title={matchDetail?.bookmaker?.name}
+              />
+            )}
+            {matchDetail?.marketBookmaker2 && (
+              <BookMarket
+                currentMatch={matchDetail}
+                liveData={matchDetail?.marketBookmaker2}
+                title={matchDetail?.marketBookmaker2?.name}
+              />
+            )}
             {matchDetail?.quickBookmaker
               ?.filter((item: any) => item?.isActive)
               ?.map((bookmaker: any) => (
@@ -387,6 +403,19 @@ const OtherMatchDetails = () => {
                   key={bookmaker?.id}
                   currentMatch={matchDetail}
                   liveData={bookmaker}
+                />
+              ))}
+            {matchDetail?.other &&
+              matchDetail?.other?.map((market: any) => (
+                <OtherMatchMarket
+                  key={market?.id}
+                  currentMatch={matchDetail}
+                  liveData={{
+                    ...market,
+                    type: "other",
+                    marketId: market?.mid ? market?.mid?.toString() : "",
+                  }}
+                  title={market?.name}
                 />
               ))}
             {matchDetail?.tournament &&
