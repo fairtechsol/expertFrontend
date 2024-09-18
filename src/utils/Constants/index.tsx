@@ -405,6 +405,22 @@ export const betListColorConstants: any = {
   ballByBall: { background: "#FFA500", textColor: "#fff" },
 };
 
+export const marketArray = [
+  "matchOdd",
+  "bookmaker",
+  "marketBookmaker2",
+  "quickBookmaker",
+  "apiTideMatch",
+  "apiTiedMatch2",
+  "tiedMatch1",
+  "tiedMatch2",
+  "tiedMatch3",
+  "manualTiedMatch",
+  "marketCompleteMatch",
+  "marketCompleteMatch1",
+  "manualCompleteMatch",
+];
+
 export const addMatchThirdParty =
   process.env.NODE_ENV === Constants.PRODUCTION
     ? Constants.thirdParty

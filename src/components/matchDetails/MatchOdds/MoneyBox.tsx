@@ -11,7 +11,7 @@ const MoneyBox = ({ value }: any) => {
     const [integerPart, decimalPart] = formattedValue.split(".");
     const formattedDecimalPart = decimalPart
       ? decimalPart.padEnd(2, "0").slice(0, 2)
-      : "00"; // Ensure exactly 2 digits after the decimal point
+      : "00";
     return { integerPart, decimalPart: formattedDecimalPart };
   };
 

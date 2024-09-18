@@ -13,10 +13,18 @@ import SmallBox from "../SmallBox";
 import { profitLossDataForMatchConstants } from "../../../utils/Constants";
 import MaxLimitEditButton from "../../Common/MaxLimitEditButton";
 import AddMarketButton from "../../Common/AddMarketButton";
+import Result from "../Result";
+import ResultComponent from "../../updateBookmaker/BookmakerEdit/ResultComponent";
 
-const CompleteMatchMarket = ({ currentMatch, liveData, title }: any) => {
+const CompleteMatchMarket = ({
+  currentMatch,
+  liveData,
+  title,
+  showResultBox,
+}: any) => {
   const dispatch: AppDispatch = useDispatch();
   const [visibleImg, setVisibleImg] = useState(true);
+  const [visible, setVisible] = useState(false);
   const [live, setLive] = useState(
     liveData?.activeStatus === "live" ? true : false
   );
@@ -40,13 +48,14 @@ const CompleteMatchMarket = ({ currentMatch, liveData, title }: any) => {
         display: "flex",
         backgroundColor: "white",
         flexDirection: "column",
-        width: "100%",
+        width: { lg: "49%", md: "49%", xs: "100%" },
         marginTop: ".3vh",
         marginX: "0",
         alignSelf: {
           xs: "center",
           md: "center",
           lg: "flex-start",
+          position: "relative",
         },
       }}
     >
@@ -113,6 +122,16 @@ const CompleteMatchMarket = ({ currentMatch, liveData, title }: any) => {
             justifyContent: "flex-end",
           }}
         >
+          {" "}
+          {showResultBox && (
+            <Result
+              width={"80px"}
+              onClick={() => {
+                setVisible(true);
+              }}
+              invert={true}
+            />
+          )}
           {liveData?.id ? (
             !currentMatch?.stopAt && (
               <>
@@ -157,6 +176,30 @@ const CompleteMatchMarket = ({ currentMatch, liveData, title }: any) => {
             }}
           />
         </Box>
+      </Box>
+      <Box
+        sx={{
+          position: "absolute",
+          zIndex: 999,
+          top: "26%",
+          right: "1%",
+          width: { lg: "30vh", xs: "30vh" },
+        }}
+      >
+        {visible && (
+          <ResultComponent
+            currentMatch={currentMatch}
+            teamA={currentMatch?.teamA}
+            stopAt={currentMatch?.stopAt}
+            teamB={currentMatch?.teamB}
+            tie={currentMatch?.matchType === "cricket" ? "Tie" : ""}
+            draw={currentMatch?.teamC ? currentMatch?.teamC : null}
+            onClick={() => {
+              setVisible(false);
+            }}
+            liveData={liveData}
+          />
+        )}
       </Box>
       <Divider />
       {visibleImg && (

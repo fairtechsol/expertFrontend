@@ -254,7 +254,7 @@ const addMatch = createSlice({
           marketCompleteMatch1: marketCompleteMatch1,
           matchOdd,
           setWinner,
-          manualTideMatch,
+          manualTiedMatch: manualTideMatch,
           manualCompleteMatch: completeManual,
           quickBookmaker: quickbookmaker,
           updatedSesssionBettings: updatedSessionBettings || {},

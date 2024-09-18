@@ -43,7 +43,7 @@ const TournamentMarket = ({ currentMatch, liveData, title }: any) => {
         display: "flex",
         backgroundColor: "white",
         flexDirection: "column",
-        width: "100%",
+        width: { lg: "49%", md: "49%", xs: "100%" },
         marginTop: ".3vh",
         marginX: "0",
         alignSelf: {
@@ -289,7 +289,6 @@ const TournamentMarket = ({ currentMatch, liveData, title }: any) => {
                         : 0
                       : 0
                   }
-                  // teamImage={currentMatch?.bookmaker?.teamA_Image}
                   livestatus={item?.status === "SUSPENDED" ? true : false}
                   data={item}
                   lock={liveData?.runners?.length > 0 ? false : true}
@@ -300,44 +299,6 @@ const TournamentMarket = ({ currentMatch, liveData, title }: any) => {
                 <Divider />
               </>
             ))}
-
-            {/* <BoxComponent
-              livestatus={
-                liveData?.runners?.length > 0 &&
-                liveData?.runners[1]?.status === "SUSPENDED"
-                  ? true
-                  : false
-              }
-              teamRates={
-                currentMatch?.teamRates
-                  ? currentMatch?.teamRates[
-                      profitLossDataForMatchConstants[liveData?.type]?.B +
-                        "_" +
-                        liveData?.id +
-                        "_" +
-                        currentMatch?.id
-                    ]
-                    ? currentMatch?.teamRates[
-                        profitLossDataForMatchConstants[liveData?.type]?.B +
-                          "_" +
-                          liveData?.id +
-                          "_" +
-                          currentMatch?.id
-                      ]
-                    : 0
-                  : 0
-              }
-              teamImage={currentMatch?.bookmaker?.teamB_Image}
-              lock={liveData?.runners?.length > 0 ? false : true}
-              name={
-                liveData?.runners?.length > 0
-                  ? liveData?.runners[1]?.nat
-                  : liveData?.metaData?.teamB
-              }
-              data={liveData?.runners?.length > 0 ? liveData?.runners[1] : []}
-              align="end"
-              liveData={liveData}
-            /> */}
             {!live && (
               <Box
                 sx={{

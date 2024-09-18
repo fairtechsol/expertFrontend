@@ -10,7 +10,7 @@ const Scoreboard = ({ liveScoreData }: any) => {
     <Box
       sx={[
         {
-          width: "100%",
+          width: "49%",
           display: "flex",
           flexDirection: "column",
           alignSelf: "center",
