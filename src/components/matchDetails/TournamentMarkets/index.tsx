@@ -1,10 +1,9 @@
 import { Box, Typography } from "@mui/material";
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { ARROWUP } from "../../../assets";
 import { betLiveStatus } from "../../../store/actions/match/matchAction";
 import { AppDispatch } from "../../../store/store";
-import { profitLossDataForMatchConstants } from "../../../utils/Constants";
 import Divider from "../../Common/Divider";
 import { formatToINR } from "../../helper";
 import BoxComponent from "../MatchOdds/BoxComponent";
@@ -268,26 +267,18 @@ const TournamentMarket = ({ currentMatch, liveData, title }: any) => {
 
           <Box sx={{ position: "relative" }}>
             {liveData?.runners?.map((item: any) => (
-              <>
+              <Fragment key={item?.id}>
                 <BoxComponent
                   teamRates={
-                    currentMatch?.teamRates
-                      ? currentMatch?.teamRates[
-                          profitLossDataForMatchConstants[liveData?.type]?.A +
-                            "_" +
-                            liveData?.id +
-                            "_" +
-                            currentMatch?.id
-                        ]
-                        ? currentMatch?.teamRates[
-                            profitLossDataForMatchConstants[liveData?.type]?.A +
-                              "_" +
-                              liveData?.id +
-                              "_" +
-                              currentMatch?.id
-                          ]
-                        : 0
-                      : 0
+                    JSON.parse(
+                      currentMatch?.teamRates?.[
+                        liveData?.id +
+                          "_" +
+                          "profitLoss" +
+                          "_" +
+                          currentMatch?.id
+                      ]
+                    )?.[item?.id] ?? 0
                   }
                   livestatus={item?.status === "SUSPENDED" ? true : false}
                   data={item}
@@ -297,7 +288,7 @@ const TournamentMarket = ({ currentMatch, liveData, title }: any) => {
                 />
 
                 <Divider />
-              </>
+              </Fragment>
             ))}
             {!live && (
               <Box
