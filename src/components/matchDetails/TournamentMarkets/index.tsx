@@ -270,15 +270,19 @@ const TournamentMarket = ({ currentMatch, liveData, title }: any) => {
               <Fragment key={item?.id}>
                 <BoxComponent
                   teamRates={
-                    JSON.parse(
-                      currentMatch?.teamRates?.[
-                        liveData?.id +
-                          "_" +
-                          "profitLoss" +
-                          "_" +
-                          currentMatch?.id
-                      ]
-                    )?.[item?.id] ?? 0
+                    currentMatch?.teamRates?.[
+                      liveData?.id + "_" + "profitLoss" + "_" + currentMatch?.id
+                    ]
+                      ? JSON.parse(
+                          currentMatch?.teamRates?.[
+                            liveData?.id +
+                              "_" +
+                              "profitLoss" +
+                              "_" +
+                              currentMatch?.id
+                          ]
+                        )?.[item?.id] ?? 0
+                      : 0
                   }
                   livestatus={item?.status === "SUSPENDED" ? true : false}
                   data={item}
