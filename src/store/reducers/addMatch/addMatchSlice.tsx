@@ -98,6 +98,8 @@ const addMatch = createSlice({
           );
           if (matchingItem) {
             item1.runners = matchingItem.runners;
+            item1.competitionName = matchingItem.competition?.name;
+            item1.competitionId= matchingItem.competition?.id
           } else {
             let teams = item1?.EventName.split(" v ");
             let runners: any = [
@@ -105,6 +107,8 @@ const addMatch = createSlice({
               { runnerName: teams[1] },
             ];
             item1.runners = runners;
+            item1.competitionName = null;
+            item1.competitionId= null;
           }
         });
         state.eventsList = matchesList1;
