@@ -1,10 +1,9 @@
 import { Box, Typography } from "@mui/material";
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { ARROWUP } from "../../../assets";
 import { betLiveStatus } from "../../../store/actions/match/matchAction";
 import { AppDispatch } from "../../../store/store";
-import { profitLossDataForMatchConstants } from "../../../utils/Constants";
 import Divider from "../../Common/Divider";
 import { formatToINR } from "../../helper";
 import BoxComponent from "../MatchOdds/BoxComponent";
@@ -43,7 +42,7 @@ const TournamentMarket = ({ currentMatch, liveData, title }: any) => {
         display: "flex",
         backgroundColor: "white",
         flexDirection: "column",
-        width: "100%",
+        width: { lg: "49%", md: "49%", xs: "100%" },
         marginTop: ".3vh",
         marginX: "0",
         alignSelf: {
@@ -268,28 +267,19 @@ const TournamentMarket = ({ currentMatch, liveData, title }: any) => {
 
           <Box sx={{ position: "relative" }}>
             {liveData?.runners?.map((item: any) => (
-              <>
+              <Fragment key={item?.id}>
                 <BoxComponent
                   teamRates={
-                    currentMatch?.teamRates
-                      ? currentMatch?.teamRates[
-                          profitLossDataForMatchConstants[liveData?.type]?.A +
-                            "_" +
-                            liveData?.id +
-                            "_" +
-                            currentMatch?.id
-                        ]
-                        ? currentMatch?.teamRates[
-                            profitLossDataForMatchConstants[liveData?.type]?.A +
-                              "_" +
-                              liveData?.id +
-                              "_" +
-                              currentMatch?.id
-                          ]
-                        : 0
-                      : 0
+                    JSON.parse(
+                      currentMatch?.teamRates?.[
+                        liveData?.id +
+                          "_" +
+                          "profitLoss" +
+                          "_" +
+                          currentMatch?.id
+                      ]
+                    )?.[item?.id] ?? 0
                   }
-                  // teamImage={currentMatch?.bookmaker?.teamA_Image}
                   livestatus={item?.status === "SUSPENDED" ? true : false}
                   data={item}
                   lock={liveData?.runners?.length > 0 ? false : true}
@@ -298,46 +288,8 @@ const TournamentMarket = ({ currentMatch, liveData, title }: any) => {
                 />
 
                 <Divider />
-              </>
+              </Fragment>
             ))}
-
-            {/* <BoxComponent
-              livestatus={
-                liveData?.runners?.length > 0 &&
-                liveData?.runners[1]?.status === "SUSPENDED"
-                  ? true
-                  : false
-              }
-              teamRates={
-                currentMatch?.teamRates
-                  ? currentMatch?.teamRates[
-                      profitLossDataForMatchConstants[liveData?.type]?.B +
-                        "_" +
-                        liveData?.id +
-                        "_" +
-                        currentMatch?.id
-                    ]
-                    ? currentMatch?.teamRates[
-                        profitLossDataForMatchConstants[liveData?.type]?.B +
-                          "_" +
-                          liveData?.id +
-                          "_" +
-                          currentMatch?.id
-                      ]
-                    : 0
-                  : 0
-              }
-              teamImage={currentMatch?.bookmaker?.teamB_Image}
-              lock={liveData?.runners?.length > 0 ? false : true}
-              name={
-                liveData?.runners?.length > 0
-                  ? liveData?.runners[1]?.nat
-                  : liveData?.metaData?.teamB
-              }
-              data={liveData?.runners?.length > 0 ? liveData?.runners[1] : []}
-              align="end"
-              liveData={liveData}
-            /> */}
             {!live && (
               <Box
                 sx={{

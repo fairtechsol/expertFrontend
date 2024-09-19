@@ -17,7 +17,7 @@ import SmallBox2 from "./SmallBox2";
 import MaxLimitEditButton from "../../Common/MaxLimitEditButton";
 import AddMarketButton from "../../Common/AddMarketButton";
 
-const MatchOdds = ({ currentMatch, matchOddsLive, id }: any) => {
+const MatchOdds = ({ currentMatch, matchOddsLive, id, showResultBox }: any) => {
   const [visible, setVisible] = useState(false);
   const [visibleImg, setVisibleImg] = useState(true);
   const [live, setLive] = useState(
@@ -79,7 +79,7 @@ const MatchOdds = ({ currentMatch, matchOddsLive, id }: any) => {
           display: "flex",
           backgroundColor: "white",
           flexDirection: "column",
-          width: "100%",
+          width: { lg: "49%", md: "49%", xs: "100%" },
           marginTop: ".5vh",
           alignSelf: {
             xs: "center",
@@ -159,7 +159,7 @@ const MatchOdds = ({ currentMatch, matchOddsLive, id }: any) => {
               marginLeft: "0px",
             }}
           >
-            {matchOddsLive?.id && (
+            {showResultBox && (
               <Result
                 width={"80px"}
                 onClick={() => {

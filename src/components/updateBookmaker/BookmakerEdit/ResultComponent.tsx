@@ -146,8 +146,8 @@ const ResultComponent = ({
                         color: selected === i ? "white" : "black",
                         lineHeight: 1,
                         overflowWrap: "anywhere",
-                        wordBreak: "break-word", 
-                        maxWidth: "200px", 
+                        wordBreak: "break-word",
+                        maxWidth: "200px",
                       }}
                     >
                       {i.length > 12 ? `${i.slice(0, 11)}...` : i}
@@ -189,8 +189,12 @@ const ResultComponent = ({
                         })
                       );
                     } else {
-                      liveData?.type === "matchOdd" ||
-                      liveData?.type === "quickbookmaker1"
+                      [
+                        "matchOdd",
+                        "quickbookmaker1",
+                        "bookmaker",
+                        "bookmaker2",
+                      ]?.includes(liveData?.type)
                         ? dispatch(
                             otherUnDeclareMatchResult({
                               matchId: currentMatch?.id,
@@ -269,8 +273,12 @@ const ResultComponent = ({
                           })
                         );
                       } else {
-                        liveData?.type === "matchOdd" ||
-                        liveData?.type === "quickbookmaker1"
+                        [
+                          "matchOdd",
+                          "quickbookmaker1",
+                          "bookmaker",
+                          "bookmaker2",
+                        ]?.includes(liveData?.type)
                           ? dispatch(
                               otherDeclareMatchResult({
                                 matchId: currentMatch?.id,

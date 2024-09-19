@@ -1,6 +1,6 @@
 import {
   Box,
-  CircularProgress,
+  // CircularProgress,
   Typography,
   useMediaQuery,
   useTheme,
@@ -22,7 +22,7 @@ interface Props {
 const CustomButton = ({
   title,
   onClick,
-  loading,
+  // loading,
   bgColor,
   style,
   containerStyle,

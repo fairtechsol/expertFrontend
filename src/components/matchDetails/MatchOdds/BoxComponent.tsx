@@ -47,20 +47,6 @@ const BoxComponent = ({
             alignItems: "center",
           }}
         >
-          {/* {teamImage !== null && (
-            <>
-              <img
-                src={`wallet/${teamImage}`}
-                style={{
-                  width: "22px",
-                  height: "25px",
-                  marginLeft: "10px",
-                  backgroundSize: "contains",
-                }}
-                alt={name}
-              />
-            </>
-          )} */}
           <Typography
             sx={{
               color: "black",
@@ -76,7 +62,8 @@ const BoxComponent = ({
         {name != "DRAW" && <MoneyBox value={teamRates} />}
       </Box>
 
-      {!["ACTIVE", "", undefined, null, "OPEN"].includes(status) || livestatus ? (
+      {!["ACTIVE", "", undefined, null, "OPEN"].includes(status) ||
+      livestatus ? (
         <Box
           sx={{
             display: "flex",

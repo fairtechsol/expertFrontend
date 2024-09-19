@@ -13,7 +13,7 @@ import { profitLossDataForMatchConstants } from "../../utils/Constants";
 import ResultComponent from "../../components/updateBookmaker/BookmakerEdit/ResultComponent";
 import Result from "../../components/matchDetails/Result";
 
-const ManualMarket = ({ currentMatch, liveData, type }: any) => {
+const ManualMarket = ({ currentMatch, liveData, type, showResultBox }: any) => {
   const [visible, setVisible] = useState(false);
   const dispatch: AppDispatch = useDispatch();
   const [visibleImg, setVisibleImg] = useState<boolean>(true);
@@ -32,9 +32,9 @@ const ManualMarket = ({ currentMatch, liveData, type }: any) => {
         display: "flex",
         backgroundColor: "white",
         flexDirection: "column",
-        width: "100%",
+        width: { lg: "49%", md: "49%", xs: "100%" },
         marginTop: ".3vh",
-        marginX: "0",
+        // marginX: "0",
         alignSelf: {
           xs: "center",
           md: "center",
@@ -103,7 +103,7 @@ const ManualMarket = ({ currentMatch, liveData, type }: any) => {
             justifyContent: "flex-end",
           }}
         >
-          {!currentMatch?.matchOdd && liveData?.type === "quickbookmaker1" && (
+          {showResultBox && (
             <Result
               width={"80px"}
               onClick={() => {
@@ -155,8 +155,8 @@ const ManualMarket = ({ currentMatch, liveData, type }: any) => {
           position: "absolute",
           zIndex: 999,
           top: "26%",
-          right: "60px",
-          width: { lg: "50vh", xs: "30vh" },
+          right: "1%",
+          width: { lg: "30vh", xs: "30vh" },
         }}
       >
         {visible && (
