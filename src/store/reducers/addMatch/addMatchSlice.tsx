@@ -99,7 +99,7 @@ const addMatch = createSlice({
           if (matchingItem) {
             item1.runners = matchingItem.runners;
             item1.competitionName = matchingItem.competition?.name;
-            item1.competitionId= matchingItem.competition?.id
+            item1.competitionId = matchingItem.competition?.id;
           } else {
             let teams = item1?.EventName.split(" v ");
             let runners: any = [
@@ -108,7 +108,7 @@ const addMatch = createSlice({
             ];
             item1.runners = runners;
             item1.competitionName = null;
-            item1.competitionId= null;
+            item1.competitionId = null;
           }
         });
         state.eventsList = matchesList1;
@@ -446,7 +446,16 @@ const addMatch = createSlice({
             "_" +
             state.matchDetail?.id]: userRedisObj[jobData?.teamCrateRedisKey],
           };
-        } else
+        } else if (jobData?.newBet?.marketType === "tournament") {
+          state.matchDetail.teamRates = {
+            ...state.matchDetail.teamRates,
+            [jobData?.newBet?.betId +
+            "_" +
+            "profitLoss" +
+            "_" +
+            state.matchDetail?.id]: JSON.stringify(userRedisObj),
+          };
+        } else {
           state.matchDetail.teamRates = {
             ...state.matchDetail.teamRates,
             [profitLossDataForMatchConstants[jobData?.newBet?.marketType].A +
@@ -459,6 +468,7 @@ const addMatch = createSlice({
             "_" +
             state.matchDetail?.id]: userRedisObj[jobData?.teamCrateRedisKey],
           };
+        }
       })
       .addCase(updateMatchRatesOnMarketUndeclare.fulfilled, (state, action) => {
         const {
@@ -483,6 +493,7 @@ const addMatch = createSlice({
         const {
           redisObject,
           betId,
+          teamRate,
           matchBetType,
           teamArateRedisKey,
           teamBrateRedisKey,
@@ -507,6 +518,12 @@ const addMatch = createSlice({
             betId +
             "_" +
             state.matchDetail?.id]: redisObject[teamCrateRedisKey],
+          };
+        } else if (matchBetType === "tournament") {
+          state.matchDetail.teamRates = {
+            ...state.matchDetail.teamRates,
+            [betId + "_" + "profitLoss" + "_" + state.matchDetail?.id]:
+              JSON.stringify(teamRate),
           };
         } else
           state.matchDetail.teamRates = {
