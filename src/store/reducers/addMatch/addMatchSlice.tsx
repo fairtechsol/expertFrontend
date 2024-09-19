@@ -251,7 +251,7 @@ const addMatch = createSlice({
           overUnder,
           halfTime,
           apiTideMatch: apiTiedMatch,
-          apiTiedMatch2: apiTiedMatch2,
+          apiTideMatch2: apiTiedMatch2,
           bookmaker,
           marketBookmaker2: bookmaker2,
           marketCompleteMatch,

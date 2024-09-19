@@ -485,14 +485,14 @@ const MatchMarketDetail = () => {
                   showResultBox={firstKnownKey === "apiTideMatch"}
                 />
               )}
-            {matchDetail?.apiTiedMatch2 &&
-              (matchDetail?.apiTiedMatch2?.isActive === false
+            {matchDetail?.apiTideMatch2 &&
+              (matchDetail?.apiTideMatch2?.isActive === false
                 ? false
                 : true) && (
                 <TiedMatchMarket
                   currentMatch={matchDetail}
-                  liveData={matchDetail?.apiTiedMatch2}
-                  title={matchDetail?.apiTiedMatch2?.name}
+                  liveData={matchDetail?.apiTideMatch2}
+                  title={matchDetail?.apiTideMatch2?.name}
                   showResultBox={firstKnownKey === "apiTiedMatch2"}
                 />
               )}
