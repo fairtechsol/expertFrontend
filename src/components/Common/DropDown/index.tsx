@@ -41,9 +41,11 @@ const DropDown = (props: any) => {
   useEffect(() => {
     setValue(valued);
   }, [selected]);
+
   useEffect(() => {
     setOpen(isOpen);
   }, [isOpen]);
+
   return (
     <Box sx={[{ width: "19%" }, containerStyle]}>
       <Typography
@@ -153,6 +155,7 @@ const DropDown = (props: any) => {
                     dropDownTextStyle={dropDownTextStyle}
                     name={name}
                     gameType={gameType}
+                    onOpen={onOpen}
                   />
                 );
               })
@@ -168,6 +171,7 @@ const DropDown = (props: any) => {
                     dropDownTextStyle={dropDownTextStyle}
                     name={name}
                     gameType={gameType}
+                    onOpen={onOpen}
                   />
                 );
               })}
