@@ -48,7 +48,7 @@ const OtherMatchMarket = ({ currentMatch, liveData, title }: any) => {
         marginX: "0",
         alignSelf: {
           xs: "center",
-          md: "center",
+          md: "flex-start",
           lg: "flex-start",
           position: "relative",
         },

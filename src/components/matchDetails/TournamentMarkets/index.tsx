@@ -35,6 +35,8 @@ const TournamentMarket = ({ currentMatch, liveData, title }: any) => {
   const handleClose = (data: any) => {
     setOpen(data);
   };
+
+  console.log(liveData?.activeStatus);
   return (
     <Box
       sx={{
@@ -47,7 +49,7 @@ const TournamentMarket = ({ currentMatch, liveData, title }: any) => {
         marginX: "0",
         alignSelf: {
           xs: "center",
-          md: "center",
+          md: "flex-start",
           lg: "flex-start",
           position: "relative",
         },

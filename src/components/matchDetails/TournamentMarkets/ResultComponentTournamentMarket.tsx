@@ -25,6 +25,8 @@ const ResultComponentTournamentMarket = ({
     e.preventDefault();
   };
 
+  console.log(liveData, "abc");
+
   useEffect(() => {
     try {
       if (liveData?.runners?.length > 0) {
@@ -98,7 +100,7 @@ const ResultComponentTournamentMarket = ({
       </Box>
       <Box sx={{ padding: 0 }}>
         <form onSubmit={handleSubmit}>
-          {!stopAt && (
+          {liveData?.activeStatus !== "result" && (
             <Box
               sx={{
                 width: "100%",
@@ -166,7 +168,7 @@ const ResultComponentTournamentMarket = ({
               background: "#000",
             }}
           >
-            {stopAt ? (
+            {liveData?.activeStatus === "result" ? (
               <MatchOddsResultCustomButton
                 color={"#FF4D4D"}
                 loading={loading}

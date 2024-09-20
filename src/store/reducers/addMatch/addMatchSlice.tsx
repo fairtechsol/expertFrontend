@@ -37,6 +37,7 @@ import {
   convertData,
   updateSessionBettingsItem,
 } from "../../../helpers/sessionsHelpers";
+import { updateArray } from "../../../helpers";
 
 interface InitialState {
   tournamentList: any;
@@ -263,7 +264,7 @@ const addMatch = createSlice({
           quickBookmaker: quickbookmaker,
           updatedSesssionBettings: updatedSessionBettings || {},
           other,
-          tournament: tournament,
+          tournament: updateArray(state.matchDetail.tournament, tournament),
           // sessionBettings: state.matchDetail?.sessionBettings?.map(
           //   (item: any) => {
           //     const parsedItem = JSON.parse(item);
@@ -595,7 +596,7 @@ const addMatch = createSlice({
             };
           } else if (
             state.matchDetail?.matchType === "cricket" &&
-            betType === "other"
+            (betType === "other" || betType === "tournament")
           ) {
             state.matchDetail = {
               ...state.matchDetail,
