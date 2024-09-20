@@ -82,7 +82,7 @@ const TournamentMarket = ({ currentMatch, liveData, title }: any) => {
           >
             {title}
           </Typography>
-          {liveData?.id && (
+          {liveData?.id && liveData?.activeStatus !== "result" && (
             <Stop
               onClick={() => {
                 dispatch(
@@ -183,7 +183,7 @@ const TournamentMarket = ({ currentMatch, liveData, title }: any) => {
         {visible && (
           <ResultComponentTournamentMarket
             currentMatch={currentMatch}
-            stopAt={liveData?.stopAt}
+            // stopAt={liveData?.stopAt}
             onClick={() => {
               setVisible(false);
             }}

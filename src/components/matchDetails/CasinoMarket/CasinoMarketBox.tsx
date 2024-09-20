@@ -2,14 +2,8 @@ import { Box, Typography } from "@mui/material";
 import Divider from "../../Common/Divider";
 import { formatNumber } from "../../helper";
 import SeparateBox from "../SeparateBox";
-// import PlaceBetComponent from "../SessionMarket/PlaceBetComponent";
-// import { useSelector } from "react-redux";
-// import { RootState } from "../../../store/store";
 
 const CasinoMarketBox = ({ newData, index, profitLoss }: any) => {
-  // const { matchDetail } = useSelector(
-  //   (state: RootState) => state.addMatch.addMatch
-  // );
   return (
     <div>
       <Box
@@ -27,7 +21,6 @@ const CasinoMarketBox = ({ newData, index, profitLoss }: any) => {
             height: "28px",
             width: "100%",
             justifyContent: "space-between",
-            // flexDirection: "column",
             alignItems: "center",
           }}
         >
@@ -45,15 +38,13 @@ const CasinoMarketBox = ({ newData, index, profitLoss }: any) => {
           </Typography>
           <Typography
             sx={{
-              color: profitLoss?.profitLoss
-                ? profitLoss?.profitLoss[index]
-                  ? profitLoss?.profitLoss[index] > 0
-                    ? "red"
-                    : profitLoss?.profitLoss[index] < 0
-                    ? "green"
-                    : "black"
-                  : "black"
-                : "black",
+              color: profitLoss?.profitLoss?.[index]
+                ? profitLoss?.profitLoss?.[index] > 0
+                  ? "red"
+                  : profitLoss?.profitLoss?.[index] < 0
+                  ? "green"
+                  : "green"
+                : "green",
               fontSize: { lg: "10px", md: "10px", xs: "10px" },
               marginLeft: { lg: "7px", md: "20px", xs: "20px" },
               fontWeight: "600",
@@ -62,7 +53,7 @@ const CasinoMarketBox = ({ newData, index, profitLoss }: any) => {
             }}
           >
             {profitLoss?.profitLoss
-              ? parseFloat(profitLoss?.profitLoss[index]).toFixed(2)
+              ? parseFloat(profitLoss?.profitLoss?.[index] || 0).toFixed(2)
               : 0}
           </Typography>
         </Box>
@@ -116,23 +107,6 @@ const CasinoMarketBox = ({ newData, index, profitLoss }: any) => {
               color="#B3E0FF"
               mWidth="90%"
             />
-
-            {/* {
-              <PlaceBetComponent
-                width={7}
-                profitLossData={
-                  matchDetail?.sessionProfitLoss &&
-                  matchDetail?.sessionProfitLoss[
-                    matchDetail?.updatedSesssionBettings?.cricketCasino
-                      ?.section?.[0]?.id
-                  ]
-                }
-                newData={
-                  matchDetail?.updatedSesssionBettings?.cricketCasino
-                    ?.section?.[0]?.id
-                }
-              />
-            } */}
           </Box>
         )}
       </Box>

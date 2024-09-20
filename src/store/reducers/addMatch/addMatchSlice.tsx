@@ -37,7 +37,6 @@ import {
   convertData,
   updateSessionBettingsItem,
 } from "../../../helpers/sessionsHelpers";
-import { updateArray } from "../../../helpers";
 
 interface InitialState {
   tournamentList: any;
@@ -264,7 +263,7 @@ const addMatch = createSlice({
           quickBookmaker: quickbookmaker,
           updatedSesssionBettings: updatedSessionBettings || {},
           other,
-          tournament: updateArray(state.matchDetail.tournament, tournament),
+          tournament: tournament,
           // sessionBettings: state.matchDetail?.sessionBettings?.map(
           //   (item: any) => {
           //     const parsedItem = JSON.parse(item);

@@ -424,10 +424,10 @@ const CasinoMarket = ({
                 <CasinoMarketBox
                   newData={
                     sessionData?.section?.length > 0
-                      ? sessionData?.section[item]
+                      ? sessionData?.section?.[item]
                       : {}
                   }
-                  profitLoss={profitLossData && profitLossData[sessionData?.id]}
+                  profitLoss={profitLossData?.[sessionData?.id]}
                   index={item}
                 />
               ))}
