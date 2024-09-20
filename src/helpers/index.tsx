@@ -131,3 +131,23 @@ export const customSortBySessionMarketName = ([nameA]: any, [nameB]: any) => {
   const orderB = order[nameB] || Infinity;
   return orderA - orderB;
 };
+
+export const updateArray = (ab: any, cd: any) => {
+  const cdMap = new Map(cd.map((item: any) => [item?.id, item]));
+
+  ab = ab?.filter((obj: any) => {
+    if (cdMap.has(obj?.id)) {
+      const updatedObj: any = cdMap.get(obj?.id);
+      Object.assign(obj, { ...obj, ...updatedObj });
+      cdMap.delete(obj.id);
+      return true;
+    }
+    return false;
+  });
+
+  cdMap.forEach((value) => {
+    ab.push(value);
+  });
+
+  return ab;
+};

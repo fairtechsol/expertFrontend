@@ -14,7 +14,6 @@ import MatchOddsResultCustomButton from "../../updateBookmaker/BookmakerEdit/Mat
 const ResultComponentTournamentMarket = ({
   currentMatch,
   onClick,
-  stopAt,
   liveData,
 }: any) => {
   const dispatch: AppDispatch = useDispatch();
@@ -24,6 +23,8 @@ const ResultComponentTournamentMarket = ({
   const handleSubmit = (e: any) => {
     e.preventDefault();
   };
+
+  console.log(liveData, "abc");
 
   useEffect(() => {
     try {
@@ -54,7 +55,11 @@ const ResultComponentTournamentMarket = ({
     <Box
       sx={{
         position: "absolute",
-        width: { lg: stopAt ? "50%" : "100%", xs: "100%", md: "100%" },
+        width: {
+          lg: liveData?.activeStatus === "result" ? "50%" : "100%",
+          xs: "100%",
+          md: "100%",
+        },
         marginRight: { md: "6em", xs: "4em" },
         // height: "300px",
         borderRadius: 2,
@@ -98,7 +103,7 @@ const ResultComponentTournamentMarket = ({
       </Box>
       <Box sx={{ padding: 0 }}>
         <form onSubmit={handleSubmit}>
-          {!stopAt && (
+          {liveData?.activeStatus !== "result" && (
             <Box
               sx={{
                 width: "100%",
@@ -166,7 +171,7 @@ const ResultComponentTournamentMarket = ({
               background: "#000",
             }}
           >
-            {stopAt ? (
+            {liveData?.activeStatus === "result" ? (
               <MatchOddsResultCustomButton
                 color={"#FF4D4D"}
                 loading={loading}

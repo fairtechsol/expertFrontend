@@ -83,7 +83,7 @@ const MatchOdds = ({ currentMatch, matchOddsLive, id, showResultBox }: any) => {
           marginTop: ".5vh",
           alignSelf: {
             xs: "center",
-            md: "center",
+            md: "flex-start",
             lg: "flex-start",
             boxShadow: "0px 5px 10px #0000001A",
             position: "relative",

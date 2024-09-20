@@ -87,10 +87,17 @@ const CasinoMarket = ({
               fontSize: "10px",
               fontWeight: "bold",
               marginLeft: "7px",
+              lineHeight: 1,
             }}
           >
-            {title}{" "}
-            {`(MIN: ${formatToINR(currentMatch?.betFairSessionMinBet)})`}
+            {title}
+            <span
+              style={{
+                fontSize: "8px",
+              }}
+            >{`(MIN: ${formatToINR(
+              currentMatch?.betFairSessionMinBet
+            )})`}</span>
           </Typography>
           <Box
             sx={{
@@ -417,10 +424,10 @@ const CasinoMarket = ({
                 <CasinoMarketBox
                   newData={
                     sessionData?.section?.length > 0
-                      ? sessionData?.section[item]
+                      ? sessionData?.section?.[item]
                       : {}
                   }
-                  profitLoss={profitLossData && profitLossData[sessionData?.id]}
+                  profitLoss={profitLossData?.[sessionData?.id]}
                   index={item}
                 />
               ))}

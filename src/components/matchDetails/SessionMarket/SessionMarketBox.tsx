@@ -451,7 +451,7 @@ const SessionMarketBox = ({
                   justifyContent: { xs: "center", lg: "center" },
                   alignItems: "center",
                   display: "flex",
-                  backgroundColor: "#FF4D4D",
+                  backgroundColor: newData?.selfDeclare ? "#46e080" : "#FF4D4D",
                 }}
               >
                 <h6

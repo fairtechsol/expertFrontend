@@ -595,7 +595,7 @@ const addMatch = createSlice({
             };
           } else if (
             state.matchDetail?.matchType === "cricket" &&
-            betType === "other"
+            (betType === "other" || betType === "tournament")
           ) {
             state.matchDetail = {
               ...state.matchDetail,
