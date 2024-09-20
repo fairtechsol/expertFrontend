@@ -355,7 +355,7 @@ const TournamentMarket = ({ currentMatch, liveData, title }: any) => {
         handleClose={handleClose}
         matchOddsLive={liveData}
         currentMatch={currentMatch}
-        title={"API Bookmaker Max Bet"}
+        title={`${title} Max Bet`}
       />
     </Box>
   );
