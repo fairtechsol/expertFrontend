@@ -52,7 +52,7 @@ const TiedMatchMarket = ({
         width: { lg: "49%", md: "49%", xs: "100%" },
         marginTop: ".3vh",
         marginX: "0",
-        flexBasis: "100%",
+        // flexBasis: "100%",
         alignSelf: {
           xs: "center",
           md: "flex-start",
