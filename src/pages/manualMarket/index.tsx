@@ -70,19 +70,21 @@ const ManualMarket = ({ currentMatch, liveData, type, showResultBox }: any) => {
           >
             {liveData?.name}
           </Typography>
-          <Stop
-            onClick={() => {
-              dispatch(
-                betLiveStatus({
-                  isStop: true,
-                  betId: liveData?.id,
-                  isManual: true,
-                })
-              );
-              setLive(false);
-            }}
-            height="18px"
-          />
+          {liveData?.activeStatus !== "result" && (
+            <Stop
+              onClick={() => {
+                dispatch(
+                  betLiveStatus({
+                    isStop: true,
+                    betId: liveData?.id,
+                    isManual: true,
+                  })
+                );
+                setLive(false);
+              }}
+              height="18px"
+            />
+          )}
         </Box>
         <Box
           sx={{
@@ -112,7 +114,7 @@ const ManualMarket = ({ currentMatch, liveData, type, showResultBox }: any) => {
               invert={true}
             />
           )}
-          {!currentMatch?.stopAt && (
+          {liveData?.activeStatus !== "result" && (
             <SmallBox
               onClick={() => {
                 dispatch(

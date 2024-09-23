@@ -119,7 +119,7 @@ const MatchOdds = ({ currentMatch, matchOddsLive, id, showResultBox }: any) => {
             >
               Match Odds
             </Typography>
-            {matchOddsLive?.id && (
+            {matchOddsLive?.id && matchOddsLive?.activeStatus !== "result" && (
               <Stop
                 onClick={() => {
                   dispatch(
@@ -169,7 +169,8 @@ const MatchOdds = ({ currentMatch, matchOddsLive, id, showResultBox }: any) => {
               />
             )}
             {matchOddsLive?.id ? (
-              !currentMatch?.stopAt &&
+              (!currentMatch?.stopAt ||
+                matchOddsLive?.activeStatus !== "result") &&
               ((currentMatch?.resultStatus &&
                 !currentMatch?.resultStatus[matchOddsLive?.id]?.status) ||
                 !currentMatch?.resultStatus) && (

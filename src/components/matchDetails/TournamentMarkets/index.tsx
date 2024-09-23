@@ -36,7 +36,6 @@ const TournamentMarket = ({ currentMatch, liveData, title }: any) => {
     setOpen(data);
   };
 
-  console.log(liveData?.activeStatus);
   return (
     <Box
       sx={{
@@ -128,28 +127,30 @@ const TournamentMarket = ({ currentMatch, liveData, title }: any) => {
                 invert={true}
               />
               {liveData?.activeStatus !== "result" && (
-                <SmallBox
-                  onClick={() => {
-                    dispatch(
-                      betLiveStatus({
-                        isStop: live,
-                        betId: liveData?.id,
-                        isManual: false,
-                        isTournament: true,
-                      })
-                    );
-                    setLive(!live);
-                  }}
-                  width={{ lg: "60px", xs: "20%" }}
-                  title={live ? "Live" : "Go Live"}
-                  color={live ? "#46e080" : "#FF4D4D"}
-                  customStyle={{
-                    justifyContent: "center",
-                  }}
-                  height="18px"
-                />
+                <>
+                  <SmallBox
+                    onClick={() => {
+                      dispatch(
+                        betLiveStatus({
+                          isStop: live,
+                          betId: liveData?.id,
+                          isManual: false,
+                          isTournament: true,
+                        })
+                      );
+                      setLive(!live);
+                    }}
+                    width={{ lg: "60px", xs: "20%" }}
+                    title={live ? "Live" : "Go Live"}
+                    color={live ? "#46e080" : "#FF4D4D"}
+                    customStyle={{
+                      justifyContent: "center",
+                    }}
+                    height="18px"
+                  />
+                  <MaxLimitEditButton handleClickOpen={handleClickOpen} />
+                </>
               )}
-              <MaxLimitEditButton handleClickOpen={handleClickOpen} />
             </>
           ) : (
             <AddMarketButton handleClickOpen={handleClickOpen} />
