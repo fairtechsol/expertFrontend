@@ -71,7 +71,10 @@ const MatchMarketDetail = () => {
 
   const resultDeclared = (event: any) => {
     try {
-      if (event?.matchId === state?.id && event?.isMatchDeclare) {
+      if (
+        (event?.matchId === state?.id && event?.isMatchDeclare) ||
+        (event?.matchId === state?.id && event?.betType === "quickbookmaker1")
+      ) {
         navigate("/expert/match");
       } else if (
         event?.matchId === state?.id &&
@@ -282,11 +285,13 @@ const MatchMarketDetail = () => {
         socketService.user.sessionResultDeclaredOff();
         socketService.user.updateInResultDeclareOff();
         socketService.user.updateDeleteReasonOff();
+        socketService.user.matchResultDeclareAllUserOff();
         expertSocketService.match.joinMatchRoom(state?.id, "expert");
         expertSocketService.match.getMatchRates(state?.id, (event: any) => {
           updateMatchDetailToRedux(event);
         });
         socketService.user.matchResultDeclared(resultDeclared);
+        socketService.user.matchResultDeclareAllUser(resultDeclared);
         socketService.user.matchResultUnDeclared(resultUnDeclared);
         socketService.user.matchDeleteBet(matchDeleteBet);
         socketService.user.sessionDeleteBet(matchDeleteBet);
@@ -320,6 +325,7 @@ const MatchMarketDetail = () => {
           socketService.user.sessionResultDeclaredOff();
           socketService.user.updateInResultDeclareOff();
           socketService.user.updateDeleteReasonOff();
+          socketService.user.matchResultDeclareAllUserOff();
           expertSocketService.match.connectErrorOff();
           expertSocketService.match.onConnectOff();
         };
