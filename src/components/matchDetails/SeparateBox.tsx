@@ -16,7 +16,6 @@ const SeparateBox = ({
   const matchesMobile = useMediaQuery(theme.breakpoints.down("lg"));
   const [isPopoverOpen, setIsPopoverOpen] = React.useState(false);
 
-  console.log(value, "abcde");
   return (
     <>
       <Popover
