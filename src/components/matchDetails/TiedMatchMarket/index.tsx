@@ -89,7 +89,7 @@ const TiedMatchMarket = ({
             {title}
           </Typography>
           {/* <img src={LOCKED} style={{ width: '14px', height: '20px' }} /> */}
-          {liveData?.id && (
+          {liveData?.id && liveData?.activeStatus !== "result" && (
             <Stop
               onClick={() => {
                 dispatch(
@@ -134,7 +134,7 @@ const TiedMatchMarket = ({
             />
           )}
           {liveData?.id ? (
-            !currentMatch?.stopAt && (
+            liveData?.activeStatus !== "result" && (
               <>
                 <SmallBox
                   onClick={() => {

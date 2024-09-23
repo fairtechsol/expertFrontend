@@ -82,7 +82,7 @@ const BookMarket = ({ currentMatch, liveData, title, showResultBox }: any) => {
             {title}
           </Typography>
           {/* <img src={LOCKED} style={{ width: '14px', height: '20px' }} /> */}
-          {liveData?.id && (
+          {liveData?.id && liveData?.activeStatus !== "result" && (
             <Stop
               onClick={() => {
                 dispatch(
@@ -127,28 +127,30 @@ const BookMarket = ({ currentMatch, liveData, title, showResultBox }: any) => {
             />
           )}
           {liveData?.id ? (
-            <>
-              <SmallBox
-                onClick={() => {
-                  dispatch(
-                    betLiveStatus({
-                      isStop: live,
-                      betId: liveData?.id,
-                      isManual: false,
-                    })
-                  );
-                  setLive(!live);
-                }}
-                width={{ lg: "60px", xs: "20%" }}
-                title={live ? "Live" : "Go Live"}
-                color={live ? "#46e080" : "#FF4D4D"}
-                customStyle={{
-                  justifyContent: "center",
-                }}
-                height="18px"
-              />
-              <MaxLimitEditButton handleClickOpen={handleClickOpen} />
-            </>
+            liveData?.activeStatus !== "result" && (
+              <>
+                <SmallBox
+                  onClick={() => {
+                    dispatch(
+                      betLiveStatus({
+                        isStop: live,
+                        betId: liveData?.id,
+                        isManual: false,
+                      })
+                    );
+                    setLive(!live);
+                  }}
+                  width={{ lg: "60px", xs: "20%" }}
+                  title={live ? "Live" : "Go Live"}
+                  color={live ? "#46e080" : "#FF4D4D"}
+                  customStyle={{
+                    justifyContent: "center",
+                  }}
+                  height="18px"
+                />
+                <MaxLimitEditButton handleClickOpen={handleClickOpen} />
+              </>
+            )
           ) : (
             <AddMarketButton handleClickOpen={handleClickOpen} />
           )}
