@@ -62,7 +62,13 @@ const SessionMarketLive = ({ title, sessionData, currentMatch, type }: any) => {
             }}
           >
             {title}
-            {`(MIN: ${formatToINR(currentMatch?.betFairSessionMinBet)})`}
+            <span
+              style={{
+                fontSize: "8px",
+              }}
+            >{`(MIN: ${formatToINR(
+              currentMatch?.betFairSessionMinBet
+            )})`}</span>
           </Typography>
         </Box>
 
