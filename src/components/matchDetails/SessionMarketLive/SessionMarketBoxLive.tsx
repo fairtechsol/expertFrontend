@@ -269,13 +269,13 @@ const SessionMarketBoxLive = ({
                     mWidth="12.7%"
                     value={
                       type === "oddEven"
-                        ? newData?.ex?.availableToBack[item]?.price
-                        : newData?.ex?.availableToLay[item]?.price
+                        ? newData?.ex?.availableToBack[item]?.price || 0
+                        : newData?.ex?.availableToLay[item]?.price || 0
                     }
                     value2={formatNumber(
                       type === "oddEven"
-                        ? newData?.ex?.availableToBack[item]?.size
-                        : newData?.ex?.availableToLay[item]?.size
+                        ? newData?.ex?.availableToBack[item]?.size || 0
+                        : newData?.ex?.availableToLay[item]?.size || 0
                     )}
                     lock={newData?.GameStatus === "SUSPENDED"}
                     color="#F6D0CB"
@@ -290,13 +290,13 @@ const SessionMarketBoxLive = ({
                     mWidth="12.7%"
                     value={
                       type === "oddEven"
-                        ? newData?.ex?.availableToLay[item]?.price
-                        : newData?.ex?.availableToBack[item]?.price
+                        ? newData?.ex?.availableToLay[item]?.price || 0
+                        : newData?.ex?.availableToBack[item]?.price || 0
                     }
                     value2={formatNumber(
                       type === "oddEven"
-                        ? newData?.ex?.availableToLay[item]?.size
-                        : newData?.ex?.availableToBack[item]?.size
+                        ? newData?.ex?.availableToLay[item]?.size || 0
+                        : newData?.ex?.availableToBack[item]?.size || 0
                     )}
                     lock={newData?.GameStatus === "SUSPENDED"}
                     color="#B3E0FF"

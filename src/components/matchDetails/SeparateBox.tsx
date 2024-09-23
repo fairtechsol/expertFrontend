@@ -15,6 +15,8 @@ const SeparateBox = ({
   const theme = useTheme();
   const matchesMobile = useMediaQuery(theme.breakpoints.down("lg"));
   const [isPopoverOpen, setIsPopoverOpen] = React.useState(false);
+
+  console.log(value, "abcde");
   return (
     <>
       <Popover
@@ -33,11 +35,17 @@ const SeparateBox = ({
             // dispatch(setColorValue(color));
           }}
           sx={{
-            background: lock || [0, "0"].includes(value) ? "#FDF21A" : color,
+            background:
+              lock || [0, "0", undefined, null].includes(value)
+                ? "#FDF21A"
+                : color,
             border:
               color != "white" ? "1px solid #2626264D" : "0px solid white",
             // width: { xs: mWidth ? mWidth : "25%", lg: width ? width : "45%" },
-            width: { xs: mWidth ? mWidth : "45.5%", lg: width ? width : "45.5%" },
+            width: {
+              xs: mWidth ? mWidth : "45.5%",
+              lg: width ? width : "45.5%",
+            },
             height: "94%",
             display: "flex",
             justifyContent: "center",
@@ -45,7 +53,7 @@ const SeparateBox = ({
             flexDirection: "column",
           }}
         >
-          {!empty && !lock && ![0, "0"].includes(value) && (
+          {!empty && !lock && ![0, "0", undefined, null].includes(value) && (
             <Box sx={{ alignItems: "center", justifyContent: "space-around" }}>
               <Typography
                 sx={{
@@ -70,7 +78,7 @@ const SeparateBox = ({
               </Typography>
             </Box>
           )}
-          {[0, "0"].includes(value) && (
+          {[0, "0", undefined, null].includes(value) && (
             <img src={Lock} style={{ width: "10px", height: "15px" }} />
           )}
         </Box>
