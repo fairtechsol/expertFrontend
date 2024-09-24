@@ -230,8 +230,13 @@ const TiedMatchMarket = ({
                   marginLeft: "7px",
                 }}
               >
-                MIN: {formatToINR(currentMatch?.apiTideMatch?.minBet)} MAX:{" "}
-                {formatToINR(currentMatch?.apiTideMatch?.maxBet)}
+                MIN:{" "}
+                {formatToINR(
+                  liveData?.id
+                    ? liveData?.minBet
+                    : currentMatch?.betFairSessionMinBet
+                )}{" "}
+                MAX: {formatToINR(liveData?.maxBet)}
               </Typography>
             </Box>
             <Box

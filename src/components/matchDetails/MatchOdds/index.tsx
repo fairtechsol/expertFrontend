@@ -316,8 +316,14 @@ const MatchOdds = ({ currentMatch, matchOddsLive, id, showResultBox }: any) => {
                     marginLeft: "7px",
                   }}
                 >
-                  MIN: {formatToINR(currentMatch?.matchOdd?.minBet)} MAX:
-                  {formatToINR(currentMatch?.matchOdd?.maxBet)}
+                  MIN:{" "}
+                  {formatToINR(
+                    matchOddsLive?.id
+                      ? matchOddsLive?.minBet
+                      : currentMatch?.betFairSessionMinBet
+                  )}{" "}
+                  MAX:
+                  {formatToINR(matchOddsLive?.maxBet)}
                 </Typography>
               </Box>
               <Box

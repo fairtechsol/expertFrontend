@@ -204,8 +204,13 @@ const ManualMarket = ({ currentMatch, liveData, type, showResultBox }: any) => {
                   marginLeft: "7px",
                 }}
               >
-                MIN: {formatToINR(liveData?.minBet)} MAX:{" "}
-                {formatToINR(liveData?.maxBet)}
+                MIN:{" "}
+                {formatToINR(
+                  liveData?.id
+                    ? liveData?.minBet
+                    : currentMatch?.betFairSessionMinBet
+                )}{" "}
+                MAX: {formatToINR(liveData?.maxBet)}
               </Typography>
             </Box>
             <Box

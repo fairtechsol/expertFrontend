@@ -192,7 +192,7 @@ const BoxComponent = ({
                 )}
                 color={"#A7DCFF"}
               />
-              <Box
+              {/* <Box
                 sx={{ width: ".45%", display: "flex", background: "pink" }}
               ></Box>
               <SeparateBox
@@ -210,7 +210,7 @@ const BoxComponent = ({
                     : 0
                 )}
                 color={"#FFB5B5"}
-              />
+              /> */}
               {/* {!matchesMobile && (
               <Box
                 sx={{ width: ".45%", display: "flex", background: "pink" }}
