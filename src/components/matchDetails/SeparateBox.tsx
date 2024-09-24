@@ -66,7 +66,7 @@ const SeparateBox = ({
               </Typography>
               <Typography
                 sx={{
-                  fontSize: "9px",
+                  fontSize: "8px",
                   marginTop: -0.4,
                   color: color == "white" ? "white" : "black",
                   textAlign: "center",
