@@ -40,11 +40,11 @@ const CasinoMarketBox = ({ newData, index, profitLoss }: any) => {
             sx={{
               color: profitLoss?.profitLoss?.[index]
                 ? profitLoss?.profitLoss?.[index] > 0
-                  ? "red"
-                  : profitLoss?.profitLoss?.[index] < 0
                   ? "green"
-                  : "green"
-                : "green",
+                  : profitLoss?.profitLoss?.[index] < 0
+                  ? "red"
+                  : "red"
+                : "red",
               fontSize: { lg: "10px", md: "10px", xs: "10px" },
               marginLeft: { lg: "7px", md: "20px", xs: "20px" },
               fontWeight: "600",
