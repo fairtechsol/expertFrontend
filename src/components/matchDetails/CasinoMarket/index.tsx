@@ -285,7 +285,7 @@ const CasinoMarket = ({ title, sessionData, profitLossData }: any) => {
                   lineHeight: "1",
                 }}
               >
-                Total Bet
+                T Bet
               </Typography>
               <Typography
                 sx={{
