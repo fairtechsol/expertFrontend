@@ -1,5 +1,5 @@
-import { Box, Typography } from "@mui/material";
-import { Fragment, useEffect, useState } from "react";
+import { Box, Typography, useMediaQuery, useTheme } from "@mui/material";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { ARROWUP } from "../../../assets";
 import { betLiveStatus } from "../../../store/actions/match/matchAction";
@@ -17,6 +17,8 @@ import HTFTBoxComponent from "../MatchOdds/HTFTBoxComponent";
 
 const HTFTMarket = ({ currentMatch, liveData, title }: any) => {
   const dispatch: AppDispatch = useDispatch();
+  const theme = useTheme();
+  const matchesMobile = useMediaQuery(theme.breakpoints.down("md"));
   const [visibleImg, setVisibleImg] = useState<boolean>(true);
   const [visible, setVisible] = useState<boolean>(false);
   const [live, setLive] = useState<boolean>(
@@ -277,7 +279,14 @@ const HTFTMarket = ({ currentMatch, liveData, title }: any) => {
             }}
           >
             {liveData?.runners?.map((item: any) => (
-              <Box key={item?.id} sx={{ display: "flex", flexWrap: "wrap", width: "50%" }}>
+              <Box
+                key={item?.id}
+                sx={{
+                  display: "flex",
+                  flexWrap: "wrap",
+                  width: matchesMobile ? "50%" : "33.33%",
+                }}
+              >
                 <HTFTBoxComponent
                   teamRates={
                     currentMatch?.teamRates?.[
