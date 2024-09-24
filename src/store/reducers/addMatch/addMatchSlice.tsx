@@ -425,7 +425,6 @@ const addMatch = createSlice({
         };
       })
       .addCase(updateTeamRates.fulfilled, (state, action) => {
-        // debugger;
         const { userRedisObj, jobData } = action.payload;
         if (jobData?.newBet?.marketType === "other") {
           state.matchDetail.teamRates = {
@@ -564,7 +563,7 @@ const addMatch = createSlice({
         };
       })
       .addCase(updateResultStatusOfMatch.fulfilled, (state, action) => {
-        const { status, betId, betType } = action?.payload;
+        const { status, betId, betType, activeStatus } = action?.payload;
         const index = state.quickBookmaker1?.findIndex(
           (item: any) => item.type === "quickbookmaker1"
         );
@@ -591,6 +590,11 @@ const addMatch = createSlice({
                   betId,
                   status,
                 },
+              },
+              otherBettings: {
+                ...state.matchDetail?.otherBettings,
+                [betId]:
+                  activeStatus === "result" ? "DECLARED" : status ?? null,
               },
             };
           } else if (
@@ -652,8 +656,12 @@ const addMatch = createSlice({
       .addCase(handleBetResultStatus.fulfilled, (state, action) => {
         const { betId } = action.payload;
         const resultStatusObj = state.matchDetail?.resultStatus;
+        const resultStatusObj2 = state.matchDetail?.otherBettings;
         if (resultStatusObj && resultStatusObj.hasOwnProperty(betId)) {
           delete resultStatusObj[betId];
+        }
+        if (resultStatusObj2 && resultStatusObj2.hasOwnProperty(betId)) {
+          delete resultStatusObj2[betId];
         }
       })
       .addCase(getRaceMatches.pending, (state) => {

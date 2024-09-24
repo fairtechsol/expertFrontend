@@ -556,7 +556,7 @@ const MatchMarketDetail = () => {
               width: { lg: "40%", xs: "100%", md: "40%" },
               flexDirection: "column",
               display: "flex",
-              paddingLeft: "5px",
+              // paddingLeft: "5px",
               marginTop: { xs: "10px", lg: "0" },
             }}
           >
