@@ -1,10 +1,9 @@
-import { Input, Typography } from "@mui/material";
-import { Box } from "@mui/system";
+import { Box, Input, Typography } from "@mui/material";
 import { numberInputOnWheelPreventChange } from "../../helpers";
 
 const MatchListInput = (props: any) => {
   const {
-        value,
+    value,
     required,
     label,
     labelStyle,
@@ -64,7 +63,7 @@ const MatchListInput = (props: any) => {
         }}
       >
         <Input
-               fullWidth
+          fullWidth
           inputProps={{ min: 0 }}
           disabled={disable}
           placeholder={`${placeholder}`}
