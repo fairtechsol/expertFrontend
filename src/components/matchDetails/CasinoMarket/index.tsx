@@ -1,7 +1,7 @@
 import { Box, Typography } from "@mui/material";
 import { memo, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { ARROWUP, UD } from "../../../assets";
+import { ARROWUP, edit, UD } from "../../../assets";
 import { sessionBetLiveStatus } from "../../../store/actions/match/matchAction";
 import { AppDispatch, RootState } from "../../../store/store";
 import Divider from "../../Common/Divider";
@@ -11,15 +11,14 @@ import CasinoMarketBox from "./CasinoMarketBox";
 import CustomCasinoMarketResult from "./CustomCasinoMarketResult";
 import LiveStatusButtonBox from "./LiveStatusButtonBox";
 import { TiArrowLeftThick } from "react-icons/ti";
-const CasinoMarket = ({
-  title,
-  sessionData,
-  currentMatch,
-  profitLossData,
-}: any) => {
+import ModalMUI from "@mui/material/Modal";
+import SessionLimitEdit from "../SessionMarket/SessionLimitEdit";
+
+const CasinoMarket = ({ title, sessionData, profitLossData }: any) => {
   const [visible, setVisible] = useState(true);
   const [loading, setLoading] = useState(false);
   const [showResultModal, setShowResultModal] = useState(false);
+  const [maxLimitModal, setShowMaxLimitModal] = useState(false);
   const dispatch: AppDispatch = useDispatch();
   const { statusBetLive, error } = useSelector(
     (state: RootState) => state.matchList
@@ -30,6 +29,7 @@ const CasinoMarket = ({
     (state: RootState) => state.addMatch.addMatch
   );
 
+  console.log(sessionData, "abc");
   useEffect(() => {
     if (success) {
       setShowResultModal(false);
@@ -82,6 +82,19 @@ const CasinoMarket = ({
             // height: "40px",
           }}
         >
+          {!sessionData?.isComplete && (
+            <img
+              onClick={() => setShowMaxLimitModal(true)}
+              src={edit}
+              style={{
+                width: "14px",
+                height: "12px",
+                marginLeft: "4px",
+                zIndex: "999",
+                cursor: "pointer",
+              }}
+            />
+          )}
           <Typography
             sx={{
               fontSize: "10px",
@@ -95,9 +108,20 @@ const CasinoMarket = ({
               style={{
                 fontSize: "8px",
               }}
-            >{`(MIN: ${formatToINR(
-              currentMatch?.betFairSessionMinBet
-            )})`}</span>
+            >{`(MIN: ${formatToINR(sessionData?.minBet)})`}</span>
+          </Typography>
+          <Typography
+            sx={{
+              color: "black",
+              fontSize: { lg: "9px", md: "9px", xs: "7px" },
+              marginLeft: "7px",
+              fontWeight: "500",
+              lineHeight: 1,
+            }}
+          >
+            {!sessionData?.isComplete && (
+              <>max : {formatToINR(sessionData?.maxBet)} </>
+            )}
           </Typography>
           <Box
             sx={{
@@ -345,7 +369,6 @@ const CasinoMarket = ({
           />
         </Box>
       </Box>
-
       {visible && (
         <>
           <Box
@@ -436,6 +459,30 @@ const CasinoMarket = ({
           </Box>
         </>
       )}
+      <ModalMUI
+        open={maxLimitModal}
+        aria-labelledby="parent-modal-title"
+        aria-describedby="parent-modal-description"
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <>
+          <SessionLimitEdit
+            newData={{
+              id: sessionData?.id,
+              name: sessionData?.RunnerName,
+              minBet: sessionData?.minBet,
+              maxBet: sessionData?.maxBet,
+            }}
+            onClickCancel={() => {
+              setShowMaxLimitModal(false);
+            }}
+          />
+        </>
+      </ModalMUI>
     </Box>
   );
 };

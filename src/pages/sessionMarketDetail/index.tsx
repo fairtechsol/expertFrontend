@@ -487,7 +487,6 @@ const SessionMarketDetail = () => {
                           key={items?.SelectionId}
                           title={items?.RunnerName || items?.name}
                           sessionData={items}
-                          currentMatch={matchDetail}
                           gtype={items?.gtype}
                           type={name}
                           profitLossData={matchDetail?.sessionProfitLoss}
