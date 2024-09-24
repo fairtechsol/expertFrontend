@@ -38,13 +38,12 @@ const CasinoMarketBox = ({ newData, index, profitLoss }: any) => {
           </Typography>
           <Typography
             sx={{
-              color: profitLoss?.profitLoss?.[index]
-                ? profitLoss?.profitLoss?.[index] > 0
+              color:
+                profitLoss?.profitLoss?.[index] > 0
                   ? "green"
                   : profitLoss?.profitLoss?.[index] < 0
                   ? "red"
-                  : "red"
-                : "red",
+                  : "black",
               fontSize: { lg: "10px", md: "10px", xs: "10px" },
               marginLeft: { lg: "7px", md: "20px", xs: "20px" },
               fontWeight: "600",
@@ -52,9 +51,7 @@ const CasinoMarketBox = ({ newData, index, profitLoss }: any) => {
               textAlign: "center",
             }}
           >
-            {profitLoss?.profitLoss
-              ? parseFloat(profitLoss?.profitLoss?.[index] || 0).toFixed(2)
-              : 0}
+            {parseFloat(profitLoss?.profitLoss?.[index] || 0).toFixed(2)}
           </Typography>
         </Box>
 
