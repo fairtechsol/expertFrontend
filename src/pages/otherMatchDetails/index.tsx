@@ -79,6 +79,7 @@ const OtherMatchDetails = () => {
           navigate("/expert/match");
         } else {
           dispatch(getPlacedBetsMatch(state?.id));
+          dispatch(updateResultStatusOfMatch(event));
           dispatch(
             updateResultBoxStatus({ visible: false, betId: event?.betId })
           );
@@ -271,23 +272,21 @@ const OtherMatchDetails = () => {
         socketService.user.matchResultUnDeclaredOff();
         socketService.user.matchDeleteBetOff();
         socketService.user.sessionDeleteBetOff();
-        // socketService.user.sessionAddedOff();
         socketService.user.userMatchBetPlacedOff();
-        // socketService.user.userSessionBetPlacedOff();
-        // socketService.user.sessionResultDeclaredOff();
         socketService.user.updateInResultDeclareOff();
         socketService.user.updateDeleteReasonOff();
+        socketService.user.matchResultDeclareAllUserOff();
+        socketService.user.matchResultUnDeclareAllUserOff();
         expertSocketService.match.joinMatchRoom(state?.id, "expert");
         expertSocketService.match.getMatchRates(state?.id, (event: any) => {
           updateMatchDetailToRedux(event);
         });
         socketService.user.matchResultDeclared(resultDeclared);
+        socketService.user.matchResultDeclareAllUser(resultDeclared);
         socketService.user.matchResultUnDeclared(resultUnDeclared);
+        socketService.user.matchResultUnDeclareAllUser(resultUnDeclared);
         socketService.user.matchDeleteBet(matchDeleteBet);
-        // socketService.user.sessionDeleteBet(matchDeleteBet);
         socketService.user.userMatchBetPlaced(updateMatchBetPlaced);
-        // socketService.user.userSessionBetPlaced(updateSessionBetPlaced);
-        // socketService.user.sessionResultDeclared(updateSessionResultDeclared);
         socketService.user.updateInResultDeclare(updateSessionResultStatus);
         socketService.user.updateDeleteReason(updateDeleteBetReason);
         expertSocketService.match.connectError(handleSocketError);
@@ -308,15 +307,13 @@ const OtherMatchDetails = () => {
           socketService.user.matchResultDeclaredOff();
           socketService.user.matchResultUnDeclaredOff();
           socketService.user.matchDeleteBetOff();
-          // socketService.user.sessionDeleteBetOff();
-          // socketService.user.sessionAddedOff();
           socketService.user.userMatchBetPlacedOff();
-          // socketService.user.userSessionBetPlacedOff();
-          // socketService.user.sessionResultDeclaredOff();
           socketService.user.updateInResultDeclareOff();
           socketService.user.updateDeleteReasonOff();
           expertSocketService.match.connectErrorOff();
           expertSocketService.match.onConnectOff();
+          socketService.user.matchResultDeclareAllUserOff();
+          socketService.user.matchResultUnDeclareAllUserOff();
         };
       }
     } catch (error) {
@@ -355,7 +352,7 @@ const OtherMatchDetails = () => {
   return (
     <Box
       sx={{
-        display: { lg: "flex" },
+        display: { lg: "flex", md: "flex" },
         alignSelf: "center",
         borderRadius: "10px",
         flexDirection: "row",
@@ -550,7 +547,7 @@ const OtherMatchDetails = () => {
               width: { lg: "40%", xs: "100%", md: "40%" },
               flexDirection: "column",
               display: "flex",
-              paddingLeft: "5px",
+              // paddingLeft: "5px",
               marginTop: { xs: "10px", lg: "0" },
             }}
           >
