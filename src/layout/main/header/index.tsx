@@ -137,7 +137,7 @@ const Header1 = () => {
                   />
                   <StyledImage
                     src={FgLogo}
-                    onClick={(e) => {
+                    onClick={(e: any) => {
                       e.stopPropagation();
                       navigate(`/expert/match`);
                     }}
@@ -162,14 +162,19 @@ const Header1 = () => {
                       title={!dropDownLoading ? "ALL MATCH" : "Loading..."}
                       boxStyle={{
                         backgroundColor:
-                          currentSelected == 1 && (gameType || anchor) ? "white" : "transparent",
+                          currentSelected == 1 && (gameType || anchor)
+                            ? "white"
+                            : "transparent",
                         py: "5px",
                         borderRadius: "5px",
                         marginLeft: { lg: "15px", xs: "1px" },
                         cursor: "pointer",
                       }}
                       titleStyle={{
-                        color: currentSelected == 1 && (gameType || anchor) ? "green" : "white",
+                        color:
+                          currentSelected == 1 && (gameType || anchor)
+                            ? "green"
+                            : "white",
                       }}
                     />
                   )}
@@ -315,7 +320,12 @@ const Header1 = () => {
                   width: "100%",
                   minHeight: { lg: 66, md: 80, xs: 60 },
                   display: "flex",
-                  flexDirection: { lg: "row", xs: "column", sm: "column", md: "" },
+                  flexDirection: {
+                    lg: "row",
+                    xs: "column",
+                    sm: "column",
+                    md: "",
+                  },
                   alignItems: !matchesMobile ? "center" : "flex-start",
                   justifyContent: "space-between",
                   paddingX: { lg: "0.5%", xs: "2%" },
@@ -355,7 +365,7 @@ const Header1 = () => {
                   />
                   <StyledImage
                     src={FgLogo}
-                    onClick={(e) => {
+                    onClick={(e: any) => {
                       e.stopPropagation();
                       navigate(`/expert/match`);
                     }}
@@ -435,14 +445,19 @@ const Header1 = () => {
                         title={!dropDownLoading ? "ALL MATCH" : "Loading..."}
                         boxStyle={{
                           backgroundColor:
-                            currentSelected == 1 && (gameType || anchor) ? "white" : "transparent",
+                            currentSelected == 1 && (gameType || anchor)
+                              ? "white"
+                              : "transparent",
                           py: "5px",
                           borderRadius: "5px",
                           marginLeft: { lg: "15px", xs: "15px" },
                           cursor: "pointer",
                         }}
                         titleStyle={{
-                          color: currentSelected == 1 && (gameType || anchor) ? "green" : "white",
+                          color:
+                            currentSelected == 1 && (gameType || anchor)
+                              ? "green"
+                              : "white",
                         }}
                       />
                     )}
