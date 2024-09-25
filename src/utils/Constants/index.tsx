@@ -421,52 +421,52 @@ export const marketArray = [
   "manualCompleteMatch",
 ];
 
-export const addMatchThirdParty =
-  process.env.NODE_ENV === Constants.PRODUCTION
-    ? Constants.thirdParty
-    : Constants.localPathThird;
-
-export const serviceUrl =
-  process.env.NODE_ENV === Constants.PRODUCTION
-    ? Constants.expertSocketBasePath
-    : Constants.localPathExpert;
-
-export const baseUrls = {
-  socket:
-    process.env.NODE_ENV === Constants.PRODUCTION
-      ? Constants.apiBasePath
-      : Constants.localPath,
-  expertSocket:
-    process.env.NODE_ENV === Constants.PRODUCTION
-      ? Constants.expertSocketBasePath
-      : Constants.localPathExpert,
-  matchSocket:
-    process.env.NODE_ENV === Constants.PRODUCTION
-      ? Constants.thirdParty
-      : Constants.localPathThird,
-};
-
 // export const addMatchThirdParty =
 //   process.env.NODE_ENV === Constants.PRODUCTION
-//     ? Constants.thirdPartyLive
+//     ? Constants.thirdParty
 //     : Constants.localPathThird;
 
 // export const serviceUrl =
 //   process.env.NODE_ENV === Constants.PRODUCTION
-//     ? Constants.expertSocketBasePathLive
+//     ? Constants.expertSocketBasePath
 //     : Constants.localPathExpert;
 
 // export const baseUrls = {
 //   socket:
 //     process.env.NODE_ENV === Constants.PRODUCTION
-//       ? Constants.apiBasePathLive
+//       ? Constants.apiBasePath
 //       : Constants.localPath,
 //   expertSocket:
 //     process.env.NODE_ENV === Constants.PRODUCTION
-//       ? Constants.expertSocketBasePathLive
+//       ? Constants.expertSocketBasePath
 //       : Constants.localPathExpert,
 //   matchSocket:
 //     process.env.NODE_ENV === Constants.PRODUCTION
-//       ? Constants.thirdPartyLive
+//       ? Constants.thirdParty
 //       : Constants.localPathThird,
 // };
+
+export const addMatchThirdParty =
+  process.env.NODE_ENV === Constants.PRODUCTION
+    ? Constants.thirdPartyLive
+    : Constants.localPathThird;
+
+export const serviceUrl =
+  process.env.NODE_ENV === Constants.PRODUCTION
+    ? Constants.expertSocketBasePathLive
+    : Constants.localPathExpert;
+
+export const baseUrls = {
+  socket:
+    process.env.NODE_ENV === Constants.PRODUCTION
+      ? Constants.apiBasePathLive
+      : Constants.localPath,
+  expertSocket:
+    process.env.NODE_ENV === Constants.PRODUCTION
+      ? Constants.expertSocketBasePathLive
+      : Constants.localPathExpert,
+  matchSocket:
+    process.env.NODE_ENV === Constants.PRODUCTION
+      ? Constants.thirdPartyLive
+      : Constants.localPathThird,
+};
