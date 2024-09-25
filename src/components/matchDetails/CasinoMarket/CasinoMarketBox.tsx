@@ -58,29 +58,38 @@ const CasinoMarketBox = ({ newData, index, profitLoss }: any) => {
         {!["ACTIVE", "", undefined, null].includes(newData?.gstatus) ? (
           <Box
             sx={{
-              margin: "1px",
-              background: "rgba(0,0,0,1)",
-              height: "28px",
-              right: "0vh",
-              position: "absolute",
-              width: { lg: "12%", xs: "13%", md: "8%" },
-              justifyContent: { xs: "center", lg: "center" },
-              alignItems: "center",
               display: "flex",
+              position: "relative",
+              background: index % 2 === 0 ? "#FFE094" : "#ECECEC",
+              height: "28px",
+              width: { lg: "20%", xs: "17%", md: "10%" },
+              justifyContent: "flex-end",
+              alignItems: "center",
             }}
           >
-            <Typography
-              style={{
-                fontSize: "10px",
-                textTransform: "uppercase",
-                textAlign: "center",
-                width: "100%",
-                color: "white",
-                fontWeight: "400",
+            <Box
+              sx={{
+                width: "75%",
+                height: "100%",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                background: "rgba(0,0,0,1)",
               }}
             >
-              {newData?.gstatus}
-            </Typography>
+              <Typography
+                style={{
+                  fontSize: "10px",
+                  textTransform: "uppercase",
+                  textAlign: "center",
+                  width: "100%",
+                  color: "white",
+                  fontWeight: "400",
+                }}
+              >
+                {newData?.gstatus}
+              </Typography>
+            </Box>
           </Box>
         ) : (
           <Box

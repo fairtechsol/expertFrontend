@@ -29,7 +29,6 @@ const CasinoMarket = ({ title, sessionData, profitLossData }: any) => {
     (state: RootState) => state.addMatch.addMatch
   );
 
-  console.log(sessionData, "abc");
   useEffect(() => {
     if (success) {
       setShowResultModal(false);
