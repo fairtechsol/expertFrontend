@@ -39,8 +39,8 @@ import TiedMatchMarket from "../../components/matchDetails/TiedMatchMarket";
 import CompleteMatchMarket from "../../components/matchDetails/CompleteMatchMarket";
 import { matchSocketService } from "../../socketManager/matchSocket";
 import ManualMarket from "../manualMarket";
-import Scoreboard from "../../components/matchDetails/Scoreboard";
-import service from "../../service";
+// import Scoreboard from "../../components/matchDetails/Scoreboard";
+// import service from "../../service";
 import OtherMatchMarket from "../../components/matchDetails/OtherMatchMarket";
 import TournamentMarket from "../../components/matchDetails/TournamentMarkets";
 import { marketArray } from "../../utils/Constants";
@@ -53,8 +53,8 @@ const MatchMarketDetail = () => {
   const theme = useTheme();
   const matchesMobile = useMediaQuery(theme.breakpoints.down("md"));
   const [socketConnected, setSocketConnected] = useState(true);
-  const [liveScoreBoardData, setLiveScoreBoardData] = useState(null);
-  const [errorCount, setErrorCount] = useState<number>(0);
+  // const [liveScoreBoardData, setLiveScoreBoardData] = useState(null);
+  // const [errorCount, setErrorCount] = useState<number>(0);
   const { matchDetail, loading, success } = useSelector(
     (state: RootState) => state.addMatch.addMatch
   );
@@ -232,21 +232,21 @@ const MatchMarketDetail = () => {
     setSocketConnected(false);
   };
 
-  const getScoreBoard = async (marketId: string) => {
-    try {
-      const response: any = await service.get(
-        `https://devscore.fairgame.club/score/getMatchScore/${marketId}`
-        // `https://fairscore7.com/score/getMatchScore/${marketId}`
-      );
-      if (response) {
-        setLiveScoreBoardData(response);
-        setErrorCount(0);
-      }
-    } catch (e: any) {
-      console.log("Error:", e?.message);
-      setErrorCount((prevCount: number) => prevCount + 1);
-    }
-  };
+  // const getScoreBoard = async (marketId: string) => {
+  //   try {
+  //     const response: any = await service.get(
+  //       `https://devscore.fairgame.club/score/getMatchScore/${marketId}`
+  //       // `https://fairscore7.com/score/getMatchScore/${marketId}`
+  //     );
+  //     if (response) {
+  //       setLiveScoreBoardData(response);
+  //       setErrorCount(0);
+  //     }
+  //   } catch (e: any) {
+  //     console.log("Error:", e?.message);
+  //     setErrorCount((prevCount: number) => prevCount + 1);
+  //   }
+  // };
 
   const firstKnownKey = marketArray.find((key: any) => {
     const keyObject = (matchDetail ?? {})[key];
@@ -338,21 +338,21 @@ const MatchMarketDetail = () => {
     }
   }, [state?.id]);
 
-  useEffect(() => {
-    if (matchDetail?.marketId) {
-      let intervalTime = 500;
-      if (errorCount >= 5 && errorCount < 10) {
-        intervalTime = 60000;
-      } else if (errorCount >= 10) {
-        intervalTime = 600000;
-      }
-      const interval = setInterval(() => {
-        getScoreBoard(matchDetail?.marketId);
-      }, intervalTime);
+  // useEffect(() => {
+  //   if (matchDetail?.marketId) {
+  //     let intervalTime = 500;
+  //     if (errorCount >= 5 && errorCount < 10) {
+  //       intervalTime = 60000;
+  //     } else if (errorCount >= 10) {
+  //       intervalTime = 600000;
+  //     }
+  //     const interval = setInterval(() => {
+  //       getScoreBoard(matchDetail?.marketId);
+  //     }, intervalTime);
 
-      return () => clearInterval(interval);
-    }
-  }, [matchDetail?.marketId, errorCount]);
+  //     return () => clearInterval(interval);
+  //   }
+  // }, [matchDetail?.marketId, errorCount]);
 
   useEffect(() => {
     try {
@@ -416,9 +416,9 @@ const MatchMarketDetail = () => {
             }}
           >
             <Masonry columns={matchesMobile ? 1 : 2} spacing={1}>
-              {liveScoreBoardData && (
+              {/* {liveScoreBoardData && (
                 <Scoreboard liveScoreData={liveScoreBoardData} />
-              )}
+              )} */}
               {matchDetail?.matchOdd &&
                 (matchDetail?.matchOdd?.isActive === false ? false : true) && (
                   <MatchOdds
