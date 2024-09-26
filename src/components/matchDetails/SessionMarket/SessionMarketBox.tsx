@@ -147,13 +147,14 @@ const SessionMarketBox = ({
         <Box
           sx={{
             position: "absolute",
-            top: "4px",
             minWidth: { lg: "36%", xs: "45%", md: "25%" },
             justifyContent: "flex-end",
             left: { lg: "7vw", md: "21vw" },
             display: "flex",
+            height: "30px",
             zIndex: 100,
             gap: 0,
+            alignItems: "center",
           }}
         >
           <Typography sx={{ marginRight: "10px", zIndex: "999" }}>
@@ -166,8 +167,8 @@ const SessionMarketBox = ({
                   size={20}
                   style={{
                     backgroundColor: "lightgray",
-                    // padding: "10px",
-                    // borderRadius: "8px",
+                    display: "flex",
+                    alignItems: "center",
                   }}
                   onClick={(e: any) => {
                     if (loading) {
@@ -249,6 +250,7 @@ const SessionMarketBox = ({
               onClick={() => {
                 setVisible(true);
               }}
+              height="20px"
             />
           )}
         </Box>
@@ -392,7 +394,7 @@ const SessionMarketBox = ({
           />
         )}
       </Box>
-      <Divider />
+      {/* <Divider /> */}
       {Array.from(
         {
           length:
@@ -445,9 +447,9 @@ const SessionMarketBox = ({
                   margin: "1px",
                   background: "rgba(0,0,0,1)",
                   height: "30px",
-                  right: { lg: "23.7%", xs: "16.8%", md: "14.9%" },
+                  right: { lg: "24.6%", xs: "16.8%", md: "14.9%" },
                   position: "absolute",
-                  width: { lg: "18.6%", xs: "36%" },
+                  width: { lg: "16.9%", xs: "36%" },
                   justifyContent: { xs: "center", lg: "center" },
                   alignItems: "center",
                   display: "flex",
@@ -477,9 +479,9 @@ const SessionMarketBox = ({
                   margin: "1px",
                   background: "rgba(0,0,0,1)",
                   height: "30px",
-                  right: { lg: "23.7%", xs: "16.8%", md: "14.9%" },
+                  right: { lg: "24.6%", xs: "16.8%", md: "14.9%" },
                   position: "absolute",
-                  width: { lg: "18.6%", xs: "36%" },
+                  width: { lg: "16.9%", xs: "36%" },
                   justifyContent: { xs: "center", lg: "center" },
                   alignItems: "center",
                   display: "flex",

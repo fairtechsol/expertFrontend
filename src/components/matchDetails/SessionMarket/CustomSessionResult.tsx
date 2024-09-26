@@ -76,7 +76,7 @@ const CustomSessionResult = ({ onClick, newData }: any) => {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        padding: "4px",
+        padding: "0 4px",
         border: "1px solid",
         background: "#FFAF45",
         gap: 1,

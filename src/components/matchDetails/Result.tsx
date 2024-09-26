@@ -1,17 +1,17 @@
 import { Box, Typography } from "@mui/material";
 
-const Result = ({ invert, onClick }: any) => {
+const Result = ({ invert, onClick, height }: any) => {
   return (
     <Box onClick={onClick}>
       <Box
         sx={{
           width: { lg: "38px", xs: "80%" },
           display: "flex",
-          marginRight: {lg:"5px", xs: "0"},
+          marginRight: { lg: "5px", xs: "0" },
           justifyContent: "center",
           paddingX: 1,
           alignItems: "center",
-          height: "18px",
+          height: height ? height : "18px",
           background: invert ? "white" : "#0B4F26",
           borderRadius: "2px",
           cursor: "pointer",
