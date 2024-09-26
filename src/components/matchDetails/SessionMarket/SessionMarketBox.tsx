@@ -305,7 +305,7 @@ const SessionMarketBox = ({
               {Math.max(
                 newData?.ex?.availableToLay?.length ?? 0,
                 newData?.ex?.availableToBack?.length ?? 0
-              ) > 1 && newData?.resultStatus}
+              ) <= 1 && newData?.resultStatus}
             </h6>
           </Box>
         ) : !["ACTIVE", "active", "", undefined, null, 0].includes(
@@ -338,7 +338,7 @@ const SessionMarketBox = ({
               {Math.max(
                 newData?.ex?.availableToLay?.length ?? 0,
                 newData?.ex?.availableToBack?.length ?? 0
-              ) > 1 && (newData?.result ? `Declared` : newData?.GameStatus)}
+              ) <= 1 && (newData?.result ? `Declared` : newData?.GameStatus)}
             </h6>
           </Box>
         ) : (
