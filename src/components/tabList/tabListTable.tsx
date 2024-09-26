@@ -36,7 +36,7 @@ const TabListTable = (props: any) => {
     }, 1000);
   }
   const handleList=()=>{
-    dispatch(getMatchList({ currentPage: currentPage }));
+    dispatch(getMatchList({ currentPage: currentPage,stopAt:true }));
     dispatch(getTabList({ currentPage: currentPage }));
   }
   const handleEdit=()=>{
