@@ -12,6 +12,7 @@ import {
   getPlacedBetsMatch,
   getRaceList,
   getRaceMatch,
+  getTabList,
   matchListReset,
   noResultDeclare,
   raceListReset,
@@ -38,6 +39,7 @@ import { updateRaceRates } from "../../actions/addMatch/addMatchAction";
 
 interface InitialState {
   matchList: any;
+  tabList: any;
   matchListDropdown: any;
   success: boolean;
   editSuccess: boolean;
@@ -57,6 +59,7 @@ interface InitialState {
 
 const initialState: InitialState = {
   matchList: [],
+  tabList: [],
   matchListDropdown: [],
   loading: false,
   success: false,
@@ -91,6 +94,20 @@ const matchList = createSlice({
         state.success = true;
       })
       .addCase(getMatchList.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action?.error?.message;
+      })
+      .addCase(getTabList.pending, (state) => {
+        state.loading = true;
+        state.success = false;
+        state.error = null;
+      })
+      .addCase(getTabList.fulfilled, (state, action) => {
+        state.tabList = action?.payload;
+        state.loading = false;
+        state.success = true;
+      })
+      .addCase(getTabList.rejected, (state, action) => {
         state.loading = false;
         state.error = action?.error?.message;
       })
