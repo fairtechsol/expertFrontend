@@ -30,10 +30,10 @@ const TabListTable = (props: any) => {
       order:selected
     }
     dispatch(addBlinking(payload));
-    handleList();
     setTimeout(() => {
+      handleList();
       handlclose();
-    }, 700);
+    }, 1000);
   }
   const handleList=()=>{
     dispatch(getMatchList({ currentPage: currentPage }));
