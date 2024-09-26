@@ -296,7 +296,7 @@ const BetList = ({ tag, allBetRates, title }: any) => {
             <Box
               ref={scrollRef}
               sx={{
-                maxHeight: "80vh",
+                maxHeight: "90vh",
                 width: { xs: "auto", lg: "auto", md: "auto" },
                 overflow: "auto",
               }}
