@@ -22,7 +22,7 @@ const Header1 = () => {
   const matchesMobile = useMediaQuery(theme.breakpoints.down("md"));
   const navigate = useNavigate();
   const dispatch: AppDispatch = useDispatch();
-  const { getProfile, loggedUserCount } = useSelector(
+  const { profileDetail, loggedUserCount } = useSelector(
     (state: RootState) => state.user.profile
   );
   const [visible, setVisible] = useState(false);
@@ -150,9 +150,9 @@ const Header1 = () => {
                   />
                 </Box>
                 <>
-                  {(getProfile?.bookmakerMatchPrivilege ||
-                    getProfile?.sessionMatchPrivilege ||
-                    getProfile?.allPrivilege) && (
+                  {(profileDetail?.bookmakerMatchPrivilege ||
+                    profileDetail?.sessionMatchPrivilege ||
+                    profileDetail?.allPrivilege) && (
                     <ButtonHead
                       onClick={(e: any) => {
                         setGameType(true);
@@ -314,7 +314,7 @@ const Header1 = () => {
                         alignItems: "center",
                       }}
                       image={"https://picsum.photos/200/300"}
-                      value1={getProfile?.userName}
+                      value1={profileDetail?.userName}
                     />
                   </Box>
                 </Box>
@@ -414,7 +414,7 @@ const Header1 = () => {
                     <BoxProfile
                       containerStyle={{ marginTop: "0" }}
                       image={"https://picsum.photos/200/300"}
-                      value1={getProfile?.userName}
+                      value1={profileDetail?.userName}
                     />
                   </Box>
                 </>
@@ -461,9 +461,9 @@ const Header1 = () => {
 
                 <Box>
                   <Box sx={{ display: "flex" }}>
-                    {(getProfile?.bookmakerMatchPrivilege ||
-                      getProfile?.sessionMatchPrivilege ||
-                      getProfile?.allPrivilege) && (
+                    {(profileDetail?.bookmakerMatchPrivilege ||
+                      profileDetail?.sessionMatchPrivilege ||
+                      profileDetail?.allPrivilege) && (
                       <ButtonHead
                         onClick={(e: any) => {
                           setGameType(true);
