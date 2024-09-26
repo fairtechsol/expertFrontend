@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { sessionBetLiveStatus } from "../../../store/actions/match/matchAction";
 import { AppDispatch, RootState } from "../../../store/store";
-import Divider from "../../Common/Divider";
 import { formatNumber, formatToINR } from "../../helper";
 import Result from "../Result";
 import SeparateBox from "../SeparateBox";
