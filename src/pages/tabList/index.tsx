@@ -32,7 +32,7 @@ const TabList = ({}) => {
   useEffect(() => {
     try {
       if (sessionStorage.getItem("jwtExpert")) {
-        dispatch(getMatchList({ currentPage: currentPage }));
+        dispatch(getMatchList({ currentPage: currentPage,stopAt:true }));
         dispatch(getTabList({ currentPage: currentPage }));
       }
     } catch (error) {
@@ -69,7 +69,6 @@ const TabList = ({}) => {
       console.log(error);
     }
   }, [socket]);
-
   return (
     <>
       <Box
