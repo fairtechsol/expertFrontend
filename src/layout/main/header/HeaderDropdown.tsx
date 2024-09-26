@@ -25,7 +25,9 @@ const menutItems = [
 const HeaderDropdown = (props: any) => {
   const { anchorEl, open, handleClose } = props;
 
-  const { getProfile } = useSelector((state: RootState) => state.user.profile);
+  const { profileDetail } = useSelector(
+    (state: RootState) => state.user.profile
+  );
 
   const [loading] = useState(false);
   const dispatch: AppDispatch = useDispatch();
@@ -69,7 +71,8 @@ const HeaderDropdown = (props: any) => {
         if (x?.title === "Add Match") {
           return (
             <div key={x?.id}>
-              {(getProfile?.allPrivilege || getProfile?.addMatchPrivilege) && (
+              {(profileDetail?.allPrivilege ||
+                profileDetail?.addMatchPrivilege) && (
                 <MenuItem
                   key={x?.id}
                   dense={true}

@@ -21,7 +21,9 @@ const MatchListTable = (props: any) => {
   const { data, index, currentPage } = props;
   const navigate = useNavigate();
   const dispatch: AppDispatch = useDispatch();
-  const { getProfile } = useSelector((state: RootState) => state.user.profile);
+  const { profileDetail } = useSelector(
+    (state: RootState) => state.user.profile
+  );
   const { sessionProLoss } = useSelector((state: RootState) => state.matchList);
   const [showPopup, setShowPopup] = useState(false);
   const [showUserModal, setShowUserModal] = useState(false);
@@ -250,8 +252,8 @@ const MatchListTable = (props: any) => {
               }}
             >
               {data?.matchType === "cricket" &&
-                (getProfile?.allPrivilege ||
-                  getProfile?.sessionMatchPrivilege) && (
+                (profileDetail?.allPrivilege ||
+                  profileDetail?.sessionMatchPrivilege) && (
                   <CustomButton
                     containerStyle={{
                       // minWidth: { xs: "40%", sm: "100px" },
@@ -270,8 +272,8 @@ const MatchListTable = (props: any) => {
                   />
                 )}
               {data?.matchType === "cricket" &&
-                (getProfile?.allPrivilege ||
-                  getProfile?.sessionMatchPrivilege) && (
+                (profileDetail?.allPrivilege ||
+                  profileDetail?.sessionMatchPrivilege) && (
                   <CustomButton
                     containerStyle={{
                       // minWidth: { xs: "40%", sm: "100px" },
@@ -323,8 +325,8 @@ const MatchListTable = (props: any) => {
                   bgColor={buttonBgColor}
                 />
               )}
-              {(getProfile?.allPrivilege ||
-                getProfile?.betFairMatchPrivilege) && (
+              {(profileDetail?.allPrivilege ||
+                profileDetail?.betFairMatchPrivilege) && (
                 <CustomButton
                   containerStyle={{
                     // minWidth: { xs: "40%", sm: "100px" },
@@ -348,7 +350,8 @@ const MatchListTable = (props: any) => {
                   title={"View Match"}
                 />
               )}
-              {(getProfile?.allPrivilege || getProfile?.addMatchPrivilege) && (
+              {(profileDetail?.allPrivilege ||
+                profileDetail?.addMatchPrivilege) && (
                 <CustomButton
                   containerStyle={{
                     // minWidth: { xs: "40%", sm: "100px" },

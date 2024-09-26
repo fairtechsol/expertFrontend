@@ -43,7 +43,9 @@ const SessionMarketDetail = () => {
   const navigate = useNavigate();
   const { state } = useLocation();
 
-  const { getProfile } = useSelector((state: RootState) => state.user.profile);
+  const { profileDetail } = useSelector(
+    (state: RootState) => state.user.profile
+  );
   const [socketConnected, setSocketConnected] = useState(true);
   const { matchDetail, success } = useSelector(
     (state: RootState) => state.addMatch.addMatch
@@ -211,7 +213,7 @@ const SessionMarketDetail = () => {
         dispatch(
           updateResultStatusOfSession({
             ...event,
-            loggedUserId: getProfile?.id,
+            loggedUserId: profileDetail?.id,
           })
         );
         dispatch(updateResultStatusOfMatch(event));

@@ -9,7 +9,7 @@ import { getMatchList } from "../../store/actions/match/matchAction";
 const MatchListHeader = () => {
   const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
-  const { getProfile } = useSelector((state: RootState) => state.user.profile);
+  const { profileDetail } = useSelector((state: RootState) => state.user.profile);
 
   const getMatchListOnchange = debounce((value: string) => {
     dispatch(getMatchList({ keyword: value }));
@@ -48,7 +48,7 @@ const MatchListHeader = () => {
             placeholder="Search Match..."
             handleSearch={getMatchListOnchange}
           />
-          {(getProfile?.allPrivilege || getProfile?.addMatchPrivilege) && (
+          {(profileDetail?.allPrivilege || profileDetail?.addMatchPrivilege) && (
             <CustomButton
               onClick={() => {
                 navigate("/expert/add_match");
