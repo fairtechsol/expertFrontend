@@ -182,7 +182,8 @@ const TabListTable = (props: any) => {
                     title={"Edit"}
                   />
                   <CustomButton
-                  containerStyle={{ margin: "5px" }}
+                  bgColor={"#e74c3c"}
+                  containerStyle={{ margin: "5px"}}
                   onClick={handleDelete}
                   title={"Delete"}
                 />
