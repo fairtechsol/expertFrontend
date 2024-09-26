@@ -302,7 +302,10 @@ const SessionMarketBox = ({
                 overflowWrap: "anywhere",
               }}
             >
-              {newData?.resultStatus}
+              {Math.max(
+                newData?.ex?.availableToLay?.length ?? 0,
+                newData?.ex?.availableToBack?.length ?? 0
+              ) > 1 && newData?.resultStatus}
             </h6>
           </Box>
         ) : !["ACTIVE", "active", "", undefined, null, 0].includes(
@@ -332,7 +335,10 @@ const SessionMarketBox = ({
                 fontWeight: "400",
               }}
             >
-              {newData?.result ? `Declared` : newData?.GameStatus}
+              {Math.max(
+                newData?.ex?.availableToLay?.length ?? 0,
+                newData?.ex?.availableToBack?.length ?? 0
+              ) > 1 && (newData?.result ? `Declared` : newData?.GameStatus)}
             </h6>
           </Box>
         ) : (
@@ -468,7 +474,7 @@ const SessionMarketBox = ({
                     overflowWrap: "anywhere",
                   }}
                 >
-                  {newData?.resultStatus}
+                  {item === 1 && newData?.resultStatus}
                 </h6>
               </Box>
             ) : !["ACTIVE", "active", "", undefined, null, 0].includes(
@@ -498,7 +504,8 @@ const SessionMarketBox = ({
                     fontWeight: "400",
                   }}
                 >
-                  {newData?.result ? `Declared` : newData?.GameStatus}
+                  {item === 1 &&
+                    (newData?.result ? `Declared` : newData?.GameStatus)}
                 </h6>
               </Box>
             ) : (
@@ -560,7 +567,6 @@ const SessionMarketBox = ({
               />
             )}
           </Box>
-          <Divider />
         </>
       ))}
       <ModalMUI
