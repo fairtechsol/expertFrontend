@@ -45,7 +45,7 @@ const SeparateBox = ({
               xs: mWidth ? mWidth : "45.5%",
               lg: width ? width : "45.5%",
             },
-            height: "94%",
+            height: "100%",
             display: "flex",
             justifyContent: "center",
             alignItems: "center",

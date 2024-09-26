@@ -315,7 +315,7 @@ const SessionBetlistDetail = () => {
   return (
     <>
       <Stack
-        spacing={2}
+        spacing={1}
         direction={{ lg: "row", md: "row", xs: "column", sm: "row" }}
       >
         <Box sx={{ width: { lg: "20%" } }}>
@@ -422,7 +422,7 @@ const SessionBetlistDetail = () => {
               })}
         </Box>
 
-        <Box sx={{ width: { lg: "56%", md: "56%", xs: "100%", sm: "60%" } }}>
+        <Box sx={{ width: { lg: "60%", md: "60%", xs: "100%", sm: "60%" } }}>
           <BetList
             allBetRates={placedBetsMatch}
             tag={true}

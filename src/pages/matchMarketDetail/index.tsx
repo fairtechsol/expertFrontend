@@ -396,8 +396,8 @@ const MatchMarketDetail = () => {
         },
         // minHeight: "92vh",
         // background: !loading ? "white" : "",
-        padding: 1,
-        gap: 1,
+        // padding: 1,
+        // gap: 1,
       }}
     >
       {loading ? (

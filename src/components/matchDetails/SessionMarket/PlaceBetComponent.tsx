@@ -26,7 +26,7 @@ const PlaceBetComponent = ({ profitLossData, newData }: any) => {
           flexDirection: "row",
           display: "flex",
           alignItems: "center",
-          top: "2px",
+          top: "3px",
           width: { lg: "7vw", xs: "14vw", md: "13vw" },
           borderRadius: "5px",
           height: "25px",

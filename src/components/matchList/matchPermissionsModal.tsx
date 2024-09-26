@@ -56,7 +56,7 @@ const MatchPermissionsModal = (props: any) => {
           flexWrap: "wrap",
           // flex: 3,
           alignItems: "center",
-          p: 3,
+          // p: 3,
           // borderLeft:{xs:"2px solid #fff"}
         }}
       >
@@ -145,7 +145,7 @@ const MatchPermissionsModal = (props: any) => {
       {showUserModal && !matchesMobile && (
         <Box
           sx={{
-            width: "20%",
+            // width: "20%",
             flex: 1,
             display: "flex",
             justifyContent: "flex-end",
