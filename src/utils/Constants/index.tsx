@@ -54,6 +54,11 @@ export const ApiConstants = {
     BETTINGSTATUS: "/matchBeting/status/change",
     RACESTATUS: "/matchBeting/race/status/change",
   },
+  BLINK: {
+    GET_TAB: "blinkingTabs",
+    ADD: "blinkingTabs/add",
+    DELETE: "/blinkingTabs/",
+  },
 };
 
 export const Constants = {
@@ -79,6 +84,7 @@ export const Constants = {
   MainPaths: {
     root: "/expert",
     match: "match",
+    tab: "tab",
     race: "race/:raceType",
     addMatch: "add_match",
     addRace: "add_race",

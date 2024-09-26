@@ -28,6 +28,26 @@ export const getMatchList = createAsyncThunk<any, any>(
     }
   }
 );
+export const getTabList = createAsyncThunk<any, any>(
+  "/tab/list",
+  async (requestData, thunkApi) => {
+    try {
+      const response = await service.get(
+        `${ApiConstants.BLINK.GET_TAB}?searchBy=title&keyword=${
+          requestData.keyword ? requestData.keyword : ""
+        }&page=${
+          requestData?.currentPage ? requestData?.currentPage : 1
+        }&limit=${Constants.pageLimit}&sort=match.createdAt:DESC`
+      );
+      if (response) {
+        return response?.data;
+      }
+    } catch (error) {
+      const err = error as AxiosError;
+      return thunkApi.rejectWithValue(err.response?.status);
+    }
+  }
+);
 export const getMatchListSessionProfitLoss = createAsyncThunk<any, any>(
   "/matchListSession/profitLoss",
   async (requestData, thunkApi) => {
@@ -351,6 +371,39 @@ export const raceLiveStatus = createAsyncThunk<any, any>(
         requestData
       );
       if (response) {
+        return response?.data;
+      }
+    } catch (error) {
+      const err = error as AxiosError;
+      return thunkApi.rejectWithValue(err.response?.status);
+    }
+  }
+);
+export const addBlinking = createAsyncThunk<any, any>(
+  "/add/blinking",
+  async (requestData, thunkApi) => {
+    try {
+      const response = await service.post(
+        `${ApiConstants.BLINK.ADD}`,
+        requestData
+      );
+      if (response?.status === 200) {
+        return response?.data;
+      }
+    } catch (error) {
+      const err = error as AxiosError;
+      return thunkApi.rejectWithValue(err.response?.status);
+    }
+  }
+);
+export const deleteBlinking = createAsyncThunk<any, any>(
+  "/delete/blinking",
+  async (requestData, thunkApi) => {
+    try {
+      const response = await service.delete(
+        `${ApiConstants.BLINK.DELETE}${requestData?.id}`,
+      );
+      if (response?.status === 200) {
         return response?.data;
       }
     } catch (error) {

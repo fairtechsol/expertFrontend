@@ -234,6 +234,34 @@ const Header1 = () => {
                       }}
                     />
                   </NavLink>
+
+                  <NavLink
+                    to={"/expert/tab"}
+                    style={{ textDecoration: "none" }}
+                  >
+                    <ButtonHead
+                      onClick={() => {
+                        // setSelected(4);
+                      }}
+                      title={"TAB LIST"}
+                      boxStyle={{
+                        backgroundColor:
+                          window.location.pathname.split("/")[2] == "tab"
+                            ? "white"
+                            : "transparent",
+                        py: "5px",
+                        borderRadius: "5px",
+                        marginLeft: { lg: "15px", xs: "1px" },
+                        cursor: "pointer",
+                      }}
+                      titleStyle={{
+                        color:
+                          window.location.pathname.split("/")[2] == "tab"
+                            ? "green"
+                            : "white",
+                      }}
+                    />
+                  </NavLink>
                 </>
                 <Box sx={{ minHeight: { lg: 66, xs: 40 + 42 } }} />
                 <Box
@@ -512,6 +540,34 @@ const Header1 = () => {
                         titleStyle={{
                           color:
                             window.location.pathname.split("/")[2] == "race"
+                              ? "green"
+                              : "white",
+                        }}
+                      />
+                    </NavLink>
+
+                    <NavLink
+                      to={"/expert/tab"}
+                      style={{ textDecoration: "none" }}
+                    >
+                      <ButtonHead
+                        onClick={() => {
+                          // setSelected(4);
+                        }}
+                        title={"TAB LIST"}
+                        boxStyle={{
+                          backgroundColor:
+                            window.location.pathname.split("/")[2] == "tab"
+                              ? "white"
+                              : "transparent",
+                          py: "5px",
+                          borderRadius: "5px",
+                          marginLeft: { lg: "15px", xs: "1px" },
+                          cursor: "pointer",
+                        }}
+                        titleStyle={{
+                          color:
+                            window.location.pathname.split("/")[2] == "tab"
                               ? "green"
                               : "white",
                         }}
