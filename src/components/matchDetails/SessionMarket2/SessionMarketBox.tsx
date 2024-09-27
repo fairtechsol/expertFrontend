@@ -117,7 +117,7 @@ const SessionMarketBox = ({ newData, index }: any) => {
               background: "rgba(0,0,0,1)",
               height: "30px",
               position: "relative",
-              width: { lg: "23%", md: "19%", sm: "19%", xs: "19%" },
+              width: { lg: "25%", md: "34%", sm: "35%", xs: "34%" },
               justifyContent: { xs: "center", lg: "center" },
               alignItems: "center",
               display: "flex",
