@@ -318,7 +318,7 @@ const SessionBetlistDetail = () => {
         spacing={1}
         direction={{ lg: "row", md: "row", xs: "column", sm: "row" }}
       >
-        <Box sx={{ width: { lg: "20%" } }}>
+        <Box sx={{ width: { lg: "20%", md: "20%", sm: "20%" } }}>
           {matchDetail?.updatedSesssionBettings &&
             Object.entries(matchDetail?.updatedSesssionBettings)
               ?.sort(customSortBySessionMarketName)
@@ -355,7 +355,7 @@ const SessionBetlistDetail = () => {
                 );
               })}
         </Box>
-        <Box sx={{ width: { lg: "20%" } }}>
+        <Box sx={{ width: { lg: "20%", md: "20%", sm: "20%" } }}>
           {matchDetail?.updatedSesssionBettings &&
             Object.entries(matchDetail?.updatedSesssionBettings)
               ?.sort(customSortBySessionMarketName)
