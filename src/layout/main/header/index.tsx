@@ -235,7 +235,7 @@ const Header1 = () => {
                     />
                   </NavLink>
 
-                  <NavLink
+                  {/* <NavLink
                     to={"/expert/tab"}
                     style={{ textDecoration: "none" }}
                   >
@@ -261,7 +261,7 @@ const Header1 = () => {
                             : "white",
                       }}
                     />
-                  </NavLink>
+                  </NavLink> */}
                 </>
                 <Box sx={{ minHeight: { lg: 66, xs: 40 + 42 } }} />
                 <Box
