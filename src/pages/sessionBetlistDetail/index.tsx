@@ -62,7 +62,7 @@ const SessionBetlistDetail = () => {
   };
   const resultDeclared = (event: any) => {
     try {
-      if (event?.matchId === state?.id) {
+      if (event?.matchId === state?.id && event?.isMatchDeclare) {
         navigate("/expert/match");
       }
     } catch (e) {
