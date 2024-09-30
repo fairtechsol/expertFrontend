@@ -103,8 +103,8 @@ const addMatch = createSlice({
           } else {
             let teams = item1?.EventName.split(" v ");
             let runners: any = [
-              { runnerName: teams[0] },
-              { runnerName: teams[1] },
+              { runnerName: teams[0] || item1?.section?.[0]?.nat },
+              { runnerName: teams[1] || item1?.section?.[1]?.nat },
             ];
             item1.runners = runners;
             item1.competitionName = null;
