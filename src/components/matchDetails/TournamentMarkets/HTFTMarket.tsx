@@ -225,49 +225,6 @@ const HTFTMarket = ({ currentMatch, liveData, title }: any) => {
                 {formatToINR(liveData?.maxBet)}
               </Typography>
             </Box>
-            {/* <Box
-              sx={{
-                display: "flex",
-                background: "#319E5B",
-                height: "15px",
-                width: { lg: "65%", xs: "50%" },
-                justifyContent: { lg: "flex-end", xs: "flex-end" },
-              }}
-            >
-              <Box
-                sx={{
-                  background: "#00C0F9",
-                  width: { lg: "19%", xs: "34.6%" },
-                  height: "100%",
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
-                <Typography
-                  sx={{ fontSize: "10px", color: "black", fontWeight: "600" }}
-                >
-                  Back
-                </Typography>
-              </Box>
-              <Box sx={{ width: ".35%", display: "flex" }}></Box>
-              <Box
-                sx={{
-                  background: "#FF9292",
-                  width: { lg: "19%", xs: "34.6%" },
-                  height: "100%",
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
-                <Typography
-                  sx={{ fontSize: "10px", color: "black", fontWeight: "600" }}
-                >
-                  Lay
-                </Typography>
-              </Box>
-            </Box> */}
           </Box>
 
           <Box
@@ -285,8 +242,44 @@ const HTFTMarket = ({ currentMatch, liveData, title }: any) => {
                   display: "flex",
                   flexWrap: "wrap",
                   width: matchesMobile ? "50%" : "33.33%",
+                  position: "relative",
                 }}
               >
+                {(!["ACTIVE", "", undefined, null, "OPEN"].includes(
+                  item?.status
+                ) || item?.status === "SUSPENDED"
+                  ? true
+                  : false) && (
+                  <Box
+                    sx={{
+                      position: "absolute",
+                      height: "100%",
+                      // top: "18%",
+                      width: "100%",
+                      display: "flex",
+                      zIndex: "999",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      background: "rgba(0, 0, 0, .5)",
+                    }}
+                  >
+                    <h4
+                      style={{
+                        textTransform: "uppercase",
+                        color: "#FFF",
+                        fontWeight: "400",
+                        fontSize: matchesMobile ? "12px" : "12px",
+                      }}
+                    >
+                      {item?.status === "SUSPENDED"
+                        ? true
+                        : false
+                        ? "SUSPENDED"
+                        : item?.status}
+                    </h4>
+                  </Box>
+                )}
+
                 <HTFTBoxComponent
                   teamRates={
                     currentMatch?.teamRates?.[
