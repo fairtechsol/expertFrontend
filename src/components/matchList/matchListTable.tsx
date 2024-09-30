@@ -251,7 +251,7 @@ const MatchListTable = (props: any) => {
                 flexWrap: "wrap",
               }}
             >
-              {data?.matchType === "cricket" &&
+              {["cricket", "politics"].includes(data?.matchType) &&
                 (profileDetail?.allPrivilege ||
                   profileDetail?.sessionMatchPrivilege) && (
                   <CustomButton
@@ -271,7 +271,7 @@ const MatchListTable = (props: any) => {
                     title="View Session"
                   />
                 )}
-              {data?.matchType === "cricket" &&
+              {["cricket", "politics"].includes(data?.matchType) &&
                 (profileDetail?.allPrivilege ||
                   profileDetail?.sessionMatchPrivilege) && (
                   <CustomButton
@@ -291,40 +291,42 @@ const MatchListTable = (props: any) => {
                     title={"Expert Session"}
                   />
                 )}
-              {!isSmallOrMediumScreen && data?.matchType != "cricket" && (
-                <CustomButton
-                  containerStyle={{
-                    // margin: "5px",
-                    cursor: "default",
-                    background: "#FFE094",
-                    margin: "5px",
-                    // marginRight: {
-                    //   xs: "20px",
-                    //   md: "29px",
-                    //   sm: "10px",
-                    //   lg: "10px",
-                    // },
-                  }}
-                  bgColor={buttonBgColor}
-                />
-              )}
-              {!isSmallOrMediumScreen && data?.matchType != "cricket" && (
-                <CustomButton
-                  containerStyle={{
-                    // margin: "5px",
-                    cursor: "default",
-                    background: "#FFE094",
-                    margin: "5px",
-                    // marginRight: {
-                    //   xs: "20px",
-                    //   md: "29px",
-                    //   sm: "10px",
-                    //   lg: "10px",
-                    // },
-                  }}
-                  bgColor={buttonBgColor}
-                />
-              )}
+              {!isSmallOrMediumScreen &&
+                !["cricket", "politics"].includes(data?.matchType) && (
+                  <CustomButton
+                    containerStyle={{
+                      // margin: "5px",
+                      cursor: "default",
+                      background: "#FFE094",
+                      margin: "5px",
+                      // marginRight: {
+                      //   xs: "20px",
+                      //   md: "29px",
+                      //   sm: "10px",
+                      //   lg: "10px",
+                      // },
+                    }}
+                    bgColor={buttonBgColor}
+                  />
+                )}
+              {!isSmallOrMediumScreen &&
+                !["cricket", "politics"].includes(data?.matchType) && (
+                  <CustomButton
+                    containerStyle={{
+                      // margin: "5px",
+                      cursor: "default",
+                      background: "#FFE094",
+                      margin: "5px",
+                      // marginRight: {
+                      //   xs: "20px",
+                      //   md: "29px",
+                      //   sm: "10px",
+                      //   lg: "10px",
+                      // },
+                    }}
+                    bgColor={buttonBgColor}
+                  />
+                )}
               {(profileDetail?.allPrivilege ||
                 profileDetail?.betFairMatchPrivilege) && (
                 <CustomButton
@@ -337,7 +339,7 @@ const MatchListTable = (props: any) => {
                     margin: "5px",
                   }}
                   onClick={() => {
-                    if (data?.matchType === "cricket") {
+                    if (["cricket", "politics"].includes(data?.matchType)) {
                       navigate(`/expert/market`, {
                         state: { id: data?.id, marketId: data?.marketId },
                       });
