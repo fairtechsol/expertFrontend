@@ -190,24 +190,25 @@ const MatchPermissionsModal = (props: any) => {
                 cursor="default"
               />
             )}
-            {data?.matchType === "cricket" && data?.stopAt && (
-              <MatchListProfitLoss
-                containerStyle={{
-                  minWidth: { xs: "4%", sm: "12px" },
-                  width: { xs: "9%", sm: "100px" },
-                  marginBottom: { xs: "1rem", sm: "1rem", md: 0 },
-                }}
-                onClick={() => handleMatchProfitLossClick(data?.id)}
-                updateMatchStatusLabel="Session Profit/Loss"
-                updateMatchStatus={
-                  data?.pl &&
-                  data?.pl?.length > 0 &&
-                  data?.pl[0]?.sessionTotalProfitLoss
-                }
-                place="1"
-                cursor="pointer"
-              />
-            )}
+            {["cricket", "politics"].includes(data?.matchType) &&
+              data?.stopAt && (
+                <MatchListProfitLoss
+                  containerStyle={{
+                    minWidth: { xs: "4%", sm: "12px" },
+                    width: { xs: "9%", sm: "100px" },
+                    marginBottom: { xs: "1rem", sm: "1rem", md: 0 },
+                  }}
+                  onClick={() => handleMatchProfitLossClick(data?.id)}
+                  updateMatchStatusLabel="Session Profit/Loss"
+                  updateMatchStatus={
+                    data?.pl &&
+                    data?.pl?.length > 0 &&
+                    data?.pl[0]?.sessionTotalProfitLoss
+                  }
+                  place="1"
+                  cursor="pointer"
+                />
+              )}
           </Box>
           <Box
             sx={{
@@ -217,7 +218,7 @@ const MatchPermissionsModal = (props: any) => {
               marginLeft: "10px",
             }}
           >
-            {data?.matchType === "cricket" &&
+            {["cricket", "politics"].includes(data?.matchType) &&
               (profileDetail?.allPrivilege ||
                 profileDetail?.sessionMatchPrivilege) && (
                 <CustomButton
@@ -232,7 +233,7 @@ const MatchPermissionsModal = (props: any) => {
                   title={"View Session"}
                 />
               )}
-            {data?.matchType === "cricket" &&
+            {["cricket", "politics"].includes(data?.matchType) &&
               (profileDetail?.allPrivilege ||
                 profileDetail?.sessionMatchPrivilege) && (
                 <CustomButton
@@ -255,7 +256,7 @@ const MatchPermissionsModal = (props: any) => {
                 }}
                 title={"View Match"}
                 onClick={() => {
-                  if (data?.matchType === "cricket") {
+                  if (["cricket", "politics"].includes(data?.matchType)) {
                     navigate(`/expert/market`, {
                       state: { id: data?.id, marketId: data?.marketId },
                     });

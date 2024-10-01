@@ -77,6 +77,7 @@ const TournamentMarket = ({ currentMatch, liveData, title }: any) => {
               fontSize: { lg: "9px", md: "9px", xs: "10px" },
               fontWeight: "bold",
               marginLeft: "7px",
+              lineHeight: 1
             }}
           >
             {title}
