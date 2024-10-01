@@ -1,4 +1,10 @@
-import { Box, Button, Typography } from "@mui/material";
+import {
+  Autocomplete,
+  Box,
+  Button,
+  TextField,
+  Typography,
+} from "@mui/material";
 // import { makeStyles } from "@mui/styles";
 import { Checkbox, FormControlLabel } from "@mui/material";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -36,6 +42,7 @@ import {
 } from "../../store/actions/match/matchAction";
 import { AppDispatch, RootState } from "../../store/store";
 import { eventWiseMatchData, matchBettingType } from "../../utils/Constants";
+import SearchableInput from "../../components/Common/SearchableInput";
 
 function flattenObject(obj: any) {
   if (obj) {
@@ -103,7 +110,6 @@ const AddMatch = () => {
   const { eventsList, matchDetail, success, matchAdded, loading } = useSelector(
     (state: RootState) => state.addMatch.addMatch
   );
-
   const [selected, setSelected] = useState(initialValues);
   const [openDropDown, setOpenDropDown] = useState(null);
   const [_, setError] = useState({
@@ -767,7 +773,7 @@ const AddMatch = () => {
                 </Select>
               </FormControl>
             </Box> */}
-            <Box
+            {/* <Box
               sx={{
                 position: "relative",
                 width: { xs: "100%", lg: "18%", md: "24%" },
@@ -841,10 +847,38 @@ const AddMatch = () => {
                   id="title"
                   name="title"
                 />
-              )}
-              {/* {error.competitionName && (
+              )} */}
+            {/* {error.competitionName && (
                 <span style={{ color: "red" }}>{"Field is Required"}</span>
               )} */}
+            {/* </Box> */}
+            <Box
+              sx={{
+                position: "relative",
+                width: { xs: "100%", lg: "18%", md: "24%" },
+              }}
+            >
+              {!manualMatchToggle ? (
+                <SearchableInput
+                  eventsList={eventsList}
+                  label="Select match*"
+                  setSelected={setSelected}
+                  name="matchName"
+                  matchesSelect={true}
+                  gameType={selected.gameType}
+                />
+              ) : (
+                <MatchListInput
+                  // required={true}
+                  label={"Match Name*"}
+                  type={"text"}
+                  onChange={handleInputChange}
+                  placeholder="Enter your Match Name"
+                  place={3}
+                  id="title"
+                  name="title"
+                />
+              )}
             </Box>
 
             <Box sx={{ width: { xs: "100%", lg: "18%", md: "24%" } }}>
