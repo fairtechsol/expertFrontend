@@ -87,11 +87,17 @@ const SearchableInput = ({
       </Typography>
       <Autocomplete
         sx={{
+          "& .MuiAutocomplete-input": {
+            fontSize: "14px",
+          },
           "& .MuiAutocomplete-inputRoot": {
-            height: "45px",
+            height: "40px",
           },
           "& .MuiAutocomplete-listbox": {
-            textAlign: "left", // Align dropdown options to the left
+            textAlign: "left",
+          },
+          "& .css-20bmp1-MuiSvgIcon-root": {
+            color: "white",
           },
         }}
         options={eventsList?.map((item: any) => {
@@ -116,8 +122,8 @@ const SearchableInput = ({
               fontSize: "1rem",
             }}
           >
-            <Typography>{option?.label}</Typography>
-            <Typography sx={{ fontSize: "12px" }}>
+            <Typography style={{textAlign: "left" , width: "100%"}}>{option?.label}</Typography>
+            <Typography sx={{ fontSize: "12px" , textAlign: "start", width: "100%"}}>
               {option?.EventDate}
             </Typography>
           </Box>
@@ -131,7 +137,10 @@ const SearchableInput = ({
               borderRadius: "5px",
             }}
             sx={{
-              "& .MuiInputBase-input": { color: "white" },
+              "& .MuiInputBase-input": { 
+                color: "white",  // Input text color
+                "&::placeholder": { color: "white", opacity: 1 },  // Placeholder text color and opacity
+              },
               "& .MuiInputLabel-root": { color: "white" },
               "& .MuiOutlinedInput-root": {
                 "& fieldset": {

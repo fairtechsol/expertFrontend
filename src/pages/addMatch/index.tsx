@@ -697,7 +697,7 @@ const AddMatch = () => {
                 containerStyle={{
                   width: "100%",
                   position: "relative",
-                  marginTop: "5px",
+                  // marginTop: "5px",
                 }}
                 titleStyle={{ marginLeft: "0px", color: "#575757" }}
                 data={Constants.matchType}
