@@ -380,11 +380,15 @@ const addMatch = createSlice({
           tournamentList: [
             {
               EventName: "No Tournaments Available",
+              label: "No Tournaments Available",
+              option: "No Tournaments Available",
             },
           ],
           eventsList: [
             {
               EventName: "No Matches Available",
+              label: "No Matches Available",
+              option: "No Matches Available",
             },
           ],
           extraMarketList: [],
