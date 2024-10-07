@@ -78,7 +78,8 @@ const OtherMarketAdd = ({
     } catch (error) {
       console.log(error);
     }
-  }, [matchOddsLive]);
+  }, [matchOddsLive?.maxBet, matchOddsLive?.betLimit]);
+  
   return (
     <Dialog open={open} onClose={handleClose}>
       <form onSubmit={handleSubmit}>
