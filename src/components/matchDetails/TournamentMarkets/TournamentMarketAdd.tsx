@@ -74,7 +74,7 @@ const TournamentMarketAdd = ({
     } catch (error) {
       console.error(error);
     }
-  }, [matchOddsLive]);
+  }, [matchOddsLive?.maxBet, matchOddsLive?.betLimit]);
 
   return (
     <Dialog open={open} onClose={handleClose}>

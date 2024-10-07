@@ -416,9 +416,6 @@ const MatchMarketDetail = () => {
             }}
           >
             <Masonry columns={matchesMobile ? 1 : 2} spacing={1}>
-              {/* {liveScoreBoardData && (
-                <Scoreboard liveScoreData={liveScoreBoardData} />
-              )} */}
               {matchDetail?.matchOdd &&
                 (matchDetail?.matchOdd?.isActive === false ? false : true) && (
                   <MatchOdds
