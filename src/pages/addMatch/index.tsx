@@ -502,12 +502,15 @@ const AddMatch = () => {
             marketName1: quickBookmaker1.name ?? "",
             marketMaxBet1: quickBookmaker1?.maxBet ?? "",
             marketId1: quickBookmaker1?.id ?? "",
+            betLimit1: quickBookmaker1?.betLimit ?? "",
             marketName2: quickBookmaker2?.name ?? "",
             marketMaxBet2: quickBookmaker2?.maxBet ?? "",
             marketId2: quickBookmaker2?.id ?? "",
+            betLimit2: quickBookmaker2?.betLimit ?? "",
             marketName3: quickBookmaker3?.name ?? "",
             marketMaxBet3: quickBookmaker3?.maxBet ?? "",
             marketId3: quickBookmaker3?.id ?? "",
+            betLimit3: quickBookmaker3?.betLimit ?? "",
             rateThan100: matchDetail?.rateThan100 ?? false,
           };
           setIsChecked(matchDetail?.rateThan100);
