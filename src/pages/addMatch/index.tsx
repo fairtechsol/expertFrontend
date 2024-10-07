@@ -67,12 +67,15 @@ const initialFormikValues = {
   marketName1: "",
   marketMaxBet1: "",
   marketId1: "",
+  betLimit1: "",
   marketName2: "",
   marketMaxBet2: "",
   marketId2: "",
+  betLimit2: "",
   marketName3: "",
   marketMaxBet3: "",
   marketId3: "",
+  betLimit3: "",
   rateThan100: false,
 };
 
@@ -220,6 +223,7 @@ const AddMatch = () => {
             {
               maxBet: values.marketMaxBet1,
               marketName: values.marketName1,
+              betLimit: values.betLimit1,
             },
           ];
         } else if (selected.manualBookmaker === 2) {
@@ -227,10 +231,12 @@ const AddMatch = () => {
             {
               maxBet: values.marketMaxBet1,
               marketName: values.marketName1,
+              betLimit: values.betLimit1,
             },
             {
               maxBet: values.marketMaxBet2,
               marketName: values.marketName2,
+              betLimit: values.betLimit2,
             },
           ];
         } else if (selected.manualBookmaker === 3) {
@@ -238,14 +244,17 @@ const AddMatch = () => {
             {
               maxBet: values.marketMaxBet1,
               marketName: values.marketName1,
+              betLimit: values.betLimit1,
             },
             {
               maxBet: values.marketMaxBet2,
               marketName: values.marketName2,
+              betLimit: values.betLimit2,
             },
             {
               maxBet: values.marketMaxBet3,
               marketName: values.marketName3,
+              betLimit: values.betLimit3,
             },
           ];
         }
@@ -1232,6 +1241,27 @@ const AddMatch = () => {
                           onChange={handleChange}
                         />
                       </Box>
+                      <Box
+                        sx={{
+                          width: {
+                            xs: "100%",
+                            lg: "18%",
+                            md: "24%",
+                          },
+                        }}
+                      >
+                        <MatchListInput
+                          required={true}
+                          label={"Bet Limit*"}
+                          type={"number"}
+                          placeholder="Enter Bet Limit..."
+                          place={11}
+                          name="betLimit1"
+                          id="betLimit1"
+                          onChange={handleChange}
+                          value={values.betLimit1}
+                        />
+                      </Box>
                     </Box>
                   )}
                   {selected.manualBookmaker >= 2 && (
@@ -1280,6 +1310,27 @@ const AddMatch = () => {
                           value={values.marketMaxBet2}
                         />
                       </Box>
+                      <Box
+                        sx={{
+                          width: {
+                            xs: "100%",
+                            lg: "18%",
+                            md: "24%",
+                          },
+                        }}
+                      >
+                        <MatchListInput
+                          required={true}
+                          label={"Bet Limit*"}
+                          type={"number"}
+                          placeholder="Enter Bet Limit..."
+                          place={11}
+                          name="betLimit2"
+                          id="betLimit2"
+                          onChange={handleChange}
+                          value={values.betLimit2}
+                        />
+                      </Box>
                     </Box>
                   )}
                   {selected.manualBookmaker === 3 && (
@@ -1306,7 +1357,6 @@ const AddMatch = () => {
                           onChange={handleChange}
                         />
                       </Box>
-
                       <Box
                         sx={{
                           width: {
@@ -1326,6 +1376,27 @@ const AddMatch = () => {
                           id="marketMaxBet3"
                           onChange={handleChange}
                           value={values.marketMaxBet3}
+                        />
+                      </Box>
+                      <Box
+                        sx={{
+                          width: {
+                            xs: "100%",
+                            lg: "18%",
+                            md: "24%",
+                          },
+                        }}
+                      >
+                        <MatchListInput
+                          required={true}
+                          label={"Bet Limit*"}
+                          type={"number"}
+                          placeholder="Enter Bet Limit..."
+                          place={11}
+                          name="betLimit3"
+                          id="betLimit3"
+                          onChange={handleChange}
+                          value={values.betLimit3}
                         />
                       </Box>
                     </Box>
