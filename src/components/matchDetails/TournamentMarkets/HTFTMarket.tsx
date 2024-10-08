@@ -186,7 +186,6 @@ const HTFTMarket = ({ currentMatch, liveData, title }: any) => {
         {visible && (
           <ResultComponentTournamentMarket
             currentMatch={currentMatch}
-            // stopAt={liveData?.stopAt}
             onClick={() => {
               setVisible(false);
             }}
