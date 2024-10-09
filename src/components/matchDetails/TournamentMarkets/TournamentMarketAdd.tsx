@@ -17,8 +17,8 @@ const TournamentMarketAdd = ({
   title,
 }: any) => {
   const [selected, setSelected] = useState<any>({
-    maxLimit: "",
-    betLimit: "",
+    maxLimit: 0,
+    betLimit: 0,
   });
   const dispatch: AppDispatch = useDispatch();
 
@@ -29,7 +29,7 @@ const TournamentMarketAdd = ({
       type: "tournament",
       name: matchOddsLive?.name,
       maxBet: parseFloat(selected.maxLimit),
-      betLimit: parseFloat(selected.betLimit),
+      betLimit: selected.betLimit,
       marketId:
         matchOddsLive?.mid?.toString() || matchOddsLive?.marketId?.toString(),
       gtype: matchOddsLive?.gtype,
@@ -46,10 +46,18 @@ const TournamentMarketAdd = ({
     };
     dispatch(updateMarketRates(data));
     handleClose();
+    setSelected({
+      maxLimit: 0,
+      betLimit: 0,
+    });
   };
 
   const handlclose = () => {
     handleClose();
+    setSelected({
+      maxLimit: 0,
+      betLimit: 0,
+    });
   };
 
   const handleChange = (e: any) => {
@@ -158,12 +166,12 @@ const TournamentMarketAdd = ({
               cursor: "pointer",
               fontFamily: "Poppins, sans-serif",
             }}
-            onClick={handleSubmit}
           >
             Submit
           </button>
 
           <button
+            type="button"
             style={{
               width: "25%",
               height: "40px",
