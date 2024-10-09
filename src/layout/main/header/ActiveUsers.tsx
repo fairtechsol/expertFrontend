@@ -19,7 +19,7 @@ const ActiveUsers = (props: any) => {
           display: "flex",
           justifyContent: "space-between",
           minWidth: { lg: "120px" },
-                 }}
+        }}
       >
         <Box
           onClick={() => {}}
@@ -36,15 +36,15 @@ const ActiveUsers = (props: any) => {
               overflow: "hidden",
               paddingX: "2px",
               borderRadius: "35px",
-              width: {xs: "80px", md: "100px"}
+              width: { xs: "80px", md: "100px" },
             },
             containerStyle,
           ]}
         >
           <Box
             sx={{
-              height: "35px",
-              width: { lg: "35px", xs: "25px" , md: "30px"},
+              height: { lg: "35px", xs: "25px", md: "30px" },
+              width: { lg: "35px", xs: "25px", md: "30px" },
               borderRadius: "35px",
               display: "flex",
               justifyContent: "center",
@@ -56,7 +56,13 @@ const ActiveUsers = (props: any) => {
           </Box>
           <Box style={{ flex: 1, marginLeft: "5px" }}>
             <Typography
-              sx={{ fontSize: "8px", color: "text.primary", fontWeight: "500", lineHeight: "0.8", marginTop: {xs: "5px"} }}
+              sx={{
+                fontSize: "8px",
+                color: "text.primary",
+                fontWeight: "500",
+                lineHeight: "0.8",
+                marginTop: { xs: "5px" },
+              }}
             >
               Active Users
             </Typography>
