@@ -4,7 +4,10 @@ import SearchInput from "../../components/Common/SearchInput";
 import CustomButton from "../Common/CustomButton";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store/store";
-import { getMatchList } from "../../store/actions/match/matchAction";
+import {
+  getMatchList,
+  setSelectedTabForMatchList,
+} from "../../store/actions/match/matchAction";
 import { gameType } from "../../utils/Constants";
 
 const CustomTabs = styled(Tabs)({
@@ -21,9 +24,10 @@ const CustomTabs = styled(Tabs)({
   },
 });
 
-const MatchListHeader = ({ selectedTab, setSelectedTab }: any) => {
+const MatchListHeader = () => {
   const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
+  const { selectedTab } = useSelector((state: RootState) => state.matchList);
 
   const { profileDetail } = useSelector(
     (state: RootState) => state.user.profile
@@ -36,7 +40,7 @@ const MatchListHeader = ({ selectedTab, setSelectedTab }: any) => {
   }, 500);
 
   const handleTabChange = (_: any, newValue: any) => {
-    setSelectedTab(newValue);
+    dispatch(setSelectedTabForMatchList(newValue));
   };
 
   return (
