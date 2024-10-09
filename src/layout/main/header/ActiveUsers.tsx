@@ -2,7 +2,7 @@ import { Box, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import StyledImage from "../../../components/Common/StyledImages";
 import HeaderDropdown from "./HeaderDropdown";
-import { ArrowDown } from "../../../assets";
+// import { ArrowDown } from "../../../assets";
 
 const ActiveUsers = (props: any) => {
   const { image, value, containerStyle } = props;
