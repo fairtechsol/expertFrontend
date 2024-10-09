@@ -15,11 +15,13 @@ import {
   socket,
   socketService,
 } from "../../socketManager";
-import { Constants } from "../../utils/Constants";
+import { Constants, gameType } from "../../utils/Constants";
 
 const MatchList = ({}) => {
   const dispatch: AppDispatch = useDispatch();
+
   const [currentPage, setCurrentPage] = useState(1);
+  const [selectedTab, setSelectedTab] = useState(0);
   const { matchList, success } = useSelector(
     (state: RootState) => state.matchList
   );
@@ -31,12 +33,17 @@ const MatchList = ({}) => {
   useEffect(() => {
     try {
       if (sessionStorage.getItem("jwtExpert")) {
-        dispatch(getMatchList({ currentPage: currentPage }));
+        dispatch(
+          getMatchList({
+            currentPage: currentPage,
+            matchType: gameType[selectedTab],
+          })
+        );
       }
     } catch (error) {
       console.log(error);
     }
-  }, [currentPage, sessionStorage]);
+  }, [currentPage, sessionStorage, selectedTab]);
 
   useEffect(() => {
     if (success) {
@@ -49,6 +56,7 @@ const MatchList = ({}) => {
     dispatch(
       getMatchList({
         currentPage: 1,
+        matchType: gameType[selectedTab],
       })
     );
   };
@@ -84,7 +92,10 @@ const MatchList = ({}) => {
           }),
         ]}
       >
-        <MatchListHeader />
+        <MatchListHeader
+          selectedTab={selectedTab}
+          setSelectedTab={setSelectedTab}
+        />
         <MatchListTableHeader />
 
         {matchList &&
