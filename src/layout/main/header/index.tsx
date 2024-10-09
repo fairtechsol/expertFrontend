@@ -132,7 +132,7 @@ const Header1 = () => {
                     }}
                     src={Draw}
                     sx={{
-                      height: { lg: "24px", xs: "20px" },
+                      height: { lg: "16px", xs: "20px", md: "16px" },
                       width: "auto",
                     }}
                   />
@@ -144,7 +144,7 @@ const Header1 = () => {
                     }}
                     sx={{
                       cursor: "pointer",
-                      height: { lg: "40px", xs: "45px" },
+                      height: { lg: "40px", xs: "45px", md: "40px" },
                       width: "auto",
                       marginLeft: { lg: "20px", xs: "10px" },
                     }}
@@ -277,8 +277,8 @@ const Header1 = () => {
                       setVisible(true);
                     }}
                     sx={{
-                      height: "35px",
-                      width: "35px",
+                      height: "30px",
+                      width: "30px",
                       borderRadius: "35px",
                       display: "flex",
                       justifyContent: "center",
@@ -290,7 +290,7 @@ const Header1 = () => {
                   >
                     <StyledImage
                       src={NotiBadge}
-                      sx={{ height: "20px", width: "20px" }}
+                      sx={{ height: "15px", width: "15px" }}
                     />
                   </Box>
                   <Box
