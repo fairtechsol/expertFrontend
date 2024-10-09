@@ -102,6 +102,7 @@ const addMatch = createSlice({
             item1.competitionId = matchingItem.competition?.id;
           } else {
             let teams = item1?.EventName.split(" v ");
+            console.log(teams, "abc");
             let runners: any = [
               { runnerName: item1?.section?.[0]?.nat || teams[0] },
               { runnerName: item1?.section?.[1]?.nat || teams[1] },
@@ -569,15 +570,15 @@ const addMatch = createSlice({
       .addCase(updateResultStatusOfMatch.fulfilled, (state, action) => {
         const { status, betId, betType, activeStatus } = action?.payload;
         const index = state.quickBookmaker1?.findIndex(
-          (item: any) => item.id === betId
+          (item: any) => item?.id === betId
         );
 
         // const isCricketMatch = state.matchDetail?.matchType === "cricket";
 
         if (
-          index !== -1 &&
+          index !== -1
           // isCricketMatch &&
-          betId === state.quickBookmaker1?.[index]?.id
+          // betId === state.quickBookmaker1?.[index]?.id
         ) {
           state.matchDetail = {
             ...state.matchDetail,
