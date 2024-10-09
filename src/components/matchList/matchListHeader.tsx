@@ -1,19 +1,43 @@
-import { Box, Typography, debounce } from "@mui/material";
+import { Box, Tab, Tabs, Typography, debounce, styled } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import SearchInput from "../../components/Common/SearchInput";
 import CustomButton from "../Common/CustomButton";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store/store";
 import { getMatchList } from "../../store/actions/match/matchAction";
+import { gameType } from "../../utils/Constants";
 
-const MatchListHeader = () => {
+const CustomTabs = styled(Tabs)({
+  "& .MuiTab-root": {
+    // maxWidth: "0.5rem",
+    flex: 1,
+  },
+  "& .Mui-selected": {
+    backgroundColor: "#F8C851",
+  },
+  "& .MuiTabs-indicator": {
+    height: 0,
+    backgroundColor: "#F8C851",
+  },
+});
+
+const MatchListHeader = ({ selectedTab, setSelectedTab }: any) => {
   const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
-  const { profileDetail } = useSelector((state: RootState) => state.user.profile);
+
+  const { profileDetail } = useSelector(
+    (state: RootState) => state.user.profile
+  );
 
   const getMatchListOnchange = debounce((value: string) => {
-    dispatch(getMatchList({ keyword: value }));
+    dispatch(
+      getMatchList({ keyword: value, matchType: gameType[selectedTab] })
+    );
   }, 500);
+
+  const handleTabChange = (_: any, newValue: any) => {
+    setSelectedTab(newValue);
+  };
 
   return (
     <>
@@ -26,15 +50,74 @@ const MatchListHeader = () => {
           flexDirection: { xs: "column", sm: "row" },
         }}
       >
-        <Typography
+        <Box
           sx={{
-            fontSize: "20px",
-            color: "white",
-            fontWeight: "600",
+            display: "flex",
+            gap: {
+              lg: "20px",
+              xl: "20px",
+              md: "15px",
+              sm: "30px",
+              xs: "30px",
+            },
+            marginTop: "4px",
+            alignItems: "center",
           }}
         >
-          Match List
-        </Typography>
+          <Typography
+            sx={{
+              fontSize: "20px",
+              color: "white",
+              fontWeight: "600",
+            }}
+          >
+            Match List
+          </Typography>
+          <Box
+            sx={{
+              maxWidth: { lg: "60vw", md: "60%", sm: "50%" },
+              display: "flex",
+              alignItems: "center",
+            }}
+          >
+            <CustomTabs
+              value={selectedTab}
+              onChange={handleTabChange}
+              variant="scrollable"
+              textColor="inherit"
+              aria-label="country tabs"
+              sx={{
+                height: "30px",
+                "& .MuiTab-root": {
+                  minWidth: "2.5rem",
+                  minHeight: "1rem",
+                  transition: "background-color 0.3s ease, color 0.3s ease",
+                },
+              }}
+            >
+              {gameType.map((item: any, index: any) => (
+                <Tab
+                  sx={{
+                    backgroundColor:
+                      selectedTab === index ? "#F8C851" : "#FFFFFF",
+                    color: "black",
+                    "&:hover": {
+                      backgroundColor:
+                        selectedTab === index ? "#E0B744" : "#F0F0F0",
+                    },
+                    height: "35px",
+                    marginTop: "4px",
+                    textAlign: "center",
+                    paddingTop: "15px",
+                  }}
+                  key={item}
+                  label={item}
+                />
+              ))}
+            </CustomTabs>
+          </Box>
+        </Box>
+
         <Box
           sx={{
             display: "flex",
@@ -48,7 +131,8 @@ const MatchListHeader = () => {
             placeholder="Search Match..."
             handleSearch={getMatchListOnchange}
           />
-          {(profileDetail?.allPrivilege || profileDetail?.addMatchPrivilege) && (
+          {(profileDetail?.allPrivilege ||
+            profileDetail?.addMatchPrivilege) && (
             <CustomButton
               onClick={() => {
                 navigate("/expert/add_match");

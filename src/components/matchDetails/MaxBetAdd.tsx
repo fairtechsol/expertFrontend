@@ -37,9 +37,6 @@ const MaxBetAdd = ({
     dispatch(updateMarketRates(data));
     handleClose();
   };
-  const handlclose = () => {
-    handleClose();
-  };
 
   const handleChange = (e: any) => {
     try {
@@ -167,7 +164,7 @@ const MaxBetAdd = ({
               cursor: "pointer",
               fontFamily: "Poppins, sans-serif",
             }}
-            onClick={handlclose}
+            onClick={() => handleClose()}
           >
             Cancel
           </button>
