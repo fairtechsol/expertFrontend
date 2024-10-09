@@ -76,7 +76,7 @@ const BetList = ({ tag, allBetRates, title }: any) => {
                 ? betListColorConstants[v?.marketType]?.background
                 : "#319E5B",
               deleteReason: v?.deleteReason,
-              width: { lg: "17%", xs: "35%" },
+              width: { lg: "10%", xs: "35%" },
               overflowWrap: "anywhere",
             },
             {
@@ -86,7 +86,7 @@ const BetList = ({ tag, allBetRates, title }: any) => {
                 ? "#B3E0FF"
                 : "rgb(255, 146, 146)",
               deleteReason: v?.deleteReason,
-              width: { lg: "20%", xs: "50%" },
+              width: { lg: "28%", xs: "50%" },
               overflowWrap: "anywhere",
               textAlign: "center",
             },

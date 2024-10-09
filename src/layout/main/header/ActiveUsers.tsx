@@ -26,13 +26,13 @@ const ActiveUsers = (props: any) => {
           sx={[
             {
               backgroundColor: "white",
-              minWidth: { lg: "120px" },
+              minWidth: { lg: "110px" },
               marginLeft: "1vw",
               display: "flex",
               alignItems: "center",
               boxShadow: "0px 3px 10px #B7B7B726",
               justifyContent: "space-between",
-              height: { lg: "40px", xs: "35px" },
+              height: { lg: "35px", xs: "35px" },
               overflow: "hidden",
               paddingX: "2px",
               borderRadius: "35px",
@@ -43,8 +43,8 @@ const ActiveUsers = (props: any) => {
         >
           <Box
             sx={{
-              height: { lg: "35px", xs: "25px", md: "30px" },
-              width: { lg: "35px", xs: "25px", md: "30px" },
+              height: { lg: "30px", xs: "25px", md: "30px" },
+              width: { lg: "30px", xs: "25px", md: "30px" },
               borderRadius: "35px",
               display: "flex",
               justifyContent: "center",
@@ -72,10 +72,10 @@ const ActiveUsers = (props: any) => {
               {value}
             </Typography>
           </Box>
-          <StyledImage
+          {/* <StyledImage
             src={ArrowDown}
             sx={{ height: "6px", width: "10px", marginRight: "5px" }}
-          />
+          /> */}
         </Box>
       </Box>
       <HeaderDropdown

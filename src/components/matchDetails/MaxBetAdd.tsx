@@ -17,8 +17,8 @@ const MaxBetAdd = ({
   title,
 }: any) => {
   const [selected, setSelected] = useState<any>({
-    maxLimit: "",
-    betLimit: "",
+    maxLimit: 0,
+    betLimit: 0,
   });
   const dispatch: AppDispatch = useDispatch();
 
@@ -29,13 +29,17 @@ const MaxBetAdd = ({
       type: matchOddsLive?.type,
       name: matchOddsLive?.name,
       maxBet: parseFloat(selected.maxLimit),
-      betLimit: parseFloat(selected.betLimit),
+      betLimit: selected.betLimit,
       marketId: matchOddsLive?.marketId,
       gtype: matchOddsLive?.gtype,
       ...(matchOddsLive?.id && { id: matchOddsLive.id }),
     };
     dispatch(updateMarketRates(data));
     handleClose();
+    setSelected({
+      maxLimit: 0,
+      betLimit: 0,
+    });
   };
 
   const handleChange = (e: any) => {
@@ -51,7 +55,6 @@ const MaxBetAdd = ({
       console.error(error);
     }
   };
-
   useEffect(() => {
     try {
       setSelected({
@@ -96,7 +99,6 @@ const MaxBetAdd = ({
                 }}
               >
                 <MatchListInput
-                  required={true}
                   label={"Max Limit*"}
                   type={"number"}
                   placeholder="Enter Max Bet..."
@@ -116,7 +118,6 @@ const MaxBetAdd = ({
                 }}
               >
                 <MatchListInput
-                  required={true}
                   label={"Bet Limit*"}
                   type={"number"}
                   placeholder="Enter Bet Limit..."
@@ -147,12 +148,12 @@ const MaxBetAdd = ({
               cursor: "pointer",
               fontFamily: "Poppins, sans-serif",
             }}
-            onClick={handleSubmit}
           >
             Submit
           </button>
 
           <button
+            type="button"
             style={{
               width: "25%",
               height: "40px",
@@ -164,7 +165,13 @@ const MaxBetAdd = ({
               cursor: "pointer",
               fontFamily: "Poppins, sans-serif",
             }}
-            onClick={() => handleClose()}
+            onClick={() => {
+              handleClose();
+              setSelected({
+                maxLimit: 0,
+                betLimit: 0,
+              });
+            }}
           >
             Cancel
           </button>

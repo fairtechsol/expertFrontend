@@ -1233,7 +1233,6 @@ const AddMatch = () => {
                         }}
                       >
                         <MatchListInput
-                          required={true}
                           label={"Max Limit*"}
                           type={"number"}
                           placeholder="Enter Max Bet..."
@@ -1254,7 +1253,6 @@ const AddMatch = () => {
                         }}
                       >
                         <MatchListInput
-                          required={true}
                           label={"Bet Limit*"}
                           type={"number"}
                           placeholder="Enter Bet Limit..."
@@ -1302,7 +1300,6 @@ const AddMatch = () => {
                         }}
                       >
                         <MatchListInput
-                          required={true}
                           label={"Max Limit*"}
                           type={"number"}
                           placeholder="Enter Max Bet..."
@@ -1323,7 +1320,6 @@ const AddMatch = () => {
                         }}
                       >
                         <MatchListInput
-                          required={true}
                           label={"Bet Limit*"}
                           type={"number"}
                           placeholder="Enter Bet Limit..."
@@ -1370,7 +1366,6 @@ const AddMatch = () => {
                         }}
                       >
                         <MatchListInput
-                          required={true}
                           label={"Max Limit*"}
                           type={"number"}
                           placeholder="Enter Max Bet..."
@@ -1391,7 +1386,6 @@ const AddMatch = () => {
                         }}
                       >
                         <MatchListInput
-                          required={true}
                           label={"Bet Limit*"}
                           type={"number"}
                           placeholder="Enter Bet Limit..."
