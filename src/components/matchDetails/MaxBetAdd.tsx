@@ -96,7 +96,6 @@ const MaxBetAdd = ({
                 }}
               >
                 <MatchListInput
-                  required={true}
                   label={"Max Limit*"}
                   type={"number"}
                   placeholder="Enter Max Bet..."
@@ -116,7 +115,6 @@ const MaxBetAdd = ({
                 }}
               >
                 <MatchListInput
-                  required={true}
                   label={"Bet Limit*"}
                   type={"number"}
                   placeholder="Enter Bet Limit..."
