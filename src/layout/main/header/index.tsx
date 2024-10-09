@@ -16,6 +16,7 @@ import DropDownMenu from "./DropDownMenu";
 import { socket, socketService } from "../../../socketManager";
 import { getLoggedUserCount } from "../../../store/actions/user/userAction";
 import GameTypeDropdown from "./GameTypeDropdown";
+import { setSelectedTabForMatchList } from "../../../store/actions/match/matchAction";
 
 const Header1 = () => {
   const theme = useTheme();
@@ -186,6 +187,7 @@ const Header1 = () => {
                     <ButtonHead
                       onClick={() => {
                         setSelected(4);
+                        dispatch(setSelectedTabForMatchList(0));
                       }}
                       title={"MATCH LIST"}
                       boxStyle={{
@@ -494,6 +496,7 @@ const Header1 = () => {
                       <ButtonHead
                         onClick={() => {
                           setSelected(4);
+                          dispatch(setSelectedTabForMatchList(0));
                         }}
                         title={"MATCH LIST"}
                         boxStyle={{

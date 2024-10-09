@@ -19,10 +19,8 @@ import { Constants, gameType } from "../../utils/Constants";
 
 const MatchList = ({}) => {
   const dispatch: AppDispatch = useDispatch();
-
   const [currentPage, setCurrentPage] = useState(1);
-  const [selectedTab, setSelectedTab] = useState(0);
-  const { matchList, success } = useSelector(
+  const { matchList, success, selectedTab } = useSelector(
     (state: RootState) => state.matchList
   );
 
@@ -92,10 +90,7 @@ const MatchList = ({}) => {
           }),
         ]}
       >
-        <MatchListHeader
-          selectedTab={selectedTab}
-          setSelectedTab={setSelectedTab}
-        />
+        <MatchListHeader />
         <MatchListTableHeader />
 
         {matchList &&

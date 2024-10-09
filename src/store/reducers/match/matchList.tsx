@@ -24,6 +24,7 @@ import {
   resultDeclare,
   sessionBetLiveStatus,
   sessionResultSuccessReset,
+  setSelectedTabForMatchList,
   undeclareResult,
   updateDeletedBetReasonOnEdit,
   updateMatchActiveStatus,
@@ -55,6 +56,7 @@ interface InitialState {
   countryCode: any;
   raceList: any;
   raceDetail: any;
+  selectedTab: number;
 }
 
 const initialState: InitialState = {
@@ -75,6 +77,7 @@ const initialState: InitialState = {
   countryCode: [],
   raceList: [],
   raceDetail: null,
+  selectedTab: 0,
 };
 
 const matchList = createSlice({
@@ -460,6 +463,9 @@ const matchList = createSlice({
       })
       .addCase(resetContryCodeList, (state) => {
         state.countryCode = [];
+      })
+      .addCase(setSelectedTabForMatchList.fulfilled, (state, action) => {
+        state.selectedTab = action.payload;
       });
   },
 });
