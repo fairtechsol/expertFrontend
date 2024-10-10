@@ -29,7 +29,7 @@ const OtherMarketAdd = ({
       type: matchOddsLive?.type,
       name: matchOddsLive?.name,
       maxBet: parseFloat(selected.maxLimit),
-      betLimit: selected.betLimit,
+      // betLimit: selected.betLimit,
       marketId: matchOddsLive?.marketId,
       gtype: matchOddsLive?.gtype,
       metaData: {
@@ -50,18 +50,10 @@ const OtherMarketAdd = ({
     };
     dispatch(updateMarketRates(data));
     handleClose();
-    setSelected({
-      maxLimit: 0,
-      betLimit: 0,
-    });
   };
 
   const handlclose = () => {
     handleClose();
-    setSelected({
-      maxLimit: 0,
-      betLimit: 0,
-    });
   };
 
   const handleChange = (e: any) => {
@@ -81,12 +73,12 @@ const OtherMarketAdd = ({
     try {
       setSelected({
         maxLimit: matchOddsLive?.maxBet,
-        betLimit: matchOddsLive?.betLimit,
+        // betLimit: matchOddsLive?.betLimit,
       });
     } catch (error) {
       console.log(error);
     }
-  }, [matchOddsLive?.maxBet, matchOddsLive?.betLimit]);
+  }, [matchOddsLive?.maxBet]);
 
   return (
     <Dialog open={open} onClose={handleClose}>
@@ -121,8 +113,8 @@ const OtherMarketAdd = ({
                 }}
               >
                 <MatchListInput
-                  label={"Max Limit*"}
-                  type={"number"}
+                  label="Max Limit*"
+                  type="number"
                   placeholder="Enter Max Bet..."
                   name="maxLimit"
                   id="maxLimit"
@@ -130,7 +122,7 @@ const OtherMarketAdd = ({
                   onChange={handleChange}
                 />
               </Box>
-              <Box
+              {/* <Box
                 sx={{
                   width: {
                     xs: "100%",
@@ -148,7 +140,7 @@ const OtherMarketAdd = ({
                   onChange={handleChange}
                   value={selected.betLimit}
                 />
-              </Box>
+              </Box> */}
             </Box>
           </Box>
         </DialogContent>

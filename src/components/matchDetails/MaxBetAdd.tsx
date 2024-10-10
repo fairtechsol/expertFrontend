@@ -16,6 +16,7 @@ const MaxBetAdd = ({
   currentMatch,
   title,
 }: any) => {
+  console.log(matchOddsLive, "abc");
   const [selected, setSelected] = useState<any>({
     maxLimit: 0,
     betLimit: 0,
@@ -29,17 +30,17 @@ const MaxBetAdd = ({
       type: matchOddsLive?.type,
       name: matchOddsLive?.name,
       maxBet: parseFloat(selected.maxLimit),
-      betLimit: selected.betLimit,
       marketId: matchOddsLive?.marketId,
       gtype: matchOddsLive?.gtype,
       ...(matchOddsLive?.id && { id: matchOddsLive.id }),
     };
+    if (
+      ["matchOdd", "completeMatch", "tiedMatch1"]?.includes(matchOddsLive?.type)
+    ) {
+      data.betLimit = selected.betLimit;
+    }
     dispatch(updateMarketRates(data));
     handleClose();
-    setSelected({
-      maxLimit: 0,
-      betLimit: 0,
-    });
   };
 
   const handleChange = (e: any) => {
@@ -99,8 +100,8 @@ const MaxBetAdd = ({
                 }}
               >
                 <MatchListInput
-                  label={"Max Limit*"}
-                  type={"number"}
+                  label="Max Limit*"
+                  type="number"
                   placeholder="Enter Max Bet..."
                   name="maxLimit"
                   id="maxLimit"
@@ -108,25 +109,29 @@ const MaxBetAdd = ({
                   onChange={handleChange}
                 />
               </Box>
-              <Box
-                sx={{
-                  width: {
-                    xs: "100%",
-                    lg: "50%",
-                    md: "50%",
-                  },
-                }}
-              >
-                <MatchListInput
-                  label={"Bet Limit*"}
-                  type={"number"}
-                  placeholder="Enter Bet Limit..."
-                  name="betLimit"
-                  id="betLimit"
-                  onChange={handleChange}
-                  value={selected.betLimit}
-                />
-              </Box>
+              {["matchOdd", "completeMatch", "tiedMatch1"]?.includes(
+                matchOddsLive?.type
+              ) && (
+                <Box
+                  sx={{
+                    width: {
+                      xs: "100%",
+                      lg: "50%",
+                      md: "50%",
+                    },
+                  }}
+                >
+                  <MatchListInput
+                    label="Bet Limit*"
+                    type="number"
+                    placeholder="Enter Bet Limit..."
+                    name="betLimit"
+                    id="betLimit"
+                    onChange={handleChange}
+                    value={selected.betLimit}
+                  />
+                </Box>
+              )}
             </Box>
           </Box>
         </DialogContent>
@@ -167,10 +172,6 @@ const MaxBetAdd = ({
             }}
             onClick={() => {
               handleClose();
-              setSelected({
-                maxLimit: 0,
-                betLimit: 0,
-              });
             }}
           >
             Cancel

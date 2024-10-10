@@ -29,7 +29,7 @@ const TournamentMarketAdd = ({
       type: "tournament",
       name: matchOddsLive?.name,
       maxBet: parseFloat(selected.maxLimit),
-      betLimit: selected.betLimit,
+      // betLimit: selected.betLimit,
       marketId:
         matchOddsLive?.mid?.toString() || matchOddsLive?.marketId?.toString(),
       gtype: matchOddsLive?.gtype,
@@ -46,18 +46,10 @@ const TournamentMarketAdd = ({
     };
     dispatch(updateMarketRates(data));
     handleClose();
-    setSelected({
-      maxLimit: 0,
-      betLimit: 0,
-    });
   };
 
   const handlclose = () => {
     handleClose();
-    setSelected({
-      maxLimit: 0,
-      betLimit: 0,
-    });
   };
 
   const handleChange = (e: any) => {
@@ -77,12 +69,12 @@ const TournamentMarketAdd = ({
     try {
       setSelected({
         maxLimit: matchOddsLive?.maxBet,
-        betLimit: matchOddsLive?.betLimit,
+        // betLimit: matchOddsLive?.betLimit,
       });
     } catch (error) {
       console.error(error);
     }
-  }, [matchOddsLive?.maxBet, matchOddsLive?.betLimit]);
+  }, [matchOddsLive?.maxBet]);
 
   return (
     <Dialog open={open} onClose={handleClose}>
@@ -117,8 +109,8 @@ const TournamentMarketAdd = ({
                 }}
               >
                 <MatchListInput
-                  label={"Max Limit*"}
-                  type={"number"}
+                  label="Max Limit*"
+                  type="number"
                   placeholder="Enter Max Bet..."
                   name="maxLimit"
                   id="maxLimit"
@@ -126,7 +118,7 @@ const TournamentMarketAdd = ({
                   onChange={handleChange}
                 />
               </Box>
-              <Box
+              {/* <Box
                 sx={{
                   width: {
                     xs: "100%",
@@ -144,7 +136,7 @@ const TournamentMarketAdd = ({
                   onChange={handleChange}
                   value={selected.betLimit}
                 />
-              </Box>
+              </Box> */}
             </Box>
           </Box>
         </DialogContent>

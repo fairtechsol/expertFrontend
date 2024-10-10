@@ -36,7 +36,10 @@ import {
 } from "../../store/actions/match/matchAction";
 import { AppDispatch, RootState } from "../../store/store";
 import RunsBox from "../../components/matchDetails/RunsBox";
-import { customSortBySessionMarketName } from "../../helpers";
+import {
+  customSortBySessionMarketName,
+  sortByActiveStatusOfCricketCasino,
+} from "../../helpers";
 
 const SessionMarketDetail = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -484,6 +487,7 @@ const SessionMarketDetail = () => {
                   <>
                     {item?.section
                       ?.filter((item: any) => item?.activeStatus !== "unSave")
+                      ?.sort(sortByActiveStatusOfCricketCasino)
                       ?.map((items: any) => (
                         <CasinoMarket
                           key={items?.SelectionId}
