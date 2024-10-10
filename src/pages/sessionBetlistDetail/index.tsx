@@ -318,7 +318,7 @@ const SessionBetlistDetail = () => {
         spacing={1}
         direction={{ lg: "row", md: "row", xs: "column", sm: "row" }}
       >
-        <Box sx={{ width: { lg: "20%", md: "20%", sm: "20%" } }}>
+        <Box sx={{ width: { lg: "25%", md: "25%", sm: "25%" } }}>
           {matchDetail?.updatedSesssionBettings &&
             Object.entries(matchDetail?.updatedSesssionBettings)
               ?.sort(customSortBySessionMarketName)
@@ -355,7 +355,7 @@ const SessionBetlistDetail = () => {
                 );
               })}
         </Box>
-        <Box sx={{ width: { lg: "20%", md: "20%", sm: "20%" } }}>
+        <Box sx={{ width: { lg: "25%", md: "25%", sm: "25%" } }}>
           {matchDetail?.updatedSesssionBettings &&
             Object.entries(matchDetail?.updatedSesssionBettings)
               ?.sort(customSortBySessionMarketName)
@@ -422,7 +422,7 @@ const SessionBetlistDetail = () => {
               })}
         </Box>
 
-        <Box sx={{ width: { lg: "60%", md: "60%", xs: "100%", sm: "60%" } }}>
+        <Box sx={{ width: { lg: "50%", md: "50%", xs: "100%", sm: "50%" } }}>
           <BetList
             allBetRates={placedBetsMatch}
             tag={true}

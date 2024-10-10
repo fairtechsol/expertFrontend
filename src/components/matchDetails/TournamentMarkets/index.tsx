@@ -77,7 +77,7 @@ const TournamentMarket = ({ currentMatch, liveData, title }: any) => {
               fontSize: { lg: "9px", md: "9px", xs: "10px" },
               fontWeight: "bold",
               marginLeft: "7px",
-              lineHeight: 1
+              lineHeight: 1,
             }}
           >
             {title}
@@ -120,13 +120,15 @@ const TournamentMarket = ({ currentMatch, liveData, title }: any) => {
         >
           {liveData?.id ? (
             <>
-              <Result
-                width={"80px"}
-                onClick={() => {
-                  setVisible(true);
-                }}
-                invert={true}
-              />
+              {!currentMatch?.stopAt && (
+                <Result
+                  width={"80px"}
+                  onClick={() => {
+                    setVisible(true);
+                  }}
+                  invert={true}
+                />
+              )}
               {liveData?.activeStatus !== "result" && (
                 <>
                   <SmallBox

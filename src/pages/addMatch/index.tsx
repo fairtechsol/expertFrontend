@@ -36,6 +36,7 @@ import {
 } from "../../store/actions/match/matchAction";
 import { AppDispatch, RootState } from "../../store/store";
 import { eventWiseMatchData, matchBettingType } from "../../utils/Constants";
+import SearchableInput from "../../components/Common/SearchableInput";
 
 function flattenObject(obj: any) {
   if (obj) {
@@ -103,7 +104,6 @@ const AddMatch = () => {
   const { eventsList, matchDetail, success, matchAdded, loading } = useSelector(
     (state: RootState) => state.addMatch.addMatch
   );
-
   const [selected, setSelected] = useState(initialValues);
   const [openDropDown, setOpenDropDown] = useState(null);
   const [_, setError] = useState({
@@ -691,7 +691,7 @@ const AddMatch = () => {
                 containerStyle={{
                   width: "100%",
                   position: "relative",
-                  marginTop: "5px",
+                  // marginTop: "5px",
                 }}
                 titleStyle={{ marginLeft: "0px", color: "#575757" }}
                 data={Constants.matchType}
@@ -767,7 +767,7 @@ const AddMatch = () => {
                 </Select>
               </FormControl>
             </Box> */}
-            <Box
+            {/* <Box
               sx={{
                 position: "relative",
                 width: { xs: "100%", lg: "18%", md: "24%" },
@@ -841,10 +841,38 @@ const AddMatch = () => {
                   id="title"
                   name="title"
                 />
-              )}
-              {/* {error.competitionName && (
+              )} */}
+            {/* {error.competitionName && (
                 <span style={{ color: "red" }}>{"Field is Required"}</span>
               )} */}
+            {/* </Box> */}
+            <Box
+              sx={{
+                position: "relative",
+                width: { xs: "100%", lg: "18%", md: "24%" },
+              }}
+            >
+              {!manualMatchToggle ? (
+                <SearchableInput
+                  eventsList={eventsList}
+                  label="Select match*"
+                  setSelected={setSelected}
+                  name="matchName"
+                  matchesSelect={true}
+                  gameType={selected.gameType}
+                />
+              ) : (
+                <MatchListInput
+                  // required={true}
+                  label={"Match Name*"}
+                  type={"text"}
+                  onChange={handleInputChange}
+                  placeholder="Enter your Match Name"
+                  place={3}
+                  id="title"
+                  name="title"
+                />
+              )}
             </Box>
 
             <Box sx={{ width: { xs: "100%", lg: "18%", md: "24%" } }}>
@@ -1193,7 +1221,6 @@ const AddMatch = () => {
                         }}
                       >
                         <MatchListInput
-                          required={true}
                           label={"Max Limit*"}
                           type={"number"}
                           placeholder="Enter Max Bet..."
@@ -1204,6 +1231,26 @@ const AddMatch = () => {
                           onChange={handleChange}
                         />
                       </Box>
+                      {/* <Box
+                        sx={{
+                          width: {
+                            xs: "100%",
+                            lg: "18%",
+                            md: "24%",
+                          },
+                        }}
+                      >
+                        <MatchListInput
+                          label={"Bet Limit*"}
+                          type={"number"}
+                          placeholder="Enter Bet Limit..."
+                          place={11}
+                          name="betLimit1"
+                          id="betLimit1"
+                          onChange={handleChange}
+                          value={values.betLimit1}
+                        />
+                      </Box> */}
                     </Box>
                   )}
                   {selected.manualBookmaker >= 2 && (
@@ -1241,7 +1288,6 @@ const AddMatch = () => {
                         }}
                       >
                         <MatchListInput
-                          required={true}
                           label={"Max Limit*"}
                           type={"number"}
                           placeholder="Enter Max Bet..."
@@ -1278,7 +1324,6 @@ const AddMatch = () => {
                           onChange={handleChange}
                         />
                       </Box>
-
                       <Box
                         sx={{
                           width: {
@@ -1289,7 +1334,6 @@ const AddMatch = () => {
                         }}
                       >
                         <MatchListInput
-                          required={true}
                           label={"Max Limit*"}
                           type={"number"}
                           placeholder="Enter Max Bet..."

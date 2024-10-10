@@ -16,6 +16,7 @@ import DropDownMenu from "./DropDownMenu";
 import { socket, socketService } from "../../../socketManager";
 import { getLoggedUserCount } from "../../../store/actions/user/userAction";
 import GameTypeDropdown from "./GameTypeDropdown";
+import { setSelectedTabForMatchList } from "../../../store/actions/match/matchAction";
 
 const Header1 = () => {
   const theme = useTheme();
@@ -103,6 +104,7 @@ const Header1 = () => {
                   justifyContent: "space-between",
                   paddingX: { lg: "0.5%", xs: "1%" },
                   // paddingY: matchesMobile ? "15px" : "0px",
+                  height: "45px",
                   paddingBottom: matchesMobile ? "10px" : "0px",
                 },
                 (theme: any) => ({
@@ -131,7 +133,7 @@ const Header1 = () => {
                     }}
                     src={Draw}
                     sx={{
-                      height: { lg: "24px", xs: "20px" },
+                      height: { lg: "16px", xs: "20px", md: "16px" },
                       width: "auto",
                     }}
                   />
@@ -143,7 +145,7 @@ const Header1 = () => {
                     }}
                     sx={{
                       cursor: "pointer",
-                      height: { lg: "55px", xs: "45px" },
+                      height: { lg: "40px", xs: "45px", md: "40px" },
                       width: "auto",
                       marginLeft: { lg: "20px", xs: "10px" },
                     }}
@@ -178,7 +180,6 @@ const Header1 = () => {
                       }}
                     />
                   )}
-
                   <NavLink
                     to={"/expert/match"}
                     style={{ textDecoration: "none" }}
@@ -186,6 +187,7 @@ const Header1 = () => {
                     <ButtonHead
                       onClick={() => {
                         setSelected(4);
+                        dispatch(setSelectedTabForMatchList(0));
                       }}
                       title={"MATCH LIST"}
                       boxStyle={{
@@ -206,7 +208,6 @@ const Header1 = () => {
                       }}
                     />
                   </NavLink>
-
                   <NavLink
                     to={"/expert/race/horseRacing"}
                     style={{ textDecoration: "none" }}
@@ -263,7 +264,6 @@ const Header1 = () => {
                     />
                   </NavLink> */}
                 </>
-                <Box sx={{ minHeight: { lg: 66, xs: 40 + 42 } }} />
                 <Box
                   sx={{
                     display: "flex",
@@ -280,27 +280,27 @@ const Header1 = () => {
                       setVisible(true);
                     }}
                     sx={{
-                      height: "45px",
-                      width: "45px",
+                      height: "30px",
+                      width: "30px",
                       borderRadius: "35px",
                       display: "flex",
                       justifyContent: "center",
                       alignItems: "center",
                       background: "white",
-                      marginTop: { xs: "10px" },
+                      // marginTop: { xs: "10px" },
                       marginLeft: "10px",
                     }}
                   >
                     <StyledImage
                       src={NotiBadge}
-                      sx={{ height: "25px", width: "25px" }}
+                      sx={{ height: "15px", width: "15px" }}
                     />
                   </Box>
                   <Box
                     sx={{
                       display: "flex",
                       alignItems: "center",
-                      marginTop: { xs: "10px" },
+                      // marginTop: { xs: "10px" },
                     }}
                   >
                     <ActiveUsers
@@ -332,7 +332,7 @@ const Header1 = () => {
               )} */}
             </Box>
           </AppBar>
-          <Box sx={{ minHeight: { lg: 66, xs: 60 + 20 } }} />
+          <Box sx={{ minHeight: { lg: 44, md: 45, xs: 60 + 20 } }} />
         </>
       )}
       {matchesMobile && (
@@ -435,8 +435,8 @@ const Header1 = () => {
                       setVisible(true);
                     }}
                     sx={{
-                      height: { lg: "45px", xs: "35px" },
-                      width: "45px",
+                      height: { lg: "45px", xs: "30px" },
+                      width: "30px",
                       borderRadius: "35px",
                       display: "flex",
                       justifyContent: "center",
@@ -447,7 +447,7 @@ const Header1 = () => {
                   >
                     <StyledImage
                       src={NotiBadge}
-                      sx={{ height: "25px", width: "25px" }}
+                      sx={{ height: "20px", width: "20px" }}
                     />
                   </Box>
                   <Box sx={{ display: "flex" }}>
@@ -497,6 +497,7 @@ const Header1 = () => {
                       <ButtonHead
                         onClick={() => {
                           setSelected(4);
+                          dispatch(setSelectedTabForMatchList(0));
                         }}
                         title={"MATCH LIST"}
                         boxStyle={{

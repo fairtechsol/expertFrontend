@@ -186,7 +186,6 @@ const HTFTMarket = ({ currentMatch, liveData, title }: any) => {
         {visible && (
           <ResultComponentTournamentMarket
             currentMatch={currentMatch}
-            // stopAt={liveData?.stopAt}
             onClick={() => {
               setVisible(false);
             }}
@@ -260,7 +259,7 @@ const HTFTMarket = ({ currentMatch, liveData, title }: any) => {
                       zIndex: "999",
                       justifyContent: "center",
                       alignItems: "center",
-                      background: "rgba(0, 0, 0, .5)",
+                      background: "rgba(0, 0, 0, .6)",
                     }}
                   >
                     <h4
@@ -271,11 +270,7 @@ const HTFTMarket = ({ currentMatch, liveData, title }: any) => {
                         fontSize: matchesMobile ? "12px" : "12px",
                       }}
                     >
-                      {item?.status === "SUSPENDED"
-                        ? true
-                        : false
-                        ? "SUSPENDED"
-                        : item?.status}
+                      {item?.status}
                     </h4>
                   </Box>
                 )}

@@ -17,7 +17,13 @@ export const getMatchList = createAsyncThunk<any, any>(
           requestData.keyword ? requestData.keyword : ""
         }&page=${
           requestData?.currentPage ? requestData?.currentPage : 1
-        }&limit=${Constants.pageLimit}&sort=match.createdAt:DESC${requestData?.stopAt?"&stopAt=isNull":""}`
+        }&limit=${Constants.pageLimit}&sort=match.createdAt:DESC${
+          requestData?.stopAt ? "&stopAt=isNull" : ""
+        }${
+          requestData?.matchType
+            ? `&match.matchType=${requestData?.matchType}`
+            : ""
+        }`
       );
       if (response) {
         return response?.data;
@@ -401,7 +407,7 @@ export const deleteBlinking = createAsyncThunk<any, any>(
   async (requestData, thunkApi) => {
     try {
       const response = await service.delete(
-        `${ApiConstants.BLINK.DELETE}${requestData?.id}`,
+        `${ApiConstants.BLINK.DELETE}${requestData?.id}`
       );
       if (response?.status === 200) {
         return response?.data;
@@ -491,6 +497,13 @@ export const updateTeamRatesForHorseRacingOnDelete = createAsyncThunk<any, any>(
     return data;
   }
 );
+export const setSelectedTabForMatchList = createAsyncThunk<any, any>(
+  "set/selectedTabForMatchList",
+  async (data) => {
+    return data;
+  }
+);
+
 export const matchListReset = createAction("matchList/reset");
 export const raceListReset = createAction("raceList/reset");
 export const editSuccessReset = createAction("editSuccess/reset");

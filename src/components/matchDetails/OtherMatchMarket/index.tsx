@@ -119,13 +119,15 @@ const OtherMatchMarket = ({ currentMatch, liveData, title }: any) => {
         >
           {liveData?.id ? (
             <>
-              <Result
-                width={"80px"}
-                onClick={() => {
-                  setVisible(true);
-                }}
-                invert={true}
-              />
+              {!currentMatch?.stopAt && (
+                <Result
+                  width={"80px"}
+                  onClick={() => {
+                    setVisible(true);
+                  }}
+                  invert={true}
+                />
+              )}
               {liveData?.activeStatus !== "result" && (
                 <>
                   <SmallBox

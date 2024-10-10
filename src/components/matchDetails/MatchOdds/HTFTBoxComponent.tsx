@@ -11,9 +11,8 @@ const BoxComponent = ({
   align,
   lock,
   teamRates,
-  livestatus,
 }: any) => {
-  const { ex, status } = data ?? {};
+  const { ex } = data ?? {};
 
   return (
     <Box
@@ -59,55 +58,48 @@ const BoxComponent = ({
         {name != "DRAW" && <MoneyBox value={teamRates} />}
       </Box>
 
-      {!["ACTIVE", "", undefined, null, "OPEN"].includes(status) ||
-      livestatus ? (
-        <></>
-      ) : (
-        <>
+      <>
+        <Box
+          sx={{
+            display: "flex",
+            background: "white",
+            height: "30px",
+            width: { lg: "65%", xs: "78%" },
+            justifyContent: { xs: "flex-end", lg: "flex-end" },
+            alignItems: "center",
+          }}
+        >
           <Box
             sx={{
               display: "flex",
               background: "white",
               height: "30px",
-              width: { lg: "65%", xs: "78%" },
+              width: { lg: "50%", xs: "60%" },
               justifyContent: { xs: "flex-end", lg: "flex-end" },
               alignItems: "center",
             }}
           >
-            <Box
-              sx={{
-                display: "flex",
-                background: "white",
-                height: "30px",
-                width: { lg: "50%", xs: "60%" },
-                justifyContent: { xs: "flex-end", lg: "flex-end" },
-                alignItems: "center",
-              }}
-            >
-              <SeparateBox
-                currentMatch={currentMatch}
-                align={align}
-                value={
-                  ex?.availableToBack?.length > 0
-                    ? ex?.availableToBack[
-                        ex?.availableToBack?.length > 1 ? 2 : 0
-                      ]?.price ?? 0
-                    : 0
-                }
-                lock={lock}
-                value2={formatNumber(
-                  ex?.availableToBack?.length > 0
-                    ? ex?.availableToBack[
-                        ex?.availableToBack?.length > 1 ? 2 : 0
-                      ]?.size ?? 0
-                    : 0
-                )}
-                color={"#A7DCFF"}
-              />
-            </Box>
+            <SeparateBox
+              currentMatch={currentMatch}
+              align={align}
+              value={
+                ex?.availableToBack?.length > 0
+                  ? ex?.availableToBack[ex?.availableToBack?.length > 1 ? 2 : 0]
+                      ?.price ?? 0
+                  : 0
+              }
+              lock={lock}
+              value2={formatNumber(
+                ex?.availableToBack?.length > 0
+                  ? ex?.availableToBack[ex?.availableToBack?.length > 1 ? 2 : 0]
+                      ?.size ?? 0
+                  : 0
+              )}
+              color={"#A7DCFF"}
+            />
           </Box>
-        </>
-      )}
+        </Box>
+      </>
     </Box>
   );
 };

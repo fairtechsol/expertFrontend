@@ -393,22 +393,22 @@ export const gameTypeMatchBetting = {
 };
 
 export const betListColorConstants: any = {
-  session: { background: "#319E5B", textColor: "#fff" },
-  matchOdd: { background: "#F6C550", textColor: "#000" },
-  bookmaker: { background: "#F4C550", textColor: "#fff" },
-  quickbookmaker1: { background: "#F1C550", textColor: "#000" },
-  quickbookmaker2: { background: "#F2C550", textColor: "#000" },
-  quickbookmaker3: { background: "#F3C550", textColor: "#000" },
+  session: { background: "#319E5B", textColor: "#fff" }, //
+  matchOdd: { background: "#F6C550", textColor: "#000" }, //
+  bookmaker: { background: "#13948b", textColor: "#fff" },
+  quickbookmaker1: { background: "#5c1d04", textColor: "#fff" },
+  quickbookmaker2: { background: "#0549f5", textColor: "#fff" },
+  quickbookmaker3: { background: "#3f345c", textColor: "#fff" },
   completeMatch: { background: "#faf11b", textColor: "#000" },
   completeManual: { background: "#fbf11b", textColor: "#000" },
   tiedMatch1: { background: "#fcf11b", textColor: "#000" },
   tiedMatch2: { background: "#EE82EE", textColor: "#000" },
-  tiedMatch3: { background: "#EE82EE", textColor: "#000" },
+  tiedMatch3: { background: "#452245", textColor: "#000" },
   cricketCasino: { background: "#FF1111", textColor: "#fff" },
   oddEven: { background: "#7c46e6", textColor: "#fff" },
-  fancy1: { background: "#808080", textColor: "#fff" },
+  fancy1: { background: "#FF8633", textColor: "#fff" },
   overByOver: { background: "#FFA07A", textColor: "#fff" },
-  ballByBall: { background: "#FFA500", textColor: "#fff" },
+  ballByBall: { background: "#33FF33", textColor: "#fff" },
 };
 
 export const marketArray = [
@@ -426,6 +426,8 @@ export const marketArray = [
   "marketCompleteMatch1",
   "manualCompleteMatch",
 ];
+
+export const gameType = ["cricket", "football", "tennis"];
 
 // export const addMatchThirdParty =
 //   process.env.NODE_ENV === Constants.PRODUCTION
