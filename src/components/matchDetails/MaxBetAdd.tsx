@@ -16,7 +16,6 @@ const MaxBetAdd = ({
   currentMatch,
   title,
 }: any) => {
-  console.log(matchOddsLive, "abc");
   const [selected, setSelected] = useState<any>({
     maxLimit: 0,
     betLimit: 0,

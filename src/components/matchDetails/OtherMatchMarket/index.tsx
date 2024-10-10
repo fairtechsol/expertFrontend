@@ -16,7 +16,12 @@ import ResultComponentOtherMarket from "./ResultComponentOtherMarket";
 import MaxLimitEditButton from "../../Common/MaxLimitEditButton";
 import AddMarketButton from "../../Common/AddMarketButton";
 
-const OtherMatchMarket = ({ currentMatch, liveData, title }: any) => {
+const OtherMatchMarket = ({
+  currentMatch,
+  liveData,
+  title,
+  firstKnownKey,
+}: any) => {
   const dispatch: AppDispatch = useDispatch();
   const [visibleImg, setVisibleImg] = useState<boolean>(true);
   const [visible, setVisible] = useState<boolean>(false);
@@ -119,7 +124,7 @@ const OtherMatchMarket = ({ currentMatch, liveData, title }: any) => {
         >
           {liveData?.id ? (
             <>
-              {!currentMatch?.stopAt && (
+              {(!currentMatch?.stopAt || firstKnownKey === undefined) && (
                 <Result
                   width={"80px"}
                   onClick={() => {
