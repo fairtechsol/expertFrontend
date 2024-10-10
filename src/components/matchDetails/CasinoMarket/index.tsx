@@ -14,7 +14,7 @@ import { TiArrowLeftThick } from "react-icons/ti";
 import ModalMUI from "@mui/material/Modal";
 import SessionLimitEdit from "../SessionMarket/SessionLimitEdit";
 
-const CasinoMarket = ({ title, sessionData, profitLossData }: any) => {
+const CasinoMarket = ({ title, sessionData, profitLossData, section }: any) => {
   const [visible, setVisible] = useState(true);
   const [loading, setLoading] = useState(false);
   const [showResultModal, setShowResultModal] = useState(false);
@@ -100,9 +100,10 @@ const CasinoMarket = ({ title, sessionData, profitLossData }: any) => {
               fontWeight: "bold",
               marginLeft: "7px",
               lineHeight: 1,
+              textTransform: "uppercase",
             }}
           >
-            {title}
+            {title + (sessionData?.isComplete ? section : "")}
             <span
               style={{
                 fontSize: "8px",
@@ -444,6 +445,7 @@ const CasinoMarket = ({ title, sessionData, profitLossData }: any) => {
             >
               {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]?.map((item: any) => (
                 <CasinoMarketBox
+                  sessionData={sessionData}
                   newData={
                     sessionData?.section?.length > 0
                       ? sessionData?.section?.[item]

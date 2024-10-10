@@ -158,7 +158,7 @@ export const sortByActiveStatusOfCricketCasino = (a: any, b: any) => {
       return 3;
     } else if (item.activeStatus === "live") {
       return 2;
-    } else if (item.activeStatus === "save") {
+    } else if (item.activeStatus === "save" || item.isComplete) {
       return 1;
     }
     return 4;

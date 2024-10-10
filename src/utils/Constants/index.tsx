@@ -393,9 +393,9 @@ export const gameTypeMatchBetting = {
 };
 
 export const betListColorConstants: any = {
-  session: { background: "#319E5B", textColor: "#fff" }, //
-  matchOdd: { background: "#F6C550", textColor: "#000" }, //
-  bookmaker: { background: "#13948b", textColor: "#fff" },
+  session: { background: "#319E5B", textColor: "#fff" },
+  matchOdd: { background: "#fff", textColor: "#000" },
+  bookmaker: { background: "#F6C550", textColor: "#000" },
   quickbookmaker1: { background: "#5c1d04", textColor: "#fff" },
   quickbookmaker2: { background: "#0549f5", textColor: "#fff" },
   quickbookmaker3: { background: "#3f345c", textColor: "#fff" },
