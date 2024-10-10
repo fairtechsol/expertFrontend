@@ -48,7 +48,7 @@ const DummyMatchListProfitLoss = ({ updateMatchStatusLabel }: any) => {
             color: "#FFE094",
           }}
         >
-          <span style={{ fontSize: "0.8em", fontWeight: "normal" }}>""</span>
+          {/* <span style={{ fontSize: "0.8em", fontWeight: "normal" }}>""</span> */}
         </Typography>
       </Box>
     </>
