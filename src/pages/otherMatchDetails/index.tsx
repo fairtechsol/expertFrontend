@@ -455,6 +455,7 @@ const OtherMatchDetails = () => {
                         marketId: market?.mid ? market?.mid?.toString() : "",
                       }}
                       title={market?.name}
+                      firstKnownKey={firstKnownKey}
                     />
                   ))}
                 {matchDetail?.tournament &&
@@ -466,6 +467,7 @@ const OtherMatchDetails = () => {
                         liveData={market}
                         currentMatch={matchDetail}
                         title={market?.name}
+                        firstKnownKey={firstKnownKey}
                       />
                     ))}
 
@@ -574,6 +576,7 @@ const OtherMatchDetails = () => {
                         liveData={market}
                         currentMatch={matchDetail}
                         title={market?.name}
+                        firstKnownKey={firstKnownKey}
                       />
                     ))}
               </Box>
@@ -615,6 +618,7 @@ const OtherMatchDetails = () => {
                   liveData={market}
                   currentMatch={matchDetail}
                   title={market?.name}
+                  firstKnownKey={firstKnownKey}
                 />
               ))}
         </Box>

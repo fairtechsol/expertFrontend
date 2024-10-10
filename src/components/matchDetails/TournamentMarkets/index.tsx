@@ -15,7 +15,7 @@ import ResultComponentTournamentMarket from "./ResultComponentTournamentMarket";
 import AddMarketButton from "../../Common/AddMarketButton";
 import MaxLimitEditButton from "../../Common/MaxLimitEditButton";
 
-const TournamentMarket = ({ currentMatch, liveData, title }: any) => {
+const TournamentMarket = ({ currentMatch, liveData, title, firstKnownKey }: any) => {
   const dispatch: AppDispatch = useDispatch();
   const [visibleImg, setVisibleImg] = useState<boolean>(true);
   const [visible, setVisible] = useState<boolean>(false);
@@ -120,7 +120,7 @@ const TournamentMarket = ({ currentMatch, liveData, title }: any) => {
         >
           {liveData?.id ? (
             <>
-              {!currentMatch?.stopAt && (
+              {(!currentMatch?.stopAt || firstKnownKey === undefined) && (
                 <Result
                   width={"80px"}
                   onClick={() => {

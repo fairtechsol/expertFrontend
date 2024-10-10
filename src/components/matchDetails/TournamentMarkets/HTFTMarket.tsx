@@ -15,7 +15,7 @@ import AddMarketButton from "../../Common/AddMarketButton";
 import MaxLimitEditButton from "../../Common/MaxLimitEditButton";
 import HTFTBoxComponent from "../MatchOdds/HTFTBoxComponent";
 
-const HTFTMarket = ({ currentMatch, liveData, title }: any) => {
+const HTFTMarket = ({ currentMatch, liveData, title, firstKnownKey }: any) => {
   const dispatch: AppDispatch = useDispatch();
   const theme = useTheme();
   const matchesMobile = useMediaQuery(theme.breakpoints.down("md"));
@@ -37,6 +37,8 @@ const HTFTMarket = ({ currentMatch, liveData, title }: any) => {
   const handleClose = (data: any) => {
     setOpen(data);
   };
+
+  console.log(!currentMatch?.stopAt && firstKnownKey !== undefined, "iuy");
 
   return (
     <Box
@@ -121,7 +123,7 @@ const HTFTMarket = ({ currentMatch, liveData, title }: any) => {
         >
           {liveData?.id ? (
             <>
-              {!currentMatch?.stopAt && (
+              {(!currentMatch?.stopAt || firstKnownKey === undefined) && (
                 <Result
                   width={"80px"}
                   onClick={() => {

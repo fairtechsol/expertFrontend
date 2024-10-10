@@ -178,6 +178,7 @@ const SessionMarket = ({
                           profitLossData={profitLossData}
                           index={index}
                           hideEditMaxButton={hideEditMaxButton}
+                          section={section}
                         />
                         <Divider />
                       </Box>

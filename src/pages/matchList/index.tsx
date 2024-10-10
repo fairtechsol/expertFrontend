@@ -90,7 +90,7 @@ const MatchList = ({}) => {
           }),
         ]}
       >
-        <MatchListHeader />
+        <MatchListHeader setCurrentPage={setCurrentPage} />
         <MatchListTableHeader />
 
         {matchList &&

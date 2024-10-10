@@ -473,6 +473,7 @@ const MatchMarketDetail = () => {
                         marketId: market?.mid ? market?.mid?.toString() : "",
                       }}
                       title={market?.name}
+                      firstKnownKey={firstKnownKey}
                     />
                   ))}
               {matchDetail?.tournament &&
@@ -483,6 +484,7 @@ const MatchMarketDetail = () => {
                     liveData={market}
                     currentMatch={matchDetail}
                     title={market?.name}
+                    firstKnownKey={firstKnownKey}
                   />
                 ))}
               {matchDetail?.apiTideMatch &&

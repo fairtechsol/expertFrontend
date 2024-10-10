@@ -492,7 +492,9 @@ const MatchOdds = ({ currentMatch, matchOddsLive, id, showResultBox }: any) => {
                   }}
                 ></Box>
               )}
-              {typeof currentMatch?.resultStatus === "string"
+              {typeof currentMatch?.resultStatus === "string" &&
+              matchOddsLive?.id &&
+              showResultBox
                 ? currentMatch?.resultStatus && (
                     <Box
                       sx={{

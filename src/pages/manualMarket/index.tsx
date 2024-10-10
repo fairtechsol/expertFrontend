@@ -360,29 +360,48 @@ const ManualMarket = ({ currentMatch, liveData, type, showResultBox }: any) => {
                 }}
               ></Box>
             )}
-            {/* {currentMatch?.resultStatus &&
-              currentMatch?.resultStatus[liveData?.id]?.status && (
-                <Box
-                  sx={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    width: "100%",
-                    position: "absolute",
-                    height: "100%",
-                    bottom: 0,
-                    color: "#fff",
-                    backgroundColor: "rgba(203 24 24 / 70%)",
-                  }}
-                >
-                  <Typography sx={{ color: "#fff" }}>
-                    RESULT{" "}
-                    {liveData?.stopAt || liveData?.activeStatus === "result"
-                      ? "DECLARED"
-                      : currentMatch?.resultStatus[liveData?.id]?.status}
-                  </Typography>
-                </Box>
-              )} */}
+            {typeof currentMatch?.resultStatus === "string" &&
+            liveData?.id &&
+            showResultBox
+              ? currentMatch?.resultStatus && (
+                  <Box
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      width: "100%",
+                      position: "absolute",
+                      height: "100%",
+                      bottom: 0,
+                      color: "#fff",
+                      backgroundColor: "rgba(203 24 24 / 70%)",
+                    }}
+                  >
+                    <Typography sx={{ color: "#fff" }}>
+                      RESULT {currentMatch?.resultStatus}
+                    </Typography>
+                  </Box>
+                )
+              : currentMatch?.resultStatus &&
+                currentMatch?.resultStatus[liveData?.id]?.status && (
+                  <Box
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      width: "100%",
+                      position: "absolute",
+                      height: "100%",
+                      bottom: 0,
+                      color: "#fff",
+                      backgroundColor: "rgba(203 24 24 / 70%)",
+                    }}
+                  >
+                    <Typography sx={{ color: "#fff" }}>
+                      RESULT {currentMatch?.resultStatus[liveData?.id]?.status}
+                    </Typography>
+                  </Box>
+                )}
           </Box>
         </>
       )}

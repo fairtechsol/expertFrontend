@@ -38,7 +38,6 @@ import { AppDispatch, RootState } from "../../store/store";
 import RunsBox from "../../components/matchDetails/RunsBox";
 import {
   customSortBySessionMarketName,
-  sortByActiveStatusOfCricketCasino,
 } from "../../helpers";
 
 const SessionMarketDetail = () => {
@@ -450,6 +449,34 @@ const SessionMarketDetail = () => {
           {matchDetail?.updatedSesssionBettings &&
             Object.entries(matchDetail?.updatedSesssionBettings)
               ?.sort(customSortBySessionMarketName)
+              ?.filter(([name]: any) => name === "cricketCasino")
+              ?.map(([name, item]: any) => {
+                return (
+                  <>
+                    {item?.section
+                      ?.filter(
+                        (item: any) =>
+                          item?.activeStatus !== "unSave" &&
+                          (item?.isComplete || item?.activeStatus === "save")
+                      )
+                      // ?.sort(sortByActiveStatusOfCricketCasino)
+                      ?.map((items: any) => (
+                        <CasinoMarket
+                          key={items?.SelectionId}
+                          title={items?.RunnerName || items?.name}
+                          sessionData={items}
+                          gtype={items?.gtype}
+                          type={name}
+                          profitLossData={matchDetail?.sessionProfitLoss}
+                          section=" COMPLETED"
+                        />
+                      ))}
+                  </>
+                );
+              })}
+          {matchDetail?.updatedSesssionBettings &&
+            Object.entries(matchDetail?.updatedSesssionBettings)
+              ?.sort(customSortBySessionMarketName)
               ?.filter(([name]: any) => name !== "cricketCasino")
               ?.map(([name, item]: any) => {
                 return (
@@ -486,8 +513,11 @@ const SessionMarketDetail = () => {
                 return (
                   <>
                     {item?.section
-                      ?.filter((item: any) => item?.activeStatus !== "unSave")
-                      ?.sort(sortByActiveStatusOfCricketCasino)
+                      ?.filter(
+                        (item: any) =>
+                          item?.activeStatus !== "unSave" && !item?.isComplete
+                      )
+                      // ?.sort(sortByActiveStatusOfCricketCasino)
                       ?.map((items: any) => (
                         <CasinoMarket
                           key={items?.SelectionId}
@@ -496,6 +526,7 @@ const SessionMarketDetail = () => {
                           gtype={items?.gtype}
                           type={name}
                           profitLossData={matchDetail?.sessionProfitLoss}
+                          section=""
                         />
                       ))}
                   </>
@@ -531,6 +562,35 @@ const SessionMarketDetail = () => {
                       />
                     )}
                   </Fragment>
+                );
+              })}
+          {matchDetail?.updatedSesssionBettings &&
+            Object.entries(matchDetail?.updatedSesssionBettings)
+              ?.sort(customSortBySessionMarketName)
+              ?.filter(([name]: any) => name === "cricketCasino")
+              ?.map(([name, item]: any) => {
+                return (
+                  <>
+                    {item?.section
+                      ?.filter(
+                        (item: any) =>
+                          item?.activeStatus !== "unSave" &&
+                          item?.isComplete &&
+                          item.activeStatus === "result"
+                      )
+                      // ?.sort(sortByActiveStatusOfCricketCasino)
+                      ?.map((items: any) => (
+                        <CasinoMarket
+                          key={items?.SelectionId}
+                          title={items?.RunnerName || items?.name}
+                          sessionData={items}
+                          gtype={items?.gtype}
+                          type={name}
+                          profitLossData={matchDetail?.sessionProfitLoss}
+                          section=" DECLARED"
+                        />
+                      ))}
+                  </>
                 );
               })}
         </Box>

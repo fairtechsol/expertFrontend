@@ -229,9 +229,9 @@ const MatchListTable = (props: any) => {
                   cursor="pointer"
                 />
               )}
-              {!isSmallOrMediumScreen && data?.matchType != "cricket" && (
-                <DummyMatchListProfitLoss updateMatchStatusLabel="Session P/L" />
-              )}
+              {/* {!isSmallOrMediumScreen && data?.matchType != "cricket" && (
+                <DummyMatchListProfitLoss updateMatchStatusLabel="" />
+              )} */}
             </Box>
             <Box
               display={"flex"}
@@ -291,7 +291,7 @@ const MatchListTable = (props: any) => {
                     title={"Expert Session"}
                   />
                 )}
-              {!isSmallOrMediumScreen &&
+              {/* {!isSmallOrMediumScreen &&
                 !["cricket", "politics"].includes(data?.matchType) && (
                   <CustomButton
                     containerStyle={{
@@ -326,7 +326,7 @@ const MatchListTable = (props: any) => {
                     }}
                     bgColor={buttonBgColor}
                   />
-                )}
+                )} */}
               {(profileDetail?.allPrivilege ||
                 profileDetail?.betFairMatchPrivilege) && (
                 <CustomButton
