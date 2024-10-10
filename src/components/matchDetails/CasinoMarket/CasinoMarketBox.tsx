@@ -3,7 +3,7 @@ import Divider from "../../Common/Divider";
 import { formatNumber } from "../../helper";
 import SeparateBox from "../SeparateBox";
 
-const CasinoMarketBox = ({ newData, index, profitLoss }: any) => {
+const CasinoMarketBox = ({ newData, index, profitLoss, sessionData }: any) => {
   return (
     <div>
       <Box
@@ -17,7 +17,11 @@ const CasinoMarketBox = ({ newData, index, profitLoss }: any) => {
         <Box
           sx={{
             display: "flex",
-            background: index % 2 === 0 ? "#FFE094" : "#ECECEC",
+            background: sessionData?.isComplete
+              ? "#E15151"
+              : index % 2 === 0
+              ? "#FFE094"
+              : "#ECECEC",
             height: "28px",
             width: "100%",
             justifyContent: "space-between",
@@ -49,6 +53,7 @@ const CasinoMarketBox = ({ newData, index, profitLoss }: any) => {
               fontWeight: "600",
               lineHeight: 1,
               textAlign: "center",
+              zIndex: "99"
             }}
           >
             {parseFloat(profitLoss?.profitLoss?.[index] || 0).toFixed(2)}
@@ -60,7 +65,11 @@ const CasinoMarketBox = ({ newData, index, profitLoss }: any) => {
             sx={{
               display: "flex",
               position: "relative",
-              background: index % 2 === 0 ? "#FFE094" : "#ECECEC",
+              background: sessionData?.isComplete
+                ? "#E15151"
+                : index % 2 === 0
+                ? "#FFE094"
+                : "#ECECEC",
               height: "28px",
               width: { lg: "20%", xs: "17%", md: "10%" },
               justifyContent: "flex-end",
@@ -96,7 +105,11 @@ const CasinoMarketBox = ({ newData, index, profitLoss }: any) => {
             sx={{
               display: "flex",
               position: "relative",
-              background: index % 2 === 0 ? "#FFE094" : "#ECECEC",
+              background: sessionData?.isComplete
+                ? "#E15151"
+                : index % 2 === 0
+                ? "#FFE094"
+                : "#ECECEC",
               height: "28px",
               width: { lg: "20%", xs: "17%", md: "10%" },
               justifyContent: "flex-end",

@@ -21,6 +21,7 @@ const SessionMarketBox = ({
   profitLossData,
   index,
   hideEditMaxButton,
+  section,
 }: any) => {
   const dispatch: AppDispatch = useDispatch();
   const { statusBetLive, error, success } = useSelector(
@@ -65,6 +66,8 @@ const SessionMarketBox = ({
           display: "flex",
           background: visible
             ? "#FFAF45"
+            : section === "completed"
+            ? "#E15151"
             : index % 2 === 0
             ? "#FFE094"
             : "#ECECEC", // Change color based on selected state and index
@@ -80,6 +83,8 @@ const SessionMarketBox = ({
             display: "flex",
             background: visible
               ? "#FFAF45"
+              : section === "completed"
+              ? "#E15151"
               : index % 2 === 0
               ? "#FFE094"
               : "#ECECEC", // Change color based on selected state and index
@@ -88,7 +93,7 @@ const SessionMarketBox = ({
             width: "40%",
             alignItems: "center",
             boxShadow: visible ? 3 : 0,
-            // backgroundColor:'red'
+            // backgroundColor:'#E15151'
           }}
           // className="example-2"
         >
