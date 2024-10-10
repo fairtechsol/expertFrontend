@@ -17,10 +17,12 @@ export const getMatchList = createAsyncThunk<any, any>(
           requestData.keyword ? requestData.keyword : ""
         }&page=${
           requestData?.currentPage ? requestData?.currentPage : 1
-        }&limit=${Constants.pageLimit}&match.matchType=${
-          requestData?.matchType
-        }&sort=match.createdAt:DESC${
+        }&limit=${Constants.pageLimit}&sort=match.createdAt:DESC${
           requestData?.stopAt ? "&stopAt=isNull" : ""
+        }${
+          requestData?.matchType
+            ? `&match.matchType=${requestData?.matchType}`
+            : ""
         }`
       );
       if (response) {
