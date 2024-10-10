@@ -112,7 +112,8 @@ const MatchListHeader = () => {
                     height: "35px",
                     marginTop: "4px",
                     textAlign: "center",
-                    paddingTop: "15px",
+                    fontSize: "10px",
+                    fontWeight: "bold"
                   }}
                   key={item}
                   label={item}
