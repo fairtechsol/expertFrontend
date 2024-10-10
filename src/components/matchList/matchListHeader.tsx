@@ -24,7 +24,7 @@ const CustomTabs = styled(Tabs)({
   },
 });
 
-const MatchListHeader = () => {
+const MatchListHeader = ({ setCurrentPage }: any) => {
   const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
   const { selectedTab } = useSelector((state: RootState) => state.matchList);
@@ -41,6 +41,7 @@ const MatchListHeader = () => {
 
   const handleTabChange = (_: any, newValue: any) => {
     dispatch(setSelectedTabForMatchList(newValue));
+    setCurrentPage(1);
   };
 
   return (
@@ -113,7 +114,7 @@ const MatchListHeader = () => {
                     marginTop: "4px",
                     textAlign: "center",
                     fontSize: "10px",
-                    fontWeight: "bold"
+                    fontWeight: "bold",
                   }}
                   key={item}
                   label={item}
