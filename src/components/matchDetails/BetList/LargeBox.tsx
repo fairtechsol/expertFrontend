@@ -1,6 +1,15 @@
 import { Box, Typography } from "@mui/material";
 
 const LargeBox = ({ item, k }: any) => {
+  const handleDomain=(url:any)=>{
+    url = url?.replace(/^(?:https?:\/\/)/, "");
+
+    const parts = url?.split(".");
+  
+    url = parts?.[parts.length-2]
+    
+    return url || "";
+  }
   return (
     <Box
       sx={{
@@ -46,7 +55,7 @@ const LargeBox = ({ item, k }: any) => {
             lineHeight: 1
           }}
         >
-          {item?.domain?.replace(/https?:\/\//, "")}
+          {handleDomain(item?.domain)}
         </Typography>
       )}
       {item?.time && (
