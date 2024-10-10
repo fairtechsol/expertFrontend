@@ -151,3 +151,18 @@ export const updateArray = (ab: any, cd: any) => {
 
   return ab;
 };
+
+export const sortByActiveStatusOfCricketCasino = (a: any, b: any) => {
+  const getPosition = (item: any) => {
+    if (item.isComplete && item.activeStatus === "result") {
+      return 3;
+    } else if (item.activeStatus === "live") {
+      return 2;
+    } else if (item.activeStatus === "save") {
+      return 1;
+    }
+    return 4;
+  };
+
+  return getPosition(a) - getPosition(b);
+};
