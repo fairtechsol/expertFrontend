@@ -15,7 +15,6 @@ import MatchListProfitLoss from "./profitLoss";
 import SessionResultComponent from "./sessionResultComponent";
 import { IconConstants } from "../helper/gameConstants";
 import { Constants } from "../../utils/Constants";
-import DummyMatchListProfitLoss from "./dummyProfitLoss";
 
 const MatchListTable = (props: any) => {
   const { data, index, currentPage } = props;
@@ -66,8 +65,6 @@ const MatchListTable = (props: any) => {
     }
   }, [data]);
 
-  const buttonBgColor = data?.matchType !== "cricket" ? "#FFE094" : undefined;
-  const isSmallOrMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
   return (
     <>
       <Box
