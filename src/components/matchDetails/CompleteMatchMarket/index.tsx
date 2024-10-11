@@ -177,7 +177,7 @@ const CompleteMatchMarket = ({
           />
         </Box>
       </Box>
-      <Box
+      {/* <Box
         sx={{
           position: "absolute",
           zIndex: 999,
@@ -185,22 +185,22 @@ const CompleteMatchMarket = ({
           right: "1%",
           width: { lg: "30vh", xs: "30vh" },
         }}
-      >
-        {visible && (
-          <ResultComponent
-            currentMatch={currentMatch}
-            teamA={currentMatch?.teamA}
-            stopAt={currentMatch?.stopAt}
-            teamB={currentMatch?.teamB}
-            tie={currentMatch?.matchType === "cricket" ? "Tie" : ""}
-            draw={currentMatch?.teamC ? currentMatch?.teamC : null}
-            onClick={() => {
-              setVisible(false);
-            }}
-            liveData={liveData}
-          />
-        )}
-      </Box>
+      > */}
+      {visible && (
+        <ResultComponent
+          currentMatch={currentMatch}
+          teamA={currentMatch?.teamA}
+          stopAt={currentMatch?.stopAt}
+          teamB={currentMatch?.teamB}
+          tie={currentMatch?.matchType === "cricket" ? "Tie" : ""}
+          draw={currentMatch?.teamC ? currentMatch?.teamC : null}
+          onClick={() => {
+            setVisible(false);
+          }}
+          liveData={liveData}
+        />
+      )}
+      {/* </Box> */}
       <Divider />
       {visibleImg && (
         <>

@@ -170,7 +170,7 @@ const BookMarket = ({ currentMatch, liveData, title, showResultBox }: any) => {
           />
         </Box>
       </Box>
-      <Box
+      {/* <Box
         sx={{
           position: "absolute",
           zIndex: 999,
@@ -178,7 +178,7 @@ const BookMarket = ({ currentMatch, liveData, title, showResultBox }: any) => {
           right: "1%",
           width: { lg: "30vh", xs: "30vh" },
         }}
-      >
+      > */}
         {visible && (
           <ResultComponent
             currentMatch={currentMatch}
@@ -193,7 +193,7 @@ const BookMarket = ({ currentMatch, liveData, title, showResultBox }: any) => {
             liveData={liveData}
           />
         )}
-      </Box>
+      {/* </Box> */}
       <Divider />
       {visibleImg && (
         <>
