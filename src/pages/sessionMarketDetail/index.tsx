@@ -36,9 +36,7 @@ import {
 } from "../../store/actions/match/matchAction";
 import { AppDispatch, RootState } from "../../store/store";
 import RunsBox from "../../components/matchDetails/RunsBox";
-import {
-  customSortBySessionMarketName,
-} from "../../helpers";
+import { customSortBySessionMarketName } from "../../helpers";
 
 const SessionMarketDetail = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -343,7 +341,7 @@ const SessionMarketDetail = () => {
                 return (
                   <>
                     {item?.section
-                      ?.filter((items: any) => !items?.isManual)
+                      ?.filter((i: any) => !i?.isManual)
                       ?.filter(
                         (items: any) =>
                           !items?.activeStatus ||
@@ -373,9 +371,8 @@ const SessionMarketDetail = () => {
                     <React.Fragment key={name}>
                       {item?.section
                         ?.filter(
-                          (items: any) =>
-                            !items?.activeStatus ||
-                            items?.activeStatus === "unSave"
+                          (i: any) =>
+                            !i?.activeStatus || i?.activeStatus === "unSave"
                         )
                         ?.map((items: any) => (
                           <CasinoMarketLive
@@ -393,7 +390,7 @@ const SessionMarketDetail = () => {
                   return (
                     <>
                       {item?.section
-                        ?.filter((items: any) => !items?.isManual)
+                        ?.filter((i: any) => !i?.isManual)
                         ?.filter(
                           (items: any) =>
                             !items?.activeStatus ||
@@ -420,7 +417,7 @@ const SessionMarketDetail = () => {
                 return (
                   <Fragment key={name}>
                     {item?.section
-                      ?.filter((item: any) => !item?.isManual)
+                      ?.filter((i: any) => !i?.isManual)
                       ?.filter(
                         (items: any) =>
                           items?.isComplete &&
@@ -455,9 +452,10 @@ const SessionMarketDetail = () => {
                   <>
                     {item?.section
                       ?.filter(
-                        (item: any) =>
-                          item?.activeStatus !== "unSave" &&
-                          (item?.isComplete || item?.activeStatus === "save")
+                        (i: any) =>
+                          i?.activeStatus !== "unSave" &&
+                          (i?.isComplete || i?.activeStatus === "save") &&
+                          i?.activeStatus !== "result"
                       )
                       // ?.sort(sortByActiveStatusOfCricketCasino)
                       ?.map((items: any) => (
@@ -482,7 +480,7 @@ const SessionMarketDetail = () => {
                 return (
                   <Fragment key={name}>
                     {item?.section
-                      ?.filter((item: any) => !item?.isManual)
+                      ?.filter((i: any) => !i?.isManual)
                       ?.filter(
                         (items: any) =>
                           !items?.isComplete &&
@@ -514,8 +512,8 @@ const SessionMarketDetail = () => {
                   <>
                     {item?.section
                       ?.filter(
-                        (item: any) =>
-                          item?.activeStatus !== "unSave" && !item?.isComplete
+                        (i: any) =>
+                          i?.activeStatus !== "unSave" && !i?.isComplete
                       )
                       // ?.sort(sortByActiveStatusOfCricketCasino)
                       ?.map((items: any) => (
@@ -540,7 +538,7 @@ const SessionMarketDetail = () => {
                 return (
                   <Fragment key={name}>
                     {item?.section
-                      ?.filter((items: any) => !items?.isManual)
+                      ?.filter((i: any) => !i?.isManual)
                       ?.filter(
                         (items: any) =>
                           (items?.resultData && items?.resultData !== null) ||
@@ -573,10 +571,10 @@ const SessionMarketDetail = () => {
                   <>
                     {item?.section
                       ?.filter(
-                        (item: any) =>
-                          item?.activeStatus !== "unSave" &&
-                          item?.isComplete &&
-                          item.activeStatus === "result"
+                        (i: any) =>
+                          i?.activeStatus !== "unSave" &&
+                          i?.isComplete &&
+                          i?.activeStatus === "result"
                       )
                       // ?.sort(sortByActiveStatusOfCricketCasino)
                       ?.map((items: any) => (

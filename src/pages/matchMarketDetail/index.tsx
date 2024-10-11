@@ -461,23 +461,20 @@ const MatchMarketDetail = () => {
                   />
                 ))}
               {matchDetail?.other &&
-                matchDetail?.other
-                  ?.filter((item: any) => item?.isActive)
-                  ?.map((market: any) => (
-                    <OtherMatchMarket
-                      key={market?.id}
-                      currentMatch={matchDetail}
-                      liveData={{
-                        ...market,
-                        type: "other",
-                        marketId: market?.mid ? market?.mid?.toString() : "",
-                      }}
-                      title={market?.name}
-                      firstKnownKey={firstKnownKey}
-                    />
-                  ))}
+                matchDetail?.other?.map((market: any) => (
+                  <OtherMatchMarket
+                    key={market?.id}
+                    currentMatch={matchDetail}
+                    liveData={{
+                      ...market,
+                      type: "other",
+                      marketId: market?.mid ? market?.mid?.toString() : "",
+                    }}
+                    title={market?.name}
+                    firstKnownKey={firstKnownKey}
+                  />
+                ))}
               {matchDetail?.tournament &&
-                (matchDetail?.tournament?.isActive === false ? false : true) &&
                 matchDetail?.tournament?.map((market: any) => (
                   <TournamentMarket
                     key={market?.mid}
