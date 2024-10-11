@@ -175,15 +175,15 @@ const TournamentMarket = ({ currentMatch, liveData, title, firstKnownKey }: any)
         </Box>
       </Box>
       <Divider />
-      <Box
+      {/* <Box
         sx={{
           position: "absolute",
           zIndex: 999,
           top: "26%",
           right: "1%",
-          width: { lg: "30vh", xs: "30vh" },
+          width: { lg: "30vw", xs: "30vw" },
         }}
-      >
+      > */}
         {visible && (
           <ResultComponentTournamentMarket
             currentMatch={currentMatch}
@@ -194,7 +194,7 @@ const TournamentMarket = ({ currentMatch, liveData, title, firstKnownKey }: any)
             liveData={liveData}
           />
         )}
-      </Box>
+      {/* </Box> */}
       {visibleImg && (
         <>
           <Box

@@ -1,5 +1,5 @@
 import { Box, Typography } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { memo } from "react";
 import { CancelDark } from "../../../assets";
 import MatchOddsResultCustomButton from "./MatchOddsResultCustomButton";
@@ -27,6 +27,9 @@ const ResultComponent = ({
   const { success, error } = useSelector((state: RootState) => state.match);
   const [selected, setSelected] = useState(teamA);
   const [loading, setLoading] = useState({ id: "", value: false });
+  const [isBottom, setIsBottom] = useState(false);
+  const boxRef = useRef(null);
+
   const handleSubmit = (e: any) => {
     e.preventDefault();
   };
@@ -55,32 +58,57 @@ const ResultComponent = ({
     }
   }, [success, error]);
 
+  const checkPosition = () => {
+    const box: any = boxRef.current;
+    if (box) {
+      const rect = box.getBoundingClientRect();
+      const windowHeight = window.innerHeight;
+
+      if (windowHeight - rect.top < 300) {
+        setIsBottom(true);
+      } else {
+        setIsBottom(false);
+      }
+    }
+  };
+
+  useEffect(() => {
+    checkPosition();
+    window.addEventListener("resize", checkPosition);
+
+    return () => {
+      window.removeEventListener("resize", checkPosition);
+    };
+  }, []);
+
   return (
     <Box
+      ref={boxRef}
       sx={{
         position: "absolute",
-        width: { lg: "100%", xs: "100%", md: "100%" },
-        marginRight: { md: "6em", xs: "4em" },
+        width: { lg: "20vw", xs: "40vw", md: "20vw" },
+        // marginRight: { md: "6em", xs: "4em" },
         // height: "300px",
         borderRadius: 2,
         boxShadow: "0px 5px 10px #1A568414",
         background: "white",
         zIndex: 999,
+        right: "1%",
+        top: !isBottom ? "24%" : "",
+        bottom: isBottom ? "100%" : "",
       }}
     >
       <Box
-        sx={[
-          {
-            width: "100%",
-            justifyContent: "space-between",
-            paddingX: "10px",
-            display: "flex",
-            alignItems: "center",
-            height: "30px",
-            borderRadius: "8px 8px 0 0",
-            background: "#ff4d4d",
-          },
-        ]}
+        sx={{
+          width: "100%",
+          justifyContent: "space-between",
+          paddingX: "10px",
+          display: "flex",
+          alignItems: "center",
+          height: "30px",
+          borderRadius: "8px 8px 0 0",
+          background: "#ff4d4d",
+        }}
       >
         <Typography
           sx={{

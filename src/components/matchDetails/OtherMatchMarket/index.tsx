@@ -178,7 +178,7 @@ const OtherMatchMarket = ({
         </Box>
       </Box>
       <Divider />
-      <Box
+      {/* <Box
         sx={{
           position: "absolute",
           zIndex: 999,
@@ -186,7 +186,7 @@ const OtherMatchMarket = ({
           right: "60px",
           width: { lg: "50vh", xs: "30vh" },
         }}
-      >
+      > */}
         {visible && (
           <ResultComponentOtherMarket
             currentMatch={currentMatch}
@@ -197,7 +197,7 @@ const OtherMatchMarket = ({
             liveData={liveData}
           />
         )}
-      </Box>
+      {/* </Box> */}
       {visibleImg && (
         <>
           <Box

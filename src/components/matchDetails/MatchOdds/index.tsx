@@ -218,30 +218,30 @@ const MatchOdds = ({ currentMatch, matchOddsLive, id, showResultBox }: any) => {
           </Box>
         </Box>
 
-        <Box
+        {/* <Box
           sx={{
             position: "absolute",
             zIndex: 999,
             top: "26%",
             right: "1%",
-            width: { lg: "30vh", xs: "30vh" },
+            width: { lg: "20vw", xs: "40vw", md: "20vw" },
           }}
-        >
-          {visible && (
-            <ResultComponent
-              currentMatch={currentMatch}
-              teamA={currentMatch?.teamA}
-              stopAt={currentMatch?.stopAt}
-              teamB={currentMatch?.teamB}
-              tie={currentMatch?.matchType === "cricket" ? "Tie" : ""}
-              draw={currentMatch?.teamC ? currentMatch?.teamC : null}
-              onClick={() => {
-                setVisible(false);
-              }}
-              liveData={matchOddsLive}
-            />
-          )}
-        </Box>
+        > */}
+        {visible && (
+          <ResultComponent
+            currentMatch={currentMatch}
+            teamA={currentMatch?.teamA}
+            stopAt={currentMatch?.stopAt}
+            teamB={currentMatch?.teamB}
+            tie={currentMatch?.matchType === "cricket" ? "Tie" : ""}
+            draw={currentMatch?.teamC ? currentMatch?.teamC : null}
+            onClick={() => {
+              setVisible(false);
+            }}
+            liveData={matchOddsLive}
+          />
+        )}
+        {/* </Box> */}
 
         {/* <Box
           sx={{
