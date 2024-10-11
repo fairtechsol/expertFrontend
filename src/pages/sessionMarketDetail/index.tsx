@@ -498,6 +498,7 @@ const SessionMarketDetail = () => {
                         currentMatch={matchDetail}
                         hideEditMaxButton={false}
                         section="market"
+                        name={name}
                       />
                     )}
                   </Fragment>
