@@ -213,7 +213,7 @@ const SessionMarketDetail = () => {
         dispatch(
           updateResultStatusOfSession({
             ...event,
-            loggedUserId: profileDetail?.id,
+            loggedUserId: sessionStorage.getItem("pId"),
           })
         );
         dispatch(updateResultStatusOfMatch(event));
