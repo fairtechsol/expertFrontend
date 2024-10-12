@@ -104,7 +104,12 @@ const BetList = ({ tag, allBetRates, title }: any) => {
               lHeight: 1,
             },
             {
-              name: v?.betType,
+              name:
+                v?.marketType === "oddEven"
+                  ? v?.teamName
+                      ?.match(/[-_](odd|even)$/i)?.[1]
+                      ?.toUpperCase() || v?.betType
+                  : v?.betType,
               color: "black",
               background: ["YES", "BACK"].includes(v?.betType)
                 ? "#B3E0FF"

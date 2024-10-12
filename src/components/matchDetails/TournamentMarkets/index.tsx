@@ -15,7 +15,12 @@ import ResultComponentTournamentMarket from "./ResultComponentTournamentMarket";
 import AddMarketButton from "../../Common/AddMarketButton";
 import MaxLimitEditButton from "../../Common/MaxLimitEditButton";
 
-const TournamentMarket = ({ currentMatch, liveData, title, firstKnownKey }: any) => {
+const TournamentMarket = ({
+  currentMatch,
+  liveData,
+  title,
+  firstKnownKey,
+}: any) => {
   const dispatch: AppDispatch = useDispatch();
   const [visibleImg, setVisibleImg] = useState<boolean>(true);
   const [visible, setVisible] = useState<boolean>(false);
@@ -175,26 +180,26 @@ const TournamentMarket = ({ currentMatch, liveData, title, firstKnownKey }: any)
         </Box>
       </Box>
       <Divider />
-      <Box
+      {/* <Box
         sx={{
           position: "absolute",
           zIndex: 999,
           top: "26%",
           right: "1%",
-          width: { lg: "30vh", xs: "30vh" },
+          width: { lg: "30vw", xs: "30vw" },
         }}
-      >
-        {visible && (
-          <ResultComponentTournamentMarket
-            currentMatch={currentMatch}
-            // stopAt={liveData?.stopAt}
-            onClick={() => {
-              setVisible(false);
-            }}
-            liveData={liveData}
-          />
-        )}
-      </Box>
+      > */}
+      {visible && (
+        <ResultComponentTournamentMarket
+          currentMatch={currentMatch}
+          // stopAt={liveData?.stopAt}
+          onClick={() => {
+            setVisible(false);
+          }}
+          liveData={liveData}
+        />
+      )}
+      {/* </Box> */}
       {visibleImg && (
         <>
           <Box
@@ -281,9 +286,15 @@ const TournamentMarket = ({ currentMatch, liveData, title, firstKnownKey }: any)
               <Fragment key={item?.id}>
                 <BoxComponent
                   teamRates={
-                    currentMatch?.teamRates?.[
-                      liveData?.id + "_" + "profitLoss" + "_" + currentMatch?.id
-                    ]
+                    liveData?.activeStatus === "result"
+                      ? 0
+                      : currentMatch?.teamRates?.[
+                          liveData?.id +
+                            "_" +
+                            "profitLoss" +
+                            "_" +
+                            currentMatch?.id
+                        ]
                       ? JSON.parse(
                           currentMatch?.teamRates?.[
                             liveData?.id +

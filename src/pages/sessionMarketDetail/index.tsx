@@ -42,10 +42,7 @@ const SessionMarketDetail = () => {
   const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
   const { state } = useLocation();
-
-  const { profileDetail } = useSelector(
-    (state: RootState) => state.user.profile
-  );
+  
   const [socketConnected, setSocketConnected] = useState(true);
   const { matchDetail, success } = useSelector(
     (state: RootState) => state.addMatch.addMatch
@@ -213,7 +210,7 @@ const SessionMarketDetail = () => {
         dispatch(
           updateResultStatusOfSession({
             ...event,
-            loggedUserId: profileDetail?.id,
+            loggedUserId: sessionStorage.getItem("pId"),
           })
         );
         dispatch(updateResultStatusOfMatch(event));
@@ -498,6 +495,7 @@ const SessionMarketDetail = () => {
                         currentMatch={matchDetail}
                         hideEditMaxButton={false}
                         section="market"
+                        name={name}
                       />
                     )}
                   </Fragment>

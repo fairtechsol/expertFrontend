@@ -41,6 +41,7 @@ export const ApiConstants = {
   SESSION: {
     ADD: "session/add",
     UPDATE: "session/update",
+    UPDATE_MULTI_MARKET_AMOUNT: "session/multi/maxBet/update",
     GET: "session",
     BETTING_STATUS: "/session/status",
     RESULTDECLARE: "/bet/declare/result/session",
