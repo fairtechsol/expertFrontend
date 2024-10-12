@@ -42,10 +42,7 @@ const SessionMarketDetail = () => {
   const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
   const { state } = useLocation();
-
-  const { profileDetail } = useSelector(
-    (state: RootState) => state.user.profile
-  );
+  
   const [socketConnected, setSocketConnected] = useState(true);
   const { matchDetail, success } = useSelector(
     (state: RootState) => state.addMatch.addMatch
