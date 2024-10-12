@@ -187,16 +187,16 @@ const OtherMatchMarket = ({
           width: { lg: "50vh", xs: "30vh" },
         }}
       > */}
-        {visible && (
-          <ResultComponentOtherMarket
-            currentMatch={currentMatch}
-            stopAt={liveData?.stopAt}
-            onClick={() => {
-              setVisible(false);
-            }}
-            liveData={liveData}
-          />
-        )}
+      {visible && (
+        <ResultComponentOtherMarket
+          currentMatch={currentMatch}
+          stopAt={liveData?.stopAt}
+          onClick={() => {
+            setVisible(false);
+          }}
+          liveData={liveData}
+        />
+      )}
       {/* </Box> */}
       {visibleImg && (
         <>
@@ -282,7 +282,9 @@ const OtherMatchMarket = ({
           <Box sx={{ position: "relative" }}>
             <BoxComponent
               teamRates={
-                currentMatch?.teamRates
+                liveData?.activeStatus === "result"
+                  ? 0
+                  : currentMatch?.teamRates
                   ? currentMatch?.teamRates[
                       profitLossDataForMatchConstants[liveData?.type]?.A +
                         "_" +
@@ -326,7 +328,9 @@ const OtherMatchMarket = ({
                   : false
               }
               teamRates={
-                currentMatch?.teamRates
+                liveData?.activeStatus === "result"
+                  ? 0
+                  : currentMatch?.teamRates
                   ? currentMatch?.teamRates[
                       profitLossDataForMatchConstants[liveData?.type]?.B +
                         "_" +

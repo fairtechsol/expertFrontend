@@ -610,7 +610,8 @@ const addMatch = createSlice({
               ...state.matchDetail,
               otherBettings: {
                 ...state.matchDetail?.otherBettings,
-                [betId]: status ?? null,
+                [betId]:
+                  activeStatus === "result" ? "DECLARED" : status ?? null,
               },
             };
           }
