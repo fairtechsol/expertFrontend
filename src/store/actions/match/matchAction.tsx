@@ -522,3 +522,4 @@ export const resetRaceList = createAction("raceListOnDateArrayEmpty/reset");
 export const resetContryCodeList = createAction(
   "contryCodeOnDateArrayEmpty/reset"
 );
+export const resetMatchListDropdown = createAction("matchListDropdown/reset");

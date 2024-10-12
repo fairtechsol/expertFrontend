@@ -18,6 +18,7 @@ import {
   raceListReset,
   raceLiveStatus,
   resetContryCodeList,
+  resetMatchListDropdown,
   resetMatchListSessionProLoss,
   resetRaceEdit,
   resetRaceList,
@@ -128,6 +129,9 @@ const matchList = createSlice({
       .addCase(getMatchListDropdown.rejected, (state, action) => {
         state.dropDownLoading = false;
         state.error = action?.error?.message;
+      })
+      .addCase(resetMatchListDropdown, (state) => {
+        state.matchListDropdown = [];
       })
       .addCase(updateMatchActiveStatus.pending, (state) => {
         state.loading = true;

@@ -11,17 +11,13 @@ const DropDownMenu = ({ anchorEl, open, handleClose, allMatch }: any) => {
       anchorEl={anchorEl}
       open={open}
       onClose={handleClose}
-      sx={{
-        marginTop: { xs: "50px", md: "40px", lg: "35px" },
-        padding: 0,
-        left: { xs: "120px", md: "240px", lg: "300px", sm: "350px" },
-      }}
+      sx={{ marginTop: "2px", padding: 0 }}
       MenuListProps={{
         "aria-labelledby": "basic-button",
       }}
       PaperProps={{
         sx: {
-          width: "auto",
+          // width: "230px",
           padding: 0,
         },
       }}
