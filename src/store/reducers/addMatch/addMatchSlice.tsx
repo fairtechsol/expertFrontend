@@ -194,6 +194,7 @@ const addMatch = createSlice({
         state.loading = false;
         state.success = true;
         state.matchDetail = action.payload;
+        state.quickBookmaker1 = action?.payload?.quickBookmaker;
         action.payload?.sessionBettings?.forEach((item: any) => {
           item = JSON.parse(item);
           if (item.selectionId) {
@@ -659,6 +660,7 @@ const addMatch = createSlice({
         //   }
         // }
       })
+
       .addCase(handleBetResultStatus.fulfilled, (state, action) => {
         const { betId } = action.payload;
         const resultStatusObj = state.matchDetail?.resultStatus;

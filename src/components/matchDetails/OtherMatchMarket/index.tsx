@@ -1,9 +1,9 @@
 import { Box, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { ARROWUP } from "../../../assets";
 import { betLiveStatus } from "../../../store/actions/match/matchAction";
-import { AppDispatch } from "../../../store/store";
+import { AppDispatch, RootState } from "../../../store/store";
 import { profitLossDataForMatchConstants } from "../../../utils/Constants";
 import Divider from "../../Common/Divider";
 import { formatToINR } from "../../helper";
@@ -15,6 +15,7 @@ import Result from "../Result";
 import ResultComponentOtherMarket from "./ResultComponentOtherMarket";
 import MaxLimitEditButton from "../../Common/MaxLimitEditButton";
 import AddMarketButton from "../../Common/AddMarketButton";
+import { declareMatchStatusReset } from "../../../store/actions/match/matchDeclareActions";
 
 const OtherMatchMarket = ({
   currentMatch,
@@ -29,10 +30,7 @@ const OtherMatchMarket = ({
     liveData?.activeStatus === "live" ? true : false
   );
   const [open, setOpen] = useState(false);
-
-  useEffect(() => {
-    setLive(liveData?.activeStatus === "live" ? true : false);
-  }, [liveData?.activeStatus]);
+  const { success } = useSelector((state: RootState) => state.match);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -41,6 +39,16 @@ const OtherMatchMarket = ({
   const handleClose = (data: any) => {
     setOpen(data);
   };
+  useEffect(() => {
+    setLive(liveData?.activeStatus === "live" ? true : false);
+  }, [liveData?.activeStatus]);
+
+  useEffect(() => {
+    if (success) {
+      dispatch(declareMatchStatusReset());
+      setVisible(false);
+    }
+  }, [success]);
   return (
     <Box
       sx={{
