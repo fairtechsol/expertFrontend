@@ -1,9 +1,9 @@
 import { Box, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { ARROWUP } from "../../../assets";
 import { betLiveStatus } from "../../../store/actions/match/matchAction";
-import { AppDispatch } from "../../../store/store";
+import { AppDispatch, RootState } from "../../../store/store";
 import Divider from "../../Common/Divider";
 import { formatToINR } from "../../helper";
 import BoxComponent from "../MatchOdds/BoxComponent";
@@ -15,6 +15,7 @@ import MaxLimitEditButton from "../../Common/MaxLimitEditButton";
 import AddMarketButton from "../../Common/AddMarketButton";
 import Result from "../Result";
 import ResultComponent from "../../updateBookmaker/BookmakerEdit/ResultComponent";
+import { declareMatchStatusReset } from "../../../store/actions/match/matchDeclareActions";
 
 const TiedMatchMarket = ({
   currentMatch,
@@ -30,6 +31,7 @@ const TiedMatchMarket = ({
   const [live, setLive] = useState(
     liveData?.activeStatus === "live" ? true : false
   );
+  const { success } = useSelector((state: RootState) => state.match);
 
   useEffect(() => {
     setLive(liveData?.activeStatus === "live" ? true : false);
@@ -42,6 +44,12 @@ const TiedMatchMarket = ({
   const handleClose = (data: any) => {
     setOpen(data);
   };
+  useEffect(() => {
+    if (success) {
+      dispatch(declareMatchStatusReset());
+      setVisible(false);
+    }
+  }, [success]);
   return (
     <Box
       sx={{

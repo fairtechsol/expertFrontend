@@ -1,9 +1,9 @@
 import { Box, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { ARROWUP } from "../../../assets";
 import { betLiveStatus } from "../../../store/actions/match/matchAction";
-import { AppDispatch } from "../../../store/store";
+import { AppDispatch, RootState } from "../../../store/store";
 import { profitLossDataForMatchConstants } from "../../../utils/Constants";
 import Divider from "../../Common/Divider";
 import { formatToINR } from "../../helper";
@@ -15,6 +15,7 @@ import MaxLimitEditButton from "../../Common/MaxLimitEditButton";
 import AddMarketButton from "../../Common/AddMarketButton";
 import Result from "../Result";
 import ResultComponent from "../../updateBookmaker/BookmakerEdit/ResultComponent";
+import { declareMatchStatusReset } from "../../../store/actions/match/matchDeclareActions";
 
 const BookMarket = ({ currentMatch, liveData, title, showResultBox }: any) => {
   const dispatch: AppDispatch = useDispatch();
@@ -24,10 +25,7 @@ const BookMarket = ({ currentMatch, liveData, title, showResultBox }: any) => {
   );
   const [open, setOpen] = useState(false);
   const [visible, setVisible] = useState(false);
-
-  useEffect(() => {
-    setLive(liveData?.activeStatus === "live" ? true : false);
-  }, [liveData?.activeStatus]);
+  const { success } = useSelector((state: RootState) => state.match);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -36,6 +34,16 @@ const BookMarket = ({ currentMatch, liveData, title, showResultBox }: any) => {
   const handleClose = (data: any) => {
     setOpen(data);
   };
+  useEffect(() => {
+    setLive(liveData?.activeStatus === "live" ? true : false);
+  }, [liveData?.activeStatus]);
+  
+  useEffect(() => {
+    if (success) {
+      dispatch(declareMatchStatusReset());
+      setVisible(false);
+    }
+  }, [success]);
   return (
     <Box
       sx={{
@@ -179,20 +187,20 @@ const BookMarket = ({ currentMatch, liveData, title, showResultBox }: any) => {
           width: { lg: "30vh", xs: "30vh" },
         }}
       > */}
-        {visible && (
-          <ResultComponent
-            currentMatch={currentMatch}
-            teamA={currentMatch?.teamA}
-            stopAt={currentMatch?.stopAt}
-            teamB={currentMatch?.teamB}
-            tie={currentMatch?.matchType === "cricket" ? "Tie" : ""}
-            draw={currentMatch?.teamC ? currentMatch?.teamC : null}
-            onClick={() => {
-              setVisible(false);
-            }}
-            liveData={liveData}
-          />
-        )}
+      {visible && (
+        <ResultComponent
+          currentMatch={currentMatch}
+          teamA={currentMatch?.teamA}
+          stopAt={currentMatch?.stopAt}
+          teamB={currentMatch?.teamB}
+          tie={currentMatch?.matchType === "cricket" ? "Tie" : ""}
+          draw={currentMatch?.teamC ? currentMatch?.teamC : null}
+          onClick={() => {
+            setVisible(false);
+          }}
+          liveData={liveData}
+        />
+      )}
       {/* </Box> */}
       <Divider />
       {visibleImg && (

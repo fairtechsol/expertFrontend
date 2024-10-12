@@ -1,6 +1,6 @@
 import { Box, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { ARROWUP } from "../../assets";
 import Divider from "../../components/Common/Divider";
 import ManualBoxComponent from "../../components/manualMarket/manualBoxComponent";
@@ -8,10 +8,11 @@ import Stop from "../../components/matchDetails/SessionMarket/Stop";
 import SmallBox from "../../components/matchDetails/SmallBox";
 import { formatToINR } from "../../helpers";
 import { betLiveStatus } from "../../store/actions/match/matchAction";
-import { AppDispatch } from "../../store/store";
+import { AppDispatch, RootState } from "../../store/store";
 import { profitLossDataForMatchConstants } from "../../utils/Constants";
 import ResultComponent from "../../components/updateBookmaker/BookmakerEdit/ResultComponent";
 import Result from "../../components/matchDetails/Result";
+import { declareMatchStatusReset } from "../../store/actions/match/matchDeclareActions";
 
 const ManualMarket = ({ currentMatch, liveData, type, showResultBox }: any) => {
   const [visible, setVisible] = useState(false);
@@ -20,10 +21,18 @@ const ManualMarket = ({ currentMatch, liveData, type, showResultBox }: any) => {
   const [live, setLive] = useState<boolean>(
     liveData?.activeStatus === "live" ? true : false
   );
+  const { success } = useSelector((state: RootState) => state.match);
 
   useEffect(() => {
     setLive(liveData?.activeStatus === "live" ? true : false);
   }, [liveData?.activeStatus]);
+
+  useEffect(() => {
+    if (success) {
+      dispatch(declareMatchStatusReset());
+      setVisible(false);
+    }
+  }, [success]);
 
   return (
     <Box

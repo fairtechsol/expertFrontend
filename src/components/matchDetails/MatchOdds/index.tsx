@@ -1,9 +1,9 @@
 import { Box, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { ARROWUP } from "../../../assets";
 import { betLiveStatus } from "../../../store/actions/match/matchAction";
-import { AppDispatch } from "../../../store/store";
+import { AppDispatch, RootState } from "../../../store/store";
 import { profitLossDataForMatchConstants } from "../../../utils/Constants";
 import Divider from "../../Common/Divider";
 import { formatToINR } from "../../helper";
@@ -16,14 +16,17 @@ import BoxComponent from "./BoxComponent";
 import SmallBox2 from "./SmallBox2";
 import MaxLimitEditButton from "../../Common/MaxLimitEditButton";
 import AddMarketButton from "../../Common/AddMarketButton";
+import { declareMatchStatusReset } from "../../../store/actions/match/matchDeclareActions";
 
 const MatchOdds = ({ currentMatch, matchOddsLive, id, showResultBox }: any) => {
+  const dispatch: AppDispatch = useDispatch();
   const [visible, setVisible] = useState(false);
   const [visibleImg, setVisibleImg] = useState(true);
   const [live, setLive] = useState(
     matchOddsLive?.activeStatus === "live" ? true : false
   );
   const [open, setOpen] = useState(false);
+  const { success } = useSelector((state: RootState) => state.match);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -32,7 +35,6 @@ const MatchOdds = ({ currentMatch, matchOddsLive, id, showResultBox }: any) => {
   const handleClose = (data: any) => {
     setOpen(data);
   };
-  const dispatch: AppDispatch = useDispatch();
 
   const valueA = currentMatch?.teamRates?.teamARate;
   const valueB = currentMatch?.teamRates?.teamBRate;
@@ -70,6 +72,13 @@ const MatchOdds = ({ currentMatch, matchOddsLive, id, showResultBox }: any) => {
   useEffect(() => {
     setLive(matchOddsLive?.activeStatus === "live" ? true : false);
   }, [matchOddsLive?.activeStatus]);
+
+  useEffect(() => {
+    if (success) {
+      dispatch(declareMatchStatusReset());
+      setVisible(false);
+    }
+  }, [success]);
 
   return (
     <>
