@@ -85,9 +85,14 @@ const EditBookmaker = (props: any) => {
   const handleChange = (event: any) => {
     try {
       let { name, value } = event.target;
-      // const regex = /^\d+(\.\d+)?$/;
       const decimalValue = value.split(".");
-      if (decimalValue[1]) {
+      if (
+        decimalValue[1] &&
+        !["2", "25", "5", "7", "75", "", "0"].includes(decimalValue[1])
+      ) {
+        return true;
+      }
+      if (decimalValue[1] && incGap !== 0.25) {
         return true;
       }
 
@@ -105,7 +110,7 @@ const EditBookmaker = (props: any) => {
             type,
             "teamA",
             +value,
-            +value + 1,
+            +value + incGap,
             setLocalQuickBookmaker
           );
         } else if (name === "teamBrate") {
@@ -115,7 +120,7 @@ const EditBookmaker = (props: any) => {
             type,
             "teamB",
             +value,
-            +value + 1,
+            +value + incGap,
             setLocalQuickBookmaker
           );
         } else if (name === "teamCrate") {
@@ -125,7 +130,7 @@ const EditBookmaker = (props: any) => {
             type,
             "teamC",
             +value,
-            +value + 1,
+            +value + incGap,
             setLocalQuickBookmaker
           );
         }
@@ -386,7 +391,7 @@ const EditBookmaker = (props: any) => {
             background: "#262626",
           }}
         >
-          <div className="slanted"></div>
+          <div className="slanted-b"></div>
         </Box>
         <Box
           sx={{
@@ -626,10 +631,10 @@ const EditBookmaker = (props: any) => {
                       handleChange(e);
                     }}
                     onWheel={numberInputOnWheelPreventChange}
-                    name={"teamArate"}
+                    name="teamArate"
                     inputRef={innerRefTeamA}
                     // onFocus={() => handleFocus(innerRefTeamA)}
-                    type="number"
+                    type="text"
                     variant="standard"
                     value={+localQuickBookmaker?.teamA?.back}
                     autoComplete="off"
@@ -802,9 +807,9 @@ const EditBookmaker = (props: any) => {
                     value={+localQuickBookmaker?.teamB?.back}
                     onChange={(e) => handleChange(e)}
                     onWheel={numberInputOnWheelPreventChange}
-                    name={"teamBrate"}
+                    name="teamBrate"
                     inputRef={innerRefTeamB}
-                    type="number"
+                    type="text"
                     // onFocus={() => handleFocus(innerRefTeamB)}
                     autoComplete="off"
                     InputProps={{
@@ -970,9 +975,9 @@ const EditBookmaker = (props: any) => {
                         value={+localQuickBookmaker?.teamC?.back}
                         onChange={(e) => handleChange(e)}
                         onWheel={numberInputOnWheelPreventChange}
-                        name={"teamCrate"}
+                        name="teamCrate"
                         inputRef={innerRefTeamC}
-                        type="number"
+                        type="text"
                         autoComplete="off"
                         InputProps={{
                           disableUnderline: true,
