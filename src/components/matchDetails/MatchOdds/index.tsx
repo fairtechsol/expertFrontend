@@ -181,7 +181,7 @@ const MatchOdds = ({ currentMatch, matchOddsLive, id, showResultBox }: any) => {
               alignItems: "center",
               justifyContent: "flex-end",
               marginLeft: "0px",
-              marginRight: "2px",
+              // marginRight: "2px",
             }}
           >
             {showResultBox && (
