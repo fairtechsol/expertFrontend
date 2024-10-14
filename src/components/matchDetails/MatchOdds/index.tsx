@@ -130,16 +130,18 @@ const MatchOdds = ({ currentMatch, matchOddsLive, id, showResultBox }: any) => {
               justifyContent: "space-between",
             }}
           >
-            {/* <Typography
-              sx={{
-                fontSize: { lg: "9px", md: "9px", xs: "10px" },
-                fontWeight: "bold",
-                marginLeft: "2px",
-                lineHeight: 1,
-              }}
-            >
-              Match Odds
-            </Typography> */}
+            {!matchOddsLive?.id && (
+              <Typography
+                sx={{
+                  fontSize: { lg: "9px", md: "9px", xs: "10px" },
+                  fontWeight: "bold",
+                  marginLeft: "2px",
+                  lineHeight: 1,
+                }}
+              >
+                Match Odds
+              </Typography>
+            )}
             {matchOddsLive?.id && matchOddsLive?.activeStatus !== "result" && (
               <Stop
                 onClick={() => {
