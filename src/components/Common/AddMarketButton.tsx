@@ -16,7 +16,7 @@ const AddMarketButton = ({ handleClickOpen }: any) => {
     >
       <span
         style={{
-          fontSize: "10px",
+          fontSize: "8px",
           fontWeight: "500",
           color: "#fff",
           fontFamily: "Poppins, sans-serif",

@@ -86,7 +86,7 @@ const TournamentMarket = ({
             justifyContent: "space-between",
           }}
         >
-          <Typography
+          {/* <Typography
             sx={{
               fontSize: { lg: "9px", md: "9px", xs: "10px" },
               fontWeight: "bold",
@@ -95,7 +95,7 @@ const TournamentMarket = ({
             }}
           >
             {title}
-          </Typography>
+          </Typography> */}
           {liveData?.id && liveData?.activeStatus !== "result" && (
             <Stop
               onClick={() => {
@@ -110,6 +110,7 @@ const TournamentMarket = ({
                 setLive(false);
               }}
               height="18px"
+              title={title}
             />
           )}
         </Box>
@@ -157,7 +158,7 @@ const TournamentMarket = ({
                       );
                       setLive(!live);
                     }}
-                    width={{ lg: "60px", xs: "20%" }}
+                    width={{ lg: "30px", xs: "20px" }}
                     title={live ? "Live" : "Go Live"}
                     color={live ? "#46e080" : "#FF4D4D"}
                     customStyle={{
@@ -232,7 +233,7 @@ const TournamentMarket = ({
               <Typography
                 sx={{
                   color: "white",
-                  fontSize: { lg: "9px", xs: "9px" },
+                  fontSize: { lg: "9px", xs: "8px" },
                   marginLeft: "7px",
                 }}
               >

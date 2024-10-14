@@ -49,14 +49,14 @@ const MoneyBox = ({ value }: any) => {
             </>
           )}
         </Typography>
-        {value ? (
+        {/* {value ? (
           <img
             src={Number(value) > 0 ? ArrowUpGreen : ArrowDownRed}
             style={{ width: "12px", height: "10px" }}
           />
         ) : (
           ""
-        )}
+        )} */}
       </Box>
     </>
   );

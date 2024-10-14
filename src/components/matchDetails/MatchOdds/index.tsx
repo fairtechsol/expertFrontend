@@ -114,20 +114,20 @@ const MatchOdds = ({ currentMatch, matchOddsLive, id, showResultBox }: any) => {
               background: "#f1c550",
               alignItems: "center",
               display: "flex",
-              width: "50%",
+              width: "55%",
               justifyContent: "space-between",
             }}
           >
-            <Typography
+            {/* <Typography
               sx={{
                 fontSize: { lg: "9px", md: "9px", xs: "10px" },
                 fontWeight: "bold",
-                marginLeft: "7px",
+                marginLeft: "2px",
                 lineHeight: 1,
               }}
             >
               Match Odds
-            </Typography>
+            </Typography> */}
             {matchOddsLive?.id && matchOddsLive?.activeStatus !== "result" && (
               <Stop
                 onClick={() => {
@@ -141,13 +141,14 @@ const MatchOdds = ({ currentMatch, matchOddsLive, id, showResultBox }: any) => {
                   setLive(false);
                 }}
                 height="18px"
+                title={"Match Odds"}
               />
             )}
 
             <SmallBox2 valueA={bookRatioA} valueB={bookRatioB} />
           </Box>
 
-          <Box
+          {/* <Box
             sx={{
               flex: 0.1,
               background: "#262626",
@@ -155,22 +156,23 @@ const MatchOdds = ({ currentMatch, matchOddsLive, id, showResultBox }: any) => {
             }}
           >
             <div className="slanted"></div>
-          </Box>
+          </Box> */}
 
           <Box
             sx={{
               flex: 1,
-              background: "#262626",
-              // '#262626' ,
+              background: "#f1c550",
+              width: "45%",
               display: "flex",
               alignItems: "center",
               justifyContent: "flex-end",
               marginLeft: "0px",
+              marginRight: "2px",
             }}
           >
             {showResultBox && (
               <Result
-                width={"80px"}
+                width={"60px"}
                 onClick={() => {
                   setVisible(true);
                 }}
@@ -195,7 +197,7 @@ const MatchOdds = ({ currentMatch, matchOddsLive, id, showResultBox }: any) => {
                       );
                       setLive(!live);
                     }}
-                    width={{ lg: "40px", xs: "20%" }}
+                    width={{ lg: "30px", xs: "20px" }}
                     title={live ? "Live" : "Go Live"}
                     color={live ? "#46e080" : "#FF4D4D"}
                     customStyle={{
@@ -219,8 +221,8 @@ const MatchOdds = ({ currentMatch, matchOddsLive, id, showResultBox }: any) => {
                 transform: visibleImg ? "rotate(180deg)" : "rotate(0deg)",
                 width: "12px",
                 height: "12px",
-                marginRight: "5px",
-                marginLeft: "5px",
+                marginRight: "3px",
+                marginLeft: "3px",
                 cursor: "pointer",
               }}
             />
@@ -321,7 +323,7 @@ const MatchOdds = ({ currentMatch, matchOddsLive, id, showResultBox }: any) => {
                 <Typography
                   sx={{
                     color: "white",
-                    fontSize: { lg: "10px", xs: "9px" },
+                    fontSize: { lg: "10px", xs: "8px" },
                     marginLeft: "7px",
                   }}
                 >

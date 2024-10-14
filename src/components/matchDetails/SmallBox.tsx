@@ -38,8 +38,8 @@ const SmallBox = ({
         <Typography
           sx={{
             fontSize: {
-              lg: textSize ? textSize : title === "Go Live" ? "8px" : "10px",
-              xs: textSize ? textSize : title === "Go Live" ? "8px" : "10px",
+              lg: textSize ? textSize : title === "Go Live" ? "8px" : "8px",
+              xs: textSize ? textSize : title === "Go Live" ? "8px" : "8px",
             },
             fontWeight: "600",
             color: color !== "#FFF" ? "white" : "",

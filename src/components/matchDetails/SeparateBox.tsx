@@ -58,7 +58,7 @@ const SeparateBox = ({
                 sx={{
                   fontSize: "12px",
                   color: color == "white" ? "white" : "black",
-                  fontWeight: "700",
+                  fontWeight: "600",
                   textAlign: "center",
                 }}
               >
