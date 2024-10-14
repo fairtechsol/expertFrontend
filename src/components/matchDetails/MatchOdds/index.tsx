@@ -36,8 +36,20 @@ const MatchOdds = ({ currentMatch, matchOddsLive, id, showResultBox }: any) => {
     setOpen(data);
   };
 
-  const valueA = currentMatch?.teamRates?.teamARate;
-  const valueB = currentMatch?.teamRates?.teamBRate;
+  const valueA =
+    +currentMatch?.teamRates?.[
+      profitLossDataForMatchConstants[matchOddsLive?.type]?.A +
+        "_" +
+        currentMatch?.id
+    ] || 0;
+
+  const valueB =
+    +currentMatch?.teamRates?.[
+      profitLossDataForMatchConstants[matchOddsLive?.type]?.B +
+        "_" +
+        currentMatch?.id
+    ] || 0;
+
   const bookRatioB = (() => {
     try {
       if (valueA === 0) {

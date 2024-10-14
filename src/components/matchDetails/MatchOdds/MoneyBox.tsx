@@ -1,5 +1,5 @@
 import { Box, Typography, useMediaQuery, useTheme } from "@mui/material";
-import { ArrowDownRed, ArrowUpGreen } from "../../../assets";
+// import { ArrowDownRed, ArrowUpGreen } from "../../../assets";
 import { formatToINR } from "../../helper";
 
 const MoneyBox = ({ value }: any) => {
