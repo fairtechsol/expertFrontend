@@ -400,20 +400,28 @@ const EditBookmaker = (props: any) => {
           <BookButton
             rate={bookRatioA(
               +bookmakerById?.matchRates[
-                profitLossDataForMatchConstants[bookmakerById?.type]?.A
+                `${profitLossDataForMatchConstants[bookmakerById?.type]?.A}_${
+                  bookmakerById?.matchId
+                }`
               ] || 0,
               +bookmakerById?.matchRates[
-                profitLossDataForMatchConstants[bookmakerById?.type]?.B
+                `${profitLossDataForMatchConstants[bookmakerById?.type]?.B}_${
+                  bookmakerById?.matchId
+                }`
               ] || 0
             )}
           />
           <BookButton
             rate={bookRatioB(
               +bookmakerById?.matchRates[
-                profitLossDataForMatchConstants[bookmakerById?.type]?.A
+                `${profitLossDataForMatchConstants[bookmakerById?.type]?.A}_${
+                  bookmakerById?.matchId
+                }`
               ] || 0,
               +bookmakerById?.matchRates[
-                profitLossDataForMatchConstants[bookmakerById?.type]?.B
+                `${profitLossDataForMatchConstants[bookmakerById?.type]?.B}_${
+                  bookmakerById?.matchId
+                }`
               ] || 0
             )}
           />
