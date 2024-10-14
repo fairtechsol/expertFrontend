@@ -203,7 +203,7 @@ const ManualMarket = ({ currentMatch, liveData, type, showResultBox }: any) => {
                 display: "flex",
                 background: "'#319E5B'",
                 height: "15px",
-                width: "50%",
+                width: { lg: "70%", xs: "50%", md: "60%" },
                 alignItems: "center",
               }}
             >
@@ -228,14 +228,14 @@ const ManualMarket = ({ currentMatch, liveData, type, showResultBox }: any) => {
                 display: "flex",
                 background: "#319E5B",
                 height: "15px",
-                width: { lg: "65%", xs: "50%" },
+                width: { lg: "30%", xs: "50%", md: "40%" },
                 justifyContent: { lg: "flex-end", xs: "flex-end" },
               }}
             >
               <Box
                 sx={{
                   background: "#00C0F9",
-                  width: { lg: "19%", xs: "34.6%" },
+                  width: { lg: "36%", xs: "34.6%", md: "43%" },
                   height: "100%",
                   display: "flex",
                   justifyContent: "center",
@@ -252,7 +252,7 @@ const ManualMarket = ({ currentMatch, liveData, type, showResultBox }: any) => {
               <Box
                 sx={{
                   background: "#FF9292",
-                  width: { lg: "19%", xs: "34.6%" },
+                  width: { lg: "36%", xs: "34.6%", md: "43%" },
                   height: "100%",
                   display: "flex",
                   justifyContent: "center",
