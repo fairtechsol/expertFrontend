@@ -406,7 +406,7 @@ const MatchMarketDetail = () => {
         <>
           <Box
             sx={{
-              width: { lg: "60%", xs: "100%", md: "60%" },
+              width: { lg: "45%", xs: "100%", md: "45%" },
               // flexDirection: "column",
               display: "flex",
               flexWrap: "wrap",
@@ -554,7 +554,7 @@ const MatchMarketDetail = () => {
           </Box>
           <Box
             sx={{
-              width: { lg: "40%", xs: "100%", md: "40%" },
+              width: { lg: "55%", xs: "100%", md: "55%" },
               flexDirection: "column",
               display: "flex",
               // paddingLeft: "5px",

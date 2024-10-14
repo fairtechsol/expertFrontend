@@ -99,7 +99,7 @@ const BetList = ({ tag, allBetRates, title }: any) => {
                 : "rgb(255, 146, 146)",
               small: true,
               deleteReason: v?.deleteReason,
-              width: { lg: "7%", xs: "35%" },
+              width: { lg: "7%", xs: "25%" },
               fSize: "13px",
               lHeight: 1,
             },
@@ -116,7 +116,7 @@ const BetList = ({ tag, allBetRates, title }: any) => {
                 : "rgb(255, 146, 146)",
               small: true,
               deleteReason: v?.deleteReason,
-              width: { lg: "7%", xs: "35%" },
+              width: { lg: "7%", xs: "25%" },
             },
             {
               name: formatToINR(v?.amount),
@@ -148,7 +148,7 @@ const BetList = ({ tag, allBetRates, title }: any) => {
               time: true,
               date: moment.utc(v?.createdAt).utcOffset("+05:30").format("L"),
               deleteReason: v?.deleteReason,
-              width: { lg: "11%", xs: "35%" },
+              width: { lg: "11%", xs: "45%" },
             },
           ],
         };
