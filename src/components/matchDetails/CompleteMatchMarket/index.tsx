@@ -86,15 +86,17 @@ const CompleteMatchMarket = ({
             justifyContent: "space-between",
           }}
         >
-          {/* <Typography
-            sx={{
-              fontSize: { lg: "9px", md: "9px", xs: "10px" },
-              fontWeight: "bold",
-              marginLeft: "7px",
-            }}
-          >
-            {title}
-          </Typography> */}
+          {!liveData?.id && (
+            <Typography
+              sx={{
+                fontSize: { lg: "9px", md: "9px", xs: "10px" },
+                fontWeight: "bold",
+                marginLeft: "7px",
+              }}
+            >
+              {title}
+            </Typography>
+          )}
           {/* <img src={LOCKED} style={{ width: '14px', height: '20px' }} /> */}
           {liveData?.id && liveData?.activeStatus !== "result" && (
             <Stop

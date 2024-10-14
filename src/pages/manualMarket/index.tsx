@@ -70,16 +70,18 @@ const ManualMarket = ({ currentMatch, liveData, type, showResultBox }: any) => {
             justifyContent: "space-between",
           }}
         >
-          {/* <Typography
-            sx={{
-              fontSize: { lg: "9px", md: "9px", xs: "10px" },
-              fontWeight: "bold",
-              marginLeft: "7px",
-            }}
-          >
-            {liveData?.name}
-          </Typography> */}
-          {liveData?.activeStatus !== "result" && (
+          {!liveData?.id && (
+            <Typography
+              sx={{
+                fontSize: { lg: "9px", md: "9px", xs: "10px" },
+                fontWeight: "bold",
+                marginLeft: "7px",
+              }}
+            >
+              {liveData?.name}
+            </Typography>
+          )}
+          {liveData?.id && liveData?.activeStatus !== "result" && (
             <Stop
               onClick={() => {
                 dispatch(

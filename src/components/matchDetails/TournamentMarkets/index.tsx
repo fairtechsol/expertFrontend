@@ -86,16 +86,18 @@ const TournamentMarket = ({
             justifyContent: "space-between",
           }}
         >
-          {/* <Typography
-            sx={{
-              fontSize: { lg: "9px", md: "9px", xs: "10px" },
-              fontWeight: "bold",
-              marginLeft: "7px",
-              lineHeight: 1,
-            }}
-          >
-            {title}
-          </Typography> */}
+          {!liveData?.id && (
+            <Typography
+              sx={{
+                fontSize: { lg: "9px", md: "9px", xs: "10px" },
+                fontWeight: "bold",
+                marginLeft: "7px",
+                lineHeight: 1,
+              }}
+            >
+              {title}
+            </Typography>
+          )}
           {liveData?.id && liveData?.activeStatus !== "result" && (
             <Stop
               onClick={() => {
