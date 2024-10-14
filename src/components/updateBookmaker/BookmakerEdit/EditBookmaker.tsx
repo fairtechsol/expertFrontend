@@ -386,7 +386,7 @@ const EditBookmaker = (props: any) => {
             background: "#262626",
           }}
         >
-          <div className="slanted"></div>
+          <div className="slanted-b"></div>
         </Box>
         <Box
           sx={{
