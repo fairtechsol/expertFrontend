@@ -1,9 +1,9 @@
 import { Box, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { ARROWUP } from "../../../assets";
 import { betLiveStatus } from "../../../store/actions/match/matchAction";
-import { AppDispatch } from "../../../store/store";
+import { AppDispatch, RootState } from "../../../store/store";
 import Divider from "../../Common/Divider";
 import { formatToINR } from "../../helper";
 import BoxComponent from "../MatchOdds/BoxComponent";
@@ -15,6 +15,7 @@ import MaxLimitEditButton from "../../Common/MaxLimitEditButton";
 import AddMarketButton from "../../Common/AddMarketButton";
 import Result from "../Result";
 import ResultComponent from "../../updateBookmaker/BookmakerEdit/ResultComponent";
+import { declareMatchStatusReset } from "../../../store/actions/match/matchDeclareActions";
 
 const CompleteMatchMarket = ({
   currentMatch,
@@ -29,10 +30,7 @@ const CompleteMatchMarket = ({
     liveData?.activeStatus === "live" ? true : false
   );
   const [open, setOpen] = useState(false);
-
-  useEffect(() => {
-    setLive(liveData?.activeStatus === "live" ? true : false);
-  }, [liveData?.activeStatus]);
+  const { success } = useSelector((state: RootState) => state.match);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -41,6 +39,17 @@ const CompleteMatchMarket = ({
   const handleClose = (data: any) => {
     setOpen(data);
   };
+
+  useEffect(() => {
+    setLive(liveData?.activeStatus === "live" ? true : false);
+  }, [liveData?.activeStatus]);
+
+  useEffect(() => {
+    if (success) {
+      dispatch(declareMatchStatusReset());
+      setVisible(false);
+    }
+  }, [success]);
   return (
     <Box
       sx={{
@@ -77,15 +86,17 @@ const CompleteMatchMarket = ({
             justifyContent: "space-between",
           }}
         >
-          <Typography
-            sx={{
-              fontSize: { lg: "9px", md: "9px", xs: "10px" },
-              fontWeight: "bold",
-              marginLeft: "7px",
-            }}
-          >
-            {title}
-          </Typography>
+          {!liveData?.id && (
+            <Typography
+              sx={{
+                fontSize: { lg: "9px", md: "9px", xs: "10px" },
+                fontWeight: "bold",
+                marginLeft: "7px",
+              }}
+            >
+              {title}
+            </Typography>
+          )}
           {/* <img src={LOCKED} style={{ width: '14px', height: '20px' }} /> */}
           {liveData?.id && liveData?.activeStatus !== "result" && (
             <Stop
@@ -100,6 +111,7 @@ const CompleteMatchMarket = ({
                 setLive(false);
               }}
               height="18px"
+              title={title}
             />
           )}
         </Box>
@@ -145,7 +157,7 @@ const CompleteMatchMarket = ({
                     );
                     setLive(!live);
                   }}
-                  width={{ lg: "60px", xs: "20%" }}
+                  width={{ lg: "30px", xs: "20px" }}
                   title={live ? "Live" : "Go Live"}
                   color={live ? "#46e080" : "#FF4D4D"}
                   customStyle={{
@@ -217,14 +229,14 @@ const CompleteMatchMarket = ({
                 display: "flex",
                 background: "'#319E5B'",
                 height: "15px",
-                width: "50%",
+                width: { lg: "70%", xs: "50%", md: "60%" },
                 alignItems: "center",
               }}
             >
               <Typography
                 sx={{
                   color: "white",
-                  fontSize: { lg: "9px", xs: "9px" },
+                  fontSize: { lg: "10px", xs: "8px" },
                   marginLeft: "7px",
                 }}
               >
@@ -242,14 +254,14 @@ const CompleteMatchMarket = ({
                 display: "flex",
                 background: "#319E5B",
                 height: "15px",
-                width: { lg: "65%", xs: "50%" },
+                width: { lg: "30%", xs: "50%", md: "40%" },
                 justifyContent: { lg: "flex-end", xs: "flex-end" },
               }}
             >
               <Box
                 sx={{
                   background: "#00C0F9",
-                  width: { lg: "19%", xs: "34.6%" },
+                  width: { lg: "36%", xs: "34.6%", md: "43%" },
                   height: "100%",
                   display: "flex",
                   justifyContent: "center",
@@ -266,7 +278,7 @@ const CompleteMatchMarket = ({
               <Box
                 sx={{
                   background: "#FF9292",
-                  width: { lg: "19%", xs: "34.6%" },
+                  width: { lg: "36%", xs: "34.6%", md: "43%" },
                   height: "100%",
                   display: "flex",
                   justifyContent: "center",

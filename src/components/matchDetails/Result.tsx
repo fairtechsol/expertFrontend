@@ -5,11 +5,13 @@ const Result = ({ invert, onClick, height }: any) => {
     <Box onClick={onClick}>
       <Box
         sx={{
-          width: { lg: "38px", xs: "80%" },
+          width: { lg: "38px", xs: "25px" },
           display: "flex",
-          marginRight: { lg: "5px", xs: "0" },
+          marginRight: "4px",
+          marginLeft: "4px",
+          // marginRight: { lg: "5px", xs: "0" },
           justifyContent: "center",
-          paddingX: 1,
+          // paddingX: 0.5,
           alignItems: "center",
           height: height ? height : "18px",
           background: invert ? "white" : "#0B4F26",
@@ -19,7 +21,7 @@ const Result = ({ invert, onClick, height }: any) => {
       >
         <Typography
           sx={{
-            fontSize: { lg: "11px", xs: "10px" },
+            fontSize: { lg: "8px", xs: "6px" },
             fontWeight: "600",
             color: invert ? "0B4F26" : "white",
           }}

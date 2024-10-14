@@ -1,6 +1,6 @@
 import { Box, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { ARROWUP } from "../../assets";
 import Divider from "../../components/Common/Divider";
 import ManualBoxComponent from "../../components/manualMarket/manualBoxComponent";
@@ -8,10 +8,11 @@ import Stop from "../../components/matchDetails/SessionMarket/Stop";
 import SmallBox from "../../components/matchDetails/SmallBox";
 import { formatToINR } from "../../helpers";
 import { betLiveStatus } from "../../store/actions/match/matchAction";
-import { AppDispatch } from "../../store/store";
+import { AppDispatch, RootState } from "../../store/store";
 import { profitLossDataForMatchConstants } from "../../utils/Constants";
 import ResultComponent from "../../components/updateBookmaker/BookmakerEdit/ResultComponent";
 import Result from "../../components/matchDetails/Result";
+import { declareMatchStatusReset } from "../../store/actions/match/matchDeclareActions";
 
 const ManualMarket = ({ currentMatch, liveData, type, showResultBox }: any) => {
   const [visible, setVisible] = useState(false);
@@ -20,10 +21,18 @@ const ManualMarket = ({ currentMatch, liveData, type, showResultBox }: any) => {
   const [live, setLive] = useState<boolean>(
     liveData?.activeStatus === "live" ? true : false
   );
+  const { success } = useSelector((state: RootState) => state.match);
 
   useEffect(() => {
     setLive(liveData?.activeStatus === "live" ? true : false);
   }, [liveData?.activeStatus]);
+
+  useEffect(() => {
+    if (success) {
+      dispatch(declareMatchStatusReset());
+      setVisible(false);
+    }
+  }, [success]);
 
   return (
     <Box
@@ -61,16 +70,18 @@ const ManualMarket = ({ currentMatch, liveData, type, showResultBox }: any) => {
             justifyContent: "space-between",
           }}
         >
-          <Typography
-            sx={{
-              fontSize: { lg: "9px", md: "9px", xs: "10px" },
-              fontWeight: "bold",
-              marginLeft: "7px",
-            }}
-          >
-            {liveData?.name}
-          </Typography>
-          {liveData?.activeStatus !== "result" && (
+          {!liveData?.id && (
+            <Typography
+              sx={{
+                fontSize: { lg: "9px", md: "9px", xs: "10px" },
+                fontWeight: "bold",
+                marginLeft: "7px",
+              }}
+            >
+              {liveData?.name}
+            </Typography>
+          )}
+          {liveData?.id && liveData?.activeStatus !== "result" && (
             <Stop
               onClick={() => {
                 dispatch(
@@ -83,6 +94,7 @@ const ManualMarket = ({ currentMatch, liveData, type, showResultBox }: any) => {
                 setLive(false);
               }}
               height="18px"
+              title={liveData?.name}
             />
           )}
         </Box>
@@ -126,7 +138,7 @@ const ManualMarket = ({ currentMatch, liveData, type, showResultBox }: any) => {
                 );
                 setLive(!live);
               }}
-              width={{ lg: "60px", xs: "20%" }}
+              width={{ lg: "30px", xs: "20px" }}
               title={live ? "Live" : "Go Live"}
               color={live ? "#46e080" : "#FF4D4D"}
               customStyle={{
@@ -193,14 +205,14 @@ const ManualMarket = ({ currentMatch, liveData, type, showResultBox }: any) => {
                 display: "flex",
                 background: "'#319E5B'",
                 height: "15px",
-                width: "50%",
+                width: { lg: "70%", xs: "50%", md: "60%" },
                 alignItems: "center",
               }}
             >
               <Typography
                 sx={{
                   color: "white",
-                  fontSize: { lg: "9px", xs: "9px" },
+                  fontSize: { lg: "10px", xs: "8px" },
                   marginLeft: "7px",
                 }}
               >
@@ -218,14 +230,14 @@ const ManualMarket = ({ currentMatch, liveData, type, showResultBox }: any) => {
                 display: "flex",
                 background: "#319E5B",
                 height: "15px",
-                width: { lg: "65%", xs: "50%" },
+                width: { lg: "30%", xs: "50%", md: "40%" },
                 justifyContent: { lg: "flex-end", xs: "flex-end" },
               }}
             >
               <Box
                 sx={{
                   background: "#00C0F9",
-                  width: { lg: "19%", xs: "34.6%" },
+                  width: { lg: "36%", xs: "34.6%", md: "43%" },
                   height: "100%",
                   display: "flex",
                   justifyContent: "center",
@@ -242,7 +254,7 @@ const ManualMarket = ({ currentMatch, liveData, type, showResultBox }: any) => {
               <Box
                 sx={{
                   background: "#FF9292",
-                  width: { lg: "19%", xs: "34.6%" },
+                  width: { lg: "36%", xs: "34.6%", md: "43%" },
                   height: "100%",
                   display: "flex",
                   justifyContent: "center",

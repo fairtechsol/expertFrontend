@@ -11,7 +11,7 @@ import NotificationModal from "../../../components/header/NotificationModal";
 import { AppDispatch, RootState } from "../../../store/store";
 import ActiveUsers from "./ActiveUsers";
 import BoxProfile from "./BoxProfile";
-import DropDownMenu from "./DropDownMenu";
+// import DropDownMenu from "./DropDownMenu";
 // import { getMatchListDropdown } from "../../../store/actions/match/matchAction";
 import { socket, socketService } from "../../../socketManager";
 import { getLoggedUserCount } from "../../../store/actions/user/userAction";
@@ -583,7 +583,7 @@ const Header1 = () => {
           <Box sx={{ minHeight: { lg: 66, sm: 80, md: 80, xs: 80 } }} />
         </>
       )}
-      {matchListDropdown?.length > 0 && (
+      {/* {matchListDropdown?.length > 0 && (
         <DropDownMenu
           anchorEl={anchor}
           open={Boolean(anchor)}
@@ -592,12 +592,12 @@ const Header1 = () => {
             setAnchor(null);
           }}
         />
-      )}
+      )} */}
       {gameType && (
         <GameTypeDropdown
           anchorEl={anchor1}
           open={Boolean(anchor1)}
-          // allMatch={matchListDropdown}
+          allMatch={matchListDropdown}
           anchorrr={setAnchor}
           handleClose={() => {
             setAnchor1(null);

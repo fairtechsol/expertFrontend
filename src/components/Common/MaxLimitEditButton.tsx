@@ -2,13 +2,13 @@ const MaxLimitEditButton = ({ handleClickOpen }: any) => {
   return (
     <div
       style={{
-        width: "40px",
+        width: "20px",
         height: "18px",
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
         borderRadius: "2px",
-        backgroundColor: "#46e080",
+        backgroundColor: "#FF4D4D",
         cursor: "pointer",
         // marginRight: "10px",
       }}
@@ -16,7 +16,7 @@ const MaxLimitEditButton = ({ handleClickOpen }: any) => {
     >
       <span
         style={{
-          fontSize: "10px",
+          fontSize: "8px",
           fontWeight: "500",
           color: "#fff",
           fontFamily: "Poppins, sans-serif",

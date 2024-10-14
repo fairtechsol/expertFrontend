@@ -1,9 +1,9 @@
 import { Box, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { ARROWUP } from "../../../assets";
 import { betLiveStatus } from "../../../store/actions/match/matchAction";
-import { AppDispatch } from "../../../store/store";
+import { AppDispatch, RootState } from "../../../store/store";
 import { profitLossDataForMatchConstants } from "../../../utils/Constants";
 import Divider from "../../Common/Divider";
 import { formatToINR } from "../../helper";
@@ -16,14 +16,17 @@ import BoxComponent from "./BoxComponent";
 import SmallBox2 from "./SmallBox2";
 import MaxLimitEditButton from "../../Common/MaxLimitEditButton";
 import AddMarketButton from "../../Common/AddMarketButton";
+import { declareMatchStatusReset } from "../../../store/actions/match/matchDeclareActions";
 
 const MatchOdds = ({ currentMatch, matchOddsLive, id, showResultBox }: any) => {
+  const dispatch: AppDispatch = useDispatch();
   const [visible, setVisible] = useState(false);
   const [visibleImg, setVisibleImg] = useState(true);
   const [live, setLive] = useState(
     matchOddsLive?.activeStatus === "live" ? true : false
   );
   const [open, setOpen] = useState(false);
+  const { success } = useSelector((state: RootState) => state.match);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -32,10 +35,21 @@ const MatchOdds = ({ currentMatch, matchOddsLive, id, showResultBox }: any) => {
   const handleClose = (data: any) => {
     setOpen(data);
   };
-  const dispatch: AppDispatch = useDispatch();
 
-  const valueA = currentMatch?.teamRates?.teamARate;
-  const valueB = currentMatch?.teamRates?.teamBRate;
+  const valueA =
+    +currentMatch?.teamRates?.[
+      profitLossDataForMatchConstants[matchOddsLive?.type]?.A +
+        "_" +
+        currentMatch?.id
+    ] || 0;
+
+  const valueB =
+    +currentMatch?.teamRates?.[
+      profitLossDataForMatchConstants[matchOddsLive?.type]?.B +
+        "_" +
+        currentMatch?.id
+    ] || 0;
+
   const bookRatioB = (() => {
     try {
       if (valueA === 0) {
@@ -71,6 +85,13 @@ const MatchOdds = ({ currentMatch, matchOddsLive, id, showResultBox }: any) => {
     setLive(matchOddsLive?.activeStatus === "live" ? true : false);
   }, [matchOddsLive?.activeStatus]);
 
+  useEffect(() => {
+    if (success) {
+      dispatch(declareMatchStatusReset());
+      setVisible(false);
+    }
+  }, [success]);
+
   return (
     <>
       <Box
@@ -105,20 +126,22 @@ const MatchOdds = ({ currentMatch, matchOddsLive, id, showResultBox }: any) => {
               background: "#f1c550",
               alignItems: "center",
               display: "flex",
-              width: "50%",
+              width: "55%",
               justifyContent: "space-between",
             }}
           >
-            <Typography
-              sx={{
-                fontSize: { lg: "9px", md: "9px", xs: "10px" },
-                fontWeight: "bold",
-                marginLeft: "7px",
-                lineHeight: 1,
-              }}
-            >
-              Match Odds
-            </Typography>
+            {!matchOddsLive?.id && (
+              <Typography
+                sx={{
+                  fontSize: { lg: "9px", md: "9px", xs: "10px" },
+                  fontWeight: "bold",
+                  marginLeft: "2px",
+                  lineHeight: 1,
+                }}
+              >
+                Match Odds
+              </Typography>
+            )}
             {matchOddsLive?.id && matchOddsLive?.activeStatus !== "result" && (
               <Stop
                 onClick={() => {
@@ -132,13 +155,14 @@ const MatchOdds = ({ currentMatch, matchOddsLive, id, showResultBox }: any) => {
                   setLive(false);
                 }}
                 height="18px"
+                title={"Match Odds"}
               />
             )}
 
             <SmallBox2 valueA={bookRatioA} valueB={bookRatioB} />
           </Box>
 
-          <Box
+          {/* <Box
             sx={{
               flex: 0.1,
               background: "#262626",
@@ -146,22 +170,23 @@ const MatchOdds = ({ currentMatch, matchOddsLive, id, showResultBox }: any) => {
             }}
           >
             <div className="slanted"></div>
-          </Box>
+          </Box> */}
 
           <Box
             sx={{
               flex: 1,
-              background: "#262626",
-              // '#262626' ,
+              background: "#f1c550",
+              width: "45%",
               display: "flex",
               alignItems: "center",
               justifyContent: "flex-end",
               marginLeft: "0px",
+              marginRight: "2px",
             }}
           >
             {showResultBox && (
               <Result
-                width={"80px"}
+                width={"60px"}
                 onClick={() => {
                   setVisible(true);
                 }}
@@ -186,7 +211,7 @@ const MatchOdds = ({ currentMatch, matchOddsLive, id, showResultBox }: any) => {
                       );
                       setLive(!live);
                     }}
-                    width={{ lg: "40px", xs: "20%" }}
+                    width={{ lg: "30px", xs: "20px" }}
                     title={live ? "Live" : "Go Live"}
                     color={live ? "#46e080" : "#FF4D4D"}
                     customStyle={{
@@ -210,8 +235,8 @@ const MatchOdds = ({ currentMatch, matchOddsLive, id, showResultBox }: any) => {
                 transform: visibleImg ? "rotate(180deg)" : "rotate(0deg)",
                 width: "12px",
                 height: "12px",
-                marginRight: "5px",
-                marginLeft: "5px",
+                marginRight: "3px",
+                marginLeft: "3px",
                 cursor: "pointer",
               }}
             />
@@ -305,15 +330,16 @@ const MatchOdds = ({ currentMatch, matchOddsLive, id, showResultBox }: any) => {
                   display: "flex",
                   background: "'#319E5B'",
                   height: "15px",
-                  width: "50%",
+                  width: { lg: "70%", xs: "50%", md: "60%" },
                   alignItems: "center",
                 }}
               >
                 <Typography
                   sx={{
                     color: "white",
-                    fontSize: { lg: "10px", xs: "9px" },
+                    fontSize: { lg: "10px", xs: "8px" },
                     marginLeft: "7px",
+                    lineHeight: 1,
                   }}
                 >
                   MIN:{" "}
@@ -331,14 +357,14 @@ const MatchOdds = ({ currentMatch, matchOddsLive, id, showResultBox }: any) => {
                   display: "flex",
                   background: "#319E5B",
                   height: "15px",
-                  width: { lg: "65%", xs: "50%" },
+                  width: { lg: "30%", xs: "50%", md: "40%" },
                   justifyContent: { lg: "flex-end", xs: "flex-end" },
                 }}
               >
                 <Box
                   sx={{
                     background: "#00C0F9",
-                    width: { lg: "19%", xs: "34.6%" },
+                    width: { lg: "36%", xs: "34.6%", md: "43%" },
                     height: "100%",
                     display: "flex",
                     justifyContent: "center",
@@ -356,7 +382,7 @@ const MatchOdds = ({ currentMatch, matchOddsLive, id, showResultBox }: any) => {
                 <Box
                   sx={{
                     background: "#FF9292",
-                    width: { lg: "19%", xs: "34.6%" },
+                    width: { lg: "36%", xs: "34.6%", md: "43%" },
                     height: "100%",
                     display: "flex",
                     justifyContent: "center",

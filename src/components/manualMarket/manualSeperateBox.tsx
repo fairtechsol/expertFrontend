@@ -42,7 +42,7 @@ const ManualSeparateBox = ({ color, empty, value, width, lock }: any) => {
                 sx={{
                   fontSize: "13px",
                   color: color == "white" ? "white" : "black",
-                  fontWeight: "700",
+                  fontWeight: "600",
                   textAlign: "center",
                 }}
               >

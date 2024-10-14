@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../store/store";
 import {
   declareMatchResult,
-  declareMatchStatusReset,
+  // declareMatchStatusReset,
   otherDeclareMatchResult,
   otherUnDeclareMatchResult,
   unDeclareMatchResult,
@@ -46,8 +46,7 @@ const ResultComponent = ({
     try {
       if (success) {
         setLoading({ id: "", value: false });
-        dispatch(declareMatchStatusReset());
-        onClick();
+
         // navigate("/expert/match");
       }
       if (error) {
