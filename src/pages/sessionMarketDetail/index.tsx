@@ -42,7 +42,7 @@ const SessionMarketDetail = () => {
   const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
   const { state } = useLocation();
-  
+
   const [socketConnected, setSocketConnected] = useState(true);
   const { matchDetail, success } = useSelector(
     (state: RootState) => state.addMatch.addMatch
@@ -326,7 +326,11 @@ const SessionMarketDetail = () => {
 
   return (
     <>
-      <Stack spacing={{ lg: 2, xs: 0 }} direction={{ lg: "row", xs: "column" }}>
+      <Stack
+        spacing={{ lg: 2, xs: 0.5 }}
+        direction={{ lg: "row", xs: "column" }}
+        sx={{ marginTop: { lg: 0, xs: "5px" } }}
+      >
         <Box sx={{ width: { lg: "70%" } }}>
           {matchDetail?.apiSession &&
             Object.entries(matchDetail?.apiSession)

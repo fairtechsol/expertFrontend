@@ -317,6 +317,7 @@ const SessionBetlistDetail = () => {
       <Stack
         spacing={1}
         direction={{ lg: "row", md: "row", xs: "column", sm: "row" }}
+        sx={{ marginTop: { lg: 0, xs: "10px" } }}
       >
         <Box sx={{ width: { lg: "25%", md: "25%", sm: "25%" } }}>
           {matchDetail?.updatedSesssionBettings &&
