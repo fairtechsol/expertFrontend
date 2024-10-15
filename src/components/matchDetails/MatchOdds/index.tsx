@@ -162,7 +162,7 @@ const MatchOdds = ({ currentMatch, matchOddsLive, id, showResultBox }: any) => {
             <SmallBox2 valueA={bookRatioA} valueB={bookRatioB} />
           </Box>
 
-          {/* <Box
+          <Box
             sx={{
               flex: 0.1,
               background: "#262626",
@@ -170,18 +170,18 @@ const MatchOdds = ({ currentMatch, matchOddsLive, id, showResultBox }: any) => {
             }}
           >
             <div className="slanted"></div>
-          </Box> */}
+          </Box>
 
           <Box
             sx={{
               flex: 1,
-              background: "#f1c550",
+              background: "#262626",
               width: "45%",
               display: "flex",
               alignItems: "center",
               justifyContent: "flex-end",
               marginLeft: "0px",
-              marginRight: "2px",
+              // marginRight: "2px",
             }}
           >
             {showResultBox && (
