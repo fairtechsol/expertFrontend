@@ -85,7 +85,7 @@ const ResultComponent = ({
       ref={boxRef}
       sx={{
         position: "absolute",
-        width: { lg: "20vw", xs: "40vw", md: "20vw" },
+        width: { lg: "20vw", xs: "40vw", md: "20vw", sm: "20vw" },
         // marginRight: { md: "6em", xs: "4em" },
         // height: "300px",
         borderRadius: 2,
