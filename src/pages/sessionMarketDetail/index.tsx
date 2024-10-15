@@ -389,7 +389,7 @@ const SessionMarketDetail = () => {
                   );
                 } else
                   return (
-                    <>
+                    <Fragment key={name}>
                       {item?.section
                         ?.filter((i: any) => !i?.isManual)
                         ?.filter(
@@ -405,7 +405,7 @@ const SessionMarketDetail = () => {
                           currentMatch={matchDetail}
                         />
                       )}
-                    </>
+                    </Fragment>
                   );
               })}
         </Box>
@@ -511,7 +511,7 @@ const SessionMarketDetail = () => {
               ?.filter(([name]: any) => name === "cricketCasino")
               ?.map(([name, item]: any) => {
                 return (
-                  <>
+                  <Fragment key={name}>
                     {item?.section
                       ?.filter(
                         (i: any) =>
@@ -529,7 +529,7 @@ const SessionMarketDetail = () => {
                           section=""
                         />
                       ))}
-                  </>
+                  </Fragment>
                 );
               })}
           {matchDetail?.updatedSesssionBettings &&

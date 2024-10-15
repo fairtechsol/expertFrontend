@@ -381,6 +381,8 @@ const AddMatch = () => {
   const { handleSubmit, values, touched, errors, handleChange } = formik;
 
   useEffect(() => {
+
+    
     if (!state?.id) {
       setSelected((prev: any) => {
         return {
@@ -402,7 +404,8 @@ const AddMatch = () => {
     }
     if (selected.gameType !== "" && !state?.id) {
       if (!manualMatchToggle) {
-        // dispatch(tournamentListReset());
+        
+        dispatch(tournamentListReset());
         dispatch(getAllLiveTournaments(selected.gameType));
       }
       formik.setValues({
