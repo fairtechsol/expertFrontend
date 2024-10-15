@@ -5,7 +5,7 @@ const SmallBox2 = ({ valueA, valueB }: any) => {
     <Box
       sx={{
         display: "flex",
-        width: "33%",
+        width: "45%",
         gap: "3px",
         margin: "0px",
         justifyContent: "flex-end",
@@ -26,6 +26,7 @@ const SmallBox2 = ({ valueA, valueB }: any) => {
           background: "white",
           borderRadius: "2px",
           lineHeight: 1,
+          zIndex: "2",
         }}
       >
         <Typography
@@ -61,6 +62,7 @@ const SmallBox2 = ({ valueA, valueB }: any) => {
           height: "18px",
           background: "white",
           borderRadius: "2px",
+          zIndex: "2",
         }}
       >
         <Typography
