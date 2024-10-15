@@ -383,7 +383,7 @@ const SessionMarketDetail = () => {
                   );
                 } else
                   return (
-                    <>
+                    <Fragment key={name}>
                       {item?.section?.filter(
                         (items: any) =>
                           !items?.activeStatus ||
@@ -397,7 +397,7 @@ const SessionMarketDetail = () => {
                           currentMatch={matchDetail}
                         />
                       )}
-                    </>
+                    </Fragment>
                   );
               })}
         </Box>
@@ -471,7 +471,7 @@ const SessionMarketDetail = () => {
               ?.filter(([name]: any) => name === "cricketCasino")
               ?.map(([name, item]: any) => {
                 return (
-                  <>
+                  <Fragment key={name}>
                     {item?.section
                       ?.filter((item: any) => item?.activeStatus !== "unSave")
                       ?.map((items: any) => (
@@ -485,7 +485,7 @@ const SessionMarketDetail = () => {
                           profitLossData={matchDetail?.sessionProfitLoss}
                         />
                       ))}
-                  </>
+                  </Fragment>
                 );
               })}
           {matchDetail?.updatedSesssionBettings &&
