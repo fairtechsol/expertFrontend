@@ -5,7 +5,7 @@ const Result = ({ invert, onClick, height }: any) => {
     <Box onClick={onClick} sx={{ zIndex: 2 }}>
       <Box
         sx={{
-          width: { lg: "38px", xs: "25px" },
+          // width: { lg: "38px", xs: "25px" },
           display: "flex",
           marginRight: "4px",
           marginLeft: "4px",
