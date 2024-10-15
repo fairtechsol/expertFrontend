@@ -51,7 +51,7 @@ const MatchMarketDetail = () => {
   const navigate = useNavigate();
   const dispatch: AppDispatch = useDispatch();
   const theme = useTheme();
-  const matchesMobile = useMediaQuery(theme.breakpoints.down("md"));
+  const matchesMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const [socketConnected, setSocketConnected] = useState(true);
   // const [liveScoreBoardData, setLiveScoreBoardData] = useState(null);
   // const [errorCount, setErrorCount] = useState<number>(0);
@@ -385,7 +385,7 @@ const MatchMarketDetail = () => {
   return (
     <Box
       sx={{
-        display: { lg: "flex", md: "flex" },
+        display: { lg: "flex", md: "flex", sm: "flex" },
         alignSelf: "center",
         borderRadius: "10px",
         flexDirection: "row",
