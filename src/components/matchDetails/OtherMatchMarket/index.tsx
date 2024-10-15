@@ -225,7 +225,7 @@ const OtherMatchMarket = ({
                 display: "flex",
                 background: "'#319E5B'",
                 height: "15px",
-                width: { lg: "70%", xs: "50%", md: "60%" },
+                width: { lg: "70%", xs: "50%", md: "60%", sm: "83%" },
                 alignItems: "center",
               }}
             >
@@ -234,6 +234,7 @@ const OtherMatchMarket = ({
                   color: "white",
                   fontSize: { lg: "10px", xs: "8px" },
                   marginLeft: "7px",
+                  lineHeight: 1,
                 }}
               >
                 MIN:{" "}
@@ -250,14 +251,14 @@ const OtherMatchMarket = ({
                 display: "flex",
                 background: "#319E5B",
                 height: "15px",
-                width: { lg: "30%", xs: "50%", md: "40%" },
+                width: { lg: "30%", xs: "50%", md: "40%", sm: "43%" },
                 justifyContent: { lg: "flex-end", xs: "flex-end" },
               }}
             >
               <Box
                 sx={{
                   background: "#00C0F9",
-                  width: { lg: "36%", xs: "34.6%", md: "43%" },
+                  width: { lg: "36%", xs: "34.6%", md: "43%", sm: "100%" },
                   height: "100%",
                   display: "flex",
                   justifyContent: "center",
@@ -274,7 +275,7 @@ const OtherMatchMarket = ({
               <Box
                 sx={{
                   background: "#FF9292",
-                  width: { lg: "36%", xs: "34.6%", md: "43%" },
+                  width: { lg: "36%", xs: "34.6%", md: "43%", sm: "100%" },
                   height: "100%",
                   display: "flex",
                   justifyContent: "center",
