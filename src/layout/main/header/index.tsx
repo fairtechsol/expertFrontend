@@ -331,7 +331,7 @@ const Header1 = () => {
               )} */}
             </Box>
           </AppBar>
-          <Box sx={{ minHeight: { lg: 44, md: 45, xs: 60 + 20 } }} />
+          <Box sx={{ minHeight: { lg: 44, md: 35, xs: 80 } }} />
         </>
       )}
       {matchesMobile && (
@@ -386,7 +386,7 @@ const Header1 = () => {
                     }}
                     src={Draw}
                     sx={{
-                      height: { lg: "24px", xs: "15px" },
+                      height: { lg: "24px", xs: "10px" },
                       width: "auto",
                     }}
                   />
@@ -398,7 +398,7 @@ const Header1 = () => {
                     }}
                     sx={{
                       cursor: "pointer",
-                      height: { lg: "55px", xs: "35px" },
+                      height: { lg: "55px", xs: "30px" },
                       width: "auto",
                       marginLeft: { lg: "20px", xs: "10px" },
                     }}
@@ -434,9 +434,9 @@ const Header1 = () => {
                       setVisible(true);
                     }}
                     sx={{
-                      height: { lg: "45px", xs: "30px" },
-                      width: "30px",
-                      borderRadius: "35px",
+                      height: { lg: "45px", xs: "25px" },
+                      width: "25px",
+                      borderRadius: "25px",
                       display: "flex",
                       justifyContent: "center",
                       alignItems: "center",
@@ -446,7 +446,7 @@ const Header1 = () => {
                   >
                     <StyledImage
                       src={NotiBadge}
-                      sx={{ height: "20px", width: "20px" }}
+                      sx={{ height: "15px", width: "15px" }}
                     />
                   </Box>
                   <Box sx={{ display: "flex" }}>
@@ -475,7 +475,7 @@ const Header1 = () => {
                             currentSelected == 1 && (gameType || anchor)
                               ? "white"
                               : "transparent",
-                          py: "5px",
+                          // py: "5px",
                           borderRadius: "5px",
                           marginLeft: { lg: "15px", xs: "15px" },
                           cursor: "pointer",
@@ -579,7 +579,7 @@ const Header1 = () => {
             </Box>
           </AppBar>
 
-          <Box sx={{ minHeight: { lg: 66, sm: 80, md: 80, xs: 80 } }} />
+          <Box sx={{ minHeight: { lg: 66, sm: 60, md: 80, xs: 60 } }} />
         </>
       )}
       {/* {matchListDropdown?.length > 0 && (
