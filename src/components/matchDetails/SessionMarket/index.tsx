@@ -1,6 +1,6 @@
 import { Box, Typography } from "@mui/material";
 import { useState } from "react";
-import { ARROWUP } from "../../../assets";
+import { ARROWUP, edit } from "../../../assets";
 import Divider from "../../Common/Divider";
 import Stop from "./Stop";
 import SessionMarketBox from "./SessionMarketBox";
@@ -76,7 +76,7 @@ const SessionMarket = ({
             >
               {title}
             </Typography>
-            {/* {!hideEditMaxButton && (
+            {!hideEditMaxButton && (
               <img
                 onClick={() => setSessionMaxBetAmountLimit(true)}
                 src={edit}
@@ -88,7 +88,7 @@ const SessionMarket = ({
                   cursor: "pointer",
                 }}
               />
-            )} */}
+            )}
             {!stopAllHide && (
               <Stop
                 onClick={() => {

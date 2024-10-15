@@ -40,7 +40,7 @@ const BoxProfile = (props: any) => {
               alignItems: "center",
               boxShadow: "0px 3px 10px #B7B7B726",
               justifyContent: "space-between",
-              height: { lg: "35px", xs: "35px" },
+              height: { lg: "35px", xs: "30px" },
               overflow: "hidden",
               paddingX: "2px",
               borderRadius: "35px",
@@ -52,8 +52,8 @@ const BoxProfile = (props: any) => {
           <StyledImage
             src={image}
             sx={{
-              height: { lg: "30px", xs: "27px" },
-              width: { lg: "30px", xs: "27px" },
+              height: { lg: "30px", xs: "25px" },
+              width: { lg: "30px", xs: "25px" },
               borderRadius: "150px",
             }}
           />

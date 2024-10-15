@@ -158,7 +158,7 @@ const TiedMatchMarket = ({
                     );
                     setLive(!live);
                   }}
-                  width={{ lg: "30px", xs: "20px" }}
+                  width={{ lg: "25px", xs: "20px" }}
                   title={live ? "Live" : "Go Live"}
                   color={live ? "#46e080" : "#FF4D4D"}
                   customStyle={{
@@ -180,10 +180,10 @@ const TiedMatchMarket = ({
             src={ARROWUP}
             style={{
               transform: visibleImg ? "rotate(180deg)" : "rotate(0deg)",
-              width: "12px",
-              height: "12px",
-              marginRight: "5px",
-              marginLeft: "5px",
+              width: "10px",
+              height: "10px",
+              marginRight: "1px",
+              marginLeft: "1px",
               cursor: "pointer",
             }}
           />
@@ -230,7 +230,7 @@ const TiedMatchMarket = ({
                 display: "flex",
                 background: "'#319E5B'",
                 height: "15px",
-                width: { lg: "70%", xs: "50%", md: "60%" },
+                width: { lg: "70%", xs: "50%", md: "60%", sm: "83%" },
                 alignItems: "center",
               }}
             >
@@ -239,6 +239,7 @@ const TiedMatchMarket = ({
                   color: "white",
                   fontSize: { lg: "10px", xs: "8px" },
                   marginLeft: "7px",
+                  lineHeight: 1,
                 }}
               >
                 MIN:{" "}
@@ -255,14 +256,14 @@ const TiedMatchMarket = ({
                 display: "flex",
                 background: "#319E5B",
                 height: "15px",
-                width: { lg: "30%", xs: "50%", md: "40%" },
+                width: { lg: "30%", xs: "50%", md: "40%", sm: "43%" },
                 justifyContent: { lg: "flex-end", xs: "flex-end" },
               }}
             >
               <Box
                 sx={{
                   background: "#00C0F9",
-                  width: { lg: "36%", xs: "34.6%", md: "43%" },
+                  width: { lg: "36%", xs: "34.6%", md: "43%", sm: "100%" },
                   height: "100%",
                   display: "flex",
                   justifyContent: "center",
@@ -279,7 +280,7 @@ const TiedMatchMarket = ({
               <Box
                 sx={{
                   background: "#FF9292",
-                  width: { lg: "36%", xs: "34.6%", md: "43%" },
+                  width: { lg: "36%", xs: "34.6%", md: "43%", sm: "100%" },
                   height: "100%",
                   display: "flex",
                   justifyContent: "center",
