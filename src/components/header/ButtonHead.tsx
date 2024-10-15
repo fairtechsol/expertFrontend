@@ -14,7 +14,7 @@ const ButtonHead = ({
       onClick={(e) => onClick(e)}
       sx={[
         {
-          paddingX: "12.5px",
+          paddingX: "7px",
           justifyContent: "space-between",
           alignItems: "center",
           display: "flex",
@@ -26,9 +26,10 @@ const ButtonHead = ({
       <Typography
         sx={[
           {
-            fontSize: {lg:"11px", xs:"8px"},
+            fontSize: { lg: "11px", xs: "8px" },
             fontWeight: "bold",
             fontFamily: "Poppins,sans-serif",
+            lineHeight: 1,
           },
           titleStyle,
         ]}
