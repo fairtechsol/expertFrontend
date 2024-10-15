@@ -29,6 +29,9 @@ export const matchSocketService = {
   onConnect: (callback: any) => {
     socket?.on("connect", callback);
   },
+  onReconnect: (callback: any) => {
+    socket?.on("reconnect", callback);
+  },
   getMatchRates: (matchId: string, callback: any) => {
     matchSocket?.on(`liveData${matchId}`, callback);
   },

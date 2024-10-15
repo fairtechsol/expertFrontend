@@ -43,7 +43,6 @@ const SessionMarketDetail = () => {
   const navigate = useNavigate();
   const { state } = useLocation();
 
-  const { getProfile } = useSelector((state: RootState) => state.user.profile);
   const [socketConnected, setSocketConnected] = useState(true);
   const { matchDetail, success } = useSelector(
     (state: RootState) => state.addMatch.addMatch
@@ -63,7 +62,7 @@ const SessionMarketDetail = () => {
 
   const resultDeclared = (event: any) => {
     try {
-      if (event?.matchId === state?.id) {
+      if (event?.matchId === state?.id && event?.isMatchDeclare) {
         navigate("/expert/match");
       }
     } catch (e) {
@@ -154,7 +153,8 @@ const SessionMarketDetail = () => {
               ? event?.profitLossObj?.maxLoss
               : event?.profitLoss,
             totalBet: event?.profitLossObj ? event?.profitLossObj?.totalBet : 0,
-            profitLoss: event?.redisData?.betPlaced ?? event?.profitLossObj?.betPlaced,
+            profitLoss:
+              event?.redisData?.betPlaced ?? event?.profitLossObj?.betPlaced,
           })
         );
       }
@@ -210,7 +210,7 @@ const SessionMarketDetail = () => {
         dispatch(
           updateResultStatusOfSession({
             ...event,
-            loggedUserId: getProfile?.id,
+            loggedUserId: sessionStorage.getItem("pId"),
           })
         );
         dispatch(updateResultStatusOfMatch(event));
@@ -326,7 +326,11 @@ const SessionMarketDetail = () => {
 
   return (
     <>
-      <Stack spacing={{ lg: 2, xs: 0 }} direction={{ lg: "row", xs: "column" }}>
+      <Stack
+        spacing={{ lg: 2, xs: 0.5 }}
+        direction={{ lg: "row", xs: "column" }}
+        sx={{ marginTop: { lg: 0, xs: "5px" } }}
+      >
         <Box sx={{ width: { lg: "70%" } }}>
           {matchDetail?.apiSession &&
             Object.entries(matchDetail?.apiSession)
@@ -337,10 +341,13 @@ const SessionMarketDetail = () => {
               ?.map(([name, item]: any) => {
                 return (
                   <>
-                    {item?.section?.filter(
-                      (items: any) =>
-                        !items?.activeStatus || items?.activeStatus === "unSave"
-                    )?.length > 0 && (
+                    {item?.section
+                      ?.filter((i: any) => !i?.isManual)
+                      ?.filter(
+                        (items: any) =>
+                          !items?.activeStatus ||
+                          items?.activeStatus === "unSave"
+                      )?.length > 0 && (
                       <SessionMarketLive
                         key={name}
                         title={item?.mname || name}
@@ -365,9 +372,8 @@ const SessionMarketDetail = () => {
                     <React.Fragment key={name}>
                       {item?.section
                         ?.filter(
-                          (items: any) =>
-                            !items?.activeStatus ||
-                            items?.activeStatus === "unSave"
+                          (i: any) =>
+                            !i?.activeStatus || i?.activeStatus === "unSave"
                         )
                         ?.map((items: any) => (
                           <CasinoMarketLive
@@ -384,11 +390,13 @@ const SessionMarketDetail = () => {
                 } else
                   return (
                     <Fragment key={name}>
-                      {item?.section?.filter(
-                        (items: any) =>
-                          !items?.activeStatus ||
-                          items?.activeStatus === "unSave"
-                      )?.length > 0 && (
+                      {item?.section
+                        ?.filter((i: any) => !i?.isManual)
+                        ?.filter(
+                          (items: any) =>
+                            !items?.activeStatus ||
+                            items?.activeStatus === "unSave"
+                        )?.length > 0 && (
                         <SessionMarketLive
                           key={name}
                           title={item?.mname || name}
@@ -409,13 +417,15 @@ const SessionMarketDetail = () => {
               ?.map(([name, item]: any) => {
                 return (
                   <Fragment key={name}>
-                    {item?.section?.filter(
-                      (items: any) =>
-                        items?.isComplete &&
-                        items?.activeStatus !== "unSave" &&
-                        ((items?.resultData && items?.resultData === null) ||
-                          items?.result === null)
-                    )?.length > 0 && (
+                    {item?.section
+                      ?.filter((i: any) => !i?.isManual)
+                      ?.filter(
+                        (items: any) =>
+                          items?.isComplete &&
+                          items?.activeStatus !== "unSave" &&
+                          ((items?.resultData && items?.resultData === null) ||
+                            items?.result === null)
+                      )?.length > 0 && (
                       <SessionMarket
                         title={`${name} Completed`}
                         hideTotalBet={false}
@@ -437,12 +447,41 @@ const SessionMarketDetail = () => {
           {matchDetail?.updatedSesssionBettings &&
             Object.entries(matchDetail?.updatedSesssionBettings)
               ?.sort(customSortBySessionMarketName)
+              ?.filter(([name]: any) => name === "cricketCasino")
+              ?.map(([name, item]: any) => {
+                return (
+                  <>
+                    {item?.section
+                      ?.filter(
+                        (i: any) =>
+                          i?.activeStatus !== "unSave" &&
+                          (i?.isComplete || i?.activeStatus === "save") &&
+                          i?.activeStatus !== "result"
+                      )
+                      // ?.sort(sortByActiveStatusOfCricketCasino)
+                      ?.map((items: any) => (
+                        <CasinoMarket
+                          key={items?.SelectionId}
+                          title={items?.RunnerName || items?.name}
+                          sessionData={items}
+                          gtype={items?.gtype}
+                          type={name}
+                          profitLossData={matchDetail?.sessionProfitLoss}
+                          section=" COMPLETED"
+                        />
+                      ))}
+                  </>
+                );
+              })}
+          {matchDetail?.updatedSesssionBettings &&
+            Object.entries(matchDetail?.updatedSesssionBettings)
+              ?.sort(customSortBySessionMarketName)
               ?.filter(([name]: any) => name !== "cricketCasino")
               ?.map(([name, item]: any) => {
                 return (
                   <Fragment key={name}>
                     {item?.section
-                      ?.filter((item: any) => !item?.isManual)
+                      ?.filter((i: any) => !i?.isManual)
                       ?.filter(
                         (items: any) =>
                           !items?.isComplete &&
@@ -460,6 +499,7 @@ const SessionMarketDetail = () => {
                         currentMatch={matchDetail}
                         hideEditMaxButton={false}
                         section="market"
+                        name={name}
                       />
                     )}
                   </Fragment>
@@ -473,16 +513,20 @@ const SessionMarketDetail = () => {
                 return (
                   <Fragment key={name}>
                     {item?.section
-                      ?.filter((item: any) => item?.activeStatus !== "unSave")
+                      ?.filter(
+                        (i: any) =>
+                          i?.activeStatus !== "unSave" && !i?.isComplete
+                      )
+                      // ?.sort(sortByActiveStatusOfCricketCasino)
                       ?.map((items: any) => (
                         <CasinoMarket
                           key={items?.SelectionId}
                           title={items?.RunnerName || items?.name}
                           sessionData={items}
-                          currentMatch={matchDetail}
                           gtype={items?.gtype}
                           type={name}
                           profitLossData={matchDetail?.sessionProfitLoss}
+                          section=""
                         />
                       ))}
                   </Fragment>
@@ -495,11 +539,13 @@ const SessionMarketDetail = () => {
               ?.map(([name, item]: any) => {
                 return (
                   <Fragment key={name}>
-                    {item?.section?.filter(
-                      (items: any) =>
-                        (items?.resultData && items?.resultData !== null) ||
-                        items?.result !== null
-                    )?.length > 0 && (
+                    {item?.section
+                      ?.filter((i: any) => !i?.isManual)
+                      ?.filter(
+                        (items: any) =>
+                          (items?.resultData && items?.resultData !== null) ||
+                          items?.result !== null
+                      )?.length > 0 && (
                       <SessionMarket
                         title={`${name} Declared`}
                         hideTotalBet={false}
@@ -516,6 +562,35 @@ const SessionMarketDetail = () => {
                       />
                     )}
                   </Fragment>
+                );
+              })}
+          {matchDetail?.updatedSesssionBettings &&
+            Object.entries(matchDetail?.updatedSesssionBettings)
+              ?.sort(customSortBySessionMarketName)
+              ?.filter(([name]: any) => name === "cricketCasino")
+              ?.map(([name, item]: any) => {
+                return (
+                  <>
+                    {item?.section
+                      ?.filter(
+                        (i: any) =>
+                          i?.activeStatus !== "unSave" &&
+                          i?.isComplete &&
+                          i?.activeStatus === "result"
+                      )
+                      // ?.sort(sortByActiveStatusOfCricketCasino)
+                      ?.map((items: any) => (
+                        <CasinoMarket
+                          key={items?.SelectionId}
+                          title={items?.RunnerName || items?.name}
+                          sessionData={items}
+                          gtype={items?.gtype}
+                          type={name}
+                          profitLossData={matchDetail?.sessionProfitLoss}
+                          section=" DECLARED"
+                        />
+                      ))}
+                  </>
                 );
               })}
         </Box>

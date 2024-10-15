@@ -1,9 +1,9 @@
 import { Box, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { ARROWUP } from "../../../assets";
 import { betLiveStatus } from "../../../store/actions/match/matchAction";
-import { AppDispatch } from "../../../store/store";
+import { AppDispatch, RootState } from "../../../store/store";
 import { profitLossDataForMatchConstants } from "../../../utils/Constants";
 import Divider from "../../Common/Divider";
 import { formatToINR } from "../../helper";
@@ -13,8 +13,16 @@ import SmallBox from "../SmallBox";
 import OtherMarketAdd from "./OtherMarketAdd";
 import Result from "../Result";
 import ResultComponentOtherMarket from "./ResultComponentOtherMarket";
+import MaxLimitEditButton from "../../Common/MaxLimitEditButton";
+import AddMarketButton from "../../Common/AddMarketButton";
+import { declareMatchStatusReset } from "../../../store/actions/match/matchDeclareActions";
 
-const OtherMatchMarket = ({ currentMatch, liveData, title }: any) => {
+const OtherMatchMarket = ({
+  currentMatch,
+  liveData,
+  title,
+  firstKnownKey,
+}: any) => {
   const dispatch: AppDispatch = useDispatch();
   const [visibleImg, setVisibleImg] = useState<boolean>(true);
   const [visible, setVisible] = useState<boolean>(false);
@@ -22,10 +30,7 @@ const OtherMatchMarket = ({ currentMatch, liveData, title }: any) => {
     liveData?.activeStatus === "live" ? true : false
   );
   const [open, setOpen] = useState(false);
-
-  useEffect(() => {
-    setLive(liveData?.activeStatus === "live" ? true : false);
-  }, [liveData?.activeStatus]);
+  const { success } = useSelector((state: RootState) => state.match);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -34,6 +39,16 @@ const OtherMatchMarket = ({ currentMatch, liveData, title }: any) => {
   const handleClose = (data: any) => {
     setOpen(data);
   };
+  useEffect(() => {
+    setLive(liveData?.activeStatus === "live" ? true : false);
+  }, [liveData?.activeStatus]);
+
+  useEffect(() => {
+    if (success) {
+      dispatch(declareMatchStatusReset());
+      setVisible(false);
+    }
+  }, [success]);
   return (
     <Box
       sx={{
@@ -41,12 +56,12 @@ const OtherMatchMarket = ({ currentMatch, liveData, title }: any) => {
         display: "flex",
         backgroundColor: "white",
         flexDirection: "column",
-        width: "100%",
+        width: { lg: "49%", md: "49%", xs: "100%" },
         marginTop: ".3vh",
         marginX: "0",
         alignSelf: {
           xs: "center",
-          md: "center",
+          md: "flex-start",
           lg: "flex-start",
           position: "relative",
         },
@@ -70,17 +85,19 @@ const OtherMatchMarket = ({ currentMatch, liveData, title }: any) => {
             justifyContent: "space-between",
           }}
         >
-          <Typography
-            sx={{
-              fontSize: { lg: "9px", md: "9px", xs: "10px" },
-              fontWeight: "bold",
-              marginLeft: "7px",
-              lineHeight: 1,
-            }}
-          >
-            {title}
-          </Typography>
-          {liveData?.id && (
+          {!liveData?.id && (
+            <Typography
+              sx={{
+                fontSize: { lg: "9px", md: "9px", xs: "10px" },
+                fontWeight: "bold",
+                marginLeft: "7px",
+                lineHeight: 1,
+              }}
+            >
+              {title}
+            </Typography>
+          )}
+          {liveData?.id && liveData?.activeStatus !== "result" && (
             <Stop
               onClick={() => {
                 dispatch(
@@ -93,6 +110,7 @@ const OtherMatchMarket = ({ currentMatch, liveData, title }: any) => {
                 setLive(false);
               }}
               height="18px"
+              title={title}
             />
           )}
         </Box>
@@ -117,89 +135,42 @@ const OtherMatchMarket = ({ currentMatch, liveData, title }: any) => {
         >
           {liveData?.id ? (
             <>
-              <Result
-                width={"80px"}
-                onClick={() => {
-                  setVisible(true);
-                }}
-                invert={true}
-              />
-              {liveData?.activeStatus !== "result" && (
-                <SmallBox
+              {(!currentMatch?.stopAt || firstKnownKey === undefined) && (
+                <Result
+                  width={"80px"}
                   onClick={() => {
-                    dispatch(
-                      betLiveStatus({
-                        isStop: live,
-                        betId: liveData?.id,
-                        isManual: false,
-                      })
-                    );
-                    setLive(!live);
+                    setVisible(true);
                   }}
-                  width={{ lg: "60px", xs: "20%" }}
-                  title={live ? "Live" : "Go Live"}
-                  color={live ? "#46e080" : "#FF4D4D"}
-                  customStyle={{
-                    justifyContent: "center",
-                  }}
-                  height="18px"
+                  invert={true}
                 />
               )}
-
-              <div
-                style={{
-                  width: "40px",
-                  height: "18px",
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  borderRadius: "2px",
-                  backgroundColor: "#46e080",
-                  cursor: "pointer",
-                  // marginRight: "10px",
-                }}
-                onClick={handleClickOpen}
-              >
-                <span
-                  style={{
-                    fontSize: "12px",
-                    fontWeight: "500",
-                    color: "#fff",
-                    fontFamily: "Poppins, sans-serif",
-                  }}
-                >
-                  Edit
-                </span>
-              </div>
+              {liveData?.activeStatus !== "result" && (
+                <>
+                  <SmallBox
+                    onClick={() => {
+                      dispatch(
+                        betLiveStatus({
+                          isStop: live,
+                          betId: liveData?.id,
+                          isManual: false,
+                        })
+                      );
+                      setLive(!live);
+                    }}
+                    width={{ lg: "25px", xs: "20px" }}
+                    title={live ? "Live" : "Go Live"}
+                    color={live ? "#46e080" : "#FF4D4D"}
+                    customStyle={{
+                      justifyContent: "center",
+                    }}
+                    height="18px"
+                  />
+                  <MaxLimitEditButton handleClickOpen={handleClickOpen} />
+                </>
+              )}
             </>
           ) : (
-            <>
-              <div
-                style={{
-                  width: "40px",
-                  height: "18px",
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  borderRadius: "5px",
-                  backgroundColor: "#46e080",
-                  cursor: "pointer",
-                  // marginRight: "10px",
-                }}
-                onClick={handleClickOpen}
-              >
-                <span
-                  style={{
-                    fontSize: "12px",
-                    fontWeight: "500",
-                    color: "#fff",
-                    fontFamily: "Poppins, sans-serif",
-                  }}
-                >
-                  Add
-                </span>
-              </div>
-            </>
+            <AddMarketButton handleClickOpen={handleClickOpen} />
           )}
           <img
             onClick={() => {
@@ -208,17 +179,17 @@ const OtherMatchMarket = ({ currentMatch, liveData, title }: any) => {
             src={ARROWUP}
             style={{
               transform: visibleImg ? "rotate(180deg)" : "rotate(0deg)",
-              width: "12px",
-              height: "12px",
-              marginRight: "5px",
-              marginLeft: "5px",
+              width: "10px",
+              height: "10px",
+              marginRight: "1px",
+              marginLeft: "1px",
               cursor: "pointer",
             }}
           />
         </Box>
       </Box>
       <Divider />
-      <Box
+      {/* <Box
         sx={{
           position: "absolute",
           zIndex: 999,
@@ -226,18 +197,18 @@ const OtherMatchMarket = ({ currentMatch, liveData, title }: any) => {
           right: "60px",
           width: { lg: "50vh", xs: "30vh" },
         }}
-      >
-        {visible && (
-          <ResultComponentOtherMarket
-            currentMatch={currentMatch}
-            stopAt={liveData?.stopAt}
-            onClick={() => {
-              setVisible(false);
-            }}
-            liveData={liveData}
-          />
-        )}
-      </Box>
+      > */}
+      {visible && (
+        <ResultComponentOtherMarket
+          currentMatch={currentMatch}
+          stopAt={liveData?.stopAt}
+          onClick={() => {
+            setVisible(false);
+          }}
+          liveData={liveData}
+        />
+      )}
+      {/* </Box> */}
       {visibleImg && (
         <>
           <Box
@@ -254,19 +225,25 @@ const OtherMatchMarket = ({ currentMatch, liveData, title }: any) => {
                 display: "flex",
                 background: "'#319E5B'",
                 height: "15px",
-                width: "50%",
+                width: { lg: "70%", xs: "50%", md: "60%", sm: "83%" },
                 alignItems: "center",
               }}
             >
               <Typography
                 sx={{
                   color: "white",
-                  fontSize: { lg: "11px", xs: "9px" },
+                  fontSize: { lg: "10px", xs: "8px" },
                   marginLeft: "7px",
+                  lineHeight: 1,
                 }}
               >
-                MIN: {formatToINR(liveData?.minBet)} MAX:{" "}
-                {formatToINR(liveData?.maxBet)}
+                MIN:{" "}
+                {formatToINR(
+                  liveData?.id
+                    ? liveData?.minBet
+                    : currentMatch?.betFairSessionMinBet
+                )}{" "}
+                MAX: {formatToINR(liveData?.maxBet)}
               </Typography>
             </Box>
             <Box
@@ -274,14 +251,14 @@ const OtherMatchMarket = ({ currentMatch, liveData, title }: any) => {
                 display: "flex",
                 background: "#319E5B",
                 height: "15px",
-                width: { lg: "65%", xs: "50%" },
+                width: { lg: "30%", xs: "50%", md: "40%", sm: "43%" },
                 justifyContent: { lg: "flex-end", xs: "flex-end" },
               }}
             >
               <Box
                 sx={{
                   background: "#00C0F9",
-                  width: { lg: "19%", xs: "34.6%" },
+                  width: { lg: "36%", xs: "34.6%", md: "43%", sm: "100%" },
                   height: "100%",
                   display: "flex",
                   justifyContent: "center",
@@ -298,7 +275,7 @@ const OtherMatchMarket = ({ currentMatch, liveData, title }: any) => {
               <Box
                 sx={{
                   background: "#FF9292",
-                  width: { lg: "19%", xs: "34.6%" },
+                  width: { lg: "36%", xs: "34.6%", md: "43%", sm: "100%" },
                   height: "100%",
                   display: "flex",
                   justifyContent: "center",
@@ -317,7 +294,9 @@ const OtherMatchMarket = ({ currentMatch, liveData, title }: any) => {
           <Box sx={{ position: "relative" }}>
             <BoxComponent
               teamRates={
-                currentMatch?.teamRates
+                liveData?.activeStatus === "result"
+                  ? 0
+                  : currentMatch?.teamRates
                   ? currentMatch?.teamRates[
                       profitLossDataForMatchConstants[liveData?.type]?.A +
                         "_" +
@@ -361,7 +340,9 @@ const OtherMatchMarket = ({ currentMatch, liveData, title }: any) => {
                   : false
               }
               teamRates={
-                currentMatch?.teamRates
+                liveData?.activeStatus === "result"
+                  ? 0
+                  : currentMatch?.teamRates
                   ? currentMatch?.teamRates[
                       profitLossDataForMatchConstants[liveData?.type]?.B +
                         "_" +

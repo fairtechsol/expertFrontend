@@ -1,7 +1,7 @@
 import { memo, useState } from "react";
 import { useEffect } from "react";
 import { Box, Typography } from "@mui/material";
-import Divider from "../../Common/Divider";
+// import Divider from "../../Common/Divider";
 import { ARROWUP } from "../../../assets";
 import SessionMarketBoxLive from "./SessionMarketBoxLive";
 import { formatToINR } from "../../helper";
@@ -62,7 +62,13 @@ const SessionMarketLive = ({ title, sessionData, currentMatch, type }: any) => {
             }}
           >
             {title}
-            {`(MIN: ${formatToINR(currentMatch?.betFairSessionMinBet)})`}
+            <span
+              style={{
+                fontSize: "8px",
+              }}
+            >{`(MIN: ${formatToINR(
+              currentMatch?.betFairSessionMinBet
+            )})`}</span>
           </Typography>
         </Box>
 
@@ -118,7 +124,7 @@ const SessionMarketLive = ({ title, sessionData, currentMatch, type }: any) => {
               width: "100%",
               position: "relative",
               // maxHeight: { lg: "85vh", xs: "40vh" },
-              overflowY: "auto",
+              // overflowY: "auto",
               "::-webkit-scrollbar": {
                 display: "none",
               },
@@ -136,7 +142,7 @@ const SessionMarketLive = ({ title, sessionData, currentMatch, type }: any) => {
                         gtype={sessionData?.gtype}
                         type={type}
                       />
-                      <Divider />
+                      {/* <Divider /> */}
                     </Box>
                   );
                 }

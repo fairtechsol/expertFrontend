@@ -20,6 +20,7 @@ export const handleKeysMatchEvents = (
   try {
     e.preventDefault();
     let targetValue = e.target.value;
+    console.log(targetValue, "abc");
     if (key === "shift") {
       setLocalQuickBookmaker((prev: any) => {
         return {

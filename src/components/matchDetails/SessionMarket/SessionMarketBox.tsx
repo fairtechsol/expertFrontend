@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { sessionBetLiveStatus } from "../../../store/actions/match/matchAction";
 import { AppDispatch, RootState } from "../../../store/store";
-import Divider from "../../Common/Divider";
 import { formatNumber, formatToINR } from "../../helper";
 import Result from "../Result";
 import SeparateBox from "../SeparateBox";
@@ -22,6 +21,7 @@ const SessionMarketBox = ({
   profitLossData,
   index,
   hideEditMaxButton,
+  section,
 }: any) => {
   const dispatch: AppDispatch = useDispatch();
   const { statusBetLive, error, success } = useSelector(
@@ -66,6 +66,8 @@ const SessionMarketBox = ({
           display: "flex",
           background: visible
             ? "#FFAF45"
+            : section === "completed"
+            ? "#E15151"
             : index % 2 === 0
             ? "#FFE094"
             : "#ECECEC", // Change color based on selected state and index
@@ -81,6 +83,8 @@ const SessionMarketBox = ({
             display: "flex",
             background: visible
               ? "#FFAF45"
+              : section === "completed"
+              ? "#E15151"
               : index % 2 === 0
               ? "#FFE094"
               : "#ECECEC", // Change color based on selected state and index
@@ -89,7 +93,7 @@ const SessionMarketBox = ({
             width: "40%",
             alignItems: "center",
             boxShadow: visible ? 3 : 0,
-            // backgroundColor:'red'
+            // backgroundColor:'#E15151'
           }}
           // className="example-2"
         >
@@ -147,13 +151,14 @@ const SessionMarketBox = ({
         <Box
           sx={{
             position: "absolute",
-            top: "4px",
             minWidth: { lg: "36%", xs: "45%", md: "25%" },
             justifyContent: "flex-end",
             left: { lg: "7vw", md: "21vw" },
             display: "flex",
+            height: "30px",
             zIndex: 100,
             gap: 0,
+            alignItems: "center",
           }}
         >
           <Typography sx={{ marginRight: "10px", zIndex: "999" }}>
@@ -166,8 +171,8 @@ const SessionMarketBox = ({
                   size={20}
                   style={{
                     backgroundColor: "lightgray",
-                    // padding: "10px",
-                    // borderRadius: "8px",
+                    display: "flex",
+                    alignItems: "center",
                   }}
                   onClick={(e: any) => {
                     if (loading) {
@@ -249,6 +254,7 @@ const SessionMarketBox = ({
               onClick={() => {
                 setVisible(true);
               }}
+              height="20px"
             />
           )}
         </Box>
@@ -279,9 +285,9 @@ const SessionMarketBox = ({
               margin: "1px",
               background: "rgba(0,0,0,1)",
               height: "30px",
-              right: { lg: "23.7%", xs: "16.8%", md: "14.9%" },
+              right: { lg: "24.6%", xs: "16.8%", md: "14.9%" },
               position: "absolute",
-              width: { lg: "18.6%", xs: "36%" },
+              width: { lg: "16.9%", xs: "36%" },
               justifyContent: { xs: "center", lg: "center" },
               alignItems: "center",
               display: "flex",
@@ -300,7 +306,10 @@ const SessionMarketBox = ({
                 overflowWrap: "anywhere",
               }}
             >
-              {newData?.resultStatus}
+              {Math.max(
+                newData?.ex?.availableToLay?.length ?? 0,
+                newData?.ex?.availableToBack?.length ?? 0
+              ) <= 1 && newData?.resultStatus}
             </h6>
           </Box>
         ) : !["ACTIVE", "active", "", undefined, null, 0].includes(
@@ -311,9 +320,9 @@ const SessionMarketBox = ({
               margin: "1px",
               background: "rgba(0,0,0,1)",
               height: "30px",
-              right: { lg: "23.7%", xs: "16.8%", md: "14.9%" },
+              right: { lg: "24.6%", xs: "16.8%", md: "14.9%" },
               position: "absolute",
-              width: { lg: "18.6%", xs: "36%" },
+              width: { lg: "16.9%", xs: "36%" },
               justifyContent: { xs: "center", lg: "center" },
               alignItems: "center",
               display: "flex",
@@ -330,7 +339,10 @@ const SessionMarketBox = ({
                 fontWeight: "400",
               }}
             >
-              {newData?.result ? `Declared` : newData?.GameStatus}
+              {Math.max(
+                newData?.ex?.availableToLay?.length ?? 0,
+                newData?.ex?.availableToBack?.length ?? 0
+              ) <= 1 && (newData?.result ? `Declared` : newData?.GameStatus)}
             </h6>
           </Box>
         ) : (
@@ -349,8 +361,16 @@ const SessionMarketBox = ({
             <SeparateBox
               session={true}
               back={true}
-              value={formatNumber(newData?.ex?.availableToLay[0]?.price || 0)}
-              value2={formatNumber(newData?.ex?.availableToLay[0]?.size || 0)}
+              value={formatNumber(
+                newData?.type === "oddEven"
+                  ? newData?.ex?.availableToBack[0]?.price || 0
+                  : newData?.ex?.availableToLay[0]?.price || 0
+              )}
+              value2={formatNumber(
+                newData?.type === "oddEven"
+                  ? newData?.ex?.availableToBack[0]?.size || 0
+                  : newData?.ex?.availableToLay[0]?.size || 0
+              )}
               lock={newData?.GameStatus === "SUSPENDED"}
               color={newData?.type === "oddEven" ? "#B3E0FF" : "#F6D0CB"}
             />
@@ -361,8 +381,16 @@ const SessionMarketBox = ({
 
             <SeparateBox
               session={true}
-              value={formatNumber(newData?.ex?.availableToBack[0]?.price || 0)}
-              value2={formatNumber(newData?.ex?.availableToBack[0]?.size || 0)}
+              value={formatNumber(
+                newData?.type === "oddEven"
+                  ? newData?.ex?.availableToLay[0]?.price || 0
+                  : newData?.ex?.availableToBack[0]?.price || 0
+              )}
+              value2={formatNumber(
+                newData?.type === "oddEven"
+                  ? newData?.ex?.availableToLay[0]?.size || 0
+                  : newData?.ex?.availableToBack[0]?.size || 0
+              )}
               lock={newData?.GameStatus === "SUSPENDED"}
               color="#B3E0FF"
             />
@@ -376,7 +404,7 @@ const SessionMarketBox = ({
           />
         )}
       </Box>
-      <Divider />
+      {/* <Divider /> */}
       {Array.from(
         {
           length:
@@ -429,13 +457,13 @@ const SessionMarketBox = ({
                   margin: "1px",
                   background: "rgba(0,0,0,1)",
                   height: "30px",
-                  right: { lg: "23.7%", xs: "16.8%", md: "14.9%" },
+                  right: { lg: "24.6%", xs: "16.8%", md: "14.9%" },
                   position: "absolute",
-                  width: { lg: "18.6%", xs: "36%" },
+                  width: { lg: "16.9%", xs: "36%" },
                   justifyContent: { xs: "center", lg: "center" },
                   alignItems: "center",
                   display: "flex",
-                  backgroundColor: "#FF4D4D",
+                  backgroundColor: newData?.selfDeclare ? "#46e080" : "#FF4D4D",
                 }}
               >
                 <h6
@@ -450,7 +478,7 @@ const SessionMarketBox = ({
                     overflowWrap: "anywhere",
                   }}
                 >
-                  {newData?.resultStatus}
+                  {item === 1 && newData?.resultStatus}
                 </h6>
               </Box>
             ) : !["ACTIVE", "active", "", undefined, null, 0].includes(
@@ -461,9 +489,9 @@ const SessionMarketBox = ({
                   margin: "1px",
                   background: "rgba(0,0,0,1)",
                   height: "30px",
-                  right: { lg: "23.7%", xs: "16.8%", md: "14.9%" },
+                  right: { lg: "24.6%", xs: "16.8%", md: "14.9%" },
                   position: "absolute",
-                  width: { lg: "18.6%", xs: "36%" },
+                  width: { lg: "16.9%", xs: "36%" },
                   justifyContent: { xs: "center", lg: "center" },
                   alignItems: "center",
                   display: "flex",
@@ -480,7 +508,8 @@ const SessionMarketBox = ({
                     fontWeight: "400",
                   }}
                 >
-                  {newData?.result ? `Declared` : newData?.GameStatus}
+                  {item === 1 &&
+                    (newData?.result ? `Declared` : newData?.GameStatus)}
                 </h6>
               </Box>
             ) : (
@@ -500,10 +529,14 @@ const SessionMarketBox = ({
                   session={true}
                   back={true}
                   value={formatNumber(
-                    newData?.ex?.availableToLay[item]?.price || 0
+                    newData?.type === "oddEven"
+                      ? newData?.ex?.availableToBack[item]?.price || 0
+                      : newData?.ex?.availableToLay[item]?.price || 0
                   )}
                   value2={formatNumber(
-                    newData?.ex?.availableToLay[item]?.size || 0
+                    newData?.type === "oddEven"
+                      ? newData?.ex?.availableToBack[item]?.size || 0
+                      : newData?.ex?.availableToLay[item]?.size || 0
                   )}
                   lock={newData?.GameStatus === "SUSPENDED"}
                   color={newData?.type === "oddEven" ? "#B3E0FF" : "#F6D0CB"}
@@ -516,10 +549,14 @@ const SessionMarketBox = ({
                 <SeparateBox
                   session={true}
                   value={formatNumber(
-                    newData?.ex?.availableToBack[item]?.price || 0
+                    newData?.type === "oddEven"
+                      ? newData?.ex?.availableToLay[item]?.price || 0
+                      : newData?.ex?.availableToBack[item]?.price || 0
                   )}
                   value2={formatNumber(
-                    newData?.ex?.availableToBack[item]?.size || 0
+                    newData?.type === "oddEven"
+                      ? newData?.ex?.availableToLay[item]?.size || 0
+                      : newData?.ex?.availableToBack[item]?.size || 0
                   )}
                   lock={newData?.GameStatus === "SUSPENDED"}
                   color="#B3E0FF"
@@ -534,7 +571,6 @@ const SessionMarketBox = ({
               />
             )}
           </Box>
-          <Divider />
         </>
       ))}
       <ModalMUI

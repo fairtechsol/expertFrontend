@@ -107,8 +107,13 @@ const ManualBoxComponent = ({
               color: "black",
               fontSize: { lg: "8px", xs: "8px" },
               fontWeight: "600",
-              marginLeft: "10px",
+              marginLeft: "5px",
               lineHeight: "0.8",
+              overflowWrap: "anywhere",
+              whiteSpace: "nowrap",
+              overflow: "hidden",
+              textOverflow: matchesMobile ? "ellipsis" : "",
+              width: matchesMobile ? "6ch" : "100ch",
             }}
           >
             {name}
@@ -187,7 +192,7 @@ const ManualBoxComponent = ({
                 textTransform: "uppercase",
                 color: "#FFF",
                 fontWeight: "400",
-                fontSize: matchesMobile ? "12px" : "12px",
+                fontSize: matchesMobile ? "10px" : "9px",
               }}
             >
               {livestatus ? "SUSPENDED" : status}

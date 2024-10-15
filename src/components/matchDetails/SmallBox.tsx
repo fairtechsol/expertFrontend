@@ -23,9 +23,10 @@ const SmallBox = ({
               xs: width ? width.xs : "25%",
             },
             display: "flex",
-            marginRight: "4px",
+            marginRight: "2px",
             justifyContent: "center",
             paddingX: 1,
+            zIndex: 2,
             alignItems: "center",
             height: height ? height : "32px",
             background: color ? color : "#46e080",
@@ -38,8 +39,8 @@ const SmallBox = ({
         <Typography
           sx={{
             fontSize: {
-              lg: textSize ? textSize : "11px",
-              xs: textSize ? textSize : "10px",
+              lg: textSize ? textSize : title === "Go Live" ? "8px" : "8px",
+              xs: textSize ? textSize : title === "Go Live" ? "8px" : "8px",
             },
             fontWeight: "600",
             color: color !== "#FFF" ? "white" : "",

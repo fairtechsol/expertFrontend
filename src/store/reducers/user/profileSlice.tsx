@@ -14,12 +14,12 @@ interface InitialState {
   loggedUserCount: number;
   loading: boolean;
   error: any;
-  getProfile: any;
+  profileDetail: any;
   dateList: any;
 }
 
 const initialState: InitialState = {
-  getProfile: null,
+  profileDetail: null,
   transactionPassword: "",
   loggedUserCount: 0,
   loading: false,
@@ -54,7 +54,8 @@ const profileSlice = createSlice({
       })
       .addCase(getProfile.fulfilled, (state, action) => {
         state.loading = false;
-        state.getProfile = action?.payload;
+        state.profileDetail = action?.payload;
+        sessionStorage.setItem("pId", action?.payload?.id);
       })
       .addCase(getProfile.rejected, (state, action) => {
         state.loading = false;

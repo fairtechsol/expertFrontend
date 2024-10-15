@@ -1,6 +1,6 @@
 import { memo, useState } from "react";
 import { Box, Typography } from "@mui/material";
-import Divider from "../../Common/Divider";
+// import Divider from "../../Common/Divider";
 import { ARROWUP } from "../../../assets";
 import { formatToINR } from "../../helper";
 import CasinoMarketBoxLive from "./CasinoMarketBoxLive";
@@ -76,10 +76,17 @@ const CasinoMarketLive = ({
               fontSize: "10px",
               fontWeight: "bold",
               marginLeft: "7px",
+              lineHeight: 1,
             }}
           >
             {title}
-            {`(MIN: ${formatToINR(currentMatch?.betFairSessionMinBet)})`}
+            <span
+              style={{
+                fontSize: "8px",
+              }}
+            >{`(MIN: ${formatToINR(
+              currentMatch?.betFairSessionMinBet
+            )})`}</span>
           </Typography>
           {!live && (
             <LiveStatusButtonBox
@@ -182,7 +189,7 @@ const CasinoMarketLive = ({
                     }
                     index={index}
                   />
-                  <Divider />
+                  {/* <Divider /> */}
                 </Box>
               );
             })}

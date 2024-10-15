@@ -1,17 +1,19 @@
 import { Box, Typography } from "@mui/material";
 
-const Result = ({ invert, onClick }: any) => {
+const Result = ({ invert, onClick, height }: any) => {
   return (
-    <Box onClick={onClick}>
+    <Box onClick={onClick} sx={{ zIndex: 2 }}>
       <Box
         sx={{
-          width: { lg: "38px", xs: "80%" },
+          // width: { lg: "38px", xs: "25px" },
           display: "flex",
-          marginRight: {lg:"5px", xs: "0"},
+          marginRight: "2px",
+          marginLeft: "2px",
+          // marginRight: { lg: "5px", xs: "0" },
           justifyContent: "center",
-          paddingX: 1,
+          // paddingX: 0.5,
           alignItems: "center",
-          height: "18px",
+          height: height ? height : "18px",
           background: invert ? "white" : "#0B4F26",
           borderRadius: "2px",
           cursor: "pointer",
@@ -19,7 +21,7 @@ const Result = ({ invert, onClick }: any) => {
       >
         <Typography
           sx={{
-            fontSize: { lg: "11px", xs: "10px" },
+            fontSize: { lg: "8px", xs: "6px" },
             fontWeight: "600",
             color: invert ? "0B4F26" : "white",
           }}

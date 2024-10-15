@@ -62,7 +62,7 @@ const SessionBetlistDetail = () => {
   };
   const resultDeclared = (event: any) => {
     try {
-      if (event?.matchId === state?.id) {
+      if (event?.matchId === state?.id && event?.isMatchDeclare) {
         navigate("/expert/match");
       }
     } catch (e) {
@@ -315,10 +315,11 @@ const SessionBetlistDetail = () => {
   return (
     <>
       <Stack
-        spacing={2}
+        spacing={1}
         direction={{ lg: "row", md: "row", xs: "column", sm: "row" }}
+        sx={{ marginTop: { lg: 0, xs: "10px" } }}
       >
-        <Box sx={{ width: { lg: "20%" } }}>
+        <Box sx={{ width: { lg: "25%", md: "25%", sm: "25%" } }}>
           {matchDetail?.updatedSesssionBettings &&
             Object.entries(matchDetail?.updatedSesssionBettings)
               ?.sort(customSortBySessionMarketName)
@@ -355,7 +356,7 @@ const SessionBetlistDetail = () => {
                 );
               })}
         </Box>
-        <Box sx={{ width: { lg: "20%" } }}>
+        <Box sx={{ width: { lg: "25%", md: "25%", sm: "25%" } }}>
           {matchDetail?.updatedSesssionBettings &&
             Object.entries(matchDetail?.updatedSesssionBettings)
               ?.sort(customSortBySessionMarketName)
@@ -422,7 +423,7 @@ const SessionBetlistDetail = () => {
               })}
         </Box>
 
-        <Box sx={{ width: { lg: "56%", md: "56%", xs: "100%", sm: "60%" } }}>
+        <Box sx={{ width: { lg: "50%", md: "50%", xs: "100%", sm: "50%" } }}>
           <BetList
             allBetRates={placedBetsMatch}
             tag={true}

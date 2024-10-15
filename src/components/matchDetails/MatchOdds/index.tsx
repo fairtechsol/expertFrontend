@@ -1,9 +1,9 @@
 import { Box, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { ARROWUP } from "../../../assets";
 import { betLiveStatus } from "../../../store/actions/match/matchAction";
-import { AppDispatch } from "../../../store/store";
+import { AppDispatch, RootState } from "../../../store/store";
 import { profitLossDataForMatchConstants } from "../../../utils/Constants";
 import Divider from "../../Common/Divider";
 import { formatToINR } from "../../helper";
@@ -14,14 +14,19 @@ import Stop from "../SessionMarket/Stop";
 import SmallBox from "../SmallBox";
 import BoxComponent from "./BoxComponent";
 import SmallBox2 from "./SmallBox2";
+import MaxLimitEditButton from "../../Common/MaxLimitEditButton";
+import AddMarketButton from "../../Common/AddMarketButton";
+import { declareMatchStatusReset } from "../../../store/actions/match/matchDeclareActions";
 
-const MatchOdds = ({ currentMatch, matchOddsLive, id }: any) => {
+const MatchOdds = ({ currentMatch, matchOddsLive, id, showResultBox }: any) => {
+  const dispatch: AppDispatch = useDispatch();
   const [visible, setVisible] = useState(false);
   const [visibleImg, setVisibleImg] = useState(true);
   const [live, setLive] = useState(
     matchOddsLive?.activeStatus === "live" ? true : false
   );
   const [open, setOpen] = useState(false);
+  const { success } = useSelector((state: RootState) => state.match);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -30,10 +35,21 @@ const MatchOdds = ({ currentMatch, matchOddsLive, id }: any) => {
   const handleClose = (data: any) => {
     setOpen(data);
   };
-  const dispatch: AppDispatch = useDispatch();
 
-  const valueA = currentMatch?.teamRates?.teamARate;
-  const valueB = currentMatch?.teamRates?.teamBRate;
+  const valueA =
+    +currentMatch?.teamRates?.[
+      profitLossDataForMatchConstants[matchOddsLive?.type]?.A +
+        "_" +
+        currentMatch?.id
+    ] || 0;
+
+  const valueB =
+    +currentMatch?.teamRates?.[
+      profitLossDataForMatchConstants[matchOddsLive?.type]?.B +
+        "_" +
+        currentMatch?.id
+    ] || 0;
+
   const bookRatioB = (() => {
     try {
       if (valueA === 0) {
@@ -69,6 +85,13 @@ const MatchOdds = ({ currentMatch, matchOddsLive, id }: any) => {
     setLive(matchOddsLive?.activeStatus === "live" ? true : false);
   }, [matchOddsLive?.activeStatus]);
 
+  useEffect(() => {
+    if (success) {
+      dispatch(declareMatchStatusReset());
+      setVisible(false);
+    }
+  }, [success]);
+
   return (
     <>
       <Box
@@ -77,11 +100,11 @@ const MatchOdds = ({ currentMatch, matchOddsLive, id }: any) => {
           display: "flex",
           backgroundColor: "white",
           flexDirection: "column",
-          width: "100%",
+          width: { lg: "49%", md: "49%", xs: "100%" },
           marginTop: ".5vh",
           alignSelf: {
             xs: "center",
-            md: "center",
+            md: "flex-start",
             lg: "flex-start",
             boxShadow: "0px 5px 10px #0000001A",
             position: "relative",
@@ -103,21 +126,23 @@ const MatchOdds = ({ currentMatch, matchOddsLive, id }: any) => {
               background: "#f1c550",
               alignItems: "center",
               display: "flex",
-              width: "50%",
+              width: "55%",
               justifyContent: "space-between",
             }}
           >
-            <Typography
-              sx={{
-                fontSize: { lg: "9px", md: "9px", xs: "10px" },
-                fontWeight: "bold",
-                marginLeft: "7px",
-                lineHeight: 1,
-              }}
-            >
-              Match Odds
-            </Typography>
-            {matchOddsLive?.id && (
+            {!matchOddsLive?.id && (
+              <Typography
+                sx={{
+                  fontSize: { lg: "9px", md: "9px", xs: "10px" },
+                  fontWeight: "bold",
+                  marginLeft: "2px",
+                  lineHeight: 1,
+                }}
+              >
+                Match Odds
+              </Typography>
+            )}
+            {matchOddsLive?.id && matchOddsLive?.activeStatus !== "result" && (
               <Stop
                 onClick={() => {
                   dispatch(
@@ -130,6 +155,7 @@ const MatchOdds = ({ currentMatch, matchOddsLive, id }: any) => {
                   setLive(false);
                 }}
                 height="18px"
+                title={"Match Odds"}
               />
             )}
 
@@ -150,16 +176,17 @@ const MatchOdds = ({ currentMatch, matchOddsLive, id }: any) => {
             sx={{
               flex: 1,
               background: "#262626",
-              // '#262626' ,
+              width: "45%",
               display: "flex",
               alignItems: "center",
               justifyContent: "flex-end",
               marginLeft: "0px",
+              // marginRight: "2px",
             }}
           >
-            {matchOddsLive?.id && (
+            {showResultBox && (
               <Result
-                width={"80px"}
+                width={"60px"}
                 onClick={() => {
                   setVisible(true);
                 }}
@@ -167,7 +194,8 @@ const MatchOdds = ({ currentMatch, matchOddsLive, id }: any) => {
               />
             )}
             {matchOddsLive?.id ? (
-              !currentMatch?.stopAt &&
+              (!currentMatch?.stopAt ||
+                matchOddsLive?.activeStatus !== "result") &&
               ((currentMatch?.resultStatus &&
                 !currentMatch?.resultStatus[matchOddsLive?.id]?.status) ||
                 !currentMatch?.resultStatus) && (
@@ -183,7 +211,7 @@ const MatchOdds = ({ currentMatch, matchOddsLive, id }: any) => {
                       );
                       setLive(!live);
                     }}
-                    width={{ lg: "40px", xs: "20%" }}
+                    width={{ lg: "25px", xs: "20px" }}
                     title={live ? "Live" : "Go Live"}
                     color={live ? "#46e080" : "#FF4D4D"}
                     customStyle={{
@@ -192,61 +220,11 @@ const MatchOdds = ({ currentMatch, matchOddsLive, id }: any) => {
                     }}
                     height="18px"
                   />
-                  <div
-                    style={{
-                      width: "40px",
-                      height: "18px",
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      borderRadius: "2px",
-                      backgroundColor: "#46e080",
-                      cursor: "pointer",
-                      // marginRight: "10px",
-                    }}
-                    onClick={handleClickOpen}
-                  >
-                    <span
-                      style={{
-                        fontSize: "12px",
-                        fontWeight: "500",
-                        color: "#fff",
-                        fontFamily: "Poppins, sans-serif",
-                      }}
-                    >
-                      Edit
-                    </span>
-                  </div>
+                  <MaxLimitEditButton handleClickOpen={handleClickOpen} />
                 </>
               )
             ) : (
-              <>
-                <div
-                  style={{
-                    width: "40px",
-                    height: "18px",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    borderRadius: "2px",
-                    backgroundColor: "#46e080",
-                    cursor: "pointer",
-                    // marginRight: "10px",
-                  }}
-                  onClick={handleClickOpen}
-                >
-                  <span
-                    style={{
-                      fontSize: "12px",
-                      fontWeight: "500",
-                      color: "#fff",
-                      fontFamily: "Poppins, sans-serif",
-                    }}
-                  >
-                    Add
-                  </span>
-                </div>
-              </>
+              <AddMarketButton handleClickOpen={handleClickOpen} />
             )}
             <img
               onClick={() => {
@@ -255,40 +233,40 @@ const MatchOdds = ({ currentMatch, matchOddsLive, id }: any) => {
               src={ARROWUP}
               style={{
                 transform: visibleImg ? "rotate(180deg)" : "rotate(0deg)",
-                width: "12px",
-                height: "12px",
-                marginRight: "5px",
-                marginLeft: "5px",
+                width: "10px",
+                height: "10px",
+                marginRight: "1px",
+                marginLeft: "1px",
                 cursor: "pointer",
               }}
             />
           </Box>
         </Box>
 
-        <Box
+        {/* <Box
           sx={{
             position: "absolute",
             zIndex: 999,
             top: "26%",
             right: "1%",
-            width: { lg: "30vh", xs: "30vh" },
+            width: { lg: "20vw", xs: "40vw", md: "20vw" },
           }}
-        >
-          {visible && (
-            <ResultComponent
-              currentMatch={currentMatch}
-              teamA={currentMatch?.teamA}
-              stopAt={currentMatch?.stopAt}
-              teamB={currentMatch?.teamB}
-              tie={currentMatch?.matchType === "cricket" ? "Tie" : ""}
-              draw={currentMatch?.teamC ? currentMatch?.teamC : null}
-              onClick={() => {
-                setVisible(false);
-              }}
-              liveData={matchOddsLive}
-            />
-          )}
-        </Box>
+        > */}
+        {visible && (
+          <ResultComponent
+            currentMatch={currentMatch}
+            teamA={currentMatch?.teamA}
+            stopAt={currentMatch?.stopAt}
+            teamB={currentMatch?.teamB}
+            tie={currentMatch?.matchType === "cricket" ? "Tie" : ""}
+            draw={currentMatch?.teamC ? currentMatch?.teamC : null}
+            onClick={() => {
+              setVisible(false);
+            }}
+            liveData={matchOddsLive}
+          />
+        )}
+        {/* </Box> */}
 
         {/* <Box
           sx={{
@@ -352,19 +330,26 @@ const MatchOdds = ({ currentMatch, matchOddsLive, id }: any) => {
                   display: "flex",
                   background: "'#319E5B'",
                   height: "15px",
-                  width: "50%",
+                  width: { lg: "70%", xs: "50%", md: "60%", sm: "83%" },
                   alignItems: "center",
                 }}
               >
                 <Typography
                   sx={{
                     color: "white",
-                    fontSize: { lg: "10px", xs: "9px" },
+                    fontSize: { lg: "10px", xs: "8px" },
                     marginLeft: "7px",
+                    lineHeight: 1,
                   }}
                 >
-                  MIN: {formatToINR(currentMatch?.matchOdd?.minBet)} MAX:
-                  {formatToINR(currentMatch?.matchOdd?.maxBet)}
+                  MIN:{" "}
+                  {formatToINR(
+                    matchOddsLive?.id
+                      ? matchOddsLive?.minBet
+                      : currentMatch?.betFairSessionMinBet
+                  )}{" "}
+                  MAX:
+                  {formatToINR(matchOddsLive?.maxBet)}
                 </Typography>
               </Box>
               <Box
@@ -372,14 +357,14 @@ const MatchOdds = ({ currentMatch, matchOddsLive, id }: any) => {
                   display: "flex",
                   background: "#319E5B",
                   height: "15px",
-                  width: { lg: "65%", xs: "50%" },
+                  width: { lg: "30%", xs: "50%", md: "40%", sm: "43%" },
                   justifyContent: { lg: "flex-end", xs: "flex-end" },
                 }}
               >
                 <Box
                   sx={{
                     background: "#00C0F9",
-                    width: { lg: "19%", xs: "34.6%" },
+                    width: { lg: "36%", xs: "34.6%", md: "43%", sm: "100%" },
                     height: "100%",
                     display: "flex",
                     justifyContent: "center",
@@ -397,7 +382,7 @@ const MatchOdds = ({ currentMatch, matchOddsLive, id }: any) => {
                 <Box
                   sx={{
                     background: "#FF9292",
-                    width: { lg: "19%", xs: "34.6%" },
+                    width: { lg: "36%", xs: "34.6%", md: "43%", sm: "100%" },
                     height: "100%",
                     display: "flex",
                     justifyContent: "center",
@@ -533,7 +518,9 @@ const MatchOdds = ({ currentMatch, matchOddsLive, id }: any) => {
                   }}
                 ></Box>
               )}
-              {currentMatch?.matchType === "cricket"
+              {typeof currentMatch?.resultStatus === "string" &&
+              matchOddsLive?.id &&
+              showResultBox
                 ? currentMatch?.resultStatus && (
                     <Box
                       sx={{

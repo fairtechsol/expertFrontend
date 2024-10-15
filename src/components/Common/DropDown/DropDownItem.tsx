@@ -17,6 +17,7 @@ const DropDownItem = (props: any) => {
     setSelected,
     name,
     gameType,
+    onOpen,
   } = props;
 
   const dispatch: AppDispatch = useDispatch();
@@ -58,6 +59,8 @@ const DropDownItem = (props: any) => {
                   f: eventDetail?.f,
                   tv: eventDetail?.tv,
                   m1: eventDetail?.m1,
+                  competitionId: eventDetail?.competitionId,
+                  competitionName: eventDetail?.competitionName,
                 };
               });
             }
@@ -79,6 +82,7 @@ const DropDownItem = (props: any) => {
             });
           }
           setOpen(false);
+          onOpen(null);
         }
       }}
       sx={[

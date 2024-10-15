@@ -56,6 +56,20 @@ body {
   align-self: "center";
   border-left: 20px solid #f1c550;
   border-bottom: 20px solid #262626;
+  z-index: 1;
+  /* page background color */
+}
+.slanted-b {
+  background: "#f1c550";
+  position: relative;
+}
+
+.slanted-b:after {
+  content: "";
+  position: absolute;
+  align-self: "center";
+  border-left: 35px solid #f1c550;
+  border-bottom: 35px solid #262626;
   /* page background color */
 }
 

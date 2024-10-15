@@ -74,46 +74,12 @@ const CasinoMarket = ({
               fontSize: "9px",
               fontWeight: "bold",
               marginLeft: "7px",
+              lineHeight: 1,
             }}
           >
-            {title}{" "}
-            {/* {`(MIN: ${formatToINR(currentMatch?.betFairSessionMinBet)})`} */}
+            {title}
           </Typography>
-          <Box>
-            {/* {sessionData?.activeStatus !== "live" && (
-              <LiveStatusButtonBox
-                hide={true}
-                onClick={(e: any) => {
-                  e.preventDefault();
-                  dispatch(
-                    sessionBetLiveStatus({
-                      status: "live",
-                      betId: sessionData?.id,
-                    })
-                  );
-                }}
-                textSize="8px"
-                width="28px"
-                color="#FF4D4D"
-              />
-            )} */}
-            {/* {sessionData?.activeStatus === "live" && (
-              <LiveStatusButtonBox
-                hide={true}
-                onClick={(e: any) => {
-                  e.preventDefault();
-                  dispatch(
-                    sessionBetLiveStatus({
-                      status: "save",
-                      betId: sessionData?.id,
-                    })
-                  );
-                }}
-                textSize="8px"
-                width="33px"
-              />
-            )} */}
-          </Box>
+          <Box></Box>
         </Box>
         <Box
           sx={{
@@ -135,109 +101,6 @@ const CasinoMarket = ({
             justifyContent: "flex-end",
           }}
         >
-          {/* <Result
-            width={7}
-            onClick={() => {
-              setShowResultModal(true);
-            }}
-          /> */}
-          {/* {showResultModal && (
-            <Box
-              sx={{
-                position: "absolute",
-                zIndex: 105,
-                top: 0,
-                right: 0,
-                width: "100%",
-                display: "flex",
-                justifyContent: "end",
-              }}
-              className="example-2"
-            >
-              <CustomCasinoMarketResult
-                newData={sessionData}
-                onClick={() => {
-                  setShowResultModal(false);
-                }}
-              />
-            </Box>
-          )} */}
-
-          {
-            // <PlaceBetComponent
-            //   width={7}
-            //   profitLossData={
-            //     profitLossData &&
-            //     profitLossData[
-            //       matchDetail?.updatedSesssionBettings?.cricketCasino
-            //         ?.section?.[0]?.id
-            //     ]
-            //   }
-            //   newData={
-            //     matchDetail?.updatedSesssionBettings?.cricketCasino
-            //       ?.section?.[0]?.id
-            //   }
-            // />
-            // <PlaceBetComponent
-            //   width={7}
-            //   profitLossData={
-            //     matchDetail?.sessionProfitLoss &&
-            //     matchDetail?.sessionProfitLoss[
-            //       matchDetail?.updatedSesssionBettings?.cricketCasino
-            //         ?.section?.[0]?.id
-            //     ]
-            //   }
-            //   newData={matchDetail}
-            // />
-            // <Box
-            //   sx={{
-            //     background: "#FDF21A",
-            //     borderRadius: "3px",
-            //     width: "35%",
-            //     height: "85%",
-            //     alignItems: "center",
-            //     justifyContent: "center",
-            //     display: "flex",
-            //     flexDirection: "column",
-            //     marginLeft: "2px",
-            //   }}
-            // >
-            //   <Typography
-            //     sx={{
-            //       fontSize: { lg: "7px", xs: "6px", md: "9px" },
-            //       fontWeight: "bold",
-            //       textAlign: "center",
-            //       color: "#FF4D4D",
-            //       lineHeight: "1",
-            //     }}
-            //   >
-            //     Total Bet
-            //   </Typography>
-            //   {matchDetail?.updatedSesssionBettings?.cricketCasino?.section?.map(
-            //     (sectionItem: any, index: number) => {
-            //       totalBet =
-            //         sectionItem?.RunnerName == title
-            //           ? matchDetail?.sessionProfitLoss?.[sectionItem?.id]
-            //               ?.totalBet || 0
-            //           : "";
-            //       return (
-            //         <Typography
-            //           key={index}
-            //           sx={{
-            //             fontSize: { lg: ".6vw", xs: "1.5vw", md: "1.5vw" },
-            //             fontWeight: "bold",
-            //             color: "#0B4F26",
-            //             lineHeight: 1,
-            //           }}
-            //         >
-            //           {`${totalBet}`}
-            //         </Typography>
-            //       );
-            //     }
-            //   )}
-            // </Box>
-          }
-
           <img
             onClick={() => {
               setVisible(!visible);
@@ -322,7 +185,7 @@ const CasinoMarket = ({
                 flexDirection: "column",
                 width: "100%",
                 position: "relative",
-                maxHeight: { lg: "85vh", xs: "40vh" },
+                // maxHeight: { lg: "85vh", xs: "40vh" },
                 overflowY: "auto",
                 "::-webkit-scrollbar": {
                   display: "none",

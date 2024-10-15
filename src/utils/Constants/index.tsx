@@ -21,6 +21,8 @@ export const ApiConstants = {
     RACE_DECLARE: "bet/declare/result/race/match",
     OTHER_MARKET_DECLARE: "bet/declare/result/other/market",
     OTHER_MARKET_UNDECLARE: "bet/unDeclare/result/other/market",
+    TOURNAMENT_MARKET_DECLARE: "bet/declare/result/tournament/match",
+    TOURNAMENT_MARKET_UNDECLARE: "bet/unDeclare/result/tournament/match",
     UNDECLARE: "bet/unDeclare/result/match",
     OTHER_UNDECLARE: "bet/unDeclare/result/other/match",
     RACE_UNDECLARE: "bet/unDeclare/result/race/match",
@@ -39,6 +41,7 @@ export const ApiConstants = {
   SESSION: {
     ADD: "session/add",
     UPDATE: "session/update",
+    UPDATE_MULTI_MARKET_AMOUNT: "session/multi/maxBet/update",
     GET: "session",
     BETTING_STATUS: "/session/status",
     RESULTDECLARE: "/bet/declare/result/session",
@@ -51,6 +54,11 @@ export const ApiConstants = {
     GET: "matchBeting",
     BETTINGSTATUS: "/matchBeting/status/change",
     RACESTATUS: "/matchBeting/race/status/change",
+  },
+  BLINK: {
+    GET_TAB: "blinkingTabs",
+    ADD: "blinkingTabs/add",
+    DELETE: "/blinkingTabs/",
   },
 };
 
@@ -77,6 +85,7 @@ export const Constants = {
   MainPaths: {
     root: "/expert",
     match: "match",
+    tab: "tab",
     race: "race/:raceType",
     addMatch: "add_match",
     addRace: "add_race",
@@ -386,27 +395,50 @@ export const gameTypeMatchBetting = {
 
 export const betListColorConstants: any = {
   session: { background: "#319E5B", textColor: "#fff" },
-  matchOdd: { background: "#F6C550", textColor: "#000" },
-  bookmaker: { background: "#F4C550", textColor: "#fff" },
-  quickbookmaker1: { background: "#F1C550", textColor: "#000" },
-  quickbookmaker2: { background: "#F2C550", textColor: "#000" },
-  quickbookmaker3: { background: "#F3C550", textColor: "#000" },
+  matchOdd: { background: "#fff", textColor: "#000" },
+  bookmaker: { background: "#F6C550", textColor: "#000" },
+  quickbookmaker1: { background: "#5c1d04", textColor: "#fff" },
+  quickbookmaker2: { background: "#0549f5", textColor: "#fff" },
+  quickbookmaker3: { background: "#3f345c", textColor: "#fff" },
   completeMatch: { background: "#faf11b", textColor: "#000" },
   completeManual: { background: "#fbf11b", textColor: "#000" },
   tiedMatch1: { background: "#fcf11b", textColor: "#000" },
   tiedMatch2: { background: "#EE82EE", textColor: "#000" },
-  tiedMatch3: { background: "#EE82EE", textColor: "#000" },
+  tiedMatch3: { background: "#452245", textColor: "#fff" },
   cricketCasino: { background: "#FF1111", textColor: "#fff" },
   oddEven: { background: "#7c46e6", textColor: "#fff" },
-  fancy1: { background: "#808080", textColor: "#fff" },
+  fancy1: { background: "#FF8633", textColor: "#fff" },
   overByOver: { background: "#FFA07A", textColor: "#fff" },
-  ballByBall: { background: "#FFA500", textColor: "#fff" },
+  ballByBall: { background: "#33FF33", textColor: "#fff" },
 };
+
+export const marketArray = [
+  "matchOdd",
+  "bookmaker",
+  "marketBookmaker2",
+  "quickBookmaker",
+  "apiTideMatch",
+  "apiTiedMatch2",
+  "tiedMatch1",
+  "tiedMatch2",
+  "tiedMatch3",
+  "manualTiedMatch",
+  "marketCompleteMatch",
+  "marketCompleteMatch1",
+  "manualCompleteMatch",
+];
+
+export const gameType = ["cricket", "football", "tennis"];
 
 export const addMatchThirdParty =
   process.env.NODE_ENV === Constants.PRODUCTION
     ? Constants.thirdParty
     : Constants.localPathThird;
+
+export const serviceUrl =
+  process.env.NODE_ENV === Constants.PRODUCTION
+    ? Constants.expertSocketBasePath
+    : Constants.localPathExpert;
 
 export const baseUrls = {
   socket:
@@ -427,6 +459,11 @@ export const baseUrls = {
 //   process.env.NODE_ENV === Constants.PRODUCTION
 //     ? Constants.thirdPartyLive
 //     : Constants.localPathThird;
+
+// export const serviceUrl =
+//   process.env.NODE_ENV === Constants.PRODUCTION
+//     ? Constants.expertSocketBasePathLive
+//     : Constants.localPathExpert;
 
 // export const baseUrls = {
 //   socket:

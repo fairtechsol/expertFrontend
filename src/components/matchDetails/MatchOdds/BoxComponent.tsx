@@ -47,27 +47,18 @@ const BoxComponent = ({
             alignItems: "center",
           }}
         >
-          {/* {teamImage !== null && (
-            <>
-              <img
-                src={`wallet/${teamImage}`}
-                style={{
-                  width: "22px",
-                  height: "25px",
-                  marginLeft: "10px",
-                  backgroundSize: "contains",
-                }}
-                alt={name}
-              />
-            </>
-          )} */}
           <Typography
             sx={{
               color: "black",
               fontSize: { lg: "8px", xs: "8px" },
               fontWeight: "600",
-              marginLeft: "10px",
+              marginLeft: "5px",
               lineHeight: "1.2",
+              overflowWrap: "anywhere",
+              whiteSpace: "nowrap",
+              overflow: "hidden",
+              textOverflow:matchesMobile ?  "ellipsis": "",
+              width: matchesMobile ? "6ch" : "100ch",
             }}
           >
             {name}
@@ -76,7 +67,8 @@ const BoxComponent = ({
         {name != "DRAW" && <MoneyBox value={teamRates} />}
       </Box>
 
-      {!["ACTIVE", "", undefined, null].includes(status) || livestatus ? (
+      {!["ACTIVE", "", undefined, null, "OPEN"].includes(status) ||
+      livestatus ? (
         <Box
           sx={{
             display: "flex",
@@ -102,7 +94,7 @@ const BoxComponent = ({
                 textTransform: "uppercase",
                 color: "#FFF",
                 fontWeight: "400",
-                fontSize: matchesMobile ? "12px" : "12px",
+                fontSize: matchesMobile ? "10px" : "9px",
               }}
             >
               {livestatus ? "SUSPENDED" : status}
@@ -116,12 +108,22 @@ const BoxComponent = ({
               display: "flex",
               background: "white",
               height: "30px",
-              width: { lg: "23.7%", xs: "38%" },
+              width: { lg: "65%", xs: "78%" },
               justifyContent: { xs: "flex-end", lg: "flex-end" },
               alignItems: "center",
             }}
           >
-            {/* {!matchesMobile &&
+            <Box
+              sx={{
+                display: "flex",
+                background: "white",
+                height: "30px",
+                width: { lg: "36.5%", xs: "55%" },
+                justifyContent: { xs: "flex-end", lg: "flex-end" },
+                alignItems: "center",
+              }}
+            >
+              {/* {!matchesMobile &&
               (liveData?.type != "bookmaker2" ||
               liveData?.type != "tiedMatch3" ? (
                 <SeparateBox
@@ -175,49 +177,51 @@ const BoxComponent = ({
             <Box
               sx={{ width: ".45%", display: "flex", background: "pink" }}
             ></Box> */}
-            <SeparateBox
-              currentMatch={currentMatch}
-              align={align}
-              value={
-                ex?.availableToBack?.length > 0
-                  ? ex?.availableToBack[ex?.availableToBack?.length > 1 ? 2 : 0]
-                      ?.price ?? 0
-                  : 0
-              }
-              lock={lock}
-              value2={formatNumber(
-                ex?.availableToBack?.length > 0
-                  ? ex?.availableToBack[ex?.availableToBack?.length > 1 ? 2 : 0]
-                      ?.size ?? 0
-                  : 0
-              )}
-              color={"#A7DCFF"}
-            />
-            <Box
-              sx={{ width: ".45%", display: "flex", background: "pink" }}
-            ></Box>
-            <SeparateBox
-              currentMatch={currentMatch}
-              align={align}
-              value={
-                ex?.availableToLay?.length > 0
-                  ? ex?.availableToLay[0]?.price ?? 0
-                  : 0
-              }
-              lock={lock}
-              value2={formatNumber(
-                ex?.availableToLay?.length > 0
-                  ? ex?.availableToLay[0]?.size ?? 0
-                  : 0
-              )}
-              color={"#FFB5B5"}
-            />
-            {/* {!matchesMobile && (
+              <SeparateBox
+                currentMatch={currentMatch}
+                align={align}
+                value={
+                  ex?.availableToBack?.length > 0
+                    ? ex?.availableToBack[
+                        ex?.availableToBack?.length > 1 ? 2 : 0
+                      ]?.price ?? 0
+                    : 0
+                }
+                lock={lock}
+                value2={formatNumber(
+                  ex?.availableToBack?.length > 0
+                    ? ex?.availableToBack[
+                        ex?.availableToBack?.length > 1 ? 2 : 0
+                      ]?.size ?? 0
+                    : 0
+                )}
+                color={"#A7DCFF"}
+              />
+              <Box
+                sx={{ width: ".45%", display: "flex", background: "pink" }}
+              ></Box>
+              <SeparateBox
+                currentMatch={currentMatch}
+                align={align}
+                value={
+                  ex?.availableToLay?.length > 0
+                    ? ex?.availableToLay[0]?.price ?? 0
+                    : 0
+                }
+                lock={lock}
+                value2={formatNumber(
+                  ex?.availableToLay?.length > 0
+                    ? ex?.availableToLay[0]?.size ?? 0
+                    : 0
+                )}
+                color={"#FFB5B5"}
+              />
+              {/* {!matchesMobile && (
               <Box
                 sx={{ width: ".45%", display: "flex", background: "pink" }}
               ></Box>
             )} */}
-            {/* {!matchesMobile &&
+              {/* {!matchesMobile &&
               (liveData?.type != "bookmaker2" ||
               liveData?.type != "tiedMatch3" ? (
                 <SeparateBox
@@ -267,6 +271,7 @@ const BoxComponent = ({
               ) : (
                 <Whitebox />
               ))} */}
+            </Box>
           </Box>
         </>
       )}

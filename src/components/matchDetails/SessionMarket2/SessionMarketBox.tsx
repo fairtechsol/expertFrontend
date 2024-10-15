@@ -2,37 +2,12 @@ import { Box, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../store/store";
-import Divider from "../../Common/Divider";
 import { formatNumber } from "../../helper";
-// import Result from "../Result";
 import SeparateBox from "../SeparateBox";
-// import SmallBox from "../SmallBox";
-// import PlaceBetComponent from "./PlaceBetComponent";
-// import SessionLimitEdit from "./SessionLimitEdit";
-// import ModalMUI from "@mui/material/Modal";
 
-const SessionMarketBox = ({
-  newData,
-  // hideResult,
-  // hideTotalBet,
-  // profitLossData,
-  index,
-}: // hideEditMaxButton,
-any) => {
-  // const dispatch: AppDispatch = useDispatch();
+const SessionMarketBox = ({ newData, index }: any) => {
   const { success } = useSelector((state: RootState) => state.matchList);
-  // const [loading, setLoading] = useState(false);
   const [visible, setVisible] = useState(false);
-  // const [maxLimitModal, setShowMaxLimitModal] = useState(false);
-
-  // useEffect(() => {
-  //   if (statusBetLive) {
-  //     setLoading(false);
-  //   }
-  //   if (error) {
-  //     setLoading(false);
-  //   }
-  // }, [statusBetLive, error]);
 
   useEffect(() => {
     if (success) {
@@ -62,14 +37,12 @@ any) => {
             ? "#FFAF45"
             : index % 2 === 0
             ? "#FFE094"
-            : "#ECECEC", // Change color based on selected state and index
-
+            : "#ECECEC",
           height: "30px",
           width: "100%",
           boxShadow: visible ? 3 : 0,
           justifyContent: "space-between",
         }}
-        // className="example-2"
       >
         <Box
           sx={{
@@ -78,16 +51,12 @@ any) => {
               ? "#FFAF45"
               : index % 2 === 0
               ? "#FFE094"
-              : "#ECECEC", // Change color based on selected state and index
-
+              : "#ECECEC",
             height: "30px",
-            // width: "40%",
             width: "50%",
             alignItems: "center",
             boxShadow: visible ? 3 : 0,
-            // backgroundColor:'red'
           }}
-          // className="example-2"
         >
           <Box sx={{ paddingTop: "3px", width: { lg: "100%", xs: "100%" } }}>
             <Typography
@@ -99,8 +68,6 @@ any) => {
                 fontWeight: "600",
                 lineHeight: "11px",
                 overflow: "hidden",
-                // textOverflow: "ellipsis",
-                // whiteSpace: "nowrap",
                 display: "-webkit-box",
                 WebkitLineClamp: "2",
                 WebkitBoxOrient: "vertical",
@@ -108,94 +75,14 @@ any) => {
             >
               {newData?.RunnerName ?? newData?.name}
             </Typography>
-            {/* <Box sx={{ display: "flex", flexDirection: "row" }}>
-              <Typography
-                sx={{
-                  color: "black",
-                  fontSize: { lg: "9px", md: "9px", xs: "7px" },
-                  marginLeft: "7px",
-                  fontWeight: "500",
-                }}
-              >
-                max : {formatToINR(newData?.maxBet)}
-              </Typography>
-              {!hideEditMaxButton && (
-                <Box
-                  sx={{
-                    width: "30px",
-                    height: "18px",
-                    background: "transparent",
-                    marginLeft: "5px",
-                    zIndex: "999",
-                    // borderRadius: "3px",
-                    // display: "flex",
-                    // justifyContent: "center",
-                    // alignItems: "center",
-                    // paddingY: "2px",
-                  }}
-                  onClick={() => setShowMaxLimitModal(true)}
-                >
-                  <img src={edit} style={{ width: "18px", height: "12px" }} />
-                </Box>
-              )}
-            </Box> */}
           </Box>
         </Box>
-
-        {/* <Box
-          sx={{
-            position: "absolute",
-            top: "4px",
-            minWidth: { lg: "36%", xs: "45%", md: "25%" },
-            justifyContent: "flex-end",
-            left: { lg: "7vw", md: "29vw", xs: "10vw" },
-            display: "flex",
-            zIndex: 100,
-            gap: 0,
-          }}
-        >
-          {newData?.activeStatus === "live" && !newData?.result && (
-            <SmallBox
-              loading={loading}
-              hide={true}
-              onClick={(e: any) => {
-                if (loading) {
-                  return;
-                }
-                e.preventDefault();
-                setLoading(true);
-                // setLive(false);
-                dispatch(
-                  sessionBetLiveStatus({
-                    status: "save",
-                    betId: newData?.id,
-                  })
-                );
-              }}
-              textSize={"8px"}
-              width={{ lg: "33px", xs: "30px", md: "25px" }}
-              color={newData?.activeStatus === "live" ? "#46e080" : "#FF4D4D"}
-            />
-          )}
-          {newData?.result && (
-            <SmallBox
-              loading={false}
-              hide={false}
-              textSize={newData?.result === "No Result" ? "0.55em" : "10px"}
-              width={{ lg: "60px", xs: "70px" }}
-              title={`${newData?.result || 0}`}
-              color="#FFF"
-            />
-          )}
-        </Box> */}
-
         {newData?.resultStatus ? (
           <Box
             sx={{
               margin: "1px",
               background: "rgba(0,0,0,1)",
               height: "30px",
-              // right: { lg: "25%", xs: "25%", md: "23%" },
               position: "relative",
               width: { lg: "25%", md: "34%", sm: "35%", xs: "34%" },
               justifyContent: { xs: "center", lg: "center" },
@@ -207,16 +94,18 @@ any) => {
             <h6
               style={{
                 textTransform: "uppercase",
-                fontSize: "9px",
+                fontSize: "8px",
                 textAlign: "center",
                 lineHeight: "11px",
                 color: "#FFF",
-                // color={newData?.resultStatus === "PENDING" ? "red" : "#FFF"}
                 fontWeight: "400",
                 overflowWrap: "anywhere",
               }}
             >
-              {newData?.resultStatus}
+              {Math.max(
+                newData?.ex?.availableToLay?.length ?? 0,
+                newData?.ex?.availableToBack?.length ?? 0
+              ) <= 1 && newData?.resultStatus}
             </h6>
           </Box>
         ) : !["ACTIVE", "active", "", undefined, null, 0].includes(
@@ -227,26 +116,27 @@ any) => {
               margin: "1px",
               background: "rgba(0,0,0,1)",
               height: "30px",
-              // right: { lg: "25%", xs: "25%", md: "23%" },
               position: "relative",
-              width: { lg: "23%", md: "19%", sm: "19%", xs: "19%" },
+              width: { lg: "25%", md: "34%", sm: "35%", xs: "34%" },
               justifyContent: { xs: "center", lg: "center" },
               alignItems: "center",
               display: "flex",
             }}
           >
-            {/* <img src={BallStart} style={{ width: '113px', height: "32px" }} /> */}
             <h6
               style={{
                 textTransform: "uppercase",
-                fontSize: "10px",
+                fontSize: "8px",
                 textAlign: "center",
                 lineHeight: "11px",
                 color: "#FFF",
                 fontWeight: "400",
               }}
             >
-              {newData?.result ? `Declared` : newData?.GameStatus}
+              {Math.max(
+                newData?.ex?.availableToLay?.length ?? 0,
+                newData?.ex?.availableToBack?.length ?? 0
+              ) <= 1 && (newData?.result ? `Declared` : newData?.GameStatus)}
             </h6>
           </Box>
         ) : (
@@ -254,8 +144,6 @@ any) => {
             sx={{
               display: "flex",
               position: "relative",
-              // right: { lg: "-17.5%", xs: "-5%", md: "-7%" },
-              // background: "white",
               height: "30px",
               width: { lg: "25%", md: "38%", sm: "39%", xs: "38%" },
               justifyContent: "flex-end",
@@ -265,10 +153,19 @@ any) => {
             <SeparateBox
               session={true}
               back={true}
-              value={formatNumber(newData?.ex?.availableToLay[0]?.price || 0)}
-              value2={formatNumber(newData?.ex?.availableToLay[0]?.size || 0)}
+              value={formatNumber(
+                newData?.type === "oddEven"
+                  ? newData?.ex?.availableToBack[0]?.price || 0
+                  : newData?.ex?.availableToLay[0]?.price || 0
+              )}
+              value2={formatNumber(
+                newData?.type === "oddEven"
+                  ? newData?.ex?.availableToBack[0]?.size || 0
+                  : newData?.ex?.availableToLay[0]?.size || 0
+              )}
               lock={newData?.GameStatus === "SUSPENDED"}
               color={newData?.type === "oddEven" ? "#B3E0FF" : "#F6D0CB"}
+              width="50%"
             />
 
             <Box
@@ -277,22 +174,23 @@ any) => {
 
             <SeparateBox
               session={true}
-              value={formatNumber(newData?.ex?.availableToBack[0]?.price || 0)}
-              value2={formatNumber(newData?.ex?.availableToBack[0]?.size || 0)}
+              value={formatNumber(
+                newData?.type === "oddEven"
+                  ? newData?.ex?.availableToLay[0]?.price || 0
+                  : newData?.ex?.availableToBack[0]?.price || 0
+              )}
+              value2={formatNumber(
+                newData?.type === "oddEven"
+                  ? newData?.ex?.availableToLay[0]?.size || 0
+                  : newData?.ex?.availableToBack[0]?.size || 0
+              )}
               lock={newData?.GameStatus === "SUSPENDED"}
               color="#B3E0FF"
+              width="50%"
             />
           </Box>
         )}
-        {/* {!hideTotalBet && (
-          <PlaceBetComponent
-            width={7}
-            profitLossData={profitLossData && profitLossData[newData?.id]}
-            newData={newData}
-          />
-        )} */}
       </Box>
-      <Divider />
       {Array.from(
         {
           length:
@@ -311,14 +209,12 @@ any) => {
                 ? "#FFAF45"
                 : index % 2 === 0
                 ? "#FFE094"
-                : "#ECECEC", // Change color based on selected state and index
-
+                : "#ECECEC",
               height: "30px",
               width: "100%",
               boxShadow: visible ? 3 : 0,
               justifyContent: "space-between",
             }}
-            // className="example-2"
           >
             <Box
               sx={{
@@ -327,27 +223,25 @@ any) => {
                   ? "#FFAF45"
                   : index % 2 === 0
                   ? "#FFE094"
-                  : "#ECECEC", // Change color based on selected state and index
-
+                  : "#ECECEC",
                 height: "30px",
-                // width: "40%",
                 width: "50%",
                 alignItems: "center",
                 boxShadow: visible ? 3 : 0,
-                // backgroundColor:'red'
               }}
-              // className="example-2"
-            ></Box>
-
+            >
+              <Box
+                sx={{ paddingTop: "3px", width: { lg: "100%", xs: "100%" } }}
+              ></Box>
+            </Box>
             {newData?.resultStatus ? (
               <Box
                 sx={{
                   margin: "1px",
                   background: "rgba(0,0,0,1)",
                   height: "30px",
-                  right: { lg: "25%", xs: "25%", md: "23%" },
-                  position: "absolute",
-                  width: { lg: "16%", xs: "20%" },
+                  position: "relative",
+                  width: { lg: "25%", md: "34%", sm: "35%", xs: "34%" },
                   justifyContent: { xs: "center", lg: "center" },
                   alignItems: "center",
                   display: "flex",
@@ -357,16 +251,15 @@ any) => {
                 <h6
                   style={{
                     textTransform: "uppercase",
-                    fontSize: "9px",
+                    fontSize: "8px",
                     textAlign: "center",
                     lineHeight: "11px",
                     color: "#FFF",
-                    // color={newData?.resultStatus === "PENDING" ? "red" : "#FFF"}
                     fontWeight: "400",
                     overflowWrap: "anywhere",
                   }}
                 >
-                  {newData?.resultStatus}
+                  {item === 1 && newData?.resultStatus}
                 </h6>
               </Box>
             ) : !["ACTIVE", "active", "", undefined, null, 0].includes(
@@ -377,26 +270,25 @@ any) => {
                   margin: "1px",
                   background: "rgba(0,0,0,1)",
                   height: "30px",
-                  // right: { lg: "25%", xs: "25%", md: "23%" },
                   position: "relative",
-                  width: { lg: "23%", md: "19%", sm: "19%", xs: "19%" },
+                  width: { lg: "25%", md: "34%", sm: "35%", xs: "34%" },
                   justifyContent: { xs: "center", lg: "center" },
                   alignItems: "center",
                   display: "flex",
                 }}
               >
-                {/* <img src={BallStart} style={{ width: '113px', height: "32px" }} /> */}
                 <h6
                   style={{
                     textTransform: "uppercase",
-                    fontSize: "10px",
+                    fontSize: "8px",
                     textAlign: "center",
                     lineHeight: "11px",
                     color: "#FFF",
                     fontWeight: "400",
                   }}
                 >
-                  {newData?.result ? `Declared` : newData?.GameStatus}
+                  {item === 1 &&
+                    (newData?.result ? `Declared` : newData?.GameStatus)}
                 </h6>
               </Box>
             ) : (
@@ -404,8 +296,6 @@ any) => {
                 sx={{
                   display: "flex",
                   position: "relative",
-                  // right: { lg: "-17.5%", xs: "-5%", md: "-7%" },
-                  // background: "white",
                   height: "30px",
                   width: { lg: "25%", md: "38%", sm: "39%", xs: "38%" },
                   justifyContent: "flex-end",
@@ -416,13 +306,18 @@ any) => {
                   session={true}
                   back={true}
                   value={formatNumber(
-                    newData?.ex?.availableToLay[item]?.price || 0
+                    newData?.type === "oddEven"
+                      ? newData?.ex?.availableToBack[item]?.price || 0
+                      : newData?.ex?.availableToLay[item]?.price || 0
                   )}
                   value2={formatNumber(
-                    newData?.ex?.availableToLay[item]?.size || 0
+                    newData?.type === "oddEven"
+                      ? newData?.ex?.availableToBack[item]?.size || 0
+                      : newData?.ex?.availableToLay[item]?.size || 0
                   )}
                   lock={newData?.GameStatus === "SUSPENDED"}
                   color={newData?.type === "oddEven" ? "#B3E0FF" : "#F6D0CB"}
+                  width="50%"
                 />
 
                 <Box
@@ -432,18 +327,22 @@ any) => {
                 <SeparateBox
                   session={true}
                   value={formatNumber(
-                    newData?.ex?.availableToBack[item]?.price || 0
+                    newData?.type === "oddEven"
+                      ? newData?.ex?.availableToLay[item]?.price || 0
+                      : newData?.ex?.availableToBack[item]?.price || 0
                   )}
                   value2={formatNumber(
-                    newData?.ex?.availableToBack[item]?.size || 0
+                    newData?.type === "oddEven"
+                      ? newData?.ex?.availableToLay[item]?.size || 0
+                      : newData?.ex?.availableToBack[item]?.size || 0
                   )}
                   lock={newData?.GameStatus === "SUSPENDED"}
                   color="#B3E0FF"
+                  width="50%"
                 />
               </Box>
             )}
           </Box>
-          <Divider />
         </>
       ))}
     </div>

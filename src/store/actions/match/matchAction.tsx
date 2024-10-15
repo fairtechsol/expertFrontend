@@ -17,6 +17,32 @@ export const getMatchList = createAsyncThunk<any, any>(
           requestData.keyword ? requestData.keyword : ""
         }&page=${
           requestData?.currentPage ? requestData?.currentPage : 1
+        }&limit=${Constants.pageLimit}&sort=match.createdAt:DESC${
+          requestData?.stopAt ? "&stopAt=isNull" : ""
+        }${
+          requestData?.matchType
+            ? `&match.matchType=${requestData?.matchType}`
+            : ""
+        }`
+      );
+      if (response) {
+        return response?.data;
+      }
+    } catch (error) {
+      const err = error as AxiosError;
+      return thunkApi.rejectWithValue(err.response?.status);
+    }
+  }
+);
+export const getTabList = createAsyncThunk<any, any>(
+  "/tab/list",
+  async (requestData, thunkApi) => {
+    try {
+      const response = await service.get(
+        `${ApiConstants.BLINK.GET_TAB}?searchBy=title&keyword=${
+          requestData.keyword ? requestData.keyword : ""
+        }&page=${
+          requestData?.currentPage ? requestData?.currentPage : 1
         }&limit=${Constants.pageLimit}&sort=match.createdAt:DESC`
       );
       if (response) {
@@ -359,6 +385,39 @@ export const raceLiveStatus = createAsyncThunk<any, any>(
     }
   }
 );
+export const addBlinking = createAsyncThunk<any, any>(
+  "/add/blinking",
+  async (requestData, thunkApi) => {
+    try {
+      const response = await service.post(
+        `${ApiConstants.BLINK.ADD}`,
+        requestData
+      );
+      if (response?.status === 200) {
+        return response?.data;
+      }
+    } catch (error) {
+      const err = error as AxiosError;
+      return thunkApi.rejectWithValue(err.response?.status);
+    }
+  }
+);
+export const deleteBlinking = createAsyncThunk<any, any>(
+  "/delete/blinking",
+  async (requestData, thunkApi) => {
+    try {
+      const response = await service.delete(
+        `${ApiConstants.BLINK.DELETE}${requestData?.id}`
+      );
+      if (response?.status === 200) {
+        return response?.data;
+      }
+    } catch (error) {
+      const err = error as AxiosError;
+      return thunkApi.rejectWithValue(err.response?.status);
+    }
+  }
+);
 export const updateTeamRates = createAsyncThunk<any, any>(
   "/teamRates/update",
   async (data) => {
@@ -438,6 +497,13 @@ export const updateTeamRatesForHorseRacingOnDelete = createAsyncThunk<any, any>(
     return data;
   }
 );
+export const setSelectedTabForMatchList = createAsyncThunk<any, any>(
+  "set/selectedTabForMatchList",
+  async (data) => {
+    return data;
+  }
+);
+
 export const matchListReset = createAction("matchList/reset");
 export const raceListReset = createAction("raceList/reset");
 export const editSuccessReset = createAction("editSuccess/reset");
@@ -456,3 +522,4 @@ export const resetRaceList = createAction("raceListOnDateArrayEmpty/reset");
 export const resetContryCodeList = createAction(
   "contryCodeOnDateArrayEmpty/reset"
 );
+export const resetMatchListDropdown = createAction("matchListDropdown/reset");

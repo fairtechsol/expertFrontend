@@ -25,7 +25,9 @@ const RaceList = ({}) => {
   const { raceType } = useParams();
   const [value, setValue] = useState(raceType);
   const navigate = useNavigate();
-  const { getProfile } = useSelector((state: RootState) => state.user.profile);
+  const { profileDetail } = useSelector(
+    (state: RootState) => state.user.profile
+  );
 
   const { success, raceList } = useSelector(
     (state: RootState) => ({
@@ -120,7 +122,8 @@ const RaceList = ({}) => {
             alignItems: "center",
           }}
         >
-          {(getProfile?.allPrivilege || getProfile?.addMatchPrivilege) && (
+          {(profileDetail?.allPrivilege ||
+            profileDetail?.addMatchPrivilege) && (
             <CustomButton
               onClick={() => {
                 navigate("/expert/add_race");

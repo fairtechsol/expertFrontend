@@ -1,12 +1,13 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
-import { TextField } from "@mui/material";
+import { Box } from "@mui/material";
 import { AppDispatch } from "../../../store/store";
 import { updateMarketRates } from "../../../store/actions/addMatch/addMatchAction";
+import MatchListInput from "../../addMatch/MatchListInput";
 
 const OtherMarketAdd = ({
   open,
@@ -15,15 +16,20 @@ const OtherMarketAdd = ({
   currentMatch,
   title,
 }: any) => {
-  const [selected, setSelected] = useState<any>();
+  const [selected, setSelected] = useState<any>({
+    maxLimit: 0,
+    betLimit: 0,
+  });
   const dispatch: AppDispatch = useDispatch();
 
-  const handleSubmit = () => {
+  const handleSubmit = (e: any) => {
+    e.preventDefault();
     let data = {
       matchId: currentMatch?.id,
       type: matchOddsLive?.type,
       name: matchOddsLive?.name,
-      maxBet: parseFloat(selected),
+      maxBet: parseFloat(selected.maxLimit),
+      // betLimit: selected.betLimit,
       marketId: matchOddsLive?.marketId,
       gtype: matchOddsLive?.gtype,
       metaData: {
@@ -43,86 +49,142 @@ const OtherMarketAdd = ({
       ...(matchOddsLive?.id && { id: matchOddsLive.id }),
     };
     dispatch(updateMarketRates(data));
-    handleClose(); // Close the dialog after submission
+    handleClose();
   };
+
   const handlclose = () => {
     handleClose();
   };
+
+  const handleChange = (e: any) => {
+    try {
+      const { name, value } = e.target;
+      setSelected((prev: any) => {
+        return {
+          ...prev,
+          [name]: value,
+        };
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  useEffect(() => {
+    try {
+      setSelected({
+        maxLimit: matchOddsLive?.maxBet,
+        // betLimit: matchOddsLive?.betLimit,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }, [matchOddsLive?.maxBet]);
+
   return (
     <Dialog open={open} onClose={handleClose}>
-      <DialogTitle
-        sx={{
-          textAlign: "center",
-          color: "#fff",
-          background: "linear-gradient(90deg, #004A25 5%, #FDCB52 100%)",
-          fontFamily: "Poppins, sans-serif",
-        }}
-      >
-        {title}
-      </DialogTitle>
-      <DialogContent sx={{ backgroundColor: "#fff" }}>
-        <div
-          style={{
-            width: "100%",
-            height: "80px",
-            backgroundColor: "#fff",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
+      <form onSubmit={handleSubmit}>
+        <DialogTitle
+          sx={{
+            textAlign: "center",
+            color: "#fff",
+            background: "linear-gradient(90deg, #004A25 5%, #FDCB52 100%)",
+            fontFamily: "Poppins, sans-serif",
           }}
         >
-          <TextField
-            type="number"
-            placeholder="Enter maximum bet value"
-            onChange={(e: any) => {
-              setSelected(e.target.value);
+          {title}
+        </DialogTitle>
+        <DialogContent sx={{ backgroundColor: "#fff" }}>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              width: "100%",
+              gap: 1,
             }}
-            // style={{
-            //   width: "80%",
-            //   height: "50px",
-            // }}
-          />
-        </div>
-      </DialogContent>
-      <DialogActions
-        sx={{
-          background: "linear-gradient(90deg, #004A25 5%, #FDCB52 100%)",
-        }}
-      >
-        <button
-          style={{
-            width: "25%",
-            height: "40px",
-            color: "#fff",
-            backgroundColor: "#004A25",
-            fontSize: "14px",
-            borderRadius: "5px",
-            border: "1px #004A25 solid",
-            cursor: "pointer",
-            fontFamily: "Poppins, sans-serif",
+          >
+            <Box sx={{ display: "flex", width: "100%", gap: 1 }}>
+              <Box
+                sx={{
+                  width: {
+                    xs: "100%",
+                    lg: "50%",
+                    md: "50%",
+                  },
+                }}
+              >
+                <MatchListInput
+                  label="Max Limit*"
+                  type="number"
+                  placeholder="Enter Max Bet..."
+                  name="maxLimit"
+                  id="maxLimit"
+                  value={selected.maxLimit}
+                  onChange={handleChange}
+                />
+              </Box>
+              {/* <Box
+                sx={{
+                  width: {
+                    xs: "100%",
+                    lg: "50%",
+                    md: "50%",
+                  },
+                }}
+              >
+                <MatchListInput
+                  label={"Bet Limit*"}
+                  type={"number"}
+                  placeholder="Enter Bet Limit..."
+                  name="betLimit"
+                  id="betLimit"
+                  onChange={handleChange}
+                  value={selected.betLimit}
+                />
+              </Box> */}
+            </Box>
+          </Box>
+        </DialogContent>
+        <DialogActions
+          sx={{
+            background: "linear-gradient(90deg, #004A25 5%, #FDCB52 100%)",
           }}
-          onClick={handleSubmit}
         >
-          Submit
-        </button>
+          <button
+            type="submit"
+            style={{
+              width: "25%",
+              height: "40px",
+              color: "#fff",
+              backgroundColor: "#004A25",
+              fontSize: "14px",
+              borderRadius: "5px",
+              border: "1px #004A25 solid",
+              cursor: "pointer",
+              fontFamily: "Poppins, sans-serif",
+            }}
+          >
+            Submit
+          </button>
 
-        <button
-          style={{
-            width: "25%",
-            height: "40px",
-            color: "#fff",
-            backgroundColor: "#004A25",
-            fontSize: "14px",
-            borderRadius: "5px",
-            border: "1px #004A25 solid",
-            cursor: "pointer",
-            fontFamily: "Poppins, sans-serif",
-          }}
-          onClick={handlclose}
-        >
-          Cancel
-        </button>
-      </DialogActions>
+          <button
+            type="button"
+            style={{
+              width: "25%",
+              height: "40px",
+              color: "#fff",
+              backgroundColor: "#004A25",
+              fontSize: "14px",
+              borderRadius: "5px",
+              border: "1px #004A25 solid",
+              cursor: "pointer",
+              fontFamily: "Poppins, sans-serif",
+            }}
+            onClick={handlclose}
+          >
+            Cancel
+          </button>
+        </DialogActions>
+      </form>
     </Dialog>
   );
 };

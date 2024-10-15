@@ -6,6 +6,7 @@ import {
   getPlacedBets,
   getSessionById,
   getSessionProfitLoss,
+  resetMultiSessionMaxLimitSuccess,
   resetPlacedBets,
   resetSessionMaxLimitSuccess,
   sessionByIdReset,
@@ -16,6 +17,7 @@ import {
   updateDeleteReason,
   updateDeleteReasonOnEdit,
   updateMatchBetsPlaced,
+  updateMultiSessionMarketAmount,
   updateProLossSession,
   updateRatesBook,
   updateResultStatusOfQuickBookmaker,
@@ -41,6 +43,7 @@ interface InitialState {
   addSuccess: boolean;
   getSessionSuccess: boolean;
   maxLimitUpdateSuccess: boolean;
+  multiMaxLimitUpdateSuccess: boolean;
   loading: boolean;
 }
 
@@ -56,6 +59,7 @@ const initialState: InitialState = {
   addSuccess: false,
   getSessionSuccess: false,
   maxLimitUpdateSuccess: false,
+  multiMaxLimitUpdateSuccess: false,
   loading: false,
 };
 
@@ -313,6 +317,17 @@ export const addSessionReducers = createReducer(initialState, (builder) => {
     .addCase(updateSession.rejected, (state) => {
       state.loading = false;
     })
+    .addCase(updateMultiSessionMarketAmount.pending, (state) => {
+      state.loading = true;
+      state.multiMaxLimitUpdateSuccess = false;
+    })
+    .addCase(updateMultiSessionMarketAmount.fulfilled, (state) => {
+      state.loading = false;
+      state.multiMaxLimitUpdateSuccess = true;
+    })
+    .addCase(updateMultiSessionMarketAmount.rejected, (state) => {
+      state.loading = false;
+    })
     .addCase(updateSessionMaxLimit.fulfilled, (state, action) => {
       const { maxBet, id } = action?.payload;
       const { sessionById } = state;
@@ -328,6 +343,9 @@ export const addSessionReducers = createReducer(initialState, (builder) => {
     })
     .addCase(resetSessionMaxLimitSuccess, (state) => {
       state.maxLimitUpdateSuccess = false;
+    })
+    .addCase(resetMultiSessionMaxLimitSuccess, (state) => {
+      state.multiMaxLimitUpdateSuccess = false;
     })
     .addCase(updateResultStatusOfSessionById.fulfilled, (state, action) => {
       const { status, betId } = action?.payload;

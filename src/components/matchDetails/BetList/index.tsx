@@ -76,7 +76,7 @@ const BetList = ({ tag, allBetRates, title }: any) => {
                 ? betListColorConstants[v?.marketType]?.background
                 : "#319E5B",
               deleteReason: v?.deleteReason,
-              width: { lg: "17%", xs: "35%" },
+              width: { lg: "10%", xs: "35%" },
               overflowWrap: "anywhere",
             },
             {
@@ -86,7 +86,7 @@ const BetList = ({ tag, allBetRates, title }: any) => {
                 ? "#B3E0FF"
                 : "rgb(255, 146, 146)",
               deleteReason: v?.deleteReason,
-              width: { lg: "20%", xs: "50%" },
+              width: { lg: "28%", xs: "50%" },
               overflowWrap: "anywhere",
               textAlign: "center",
             },
@@ -99,19 +99,24 @@ const BetList = ({ tag, allBetRates, title }: any) => {
                 : "rgb(255, 146, 146)",
               small: true,
               deleteReason: v?.deleteReason,
-              width: { lg: "7%", xs: "35%" },
+              width: { lg: "7%", xs: "25%" },
               fSize: "13px",
               lHeight: 1,
             },
             {
-              name: v?.betType,
+              name:
+                v?.marketType === "oddEven"
+                  ? v?.teamName
+                      ?.match(/[-_](odd|even)$/i)?.[1]
+                      ?.toUpperCase() || v?.betType
+                  : v?.betType,
               color: "black",
               background: ["YES", "BACK"].includes(v?.betType)
                 ? "#B3E0FF"
                 : "rgb(255, 146, 146)",
               small: true,
               deleteReason: v?.deleteReason,
-              width: { lg: "7%", xs: "35%" },
+              width: { lg: "7%", xs: "25%" },
             },
             {
               name: formatToINR(v?.amount),
@@ -143,7 +148,7 @@ const BetList = ({ tag, allBetRates, title }: any) => {
               time: true,
               date: moment.utc(v?.createdAt).utcOffset("+05:30").format("L"),
               deleteReason: v?.deleteReason,
-              width: { lg: "11%", xs: "35%" },
+              width: { lg: "11%", xs: "45%" },
             },
           ],
         };
@@ -246,16 +251,24 @@ const BetList = ({ tag, allBetRates, title }: any) => {
               borderRadius: "3px",
               alignItems: "center",
               display: "flex",
-              flexDirection: "column",
+              // flexDirection: "column",
             }}
           >
             <Typography
-              sx={{ fontSize: "6px", fontWeight: "700", color: "#FF1111" }}
+              sx={{
+                fontSize: "8px",
+                fontWeight: "700",
+                color: "#FF1111",
+              }}
             >
-              Total Bet
+              Total Bet:&nbsp;
             </Typography>
             <Typography
-              sx={{ fontSize: "8px", fontWeight: "700", color: "#0B4F26" }}
+              sx={{
+                fontSize: "8px",
+                fontWeight: "700",
+                color: "#0B4F26",
+              }}
             >
               {newData?.length || 0}
             </Typography>
@@ -279,7 +292,7 @@ const BetList = ({ tag, allBetRates, title }: any) => {
 
       <Box
         sx={{
-          overflowX: { xs: "scroll", lg: "auto" },
+          // overflowX: { xs: "scroll", lg: "auto" },
           width: "100%",
         }}
       >
@@ -288,7 +301,7 @@ const BetList = ({ tag, allBetRates, title }: any) => {
             <Box
               ref={scrollRef}
               sx={{
-                maxHeight: "80vh",
+                maxHeight: "90vh",
                 width: { xs: "auto", lg: "auto", md: "auto" },
                 overflow: "auto",
               }}

@@ -12,17 +12,20 @@ import {
   getPlacedBetsMatch,
   getRaceList,
   getRaceMatch,
+  getTabList,
   matchListReset,
   noResultDeclare,
   raceListReset,
   raceLiveStatus,
   resetContryCodeList,
+  resetMatchListDropdown,
   resetMatchListSessionProLoss,
   resetRaceEdit,
   resetRaceList,
   resultDeclare,
   sessionBetLiveStatus,
   sessionResultSuccessReset,
+  setSelectedTabForMatchList,
   undeclareResult,
   updateDeletedBetReasonOnEdit,
   updateMatchActiveStatus,
@@ -38,6 +41,7 @@ import { updateRaceRates } from "../../actions/addMatch/addMatchAction";
 
 interface InitialState {
   matchList: any;
+  tabList: any;
   matchListDropdown: any;
   success: boolean;
   editSuccess: boolean;
@@ -53,10 +57,12 @@ interface InitialState {
   countryCode: any;
   raceList: any;
   raceDetail: any;
+  selectedTab: number;
 }
 
 const initialState: InitialState = {
   matchList: [],
+  tabList: [],
   matchListDropdown: [],
   loading: false,
   success: false,
@@ -72,6 +78,7 @@ const initialState: InitialState = {
   countryCode: [],
   raceList: [],
   raceDetail: null,
+  selectedTab: 0,
 };
 
 const matchList = createSlice({
@@ -94,6 +101,20 @@ const matchList = createSlice({
         state.loading = false;
         state.error = action?.error?.message;
       })
+      .addCase(getTabList.pending, (state) => {
+        state.loading = true;
+        state.success = false;
+        state.error = null;
+      })
+      .addCase(getTabList.fulfilled, (state, action) => {
+        state.tabList = action?.payload;
+        state.loading = false;
+        state.success = true;
+      })
+      .addCase(getTabList.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action?.error?.message;
+      })
       .addCase(getMatchListDropdown.pending, (state) => {
         state.dropDownLoading = true;
         state.matchListDropdown = [];
@@ -108,6 +129,9 @@ const matchList = createSlice({
       .addCase(getMatchListDropdown.rejected, (state, action) => {
         state.dropDownLoading = false;
         state.error = action?.error?.message;
+      })
+      .addCase(resetMatchListDropdown, (state) => {
+        state.matchListDropdown = [];
       })
       .addCase(updateMatchActiveStatus.pending, (state) => {
         state.loading = true;
@@ -443,6 +467,9 @@ const matchList = createSlice({
       })
       .addCase(resetContryCodeList, (state) => {
         state.countryCode = [];
+      })
+      .addCase(setSelectedTabForMatchList.fulfilled, (state, action) => {
+        state.selectedTab = action.payload;
       });
   },
 });
