@@ -151,7 +151,7 @@ const BookMarket = ({ currentMatch, liveData, title, showResultBox }: any) => {
                     );
                     setLive(!live);
                   }}
-                  width={{ lg: "30px", xs: "20px" }}
+                  width={{ lg: "25px", xs: "20px" }}
                   title={live ? "Live" : "Go Live"}
                   color={live ? "#46e080" : "#FF4D4D"}
                   customStyle={{
@@ -172,10 +172,10 @@ const BookMarket = ({ currentMatch, liveData, title, showResultBox }: any) => {
             src={ARROWUP}
             style={{
               transform: visibleImg ? "rotate(180deg)" : "rotate(0deg)",
-              width: "12px",
-              height: "12px",
-              marginRight: "5px",
-              marginLeft: "5px",
+              width: "10px",
+              height: "10px",
+              marginRight: "1px",
+              marginLeft: "1px",
               cursor: "pointer",
             }}
           />

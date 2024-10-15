@@ -7,8 +7,8 @@ const Result = ({ invert, onClick, height }: any) => {
         sx={{
           // width: { lg: "38px", xs: "25px" },
           display: "flex",
-          marginRight: "4px",
-          marginLeft: "4px",
+          marginRight: "2px",
+          marginLeft: "2px",
           // marginRight: { lg: "5px", xs: "0" },
           justifyContent: "center",
           // paddingX: 0.5,
