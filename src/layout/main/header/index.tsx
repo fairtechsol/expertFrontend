@@ -20,7 +20,7 @@ import { setSelectedTabForMatchList } from "../../../store/actions/match/matchAc
 
 const Header1 = () => {
   const theme = useTheme();
-  const matchesMobile = useMediaQuery(theme.breakpoints.down("md"));
+  const matchesMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const navigate = useNavigate();
   const dispatch: AppDispatch = useDispatch();
   const { profileDetail, loggedUserCount } = useSelector(
@@ -331,7 +331,7 @@ const Header1 = () => {
               )} */}
             </Box>
           </AppBar>
-          <Box sx={{ minHeight: { lg: 44, md: 35, xs: 80 } }} />
+          <Box sx={{ minHeight: { lg: 44, md: 35, xs: 80, sm: 35 } }} />
         </>
       )}
       {matchesMobile && (
