@@ -326,14 +326,14 @@ const EditBookmaker = (props: any) => {
   }, [state?.id, bookmakerById, Bid]);
 
   const rateA =
-    +bookmakerById?.matchRates[
+    +bookmakerById?.matchRates?.[
       profitLossDataForMatchConstants[bookmakerById?.type]?.A +
         "_" +
         bookmakerById?.matchId
     ] || 0;
 
   const rateB =
-    +bookmakerById?.matchRates[
+    +bookmakerById?.matchRates?.[
       profitLossDataForMatchConstants[bookmakerById?.type]?.B +
         "_" +
         bookmakerById?.matchId

@@ -46,14 +46,14 @@ const CasinoMarketBox = ({ newData, index, profitLoss, sessionData }: any) => {
                 profitLoss?.profitLoss?.[index] > 0
                   ? "green"
                   : profitLoss?.profitLoss?.[index] < 0
-                  ? "red"
+                  ? "#7B2626"
                   : "black",
               fontSize: { lg: "10px", md: "10px", xs: "10px" },
               marginLeft: { lg: "7px", md: "20px", xs: "20px" },
               fontWeight: "600",
               lineHeight: 1,
               textAlign: "center",
-              zIndex: "99"
+              zIndex: "99",
             }}
           >
             {parseFloat(profitLoss?.profitLoss?.[index] || 0).toFixed(2)}

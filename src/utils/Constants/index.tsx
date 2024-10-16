@@ -403,17 +403,19 @@ export const betListColorConstants: any = {
   quickbookmaker2: { background: "#5c1d04", textColor: "#fff" },
   quickbookmaker3: { background: "#5c1d04", textColor: "#fff" },
   completeMatch: { background: "#0549F5", textColor: "#000" },
-  completeManual: { background: "#3F345C", textColor: "#000" },
+  completeManual: { background: "#3F345C", textColor: "#fff" },
   tiedMatch1: { background: "#fcf11b", textColor: "#000" },
   tiedMatch2: { background: "#EE82EE", textColor: "#000" },
   tiedMatch3: { background: "#452245", textColor: "#fff" },
   cricketCasino: { background: "#FF1111", textColor: "#fff" },
   oddEven: { background: "#7c46e6", textColor: "#fff" },
   fancy1: { background: "#FF8633", textColor: "#fff" },
-  overByOver: { background: "#FFA07A", textColor: "#fff" },
+  overByover: { background: "#FFA07A", textColor: "#fff" },
   ballByBall: { background: "#33FF33", textColor: "#fff" },
   khado: { background: "#E6E6FA", textColor: "#000" },
   meter: { background: "#808000 ", textColor: "#fff" },
+  other: { background: "000", textColor: "#fff" },
+  tournament: { background: "#FFC0CB", textColor: "#000" },
 };
 
 export const marketArray = [
