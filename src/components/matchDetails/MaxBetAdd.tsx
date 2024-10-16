@@ -67,7 +67,7 @@ const MaxBetAdd = ({
     } catch (error) {
       console.error(error);
     }
-  }, [matchOddsLive?.maxBet, matchOddsLive?.betLimit]);
+  }, [matchOddsLive?.maxBet, matchOddsLive?.betLimit, matchOddsLive?.minBet]);
 
   return (
     <Dialog open={open} onClose={handleClose}>
