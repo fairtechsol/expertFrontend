@@ -18,6 +18,7 @@ const MaxBetAdd = ({
 }: any) => {
   const [selected, setSelected] = useState<any>({
     maxLimit: 0,
+    minLimit: 0,
     betLimit: 0,
   });
   const dispatch: AppDispatch = useDispatch();
@@ -29,6 +30,7 @@ const MaxBetAdd = ({
       type: matchOddsLive?.type,
       name: matchOddsLive?.name,
       maxBet: parseFloat(selected.maxLimit),
+      minBet: parseFloat(selected.minLimit),
       marketId: matchOddsLive?.marketId,
       gtype: matchOddsLive?.gtype,
       ...(matchOddsLive?.id && { id: matchOddsLive.id }),
@@ -60,6 +62,7 @@ const MaxBetAdd = ({
       setSelected({
         maxLimit: matchOddsLive?.maxBet,
         betLimit: matchOddsLive?.betLimit,
+        minLimit: matchOddsLive?.minBet,
       });
     } catch (error) {
       console.error(error);
@@ -89,6 +92,25 @@ const MaxBetAdd = ({
             }}
           >
             <Box sx={{ display: "flex", width: "100%", gap: 1 }}>
+              <Box
+                sx={{
+                  width: {
+                    xs: "100%",
+                    lg: "50%",
+                    md: "50%",
+                  },
+                }}
+              >
+                <MatchListInput
+                  label="Min Limit*"
+                  type="number"
+                  placeholder="Enter Min Bet..."
+                  name="minLimit"
+                  id="minLimit"
+                  value={selected.minLimit}
+                  onChange={handleChange}
+                />
+              </Box>
               <Box
                 sx={{
                   width: {
