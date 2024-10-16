@@ -17,7 +17,7 @@ import theme from "../../../theme";
 import { formatToINR, numberInputOnWheelPreventChange } from "../../../helpers";
 import { useLocation } from "react-router-dom";
 import { profitLossDataForMatchConstants } from "../../../utils/Constants";
-// import MaxLimitEditButtonBook from "../../Common/MaxLimitEditButtonBook";
+import MaxLimitEditButtonBook from "../../Common/MaxLimitEditButtonBook";
 import MaxBetAdd from "../../matchDetails/MaxBetAdd";
 
 const EditBookmaker = (props: any) => {
@@ -326,14 +326,14 @@ const EditBookmaker = (props: any) => {
   }, [state?.id, bookmakerById, Bid]);
 
   const rateA =
-    +bookmakerById?.matchRates[
+    +bookmakerById?.matchRates?.[
       profitLossDataForMatchConstants[bookmakerById?.type]?.A +
         "_" +
         bookmakerById?.matchId
     ] || 0;
 
   const rateB =
-    +bookmakerById?.matchRates[
+    +bookmakerById?.matchRates?.[
       profitLossDataForMatchConstants[bookmakerById?.type]?.B +
         "_" +
         bookmakerById?.matchId
@@ -387,7 +387,7 @@ const EditBookmaker = (props: any) => {
           >
             {bookmakerById?.name}
           </Typography>
-          {/* <MaxLimitEditButtonBook handleClickOpen={() => setOpen(true)} /> */}
+          <MaxLimitEditButtonBook handleClickOpen={() => setOpen(true)} />
         </Box>
         <Box
           sx={{
