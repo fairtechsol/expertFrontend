@@ -398,11 +398,12 @@ export const betListColorConstants: any = {
   session: { background: "#319E5B", textColor: "#fff" },
   matchOdd: { background: "#fff", textColor: "#000" },
   bookmaker: { background: "#F6C550", textColor: "#000" },
+  bookmaker2: { background: "#F6C550", textColor: "#000" },
   quickbookmaker1: { background: "#5c1d04", textColor: "#fff" },
-  quickbookmaker2: { background: "#0549f5", textColor: "#fff" },
-  quickbookmaker3: { background: "#3f345c", textColor: "#fff" },
-  completeMatch: { background: "#faf11b", textColor: "#000" },
-  completeManual: { background: "#fbf11b", textColor: "#000" },
+  quickbookmaker2: { background: "#5c1d04", textColor: "#fff" },
+  quickbookmaker3: { background: "#5c1d04", textColor: "#fff" },
+  completeMatch: { background: "#0549F5", textColor: "#000" },
+  completeManual: { background: "#3F345C", textColor: "#000" },
   tiedMatch1: { background: "#fcf11b", textColor: "#000" },
   tiedMatch2: { background: "#EE82EE", textColor: "#000" },
   tiedMatch3: { background: "#452245", textColor: "#fff" },
@@ -411,6 +412,8 @@ export const betListColorConstants: any = {
   fancy1: { background: "#FF8633", textColor: "#fff" },
   overByOver: { background: "#FFA07A", textColor: "#fff" },
   ballByBall: { background: "#33FF33", textColor: "#fff" },
+  khado: { background: "#E6E6FA", textColor: "#000" },
+  meter: { background: "#808000 ", textColor: "#fff" },
 };
 
 export const marketArray = [
