@@ -5,6 +5,8 @@ import {
   getDateList,
   getLoggedUserCount,
   getProfile,
+  headerAddBanner,
+  headerAddNotification,
   resetDateList,
 } from "../../actions/user/userAction";
 
@@ -93,6 +95,30 @@ const profileSlice = createSlice({
       })
       .addCase(resetDateList, (state) => {
         state.dateList = [];
+      })
+      .addCase(headerAddNotification.pending, (state) => {
+        state.loading = true;
+        state.success = false;
+        state.error = null;
+      })
+      .addCase(headerAddNotification.fulfilled, (state) => {
+        state.loading = false;
+      })
+      .addCase(headerAddNotification.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action?.error?.message;
+      })
+      .addCase(headerAddBanner.pending, (state) => {
+        state.loading = true;
+        state.success = false;
+        state.error = null;
+      })
+      .addCase(headerAddBanner.fulfilled, (state) => {
+        state.loading = false;
+      })
+      .addCase(headerAddBanner.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action?.error?.message;
       });
   },
 });

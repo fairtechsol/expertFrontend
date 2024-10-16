@@ -3,7 +3,7 @@ import ModalMUI from "@mui/material/Modal";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";
-import { Draw, FgLogo, NotiBadge, Users } from "../../../assets";
+import { FgLogo, NotiBadge, Users } from "../../../assets";
 import StyledImage from "../../../components/Common/StyledImages";
 import Loader from "../../../components/Loader";
 import ButtonHead from "../../../components/header/ButtonHead";
@@ -17,6 +17,8 @@ import { socket, socketService } from "../../../socketManager";
 import { getLoggedUserCount } from "../../../store/actions/user/userAction";
 import GameTypeDropdown from "./GameTypeDropdown";
 import { setSelectedTabForMatchList } from "../../../store/actions/match/matchAction";
+import { GiTatteredBanner } from "react-icons/gi";
+import BannerUploadModal from "../../../components/header/BannerUploadModal";
 
 const Header1 = () => {
   const theme = useTheme();
@@ -27,6 +29,7 @@ const Header1 = () => {
     (state: RootState) => state.user.profile
   );
   const [visible, setVisible] = useState(false);
+  const [visibleBanner, setVisibleBanner] = useState(false);
   const [userCount, setUserCount] = useState<number>(0);
   const [currentSelected, setSelected] = useState<any>(4);
   const [anchor, setAnchor] = useState(null);
@@ -94,6 +97,10 @@ const Header1 = () => {
           >
             {/* <IdleTimer role="" /> */}
             <NotificationModal setVisible={setVisible} visible={visible} />
+            <BannerUploadModal
+              setVisible={setVisibleBanner}
+              visible={visibleBanner}
+            />
             <Box
               sx={[
                 {
@@ -127,7 +134,7 @@ const Header1 = () => {
                     marginRight: "12px",
                   }}
                 >
-                  <StyledImage
+                  {/* <StyledImage
                     onClick={() => {
                       //   setMobileOpen(!mobileOpen);
                     }}
@@ -136,7 +143,7 @@ const Header1 = () => {
                       height: { lg: "16px", xs: "20px", md: "16px" },
                       width: "auto",
                     }}
-                  />
+                  /> */}
                   <StyledImage
                     src={FgLogo}
                     onClick={(e: any) => {
@@ -145,9 +152,9 @@ const Header1 = () => {
                     }}
                     sx={{
                       cursor: "pointer",
-                      height: { lg: "40px", xs: "45px", md: "40px" },
+                      height: { lg: "40px", xs: "30px", md: "40px" },
                       width: "auto",
-                      marginLeft: { lg: "20px", xs: "10px" },
+                      marginLeft: { lg: "15px", xs: "5px" },
                     }}
                   />
                 </Box>
@@ -276,6 +283,24 @@ const Header1 = () => {
                 >
                   <Box
                     onClick={() => {
+                      setVisibleBanner(true);
+                    }}
+                    sx={{
+                      height: "30px",
+                      width: "30px",
+                      borderRadius: "35px",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      background: "white",
+                      // marginTop: { xs: "10px" },
+                      marginLeft: "10px",
+                    }}
+                  >
+                    <GiTatteredBanner color="black" />
+                  </Box>
+                  <Box
+                    onClick={() => {
                       setVisible(true);
                     }}
                     sx={{
@@ -341,6 +366,10 @@ const Header1 = () => {
             sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
           >
             <NotificationModal setVisible={setVisible} visible={visible} />
+            <BannerUploadModal
+              setVisible={setVisibleBanner}
+              visible={visibleBanner}
+            />
             <Box
               sx={[
                 {
@@ -380,7 +409,7 @@ const Header1 = () => {
                     marginRight: "12px",
                   }}
                 >
-                  <StyledImage
+                  {/* <StyledImage
                     onClick={() => {
                       //   setMobileOpen(!mobileOpen);
                     }}
@@ -389,7 +418,7 @@ const Header1 = () => {
                       height: { lg: "24px", xs: "10px" },
                       width: "auto",
                     }}
-                  />
+                  /> */}
                   <StyledImage
                     src={FgLogo}
                     onClick={(e: any) => {
@@ -398,9 +427,9 @@ const Header1 = () => {
                     }}
                     sx={{
                       cursor: "pointer",
-                      height: { lg: "55px", xs: "30px" },
+                      height: { lg: "50px", xs: "25px" },
                       width: "auto",
-                      marginLeft: { lg: "20px", xs: "10px" },
+                      marginLeft: { lg: "15px", xs: "5px" },
                     }}
                   />
                 </Box>
@@ -429,6 +458,23 @@ const Header1 = () => {
                 }}
               >
                 <Box sx={{ display: "flex" }}>
+                  <Box
+                    onClick={() => {
+                      setVisibleBanner(true);
+                    }}
+                    sx={{
+                      height: { lg: "45px", xs: "25px" },
+                      width: "25px",
+                      borderRadius: "25px",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      background: "white",
+                      // marginLeft: "4vh"
+                    }}
+                  >
+                    <GiTatteredBanner color="black" />
+                  </Box>
                   <Box
                     onClick={() => {
                       setVisible(true);
