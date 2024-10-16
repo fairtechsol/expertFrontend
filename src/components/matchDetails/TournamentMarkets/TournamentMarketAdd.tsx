@@ -18,6 +18,7 @@ const TournamentMarketAdd = ({
 }: any) => {
   const [selected, setSelected] = useState<any>({
     maxLimit: 0,
+    minLimit: 0,
     betLimit: 0,
   });
   const dispatch: AppDispatch = useDispatch();
@@ -29,6 +30,7 @@ const TournamentMarketAdd = ({
       type: "tournament",
       name: matchOddsLive?.name,
       maxBet: parseFloat(selected.maxLimit),
+      minBet: parseFloat(selected.minLimit),
       // betLimit: selected.betLimit,
       marketId:
         matchOddsLive?.mid?.toString() || matchOddsLive?.marketId?.toString(),
@@ -36,7 +38,7 @@ const TournamentMarketAdd = ({
       runners: matchOddsLive?.runners?.map((item: any) => {
         return {
           matchId: currentMatch?.id,
-          runnerName: item?.nat,
+          runnerName: item?.nat ?? item?.runnerName,
           //   metaData: null,
           selectionId: item?.selectionId?.toString(),
           sortPriority: item?.selectionId?.toString(),
@@ -69,12 +71,13 @@ const TournamentMarketAdd = ({
     try {
       setSelected({
         maxLimit: matchOddsLive?.maxBet,
+        minLimit: matchOddsLive?.minBet,
         // betLimit: matchOddsLive?.betLimit,
       });
     } catch (error) {
       console.error(error);
     }
-  }, [matchOddsLive?.maxBet]);
+  }, [matchOddsLive?.maxBet, matchOddsLive?.minBet]);
 
   return (
     <Dialog open={open} onClose={handleClose}>
@@ -99,6 +102,25 @@ const TournamentMarketAdd = ({
             }}
           >
             <Box sx={{ display: "flex", width: "100%", gap: 1 }}>
+              <Box
+                sx={{
+                  width: {
+                    xs: "100%",
+                    lg: "50%",
+                    md: "50%",
+                  },
+                }}
+              >
+                <MatchListInput
+                  label="Min Limit*"
+                  type="number"
+                  placeholder="Enter Min Bet..."
+                  name="minLimit"
+                  id="minLimit"
+                  value={selected.minLimit}
+                  onChange={handleChange}
+                />
+              </Box>
               <Box
                 sx={{
                   width: {

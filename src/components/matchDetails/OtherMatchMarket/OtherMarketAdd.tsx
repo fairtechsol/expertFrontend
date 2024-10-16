@@ -18,6 +18,7 @@ const OtherMarketAdd = ({
 }: any) => {
   const [selected, setSelected] = useState<any>({
     maxLimit: 0,
+    minLimit: 0,
     betLimit: 0,
   });
   const dispatch: AppDispatch = useDispatch();
@@ -29,21 +30,25 @@ const OtherMarketAdd = ({
       type: matchOddsLive?.type,
       name: matchOddsLive?.name,
       maxBet: parseFloat(selected.maxLimit),
+      minBet: parseFloat(selected.minLimit),
       // betLimit: selected.betLimit,
       marketId: matchOddsLive?.marketId,
       gtype: matchOddsLive?.gtype,
       metaData: {
         teamA:
           (matchOddsLive?.runners?.length > 0 &&
-            matchOddsLive?.runners[0]?.nat) ??
+            (matchOddsLive?.runners[0]?.nat ||
+              matchOddsLive?.runners[0]?.runnerName)) ??
           "",
         teamB:
           (matchOddsLive?.runners?.length > 0 &&
-            matchOddsLive?.runners[1]?.nat) ??
+            (matchOddsLive?.runners[1]?.nat ||
+              matchOddsLive?.runners[1]?.runnerName)) ??
           "",
         teamC:
           (matchOddsLive?.runners?.length > 0 &&
-            matchOddsLive?.runners[2]?.nat) ??
+            (matchOddsLive?.runners[2]?.nat ||
+              matchOddsLive?.runners[2]?.runnerName)) ??
           null,
       },
       ...(matchOddsLive?.id && { id: matchOddsLive.id }),
@@ -73,12 +78,13 @@ const OtherMarketAdd = ({
     try {
       setSelected({
         maxLimit: matchOddsLive?.maxBet,
+        minLimit: matchOddsLive?.minBet,
         // betLimit: matchOddsLive?.betLimit,
       });
     } catch (error) {
       console.log(error);
     }
-  }, [matchOddsLive?.maxBet]);
+  }, [matchOddsLive?.maxBet, matchOddsLive?.minBet]);
 
   return (
     <Dialog open={open} onClose={handleClose}>
@@ -103,6 +109,25 @@ const OtherMarketAdd = ({
             }}
           >
             <Box sx={{ display: "flex", width: "100%", gap: 1 }}>
+              <Box
+                sx={{
+                  width: {
+                    xs: "100%",
+                    lg: "50%",
+                    md: "50%",
+                  },
+                }}
+              >
+                <MatchListInput
+                  label="Min Limit*"
+                  type="number"
+                  placeholder="Enter Min Bet..."
+                  name="minLimit"
+                  id="minLimit"
+                  value={selected.minLimit}
+                  onChange={handleChange}
+                />
+              </Box>
               <Box
                 sx={{
                   width: {

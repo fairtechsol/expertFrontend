@@ -161,7 +161,7 @@ const ResultComponentTournamentMarket = ({
                   >
                     <Typography
                       sx={{
-                        fontSize: "12px",
+                        fontSize: "10px",
                         fontWeight: "700",
                         color: selected === item?.id ? "white" : "black",
                         lineHeight: 1,
