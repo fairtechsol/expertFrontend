@@ -46,14 +46,10 @@ const BetList = ({ tag, allBetRates, title }: any) => {
           values: [
             {
               name: v?.user?.userName,
-              color: ["NO", "YES"].includes(v?.betType)
-                ? "#FFF"
-                : betListColorConstants[v?.marketType]
+              color: betListColorConstants[v?.marketType]
                 ? betListColorConstants[v?.marketType]?.textColor
                 : "#fff",
-              background: ["NO", "YES"].includes(v?.betType)
-                ? "#319E5B"
-                : betListColorConstants[v?.marketType]
+              background: betListColorConstants[v?.marketType]
                 ? betListColorConstants[v?.marketType]?.background
                 : "#319E5B",
               deleteReason: v?.deleteReason,
@@ -65,14 +61,10 @@ const BetList = ({ tag, allBetRates, title }: any) => {
                 v?.marketType == "MANUAL BOOKMAKER"
                   ? "Quick Bookmaker"
                   : v?.bettingName ?? v?.marketType,
-              color: ["NO", "YES"].includes(v?.betType)
-                ? "#FFF"
-                : betListColorConstants[v?.marketType]
+              color: betListColorConstants[v?.marketType]
                 ? betListColorConstants[v?.marketType]?.textColor
                 : "#fff",
-              background: ["NO", "YES"].includes(v?.betType)
-                ? "#319E5B"
-                : betListColorConstants[v?.marketType]
+              background: betListColorConstants[v?.marketType]
                 ? betListColorConstants[v?.marketType]?.background
                 : "#319E5B",
               deleteReason: v?.deleteReason,

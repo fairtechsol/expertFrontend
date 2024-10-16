@@ -410,7 +410,7 @@ export const betListColorConstants: any = {
   cricketCasino: { background: "#FF1111", textColor: "#fff" },
   oddEven: { background: "#7c46e6", textColor: "#fff" },
   fancy1: { background: "#FF8633", textColor: "#fff" },
-  overByOver: { background: "#FFA07A", textColor: "#fff" },
+  overByover: { background: "#FFA07A", textColor: "#fff" },
   ballByBall: { background: "#33FF33", textColor: "#fff" },
   khado: { background: "#E6E6FA", textColor: "#000" },
   meter: { background: "#808000 ", textColor: "#fff" },
