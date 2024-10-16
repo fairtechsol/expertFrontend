@@ -1404,7 +1404,7 @@ const EditBookmaker = (props: any) => {
         currentMatch={{
           id: bookmakerById?.matchId,
         }}
-        title={"API Match Odds Max Bet"}
+        title={`${bookmakerById?.name} Max/Min Bet Limit`}
       />
     </>
   );
