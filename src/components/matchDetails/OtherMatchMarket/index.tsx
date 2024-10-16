@@ -49,6 +49,7 @@ const OtherMatchMarket = ({
       setVisible(false);
     }
   }, [success]);
+
   return (
     <Box
       sx={{
@@ -85,7 +86,7 @@ const OtherMatchMarket = ({
             justifyContent: "space-between",
           }}
         >
-          {!liveData?.id && (
+          {(!liveData?.id || liveData?.activeStatus === "result") && (
             <Typography
               sx={{
                 fontSize: { lg: "9px", md: "9px", xs: "10px" },
@@ -201,7 +202,6 @@ const OtherMatchMarket = ({
       {visible && (
         <ResultComponentOtherMarket
           currentMatch={currentMatch}
-          stopAt={liveData?.stopAt}
           onClick={() => {
             setVisible(false);
           }}

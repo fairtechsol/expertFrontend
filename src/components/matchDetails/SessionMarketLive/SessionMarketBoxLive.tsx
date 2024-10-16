@@ -161,7 +161,7 @@ const SessionMarketBoxLive = ({
               display: "flex",
               position: "relative",
               background: index % 2 === 0 ? "#FFE094" : "#ECECEC",
-              height: "28px",
+              height: "25px",
               width: { lg: "85%", xs: "38.5%", md: "39%" },
               justifyContent: "flex-end",
               alignItems: "center",

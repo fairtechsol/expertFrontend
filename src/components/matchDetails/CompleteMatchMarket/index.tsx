@@ -86,7 +86,7 @@ const CompleteMatchMarket = ({
             justifyContent: "space-between",
           }}
         >
-          {!liveData?.id && (
+          {(!liveData?.id || liveData?.activeStatus === "result") && (
             <Typography
               sx={{
                 fontSize: { lg: "9px", md: "9px", xs: "10px" },
