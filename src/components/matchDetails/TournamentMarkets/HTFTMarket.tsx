@@ -146,7 +146,7 @@ const HTFTMarket = ({ currentMatch, liveData, title, firstKnownKey }: any) => {
                       );
                       setLive(!live);
                     }}
-                    width={{ lg: "60px", xs: "20%" }}
+                    width={{ lg: "25px", xs: "20px" }}
                     title={live ? "Live" : "Go Live"}
                     color={live ? "#46e080" : "#FF4D4D"}
                     customStyle={{
