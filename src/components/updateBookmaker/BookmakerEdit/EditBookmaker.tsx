@@ -17,6 +17,8 @@ import theme from "../../../theme";
 import { formatToINR, numberInputOnWheelPreventChange } from "../../../helpers";
 import { useLocation } from "react-router-dom";
 import { profitLossDataForMatchConstants } from "../../../utils/Constants";
+// import MaxLimitEditButtonBook from "../../Common/MaxLimitEditButtonBzook";
+import MaxBetAdd from "../../matchDetails/MaxBetAdd";
 
 const EditBookmaker = (props: any) => {
   const { state } = useLocation();
@@ -37,6 +39,7 @@ const EditBookmaker = (props: any) => {
 
   const [visible, setVisible] = useState(false);
   const [visible1, setVisible1] = useState(false);
+  const [open, setOpen] = useState(false);
 
   const [localQuickBookmaker, setLocalQuickBookmaker] = useState<any>({
     teamA: {
@@ -384,6 +387,7 @@ const EditBookmaker = (props: any) => {
           >
             {bookmakerById?.name}
           </Typography>
+          {/* <MaxLimitEditButtonBook handleClickOpen={() => setOpen(true)} /> */}
         </Box>
         <Box
           sx={{
@@ -1393,6 +1397,15 @@ const EditBookmaker = (props: any) => {
           )}
         </Box>
       )}
+      <MaxBetAdd
+        open={open}
+        handleClose={() => setOpen(false)}
+        matchOddsLive={bookmakerById}
+        currentMatch={{
+          id: bookmakerById?.matchId,
+        }}
+        title={"API Match Odds Max Bet"}
+      />
     </>
   );
 };
