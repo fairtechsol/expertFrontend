@@ -86,7 +86,7 @@ const TournamentMarket = ({
             justifyContent: "space-between",
           }}
         >
-          {!liveData?.id && (
+          {(!liveData?.id || liveData?.activeStatus === "result") && (
             <Typography
               sx={{
                 fontSize: { lg: "9px", md: "9px", xs: "10px" },
@@ -183,9 +183,9 @@ const TournamentMarket = ({
             style={{
               transform: visibleImg ? "rotate(180deg)" : "rotate(0deg)",
               width: "10px",
-                height: "10px",
-                marginRight: "1px",
-                marginLeft: "1px",
+              height: "10px",
+              marginRight: "1px",
+              marginLeft: "1px",
               cursor: "pointer",
             }}
           />

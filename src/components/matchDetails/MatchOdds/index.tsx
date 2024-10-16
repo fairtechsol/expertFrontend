@@ -130,7 +130,8 @@ const MatchOdds = ({ currentMatch, matchOddsLive, id, showResultBox }: any) => {
               justifyContent: "space-between",
             }}
           >
-            {!matchOddsLive?.id && (
+            {(!matchOddsLive?.id ||
+              matchOddsLive?.activeStatus === "result") && (
               <Typography
                 sx={{
                   fontSize: { lg: "9px", md: "9px", xs: "10px" },
