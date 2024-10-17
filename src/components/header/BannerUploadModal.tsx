@@ -36,16 +36,19 @@ const BannerUploadModal = ({
 
   const handleImageChange = (event: any) => {
     try {
-      const file = event.currentTarget.files[0];
+      const inputElement = event.currentTarget;
+      const file = inputElement.files[0];
 
       if (!file.type.includes("jpeg") && !file.type.includes("png")) {
         alert("File should be either JPEG or PNG");
+        inputElement.value = "";
         return;
       }
 
       if (file) {
         if (file.size > 1024 * 100 * 5) {
-          alert("File should be smaller than 500/400");
+          alert("File should be smaller than 500 KB");
+          inputElement.value = "";
           return;
         }
 
