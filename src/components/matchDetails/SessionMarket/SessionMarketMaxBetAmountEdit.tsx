@@ -61,7 +61,6 @@ const SessionMarketMaxBetAmountEdit = (props: any) => {
       sx={{
         width: { lg: "30%", xs: "60%", md: "40%" },
         // height: "180px",
-
         padding: 0.2,
         borderRadius: 2,
         boxShadow: "0px 5px 10px #1A568414",

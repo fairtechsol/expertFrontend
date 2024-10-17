@@ -605,6 +605,9 @@ const SessionMarketDetail = () => {
             rowGap: "5px",
             height: "524px",
             overflow: "scroll",
+            "::-webkit-scrollbar": {
+              display: "none",
+            },
             marginTop: "1.25vw",
           }}
         >
