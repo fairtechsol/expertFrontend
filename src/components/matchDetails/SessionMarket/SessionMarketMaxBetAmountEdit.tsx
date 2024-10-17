@@ -148,43 +148,7 @@ const SessionMarketMaxBetAmountEdit = (props: any) => {
         ref={myDivRef}
       >
         <TextField
-          autoFocus
-          placeholder="API Session Max Bet"
-          variant="standard"
-          type="number"
-          // value={selected}
-          value={value}
-          id="maxBet"
-          name="maxBet"
-          onChange={(e) => {
-            setValue(e?.target.value);
-            setError(false);
-          }}
-          // touched={touched.score}
-          // error={Boolean(errors.score)}
-          InputProps={{
-            disableUnderline: true,
-            sx: {
-              alignSelf: "center",
-              border: "1px solid #303030",
-              borderRadius: "5px",
-              paddingY: "5px",
-              paddingX: "1vw",
-            },
-          }}
-        />
-        {error && (
-          <Box
-            sx={{
-              color: "red",
-              marging: "2px",
-              fontSize: "12px",
-            }}
-          >
-            Max Bet Should be Greater Than Min Bet
-          </Box>
-        )}
-        <TextField
+          label="Min Value"
           autoFocus
           placeholder="API Session Min Bet"
           variant="standard"
@@ -224,6 +188,44 @@ const SessionMarketMaxBetAmountEdit = (props: any) => {
             }}
           >
             Min Bet Should be Smaller Than Max Bet
+          </Box>
+        )}{" "}
+        <TextField
+          label="Max Value"
+          autoFocus
+          placeholder="API Session Max Bet"
+          variant="standard"
+          type="number"
+          // value={selected}
+          value={value}
+          id="maxBet"
+          name="maxBet"
+          onChange={(e) => {
+            setValue(e?.target.value);
+            setError(false);
+          }}
+          // touched={touched.score}
+          // error={Boolean(errors.score)}
+          InputProps={{
+            disableUnderline: true,
+            sx: {
+              alignSelf: "center",
+              border: "1px solid #303030",
+              borderRadius: "5px",
+              paddingY: "5px",
+              paddingX: "1vw",
+            },
+          }}
+        />
+        {error && (
+          <Box
+            sx={{
+              color: "red",
+              marging: "2px",
+              fontSize: "12px",
+            }}
+          >
+            Max Bet Should be Greater Than Min Bet
           </Box>
         )}
         <Box
