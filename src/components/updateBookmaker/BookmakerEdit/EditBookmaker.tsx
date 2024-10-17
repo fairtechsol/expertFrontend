@@ -393,8 +393,8 @@ const EditBookmaker = (props: any) => {
                 backgroundColor: "transparent",
               }}
             >
-              {`${"\u00A0\u00A0\u00A0"}(Min:${bookmakerById?.minBet}  Max:${
-                bookmakerById?.maxBet
+              {` (Min:${bookmakerById?.minBet || 0} Max:${
+                bookmakerById?.maxBet || 0
               })`}
             </span>
           </Typography>

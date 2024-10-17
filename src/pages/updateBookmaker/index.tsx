@@ -8,6 +8,7 @@ import {
   getPlacedBets,
   updateDeleteReason,
   updateDeleteReasonOnEdit,
+  updateMarketMinMaxLimitOnQuickMaker,
   updateMatchBetsPlaced,
   updateRatesBook,
   updateTeamRatesOnManualMarket,
@@ -73,6 +74,16 @@ const UpdateBookmaker = () => {
     }
   };
 
+  const handleMinMaxLimitChange = (event: any) => {
+    if (event?.matchId === state?.match?.id) {
+      dispatch(updateMarketMinMaxLimitOnQuickMaker(event));
+    }
+    try {
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     try {
       if (state?.id) {
@@ -96,15 +107,18 @@ const UpdateBookmaker = () => {
       socketService.user.matchResultDeclaredOff();
       socketService.user.matchDeleteBetOff();
       socketService.user.updateDeleteReasonOff();
+      socketService.user.matchBettingMinMaxChangeOff();
       socketService.user.userMatchBetPlaced(updateBetList);
       socketService.user.matchResultDeclared(resultDeclared);
       socketService.user.matchDeleteBet(matchDeleteBet);
       socketService.user.updateDeleteReason(updateDeleteBetReason);
+      socketService.user.matchBettingMinMaxChange(handleMinMaxLimitChange);
       return () => {
         socketService.user.userMatchBetPlacedOff();
         socketService.user.matchResultDeclaredOff();
         socketService.user.matchDeleteBetOff();
         socketService.user.updateDeleteReasonOff();
+        socketService.user.matchBettingMinMaxChangeOff();
       };
     }
   }, [socket, state?.id]);
