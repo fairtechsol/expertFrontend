@@ -71,6 +71,18 @@ const MaxBetAdd = ({
     }
   }, [matchOddsLive?.maxBet, matchOddsLive?.betLimit, matchOddsLive?.minBet]);
 
+  useEffect(() => {
+    if (!open) {
+      setSelected({
+        maxLimit: "1000",
+        betLimit: "100",
+        minLimit: matchOddsLive?.id
+          ? matchOddsLive?.minBet
+          : currentMatch?.betFairSessionMinBet,
+      });
+    }
+  }, [open]);
+
   return (
     <Dialog open={open} onClose={handleClose}>
       <form onSubmit={handleSubmit}>
