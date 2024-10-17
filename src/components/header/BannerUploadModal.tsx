@@ -48,7 +48,6 @@ const BannerUploadModal = ({
           alert("File should be smaller than 500/400");
           return;
         }
-        console.warn(file.size);
 
         // Convert the image to base64
         const reader = new FileReader();

@@ -414,6 +414,7 @@ export const updateRaceRates = createAsyncThunk<any, any>(
     return matchDetails;
   }
 );
+
 export const updateMarketRates = createAsyncThunk<any, any>(
   "/market/rates",
   async (requestData, thunkApi) => {
@@ -429,6 +430,13 @@ export const updateMarketRates = createAsyncThunk<any, any>(
       const err = error as AxiosError;
       return thunkApi.rejectWithValue(err.response?.status);
     }
+  }
+);
+
+export const updateMultiSessionMinMax = createAsyncThunk<any, any>(
+  "/multiSessionMinMax/rates",
+  async (matchDetails) => {
+    return matchDetails;
   }
 );
 export const addMatchReset = createAction("add/reset");
