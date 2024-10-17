@@ -226,7 +226,12 @@ const SessionMarket = ({
               matchId: currentMatch?.id,
               name: title,
               type: name,
-              minBet: currentMatch?.betFairSessionMinBet,
+              minBet:
+                currentMatch?.sessionMaxBets?.[name + "_minBet"] ??
+                currentMatch?.betFairSessionMinBet,
+              maxBet:
+                currentMatch?.sessionMaxBets?.[name] ??
+                currentMatch?.betFairSessionMinBet + 1,
             }}
             onClickCancel={() => {
               setSessionMaxBetAmountLimit(false);

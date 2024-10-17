@@ -19,6 +19,7 @@ import {
   updateMatchBettingStatus,
   updateMatchRates,
   updateMatchRatesOnMarketUndeclare,
+  updateMultiSessionMinMax,
   updateRaceRunners,
   updateRates,
   updateSessionAdded,
@@ -706,6 +707,17 @@ const addMatch = createSlice({
         state.resultBox = action?.payload;
         state.loading = false;
         state.success = true;
+      })
+      .addCase(updateMultiSessionMinMax.fulfilled, (state, action) => {
+        const { type, minBet, maxBet } = action.payload;
+        state.matchDetail = {
+          ...state.matchDetail,
+          sessionMaxBets: {
+            ...state.matchDetail.sessionMaxBets,
+            [type]: maxBet,
+            [type + "_minBet"]: minBet,
+          },
+        };
       });
   },
 });
