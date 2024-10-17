@@ -386,6 +386,17 @@ const EditBookmaker = (props: any) => {
             }}
           >
             {bookmakerById?.name}
+            <span
+              style={{
+                fontWeight: "600",
+                fontSize: "10px",
+                backgroundColor: "transparent",
+              }}
+            >
+              {`${"\u00A0\u00A0\u00A0"}(Min:${bookmakerById?.minBet}  Max:${
+                bookmakerById?.maxBet
+              })`}
+            </span>
           </Typography>
           <MaxLimitEditButtonBook handleClickOpen={() => setOpen(true)} />
         </Box>

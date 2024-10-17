@@ -5,6 +5,7 @@ import SessionResultModal from "../SessionResult/SessionResultModal";
 import AddSessionInput from "./AddSessionInput";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../store/store";
+import MaxBetAdd from "../../matchDetails/MaxBetAdd";
 import {
   addSession,
   addsuccessReset,
@@ -31,6 +32,7 @@ import {
 import { ButtonRatesQuickSessions } from "../../../utils/Constants";
 import { useNavigate, useParams } from "react-router-dom";
 import SessionLimit from "./SessionLimit";
+import SessionLimit2 from "./SessionLimit2";
 
 const stateDetail = {
   match_id: "",
@@ -75,6 +77,7 @@ const SessionAddComponent = ({ createSession, match, setMode }: any) => {
   const [visible2, setVisible2] = useState(false);
   const [visible3, setVisible3] = useState(false);
   const [maxBetValue] = useState(sessionById ? sessionById?.maxBet : null);
+  const [open, setOpen] = useState(false);
   const [lock, setLock] = useState<any>({
     isNo: true,
     isYes: true,
@@ -402,7 +405,13 @@ const SessionAddComponent = ({ createSession, match, setMode }: any) => {
           fontWeight: "600",
         }}
       >
-        {match?.title && match.title}(max:
+        {match?.title && match.title}(min:
+        {maxBetValue
+          ? maxBetValue
+          : sessionById
+          ? sessionById?.minBet
+          : match?.betFairSessionMaxBet}
+         {" "}max:
         {maxBetValue
           ? maxBetValue
           : sessionById
@@ -422,7 +431,7 @@ const SessionAddComponent = ({ createSession, match, setMode }: any) => {
           }
         }}
         sx={{
-          width: "30%",
+          width: "12%",
           position: "relative",
           display: "flex",
           background: "#0B4F26",
@@ -441,8 +450,10 @@ const SessionAddComponent = ({ createSession, match, setMode }: any) => {
             lineHeight: "0.9",
             paddingX: "6px",
           }}
+
+          onClick={()=>setOpen(true)}
         >
-          Set session max limit
+          Set limits
         </Typography>
         <Box
           sx={{
@@ -452,7 +463,7 @@ const SessionAddComponent = ({ createSession, match, setMode }: any) => {
             left: 0,
           }}
         >
-          {visible3 && (
+          {/* {visible3 && (
             <SessionLimit
               newData={{
                 id: id,
@@ -475,6 +486,18 @@ const SessionAddComponent = ({ createSession, match, setMode }: any) => {
               onClickCancel={() => {
                 setVisible3(false);
               }}
+            />
+          )} */}
+
+          {visible3 && (
+            <SessionLimit2
+              open={open}
+              handleClose={() => setOpen(false)}
+              matchOddsLive={sessionById}
+              currentMatch={{
+                id: match?.id,
+              }}
+              title={`${sessionById?.name} Max/Min Bet Limit`}
             />
           )}
         </Box>
