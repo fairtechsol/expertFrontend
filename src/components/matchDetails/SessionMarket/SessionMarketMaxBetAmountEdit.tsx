@@ -16,8 +16,6 @@ const SessionMarketMaxBetAmountEdit = (props: any) => {
     (state: RootState) => state.addSession
   );
   const myDivRef: any = useRef(null);
-  const [error, setError] = useState(false);
-  const [error1, setError1] = useState(false);
   const [value, setValue] = useState(newData?.maxBet ? newData?.maxBet : "");
   const [value1, setValue1] = useState(newData?.minBet ? newData?.minBet : "");
 
@@ -31,21 +29,13 @@ const SessionMarketMaxBetAmountEdit = (props: any) => {
   const handleSubmit = (e: any) => {
     e.stopPropagation();
     try {
-      if (value >= value1 && value && value1) {
-        setError(false);
-        setError1(false);
-        const payload = {
-          matchId: newData?.matchId,
-          maxBet: parseInt(value),
-          minBet: parseInt(value1),
-          type: newData?.type,
-        };
-        dispatch(updateMultiSessionMarketAmount(payload));
-      } else if (!value || value < value1) {
-        setError(true);
-      } else if (!value1 || value1 > value) {
-        setError1(true);
-      }
+      const payload = {
+        matchId: newData?.matchId,
+        maxBet: parseInt(value),
+        minBet: parseInt(value1),
+        type: newData?.type,
+      };
+      dispatch(updateMultiSessionMarketAmount(payload));
     } catch (error) {
       console.log("error", error);
     }
@@ -159,7 +149,6 @@ const SessionMarketMaxBetAmountEdit = (props: any) => {
           name="minBet"
           onChange={(e) => {
             setValue1(e?.target.value);
-            setError1(false);
           }}
           // touched={touched.score}
           // error={Boolean(errors.score)}
@@ -179,17 +168,6 @@ const SessionMarketMaxBetAmountEdit = (props: any) => {
             }
           }}
         />
-        {error1 && (
-          <Box
-            sx={{
-              color: "red",
-              marging: "2px",
-              fontSize: "12px",
-            }}
-          >
-            Min Bet Should be Smaller Than Max Bet
-          </Box>
-        )}{" "}
         <TextField
           label="Max Value"
           autoFocus
@@ -202,7 +180,6 @@ const SessionMarketMaxBetAmountEdit = (props: any) => {
           name="maxBet"
           onChange={(e) => {
             setValue(e?.target.value);
-            setError(false);
           }}
           // touched={touched.score}
           // error={Boolean(errors.score)}
@@ -217,17 +194,6 @@ const SessionMarketMaxBetAmountEdit = (props: any) => {
             },
           }}
         />
-        {error && (
-          <Box
-            sx={{
-              color: "red",
-              marging: "2px",
-              fontSize: "12px",
-            }}
-          >
-            Max Bet Should be Greater Than Min Bet
-          </Box>
-        )}
         <Box
           sx={{
             display: "flex",
