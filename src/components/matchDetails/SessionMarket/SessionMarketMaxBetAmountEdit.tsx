@@ -29,15 +29,13 @@ const SessionMarketMaxBetAmountEdit = (props: any) => {
   const handleSubmit = (e: any) => {
     e.stopPropagation();
     try {
-      if (value >= value1) {
-        const payload = {
-          matchId: newData?.matchId,
-          maxBet: parseInt(value),
-          minBet: parseInt(value1),
-          type: newData?.type,
-        };
-        dispatch(updateMultiSessionMarketAmount(payload));
-      }
+      const payload = {
+        matchId: newData?.matchId,
+        maxBet: parseInt(value),
+        minBet: parseInt(value1),
+        type: newData?.type,
+      };
+      dispatch(updateMultiSessionMarketAmount(payload));
     } catch (error) {
       console.log("error", error);
     }
