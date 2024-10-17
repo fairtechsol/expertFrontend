@@ -9,28 +9,19 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import { Box } from "@mui/material";
 import MatchListInput from "../../addMatch/MatchListInput";
-// import MaxBetAdd from "../../matchDetails/MaxBetAdd";
 
-const SessionLimit2 = ({
-  open,
-  handleClose,
-  matchOddsLive,
-  // currentMatch,
-  title,
-}: any) => {
+const SessionLimit2 = ({ open, handleClose, matchOddsLive, title }: any) => {
   const [selected, setSelected] = useState<any>({
     maxLimit: 0,
     minLimit: 0,
   });
   const dispatch: AppDispatch = useDispatch();
-  const [error, setError] = useState(false);
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
     try {
       if (matchOddsLive?.id) {
-        if (selected?.maxLimit > matchOddsLive?.minBet) {
-          setError(false);
+        if (selected?.maxLimit >= matchOddsLive?.minBet) {
           const payload = {
             id: matchOddsLive?.id,
             maxBet: selected?.maxLimit,
@@ -38,7 +29,6 @@ const SessionLimit2 = ({
           };
           dispatch(updateSession(payload));
         } else {
-          setError(true);
         }
       } else {
       }
@@ -46,28 +36,6 @@ const SessionLimit2 = ({
       console.log("error", error);
     }
   };
-
-  //   const handleSubmit = (e: any) => {
-  //     e.preventDefault();
-  //     let data = {
-  //       //matchId: currentMatch?.id,
-  //       //type: matchOddsLive?.type,
-  //       name: matchOddsLive?.name,
-  //       maxBet: parseFloat(selected.maxLimit),
-  //       minBet: parseFloat(selected.minLimit),
-  //       //marketId: matchOddsLive?.marketId,
-  //       //gtype: matchOddsLive?.gtype,
-  //       ...(matchOddsLive?.id && { id: matchOddsLive.id }),
-  //     };
-  //     if (
-  //       ["matchOdd", "completeMatch", "tiedMatch1"]?.includes(matchOddsLive?.type)
-  //     ) {
-  //       data.betLimit = selected.betLimit;
-  //     }
-  //     //dispatch(updateMarketRates(data));
-  //     dispatch(updateSession(data));
-  //     handleClose();
-  //   };
 
   const handleChange = (e: any) => {
     try {
@@ -201,18 +169,6 @@ const SessionLimit2 = ({
           </button>
         </DialogActions>
       </form>
-
-      {error && (
-        <Box
-          sx={{
-            color: "red",
-            marging: "2px",
-            fontSize: "12px",
-          }}
-        >
-          Max Bet Should be Greater Than Min Bet
-        </Box>
-      )}
     </Dialog>
   );
 };
