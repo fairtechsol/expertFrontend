@@ -330,13 +330,14 @@ export const addSessionReducers = createReducer(initialState, (builder) => {
       state.loading = false;
     })
     .addCase(updateSessionMaxLimit.fulfilled, (state, action) => {
-      const { maxBet, id } = action?.payload;
+      const { maxBet, id, minBet } = action?.payload;
       const { sessionById } = state;
 
       if (id === sessionById?.id) {
         state.sessionById = {
           ...sessionById,
           maxBet,
+          minBet,
         };
         state.loading = false;
         state.maxLimitUpdateSuccess = true;

@@ -446,3 +446,4 @@ export const runnerDetailReset = createAction("runnerDetail/reset");
 export const matchDetailSuccessReset = createAction("matchDetailSuccess/reset");
 export const eventListReset = createAction("eventList/reset");
 export const tournamentListReset = createAction("tournamentList/reset");
+export const resetMarketListMinMax = createAction("marketListMinMax/reset");

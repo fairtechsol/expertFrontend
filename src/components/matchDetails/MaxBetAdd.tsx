@@ -1,7 +1,10 @@
 import { useEffect, useState } from "react";
-import { updateMarketRates } from "../../store/actions/addMatch/addMatchAction";
-import { AppDispatch } from "../../store/store";
-import { useDispatch } from "react-redux";
+import {
+  resetMarketListMinMax,
+  updateMarketRates,
+} from "../../store/actions/addMatch/addMatchAction";
+import { AppDispatch, RootState } from "../../store/store";
+import { useDispatch, useSelector } from "react-redux";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
@@ -22,6 +25,9 @@ const MaxBetAdd = ({
     betLimit: 0,
   });
   const dispatch: AppDispatch = useDispatch();
+  const { maxLimitSuccess } = useSelector(
+    (state: RootState) => state.addMatch.addMatch
+  );
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
@@ -41,7 +47,6 @@ const MaxBetAdd = ({
       data.betLimit = selected.betLimit;
     }
     dispatch(updateMarketRates(data));
-    handleClose();
   };
 
   const handleChange = (e: any) => {
@@ -72,16 +77,11 @@ const MaxBetAdd = ({
   }, [matchOddsLive?.maxBet, matchOddsLive?.betLimit, matchOddsLive?.minBet]);
 
   useEffect(() => {
-    if (!open) {
-      setSelected({
-        maxLimit: "1000",
-        betLimit: "100",
-        minLimit: matchOddsLive?.id
-          ? matchOddsLive?.minBet
-          : currentMatch?.betFairSessionMinBet,
-      });
+    if (maxLimitSuccess) {
+      dispatch(resetMarketListMinMax());
+      handleClose();
     }
-  }, [open]);
+  }, [maxLimitSuccess]);
 
   return (
     <Dialog open={open} onClose={handleClose}>

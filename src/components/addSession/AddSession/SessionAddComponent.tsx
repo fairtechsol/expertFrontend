@@ -76,7 +76,6 @@ const SessionAddComponent = ({ createSession, match, setMode }: any) => {
   const [visible1, setVisible1] = useState(false);
   const [visible2, setVisible2] = useState(false);
   const [visible3, setVisible3] = useState(false);
-  const [maxBetValue] = useState(sessionById ? sessionById?.maxBet : null);
   const [open, setOpen] = useState(false);
   const [lock, setLock] = useState<any>({
     isNo: true,
@@ -103,9 +102,7 @@ const SessionAddComponent = ({ createSession, match, setMode }: any) => {
         noRate: inputDetail?.leftNoRate,
         yesPercent: inputDetail?.leftYesRatePercent,
         noPercent: inputDetail?.leftNoRatePercent,
-        maxBet: maxBetValue
-          ? parseInt(maxBetValue)
-          : match?.betFairSessionMaxBet,
+        maxBet: match?.betFairSessionMaxBet,
         minBet: match?.betFairSessionMinBet,
         gtype: "fancy",
       };
@@ -406,18 +403,8 @@ const SessionAddComponent = ({ createSession, match, setMode }: any) => {
         }}
       >
         {match?.title && match.title}(min:
-        {maxBetValue
-          ? maxBetValue
-          : sessionById
-          ? sessionById?.minBet
-          : match?.betFairSessionMaxBet}{" "}
-        max:
-        {maxBetValue
-          ? maxBetValue
-          : sessionById
-          ? sessionById?.maxBet
-          : match?.betFairSessionMaxBet}
-        )
+        {sessionById ? sessionById?.minBet : match?.betFairSessionMinBet} max:
+        {sessionById ? sessionById?.maxBet : match?.betFairSessionMaxBet})
       </Typography>
       <Box
         onClick={(e) => {
