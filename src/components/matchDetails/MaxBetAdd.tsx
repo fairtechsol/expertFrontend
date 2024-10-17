@@ -62,7 +62,9 @@ const MaxBetAdd = ({
       setSelected({
         maxLimit: matchOddsLive?.maxBet,
         betLimit: matchOddsLive?.betLimit,
-        minLimit: matchOddsLive?.minBet,
+        minLimit: matchOddsLive?.id
+          ? matchOddsLive?.minBet
+          : currentMatch?.betFairSessionMinBet,
       });
     } catch (error) {
       console.error(error);

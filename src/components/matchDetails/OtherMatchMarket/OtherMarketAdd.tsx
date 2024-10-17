@@ -78,7 +78,9 @@ const OtherMarketAdd = ({
     try {
       setSelected({
         maxLimit: matchOddsLive?.maxBet,
-        minLimit: matchOddsLive?.minBet,
+        minLimit: matchOddsLive?.id
+          ? matchOddsLive?.minBet
+          : currentMatch?.betFairSessionMinBet,
         // betLimit: matchOddsLive?.betLimit,
       });
     } catch (error) {
