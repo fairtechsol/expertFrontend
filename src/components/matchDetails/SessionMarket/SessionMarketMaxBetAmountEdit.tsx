@@ -31,7 +31,7 @@ const SessionMarketMaxBetAmountEdit = (props: any) => {
   const handleSubmit = (e: any) => {
     e.stopPropagation();
     try {
-      if (value > value1 && value && value1) {
+      if (value >= value1 && value && value1) {
         setError(false);
         setError1(false);
         const payload = {
