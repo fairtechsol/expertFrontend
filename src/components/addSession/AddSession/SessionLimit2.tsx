@@ -9,13 +9,13 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import { Box } from "@mui/material";
 import MatchListInput from "../../addMatch/MatchListInput";
-import MaxBetAdd from "../../matchDetails/MaxBetAdd";
+// import MaxBetAdd from "../../matchDetails/MaxBetAdd";
 
 const SessionLimit2 = ({
   open,
   handleClose,
   matchOddsLive,
-  currentMatch,
+  // currentMatch,
   title,
 }: any) => {
   const [selected, setSelected] = useState<any>({
@@ -24,15 +24,12 @@ const SessionLimit2 = ({
   });
   const dispatch: AppDispatch = useDispatch();
   const [error, setError] = useState(false);
-  const [value, setValue] = useState(
-    matchOddsLive?.maxBet ? matchOddsLive?.maxBet : ""
-  );
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
     try {
       if (matchOddsLive?.id) {
-        if (value > matchOddsLive?.minBet) {
+        if (selected?.maxLimit > matchOddsLive?.minBet) {
           setError(false);
           const payload = {
             id: matchOddsLive?.id,
