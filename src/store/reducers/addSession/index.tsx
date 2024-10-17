@@ -16,6 +16,7 @@ import {
   updateBetsPlaced,
   updateDeleteReason,
   updateDeleteReasonOnEdit,
+  updateMarketMinMaxLimitOnQuickMaker,
   updateMatchBetsPlaced,
   updateMultiSessionMarketAmount,
   updateProLossSession,
@@ -329,13 +330,14 @@ export const addSessionReducers = createReducer(initialState, (builder) => {
       state.loading = false;
     })
     .addCase(updateSessionMaxLimit.fulfilled, (state, action) => {
-      const { maxBet, id } = action?.payload;
+      const { maxBet, id, minBet } = action?.payload;
       const { sessionById } = state;
 
       if (id === sessionById?.id) {
         state.sessionById = {
           ...sessionById,
           maxBet,
+          minBet,
         };
         state.loading = false;
         state.maxLimitUpdateSuccess = true;
@@ -359,6 +361,15 @@ export const addSessionReducers = createReducer(initialState, (builder) => {
     .addCase(updateResultStatusOfQuickBookmaker.fulfilled, (state, action) => {
       if (state.bookmakerById?.id === action.payload?.betId) {
         state.bookmakerById["resultStatus"] = action?.payload?.status;
+      }
+    })
+    .addCase(updateMarketMinMaxLimitOnQuickMaker.fulfilled, (state, action) => {
+      if (state.bookmakerById?.id === action.payload?.betId) {
+        state.bookmakerById = {
+          ...state.bookmakerById,
+          minBet: action.payload.minBet,
+          maxBet: action.payload.maxBet,
+        };
       }
     });
 });

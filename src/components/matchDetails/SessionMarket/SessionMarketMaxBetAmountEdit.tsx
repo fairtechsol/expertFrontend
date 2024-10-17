@@ -16,8 +16,8 @@ const SessionMarketMaxBetAmountEdit = (props: any) => {
     (state: RootState) => state.addSession
   );
   const myDivRef: any = useRef(null);
-  const [error, setError] = useState(false);
   const [value, setValue] = useState(newData?.maxBet ? newData?.maxBet : "");
+  const [value1, setValue1] = useState(newData?.minBet ? newData?.minBet : "");
 
   const scrollToBottom = () => {
     myDivRef.current?.scrollIntoView({
@@ -29,17 +29,13 @@ const SessionMarketMaxBetAmountEdit = (props: any) => {
   const handleSubmit = (e: any) => {
     e.stopPropagation();
     try {
-      if (value > newData?.minBet) {
-        setError(false);
-        const payload = {
-          matchId: newData?.matchId,
-          maxBet: parseInt(value),
-          type: newData?.type,
-        };
-        dispatch(updateMultiSessionMarketAmount(payload));
-      } else {
-        setError(true);
-      }
+      const payload = {
+        matchId: newData?.matchId,
+        maxBet: parseInt(value),
+        minBet: parseInt(value1),
+        type: newData?.type,
+      };
+      dispatch(updateMultiSessionMarketAmount(payload));
     } catch (error) {
       console.log("error", error);
     }
@@ -56,12 +52,16 @@ const SessionMarketMaxBetAmountEdit = (props: any) => {
     scrollToBottom();
   }, [visible]);
 
+  // useEffect(() => {
+  //   setValue(newData?.maxBet);
+  //   setValue1(newData?.minBet);
+  // }, [newData?.minBet, newData?.maxBet]);
+
   return (
     <Box
       sx={{
         width: { lg: "30%", xs: "60%", md: "40%" },
         // height: "180px",
-
         padding: 0.2,
         borderRadius: 2,
         boxShadow: "0px 5px 10px #1A568414",
@@ -122,8 +122,6 @@ const SessionMarketMaxBetAmountEdit = (props: any) => {
       >
         Market Name: {newData?.name}
       </Typography>
-
-      {/* <form> */}
       <Box
         sx={{
           width: "100%",
@@ -140,17 +138,17 @@ const SessionMarketMaxBetAmountEdit = (props: any) => {
         ref={myDivRef}
       >
         <TextField
+          label="Min Value"
           autoFocus
-          placeholder="API Session Max Bet"
+          placeholder="API Session Min Bet"
           variant="standard"
           type="number"
           // value={selected}
-          value={value}
-          id="score"
-          name="score"
+          value={value1}
+          id="minBet"
+          name="minBet"
           onChange={(e) => {
-            setValue(e?.target.value);
-            setError(false);
+            setValue1(e?.target.value);
           }}
           // touched={touched.score}
           // error={Boolean(errors.score)}
@@ -170,18 +168,32 @@ const SessionMarketMaxBetAmountEdit = (props: any) => {
             }
           }}
         />
-        {error && (
-          <Box
-            sx={{
-              color: "red",
-              marging: "2px",
-              fontSize: "12px",
-            }}
-          >
-            Max Bet Should be Greater Than Min Bet
-          </Box>
-        )}
-
+        <TextField
+          label="Max Value"
+          autoFocus
+          placeholder="API Session Max Bet"
+          variant="standard"
+          type="number"
+          // value={selected}
+          value={value}
+          id="maxBet"
+          name="maxBet"
+          onChange={(e) => {
+            setValue(e?.target.value);
+          }}
+          // touched={touched.score}
+          // error={Boolean(errors.score)}
+          InputProps={{
+            disableUnderline: true,
+            sx: {
+              alignSelf: "center",
+              border: "1px solid #303030",
+              borderRadius: "5px",
+              paddingY: "5px",
+              paddingX: "1vw",
+            },
+          }}
+        />
         <Box
           sx={{
             display: "flex",

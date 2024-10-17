@@ -13,12 +13,15 @@ import {
   handleBetResultStatus,
   matchDetailReset,
   matchDetailSuccessReset,
+  resetMarketListMinMax,
   runnerDetailReset,
   tournamentListReset,
   updateExtraMarketListOnEdit,
+  updateMarketRates,
   updateMatchBettingStatus,
   updateMatchRates,
   updateMatchRatesOnMarketUndeclare,
+  updateMultiSessionMinMax,
   updateRaceRunners,
   updateRates,
   updateSessionAdded,
@@ -52,6 +55,7 @@ interface InitialState {
   raceRunners: any;
   resultBox: any;
   quickBookmaker1: any;
+  maxLimitSuccess: boolean;
 }
 
 const initialState: InitialState = {
@@ -76,6 +80,7 @@ const initialState: InitialState = {
   error: null,
   resultBox: { visible: false, betId: "" },
   quickBookmaker1: [],
+  maxLimitSuccess: false,
 };
 
 const addMatch = createSlice({
@@ -706,6 +711,23 @@ const addMatch = createSlice({
         state.resultBox = action?.payload;
         state.loading = false;
         state.success = true;
+      })
+      .addCase(updateMultiSessionMinMax.fulfilled, (state, action) => {
+        const { type, minBet, maxBet } = action.payload;
+        state.matchDetail = {
+          ...state.matchDetail,
+          sessionMaxBets: {
+            ...state.matchDetail.sessionMaxBets,
+            [type]: maxBet,
+            [type + "_minBet"]: minBet,
+          },
+        };
+      })
+      .addCase(updateMarketRates.fulfilled, (state) => {
+        state.maxLimitSuccess = true;
+      })
+      .addCase(resetMarketListMinMax, (state) => {
+        state.maxLimitSuccess = false;
       });
   },
 });

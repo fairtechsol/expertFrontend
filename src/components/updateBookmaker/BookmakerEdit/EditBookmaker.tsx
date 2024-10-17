@@ -386,6 +386,17 @@ const EditBookmaker = (props: any) => {
             }}
           >
             {bookmakerById?.name}
+            <span
+              style={{
+                fontWeight: "600",
+                fontSize: "10px",
+                backgroundColor: "transparent",
+              }}
+            >
+              {` (Min:${bookmakerById?.minBet || 0} Max:${
+                bookmakerById?.maxBet || 0
+              })`}
+            </span>
           </Typography>
           {/* <MaxLimitEditButtonBook handleClickOpen={() => setOpen(true)} /> */}
         </Box>
@@ -1404,7 +1415,7 @@ const EditBookmaker = (props: any) => {
         currentMatch={{
           id: bookmakerById?.matchId,
         }}
-        title={"API Match Odds Max Bet"}
+        title={`${bookmakerById?.name} Max/Min Bet Limit`}
       />
     </>
   );

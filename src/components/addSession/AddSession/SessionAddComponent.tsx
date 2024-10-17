@@ -5,6 +5,7 @@ import SessionResultModal from "../SessionResult/SessionResultModal";
 import AddSessionInput from "./AddSessionInput";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../store/store";
+// import MaxBetAdd from "../../matchDetails/MaxBetAdd";
 import {
   addSession,
   addsuccessReset,
@@ -30,7 +31,8 @@ import {
 } from "../../../store/actions/match/matchAction";
 import { ButtonRatesQuickSessions } from "../../../utils/Constants";
 import { useNavigate, useParams } from "react-router-dom";
-import SessionLimit from "./SessionLimit";
+// import SessionLimit from "./SessionLimit";
+import SessionLimit2 from "./SessionLimit2";
 
 const stateDetail = {
   match_id: "",
@@ -74,7 +76,7 @@ const SessionAddComponent = ({ createSession, match, setMode }: any) => {
   const [visible1, setVisible1] = useState(false);
   const [visible2, setVisible2] = useState(false);
   const [visible3, setVisible3] = useState(false);
-  const [maxBetValue] = useState(sessionById ? sessionById?.maxBet : null);
+  const [open, setOpen] = useState(false);
   const [lock, setLock] = useState<any>({
     isNo: true,
     isYes: true,
@@ -100,9 +102,7 @@ const SessionAddComponent = ({ createSession, match, setMode }: any) => {
         noRate: inputDetail?.leftNoRate,
         yesPercent: inputDetail?.leftYesRatePercent,
         noPercent: inputDetail?.leftNoRatePercent,
-        maxBet: maxBetValue
-          ? parseInt(maxBetValue)
-          : match?.betFairSessionMaxBet,
+        maxBet: match?.betFairSessionMaxBet,
         minBet: match?.betFairSessionMinBet,
         gtype: "fancy",
       };
@@ -402,13 +402,9 @@ const SessionAddComponent = ({ createSession, match, setMode }: any) => {
           fontWeight: "600",
         }}
       >
-        {match?.title && match.title}(max:
-        {maxBetValue
-          ? maxBetValue
-          : sessionById
-          ? sessionById?.maxBet
-          : match?.betFairSessionMaxBet}
-        )
+        {match?.title && match.title}(min:
+        {sessionById ? sessionById?.minBet : match?.betFairSessionMinBet} max:
+        {sessionById ? sessionById?.maxBet : match?.betFairSessionMaxBet})
       </Typography>
       <Box
         onClick={(e) => {
@@ -422,7 +418,7 @@ const SessionAddComponent = ({ createSession, match, setMode }: any) => {
           }
         }}
         sx={{
-          width: "30%",
+          width: "12%",
           position: "relative",
           display: "flex",
           background: "#0B4F26",
@@ -441,8 +437,9 @@ const SessionAddComponent = ({ createSession, match, setMode }: any) => {
             lineHeight: "0.9",
             paddingX: "6px",
           }}
+          onClick={() => setOpen(true)}
         >
-          Set session max limit
+          Set limits
         </Typography>
         <Box
           sx={{
@@ -452,7 +449,7 @@ const SessionAddComponent = ({ createSession, match, setMode }: any) => {
             left: 0,
           }}
         >
-          {visible3 && (
+          {/* {visible3 && (
             <SessionLimit
               newData={{
                 id: id,
@@ -475,6 +472,18 @@ const SessionAddComponent = ({ createSession, match, setMode }: any) => {
               onClickCancel={() => {
                 setVisible3(false);
               }}
+            />
+          )} */}
+
+          {visible3 && (
+            <SessionLimit2
+              open={open}
+              handleClose={() => setOpen(false)}
+              matchOddsLive={sessionById}
+              currentMatch={{
+                id: match?.id,
+              }}
+              title={`${sessionById?.name} Max/Min Bet Limit`}
             />
           )}
         </Box>

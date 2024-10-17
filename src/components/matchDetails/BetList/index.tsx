@@ -48,7 +48,7 @@ const BetList = ({ tag, allBetRates, title }: any) => {
               name: v?.user?.userName,
               color: betListColorConstants[v?.marketType]
                 ? betListColorConstants[v?.marketType]?.textColor
-                : "#fff",
+                : "#000",
               background: betListColorConstants[v?.marketType]
                 ? betListColorConstants[v?.marketType]?.background
                 : "#319E5B",
@@ -63,7 +63,7 @@ const BetList = ({ tag, allBetRates, title }: any) => {
                   : v?.bettingName ?? v?.marketType,
               color: betListColorConstants[v?.marketType]
                 ? betListColorConstants[v?.marketType]?.textColor
-                : "#fff",
+                : "#000",
               background: betListColorConstants[v?.marketType]
                 ? betListColorConstants[v?.marketType]?.background
                 : "#319E5B",

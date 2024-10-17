@@ -57,8 +57,14 @@ export const userSocketService = {
   matchResultUnDeclareAllUser: (callback: any) => {
     socket?.on("matchResultUnDeclareAllUser", callback);
   },
+  multiSessionUpdated: (callback: any) => {
+    socket?.on("multiSessionUpdated", callback);
+  },
   updateDeleteReason: (callback: any) => {
     socket?.on("updateDeleteReason", callback);
+  },
+  matchBettingMinMaxChange: (callback: any) => {
+    socket?.on("matchBettingMinMaxChange", callback);
   },
   updateSessionRateClientOff: () => {
     socket?.off("updateSessionRateClient");
@@ -107,5 +113,11 @@ export const userSocketService = {
   },
   matchResultDeclareAllUserOff: () => {
     socket?.off("matchResultDeclareAllUser");
+  },
+  multiSessionUpdatedOff: () => {
+    socket?.off("multiSessionUpdated");
+  },
+  matchBettingMinMaxChangeOff: () => {
+    socket?.off("matchBettingMinMaxChange");
   },
 };

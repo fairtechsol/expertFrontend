@@ -175,7 +175,7 @@ const ResultComponentOtherMarket = ({
                   >
                     <Typography
                       sx={{
-                        fontSize: "14px",
+                        fontSize: "10px",
                         fontWeight: "700",
                         color:
                           selected ===

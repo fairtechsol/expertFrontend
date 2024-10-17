@@ -1,4 +1,4 @@
-import { Box, Button, Input, Modal, Typography } from "@mui/material";
+import { Box, Button, Modal, Typography } from "@mui/material";
 import { useFormik } from "formik";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
@@ -48,7 +48,6 @@ const BannerUploadModal = ({
           alert("File should be smaller than 500/400");
           return;
         }
-        console.warn(file.size);
 
         // Convert the image to base64
         const reader = new FileReader();
@@ -133,25 +132,21 @@ const BannerUploadModal = ({
                 justifyContent: "center",
               }}
             >
-              <Input
+              <input
                 name="banner"
                 id="banner"
                 type="file"
+                accept="image/png, image/jpeg"
                 onChange={handleImageChange}
                 onBlur={formik.handleBlur}
-                sx={{
+                style={{
                   fontWeight: "700",
                   borderRadius: "5px",
-                  paddingY: "5px",
-                  paddingX: "1vw",
+                  padding: "5px",
+                  margin: "2%",
                   boxShadow: "0px 5px 15px #0000001A",
-                  width: "100%",
-                  height: "100%",
                   fontSize: "12px",
                   overflow: "hidden",
-                  marginX: "2%",
-                }}
-                style={{
                   width: "96%",
                   height: "100px",
                   marginTop: "10px",

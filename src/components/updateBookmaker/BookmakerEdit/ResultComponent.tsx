@@ -168,7 +168,7 @@ const ResultComponent = ({
                   >
                     <Typography
                       sx={{
-                        fontSize: "12px",
+                        fontSize: "10px",
                         fontWeight: "700",
                         color: selected === i ? "white" : "black",
                         lineHeight: 1,

@@ -414,7 +414,7 @@ export const betListColorConstants: any = {
   ballByBall: { background: "#33FF33", textColor: "#fff" },
   khado: { background: "#E6E6FA", textColor: "#000" },
   meter: { background: "#808000 ", textColor: "#fff" },
-  other: { background: "000", textColor: "#fff" },
+  other: { background: "#000", textColor: "#fff" },
   tournament: { background: "#FFC0CB", textColor: "#000" },
 };
 

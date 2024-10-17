@@ -16,8 +16,8 @@ import BoxProfile from "./BoxProfile";
 import { socket, socketService } from "../../../socketManager";
 import { getLoggedUserCount } from "../../../store/actions/user/userAction";
 import GameTypeDropdown from "./GameTypeDropdown";
-import { setSelectedTabForMatchList } from "../../../store/actions/match/matchAction";
-// import { GiTatteredBanner } from "react-icons/gi";
+// import { setSelectedTabForMatchList } from "../../../store/actions/match/matchAction";
+import { GiTatteredBanner } from "react-icons/gi";
 import BannerUploadModal from "../../../components/header/BannerUploadModal";
 
 const Header1 = () => {
@@ -194,7 +194,7 @@ const Header1 = () => {
                     <ButtonHead
                       onClick={() => {
                         setSelected(4);
-                        dispatch(setSelectedTabForMatchList(0));
+                        // dispatch(setSelectedTabForMatchList(0));
                       }}
                       title={"MATCH LIST"}
                       boxStyle={{
@@ -282,7 +282,7 @@ const Header1 = () => {
                     flexDirection: "row",
                   }}
                 >
-                  {/* <Box
+                  <Box
                     onClick={() => {
                       setVisibleBanner(true);
                     }}
@@ -299,7 +299,7 @@ const Header1 = () => {
                     }}
                   >
                     <GiTatteredBanner color="black" />
-                  </Box> */}
+                  </Box>
                   <Box
                     onClick={() => {
                       setVisible(true);
@@ -459,7 +459,7 @@ const Header1 = () => {
                 }}
               >
                 <Box sx={{ display: "flex" }}>
-                  {/* <Box
+                  <Box
                     onClick={() => {
                       setVisibleBanner(true);
                     }}
@@ -475,7 +475,7 @@ const Header1 = () => {
                     }}
                   >
                     <GiTatteredBanner color="black" />
-                  </Box> */}
+                  </Box>
                   <Box
                     onClick={() => {
                       setVisible(true);
@@ -543,7 +543,7 @@ const Header1 = () => {
                       <ButtonHead
                         onClick={() => {
                           setSelected(4);
-                          dispatch(setSelectedTabForMatchList(0));
+                          // dispatch(setSelectedTabForMatchList(0));
                         }}
                         title={"MATCH LIST"}
                         boxStyle={{

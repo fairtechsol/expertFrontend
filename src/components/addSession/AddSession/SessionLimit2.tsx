@@ -1,63 +1,45 @@
 import { useEffect, useState } from "react";
+//import { updateMarketRates } from "../../../store/actions/addMatch/addMatchAction";
+import {
+  resetSessionMaxLimitSuccess,
+  updateSession,
+} from "../../../store/actions/addSession";
+import { AppDispatch, RootState } from "../../../store/store";
 import { useDispatch, useSelector } from "react-redux";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import { Box } from "@mui/material";
-import { AppDispatch, RootState } from "../../../store/store";
-import {
-  resetMarketListMinMax,
-  updateMarketRates,
-} from "../../../store/actions/addMatch/addMatchAction";
 import MatchListInput from "../../addMatch/MatchListInput";
 
-const TournamentMarketAdd = ({
-  open,
-  handleClose,
-  matchOddsLive,
-  currentMatch,
-  title,
-}: any) => {
+const SessionLimit2 = ({ open, handleClose, matchOddsLive, title }: any) => {
   const [selected, setSelected] = useState<any>({
     maxLimit: 0,
     minLimit: 0,
-    betLimit: 0,
   });
   const dispatch: AppDispatch = useDispatch();
-  const { maxLimitSuccess } = useSelector(
-    (state: RootState) => state.addMatch.addMatch
+  const { maxLimitUpdateSuccess } = useSelector(
+    (state: RootState) => state.addSession
   );
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
-    let data = {
-      matchId: currentMatch?.id,
-      type: "tournament",
-      name: matchOddsLive?.name,
-      maxBet: parseFloat(selected.maxLimit),
-      minBet: parseFloat(selected.minLimit),
-      // betLimit: selected.betLimit,
-      marketId:
-        matchOddsLive?.mid?.toString() || matchOddsLive?.marketId?.toString(),
-      gtype: matchOddsLive?.gtype,
-      runners: matchOddsLive?.runners?.map((item: any) => {
-        return {
-          matchId: currentMatch?.id,
-          runnerName: item?.nat ?? item?.runnerName,
-          //   metaData: null,
-          selectionId: item?.selectionId?.toString(),
-          sortPriority: item?.selectionId?.toString(),
+    try {
+      if (matchOddsLive?.id) {
+        // if (selected?.maxLimit >= selected?.minLimit) {
+        const payload = {
+          id: matchOddsLive?.id,
+          maxBet: selected?.maxLimit,
+          minBet: selected?.minLimit,
         };
-      }),
-      ...(matchOddsLive?.id && { id: matchOddsLive.id }),
-    };
-    dispatch(updateMarketRates(data));
-    handleClose();
-  };
-
-  const handlclose = () => {
-    handleClose();
+        dispatch(updateSession(payload));
+        //   }
+        // } else {
+      }
+    } catch (error) {
+      console.log("error", error);
+    }
   };
 
   const handleChange = (e: any) => {
@@ -77,10 +59,7 @@ const TournamentMarketAdd = ({
     try {
       setSelected({
         maxLimit: matchOddsLive?.maxBet,
-        minLimit: matchOddsLive?.id
-          ? matchOddsLive?.minBet
-          : currentMatch?.betFairSessionMinBet,
-        // betLimit: matchOddsLive?.betLimit,
+        minLimit: matchOddsLive?.minBet,
       });
     } catch (error) {
       console.error(error);
@@ -88,12 +67,11 @@ const TournamentMarketAdd = ({
   }, [matchOddsLive?.maxBet, matchOddsLive?.minBet]);
 
   useEffect(() => {
-    if (maxLimitSuccess) {
-      dispatch(resetMarketListMinMax());
+    if (maxLimitUpdateSuccess) {
+      dispatch(resetSessionMaxLimitSuccess());
       handleClose();
     }
-  }, [maxLimitSuccess]);
-
+  }, [maxLimitUpdateSuccess]);
   return (
     <Dialog open={open} onClose={handleClose}>
       <form onSubmit={handleSubmit}>
@@ -155,25 +133,6 @@ const TournamentMarketAdd = ({
                   onChange={handleChange}
                 />
               </Box>
-              {/* <Box
-                sx={{
-                  width: {
-                    xs: "100%",
-                    lg: "50%",
-                    md: "50%",
-                  },
-                }}
-              >
-                <MatchListInput
-                  label={"Bet Limit*"}
-                  type={"number"}
-                  placeholder="Enter Bet Limit..."
-                  name="betLimit"
-                  id="betLimit"
-                  onChange={handleChange}
-                  value={selected.betLimit}
-                />
-              </Box> */}
             </Box>
           </Box>
         </DialogContent>
@@ -212,7 +171,9 @@ const TournamentMarketAdd = ({
               cursor: "pointer",
               fontFamily: "Poppins, sans-serif",
             }}
-            onClick={handlclose}
+            onClick={() => {
+              handleClose();
+            }}
           >
             Cancel
           </button>
@@ -222,4 +183,4 @@ const TournamentMarketAdd = ({
   );
 };
 
-export default TournamentMarketAdd;
+export default SessionLimit2;

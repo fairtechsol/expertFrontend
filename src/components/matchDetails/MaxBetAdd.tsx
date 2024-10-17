@@ -1,7 +1,10 @@
 import { useEffect, useState } from "react";
-import { updateMarketRates } from "../../store/actions/addMatch/addMatchAction";
-import { AppDispatch } from "../../store/store";
-import { useDispatch } from "react-redux";
+import {
+  resetMarketListMinMax,
+  updateMarketRates,
+} from "../../store/actions/addMatch/addMatchAction";
+import { AppDispatch, RootState } from "../../store/store";
+import { useDispatch, useSelector } from "react-redux";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
@@ -18,9 +21,13 @@ const MaxBetAdd = ({
 }: any) => {
   const [selected, setSelected] = useState<any>({
     maxLimit: 0,
+    minLimit: 0,
     betLimit: 0,
   });
   const dispatch: AppDispatch = useDispatch();
+  const { maxLimitSuccess } = useSelector(
+    (state: RootState) => state.addMatch.addMatch
+  );
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
@@ -29,6 +36,7 @@ const MaxBetAdd = ({
       type: matchOddsLive?.type,
       name: matchOddsLive?.name,
       maxBet: parseFloat(selected.maxLimit),
+      minBet: parseFloat(selected.minLimit),
       marketId: matchOddsLive?.marketId,
       gtype: matchOddsLive?.gtype,
       ...(matchOddsLive?.id && { id: matchOddsLive.id }),
@@ -39,7 +47,6 @@ const MaxBetAdd = ({
       data.betLimit = selected.betLimit;
     }
     dispatch(updateMarketRates(data));
-    handleClose();
   };
 
   const handleChange = (e: any) => {
@@ -60,11 +67,21 @@ const MaxBetAdd = ({
       setSelected({
         maxLimit: matchOddsLive?.maxBet,
         betLimit: matchOddsLive?.betLimit,
+        minLimit: matchOddsLive?.id
+          ? matchOddsLive?.minBet
+          : currentMatch?.betFairSessionMinBet,
       });
     } catch (error) {
       console.error(error);
     }
-  }, [matchOddsLive?.maxBet, matchOddsLive?.betLimit]);
+  }, [matchOddsLive?.maxBet, matchOddsLive?.betLimit, matchOddsLive?.minBet]);
+
+  useEffect(() => {
+    if (maxLimitSuccess) {
+      dispatch(resetMarketListMinMax());
+      handleClose();
+    }
+  }, [maxLimitSuccess]);
 
   return (
     <Dialog open={open} onClose={handleClose}>
@@ -89,6 +106,25 @@ const MaxBetAdd = ({
             }}
           >
             <Box sx={{ display: "flex", width: "100%", gap: 1 }}>
+              <Box
+                sx={{
+                  width: {
+                    xs: "100%",
+                    lg: "50%",
+                    md: "50%",
+                  },
+                }}
+              >
+                <MatchListInput
+                  label="Min Limit*"
+                  type="number"
+                  placeholder="Enter Min Bet..."
+                  name="minLimit"
+                  id="minLimit"
+                  value={selected.minLimit}
+                  onChange={handleChange}
+                />
+              </Box>
               <Box
                 sx={{
                   width: {

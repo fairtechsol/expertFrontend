@@ -414,6 +414,7 @@ export const updateRaceRates = createAsyncThunk<any, any>(
     return matchDetails;
   }
 );
+
 export const updateMarketRates = createAsyncThunk<any, any>(
   "/market/rates",
   async (requestData, thunkApi) => {
@@ -431,6 +432,13 @@ export const updateMarketRates = createAsyncThunk<any, any>(
     }
   }
 );
+
+export const updateMultiSessionMinMax = createAsyncThunk<any, any>(
+  "/multiSessionMinMax/rates",
+  async (matchDetails) => {
+    return matchDetails;
+  }
+);
 export const addMatchReset = createAction("add/reset");
 export const editMatchReset = createAction("edit/reset");
 export const matchDetailReset = createAction("matchDetail/reset");
@@ -438,3 +446,4 @@ export const runnerDetailReset = createAction("runnerDetail/reset");
 export const matchDetailSuccessReset = createAction("matchDetailSuccess/reset");
 export const eventListReset = createAction("eventList/reset");
 export const tournamentListReset = createAction("tournamentList/reset");
+export const resetMarketListMinMax = createAction("marketListMinMax/reset");
