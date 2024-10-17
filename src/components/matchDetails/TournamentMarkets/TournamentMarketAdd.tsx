@@ -1,12 +1,15 @@
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import { Box } from "@mui/material";
-import { AppDispatch } from "../../../store/store";
-import { updateMarketRates } from "../../../store/actions/addMatch/addMatchAction";
+import { AppDispatch, RootState } from "../../../store/store";
+import {
+  resetMarketListMinMax,
+  updateMarketRates,
+} from "../../../store/actions/addMatch/addMatchAction";
 import MatchListInput from "../../addMatch/MatchListInput";
 
 const TournamentMarketAdd = ({
@@ -22,6 +25,9 @@ const TournamentMarketAdd = ({
     betLimit: 0,
   });
   const dispatch: AppDispatch = useDispatch();
+  const { maxLimitSuccess } = useSelector(
+    (state: RootState) => state.addMatch.addMatch
+  );
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
@@ -80,6 +86,13 @@ const TournamentMarketAdd = ({
       console.error(error);
     }
   }, [matchOddsLive?.maxBet, matchOddsLive?.minBet]);
+
+  useEffect(() => {
+    if (maxLimitSuccess) {
+      dispatch(resetMarketListMinMax());
+      handleClose();
+    }
+  }, [maxLimitSuccess]);
 
   return (
     <Dialog open={open} onClose={handleClose}>

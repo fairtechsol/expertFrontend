@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react";
 //import { updateMarketRates } from "../../../store/actions/addMatch/addMatchAction";
-import { updateSession } from "../../../store/actions/addSession";
-import { AppDispatch } from "../../../store/store";
-import { useDispatch } from "react-redux";
+import {
+  resetSessionMaxLimitSuccess,
+  updateSession,
+} from "../../../store/actions/addSession";
+import { AppDispatch, RootState } from "../../../store/store";
+import { useDispatch, useSelector } from "react-redux";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
@@ -16,22 +19,23 @@ const SessionLimit2 = ({ open, handleClose, matchOddsLive, title }: any) => {
     minLimit: 0,
   });
   const dispatch: AppDispatch = useDispatch();
+  const { maxLimitUpdateSuccess } = useSelector(
+    (state: RootState) => state.addSession
+  );
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
     try {
       if (matchOddsLive?.id) {
-        if (selected?.maxLimit >= matchOddsLive?.minBet) {
-          const payload = {
-            id: matchOddsLive?.id,
-            maxBet: selected?.maxLimit,
-            minBet: selected?.minLimit,
-          };
-          dispatch(updateSession(payload));
-          handleClose()
-        } else {
-        }
-      } else {
+        // if (selected?.maxLimit >= selected?.minLimit) {
+        const payload = {
+          id: matchOddsLive?.id,
+          maxBet: selected?.maxLimit,
+          minBet: selected?.minLimit,
+        };
+        dispatch(updateSession(payload));
+        //   }
+        // } else {
       }
     } catch (error) {
       console.log("error", error);
@@ -63,13 +67,11 @@ const SessionLimit2 = ({ open, handleClose, matchOddsLive, title }: any) => {
   }, [matchOddsLive?.maxBet, matchOddsLive?.minBet]);
 
   useEffect(() => {
-    if (!open) {
-      setSelected({
-        maxLimit: "1000",
-        minLimit: "100",
-      });
+    if (maxLimitUpdateSuccess) {
+      dispatch(resetSessionMaxLimitSuccess());
+      handleClose();
     }
-  }, [open]);
+  }, [maxLimitUpdateSuccess]);
   return (
     <Dialog open={open} onClose={handleClose}>
       <form onSubmit={handleSubmit}>
