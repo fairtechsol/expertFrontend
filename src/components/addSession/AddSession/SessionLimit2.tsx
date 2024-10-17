@@ -54,13 +54,12 @@ const SessionLimit2 = ({ open, handleClose, matchOddsLive, title }: any) => {
     try {
       setSelected({
         maxLimit: matchOddsLive?.maxBet,
-        betLimit: matchOddsLive?.betLimit,
         minLimit: matchOddsLive?.minBet,
       });
     } catch (error) {
       console.error(error);
     }
-  }, [matchOddsLive?.maxBet, matchOddsLive?.betLimit, matchOddsLive?.minBet]);
+  }, [matchOddsLive?.maxBet, matchOddsLive?.minBet]);
 
   return (
     <Dialog open={open} onClose={handleClose}>
