@@ -5,7 +5,7 @@ import SessionResultModal from "../SessionResult/SessionResultModal";
 import AddSessionInput from "./AddSessionInput";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../store/store";
-import MaxBetAdd from "../../matchDetails/MaxBetAdd";
+// import MaxBetAdd from "../../matchDetails/MaxBetAdd";
 import {
   addSession,
   addsuccessReset,
@@ -31,7 +31,7 @@ import {
 } from "../../../store/actions/match/matchAction";
 import { ButtonRatesQuickSessions } from "../../../utils/Constants";
 import { useNavigate, useParams } from "react-router-dom";
-import SessionLimit from "./SessionLimit";
+// import SessionLimit from "./SessionLimit";
 import SessionLimit2 from "./SessionLimit2";
 
 const stateDetail = {
@@ -410,8 +410,8 @@ const SessionAddComponent = ({ createSession, match, setMode }: any) => {
           ? maxBetValue
           : sessionById
           ? sessionById?.minBet
-          : match?.betFairSessionMaxBet}
-         {" "}max:
+          : match?.betFairSessionMaxBet}{" "}
+        max:
         {maxBetValue
           ? maxBetValue
           : sessionById
@@ -450,8 +450,7 @@ const SessionAddComponent = ({ createSession, match, setMode }: any) => {
             lineHeight: "0.9",
             paddingX: "6px",
           }}
-
-          onClick={()=>setOpen(true)}
+          onClick={() => setOpen(true)}
         >
           Set limits
         </Typography>
