@@ -132,25 +132,21 @@ const BannerUploadModal = ({
                 justifyContent: "center",
               }}
             >
-              <Input
+              <input
                 name="banner"
                 id="banner"
                 type="file"
+                accept="image/png, image/jpeg"
                 onChange={handleImageChange}
                 onBlur={formik.handleBlur}
-                sx={{
+                style={{
                   fontWeight: "700",
                   borderRadius: "5px",
-                  paddingY: "5px",
-                  paddingX: "1vw",
+                  padding: "5px",
+                  margin: "2%",
                   boxShadow: "0px 5px 15px #0000001A",
-                  width: "100%",
-                  height: "100%",
                   fontSize: "12px",
                   overflow: "hidden",
-                  marginX: "2%",
-                }}
-                style={{
                   width: "96%",
                   height: "100px",
                   marginTop: "10px",
