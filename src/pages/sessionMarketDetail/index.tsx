@@ -16,6 +16,7 @@ import {
   getMatchDetail,
   removeSessionProLoss,
   updateMatchRates,
+  updateMultiSessionMinMax,
   updateRates,
   updateSessionAdded,
   updateSessionProLoss,
@@ -227,12 +228,20 @@ const SessionMarketDetail = () => {
     setSocketConnected(false);
   };
 
+  const handleMultiSessionMaxMin = (event: any) => {
+    try {
+      if (state?.id === event?.matchId) {
+        dispatch(updateMultiSessionMinMax(event));
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   useEffect(() => {
     try {
       if (state?.id) {
         dispatch(getSessionProfitLossMatchDetailReset());
         dispatch(getMatchDetail(state?.id));
-        // dispatch(getPlacedBetsForSessionDetail(state?.id));
       }
     } catch (e) {
       console.log(e);
@@ -251,6 +260,7 @@ const SessionMarketDetail = () => {
         socketService.user.sessionResultDeclaredOff();
         socketService.user.updateInResultDeclareOff();
         socketService.user.updateDeleteReasonOff();
+        socketService.user.multiSessionUpdatedOff();
         expertSocketService.match.joinMatchRoom(state?.id, "expert");
         expertSocketService.match.getMatchRates(state?.id, (event: any) => {
           updateMatchDetailToRedux(event);
@@ -264,6 +274,7 @@ const SessionMarketDetail = () => {
         socketService.user.sessionResultDeclared(updateSessionResultDeclared);
         socketService.user.updateInResultDeclare(updateSessionResultStatus);
         socketService.user.updateDeleteReason(updateDeleteBetReason);
+        socketService.user.multiSessionUpdated(handleMultiSessionMaxMin);
         expertSocketService.match.connectError(handleSocketError);
         expertSocketService.match.onConnect(handleSocketConnection);
       }
@@ -288,6 +299,7 @@ const SessionMarketDetail = () => {
           socketService.user.sessionResultDeclaredOff();
           socketService.user.updateInResultDeclareOff();
           socketService.user.updateDeleteReasonOff();
+          socketService.user.multiSessionUpdatedOff();
           expertSocketService.match.connectErrorOff();
           expertSocketService.match.onConnectOff();
         };
