@@ -242,6 +242,12 @@ export const updateResultStatusOfSessionById = createAsyncThunk<any, any>(
     return detail;
   }
 );
+export const updateMarketMinMaxLimitOnQuickMaker = createAsyncThunk<any, any>(
+  "/update/bookMinMaxLimit",
+  async (detail) => {
+    return detail;
+  }
+);
 
 export const updateResultStatusOfQuickBookmaker = createAsyncThunk<
   any,

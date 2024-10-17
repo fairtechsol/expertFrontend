@@ -63,6 +63,9 @@ export const userSocketService = {
   updateDeleteReason: (callback: any) => {
     socket?.on("updateDeleteReason", callback);
   },
+  matchBettingMinMaxChange: (callback: any) => {
+    socket?.on("matchBettingMinMaxChange", callback);
+  },
   updateSessionRateClientOff: () => {
     socket?.off("updateSessionRateClient");
   },
@@ -113,5 +116,8 @@ export const userSocketService = {
   },
   multiSessionUpdatedOff: () => {
     socket?.off("multiSessionUpdated");
+  },
+  matchBettingMinMaxChangeOff: () => {
+    socket?.off("matchBettingMinMaxChange");
   },
 };
