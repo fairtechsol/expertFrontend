@@ -28,6 +28,7 @@ const SessionLimit2 = ({ open, handleClose, matchOddsLive, title }: any) => {
             minBet: selected?.minLimit,
           };
           dispatch(updateSession(payload));
+          handleClose()
         } else {
         }
       } else {
@@ -61,6 +62,14 @@ const SessionLimit2 = ({ open, handleClose, matchOddsLive, title }: any) => {
     }
   }, [matchOddsLive?.maxBet, matchOddsLive?.minBet]);
 
+  useEffect(() => {
+    if (!open) {
+      setSelected({
+        maxLimit: "1000",
+        minLimit: "100",
+      });
+    }
+  }, [open]);
   return (
     <Dialog open={open} onClose={handleClose}>
       <form onSubmit={handleSubmit}>
