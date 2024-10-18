@@ -1,5 +1,5 @@
 import { Box, Typography } from "@mui/material";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { memo } from "react";
 import { CancelDark } from "../../../assets";
 import MatchOddsResultCustomButton from "./MatchOddsResultCustomButton";
@@ -63,15 +63,15 @@ const ResultComponent = ({
       const rect = box.getBoundingClientRect();
       const windowHeight = window.innerHeight;
 
-      if (windowHeight - rect.top < 300) {
-        setIsBottom(true);
-      } else {
-        setIsBottom(false);
+      const isBottomState = windowHeight - rect.top < 300;
+
+      if (isBottomState !== isBottom) {
+        setIsBottom(isBottomState);
       }
     }
   };
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     checkPosition();
     window.addEventListener("resize", checkPosition);
 
