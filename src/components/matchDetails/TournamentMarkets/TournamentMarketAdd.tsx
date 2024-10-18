@@ -25,7 +25,7 @@ const TournamentMarketAdd = ({
     betLimit: 0,
   });
   const dispatch: AppDispatch = useDispatch();
-  const { maxLimitSuccess } = useSelector(
+  const { maxLimitSuccess, maxLimitLoading } = useSelector(
     (state: RootState) => state.addMatch.addMatch
   );
 
@@ -184,6 +184,7 @@ const TournamentMarketAdd = ({
         >
           <button
             type="submit"
+            disabled={maxLimitLoading}
             style={{
               width: "25%",
               height: "40px",
@@ -196,9 +197,8 @@ const TournamentMarketAdd = ({
               fontFamily: "Poppins, sans-serif",
             }}
           >
-            Submit
+            {maxLimitLoading ? "Loading..." : "Submit"}
           </button>
-
           <button
             type="button"
             style={{

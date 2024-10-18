@@ -25,7 +25,7 @@ const OtherMarketAdd = ({
     betLimit: 0,
   });
   const dispatch: AppDispatch = useDispatch();
-  const { maxLimitSuccess } = useSelector(
+  const { maxLimitSuccess, maxLimitLoading } = useSelector(
     (state: RootState) => state.addMatch.addMatch
   );
 
@@ -191,6 +191,7 @@ const OtherMarketAdd = ({
         >
           <button
             type="submit"
+            disabled={maxLimitLoading}
             style={{
               width: "25%",
               height: "40px",
@@ -203,7 +204,7 @@ const OtherMarketAdd = ({
               fontFamily: "Poppins, sans-serif",
             }}
           >
-            Submit
+            {maxLimitLoading ? "Loading..." : "Submit"}
           </button>
 
           <button
