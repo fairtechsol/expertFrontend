@@ -27,7 +27,7 @@ export const matchSocketService = {
     socket?.on("connect_error", callback);
   },
   onConnect: (callback: any) => {
-    socket?.on("connect", callback);
+    matchSocket?.on("connect", callback);
   },
   onReconnect: (callback: any) => {
     socket?.on("reconnect", callback);
@@ -45,6 +45,6 @@ export const matchSocketService = {
     socket?.off("connect_error");
   },
   onConnectOff: () => {
-    socket?.off("connect");
+    matchSocket?.off("connect");
   },
 };
