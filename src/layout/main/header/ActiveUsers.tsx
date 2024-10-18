@@ -60,7 +60,7 @@ const ActiveUsers = (props: any) => {
                 fontSize: "7px",
                 color: "text.primary",
                 fontWeight: "500",
-                lineHeight: "0.8",
+                lineHeight: "1.2",
                 marginTop: { xs: "5px" },
               }}
             >
