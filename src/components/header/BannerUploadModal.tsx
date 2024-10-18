@@ -46,8 +46,8 @@ const BannerUploadModal = ({
       }
 
       if (file) {
-        if (file.size > 1024 * 100 * 5) {
-          alert("File should be smaller than 500 KB");
+        if (file.size > 1024 * 1024) {
+          alert("File should be smaller than 1 MB");
           inputElement.value = "";
           return;
         }
