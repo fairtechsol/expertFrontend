@@ -88,8 +88,8 @@ const BannerUploadModal = ({
         <form onSubmit={handleSubmit}>
           <Box
             sx={{
-              width: { lg: "500px", xs: "120%" },
-              height: "270px",
+              width: { lg: "500px", xs: "100%" },
+              height: "250px",
               padding: 0.2,
               borderRadius: 2,
               boxShadow: "0px 5px 10px #1A568414",

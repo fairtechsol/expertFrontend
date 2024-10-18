@@ -408,10 +408,9 @@ const MatchMarketDetail = () => {
             sx={{
               width: { lg: "45%", xs: "100%", md: "45%" },
               // flexDirection: "column",
-              display: "flex",
-              flexWrap: "wrap",
+              // display: "flex",
+              // flexWrap: "wrap",
               // paddingLeft: "5px",
-              gap: 1,
               marginTop: { xs: "10px", lg: "0" },
             }}
           >

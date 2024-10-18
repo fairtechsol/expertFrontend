@@ -2,14 +2,8 @@ import { Box, Typography } from "@mui/material";
 import Divider from "../../Common/Divider";
 import { formatNumber } from "../../helper";
 import SeparateBox from "../SeparateBox";
-// import PlaceBetComponent from "../SessionMarket/PlaceBetComponent";
-// import { useSelector } from "react-redux";
-// import { RootState } from "../../../store/store";
 
 const CasinoMarketBox = ({ newData, index }: any) => {
-  // const { matchDetail } = useSelector(
-  //   (state: RootState) => state.addMatch.addMatch
-  // );
   return (
     <div>
       <Box
@@ -59,8 +53,10 @@ const CasinoMarketBox = ({ newData, index }: any) => {
             }}
           >
             <Typography
+              sx={{
+                fontSize: { lg: "10px", md: "9px", sm: "7px", xs: "10px" },
+              }}
               style={{
-                fontSize: "10px",
                 textTransform: "uppercase",
                 textAlign: "center",
                 width: "100%",

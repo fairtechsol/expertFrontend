@@ -1,9 +1,9 @@
-import { Box, Typography, useMediaQuery, useTheme } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { BroadCast_ } from "../../../assets";
 
 const Stop = ({ color, onClick, height, title }: any) => {
-  const theme = useTheme();
-  const matchesMobile = useMediaQuery(theme.breakpoints.down("md"));
+  // const theme = useTheme();
+  // const matchesMobile = useMediaQuery(theme.breakpoints.down("md"));
   return (
     <>
       <Box
@@ -11,10 +11,11 @@ const Stop = ({ color, onClick, height, title }: any) => {
         sx={{
           maxWidth: { lg: "100%", xs: "100%" },
           display: "flex",
-          marginRight: "5px",
-          marginLeft: "2px",
-          // justifyContent: !matchesMobile ? "space-between" : "center",
-          paddingX: !matchesMobile ? 1 : 0,
+          // marginRight: "5px",
+          // marginLeft: "2px",
+          // paddingX: !matchesMobile ? 0.5 : 0,
+          paddingLeft: "2px",
+          paddingRight: "2px",
           alignItems: "center",
           height: height ? height : "30px",
           background: "#FF4D4D",
