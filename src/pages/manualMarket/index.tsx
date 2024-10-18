@@ -205,7 +205,7 @@ const ManualMarket = ({ currentMatch, liveData, type, showResultBox }: any) => {
                 display: "flex",
                 background: "'#319E5B'",
                 height: "15px",
-                width: { lg: "70%", xs: "50%", md: "60%", sm: "83%" },
+                width: { lg: "70%", xs: "50%", md: "60%", sm: "81%" },
                 alignItems: "center",
               }}
             >
