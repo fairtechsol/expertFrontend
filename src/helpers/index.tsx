@@ -28,16 +28,21 @@ export const customSortUpdated = (a: any, b: any) => {
   if (statusComparison !== 0) {
     return statusComparison;
   } else {
-    // If activeStatus is the same, compare by updatedAt
+    const aHasResultStatus = a?.resultStatus ? true : false;
+    const bHasResultStatus = b?.resultStatus ? true : false;
+
+    if (aHasResultStatus && !bHasResultStatus) {
+      return 1;
+    } else if (!aHasResultStatus && bHasResultStatus) {
+      return -1;
+    }
     const aUpdatedAt = a?.updatedAt;
     const bUpdatedAt = b?.updatedAt;
 
-    // Convert string dates to actual Date objects for comparison
     const aDate = new Date(aUpdatedAt);
     const bDate = new Date(bUpdatedAt);
 
-    // Compare updatedAt values
-    return bDate.getTime() - aDate.getTime(); // Sort in descending order of updatedAt
+    return bDate.getTime() - aDate.getTime();
   }
 };
 
