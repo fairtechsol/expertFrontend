@@ -434,7 +434,7 @@ export const marketArray = [
   "manualCompleteMatch",
 ];
 
-export const gameType = ["cricket", "football", "tennis"];
+export const gameType = ["cricket", "football", "tennis", "politics"];
 
 // export const addMatchThirdParty =
 //   process.env.NODE_ENV === Constants.PRODUCTION

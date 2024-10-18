@@ -110,7 +110,7 @@ const MatchListTable = (props: any) => {
             // paddingX: "10px",
             alignItems: "center",
             justifyContent: "space-between",
-            flexDirection: { xs: "column", sm: "row", lg: "row" },
+            flexDirection: { xs: "column", sm: "column", lg: "row", md: "row" },
             // height: "45px",
           }}
         >
@@ -164,7 +164,7 @@ const MatchListTable = (props: any) => {
               flexDirection: {
                 xs: "column",
                 sm: "column",
-                md: "row",
+                md: "column",
                 lg: "row",
               },
               order: { xs: "1", sm: "2", md: "3" },

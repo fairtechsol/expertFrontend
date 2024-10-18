@@ -1,5 +1,5 @@
 import { Box, Typography } from "@mui/material";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { memo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../store/store";
@@ -50,22 +50,22 @@ const ResultComponentOtherMarket = ({
       console.log(e);
     }
   }, [success, error]);
-  
+
   const checkPosition = () => {
     const box: any = boxRef.current;
     if (box) {
       const rect = box.getBoundingClientRect();
       const windowHeight = window.innerHeight;
 
-      if (windowHeight - rect.top < 300) {
-        setIsBottom(true);
-      } else {
-        setIsBottom(false);
+      const isBottomState = windowHeight - rect.top < 300;
+
+      if (isBottomState !== isBottom) {
+        setIsBottom(isBottomState);
       }
     }
   };
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     checkPosition();
     window.addEventListener("resize", checkPosition);
 

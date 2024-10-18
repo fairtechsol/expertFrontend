@@ -36,16 +36,19 @@ const BannerUploadModal = ({
 
   const handleImageChange = (event: any) => {
     try {
-      const file = event.currentTarget.files[0];
+      const inputElement = event.currentTarget;
+      const file = inputElement.files[0];
 
       if (!file.type.includes("jpeg") && !file.type.includes("png")) {
         alert("File should be either JPEG or PNG");
+        inputElement.value = "";
         return;
       }
 
       if (file) {
-        if (file.size > 1024 * 100 * 5) {
-          alert("File should be smaller than 500/400");
+        if (file.size > 1024 * 1024) {
+          alert("File should be smaller than 1 MB");
+          inputElement.value = "";
           return;
         }
 
@@ -85,8 +88,8 @@ const BannerUploadModal = ({
         <form onSubmit={handleSubmit}>
           <Box
             sx={{
-              width: { lg: "500px", xs: "120%" },
-              height: "270px",
+              width: { lg: "500px", xs: "100%" },
+              height: "250px",
               padding: 0.2,
               borderRadius: 2,
               boxShadow: "0px 5px 10px #1A568414",

@@ -68,7 +68,7 @@ const BoxComponent = ({
               fontSize: { lg: "10px", xs: "13px" },
               fontWeight: "600",
               marginLeft: "10px",
-              lineHeight: "0.8",
+              lineHeight: "1.2",
               overflow: "hidden",
               whiteSpace: "nowrap",
               textOverflow: "ellipsis",

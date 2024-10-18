@@ -1,5 +1,5 @@
 import { Box, useMediaQuery, useTheme } from "@mui/material";
-import { memo, useEffect, useState } from "react";
+import { memo, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import Loader from "../../components/Loader";
@@ -52,7 +52,7 @@ const MatchMarketDetail = () => {
   const dispatch: AppDispatch = useDispatch();
   const theme = useTheme();
   const matchesMobile = useMediaQuery(theme.breakpoints.down("sm"));
-  const [socketConnected, setSocketConnected] = useState(true);
+  // const [socketConnected, setSocketConnected] = useState(true);
   // const [liveScoreBoardData, setLiveScoreBoardData] = useState(null);
   // const [errorCount, setErrorCount] = useState<number>(0);
   const { matchDetail, loading, success } = useSelector(
@@ -225,11 +225,14 @@ const MatchMarketDetail = () => {
   };
 
   const handleSocketConnection = () => {
-    setSocketConnected(true);
+    if (state?.id) {
+      expertSocketService.match.joinMatchRoom(state?.id, "expert");
+    }
+    // setSocketConnected(true);
   };
 
   const handleSocketError = () => {
-    setSocketConnected(false);
+    // setSocketConnected(false);
   };
 
   // const getScoreBoard = async (marketId: string) => {
@@ -276,7 +279,7 @@ const MatchMarketDetail = () => {
 
   useEffect(() => {
     try {
-      if (success && socket && socketConnected) {
+      if (success && socket) {
         expertSocketService.match.getMatchRatesOff(state?.id);
         socketService.user.matchResultDeclaredOff();
         socketService.user.matchResultUnDeclaredOff();
@@ -309,7 +312,7 @@ const MatchMarketDetail = () => {
     } catch (e) {
       console.log(e);
     }
-  }, [success, socket, socketConnected]);
+  }, [success, socket]);
 
   useEffect(() => {
     try {
@@ -408,10 +411,9 @@ const MatchMarketDetail = () => {
             sx={{
               width: { lg: "45%", xs: "100%", md: "45%" },
               // flexDirection: "column",
-              display: "flex",
-              flexWrap: "wrap",
+              // display: "flex",
+              // flexWrap: "wrap",
               // paddingLeft: "5px",
-              gap: 1,
               marginTop: { xs: "10px", lg: "0" },
             }}
           >

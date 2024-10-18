@@ -108,7 +108,7 @@ const ManualBoxComponent = ({
               fontSize: { lg: "8px", xs: "8px" },
               fontWeight: "600",
               marginLeft: "5px",
-              lineHeight: "0.8",
+              lineHeight: "1.2",
               overflowWrap: "anywhere",
               whiteSpace: "nowrap",
               overflow: "hidden",
