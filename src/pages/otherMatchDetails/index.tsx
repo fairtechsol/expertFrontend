@@ -563,8 +563,8 @@ const OtherMatchDetails = () => {
                   // display: "flex",
                   // flexWrap: "wrap",
                   // paddingLeft: "5px",
-                  marginTop: { xs: "10px", lg: "0" },
-                  gap: 1,
+                  // marginTop: { xs: "10px", lg: "0" },
+                  // gap: 1,
                 }}
               >
                 {matchDetail?.tournament &&
