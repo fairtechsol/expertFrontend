@@ -41,7 +41,7 @@ const Stop = ({ color, onClick, height, title }: any) => {
               lineHeight: 1,
             }}
           >
-            {matchesMobile ? title : limitToThreeWords(title)}
+            {title && (matchesMobile ? title : limitToThreeWords(title))}
           </Typography>
         </Tooltip>
         <img
