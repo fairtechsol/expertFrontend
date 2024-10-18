@@ -38,8 +38,6 @@ const HTFTMarket = ({ currentMatch, liveData, title, firstKnownKey }: any) => {
     setOpen(data);
   };
 
-  console.log(!currentMatch?.stopAt && firstKnownKey !== undefined, "iuy");
-
   return (
     <Box
       sx={{

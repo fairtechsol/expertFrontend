@@ -50,7 +50,7 @@ const ResultComponentOtherMarket = ({
       console.log(e);
     }
   }, [success, error]);
-  
+
   const checkPosition = () => {
     const box: any = boxRef.current;
     if (box) {
