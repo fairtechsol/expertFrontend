@@ -2,7 +2,12 @@ import { Box, Typography } from "@mui/material";
 import moment from "moment";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addBlinking, deleteBlinking, getMatchList, getTabList } from "../../store/actions/match/matchAction";
+import {
+  addBlinking,
+  deleteBlinking,
+  getMatchList,
+  getTabList,
+} from "../../store/actions/match/matchAction";
 import { AppDispatch, RootState } from "../../store/store";
 import CustomButton from "../Common/CustomButton";
 import StyledImage from "../Common/StyledImages";
@@ -17,45 +22,52 @@ const TabListTable = (props: any) => {
   const { data, index, currentPage } = props;
   const dispatch: AppDispatch = useDispatch();
   const { tabList } = useSelector((state: RootState) => state.matchList);
-  const idd = tabList.filter((tab:any) => tab.matchId === data.id)
+  const idd = tabList.filter((tab: any) => tab.matchId === data.id);
   const [showPopup, setShowPopup] = useState(false);
-  const [selected, setSelected] = useState<any>(idd?.length>0?idd?.[0]?.order:null);
+  const [selected, setSelected] = useState<any>(
+    idd?.length > 0 ? idd?.[0]?.order : null
+  );
 
- 
-  const handleAdd=()=>{
-    let payload ={
-      matchType:data?.matchType,
-      matchId:data?.id,
-      matchName:data?.title,
-      order:selected
-    }
+  const handleAdd = () => {
+    let payload = {
+      matchType: data?.matchType,
+      matchId: data?.id,
+      matchName: data?.title,
+      order: selected,
+    };
     dispatch(addBlinking(payload));
     setTimeout(() => {
       handleList();
       handlclose();
     }, 1000);
-  }
-  const handleList=()=>{
-    dispatch(getMatchList({ currentPage: currentPage,stopAt:true }));
+  };
+
+  const handleList = () => {
+    dispatch(getMatchList({ currentPage: currentPage, stopAt: true }));
     dispatch(getTabList({ currentPage: currentPage }));
-  }
-  const handleEdit=()=>{
-    let payload ={
-      id:idd?.[0].id,
-      order:selected
-    }
-    dispatch(addBlinking(payload))
+  };
+
+  const handleEdit = () => {
+    let payload = {
+      id: idd?.[0].id,
+      order: selected,
+    };
+    dispatch(addBlinking(payload));
     handlclose();
-  }
+  };
+
   const handlclose = () => {
+    setSelected(idd?.length > 0 ? idd?.[0]?.order : null);
     setShowPopup(false);
   };
+
   const handleDelete = () => {
-    dispatch(deleteBlinking({id:idd?.[0].id}))
+    dispatch(deleteBlinking({ id: idd?.[0].id }));
     setTimeout(() => {
-    handleList();
+      handleList();
     }, 700);
   };
+
   return (
     <>
       <Box
@@ -139,7 +151,6 @@ const TabListTable = (props: any) => {
               order: { xs: "1", sm: "2", md: "3" },
               py: { xs: 1, sm: 0 },
               alignItems: "center",
-
             }}
           >
             <Box
@@ -157,8 +168,7 @@ const TabListTable = (props: any) => {
                 marginTop: { sm: "5px", lg: "2.5px", md: 0 },
                 paddingRight: "5px",
               }}
-            >
-            </Box>
+            ></Box>
             <Box
               display={"flex"}
               sx={{
@@ -174,109 +184,111 @@ const TabListTable = (props: any) => {
                 flexWrap: "wrap",
               }}
             >
-                {tabList?.length>0 && tabList.some((tab:any) => tab.matchId === data.id) ? (
-                  <>
+              {tabList?.length > 0 &&
+              tabList.some((tab: any) => tab.matchId === data.id) ? (
+                <>
                   <CustomButton
                     containerStyle={{ margin: "5px" }}
-                    onClick={()=>setShowPopup(true)}
+                    onClick={() => setShowPopup(true)}
                     title={"Edit"}
                   />
                   <CustomButton
-                  bgColor={"#e74c3c"}
-                  containerStyle={{ margin: "5px"}}
-                  onClick={handleDelete}
-                  title={"Delete"}
-                />
-                  </>
-                ) : (
-                  <CustomButton
+                    bgColor={"#e74c3c"}
+                    containerStyle={{ margin: "5px" }}
+                    onClick={handleDelete}
+                    title={"Delete"}
+                  />
+                </>
+              ) : (
+                <CustomButton
                   containerStyle={{ margin: "5px" }}
-                  onClick={()=>setShowPopup(true)}
+                  onClick={() => setShowPopup(true)}
                   title={"Add"}
                 />
-                )}
-            
+              )}
             </Box>
           </Box>
         </Box>
       </Box>
-     
-      <Dialog open={showPopup} onClose={handlclose}>
-      <DialogTitle
-        sx={{
-          textAlign: "center",
-          color: "#fff",
-          background: "linear-gradient(90deg, #004A25 5%, #FDCB52 100%)",
-          fontFamily: "Poppins, sans-serif",
-        }}
-      >
-        {"Position"}
-      </DialogTitle>
-      <DialogContent sx={{ backgroundColor: "#fff" }}>
-        <div
-          style={{
-            width: "100%",
-            height: "80px",
-            backgroundColor: "#fff",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <TextField
-            type="number"
-            placeholder="Enter match position"
-            value={selected}
-            onChange={(e: any) => {
-              setSelected(e.target.value);
-            }}
-            // style={{
-            //   width: "80%",
-            //   height: "50px",
-            // }}
-          />
-        </div>
-      </DialogContent>
-      <DialogActions
-        sx={{
-          background: "linear-gradient(90deg, #004A25 5%, #FDCB52 100%)",
-        }}
-      >
-        <button
-          style={{
-            width: "25%",
-            height: "40px",
-            color: "#fff",
-            backgroundColor: "#004A25",
-            fontSize: "14px",
-            borderRadius: "5px",
-            border: "1px #004A25 solid",
-            cursor: "pointer",
-            fontFamily: "Poppins, sans-serif",
-          }}
-          onClick={()=> {idd?.length>0? handleEdit():handleAdd()}}
-        >
-          Submit
-        </button>
 
-        <button
-          style={{
-            width: "25%",
-            height: "40px",
+      <Dialog open={showPopup} onClose={handlclose}>
+        <DialogTitle
+          sx={{
+            textAlign: "center",
             color: "#fff",
-            backgroundColor: "#004A25",
-            fontSize: "14px",
-            borderRadius: "5px",
-            border: "1px #004A25 solid",
-            cursor: "pointer",
+            background: "linear-gradient(90deg, #004A25 5%, #FDCB52 100%)",
             fontFamily: "Poppins, sans-serif",
           }}
-          onClick={handlclose}
         >
-          Cancel
-        </button>
-      </DialogActions>
-    </Dialog>
+          {"Position"}
+        </DialogTitle>
+        <DialogContent sx={{ backgroundColor: "#fff" }}>
+          <div
+            style={{
+              width: "100%",
+              height: "80px",
+              backgroundColor: "#fff",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <TextField
+              type="number"
+              placeholder="Enter match position"
+              value={selected}
+              onChange={(e: any) => {
+                setSelected(e.target.value);
+              }}
+              // style={{
+              //   width: "80%",
+              //   height: "50px",
+              // }}
+            />
+          </div>
+        </DialogContent>
+        <DialogActions
+          sx={{
+            background: "linear-gradient(90deg, #004A25 5%, #FDCB52 100%)",
+          }}
+        >
+          <button
+            style={{
+              width: "25%",
+              height: "40px",
+              color: "#fff",
+              backgroundColor: "#004A25",
+              fontSize: "14px",
+              borderRadius: "5px",
+              border: "1px #004A25 solid",
+              cursor: "pointer",
+              fontFamily: "Poppins, sans-serif",
+            }}
+            onClick={() => {
+              idd?.length > 0 ? handleEdit() : handleAdd();
+            }}
+          >
+            Submit
+          </button>
+
+          <button
+            style={{
+              width: "25%",
+              height: "40px",
+              color: "#fff",
+              backgroundColor: "#004A25",
+              fontSize: "14px",
+              borderRadius: "5px",
+              border: "1px #004A25 solid",
+              cursor: "pointer",
+              fontFamily: "Poppins, sans-serif",
+            }}
+            onClick={handlclose}
+          >
+            Cancel
+          </button>
+        </DialogActions>
+      </Dialog>
     </>
   );
 };
