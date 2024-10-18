@@ -86,7 +86,7 @@ const ResultComponentTournamentMarket = ({
         background: "white",
         zIndex: 999,
         right: "1%",
-        top: !isBottom ? "23px" : "",
+        top: !isBottom ? "26px" : "",
         bottom: isBottom ? "100%" : "",
       }}
     >
