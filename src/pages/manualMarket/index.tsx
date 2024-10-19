@@ -13,16 +13,24 @@ import { profitLossDataForMatchConstants } from "../../utils/Constants";
 import ResultComponent from "../../components/updateBookmaker/BookmakerEdit/ResultComponent";
 import Result from "../../components/matchDetails/Result";
 import { declareMatchStatusReset } from "../../store/actions/match/matchDeclareActions";
-
+import MaxLimitEditButton from "../../components/Common/MaxLimitEditButton";
+import MaxBetAdd from "../../components/matchDetails/MaxBetAdd";
 const ManualMarket = ({ currentMatch, liveData, type, showResultBox }: any) => {
   const [visible, setVisible] = useState(false);
   const dispatch: AppDispatch = useDispatch();
   const [visibleImg, setVisibleImg] = useState<boolean>(true);
+  const [open, setOpen] = useState(false);
   const [live, setLive] = useState<boolean>(
     liveData?.activeStatus === "live" ? true : false
   );
   const { success } = useSelector((state: RootState) => state.match);
-
+  const handleClose = (data: any) => {
+    setOpen(data);
+  };
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+  
   useEffect(() => {
     setLive(liveData?.activeStatus === "live" ? true : false);
   }, [liveData?.activeStatus]);
@@ -148,6 +156,8 @@ const ManualMarket = ({ currentMatch, liveData, type, showResultBox }: any) => {
               height="18px"
             />
           )}
+           <MaxLimitEditButton handleClickOpen={handleClickOpen} />
+
           <img
             onClick={() => {
               setVisibleImg(!visibleImg);
@@ -418,6 +428,13 @@ const ManualMarket = ({ currentMatch, liveData, type, showResultBox }: any) => {
           </Box>
         </>
       )}
+       <MaxBetAdd
+        open={open}
+        handleClose={handleClose}
+        matchOddsLive={liveData}
+        currentMatch={currentMatch}
+        title={"API Bookmaker Max Bet"}
+      />
     </Box>
   );
 };
