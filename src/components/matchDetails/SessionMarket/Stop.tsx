@@ -12,7 +12,7 @@ const Stop = ({ color, onClick, height, title }: any) => {
   const matchesMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const limitToThreeWords = (text: any) => {
     return (
-      text?.split(" ").slice(0, 2).join(" ") +
+      text?.split(" ").slice(0, 3).join(" ") +
       (text?.split(" ").length > 3 ? "..." : "")
     );
   };
