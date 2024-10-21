@@ -65,7 +65,7 @@ const HalfTime = ({ currentMatch, matchOddsLive }: any) => {
           >
             <Typography
               sx={{
-                fontSize: { lg: "13px", md: "12px", xs: "12px" },
+                fontSize: { lg: "9px", md: "9px", xs: "10px", sm: "8px" },
                 fontWeight: "bold",
                 marginLeft: "7px",
               }}
