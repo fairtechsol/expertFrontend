@@ -80,7 +80,7 @@ const ResultComponentTournamentMarket = ({
       ref={boxRef}
       sx={{
         position: "absolute",
-        width: { lg: "20vw", xs: "40vw", md: "20vw" },
+        width: { lg: "20vw", xs: "40vw", md: "20vw", sm: "20vw" },
         borderRadius: 2,
         boxShadow: "0px 5px 10px #1A568414",
         background: "white",
