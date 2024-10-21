@@ -81,7 +81,7 @@ const ManualMarket = ({ currentMatch, liveData, type, showResultBox }: any) => {
           {(!liveData?.id || liveData?.activeStatus === "result") && (
             <Typography
               sx={{
-                fontSize: { lg: "9px", md: "9px", xs: "10px" },
+                fontSize: { lg: "9px", md: "9px", xs: "10px", sm: "8px" },
                 fontWeight: "bold",
                 marginLeft: "7px",
               }}
