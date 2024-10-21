@@ -38,7 +38,7 @@ const OtherMarketAdd = ({
       maxBet: parseFloat(selected.maxLimit),
       minBet: parseFloat(selected.minLimit),
       // betLimit: selected.betLimit,
-      marketId: matchOddsLive?.marketId,
+      marketId: matchOddsLive?.mid?.toString(),
       gtype: matchOddsLive?.gtype,
       metaData: {
         teamA:

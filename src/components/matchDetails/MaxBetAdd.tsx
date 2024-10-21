@@ -37,7 +37,7 @@ const MaxBetAdd = ({
       name: matchOddsLive?.name,
       maxBet: parseFloat(selected.maxLimit),
       minBet: parseFloat(selected.minLimit),
-      marketId: matchOddsLive?.marketId,
+      marketId: matchOddsLive?.mid?.toString(),
       gtype: matchOddsLive?.gtype,
       ...(matchOddsLive?.id && { id: matchOddsLive.id }),
     };

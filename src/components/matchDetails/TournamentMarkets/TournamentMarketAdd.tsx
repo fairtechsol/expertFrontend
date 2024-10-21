@@ -38,8 +38,7 @@ const TournamentMarketAdd = ({
       maxBet: parseFloat(selected.maxLimit),
       minBet: parseFloat(selected.minLimit),
       // betLimit: selected.betLimit,
-      marketId:
-        matchOddsLive?.mid?.toString() || matchOddsLive?.marketId?.toString(),
+      marketId: matchOddsLive?.mid?.toString(),
       gtype: matchOddsLive?.gtype,
       runners: matchOddsLive?.runners?.map((item: any) => {
         return {
