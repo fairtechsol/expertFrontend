@@ -57,7 +57,7 @@ const BoxComponent = ({
               overflowWrap: "anywhere",
               whiteSpace: "nowrap",
               overflow: "hidden",
-              textOverflow:matchesMobile ?  "ellipsis": "",
+              textOverflow: matchesMobile ? "ellipsis" : "",
               width: matchesMobile ? "6ch" : "100ch",
             }}
           >
@@ -87,6 +87,7 @@ const BoxComponent = ({
               justifyContent: "center",
               alignItems: "center",
               display: "flex",
+              fontSize: { lg: "10px", sm: "8.5px", md: "10px", xs: "10px" },
             }}
           >
             <h4
@@ -94,7 +95,6 @@ const BoxComponent = ({
                 textTransform: "uppercase",
                 color: "#FFF",
                 fontWeight: "400",
-                fontSize: matchesMobile ? "10px" : "9px",
               }}
             >
               {livestatus ? "SUSPENDED" : status}
