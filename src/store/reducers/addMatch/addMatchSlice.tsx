@@ -55,6 +55,7 @@ interface InitialState {
   raceRunners: any;
   resultBox: any;
   quickBookmaker1: any;
+  maxLimitLoading: boolean;
   maxLimitSuccess: boolean;
 }
 
@@ -80,6 +81,7 @@ const initialState: InitialState = {
   error: null,
   resultBox: { visible: false, betId: "" },
   quickBookmaker1: [],
+  maxLimitLoading: false,
   maxLimitSuccess: false,
 };
 
@@ -723,8 +725,15 @@ const addMatch = createSlice({
           },
         };
       })
+      .addCase(updateMarketRates.pending, (state) => {
+        state.maxLimitLoading = true;
+      })
       .addCase(updateMarketRates.fulfilled, (state) => {
+        state.maxLimitLoading = false;
         state.maxLimitSuccess = true;
+      })
+      .addCase(updateMarketRates.rejected, (state) => {
+        state.maxLimitLoading = false;
       })
       .addCase(resetMarketListMinMax, (state) => {
         state.maxLimitSuccess = false;

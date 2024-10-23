@@ -25,7 +25,7 @@ const TournamentMarketAdd = ({
     betLimit: 0,
   });
   const dispatch: AppDispatch = useDispatch();
-  const { maxLimitSuccess } = useSelector(
+  const { maxLimitSuccess, maxLimitLoading } = useSelector(
     (state: RootState) => state.addMatch.addMatch
   );
 
@@ -38,8 +38,7 @@ const TournamentMarketAdd = ({
       maxBet: parseFloat(selected.maxLimit),
       minBet: parseFloat(selected.minLimit),
       // betLimit: selected.betLimit,
-      marketId:
-        matchOddsLive?.mid?.toString() || matchOddsLive?.marketId?.toString(),
+      marketId: matchOddsLive?.mid?.toString(),
       gtype: matchOddsLive?.gtype,
       runners: matchOddsLive?.runners?.map((item: any) => {
         return {
@@ -184,6 +183,7 @@ const TournamentMarketAdd = ({
         >
           <button
             type="submit"
+            disabled={maxLimitLoading}
             style={{
               width: "25%",
               height: "40px",
@@ -196,9 +196,8 @@ const TournamentMarketAdd = ({
               fontFamily: "Poppins, sans-serif",
             }}
           >
-            Submit
+            {maxLimitLoading ? "Loading..." : "Submit"}
           </button>
-
           <button
             type="button"
             style={{

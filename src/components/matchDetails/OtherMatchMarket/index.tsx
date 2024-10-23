@@ -89,7 +89,7 @@ const OtherMatchMarket = ({
           {(!liveData?.id || liveData?.activeStatus === "result") && (
             <Typography
               sx={{
-                fontSize: { lg: "9px", md: "9px", xs: "10px" },
+                fontSize: { lg: "9px", md: "9px", xs: "10px", sm: "8px" },
                 fontWeight: "bold",
                 marginLeft: "7px",
                 lineHeight: 1,
@@ -225,7 +225,7 @@ const OtherMatchMarket = ({
                 display: "flex",
                 background: "'#319E5B'",
                 height: "15px",
-                width: { lg: "70%", xs: "50%", md: "60%", sm: "83%" },
+                width: { lg: "70%", xs: "50%", md: "60%", sm: "81%" },
                 alignItems: "center",
               }}
             >

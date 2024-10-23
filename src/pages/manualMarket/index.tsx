@@ -13,16 +13,24 @@ import { profitLossDataForMatchConstants } from "../../utils/Constants";
 import ResultComponent from "../../components/updateBookmaker/BookmakerEdit/ResultComponent";
 import Result from "../../components/matchDetails/Result";
 import { declareMatchStatusReset } from "../../store/actions/match/matchDeclareActions";
-
+import MaxLimitEditButton from "../../components/Common/MaxLimitEditButton";
+import MaxBetAdd from "../../components/matchDetails/MaxBetAdd";
 const ManualMarket = ({ currentMatch, liveData, type, showResultBox }: any) => {
   const [visible, setVisible] = useState(false);
   const dispatch: AppDispatch = useDispatch();
   const [visibleImg, setVisibleImg] = useState<boolean>(true);
+  const [open, setOpen] = useState(false);
   const [live, setLive] = useState<boolean>(
     liveData?.activeStatus === "live" ? true : false
   );
   const { success } = useSelector((state: RootState) => state.match);
-
+  const handleClose = (data: any) => {
+    setOpen(data);
+  };
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+  
   useEffect(() => {
     setLive(liveData?.activeStatus === "live" ? true : false);
   }, [liveData?.activeStatus]);
@@ -73,7 +81,7 @@ const ManualMarket = ({ currentMatch, liveData, type, showResultBox }: any) => {
           {(!liveData?.id || liveData?.activeStatus === "result") && (
             <Typography
               sx={{
-                fontSize: { lg: "9px", md: "9px", xs: "10px" },
+                fontSize: { lg: "9px", md: "9px", xs: "10px", sm: "8px" },
                 fontWeight: "bold",
                 marginLeft: "7px",
               }}
@@ -148,6 +156,8 @@ const ManualMarket = ({ currentMatch, liveData, type, showResultBox }: any) => {
               height="18px"
             />
           )}
+           <MaxLimitEditButton handleClickOpen={handleClickOpen} />
+
           <img
             onClick={() => {
               setVisibleImg(!visibleImg);
@@ -205,7 +215,7 @@ const ManualMarket = ({ currentMatch, liveData, type, showResultBox }: any) => {
                 display: "flex",
                 background: "'#319E5B'",
                 height: "15px",
-                width: { lg: "70%", xs: "50%", md: "60%", sm: "83%" },
+                width: { lg: "70%", xs: "50%", md: "60%", sm: "81%" },
                 alignItems: "center",
               }}
             >
@@ -418,6 +428,13 @@ const ManualMarket = ({ currentMatch, liveData, type, showResultBox }: any) => {
           </Box>
         </>
       )}
+       <MaxBetAdd
+        open={open}
+        handleClose={handleClose}
+        matchOddsLive={liveData}
+        currentMatch={currentMatch}
+        title={"API Bookmaker Max Bet"}
+      />
     </Box>
   );
 };

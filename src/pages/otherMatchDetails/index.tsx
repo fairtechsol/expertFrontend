@@ -56,7 +56,7 @@ const OtherMatchDetails = () => {
   const { state } = useLocation();
   const navigate = useNavigate();
   const theme = useTheme();
-  const matchesMobile = useMediaQuery(theme.breakpoints.down("md"));
+  const matchesMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const dispatch: AppDispatch = useDispatch();
   const [socketConnected, setSocketConnected] = useState(true);
   const { matchDetail, loading, success } = useSelector(
@@ -358,7 +358,7 @@ const OtherMatchDetails = () => {
     <>
       <Box
         sx={{
-          display: { lg: "flex", md: "flex" },
+          display: { lg: "flex", md: "flex", sm: "flex" },
           alignSelf: "center",
           borderRadius: "10px",
           flexDirection: "row",
@@ -379,10 +379,10 @@ const OtherMatchDetails = () => {
           <>
             <Box
               sx={{
-                width: { lg: "60%", xs: "100%", md: "60%" },
+                width: { lg: "50%", xs: "100%", md: "50%", sm: "50%" },
                 // flexDirection: "column",
-                display: "flex",
-                flexWrap: "wrap",
+                // display: "flex",
+                // flexWrap: "wrap",
                 // paddingLeft: "5px",
                 marginTop: { xs: "10px", lg: "0" },
                 gap: 1,
@@ -558,7 +558,7 @@ const OtherMatchDetails = () => {
             {matchesMobile && (
               <Box
                 sx={{
-                  width: { lg: "60%", xs: "100%", md: "60%" },
+                  width: { lg: "50%", xs: "100%", md: "50%", sm: "50%" },
                   // flexDirection: "column",
                   // display: "flex",
                   // flexWrap: "wrap",
@@ -583,7 +583,7 @@ const OtherMatchDetails = () => {
             )}
             <Box
               sx={{
-                width: { lg: "40%", xs: "100%", md: "40%" },
+                width: { lg: "50%", xs: "100%", md: "50%", sm: "50%" },
                 flexDirection: "column",
                 display: "flex",
                 // paddingLeft: "5px",
@@ -600,7 +600,7 @@ const OtherMatchDetails = () => {
       {!matchesMobile && (
         <Box
           sx={{
-            width: { lg: "60%", xs: "100%", md: "60%" },
+            width: { lg: "50%", xs: "100%", md: "50%", sm: "50%" },
             // flexDirection: "column",
             // display: "flex",
             // flexWrap: "wrap",
