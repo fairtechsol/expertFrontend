@@ -185,6 +185,7 @@ const ManualBoxComponent = ({
               justifyContent: "center",
               alignItems: "center",
               display: "flex",
+              fontSize: { lg: "10px", sm: "8.5px", md: "10px", xs: "10px" },
             }}
           >
             <h4
@@ -192,7 +193,7 @@ const ManualBoxComponent = ({
                 textTransform: "uppercase",
                 color: "#FFF",
                 fontWeight: "400",
-                fontSize: matchesMobile ? "10px" : "9px",
+                // fontSize: matchesMobile ? "10px" : "9px",
               }}
             >
               {livestatus ? "SUSPENDED" : status}
