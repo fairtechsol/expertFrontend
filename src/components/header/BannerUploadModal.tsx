@@ -1,4 +1,11 @@
-import { Box, Button, Modal, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Modal,
+  Typography,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
 import { useFormik } from "formik";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
@@ -15,6 +22,9 @@ const BannerUploadModal = ({
   title,
   loadingDeleteBet,
 }: any) => {
+  const theme = useTheme();
+  const matchesMobile = useMediaQuery(theme.breakpoints.down("sm"));
+
   const dispatch: AppDispatch = useDispatch();
   const initialValues: any = {
     value: "",
@@ -26,6 +36,7 @@ const BannerUploadModal = ({
     onSubmit: (values: any) => {
       let payload = {
         value: values.value?.split(",")?.[1],
+        type: matchesMobile ? "mobile" : "desktop",
       };
       dispatch(headerAddBanner(payload));
       setVisible(false);
