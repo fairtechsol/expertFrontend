@@ -6,7 +6,7 @@ const MatchListTableHeader = () => {
       <Box
         sx={{
           display: "flex",
-          height: "35px",
+          height: { lg: "35px", xs: "25px" },
           background: "#262626",
           alignItems: "center",
           borderTop: "2px solid white",
@@ -15,11 +15,11 @@ const MatchListTableHeader = () => {
       >
         <Box
           sx={{
-            width: { xs: "60px",sm: "100px", md: "100px", lg: "100px"},
+            width: { xs: "60px", sm: "100px", md: "100px", lg: "100px" },
             display: "flex",
             paddingLeft: "10px",
             alignItems: "center",
-            height: "35px",
+            height: { lg: "35px", xs: "25px" },
             borderRight: "2px solid white",
           }}
         >

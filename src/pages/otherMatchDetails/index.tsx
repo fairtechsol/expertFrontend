@@ -388,7 +388,10 @@ const OtherMatchDetails = () => {
                 gap: 1,
               }}
             >
-              <Masonry columns={matchesMobile ? 1 : 2} spacing={1}>
+              <Masonry
+                columns={matchesMobile ? 1 : 2}
+                spacing={matchesMobile ? 0 : 1}
+              >
                 {matchDetail?.matchOdd &&
                   (matchDetail?.matchOdd?.isActive === false
                     ? false
