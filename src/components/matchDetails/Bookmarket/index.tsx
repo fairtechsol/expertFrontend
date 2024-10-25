@@ -78,6 +78,7 @@ const BookMarket = ({ currentMatch, liveData, title, showResultBox }: any) => {
             alignItems: "center",
             display: "flex",
             justifyContent: "space-between",
+            width: "55%",
           }}
         >
           {(!liveData?.id || liveData?.activeStatus === "result") && (
@@ -126,6 +127,7 @@ const BookMarket = ({ currentMatch, liveData, title, showResultBox }: any) => {
             display: "flex",
             alignItems: "center",
             justifyContent: "flex-end",
+            width: "45%",
           }}
         >
           {showResultBox && (
