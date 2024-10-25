@@ -14,7 +14,11 @@ const Header = () => {
         }}
       >
         <Typography
-          sx={{ color: "white", fontWeight: "600", fontSize: "12px" }}
+          sx={{
+            color: "white",
+            fontWeight: "600",
+            fontSize: { lg: "12px", xs: "9px", sm: "12px", md: "12px" },
+          }}
         >
           No.
         </Typography>
@@ -30,7 +34,11 @@ const Header = () => {
         }}
       >
         <Typography
-          sx={{ color: "white", fontWeight: "600", fontSize: "12px" }}
+          sx={{
+            color: "white",
+            fontWeight: "600",
+            fontSize: { lg: "12px", xs: "9px", sm: "12px", md: "12px" },
+          }}
         >
           User
         </Typography>
@@ -46,7 +54,11 @@ const Header = () => {
         }}
       >
         <Typography
-          sx={{ fontWeight: "600", color: "white", fontSize: "12px" }}
+          sx={{
+            fontWeight: "600",
+            color: "white",
+            fontSize: { lg: "12px", xs: "9px", sm: "12px", md: "12px" },
+          }}
         >
           Odds
         </Typography>
@@ -62,7 +74,11 @@ const Header = () => {
         }}
       >
         <Typography
-          sx={{ fontWeight: "600", fontSize: "12px", color: "white" }}
+          sx={{
+            fontWeight: "600",
+            fontSize: { lg: "12px", xs: "9px", sm: "12px", md: "12px" },
+            color: "white",
+          }}
         >
           Time
         </Typography>
@@ -78,7 +94,11 @@ const Header = () => {
         }}
       >
         <Typography
-          sx={{ fontWeight: "600", fontSize: "12px", color: "white" }}
+          sx={{
+            fontWeight: "600",
+            fontSize: { lg: "12px", xs: "9px", sm: "12px", md: "12px" },
+            color: "white",
+          }}
         >
           Yes/No
         </Typography>
@@ -94,7 +114,11 @@ const Header = () => {
         }}
       >
         <Typography
-          sx={{ fontWeight: "600", fontSize: "12px", color: "white" }}
+          sx={{
+            fontWeight: "600",
+            fontSize: { lg: "12px", xs: "9px", sm: "12px", md: "12px" },
+            color: "white",
+          }}
         >
           Stake
         </Typography>
@@ -110,7 +134,11 @@ const Header = () => {
         }}
       >
         <Typography
-          sx={{ fontWeight: "600", fontSize: "12px", color: "white" }}
+          sx={{
+            fontWeight: "600",
+            fontSize: { lg: "12px", xs: "9px", sm: "12px", md: "12px" },
+            color: "white",
+          }}
         >
           My Stake
         </Typography>
