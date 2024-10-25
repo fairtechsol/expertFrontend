@@ -1,51 +1,22 @@
-import {
-  Box,
-  Button,
-  Modal,
-  Typography,
-  useMediaQuery,
-  useTheme,
-} from "@mui/material";
-import { useFormik } from "formik";
-import { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { Box, Button, Modal, Typography } from "@mui/material";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { CancelDark } from "../../assets";
 import { headerAddBanner } from "../../store/actions/user/userAction";
-import { AppDispatch } from "../../store/store";
-import { notificationvalidationSchema } from "../../utils/Validations/login";
-import CustomErrorMessage from "../Common/CustomErrorMessage";
-// import { depositAmountValidations } from "../../../utils/Validations";
+import { AppDispatch, RootState } from "../../store/store";
 
-const BannerUploadModal = ({
-  visible,
-  setVisible,
-  title,
-  loadingDeleteBet,
-}: any) => {
-  const theme = useTheme();
-  const matchesMobile = useMediaQuery(theme.breakpoints.down("sm"));
-
+const BannerUploadModal = ({ visible, setVisible, title }: any) => {
   const dispatch: AppDispatch = useDispatch();
-  const initialValues: any = {
-    value: "",
+  const [mobileBanner, setMobileBanner] = useState<any>("");
+  const [desktopBanner, setDesktopBanner] = useState<any>("");
+  const [loadingType, setLoadingType] = useState("");
+  const { loading } = useSelector((state: RootState) => state.user.profile);
+
+  const handleSubmit = (e: any) => {
+    e.preventDefault();
   };
 
-  const formik = useFormik({
-    initialValues: initialValues,
-    validationSchema: notificationvalidationSchema,
-    onSubmit: (values: any) => {
-      let payload = {
-        value: values.value?.split(",")?.[1],
-        type: matchesMobile ? "mobile" : "desktop",
-      };
-      dispatch(headerAddBanner(payload));
-      setVisible(false);
-    },
-  });
-
-  const { handleSubmit, errors, touched } = formik;
-
-  const handleImageChange = (event: any) => {
+  const handleImageChange = (event: any, type: string) => {
     try {
       const inputElement = event.currentTarget;
       const file = inputElement.files[0];
@@ -67,7 +38,11 @@ const BannerUploadModal = ({
         const reader = new FileReader();
         reader.readAsDataURL(file);
         reader.onload = () => {
-          formik.setFieldValue("value", reader.result);
+          if (type === "desktop") {
+            setDesktopBanner(reader.result);
+          } else {
+            setMobileBanner(reader.result);
+          }
         };
       }
     } catch (e) {
@@ -76,7 +51,7 @@ const BannerUploadModal = ({
   };
 
   useEffect(() => {
-    formik.resetForm();
+    setMobileBanner("");
   }, [visible]);
 
   return (
@@ -96,110 +71,197 @@ const BannerUploadModal = ({
           display: "flex",
         }}
       >
-        <form onSubmit={handleSubmit}>
+        <Box
+          sx={{
+            width: { lg: "500px", xs: "80%" },
+            // height: "250px",
+            padding: 0.2,
+            borderRadius: 2,
+            boxShadow: "0px 5px 10px #1A568414",
+            background: "white",
+          }}
+        >
           <Box
-            sx={{
-              width: { lg: "500px", xs: "100%" },
-              height: "250px",
-              padding: 0.2,
-              borderRadius: 2,
-              boxShadow: "0px 5px 10px #1A568414",
-              background: "white",
-            }}
+            sx={[
+              {
+                width: "100%",
+                justifyContent: "space-between",
+                paddingX: "10px",
+                display: "flex",
+                alignItems: "center",
+                height: "50px",
+                background: "white",
+                borderRadius: 2,
+              },
+              (theme: any) => ({
+                backgroundImage: theme.palette.primary.headerGradient,
+              }),
+            ]}
           >
-            <Box
-              sx={[
-                {
-                  width: "100%",
-                  justifyContent: "space-between",
-                  paddingX: "10px",
-                  display: "flex",
-                  alignItems: "center",
-                  height: "50px",
-                  background: "white",
-                  borderRadius: 2,
-                },
-                (theme: any) => ({
-                  backgroundImage: theme.palette.primary.headerGradient,
-                }),
-              ]}
+            <Typography
+              sx={{ fontWeight: "bold", color: "white", fontSize: "18px" }}
             >
-              <Typography
-                sx={{ fontWeight: "bold", color: "white", fontSize: "18px" }}
-              >
-                {title ? title : "Add Banner"}
-              </Typography>
-              <img
-                onClick={() => setVisible(false)}
-                src={CancelDark}
-                style={{ width: "25px", height: "25px", cursor: "pointer" }}
-              />
-            </Box>
-            <Box
-              sx={{
-                width: "100%",
-                flexWrap: "wrap",
-                flexDirection: "row",
-                display: "flex",
-                alignSelf: "center",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <input
-                name="banner"
-                id="banner"
-                type="file"
-                accept="image/png, image/jpeg"
-                onChange={handleImageChange}
-                onBlur={formik.handleBlur}
-                style={{
-                  fontWeight: "700",
-                  borderRadius: "5px",
-                  padding: "5px",
-                  margin: "2%",
-                  boxShadow: "0px 5px 15px #0000001A",
-                  fontSize: "12px",
-                  overflow: "hidden",
-                  width: "96%",
-                  height: "100px",
-                  marginTop: "10px",
-                }}
-              />
-            </Box>
-            <Box
-              sx={{
-                marginX: "6%",
-              }}
-            >
-              <CustomErrorMessage
-                touched={touched.value}
-                errors={errors.value}
-              />
-            </Box>
-            <Box
-              sx={{
-                width: "100%",
-                height: "100px",
-                justifyContent: "space-evenly",
-                display: "flex",
-                flexDirection: "row",
-                alignItems: "center",
-              }}
-            >
-              <Button
-                type="submit"
-                style={{
-                  backgroundColor: "#0B4F26",
-                  color: "white",
-                  // "&:hover": { backgroundColor: "#0B4F26" },
-                }}
-              >
-                {loadingDeleteBet ? "Loading..." : "Submit"}
-              </Button>
-            </Box>
+              {title ? title : "Add Banner"}
+            </Typography>
+            <img
+              onClick={() => setVisible(false)}
+              src={CancelDark}
+              style={{ width: "25px", height: "25px", cursor: "pointer" }}
+            />
           </Box>
-        </form>
+          <form onSubmit={handleSubmit}>
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: { xs: "column", lg: "row" },
+              }}
+            >
+              <Box
+                sx={{
+                  border: "1px solid black",
+                  margin: "4px",
+                }}
+              >
+                <Box
+                  sx={{
+                    width: "100%",
+                    flexWrap: "wrap",
+                    flexDirection: "row",
+                    display: "flex",
+                    alignSelf: "center",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <label htmlFor="banner1">Desktop Banner</label>
+                  <input
+                    name="banner1"
+                    id="banner1"
+                    type="file"
+                    accept="image/png, image/jpeg"
+                    onChange={(e: any) => handleImageChange(e, "desktop")}
+                    style={{
+                      fontWeight: "700",
+                      borderRadius: "5px",
+                      padding: "5px",
+                      margin: "2%",
+                      boxShadow: "0px 5px 15px #0000001A",
+                      fontSize: "12px",
+                      overflow: "hidden",
+                      width: "96%",
+                      height: "100px",
+                      marginTop: "10px",
+                    }}
+                  />
+                </Box>
+                <Box
+                  sx={{
+                    width: "100%",
+                    height: "50px",
+                    justifyContent: "space-evenly",
+                    display: "flex",
+                    flexDirection: "row",
+                    alignItems: "center",
+                  }}
+                >
+                  <Button
+                    type="submit"
+                    disabled={loadingType === "desktop" && loading}
+                    onClick={() => {
+                      setLoadingType("desktop");
+                      dispatch(
+                        headerAddBanner({
+                          value: desktopBanner?.split(",")?.[1],
+                          type: "desktop",
+                        })
+                      );
+                    }}
+                    style={{
+                      backgroundColor: "#0B4F26",
+                      color: "white",
+                    }}
+                  >
+                    {loadingType === "desktop" && loading
+                      ? "Loading..."
+                      : "Submit"}
+                  </Button>
+                </Box>
+              </Box>
+              <Box
+                sx={{
+                  border: "1px solid black",
+                  margin: "4px",
+                }}
+              >
+                <Box
+                  sx={{
+                    width: "100%",
+                    flexWrap: "wrap",
+                    flexDirection: "row",
+                    display: "flex",
+                    alignSelf: "center",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <label htmlFor="banner">Mobile Banner</label>
+                  <input
+                    name="banner"
+                    id="banner"
+                    type="file"
+                    accept="image/png, image/jpeg"
+                    onChange={(e: any) => handleImageChange(e, "mobile")}
+                    style={{
+                      fontWeight: "700",
+                      borderRadius: "5px",
+                      padding: "5px",
+                      margin: "2%",
+                      boxShadow: "0px 5px 15px #0000001A",
+                      fontSize: "12px",
+                      overflow: "hidden",
+                      width: "96%",
+                      height: "100px",
+                      marginTop: "10px",
+                    }}
+                  />
+                </Box>
+
+                <Box
+                  sx={{
+                    width: "100%",
+                    height: "50px",
+                    justifyContent: "space-evenly",
+                    display: "flex",
+                    flexDirection: "row",
+                    alignItems: "center",
+                  }}
+                >
+                  <Button
+                    type="submit"
+                    disabled={loadingType === "mobile" && loading}
+                    onClick={() => {
+                      setLoadingType("mobile");
+                      dispatch(
+                        headerAddBanner({
+                          value: mobileBanner?.split(",")?.[1],
+                          type: "mobile",
+                        })
+                      );
+                    }}
+                    style={{
+                      backgroundColor: "#0B4F26",
+                      color: "white",
+                    }}
+                  >
+                    {loadingType === "mobile" && loading
+                      ? "Loading..."
+                      : "Submit"}
+                  </Button>
+                </Box>
+              </Box>
+            </Box>
+          </form>
+        </Box>
       </Box>
     </Modal>
   );
