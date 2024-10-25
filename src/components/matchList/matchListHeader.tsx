@@ -71,7 +71,7 @@ const MatchListHeader = ({ setCurrentPage }: any) => {
         >
           <Typography
             sx={{
-              fontSize: "20px",
+              fontSize: { lg: "20px", md: "15px", sm: "13px", xs: "11px" },
               color: "white",
               fontWeight: "600",
             }}
@@ -80,7 +80,7 @@ const MatchListHeader = ({ setCurrentPage }: any) => {
           </Typography>
           <Box
             sx={{
-              maxWidth: { lg: "60vw", md: "60%", sm: "50%" },
+              maxWidth: { lg: "100%", md: "70%", sm: "70%", xs: "70%" },
               display: "flex",
               alignItems: "center",
             }}
@@ -91,6 +91,8 @@ const MatchListHeader = ({ setCurrentPage }: any) => {
               variant="scrollable"
               textColor="inherit"
               aria-label="country tabs"
+              scrollButtons
+              allowScrollButtonsMobile
               sx={{
                 height: "30px",
                 "& .MuiTab-root": {
@@ -113,7 +115,7 @@ const MatchListHeader = ({ setCurrentPage }: any) => {
                     height: "35px",
                     marginTop: "4px",
                     textAlign: "center",
-                    fontSize: "10px",
+                    fontSize: { xs: "7px", sm: "8px", lg: "10px" },
                     fontWeight: "bold",
                   }}
                   key={item}

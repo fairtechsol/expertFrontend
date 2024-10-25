@@ -64,7 +64,7 @@ const SessionLimit2 = ({ open, handleClose, matchOddsLive, title }: any) => {
     } catch (error) {
       console.error(error);
     }
-  }, [matchOddsLive?.maxBet, matchOddsLive?.minBet]);
+  }, [matchOddsLive?.maxBet, matchOddsLive?.minBet,open]);
 
   useEffect(() => {
     if (maxLimitUpdateSuccess) {

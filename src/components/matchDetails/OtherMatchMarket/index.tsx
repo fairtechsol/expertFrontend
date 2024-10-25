@@ -84,6 +84,7 @@ const OtherMatchMarket = ({
             alignItems: "center",
             display: "flex",
             justifyContent: "space-between",
+            width: "55%",
           }}
         >
           {(!liveData?.id || liveData?.activeStatus === "result") && (
@@ -132,6 +133,7 @@ const OtherMatchMarket = ({
             display: "flex",
             alignItems: "center",
             justifyContent: "flex-end",
+            width: "45%",
           }}
         >
           {liveData?.id ? (
