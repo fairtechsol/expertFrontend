@@ -14,17 +14,17 @@ const Stop = ({ color, onClick, height, title }: any) => {
   const matchesLarge = useMediaQuery(theme.breakpoints.down("lg"));
   const limitToThreeWords = (text: any) => {
     return (
-      text?.split(" ").slice(0, 3).join(" ") +
-      (text?.split(" ").length > 3 ? "..." : "")
+      text?.split(/[ _]/).slice(0, 3).join(" ") +
+      (text?.split(/[ _]/).length > 3 ? "..." : "")
     );
   };
 
   const displayTitle =
-    limitToThreeWords(title).length >
-    (matchesMobile ? 35 : matchesMiddle ? 16 : matchesLarge ? 20 : 25)
-      ? `${title.slice(
+    limitToThreeWords(title).length >=
+    (matchesMobile ? 35 : matchesMiddle ? 13 : matchesLarge ? 20 : 25)
+      ? `${limitToThreeWords(title).slice(
           0,
-          matchesMobile ? 35 : matchesMiddle ? 16 : matchesLarge ? 20 : 25
+          matchesMobile ? 35 : matchesMiddle ? 13 : matchesLarge ? 20 : 25
         )}...`
       : title;
 
