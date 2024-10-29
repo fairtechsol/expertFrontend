@@ -480,9 +480,9 @@ const MatchMarketDetail = () => {
                   />
                 ))}
               {matchDetail?.tournament &&
-                matchDetail?.tournament?.map((market: any) => (
+                matchDetail?.tournament?.map((market: any, index: number) => (
                   <TournamentMarket
-                    key={market?.mid}
+                    key={index}
                     liveData={market}
                     currentMatch={matchDetail}
                     title={market?.name}
