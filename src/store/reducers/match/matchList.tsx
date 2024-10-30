@@ -38,6 +38,7 @@ import {
   updateTeamRatesForHorseRacingOnDelete,
 } from "../../actions/match/matchAction";
 import { updateRaceRates } from "../../actions/addMatch/addMatchAction";
+import { resetPlacedBetsMatch } from "../../actions/addSession";
 
 interface InitialState {
   matchList: any;
@@ -470,6 +471,9 @@ const matchList = createSlice({
       })
       .addCase(setSelectedTabForMatchList.fulfilled, (state, action) => {
         state.selectedTab = action.payload;
+      })
+      .addCase(resetPlacedBetsMatch, (state) => {
+        state.placedBetsMatch = [];
       });
   },
 });

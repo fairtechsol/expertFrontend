@@ -1,5 +1,5 @@
 import { Box, useMediaQuery, useTheme } from "@mui/material";
-import { memo, useEffect, useState } from "react";
+import { memo, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import Loader from "../../components/Loader";
@@ -52,6 +52,7 @@ import { marketArray } from "../../utils/Constants";
 import HTFTMarket from "../../components/matchDetails/TournamentMarkets/HTFTMarket";
 import Masonry from "@mui/lab/Masonry";
 import DelayedChild from "../../components/Common/DelayedChild";
+import { resetPlacedBetsMatch } from "../../store/actions/addSession";
 
 const OtherMatchDetails = () => {
   const { state } = useLocation();
@@ -318,6 +319,7 @@ const OtherMatchDetails = () => {
           expertSocketService.match.onConnectOff();
           socketService.user.matchResultDeclareAllUserOff();
           socketService.user.matchResultUnDeclareAllUserOff();
+          dispatch(resetPlacedBetsMatch());
         };
       }
     } catch (error) {

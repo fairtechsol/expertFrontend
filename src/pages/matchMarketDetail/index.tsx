@@ -19,6 +19,7 @@ import {
   updateSessionProLoss,
 } from "../../store/actions/addMatch/addMatchAction";
 import {
+  resetPlacedBetsMatch,
   setCurrentOdd,
   updateApiSessionById,
 } from "../../store/actions/addSession";
@@ -335,6 +336,7 @@ const MatchMarketDetail = () => {
           socketService.user.matchResultDeclareAllUserOff();
           // expertSocketService.match.connectErrorOff();
           expertSocketService.match.onConnectOff();
+          dispatch(resetPlacedBetsMatch());
         };
       }
     } catch (error) {

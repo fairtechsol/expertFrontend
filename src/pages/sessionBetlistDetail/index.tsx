@@ -1,5 +1,5 @@
 import { Box, Stack } from "@mui/material";
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 // import CasinoMarket2 from "../../components/matchDetails/CasinoMarket2";
@@ -20,6 +20,7 @@ import {
   updateSessionProLoss,
 } from "../../store/actions/addMatch/addMatchAction";
 import {
+  resetPlacedBetsMatch,
   setCurrentOdd,
   updateApiSessionById,
 } from "../../store/actions/addSession";
@@ -279,6 +280,7 @@ const SessionBetlistDetail = () => {
           socketService.user.updateDeleteReasonOff();
           // expertSocketService.match.connectErrorOff();
           expertSocketService.match.onConnectOff();
+          dispatch(resetPlacedBetsMatch());
         };
       }
     } catch (error) {
