@@ -1,6 +1,6 @@
 import { Box, Typography } from "@mui/material";
 
-const MatchListTableHeader = () => {
+const TabListTableHeader = () => {
   return (
     <Box>
       <Box
@@ -15,7 +15,7 @@ const MatchListTableHeader = () => {
       >
         <Box
           sx={{
-            width: { xs: "60px", sm: "100px", md: "100px", lg: "100px" },
+            width: { lg: "15%", md: "15%", sm: "20%", xs: "20%" },
             display: "flex",
             paddingLeft: "10px",
             alignItems: "center",
@@ -45,4 +45,4 @@ const MatchListTableHeader = () => {
   );
 };
 
-export default MatchListTableHeader;
+export default TabListTableHeader;
