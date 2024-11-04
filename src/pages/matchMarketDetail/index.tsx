@@ -19,6 +19,7 @@ import {
   updateSessionProLoss,
 } from "../../store/actions/addMatch/addMatchAction";
 import {
+  resetPlacedBetsMatch,
   setCurrentOdd,
   updateApiSessionById,
 } from "../../store/actions/addSession";
@@ -45,6 +46,7 @@ import OtherMatchMarket from "../../components/matchDetails/OtherMatchMarket";
 import TournamentMarket from "../../components/matchDetails/TournamentMarkets";
 import { marketArray } from "../../utils/Constants";
 import Masonry from "@mui/lab/Masonry";
+import DelayedChild from "../../components/Common/DelayedChild";
 
 const MatchMarketDetail = () => {
   const { state } = useLocation();
@@ -231,9 +233,9 @@ const MatchMarketDetail = () => {
     // setSocketConnected(true);
   };
 
-  const handleSocketError = () => {
-    // setSocketConnected(false);
-  };
+  // const handleSocketError = () => {
+  // setSocketConnected(false);
+  // };
 
   // const getScoreBoard = async (marketId: string) => {
   //   try {
@@ -306,7 +308,7 @@ const MatchMarketDetail = () => {
         socketService.user.sessionResultDeclared(updateSessionResultDeclared);
         socketService.user.updateInResultDeclare(updateSessionResultStatus);
         socketService.user.updateDeleteReason(updateDeleteBetReason);
-        expertSocketService.match.connectError(handleSocketError);
+        // expertSocketService.match.connectError(handleSocketError);
         expertSocketService.match.onConnect(handleSocketConnection);
       }
     } catch (e) {
@@ -332,8 +334,9 @@ const MatchMarketDetail = () => {
           socketService.user.updateInResultDeclareOff();
           socketService.user.updateDeleteReasonOff();
           socketService.user.matchResultDeclareAllUserOff();
-          expertSocketService.match.connectErrorOff();
+          // expertSocketService.match.connectErrorOff();
           expertSocketService.match.onConnectOff();
+          dispatch(resetPlacedBetsMatch());
         };
       }
     } catch (error) {
@@ -417,145 +420,151 @@ const MatchMarketDetail = () => {
               marginTop: { xs: "10px", lg: "0" },
             }}
           >
-            <Masonry
-              columns={matchesMobile ? 1 : 2}
-              spacing={matchesMobile ? 0 : 1}
-            >
-              {matchDetail?.matchOdd &&
-                (matchDetail?.matchOdd?.isActive === false ? false : true) && (
-                  <MatchOdds
-                    showHeader={true}
-                    currentMatch={matchDetail}
-                    matchOddsLive={matchDetail?.matchOdd}
-                    showResultBox={firstKnownKey === "matchOdd"}
-                  />
-                )}
-              {matchDetail?.bookmaker &&
-                (matchDetail?.bookmaker?.isActive === false ? false : true) && (
-                  <BookMarket
-                    currentMatch={matchDetail}
-                    liveData={matchDetail?.bookmaker}
-                    title={matchDetail?.bookmaker?.name}
-                    showResultBox={firstKnownKey === "bookmaker"}
-                  />
-                )}
-              {matchDetail?.marketBookmaker2 &&
-                (matchDetail?.marketBookmaker2?.isActive === false
-                  ? false
-                  : true) && (
-                  <BookMarket
-                    currentMatch={matchDetail}
-                    liveData={matchDetail?.marketBookmaker2}
-                    title={matchDetail?.marketBookmaker2?.name}
-                    showResultBox={firstKnownKey === "marketBookmaker2"}
-                  />
-                )}
-              {matchDetail?.quickBookmaker
-                ?.filter((item: any) => item?.isActive)
-                ?.map((bookmaker: any) => (
-                  <ManualMarket
-                    key={bookmaker?.id}
-                    currentMatch={matchDetail}
-                    liveData={bookmaker}
-                    showResultBox={
-                      firstKnownKey === "quickBookmaker" &&
-                      bookmaker?.type === "quickbookmaker1"
-                        ? true
-                        : false
-                    }
-                  />
-                ))}
-              {matchDetail?.other &&
-                matchDetail?.other?.map((market: any) => (
-                  <OtherMatchMarket
-                    key={market?.id}
-                    currentMatch={matchDetail}
-                    liveData={{
-                      ...market,
-                      type: "other",
-                      marketId: market?.mid ? market?.mid?.toString() : "",
-                    }}
-                    title={market?.name}
-                    firstKnownKey={firstKnownKey}
-                  />
-                ))}
-              {matchDetail?.tournament &&
-                matchDetail?.tournament?.map((market: any) => (
-                  <TournamentMarket
-                    key={market?.mid}
-                    liveData={market}
-                    currentMatch={matchDetail}
-                    title={market?.name}
-                    firstKnownKey={firstKnownKey}
-                  />
-                ))}
-              {matchDetail?.apiTideMatch &&
-                (matchDetail?.apiTideMatch?.isActive === false
-                  ? false
-                  : true) && (
-                  <TiedMatchMarket
-                    currentMatch={matchDetail}
-                    liveData={matchDetail?.apiTideMatch}
-                    title={matchDetail?.apiTideMatch?.name}
-                    showResultBox={firstKnownKey === "apiTideMatch"}
-                  />
-                )}
-              {matchDetail?.apiTideMatch2 &&
-                (matchDetail?.apiTideMatch2?.isActive === false
-                  ? false
-                  : true) && (
-                  <TiedMatchMarket
-                    currentMatch={matchDetail}
-                    liveData={matchDetail?.apiTideMatch2}
-                    title={matchDetail?.apiTideMatch2?.name}
-                    showResultBox={firstKnownKey === "apiTiedMatch2"}
-                  />
-                )}
-              {matchDetail?.manualTiedMatch &&
-                (matchDetail?.manualTiedMatch?.isActive === false
-                  ? false
-                  : true) && (
-                  <ManualMarket
-                    currentMatch={matchDetail}
-                    liveData={matchDetail?.manualTiedMatch}
-                    type="manualTiedMatch"
-                    showResultBox={firstKnownKey === "manualTiedMatch"}
-                  />
-                )}
-              {matchDetail?.marketCompleteMatch &&
-                (matchDetail?.marketCompleteMatch?.isActive === false
-                  ? false
-                  : true) && (
-                  <CompleteMatchMarket
-                    currentMatch={matchDetail}
-                    liveData={matchDetail?.marketCompleteMatch}
-                    title={matchDetail?.marketCompleteMatch?.name}
-                    showResultBox={firstKnownKey === "marketCompleteMatch"}
-                  />
-                )}
-              {matchDetail?.marketCompleteMatch1 &&
-                (matchDetail?.marketCompleteMatch?.isActive === false
-                  ? false
-                  : true) && (
-                  <CompleteMatchMarket
-                    currentMatch={matchDetail}
-                    liveData={matchDetail?.marketCompleteMatch1}
-                    title={matchDetail?.marketCompleteMatch1?.name}
-                    showResultBox={firstKnownKey === "marketCompleteMatch"}
-                  />
-                )}
-              {matchDetail?.manualCompleteMatch &&
-                (matchDetail?.manualCompleteMatch?.isActive === false
-                  ? false
-                  : true) && (
-                  <ManualMarket
-                    currentMatch={matchDetail}
-                    liveData={matchDetail?.manualCompleteMatch}
-                    type="manualTiedMatch"
-                    showResultBox={firstKnownKey === "manualCompleteMatch"}
-                  />
-                )}
-            </Masonry>
+            <DelayedChild>
+              <Masonry
+                columns={matchesMobile ? 1 : 2}
+                spacing={matchesMobile ? 0 : 1}
+              >
+                {matchDetail?.matchOdd &&
+                  (matchDetail?.matchOdd?.isActive === false
+                    ? false
+                    : true) && (
+                    <MatchOdds
+                      showHeader={true}
+                      currentMatch={matchDetail}
+                      matchOddsLive={matchDetail?.matchOdd}
+                      showResultBox={firstKnownKey === "matchOdd"}
+                    />
+                  )}
+                {matchDetail?.bookmaker &&
+                  (matchDetail?.bookmaker?.isActive === false
+                    ? false
+                    : true) && (
+                    <BookMarket
+                      currentMatch={matchDetail}
+                      liveData={matchDetail?.bookmaker}
+                      title={matchDetail?.bookmaker?.name}
+                      showResultBox={firstKnownKey === "bookmaker"}
+                    />
+                  )}
+                {matchDetail?.marketBookmaker2 &&
+                  (matchDetail?.marketBookmaker2?.isActive === false
+                    ? false
+                    : true) && (
+                    <BookMarket
+                      currentMatch={matchDetail}
+                      liveData={matchDetail?.marketBookmaker2}
+                      title={matchDetail?.marketBookmaker2?.name}
+                      showResultBox={firstKnownKey === "marketBookmaker2"}
+                    />
+                  )}
+                {matchDetail?.quickBookmaker
+                  ?.filter((item: any) => item?.isActive)
+                  ?.map((bookmaker: any) => (
+                    <ManualMarket
+                      key={bookmaker?.id}
+                      currentMatch={matchDetail}
+                      liveData={bookmaker}
+                      showResultBox={
+                        firstKnownKey === "quickBookmaker" &&
+                        bookmaker?.type === "quickbookmaker1"
+                          ? true
+                          : false
+                      }
+                    />
+                  ))}
+                {matchDetail?.other &&
+                  matchDetail?.other?.map((market: any) => (
+                    <OtherMatchMarket
+                      key={market?.id}
+                      currentMatch={matchDetail}
+                      liveData={{
+                        ...market,
+                        type: "other",
+                        marketId: market?.mid ? market?.mid?.toString() : "",
+                      }}
+                      title={market?.name}
+                      firstKnownKey={firstKnownKey}
+                    />
+                  ))}
+                {matchDetail?.tournament &&
+                  matchDetail?.tournament?.map((market: any, index: number) => (
+                    <TournamentMarket
+                      key={index}
+                      liveData={market}
+                      currentMatch={matchDetail}
+                      title={market?.name}
+                      firstKnownKey={firstKnownKey}
+                    />
+                  ))}
+                {matchDetail?.apiTideMatch &&
+                  (matchDetail?.apiTideMatch?.isActive === false
+                    ? false
+                    : true) && (
+                    <TiedMatchMarket
+                      currentMatch={matchDetail}
+                      liveData={matchDetail?.apiTideMatch}
+                      title={matchDetail?.apiTideMatch?.name}
+                      showResultBox={firstKnownKey === "apiTideMatch"}
+                    />
+                  )}
+                {matchDetail?.apiTideMatch2 &&
+                  (matchDetail?.apiTideMatch2?.isActive === false
+                    ? false
+                    : true) && (
+                    <TiedMatchMarket
+                      currentMatch={matchDetail}
+                      liveData={matchDetail?.apiTideMatch2}
+                      title={matchDetail?.apiTideMatch2?.name}
+                      showResultBox={firstKnownKey === "apiTiedMatch2"}
+                    />
+                  )}
+                {matchDetail?.manualTiedMatch &&
+                  (matchDetail?.manualTiedMatch?.isActive === false
+                    ? false
+                    : true) && (
+                    <ManualMarket
+                      currentMatch={matchDetail}
+                      liveData={matchDetail?.manualTiedMatch}
+                      type="manualTiedMatch"
+                      showResultBox={firstKnownKey === "manualTiedMatch"}
+                    />
+                  )}
+                {matchDetail?.marketCompleteMatch &&
+                  (matchDetail?.marketCompleteMatch?.isActive === false
+                    ? false
+                    : true) && (
+                    <CompleteMatchMarket
+                      currentMatch={matchDetail}
+                      liveData={matchDetail?.marketCompleteMatch}
+                      title={matchDetail?.marketCompleteMatch?.name}
+                      showResultBox={firstKnownKey === "marketCompleteMatch"}
+                    />
+                  )}
+                {matchDetail?.marketCompleteMatch1 &&
+                  (matchDetail?.marketCompleteMatch?.isActive === false
+                    ? false
+                    : true) && (
+                    <CompleteMatchMarket
+                      currentMatch={matchDetail}
+                      liveData={matchDetail?.marketCompleteMatch1}
+                      title={matchDetail?.marketCompleteMatch1?.name}
+                      showResultBox={firstKnownKey === "marketCompleteMatch"}
+                    />
+                  )}
+                {matchDetail?.manualCompleteMatch &&
+                  (matchDetail?.manualCompleteMatch?.isActive === false
+                    ? false
+                    : true) && (
+                    <ManualMarket
+                      currentMatch={matchDetail}
+                      liveData={matchDetail?.manualCompleteMatch}
+                      type="manualTiedMatch"
+                      showResultBox={firstKnownKey === "manualCompleteMatch"}
+                    />
+                  )}
+              </Masonry>
+            </DelayedChild>
           </Box>
           <Box
             sx={{

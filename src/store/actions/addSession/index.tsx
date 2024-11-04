@@ -260,6 +260,7 @@ export const successReset = createAction("success/reset");
 export const addsuccessReset = createAction("addsuccess/reset");
 export const sessionSuccessReset = createAction("sessionSuccess/reset");
 export const resetPlacedBets = createAction("placedBets/reset");
+export const resetPlacedBetsMatch = createAction("placedBetsMatch/reset");
 export const resetSessionMaxLimitSuccess = createAction(
   "sessionMaxLimitSuccess/reset"
 );

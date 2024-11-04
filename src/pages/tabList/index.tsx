@@ -14,7 +14,6 @@ import {
   socket,
   socketService,
 } from "../../socketManager";
-import { Constants } from "../../utils/Constants";
 import TabListHeader from "../../components/tabList/tabListHeader";
 import TabListTable from "../../components/tabList/tabListTable";
 
@@ -32,7 +31,13 @@ const TabList = ({}) => {
   useEffect(() => {
     try {
       if (sessionStorage.getItem("jwtExpert")) {
-        dispatch(getMatchList({ currentPage: currentPage,stopAt:true }));
+        dispatch(
+          getMatchList({
+            currentPage: currentPage,
+            stopAt: true,
+            pageLimit: 20,
+          })
+        );
         dispatch(getTabList({ currentPage: currentPage }));
       }
     } catch (error) {
@@ -51,6 +56,7 @@ const TabList = ({}) => {
     dispatch(
       getMatchList({
         currentPage: 1,
+        pageLimit: 20,
       })
     );
   };
@@ -116,8 +122,7 @@ const TabList = ({}) => {
           page={currentPage}
           className="whiteTextPagination matchList-pagination d-flex justify-content-center"
           count={Math.ceil(
-            parseInt(matchList?.count ? matchList?.count : 1) /
-              Constants.pageLimit
+            parseInt(matchList?.count ? matchList?.count : 1) / 20
           )}
           color="primary"
           onChange={callPage}

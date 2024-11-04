@@ -1,5 +1,5 @@
 import { Box, Stack } from "@mui/material";
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 // import CasinoMarket2 from "../../components/matchDetails/CasinoMarket2";
@@ -20,6 +20,7 @@ import {
   updateSessionProLoss,
 } from "../../store/actions/addMatch/addMatchAction";
 import {
+  resetPlacedBetsMatch,
   setCurrentOdd,
   updateApiSessionById,
 } from "../../store/actions/addSession";
@@ -42,7 +43,6 @@ const SessionBetlistDetail = () => {
   const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
   const { state } = useLocation();
-  const [socketConnected, setSocketConnected] = useState(true);
   const { matchDetail, success } = useSelector(
     (state: RootState) => state.addMatch.addMatch
   );
@@ -209,11 +209,13 @@ const SessionBetlistDetail = () => {
   };
 
   const handleSocketConnection = () => {
-    setSocketConnected(true);
+    if (state?.id) {
+      expertSocketService.match.joinMatchRoom(state?.id, "expert");
+    }
   };
-  const handleSocketError = () => {
-    setSocketConnected(false);
-  };
+  // const handleSocketError = () => {
+  //   setSocketConnected(false);
+  // };
 
   useEffect(() => {
     try {
@@ -229,7 +231,7 @@ const SessionBetlistDetail = () => {
 
   useEffect(() => {
     try {
-      if (success && socket && socketConnected) {
+      if (success && socket) {
         expertSocketService.match.getMatchRatesOff(state?.id);
         socketService.user.matchResultDeclaredOff();
         socketService.user.matchResultUnDeclaredOff();
@@ -252,13 +254,13 @@ const SessionBetlistDetail = () => {
         socketService.user.sessionResultDeclared(updateSessionResultDeclared);
         socketService.user.updateInResultDeclare(updateSessionResultStatus);
         socketService.user.updateDeleteReason(updateDeleteBetReason);
-        expertSocketService.match.connectError(handleSocketError);
+        // expertSocketService.match.connectError(handleSocketError);
         expertSocketService.match.onConnect(handleSocketConnection);
       }
     } catch (e) {
       console.log(e);
     }
-  }, [success, socket, socketConnected]);
+  }, [success, socket]);
 
   useEffect(() => {
     try {
@@ -276,8 +278,9 @@ const SessionBetlistDetail = () => {
           socketService.user.sessionResultDeclaredOff();
           socketService.user.updateInResultDeclareOff();
           socketService.user.updateDeleteReasonOff();
-          expertSocketService.match.connectErrorOff();
+          // expertSocketService.match.connectErrorOff();
           expertSocketService.match.onConnectOff();
+          dispatch(resetPlacedBetsMatch());
         };
       }
     } catch (error) {

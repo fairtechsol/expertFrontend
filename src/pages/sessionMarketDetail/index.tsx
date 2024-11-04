@@ -1,5 +1,5 @@
 import { Box, Stack } from "@mui/material";
-import React, { Fragment, useEffect, useState } from "react";
+import React, { Fragment, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import CasinoMarket from "../../components/matchDetails/CasinoMarket";
@@ -44,7 +44,6 @@ const SessionMarketDetail = () => {
   const navigate = useNavigate();
   const { state } = useLocation();
 
-  const [socketConnected, setSocketConnected] = useState(true);
   const { matchDetail, success } = useSelector(
     (state: RootState) => state.addMatch.addMatch
   );
@@ -222,11 +221,13 @@ const SessionMarketDetail = () => {
   };
 
   const handleSocketConnection = () => {
-    setSocketConnected(true);
+    if (state?.id) {
+      expertSocketService.match.joinMatchRoom(state?.id, "expert");
+    }
   };
-  const handleSocketError = () => {
-    setSocketConnected(false);
-  };
+  // const handleSocketError = () => {
+  //   setSocketConnected(false);
+  // };
 
   const handleMultiSessionMaxMin = (event: any) => {
     try {
@@ -250,7 +251,7 @@ const SessionMarketDetail = () => {
 
   useEffect(() => {
     try {
-      if (success && socket && socketConnected) {
+      if (success && socket) {
         expertSocketService.match.getMatchRatesOff(state?.id);
         socketService.user.matchResultDeclaredOff();
         socketService.user.matchResultUnDeclaredOff();
@@ -275,13 +276,13 @@ const SessionMarketDetail = () => {
         socketService.user.updateInResultDeclare(updateSessionResultStatus);
         socketService.user.updateDeleteReason(updateDeleteBetReason);
         socketService.user.multiSessionUpdated(handleMultiSessionMaxMin);
-        expertSocketService.match.connectError(handleSocketError);
+        // expertSocketService.match.connectError(handleSocketError);
         expertSocketService.match.onConnect(handleSocketConnection);
       }
     } catch (e) {
       console.log(e);
     }
-  }, [success, socket, socketConnected]);
+  }, [success, socket]);
 
   useEffect(() => {
     try {
@@ -300,7 +301,7 @@ const SessionMarketDetail = () => {
           socketService.user.updateInResultDeclareOff();
           socketService.user.updateDeleteReasonOff();
           socketService.user.multiSessionUpdatedOff();
-          expertSocketService.match.connectErrorOff();
+          // expertSocketService.match.connectErrorOff();
           expertSocketService.match.onConnectOff();
         };
       }

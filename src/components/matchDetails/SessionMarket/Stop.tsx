@@ -10,12 +10,24 @@ import { BroadCast_ } from "../../../assets";
 const Stop = ({ color, onClick, height, title }: any) => {
   const theme = useTheme();
   const matchesMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const matchesMiddle = useMediaQuery(theme.breakpoints.down("md"));
+  const matchesLarge = useMediaQuery(theme.breakpoints.down("lg"));
   const limitToThreeWords = (text: any) => {
     return (
-      text?.split(" ").slice(0, 3).join(" ") +
-      (text?.split(" ").length > 3 ? "..." : "")
+      text?.split(/[ _]/).slice(0, 3).join(" ") +
+      (text?.split(/[ _]/).length > 3 ? "..." : "")
     );
   };
+
+  const displayTitle =
+    limitToThreeWords(title).length >=
+    (matchesMobile ? 35 : matchesMiddle ? 13 : matchesLarge ? 20 : 25)
+      ? `${limitToThreeWords(title).slice(
+          0,
+          matchesMobile ? 35 : matchesMiddle ? 13 : matchesLarge ? 20 : 25
+        )}...`
+      : title;
+
   return (
     <>
       <Box
@@ -41,7 +53,7 @@ const Stop = ({ color, onClick, height, title }: any) => {
               lineHeight: 1,
             }}
           >
-            {title && (matchesMobile ? title : limitToThreeWords(title))}
+            {title && displayTitle}
           </Typography>
         </Tooltip>
         <img
