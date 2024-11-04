@@ -12,7 +12,6 @@ import { AppDispatch, RootState } from "../../store/store";
 import CustomButton from "../Common/CustomButton";
 import StyledImage from "../Common/StyledImages";
 import { IconConstants } from "../helper/gameConstants";
-import { Constants } from "../../utils/Constants";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
@@ -83,13 +82,13 @@ const TabListTable = (props: any) => {
         <Box
           sx={{
             display: "flex",
-            width: { xs: "60px", sm: "100px", md: "100px", lg: "100px" },
+            width: { lg: "15%", md: "15%", sm: "20%", xs: "20%" },
             alignItems: "center",
             borderRight: "2px solid white",
           }}
         >
           <Typography sx={{ fontSize: "12px" }}>
-            ({index + 1 + Constants.pageLimit * (currentPage - 1)})
+            ({index + 1 + 20 * (currentPage - 1)})
           </Typography>
           <Typography
             sx={{
@@ -99,7 +98,7 @@ const TabListTable = (props: any) => {
               marginLeft: "2px",
             }}
           >
-            {moment(data?.startAt).format("DD-MM-YYYY")} <br />
+            {moment(data?.startAt).format("DD-MM-YYYY")}{" "}
             {moment(data?.startAt).format("LT")}
           </Typography>
         </Box>
@@ -121,7 +120,7 @@ const TabListTable = (props: any) => {
           >
             <StyledImage
               src={IconConstants[data?.matchType]}
-              sx={{ height: "20px", width: "20px", margin: "1rem" }}
+              sx={{ height: "20px", width: "20px", margin: "0.5rem" }}
             />
             <Typography
               variant="h5"
@@ -131,7 +130,7 @@ const TabListTable = (props: any) => {
                   alignItems: "center",
                   marginRight: { lg: "10px", xs: "6px" },
                   justifyContent: "space-between",
-                  width: "200px",
+                  width: { lg: "300px", xs: "200" },
                 },
               ]}
             >
@@ -149,7 +148,7 @@ const TabListTable = (props: any) => {
                 lg: "row",
               },
               order: { xs: "1", sm: "2", md: "3" },
-              py: { xs: 1, sm: 0 },
+              // py: { xs: 1, sm: 0 },
               alignItems: "center",
             }}
           >
