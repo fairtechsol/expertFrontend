@@ -1,6 +1,5 @@
 import { Box, Pagination } from "@mui/material";
 import { useEffect, useState } from "react";
-import MatchListTableHeader from "../../components/matchList/matchListTableHeader";
 import "./style.css";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store/store";
@@ -16,6 +15,7 @@ import {
 } from "../../socketManager";
 import TabListHeader from "../../components/tabList/tabListHeader";
 import TabListTable from "../../components/tabList/tabListTable";
+import TabListTableHeader from "../../components/matchList/tabListTableHeader";
 
 const TabList = ({}) => {
   const dispatch: AppDispatch = useDispatch();
@@ -92,7 +92,7 @@ const TabList = ({}) => {
         ]}
       >
         <TabListHeader />
-        <MatchListTableHeader />
+        <TabListTableHeader />
 
         {matchList &&
           matchList?.matches?.map((item: any, index: number) => (
