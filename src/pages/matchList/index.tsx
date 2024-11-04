@@ -49,16 +49,20 @@ const MatchList = ({}) => {
     }
   }, [success]);
 
-  const getMatchListService = () => {
+  const getMatchListService = (event: any) => {
     setCurrentPage(1);
-    dispatch(
-      getMatchList({
-        currentPage: 1,
-        matchType: gameType[selectedTab],
-      })
-    );
+    const index = gameType.indexOf(event?.gameType);
+    if (index === selectedTab) {
+      setTimeout(() => {
+        dispatch(
+          getMatchList({
+            currentPage: 1,
+            matchType: event?.gameType,
+          })
+        );
+      }, 500);
+    }
   };
-
   useEffect(() => {
     try {
       if (socket) {
@@ -72,7 +76,7 @@ const MatchList = ({}) => {
     } catch (error) {
       console.log(error);
     }
-  }, [socket]);
+  }, [socket, selectedTab]);
 
   return (
     <>
