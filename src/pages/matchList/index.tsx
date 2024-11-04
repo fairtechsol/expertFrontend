@@ -63,14 +63,21 @@ const MatchList = ({}) => {
       }, 500);
     }
   };
+  
   useEffect(() => {
     try {
       if (socket) {
         expertSocketService.match.matchAdded(getMatchListService);
+        socketService.user.matchResultDeclareAllUser(getMatchListService);
+        socketService.user.matchResultDeclared(getMatchListService);
         socketService.user.matchResultUnDeclared(getMatchListService);
+        socketService.user.matchResultUnDeclareAllUser(getMatchListService);
         return () => {
           expertSocketService.match.matchAddedOff();
           socketService.user.matchResultUnDeclaredOff();
+          socketService.user.matchResultDeclaredOff();
+          socketService.user.matchResultDeclareAllUserOff();
+          socketService.user.matchResultDeclareAllUserOff();
         };
       }
     } catch (error) {
