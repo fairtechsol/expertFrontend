@@ -14,7 +14,6 @@ import {
   socket,
   socketService,
 } from "../../socketManager";
-import { Constants } from "../../utils/Constants";
 import TabListHeader from "../../components/tabList/tabListHeader";
 import TabListTable from "../../components/tabList/tabListTable";
 
