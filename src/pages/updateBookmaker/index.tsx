@@ -95,6 +95,8 @@ const UpdateBookmaker = () => {
           })
         );
         dispatch(getPlacedBets(state?.id));
+      } else {
+        navigate("/expert/match");
       }
     } catch (error) {
       console.error(error);
