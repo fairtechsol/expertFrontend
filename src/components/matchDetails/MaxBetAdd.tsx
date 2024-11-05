@@ -74,7 +74,7 @@ const MaxBetAdd = ({
     } catch (error) {
       console.error(error);
     }
-  }, [matchOddsLive?.maxBet, matchOddsLive?.betLimit, matchOddsLive?.minBet]);
+  }, [open]);
 
   useEffect(() => {
     if (maxLimitSuccess) {

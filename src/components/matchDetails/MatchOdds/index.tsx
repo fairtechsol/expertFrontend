@@ -52,8 +52,8 @@ const MatchOdds = ({ currentMatch, matchOddsLive, id, showResultBox }: any) => {
 
   const bookRatioB = (() => {
     try {
-      if (valueA === 0) {
-        return 0;
+      if (+valueA === 0) {
+        return "0.00";
       } else {
         const bookRatio = valueB != 0 ? valueA / valueB || 0 : 0;
         const formattedRatio = Math.abs(bookRatio).toFixed(2);
@@ -66,8 +66,8 @@ const MatchOdds = ({ currentMatch, matchOddsLive, id, showResultBox }: any) => {
 
   const bookRatioA = (() => {
     try {
-      if (valueA === 0) {
-        return 0;
+      if (+valueB === 0) {
+        return "0.00";
       } else {
         const bookRatio = valueA != 0 ? valueB / valueA || 0 : 0;
         // alert(teamARates)
