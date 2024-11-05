@@ -381,8 +381,6 @@ const AddMatch = () => {
   const { handleSubmit, values, touched, errors, handleChange } = formik;
 
   useEffect(() => {
-
-    
     if (!state?.id) {
       setSelected((prev: any) => {
         return {
@@ -404,7 +402,6 @@ const AddMatch = () => {
     }
     if (selected.gameType !== "" && !state?.id) {
       if (!manualMatchToggle) {
-        
         dispatch(tournamentListReset());
         dispatch(getAllLiveTournaments(selected.gameType));
       }
@@ -861,8 +858,10 @@ const AddMatch = () => {
                   label="Select match*"
                   setSelected={setSelected}
                   name="matchName"
+                  selected={selected}
                   matchesSelect={true}
                   gameType={selected.gameType}
+                  disabled={state?.id ? true : false}
                 />
               ) : (
                 <MatchListInput
