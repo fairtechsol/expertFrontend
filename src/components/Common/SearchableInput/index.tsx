@@ -12,6 +12,8 @@ const SearchableInput = ({
   disable,
   name,
   gameType,
+  disabled,
+  selected,
 }: any) => {
   const dispatch: AppDispatch = useDispatch();
 
@@ -99,6 +101,10 @@ const SearchableInput = ({
           "& .css-20bmp1-MuiSvgIcon-root": {
             color: "white",
           },
+          "& .css-lc42l8-MuiInputBase-input-MuiOutlinedInput-input.Mui-disabled":
+            {
+              "-webkit-text-fill-color": "white",
+            },
         }}
         options={eventsList?.map((item: any) => {
           return {
@@ -107,7 +113,12 @@ const SearchableInput = ({
             label: item?.EventName,
           };
         })}
+        value={{
+          option: selected?.title,
+          label: selected?.title,
+        }}
         getOptionLabel={(option: any) => `${option?.label}`}
+        disabled={disabled}
         onChange={handleOnChange}
         renderOption={(props: any, option: any) => (
           <Box
@@ -122,8 +133,12 @@ const SearchableInput = ({
               fontSize: "1rem",
             }}
           >
-            <Typography style={{textAlign: "left" , width: "100%"}}>{option?.label}</Typography>
-            <Typography sx={{ fontSize: "12px" , textAlign: "start", width: "100%"}}>
+            <Typography style={{ textAlign: "left", width: "100%" }}>
+              {option?.label}
+            </Typography>
+            <Typography
+              sx={{ fontSize: "12px", textAlign: "start", width: "100%" }}
+            >
               {option?.EventDate}
             </Typography>
           </Box>
@@ -137,9 +152,9 @@ const SearchableInput = ({
               borderRadius: "5px",
             }}
             sx={{
-              "& .MuiInputBase-input": { 
-                color: "white",  // Input text color
-                "&::placeholder": { color: "white", opacity: 1 },  // Placeholder text color and opacity
+              "& .MuiInputBase-input": {
+                color: "white", // Input text color
+                "&::placeholder": { color: "white", opacity: 1 }, // Placeholder text color and opacity
               },
               "& .MuiInputLabel-root": { color: "white" },
               "& .MuiOutlinedInput-root": {
