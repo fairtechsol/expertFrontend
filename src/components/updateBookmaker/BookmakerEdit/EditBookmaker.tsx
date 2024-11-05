@@ -74,12 +74,18 @@ const EditBookmaker = (props: any) => {
   });
 
   const bookRatioB = (teamARates: any, teamBRates: any) => {
+    if (+teamARates === 0) {
+      return "0.00";
+    }
     const bookRatio = teamBRates != 0 ? teamARates / teamBRates || 0 : 0;
     const formattedRatio = Math.abs(bookRatio).toFixed(2);
     return teamBRates < 0 ? `-${formattedRatio}` : formattedRatio;
   };
 
   const bookRatioA = (teamARates: any, teamBRates: any) => {
+    if (+teamBRates === 0) {
+      return "0.00";
+    }
     const bookRatio = teamARates != 0 ? teamBRates / teamARates || 0 : 0;
     const formattedRatio = Math.abs(bookRatio).toFixed(2);
     return teamARates < 0 ? `-${formattedRatio}` : formattedRatio;
