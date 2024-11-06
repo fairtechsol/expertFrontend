@@ -47,7 +47,7 @@ const Stop = ({ color, onClick, height, title }: any) => {
         <Tooltip title={title} arrow>
           <Typography
             sx={{
-              fontSize: { lg: "10px", xs: "8px" },
+              fontSize: { lg: "8px", xs: "8px" },
               fontWeight: "600",
               color: color ? "white" : "white",
               lineHeight: 1,
