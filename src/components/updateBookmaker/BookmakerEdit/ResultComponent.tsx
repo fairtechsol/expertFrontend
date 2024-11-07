@@ -265,8 +265,12 @@ const ResultComponent = ({
                           })
                         );
                       } else {
-                        liveData?.type === "matchOdd" ||
-                        liveData?.type === "quickbookmaker1"
+                        [
+                          "matchOdd",
+                          "quickbookmaker1",
+                          "bookmaker",
+                          "bookmaker2",
+                        ]?.includes(liveData?.type)
                           ? dispatch(
                               otherDeclareMatchResult({
                                 matchId: currentMatch?.id,
