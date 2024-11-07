@@ -199,6 +199,7 @@ const Header1 = () => {
                       title={"MATCH LIST"}
                       boxStyle={{
                         backgroundColor:
+                          currentSelected !== 1 &&
                           window.location.pathname.split("/")[2] == "match"
                             ? "white"
                             : "transparent",
@@ -209,6 +210,7 @@ const Header1 = () => {
                       }}
                       titleStyle={{
                         color:
+                          currentSelected !== 1 &&
                           window.location.pathname.split("/")[2] == "match"
                             ? "green"
                             : "white",
@@ -226,6 +228,7 @@ const Header1 = () => {
                       title={"RACE LIST"}
                       boxStyle={{
                         backgroundColor:
+                          currentSelected !== 1 &&
                           window.location.pathname.split("/")[2] == "race"
                             ? "white"
                             : "transparent",
@@ -236,6 +239,7 @@ const Header1 = () => {
                       }}
                       titleStyle={{
                         color:
+                          currentSelected !== 1 &&
                           window.location.pathname.split("/")[2] == "race"
                             ? "green"
                             : "white",
@@ -254,6 +258,7 @@ const Header1 = () => {
                       title={"TAB LIST"}
                       boxStyle={{
                         backgroundColor:
+                          currentSelected !== 1 &&
                           window.location.pathname.split("/")[2] == "tab"
                             ? "white"
                             : "transparent",
@@ -264,6 +269,7 @@ const Header1 = () => {
                       }}
                       titleStyle={{
                         color:
+                          currentSelected !== 1 &&
                           window.location.pathname.split("/")[2] == "tab"
                             ? "green"
                             : "white",
@@ -548,6 +554,7 @@ const Header1 = () => {
                         title={"MATCH LIST"}
                         boxStyle={{
                           backgroundColor:
+                            currentSelected !== 1 &&
                             window.location.pathname.split("/")[2] == "match"
                               ? "white"
                               : "transparent",
@@ -558,6 +565,7 @@ const Header1 = () => {
                         }}
                         titleStyle={{
                           color:
+                            currentSelected !== 1 &&
                             window.location.pathname.split("/")[2] == "match"
                               ? "green"
                               : "white",
@@ -576,6 +584,7 @@ const Header1 = () => {
                         title={"RACE LIST"}
                         boxStyle={{
                           backgroundColor:
+                            currentSelected !== 1 &&
                             window.location.pathname.split("/")[2] == "race"
                               ? "white"
                               : "transparent",
@@ -586,6 +595,7 @@ const Header1 = () => {
                         }}
                         titleStyle={{
                           color:
+                            currentSelected !== 1 &&
                             window.location.pathname.split("/")[2] == "race"
                               ? "green"
                               : "white",
@@ -604,6 +614,7 @@ const Header1 = () => {
                         title={"TAB LIST"}
                         boxStyle={{
                           backgroundColor:
+                            currentSelected !== 1 &&
                             window.location.pathname.split("/")[2] == "tab"
                               ? "white"
                               : "transparent",
@@ -614,6 +625,7 @@ const Header1 = () => {
                         }}
                         titleStyle={{
                           color:
+                            currentSelected !== 1 &&
                             window.location.pathname.split("/")[2] == "tab"
                               ? "green"
                               : "white",
@@ -648,6 +660,7 @@ const Header1 = () => {
           handleClose={() => {
             setAnchor1(null);
             setGameType(false);
+            setSelected(0);
           }}
         />
       )}
