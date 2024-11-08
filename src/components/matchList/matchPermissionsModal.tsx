@@ -112,22 +112,23 @@ const MatchPermissionsModal = (props: any) => {
                 );
               }
             })}
-        {(data?.matchType === "cricket" || data?.matchType === "politics") && !data?.eventId.includes("manual") && (
-          <BoxButtonWithSwitch
-            title="Session"
-            matchId={data?.id}
-            matchBettingType={"session"}
-            isManualBet={false}
-            disable={
-              profileDetail?.allPrivilege || profileDetail?.addMatchPrivilege
-                ? false
-                : true
-            }
-            updateMatchStatus={updateMatchStatus}
-            setUpdateMatchStatus={setUpdateMatchStatus}
-            place={1}
-          />
-        )}
+        {(data?.matchType === "cricket" || data?.matchType === "politics") &&
+          !data?.eventId.includes("manual") && (
+            <BoxButtonWithSwitch
+              title="Session"
+              matchId={data?.id}
+              matchBettingType={"session"}
+              isManualBet={false}
+              disable={
+                profileDetail?.allPrivilege || profileDetail?.addMatchPrivilege
+                  ? false
+                  : true
+              }
+              updateMatchStatus={updateMatchStatus}
+              setUpdateMatchStatus={setUpdateMatchStatus}
+              place={1}
+            />
+          )}
 
         {data?.matchType === "cricket" && (
           <BoxButtonWithSwitch
