@@ -112,7 +112,7 @@ const MatchPermissionsModal = (props: any) => {
                 );
               }
             })}
-        {data?.matchType === "cricket" && !data?.eventId.includes("manual") && (
+        {(data?.matchType === "cricket" || data?.matchType === "politics") && !data?.eventId.includes("manual") && (
           <BoxButtonWithSwitch
             title="Session"
             matchId={data?.id}
