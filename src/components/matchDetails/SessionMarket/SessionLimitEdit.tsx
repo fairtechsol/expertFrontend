@@ -29,7 +29,7 @@ const SessionLimitEdit = (props: any) => {
   const handleSubmit = (e: any) => {
     e.stopPropagation();
     try {
-      if (value >= newData?.minBet) {
+      if (value > newData?.minBet) {
         setError(false);
         const payload = {
           id: newData?.id,
