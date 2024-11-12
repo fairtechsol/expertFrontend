@@ -17,7 +17,7 @@ import theme from "../../../theme";
 import { formatToINR, numberInputOnWheelPreventChange } from "../../../helpers";
 import { useLocation } from "react-router-dom";
 import { profitLossDataForMatchConstants } from "../../../utils/Constants";
-import MaxLimitEditButtonBook from "../../Common/MaxLimitEditButtonBook";
+// import MaxLimitEditButtonBook from "../../Common/MaxLimitEditButtonBzook";
 import MaxBetAdd from "../../matchDetails/MaxBetAdd";
 
 const EditBookmaker = (props: any) => {
@@ -404,7 +404,7 @@ const EditBookmaker = (props: any) => {
               })`}
             </span>
           </Typography>
-          <MaxLimitEditButtonBook handleClickOpen={() => setOpen(true)} />
+          {/* <MaxLimitEditButtonBook handleClickOpen={() => setOpen(true)} /> */}
         </Box>
         <Box
           sx={{

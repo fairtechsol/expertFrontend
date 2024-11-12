@@ -134,7 +134,6 @@ const CompleteMatchMarket = ({
             justifyContent: "flex-end",
           }}
         >
-          {" "}
           {showResultBox && (
             <Result
               width={"80px"}
