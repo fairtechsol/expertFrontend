@@ -12,9 +12,14 @@ export const getAllLiveTournaments = createAsyncThunk<any, string>(
       );
       let resp: any;
       if (requestData === "cricket") {
-        resp = await axios.get(
-          `${addMatchThirdParty}/getDirectMatchList?type=${requestData}`
-        );
+        try {
+          resp = await axios.get(
+            `${addMatchThirdParty}/getDirectMatchList?type=${requestData}`,
+            { timeout: 2000 }
+          );
+        } catch (error) {
+          console.log(error);
+        }
       }
       if (data) {
         let matchesList: any = [
