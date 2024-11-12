@@ -116,7 +116,8 @@ export const getExtraMarketList = createAsyncThunk<any, any>(
   async (requestData, thunkApi) => {
     try {
       const { data } = await axios.get(
-        `${addMatchThirdParty}/extraMarketList/${requestData?.id}?eventType=${requestData?.eventType}`
+        `${addMatchThirdParty}/extraMarketList/${requestData?.id}?eventType=${requestData?.eventType}`,
+        { timeout: 2000 }
       );
       if (data) {
         let extraMarketList: any = {};
