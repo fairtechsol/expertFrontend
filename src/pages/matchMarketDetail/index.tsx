@@ -542,14 +542,14 @@ const MatchMarketDetail = () => {
                     />
                   )}
                 {matchDetail?.marketCompleteMatch1 &&
-                  (matchDetail?.marketCompleteMatch?.isActive === false
+                  (matchDetail?.marketCompleteMatch1?.isActive === false
                     ? false
                     : true) && (
                     <CompleteMatchMarket
                       currentMatch={matchDetail}
                       liveData={matchDetail?.marketCompleteMatch1}
                       title={matchDetail?.marketCompleteMatch1?.name}
-                      showResultBox={firstKnownKey === "marketCompleteMatch"}
+                      showResultBox={firstKnownKey === "marketCompleteMatch1"}
                     />
                   )}
                 {matchDetail?.manualCompleteMatch &&

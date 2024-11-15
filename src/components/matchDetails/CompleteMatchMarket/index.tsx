@@ -17,7 +17,8 @@ import Result from "../Result";
 import ResultComponent from "../../updateBookmaker/BookmakerEdit/ResultComponent";
 import { declareMatchStatusReset } from "../../../store/actions/match/matchDeclareActions";
 
-const CompleteMatchMarket = ({
+const 
+CompleteMatchMarket = ({
   currentMatch,
   liveData,
   title,
