@@ -1,5 +1,5 @@
 import { Box, Pagination } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import MatchListHeader from "../../components/matchList/matchListHeader";
 import MatchListTable from "../../components/matchList/matchListTable";
 import MatchListTableHeader from "../../components/matchList/matchListTableHeader";
@@ -9,6 +9,7 @@ import { AppDispatch, RootState } from "../../store/store";
 import {
   getMatchList,
   matchListReset,
+  updateMatchListCurrentPage,
 } from "../../store/actions/match/matchAction";
 import {
   expertSocketService,
@@ -19,13 +20,12 @@ import { Constants, gameType } from "../../utils/Constants";
 
 const MatchList = ({}) => {
   const dispatch: AppDispatch = useDispatch();
-  const [currentPage, setCurrentPage] = useState(1);
-  const { matchList, success, selectedTab } = useSelector(
+  const { matchList, success, selectedTab, matchListCurrentPage } = useSelector(
     (state: RootState) => state.matchList
   );
 
   function callPage(_: any, newPage: any) {
-    setCurrentPage(newPage);
+    dispatch(updateMatchListCurrentPage(newPage));
   }
 
   useEffect(() => {
@@ -33,7 +33,7 @@ const MatchList = ({}) => {
       if (sessionStorage.getItem("jwtExpert")) {
         dispatch(
           getMatchList({
-            currentPage: currentPage,
+            currentPage: matchListCurrentPage,
             matchType: gameType[selectedTab],
           })
         );
@@ -41,7 +41,7 @@ const MatchList = ({}) => {
     } catch (error) {
       console.log(error);
     }
-  }, [currentPage, sessionStorage, selectedTab]);
+  }, [matchListCurrentPage, sessionStorage, selectedTab]);
 
   useEffect(() => {
     if (success) {
@@ -50,7 +50,7 @@ const MatchList = ({}) => {
   }, [success]);
 
   const getMatchListService = (event: any) => {
-    setCurrentPage(1);
+    dispatch(updateMatchListCurrentPage(1));
     const index = gameType.indexOf(event?.gameType);
     if (index === selectedTab) {
       setTimeout(() => {
@@ -63,11 +63,25 @@ const MatchList = ({}) => {
       }, 500);
     }
   };
-  
+  const getMatchListServiceAddMatch = (event: any) => {
+    dispatch(updateMatchListCurrentPage(1));
+    const index = gameType.indexOf(event?.gameType);
+    if (index === selectedTab) {
+      setTimeout(() => {
+        dispatch(
+          getMatchList({
+            currentPage: 1,
+            matchType: event?.gameType,
+          })
+        );
+      }, 500);
+    }
+  };
+
   useEffect(() => {
     try {
       if (socket) {
-        expertSocketService.match.matchAdded(getMatchListService);
+        expertSocketService.match.matchAdded(getMatchListServiceAddMatch);
         socketService.user.matchResultDeclareAllUser(getMatchListService);
         socketService.user.matchResultDeclared(getMatchListService);
         socketService.user.matchResultUnDeclared(getMatchListService);
@@ -101,7 +115,7 @@ const MatchList = ({}) => {
           }),
         ]}
       >
-        <MatchListHeader setCurrentPage={setCurrentPage} />
+        <MatchListHeader />
         <MatchListTableHeader />
 
         {matchList &&
@@ -110,7 +124,7 @@ const MatchList = ({}) => {
               key={item?.id}
               data={item}
               index={index}
-              currentPage={currentPage}
+              currentPage={matchListCurrentPage}
             />
           ))}
         <Pagination
@@ -129,7 +143,7 @@ const MatchList = ({}) => {
               color: "white", // Change the text color for the "Next" button
             },
           }}
-          page={currentPage}
+          page={matchListCurrentPage}
           className="whiteTextPagination matchList-pagination d-flex justify-content-center"
           count={Math.ceil(
             parseInt(matchList?.count ? matchList?.count : 1) /
