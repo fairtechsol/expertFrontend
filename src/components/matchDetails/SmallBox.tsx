@@ -10,6 +10,7 @@ const SmallBox = ({
   hide,
   customStyle,
   loading,
+  height,
 }: any) => {
   return (
     <>
@@ -17,15 +18,19 @@ const SmallBox = ({
         onClick={onClick}
         sx={[
           {
-            width: { lg: width ? width.lg : "80px", xs: width ? width.xs : "25%" },
+            width: {
+              lg: width ? width.lg : "80px",
+              xs: width ? width.xs : "25%",
+            },
             display: "flex",
-            marginRight: "10px",
+            marginRight: "2px",
             justifyContent: "center",
             paddingX: 1,
+            zIndex: 2,
             alignItems: "center",
-            height: "32px",
+            height: height ? height : "32px",
             background: color ? color : "#46e080",
-            borderRadius: "3px",
+            borderRadius: "2px",
             cursor: "pointer",
           },
           customStyle,
@@ -34,8 +39,8 @@ const SmallBox = ({
         <Typography
           sx={{
             fontSize: {
-              lg: textSize ? textSize : "11px",
-              xs: textSize ? textSize : "10px",
+              lg: textSize ? textSize : title === "Go Live" ? "8px" : "8px",
+              xs: textSize ? textSize : title === "Go Live" ? "8px" : "8px",
             },
             fontWeight: "600",
             color: color !== "#FFF" ? "white" : "",

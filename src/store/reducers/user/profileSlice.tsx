@@ -5,6 +5,8 @@ import {
   getDateList,
   getLoggedUserCount,
   getProfile,
+  headerAddBanner,
+  headerAddNotification,
   resetDateList,
 } from "../../actions/user/userAction";
 
@@ -14,12 +16,12 @@ interface InitialState {
   loggedUserCount: number;
   loading: boolean;
   error: any;
-  getProfile: any;
+  profileDetail: any;
   dateList: any;
 }
 
 const initialState: InitialState = {
-  getProfile: null,
+  profileDetail: null,
   transactionPassword: "",
   loggedUserCount: 0,
   loading: false,
@@ -54,7 +56,8 @@ const profileSlice = createSlice({
       })
       .addCase(getProfile.fulfilled, (state, action) => {
         state.loading = false;
-        state.getProfile = action?.payload;
+        state.profileDetail = action?.payload;
+        sessionStorage.setItem("pId", action?.payload?.id);
       })
       .addCase(getProfile.rejected, (state, action) => {
         state.loading = false;
@@ -92,6 +95,30 @@ const profileSlice = createSlice({
       })
       .addCase(resetDateList, (state) => {
         state.dateList = [];
+      })
+      .addCase(headerAddNotification.pending, (state) => {
+        state.loading = true;
+        state.success = false;
+        state.error = null;
+      })
+      .addCase(headerAddNotification.fulfilled, (state) => {
+        state.loading = false;
+      })
+      .addCase(headerAddNotification.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action?.error?.message;
+      })
+      .addCase(headerAddBanner.pending, (state) => {
+        state.loading = true;
+        state.success = false;
+        state.error = null;
+      })
+      .addCase(headerAddBanner.fulfilled, (state) => {
+        state.loading = false;
+      })
+      .addCase(headerAddBanner.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action?.error?.message;
       });
   },
 });

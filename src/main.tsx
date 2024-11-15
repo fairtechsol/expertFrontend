@@ -10,7 +10,12 @@ import "react-toastify/dist/ReactToastify.css";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <Provider store={store}>
-    <ToastContainer />
+    <ToastContainer
+      style={{
+        fontSize: "14px",
+      }}
+      stacked
+    />
     <ThemeProvider theme={theme}>
       <App />
     </ThemeProvider>

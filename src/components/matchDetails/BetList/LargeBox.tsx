@@ -1,6 +1,15 @@
 import { Box, Typography } from "@mui/material";
 
 const LargeBox = ({ item, k }: any) => {
+  const handleDomain=(url:any)=>{
+    url = url?.replace(/^(?:https?:\/\/)/, "");
+
+    const parts = url?.split(".");
+  
+    url = parts?.[parts.length-2]
+    
+    return url || "";
+  }
   return (
     <Box
       sx={{
@@ -18,7 +27,7 @@ const LargeBox = ({ item, k }: any) => {
     >
       <Typography
         sx={{
-          fontSize: { lg: "9px", xs: "0.5rem", md: "10px" },
+          fontSize: { lg: "10px", xs: "0.5rem", md: "9px" },
           fontWeight: "600",
           color: item?.color,
           wordWrap: item?.overflowWrap ? item?.overflowWrap : "break-word",
@@ -46,13 +55,13 @@ const LargeBox = ({ item, k }: any) => {
             lineHeight: 1
           }}
         >
-          {item?.domain?.replace(/https?:\/\//, "")}
+          {handleDomain(item?.domain)}
         </Typography>
       )}
       {item?.time && (
         <Typography
           sx={{
-            fontSize: { lg: "8px", xs: "0.3rem", md: "9px" },
+            fontSize: { lg: "8px", xs: "0.4rem", md: "8px" },
             fontWeight: "600",
             color: item?.color,
           }}

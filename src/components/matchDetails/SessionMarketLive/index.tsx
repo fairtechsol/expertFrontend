@@ -1,19 +1,19 @@
 import { memo, useState } from "react";
 import { useEffect } from "react";
 import { Box, Typography } from "@mui/material";
-import Divider from "../../Common/Divider";
+// import Divider from "../../Common/Divider";
 import { ARROWUP } from "../../../assets";
 import SessionMarketBoxLive from "./SessionMarketBoxLive";
 import { formatToINR } from "../../helper";
 
-const SessionMarketLive = ({
-  title,
-  sessionData,
-  currentMatch,
-}: any) => {
+const SessionMarketLive = ({ title, sessionData, currentMatch, type }: any) => {
   const [matchSessionData, setMatchSessionData] = useState(sessionData);
   useEffect(() => {
-    setMatchSessionData(sessionData);
+    setMatchSessionData(
+      sessionData?.section?.filter(
+        (item: any) => !item?.activeStatus || item?.activeStatus === "unSave"
+      )
+    );
   }, [sessionData]);
   const [visible, setVisible] = useState(true);
 
@@ -23,7 +23,7 @@ const SessionMarketLive = ({
         display: "flex",
         backgroundColor: "white",
         flexDirection: "column",
-        marginY: { lg: "2px" },
+        marginY: "4px",
         width: { lg: "100%", xs: "100%" },
         alignSelf: {
           xs: "center",
@@ -36,7 +36,7 @@ const SessionMarketLive = ({
       <Box
         sx={{
           display: "flex",
-          height: "35px",
+          height: "20px",
           flexDirection: "row",
           width: "99.7%",
           alignSelf: "center",
@@ -49,17 +49,26 @@ const SessionMarketLive = ({
             alignItems: "center",
             display: "flex",
             justifyContent: "space-between",
-            height: "40px",
+            // height: "40px",
           }}
         >
           <Typography
             sx={{
-              fontSize: { lg: "13px", md: "12px", xs: "12px" },
+              fontSize: "10px",
               fontWeight: "bold",
               marginLeft: "7px",
+              textTransform: "capitalize",
+              lineHeight: 1,
             }}
           >
             {title}
+            <span
+              style={{
+                fontSize: "8px",
+              }}
+            >{`(MIN: ${formatToINR(
+              currentMatch?.betFairSessionMinBet
+            )})`}</span>
           </Typography>
         </Box>
 
@@ -74,7 +83,7 @@ const SessionMarketLive = ({
         </Box>
         <Box
           sx={{
-            flex: 1,
+            flex: 0.5,
             background: "#262626",
             // '#262626' ,
             display: "flex",
@@ -90,8 +99,8 @@ const SessionMarketLive = ({
             src={ARROWUP}
             style={{
               transform: visible ? "rotate(180deg)" : "rotate(0deg)",
-              width: "15px",
-              height: "15px",
+              width: "12px",
+              height: "12px",
               marginRight: "5px",
               marginLeft: "5px",
               cursor: "pointer",
@@ -108,92 +117,14 @@ const SessionMarketLive = ({
             flexDirection: "column",
           }}
         >
-          {
-            <Box
-              sx={{
-                display: "flex",
-                background: "#319E5B",
-                height: "25px",
-                width: "99.7%",
-                alignSelf: "center",
-                zIndex: "999",
-              }}
-            >
-              <Box
-                sx={{
-                  display: "flex",
-                  background: "'#319E5B'",
-                  height: "25px",
-                  width: "60%",
-                  alignItems: "center",
-                }}
-              >
-                <Typography
-                  sx={{
-                    color: "white",
-                    fontSize: { lg: "11px", xs: "9px" },
-                    marginLeft: "7px",
-                  }}
-                >
-                  MIN: {formatToINR(currentMatch?.betFairSessionMinBet)}
-                  {/* MAX:
-                  {currentMatch?.betFairSessionMaxBet} */}
-                </Typography>
-              </Box>
-              <Box
-                sx={{
-                  display: "flex",
-                  background: "#319E5B",
-                  height: "25px",
-                  // paddingRight: "17px",
-                  width: { lg: "62%", xs: "67%", md: "67%" },
-                  justifyContent: "flex-end",
-                }}
-              >
-                <Box
-                  sx={{
-                    background: "#FF9292",
-                    width: { lg: "26.5%", xs: "24.5%", md: "24%" },
-                    height: "100%",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                  }}
-                >
-                  <Typography
-                    sx={{ fontSize: "12px", color: "black", fontWeight: "600" }}
-                  >
-                    No
-                  </Typography>
-                </Box>
-                <Box sx={{ width: ".45%", display: "flex" }}></Box>
-                <Box
-                  sx={{
-                    background: "#00C0F9",
-                    width: { lg: "26.5%", xs: "22.5%", md: "24%" },
-                    height: "100%",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                  }}
-                >
-                  <Typography
-                    sx={{ fontSize: "12px", color: "black", fontWeight: "600" }}
-                  >
-                    Yes
-                  </Typography>
-                </Box>
-              </Box>
-            </Box>
-          }
           <Box
             sx={{
               display: "flex",
               flexDirection: "column",
               width: "100%",
               position: "relative",
-              maxHeight: { lg: "85vh", xs: "40vh" },
-              overflowY: "auto",
+              // maxHeight: { lg: "85vh", xs: "40vh" },
+              // overflowY: "auto",
               "::-webkit-scrollbar": {
                 display: "none",
               },
@@ -201,15 +132,17 @@ const SessionMarketLive = ({
           >
             {matchSessionData?.length > 0 &&
               matchSessionData?.map((match: any, index: any) => {
-                if (!match?.id) {
+                if (!match?.id || match?.activeStatus === "unSave") {
                   return (
                     <Box key={index}>
                       <SessionMarketBoxLive
                         currentMatch={currentMatch}
                         newData={match}
                         index={index}
+                        gtype={sessionData?.gtype}
+                        type={type}
                       />
-                      <Divider />
+                      {/* <Divider /> */}
                     </Box>
                   );
                 }

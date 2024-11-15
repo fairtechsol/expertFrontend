@@ -1,6 +1,6 @@
 import { Box, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { ARROWUP } from "../../assets";
 import Divider from "../../components/Common/Divider";
 import ManualBoxComponent from "../../components/manualMarket/manualBoxComponent";
@@ -8,22 +8,39 @@ import Stop from "../../components/matchDetails/SessionMarket/Stop";
 import SmallBox from "../../components/matchDetails/SmallBox";
 import { formatToINR } from "../../helpers";
 import { betLiveStatus } from "../../store/actions/match/matchAction";
-import { AppDispatch } from "../../store/store";
+import { AppDispatch, RootState } from "../../store/store";
 import { profitLossDataForMatchConstants } from "../../utils/Constants";
 import ResultComponent from "../../components/updateBookmaker/BookmakerEdit/ResultComponent";
 import Result from "../../components/matchDetails/Result";
-
-const ManualMarket = ({ currentMatch, liveData, type }: any) => {
+import { declareMatchStatusReset } from "../../store/actions/match/matchDeclareActions";
+import MaxLimitEditButton from "../../components/Common/MaxLimitEditButton";
+import MaxBetAdd from "../../components/matchDetails/MaxBetAdd";
+const ManualMarket = ({ currentMatch, liveData, type, showResultBox }: any) => {
   const [visible, setVisible] = useState(false);
   const dispatch: AppDispatch = useDispatch();
   const [visibleImg, setVisibleImg] = useState<boolean>(true);
+  const [open, setOpen] = useState(false);
   const [live, setLive] = useState<boolean>(
     liveData?.activeStatus === "live" ? true : false
   );
+  const { success } = useSelector((state: RootState) => state.match);
+  const handleClose = (data: any) => {
+    setOpen(data);
+  };
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
 
   useEffect(() => {
     setLive(liveData?.activeStatus === "live" ? true : false);
   }, [liveData?.activeStatus]);
+
+  useEffect(() => {
+    if (success) {
+      dispatch(declareMatchStatusReset());
+      setVisible(false);
+    }
+  }, [success]);
 
   return (
     <Box
@@ -32,12 +49,12 @@ const ManualMarket = ({ currentMatch, liveData, type }: any) => {
         display: "flex",
         backgroundColor: "white",
         flexDirection: "column",
-        width: "100%",
+        width: { lg: "49%", md: "49%", xs: "100%" },
         marginTop: ".3vh",
-        marginX: "0",
+        // marginX: "0",
         alignSelf: {
           xs: "center",
-          md: "center",
+          md: "flex-start",
           lg: "flex-start",
         },
         position: "relative",
@@ -46,7 +63,7 @@ const ManualMarket = ({ currentMatch, liveData, type }: any) => {
       <Box
         sx={{
           display: "flex",
-          height: 38,
+          height: 20,
           flexDirection: "row",
           width: "100%",
           alignSelf: "center",
@@ -61,27 +78,33 @@ const ManualMarket = ({ currentMatch, liveData, type }: any) => {
             justifyContent: "space-between",
           }}
         >
-          <Typography
-            sx={{
-              fontSize: { lg: "13px", md: "12px", xs: "12px" },
-              fontWeight: "bold",
-              marginLeft: "7px",
-            }}
-          >
-            {liveData?.name}
-          </Typography>
-          <Stop
-            onClick={() => {
-              dispatch(
-                betLiveStatus({
-                  isStop: true,
-                  betId: liveData?.id,
-                  isManual: true,
-                })
-              );
-              setLive(false);
-            }}
-          />
+          {(!liveData?.id || liveData?.activeStatus === "result") && (
+            <Typography
+              sx={{
+                fontSize: { lg: "9px", md: "9px", xs: "10px", sm: "8px" },
+                fontWeight: "bold",
+                marginLeft: "7px",
+              }}
+            >
+              {liveData?.name}
+            </Typography>
+          )}
+          {liveData?.id && liveData?.activeStatus !== "result" && (
+            <Stop
+              onClick={() => {
+                dispatch(
+                  betLiveStatus({
+                    isStop: true,
+                    betId: liveData?.id,
+                    isManual: true,
+                  })
+                );
+                setLive(false);
+              }}
+              height="18px"
+              title={liveData?.name}
+            />
+          )}
         </Box>
         <Box
           sx={{
@@ -102,7 +125,7 @@ const ManualMarket = ({ currentMatch, liveData, type }: any) => {
             justifyContent: "flex-end",
           }}
         >
-          {!currentMatch?.matchOdd && liveData?.type === "quickbookmaker1" && (
+          {showResultBox && (
             <Result
               width={"80px"}
               onClick={() => {
@@ -111,7 +134,7 @@ const ManualMarket = ({ currentMatch, liveData, type }: any) => {
               invert={true}
             />
           )}
-          {!currentMatch?.stopAt && (
+          {liveData?.activeStatus !== "result" && (
             <SmallBox
               onClick={() => {
                 dispatch(
@@ -123,15 +146,18 @@ const ManualMarket = ({ currentMatch, liveData, type }: any) => {
                 );
                 setLive(!live);
               }}
-              // width={"80px"}
+              width={{ lg: "25px", xs: "20px" }}
               title={live ? "Live" : "Go Live"}
               color={live ? "#46e080" : "#FF4D4D"}
               customStyle={{
                 justifyContent: "center",
                 textAlign: "center",
               }}
+              height="18px"
             />
           )}
+          <MaxLimitEditButton handleClickOpen={handleClickOpen} />
+
           <img
             onClick={() => {
               setVisibleImg(!visibleImg);
@@ -139,39 +165,39 @@ const ManualMarket = ({ currentMatch, liveData, type }: any) => {
             src={ARROWUP}
             style={{
               transform: visibleImg ? "rotate(180deg)" : "rotate(0deg)",
-              width: "15px",
-              height: "15px",
-              marginRight: "5px",
-              marginLeft: "5px",
+              width: "10px",
+              height: "10px",
+              marginRight: "1px",
+              marginLeft: "1px",
               cursor: "pointer",
             }}
           />
         </Box>
       </Box>
-      <Box
+      {/* <Box
         sx={{
           position: "absolute",
           zIndex: 999,
           top: "26%",
-          right: "60px",
-          width: { lg: "50vh", xs: "30vh" },
+          right: "1%",
+          width: { lg: "30vh", xs: "30vh" },
         }}
-      >
-        {visible && (
-          <ResultComponent
-            currentMatch={currentMatch}
-            teamA={currentMatch?.teamA}
-            stopAt={currentMatch?.stopAt}
-            teamB={currentMatch?.teamB}
-            tie={currentMatch?.matchType === "cricket" ? "Tie" : ""}
-            draw={currentMatch?.teamC ? currentMatch?.teamC : null}
-            onClick={() => {
-              setVisible(false);
-            }}
-            liveData={liveData}
-          />
-        )}
-      </Box>
+      > */}
+      {visible && (
+        <ResultComponent
+          currentMatch={currentMatch}
+          teamA={currentMatch?.teamA}
+          stopAt={currentMatch?.stopAt}
+          teamB={currentMatch?.teamB}
+          tie={currentMatch?.matchType === "cricket" ? "Tie" : ""}
+          draw={currentMatch?.teamC ? currentMatch?.teamC : null}
+          onClick={() => {
+            setVisible(false);
+          }}
+          liveData={liveData}
+        />
+      )}
+      {/* </Box> */}
       <Divider />
       {visibleImg && (
         <>
@@ -179,7 +205,7 @@ const ManualMarket = ({ currentMatch, liveData, type }: any) => {
             sx={{
               display: "flex",
               background: "#319E5B",
-              height: "25px",
+              height: "15px",
               width: "100%",
               alignSelf: "center",
             }}
@@ -188,35 +214,41 @@ const ManualMarket = ({ currentMatch, liveData, type }: any) => {
               sx={{
                 display: "flex",
                 background: "'#319E5B'",
-                height: "25px",
-                width: "35%",
+                height: "15px",
+                width: { lg: "70%", xs: "50%", md: "60%", sm: "81%" },
                 alignItems: "center",
               }}
             >
               <Typography
                 sx={{
                   color: "white",
-                  fontSize: { lg: "11px", xs: "9px" },
+                  fontSize: { lg: "10px", xs: "8px" },
                   marginLeft: "7px",
+                  lineHeight: 1,
                 }}
               >
-                MIN: {formatToINR(liveData?.minBet)} MAX:{" "}
-                {formatToINR(liveData?.maxBet)}
+                MIN:{" "}
+                {formatToINR(
+                  liveData?.id
+                    ? liveData?.minBet
+                    : currentMatch?.betFairSessionMinBet
+                )}{" "}
+                MAX: {formatToINR(liveData?.maxBet)}
               </Typography>
             </Box>
             <Box
               sx={{
                 display: "flex",
                 background: "#319E5B",
-                height: "25px",
-                width: { lg: "65%", xs: "80%" },
-                justifyContent: { lg: "center", xs: "flex-end" },
+                height: "15px",
+                width: { lg: "30%", xs: "50%", md: "40%", sm: "43%" },
+                justifyContent: { lg: "flex-end", xs: "flex-end" },
               }}
             >
               <Box
                 sx={{
                   background: "#00C0F9",
-                  width: { lg: "16.5%", xs: "25%" },
+                  width: { lg: "36%", xs: "34.6%", md: "43%", sm: "100%" },
                   height: "100%",
                   display: "flex",
                   justifyContent: "center",
@@ -224,7 +256,7 @@ const ManualMarket = ({ currentMatch, liveData, type }: any) => {
                 }}
               >
                 <Typography
-                  sx={{ fontSize: "12px", color: "black", fontWeight: "600" }}
+                  sx={{ fontSize: "10px", color: "black", fontWeight: "600" }}
                 >
                   Back
                 </Typography>
@@ -233,7 +265,7 @@ const ManualMarket = ({ currentMatch, liveData, type }: any) => {
               <Box
                 sx={{
                   background: "#FF9292",
-                  width: { lg: "16.5%", xs: "24.7%" },
+                  width: { lg: "36%", xs: "34.6%", md: "43%", sm: "100%" },
                   height: "100%",
                   display: "flex",
                   justifyContent: "center",
@@ -241,7 +273,7 @@ const ManualMarket = ({ currentMatch, liveData, type }: any) => {
                 }}
               >
                 <Typography
-                  sx={{ fontSize: "12px", color: "black", fontWeight: "600" }}
+                  sx={{ fontSize: "10px", color: "black", fontWeight: "600" }}
                 >
                   Lay
                 </Typography>
@@ -254,16 +286,24 @@ const ManualMarket = ({ currentMatch, liveData, type }: any) => {
               teamRates={
                 currentMatch?.teamRates
                   ? currentMatch?.teamRates[
-                      profitLossDataForMatchConstants[liveData?.type]?.A
+                      profitLossDataForMatchConstants[liveData?.type]?.A +
+                        "_" +
+                        currentMatch?.id
                     ]
                     ? currentMatch?.teamRates[
-                        profitLossDataForMatchConstants[liveData?.type]?.A
+                        profitLossDataForMatchConstants[liveData?.type]?.A +
+                          "_" +
+                          currentMatch?.id
                       ]
                     : 0
                   : 0
               }
               status={liveData?.statusTeamA}
-              livestatus={liveData?.statusTeamA === "suspended" ? true : false}
+              livestatus={
+                !["ACTIVE", "OPEN", ""].includes(liveData?.statusTeamA)
+                  ? true
+                  : false
+              }
               data={{ back: liveData?.backTeamA, lay: liveData?.layTeamA }}
               //   lock={liveData?.runners?.length > 0 ? false : true}
               ballStatus={liveData?.statusTeamA === "ball start" ? true : false}
@@ -274,14 +314,22 @@ const ManualMarket = ({ currentMatch, liveData, type }: any) => {
 
             <Divider />
             <ManualBoxComponent
-              livestatus={liveData?.statusTeamB === "suspended" ? true : false}
+              livestatus={
+                !["ACTIVE", "OPEN", ""].includes(liveData?.statusTeamB)
+                  ? true
+                  : false
+              }
               teamRates={
                 currentMatch?.teamRates
                   ? currentMatch?.teamRates[
-                      profitLossDataForMatchConstants[liveData?.type]?.B
+                      profitLossDataForMatchConstants[liveData?.type]?.B +
+                        "_" +
+                        currentMatch?.id
                     ]
                     ? currentMatch?.teamRates[
-                        profitLossDataForMatchConstants[liveData?.type]?.B
+                        profitLossDataForMatchConstants[liveData?.type]?.B +
+                          "_" +
+                          currentMatch?.id
                       ]
                     : 0
                   : 0
@@ -301,15 +349,21 @@ const ManualMarket = ({ currentMatch, liveData, type }: any) => {
                 <ManualBoxComponent
                   color={"#FF4D4D"}
                   livestatus={
-                    liveData?.statusTeamC === "suspended" ? true : false
+                    !["ACTIVE", "OPEN", ""].includes(liveData?.statusTeamC)
+                      ? true
+                      : false
                   }
                   teamRates={
                     currentMatch?.teamRates
                       ? currentMatch?.teamRates[
-                          profitLossDataForMatchConstants[liveData?.type]?.C
+                          profitLossDataForMatchConstants[liveData?.type]?.C +
+                            "_" +
+                            currentMatch?.id
                         ]
                         ? currentMatch?.teamRates[
-                            profitLossDataForMatchConstants[liveData?.type]?.C
+                            profitLossDataForMatchConstants[liveData?.type]?.C +
+                              "_" +
+                              currentMatch?.id
                           ]
                         : 0
                       : 0
@@ -339,32 +393,58 @@ const ManualMarket = ({ currentMatch, liveData, type }: any) => {
                 }}
               ></Box>
             )}
-            {/* {currentMatch?.resultStatus &&
-              currentMatch?.resultStatus[liveData?.id]?.status && (
-                <Box
-                  sx={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    width: "100%",
-                    position: "absolute",
-                    height: "100%",
-                    bottom: 0,
-                    color: "#fff",
-                    backgroundColor: "rgba(203 24 24 / 70%)",
-                  }}
-                >
-                  <Typography sx={{ color: "#fff" }}>
-                    RESULT{" "}
-                    {liveData?.stopAt || liveData?.activeStatus === "result"
-                      ? "DECLARED"
-                      : currentMatch?.resultStatus[liveData?.id]?.status}
-                  </Typography>
-                </Box>
-              )} */}
+            {typeof currentMatch?.resultStatus === "string" &&
+            liveData?.id &&
+            showResultBox
+              ? currentMatch?.resultStatus && (
+                  <Box
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      width: "100%",
+                      position: "absolute",
+                      height: "100%",
+                      bottom: 0,
+                      color: "#fff",
+                      backgroundColor: "rgba(203 24 24 / 70%)",
+                    }}
+                  >
+                    <Typography sx={{ color: "#fff" }}>
+                      RESULT {currentMatch?.resultStatus}
+                    </Typography>
+                  </Box>
+                )
+              : currentMatch?.resultStatus &&
+                currentMatch?.resultStatus[liveData?.id]?.status && (
+                  <Box
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      width: "100%",
+                      position: "absolute",
+                      height: "100%",
+                      bottom: 0,
+                      color: "#fff",
+                      backgroundColor: "rgba(203 24 24 / 70%)",
+                    }}
+                  >
+                    <Typography sx={{ color: "#fff" }}>
+                      RESULT {currentMatch?.resultStatus[liveData?.id]?.status}
+                    </Typography>
+                  </Box>
+                )}
           </Box>
         </>
       )}
+      <MaxBetAdd
+        open={open}
+        handleClose={handleClose}
+        matchOddsLive={liveData}
+        currentMatch={currentMatch}
+        title={"API Bookmaker Max Bet"}
+      />
     </Box>
   );
 };

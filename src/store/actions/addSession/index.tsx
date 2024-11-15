@@ -64,6 +64,23 @@ export const updateSession = createAsyncThunk<any, updateSession>(
     }
   }
 );
+export const updateMultiSessionMarketAmount = createAsyncThunk<any, any>(
+  "update/multiSessionMarketAmount",
+  async (requestData, thunkApi) => {
+    try {
+      const resp = await service.post(
+        `${ApiConstants.SESSION.UPDATE_MULTI_MARKET_AMOUNT}`,
+        requestData
+      );
+      if (resp?.data) {
+        return resp?.data;
+      }
+    } catch (error) {
+      const err = error as AxiosError;
+      return thunkApi.rejectWithValue(err.response?.status);
+    }
+  }
+);
 export const getSessionById = createAsyncThunk<any, SessionById>(
   "get/session",
   async (requestData, thunkApi) => {
@@ -225,18 +242,28 @@ export const updateResultStatusOfSessionById = createAsyncThunk<any, any>(
     return detail;
   }
 );
-
-export const updateResultStatusOfQuickBookmaker = createAsyncThunk<any, SessionById>(
-  "update/resultStatusQuickBookmaker",
-  async (requestData) => {
-    return requestData;
+export const updateMarketMinMaxLimitOnQuickMaker = createAsyncThunk<any, any>(
+  "/update/bookMinMaxLimit",
+  async (detail) => {
+    return detail;
   }
 );
+
+export const updateResultStatusOfQuickBookmaker = createAsyncThunk<
+  any,
+  SessionById
+>("update/resultStatusQuickBookmaker", async (requestData) => {
+  return requestData;
+});
 export const sessionByIdReset = createAction("sessionById/reset");
 export const successReset = createAction("success/reset");
 export const addsuccessReset = createAction("addsuccess/reset");
 export const sessionSuccessReset = createAction("sessionSuccess/reset");
 export const resetPlacedBets = createAction("placedBets/reset");
+export const resetPlacedBetsMatch = createAction("placedBetsMatch/reset");
 export const resetSessionMaxLimitSuccess = createAction(
   "sessionMaxLimitSuccess/reset"
+);
+export const resetMultiSessionMaxLimitSuccess = createAction(
+  "multiSessionMaxLimitSuccess/reset"
 );

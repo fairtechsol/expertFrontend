@@ -1,39 +1,48 @@
-import { useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { Box, Typography } from "@mui/material";
-import Divider from "../../Common/Divider";
 import SeparateBox from "../SeparateBox";
 import { formatNumber } from "../../helper";
 import SmallBox from "../SmallBox";
 import { addSession } from "../../../store/actions/addSession";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../../store/store";
+import { sessionBetLiveStatus } from "../../../store/actions/match/matchAction";
 
-const SessionMarketBoxLive = ({ currentMatch, newData, index }: any) => {
+const SessionMarketBoxLive = ({
+  currentMatch,
+  newData,
+  index,
+  gtype,
+  type,
+}: any) => {
   const dispatch: AppDispatch = useDispatch();
 
-  const [live, setLive] = useState<any>(
-    newData?.isActive === false ? true : false
-  );
+  const [live, setLive] = useState<any>(newData?.ActiveStatus ? true : false);
 
   const handleLive = () => {
     const payload = {
       matchId: currentMatch?.id,
-      type: "session",
+      type: type,
       name: newData?.RunnerName,
-      // minBet: "any",
-      // maxBet: "any",
-      selectionId: newData?.SelectionId,
-      yesRate: newData?.BackPrice1,
-      noRate: newData?.LayPrice1,
-      yesPercent: newData?.leftYesRatePercent,
-      noPercent: newData?.leftNoRatePercent,
+      gtype: gtype,
+      selectionId: (newData?.SelectionId).toString(),
+      yesRate: newData?.ex?.availableToBack[0]?.price,
+      noRate: newData?.ex?.availableToLay[0]?.price,
+      yesPercent: newData?.ex?.availableToBack[0]?.size,
+      noPercent: newData?.ex?.availableToLay[0]?.price,
     };
     dispatch(addSession(payload));
   };
 
+  useEffect(() => {
+    if (newData?.ActiveStatus) {
+      setLive(true);
+    } else setLive(false);
+  }, [newData]);
+
   return (
     <div style={{ position: "relative" }}>
-      {live && (
+      {!live && (
         <Box
           sx={{
             margin: "1px",
@@ -50,7 +59,7 @@ const SessionMarketBoxLive = ({ currentMatch, newData, index }: any) => {
         sx={{
           display: "flex",
           background: "white",
-          height: "38px",
+          height: "25px",
           width: "100%",
         }}
       >
@@ -58,7 +67,7 @@ const SessionMarketBoxLive = ({ currentMatch, newData, index }: any) => {
           sx={{
             display: "flex",
             background: index % 2 === 0 ? "#FFE094" : "#ECECEC",
-            height: "40px",
+            height: "25px",
             width: "100%",
             alignItems: "center",
           }}
@@ -68,7 +77,7 @@ const SessionMarketBoxLive = ({ currentMatch, newData, index }: any) => {
               color: "black",
               fontSize: { lg: "10px", md: "10px", xs: "10px" },
               marginLeft: { lg: "7px", md: "20px", xs: "20px" },
-              fontWeight: "600",
+              fontWeight: "bold",
               lineHeight: 1,
             }}
           >
@@ -80,32 +89,41 @@ const SessionMarketBoxLive = ({ currentMatch, newData, index }: any) => {
           sx={{
             position: "absolute",
             top: "5px",
-            right: { lg: "30%", md: "35%", xs: "30%" },
+            right: { lg: "30%", md: "45%", xs: "45%" },
             display: "flex",
             zIndex: 100,
           }}
         >
-          {live && (
-            <SmallBox
-              hide={true}
-              onClick={(e: any) => {
-                e.preventDefault();
-                setLive(!live);
-                handleLive();
-              }}
-              textSize="8px"
-              width="28px"
-              color="#FF4D4D"
-            />
-          )}
           {!live && (
             <SmallBox
               hide={true}
               onClick={(e: any) => {
                 e.preventDefault();
+                setLive(!live);
+                if (newData?.id) {
+                  dispatch(
+                    sessionBetLiveStatus({
+                      status: "live",
+                      betId: newData?.id,
+                    })
+                  );
+                } else handleLive();
               }}
               textSize="8px"
-              width="33px"
+              width={{ lg: "20px", xs: "20px" }}
+              color="#FF4D4D"
+              height="20px"
+            />
+          )}
+          {live && (
+            <SmallBox
+              hide={true}
+              onClick={(e: any) => {
+                e.preventDefault();
+              }}
+              textSize="8px"
+              width={{ lg: "20px", xs: "20px" }}
+              height="20px"
             />
           )}
         </Box>
@@ -115,10 +133,10 @@ const SessionMarketBoxLive = ({ currentMatch, newData, index }: any) => {
             sx={{
               margin: "1px",
               background: "rgba(0,0,0,1)",
-              height: "38px",
+              height: "25px",
               right: "0vh",
               position: "absolute",
-              width: { lg: "27%", xs: "25%", md: "25.5%" },
+              width: { lg: "27.6%", xs: "25.4%", md: "25.5%" },
               justifyContent: { xs: "center", lg: "center" },
               alignItems: "center",
               display: "flex",
@@ -143,18 +161,26 @@ const SessionMarketBoxLive = ({ currentMatch, newData, index }: any) => {
               display: "flex",
               position: "relative",
               background: index % 2 === 0 ? "#FFE094" : "#ECECEC",
-              height: "38px",
-              width: { lg: "85%", xs: "100%", md: "100%" },
+              height: "25px",
+              width: { lg: "85%", xs: "38.5%", md: "39%" },
               justifyContent: "flex-end",
               alignItems: "center",
             }}
           >
             <SeparateBox
               width="30%"
-              value={newData?.LayPrice1}
-              value2={formatNumber(newData?.LaySize1)}
+              value={
+                type === "oddEven"
+                  ? newData?.ex?.availableToBack[0]?.price
+                  : newData?.ex?.availableToLay[0]?.price
+              }
+              value2={formatNumber(
+                type === "oddEven"
+                  ? newData?.ex?.availableToBack[0]?.size
+                  : newData?.ex?.availableToLay[0]?.size
+              )}
               lock={newData?.GameStatus === "SUSPENDED"}
-              color="#F6D0CB"
+              color={type === "oddEven" ? "#B3E0FF" : "#F6D0CB"}
             />
 
             <Box
@@ -163,15 +189,124 @@ const SessionMarketBoxLive = ({ currentMatch, newData, index }: any) => {
 
             <SeparateBox
               width="30%"
-              value={newData?.BackPrice1}
-              value2={formatNumber(newData?.BackSize1)}
+              value={
+                type === "oddEven"
+                  ? newData?.ex?.availableToLay[0]?.price
+                  : newData?.ex?.availableToBack[0]?.price
+              }
+              value2={formatNumber(
+                type === "oddEven"
+                  ? newData?.ex?.availableToLay[0]?.size
+                  : newData?.ex?.availableToBack[0]?.size
+              )}
               lock={newData?.GameStatus === "SUSPENDED"}
               color="#B3E0FF"
             />
           </Box>
         )}
       </Box>
-      <Divider />
+      {Array.from(
+        {
+          length:
+            Math.max(
+              newData?.ex?.availableToLay?.length ?? 0,
+              newData?.ex?.availableToBack?.length ?? 0
+            ) - 1,
+        },
+        (_, i) => i + 1
+      ).map((item: number) => {
+        return (
+          <Fragment key={item}>
+            {!["ACTIVE", "", undefined, null].includes(newData?.GameStatus) ? (
+              <Box
+                sx={{
+                  margin: "1px",
+                  background: "rgba(0,0,0,1)",
+                  height: "25px",
+                  right: "0vh",
+                  position: "absolute",
+                  width: { lg: "27%", xs: "25.4%", md: "25.5%" },
+                  justifyContent: { xs: "center", lg: "center" },
+                  alignItems: "center",
+                  display: "flex",
+                }}
+              >
+                <Typography
+                  style={{
+                    fontSize: "10px",
+                    textTransform: "uppercase",
+                    textAlign: "center",
+                    width: "100%",
+                    color: "white",
+                    fontWeight: "400",
+                  }}
+                >
+                  {newData?.GameStatus}
+                </Typography>
+              </Box>
+            ) : (
+              <Box
+                sx={{
+                  display: "flex",
+                  background: "white",
+                  height: "25px",
+                  width: "100%",
+                }}
+              >
+                <Box
+                  sx={{
+                    display: "flex",
+                    position: "relative",
+                    background: index % 2 === 0 ? "#FFE094" : "#ECECEC",
+                    height: "25px",
+                    width: "100%",
+                    justifyContent: "flex-end",
+                    alignItems: "center",
+                  }}
+                >
+                  <SeparateBox
+                    width="13.8%"
+                    mWidth="12.7%"
+                    value={
+                      type === "oddEven"
+                        ? newData?.ex?.availableToBack[item]?.price || 0
+                        : newData?.ex?.availableToLay[item]?.price || 0
+                    }
+                    value2={formatNumber(
+                      type === "oddEven"
+                        ? newData?.ex?.availableToBack[item]?.size || 0
+                        : newData?.ex?.availableToLay[item]?.size || 0
+                    )}
+                    lock={newData?.GameStatus === "SUSPENDED"}
+                    color="#F6D0CB"
+                  />
+
+                  <Box
+                    sx={{ width: ".20%", display: "flex", background: "pink" }}
+                  ></Box>
+
+                  <SeparateBox
+                    width="13.8%"
+                    mWidth="12.7%"
+                    value={
+                      type === "oddEven"
+                        ? newData?.ex?.availableToLay[item]?.price || 0
+                        : newData?.ex?.availableToBack[item]?.price || 0
+                    }
+                    value2={formatNumber(
+                      type === "oddEven"
+                        ? newData?.ex?.availableToLay[item]?.size || 0
+                        : newData?.ex?.availableToBack[item]?.size || 0
+                    )}
+                    lock={newData?.GameStatus === "SUSPENDED"}
+                    color="#B3E0FF"
+                  />
+                </Box>
+              </Box>
+            )}
+          </Fragment>
+        );
+      })}
     </div>
   );
 };

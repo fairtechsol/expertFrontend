@@ -2,7 +2,7 @@ import { Box, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import StyledImage from "../../../components/Common/StyledImages";
 import HeaderDropdown from "./HeaderDropdown";
-import { ArrowDown } from "../../../assets";
+// import { ArrowDown } from "../../../assets";
 
 const ActiveUsers = (props: any) => {
   const { image, value, containerStyle } = props;
@@ -19,32 +19,32 @@ const ActiveUsers = (props: any) => {
           display: "flex",
           justifyContent: "space-between",
           minWidth: { lg: "120px" },
-                 }}
+        }}
       >
         <Box
           onClick={() => {}}
           sx={[
             {
               backgroundColor: "white",
-              minWidth: { lg: "120px" },
+              minWidth: { lg: "110px" },
               marginLeft: "1vw",
               display: "flex",
               alignItems: "center",
               boxShadow: "0px 3px 10px #B7B7B726",
               justifyContent: "space-between",
-              height: { lg: "40px", xs: "35px" },
+              height: { lg: "35px", xs: "27px" },
               overflow: "hidden",
               paddingX: "2px",
               borderRadius: "35px",
-              width: {xs: "80px", md: "100px"}
+              width: { xs: "80px", md: "100px" },
             },
             containerStyle,
           ]}
         >
           <Box
             sx={{
-              height: "35px",
-              width: { lg: "35px", xs: "25px" , md: "30px"},
+              height: { lg: "30px", xs: "22px", md: "30px" },
+              width: { lg: "30px", xs: "22px", md: "30px" },
               borderRadius: "35px",
               display: "flex",
               justifyContent: "center",
@@ -52,11 +52,17 @@ const ActiveUsers = (props: any) => {
               background: "#175731",
             }}
           >
-            <StyledImage src={image} sx={{ height: "20px", width: "20px" }} />
+            <StyledImage src={image} sx={{ height: "15px", width: "15px" }} />
           </Box>
           <Box style={{ flex: 1, marginLeft: "5px" }}>
             <Typography
-              sx={{ fontSize: "8px", color: "text.primary", fontWeight: "500", lineHeight: "0.8", marginTop: {xs: "5px"} }}
+              sx={{
+                fontSize: "7px",
+                color: "text.primary",
+                fontWeight: "500",
+                lineHeight: "1.2",
+                marginTop: { xs: "5px" },
+              }}
             >
               Active Users
             </Typography>
@@ -66,10 +72,10 @@ const ActiveUsers = (props: any) => {
               {value}
             </Typography>
           </Box>
-          <StyledImage
+          {/* <StyledImage
             src={ArrowDown}
             sx={{ height: "6px", width: "10px", marginRight: "5px" }}
-          />
+          /> */}
         </Box>
       </Box>
       <HeaderDropdown

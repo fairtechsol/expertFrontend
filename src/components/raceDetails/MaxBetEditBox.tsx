@@ -1,10 +1,10 @@
 import { Box, Button, TextField, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
-import { CancelDark } from "../../assets";
-import { AppDispatch, RootState } from "../../store/store";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
+import { CancelDark } from "../../assets";
 import { editRace, resetRaceEdit } from "../../store/actions/match/matchAction";
+import { AppDispatch, RootState } from "../../store/store";
 
 const MaxBetEdit = (props: any) => {
   const { onClickCancel, matchOdd, id } = props;
@@ -111,7 +111,7 @@ const MaxBetEdit = (props: any) => {
 
         <TextField
           autoFocus
-          placeholder="Betfair Match Odd Min Bet"
+          placeholder="API Match Odd Min Bet"
           variant="standard"
           type="number"
           // value={selected}
@@ -158,7 +158,7 @@ const MaxBetEdit = (props: any) => {
 
         <TextField
           autoFocus
-          placeholder="Betfair Match Odd Max Bet"
+          placeholder="API Match Odd Max Bet"
           variant="standard"
           type="number"
           value={maxValue}

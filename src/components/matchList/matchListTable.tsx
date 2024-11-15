@@ -15,13 +15,14 @@ import MatchListProfitLoss from "./profitLoss";
 import SessionResultComponent from "./sessionResultComponent";
 import { IconConstants } from "../helper/gameConstants";
 import { Constants } from "../../utils/Constants";
-import DummyMatchListProfitLoss from "./dummyProfitLoss";
 
 const MatchListTable = (props: any) => {
   const { data, index, currentPage } = props;
   const navigate = useNavigate();
   const dispatch: AppDispatch = useDispatch();
-  const { getProfile } = useSelector((state: RootState) => state.user.profile);
+  const { profileDetail } = useSelector(
+    (state: RootState) => state.user.profile
+  );
   const { sessionProLoss } = useSelector((state: RootState) => state.matchList);
   const [showPopup, setShowPopup] = useState(false);
   const [showUserModal, setShowUserModal] = useState(false);
@@ -64,8 +65,6 @@ const MatchListTable = (props: any) => {
     }
   }, [data]);
 
-  const buttonBgColor = data?.matchType !== "cricket" ? "#FFE094" : undefined;
-  const isSmallOrMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
   return (
     <>
       <Box
@@ -111,7 +110,7 @@ const MatchListTable = (props: any) => {
             // paddingX: "10px",
             alignItems: "center",
             justifyContent: "space-between",
-            flexDirection: { xs: "column", sm: "row", lg: "row" },
+            flexDirection: { xs: "column", sm: "column", lg: "row", md: "row" },
             // height: "45px",
           }}
         >
@@ -165,7 +164,7 @@ const MatchListTable = (props: any) => {
               flexDirection: {
                 xs: "column",
                 sm: "column",
-                md: "row",
+                md: "column",
                 lg: "row",
               },
               order: { xs: "1", sm: "2", md: "3" },
@@ -190,8 +189,6 @@ const MatchListTable = (props: any) => {
                 },
                 justifyContent: "center",
 
-
-                 
                 alignItems: "center",
                 marginTop: { sm: "5px", lg: "2.5px", md: 0 },
                 paddingRight: "5px",
@@ -229,9 +226,9 @@ const MatchListTable = (props: any) => {
                   cursor="pointer"
                 />
               )}
-              {!isSmallOrMediumScreen && data?.matchType != "cricket" && (
-                <DummyMatchListProfitLoss updateMatchStatusLabel="Session P/L" />
-              )}
+              {/* {!isSmallOrMediumScreen && data?.matchType != "cricket" && (
+                <DummyMatchListProfitLoss updateMatchStatusLabel="" />
+              )} */}
             </Box>
             <Box
               display={"flex"}
@@ -251,9 +248,29 @@ const MatchListTable = (props: any) => {
                 flexWrap: "wrap",
               }}
             >
-              {data?.matchType === "cricket" &&
-                (getProfile?.allPrivilege ||
-                  getProfile?.sessionMatchPrivilege) && (
+              {["cricket", "politics"].includes(data?.matchType) &&
+                (profileDetail?.allPrivilege ||
+                  profileDetail?.sessionMatchPrivilege) && (
+                  <CustomButton
+                    containerStyle={{
+                      // minWidth: { xs: "40%", sm: "100px" },
+                      // width: { xs: "40%", sm: "100px" },
+                      // marginLeft: { xs: "1%", sm: "10px" },
+                      // marginBottom: { xs: "1%", sm: "10px" },
+                      // gap: 0.5,
+                      margin: "5px",
+                    }}
+                    onClick={() => {
+                      navigate(`/expert/sessionBetList`, {
+                        state: { id: data?.id, marketId: data?.marketId },
+                      });
+                    }}
+                    title="View Session"
+                  />
+                )}
+              {["cricket", "politics"].includes(data?.matchType) &&
+                (profileDetail?.allPrivilege ||
+                  profileDetail?.sessionMatchPrivilege) && (
                   <CustomButton
                     containerStyle={{
                       // minWidth: { xs: "40%", sm: "100px" },
@@ -268,28 +285,47 @@ const MatchListTable = (props: any) => {
                         state: { id: data?.id, marketId: data?.marketId },
                       });
                     }}
-                    title={"Session"}
+                    title={"Expert Session"}
                   />
                 )}
-              {!isSmallOrMediumScreen && data?.matchType != "cricket" && (
-                <CustomButton
-                  containerStyle={{
-                    // margin: "5px",
-                    cursor: "default",
-                    background: "#FFE094",
-                    margin: "5px",
-                    // marginRight: {
-                    //   xs: "20px",
-                    //   md: "29px",
-                    //   sm: "10px",
-                    //   lg: "10px",
-                    // },
-                  }}
-                  bgColor={buttonBgColor}
-                />
-              )}
-              {(getProfile?.allPrivilege ||
-                getProfile?.betFairMatchPrivilege) && (
+              {/* {!isSmallOrMediumScreen &&
+                !["cricket", "politics"].includes(data?.matchType) && (
+                  <CustomButton
+                    containerStyle={{
+                      // margin: "5px",
+                      cursor: "default",
+                      background: "#FFE094",
+                      margin: "5px",
+                      // marginRight: {
+                      //   xs: "20px",
+                      //   md: "29px",
+                      //   sm: "10px",
+                      //   lg: "10px",
+                      // },
+                    }}
+                    bgColor={buttonBgColor}
+                  />
+                )}
+              {!isSmallOrMediumScreen &&
+                !["cricket", "politics"].includes(data?.matchType) && (
+                  <CustomButton
+                    containerStyle={{
+                      // margin: "5px",
+                      cursor: "default",
+                      background: "#FFE094",
+                      margin: "5px",
+                      // marginRight: {
+                      //   xs: "20px",
+                      //   md: "29px",
+                      //   sm: "10px",
+                      //   lg: "10px",
+                      // },
+                    }}
+                    bgColor={buttonBgColor}
+                  />
+                )} */}
+              {(profileDetail?.allPrivilege ||
+                profileDetail?.betFairMatchPrivilege) && (
                 <CustomButton
                   containerStyle={{
                     // minWidth: { xs: "40%", sm: "100px" },
@@ -300,7 +336,7 @@ const MatchListTable = (props: any) => {
                     margin: "5px",
                   }}
                   onClick={() => {
-                    if (data?.matchType === "cricket") {
+                    if (["cricket", "politics"].includes(data?.matchType)) {
                       navigate(`/expert/market`, {
                         state: { id: data?.id, marketId: data?.marketId },
                       });
@@ -310,10 +346,11 @@ const MatchListTable = (props: any) => {
                       });
                     }
                   }}
-                  title={"Match"}
+                  title={"View Match"}
                 />
               )}
-              {(getProfile?.allPrivilege || getProfile?.addMatchPrivilege) && (
+              {(profileDetail?.allPrivilege ||
+                profileDetail?.addMatchPrivilege) && (
                 <CustomButton
                   containerStyle={{
                     // minWidth: { xs: "40%", sm: "100px" },

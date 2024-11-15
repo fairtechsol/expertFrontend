@@ -1,6 +1,6 @@
 import {
   Box,
-  CircularProgress,
+  // CircularProgress,
   Typography,
   useMediaQuery,
   useTheme,
@@ -22,7 +22,7 @@ interface Props {
 const CustomButton = ({
   title,
   onClick,
-  loading,
+  // loading,
   bgColor,
   style,
   containerStyle,
@@ -53,7 +53,8 @@ const CustomButton = ({
         {
           cursor: "pointer",
           height: "35px",
-          minWidth: "80px",
+          //minWidth: "80px",
+          minWidth: { lg: "90px", md: "80px", sm: "80px", xs: "80px" },
           // marginLeft: "10px",
           borderRadius: "5px",
           background: bgColor ? bgColor : "#0B4F26",
@@ -66,45 +67,34 @@ const CustomButton = ({
       <Typography
         sx={{
           color: "white",
-          fontSize: { lg: "13px", xs: "10px", md: "10px" },
+          fontSize: { lg: "11px", xs: "10px", md: "10px" },
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
           ...inlineStyle,
         }}
       >
-        {" "}
-        {loading ? (
-          <CircularProgress
-            sx={{
-              color: "#FFF",
-            }}
-            size={20}
-            thickness={4}
-            value={60}
-          />
-        ) : (
-          <>
-            {title}{" "}
-            {profitLoss && (
-              <span style={{ fontSize: matchesxs ? "9px" : "11px" }}>
-                (Total P/L :
-                <span
-                  style={{
-                    ...title2Style,
-                  }}
-                >
-                  {" "}
-                  {profitLoss !== 0 && (
-                    <>
-                      <span>{integerPart}</span>
-                      <span
-                        style={{ fontSize: "0.8em", fontWeight: "normal" }}
-                      >{`.${decimalPart}`}</span>
-                    </>
-                  )}
-                </span>
-                )
-              </span>
-            )}
-          </>
+        <span>{title}</span>
+        {profitLoss && (
+          <span style={{ fontSize: matchesxs ? "9px" : "10px" }}>
+            (Total P/L :
+            <span
+              style={{
+                ...title2Style,
+              }}
+            >
+              {profitLoss !== 0 && (
+                <>
+                  <span>{integerPart}</span>
+                  <span
+                    style={{ fontSize: "0.8em", fontWeight: "normal" }}
+                  >{`.${decimalPart}`}</span>
+                </>
+              )}
+            </span>
+            )
+          </span>
         )}
       </Typography>
     </Box>

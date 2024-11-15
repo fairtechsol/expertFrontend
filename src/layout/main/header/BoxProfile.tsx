@@ -34,13 +34,13 @@ const BoxProfile = (props: any) => {
           sx={[
             {
               backgroundColor: "primary.main",
-              minWidth: { lg: "120px", xs: "90px" },
+              minWidth: { lg: "110px", xs: "90px" },
               marginLeft: "1vw",
               display: "flex",
               alignItems: "center",
               boxShadow: "0px 3px 10px #B7B7B726",
               justifyContent: "space-between",
-              height: { lg: "40px", xs: "35px" },
+              height: { lg: "35px", xs: "30px" },
               overflow: "hidden",
               paddingX: "2px",
               borderRadius: "35px",
@@ -52,8 +52,8 @@ const BoxProfile = (props: any) => {
           <StyledImage
             src={image}
             sx={{
-              height: { lg: "33px", xs: "27px" },
-              width: { lg: "33px", xs: "27px" },
+              height: { lg: "30px", xs: "25px" },
+              width: { lg: "30px", xs: "25px" },
               borderRadius: "150px",
             }}
           />

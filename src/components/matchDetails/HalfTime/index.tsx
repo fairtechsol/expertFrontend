@@ -34,11 +34,11 @@ const HalfTime = ({ currentMatch, matchOddsLive }: any) => {
           display: "flex",
           backgroundColor: "white",
           flexDirection: "column",
-          width: "100%",
+          width: { lg: "49%", md: "49%", xs: "100%" },
           marginTop: ".5vh",
           alignSelf: {
             xs: "center",
-            md: "center",
+            md: "flex-start",
             lg: "flex-start",
             boxShadow: "0px 5px 10px #0000001A",
             position: "relative",
@@ -65,7 +65,7 @@ const HalfTime = ({ currentMatch, matchOddsLive }: any) => {
           >
             <Typography
               sx={{
-                fontSize: { lg: "13px", md: "12px", xs: "12px" },
+                fontSize: { lg: "9px", md: "9px", xs: "10px", sm: "8px" },
                 fontWeight: "bold",
                 marginLeft: "7px",
               }}

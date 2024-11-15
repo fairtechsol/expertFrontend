@@ -19,9 +19,9 @@ export const handleSorting = (a: any, b: any) => {
       completeManual: 4,
       tiedMatch1: 5,
       tiedMatch2: 6,
-      quickBookmaker1: 7,
-      quickBookmaker2: 8,
-      quickBookmaker3: 9,
+      quickbookmaker1: 7,
+      quickbookmaker2: 8,
+      quickbookmaker3: 9,
     };
 
     const typeA = a?.type;

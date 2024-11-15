@@ -2,7 +2,6 @@ import { Box, Typography } from "@mui/material";
 import { getExtraMarketList } from "../../../store/actions/addMatch/addMatchAction";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../../store/store";
-import moment from "moment";
 const DropDownItem = (props: any) => {
   const {
     i,
@@ -17,11 +16,11 @@ const DropDownItem = (props: any) => {
     dropDownTextStyle,
     setSelected,
     name,
-    gameType
+    gameType,
+    onOpen,
   } = props;
 
   const dispatch: AppDispatch = useDispatch();
-
 
   return (
     <Box
@@ -30,16 +29,16 @@ const DropDownItem = (props: any) => {
           setValue(i);
           if (eventDetail) {
             function setDetailWithRunners() {
-              let data ={
-                id : EventId ,
-                eventType : gameType,
-                matchOddId : mId
-              }
-            
-                dispatch(getExtraMarketList(data));
-             
+              let data = {
+                id: EventId,
+                eventType: gameType,
+                matchOddId: mId,
+              };
+
+              dispatch(getExtraMarketList(data));
+
               let allrunners: any = [];
-              eventDetail.Runners.map((runner: any) => {
+              eventDetail.runners.map((runner: any) => {
                 allrunners.push(runner?.runnerName);
               });
               setSelected((prev: any) => {
@@ -48,12 +47,20 @@ const DropDownItem = (props: any) => {
                   teamA: allrunners[0],
                   teamB: allrunners[1],
                   teamC: allrunners[2] ? allrunners[2] : undefined,
-                  startAt: moment(eventDetail?.EventDate),
+                  startAt: new Date(
+                    eventDetail?.EventDate.replace("AM", " AM")
+                      .replace("PM", " PM")
+                      .replace(" (IST)", "")
+                  ),
                   eventId: EventId,
                   marketId: mId,
-                  competitionName: CompetitionName,
                   matchName: i,
                   title: i,
+                  f: eventDetail?.f,
+                  tv: eventDetail?.tv,
+                  m1: eventDetail?.m1,
+                  competitionId: eventDetail?.competitionId,
+                  competitionName: eventDetail?.competitionName,
                 };
               });
             }
@@ -75,12 +82,12 @@ const DropDownItem = (props: any) => {
             });
           }
           setOpen(false);
+          onOpen(null);
         }
       }}
       sx={[
         {
-          paddingY: "4px",
-          paddingLeft: "7px",
+          padding: "4px 7px 4px 7px",
           fontSize: "10px",
           fontWeight: "500",
           color: "black",

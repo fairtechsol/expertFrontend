@@ -14,6 +14,7 @@ import { toast } from "react-toastify";
 import CustomErrorMessage from "../../components/Common/CustomErrorMessage";
 import DropDown from "../../components/Common/DropDown";
 import BoxButtonManualMatch from "../../components/addRace/ButtonSwitchManualMatch";
+import RaceDropDown from "../../components/addRace/DropDown";
 import LabelValueComponent from "../../components/addRace/LabelValueComponent";
 import MatchListInput from "../../components/addRace/MatchListInput";
 import Constants from "../../components/helper/constants";
@@ -32,7 +33,6 @@ import {
   editSuccessReset,
 } from "../../store/actions/match/matchAction";
 import { AppDispatch, RootState } from "../../store/store";
-import RaceDropDown from "../../components/addRace/DropDown";
 // import { addMatchValidation } from "../../utils/Validations/login";
 
 // const useStyles = makeStyles(() => ({
@@ -568,9 +568,9 @@ const AddRace = () => {
               <MatchListInput
                 required={true}
                 containerStyle={{ flex: 1, width: "100%" }}
-                label={"Betfair Match Odd Max Bet*"}
+                label={"API Match Odd Max Bet*"}
                 type={"Number"}
-                placeholder="Betfair Match Odd Max Bet..."
+                placeholder="API Match Odd Max Bet..."
                 place={11}
                 name="maxBet"
                 id="maxBet"

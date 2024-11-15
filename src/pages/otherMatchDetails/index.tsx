@@ -1,5 +1,5 @@
-import { Box } from "@mui/material";
-import { memo, useEffect, useState } from "react";
+import { Box, useMediaQuery, useTheme } from "@mui/material";
+import { memo, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import Loader from "../../components/Loader";
@@ -45,12 +45,21 @@ import SetWinner from "../../components/matchDetails/SetWinner";
 import HalfTime from "../../components/matchDetails/HalfTime";
 import { getOtherGamesMatchDetail } from "../../store/actions/otherGamesAction/matchDetailActions";
 import { convertString, customSortOnName } from "../../helpers";
+import TournamentMarket from "../../components/matchDetails/TournamentMarkets";
+import BookMarket from "../../components/matchDetails/Bookmarket";
+import OtherMatchMarket from "../../components/matchDetails/OtherMatchMarket";
+import { marketArray } from "../../utils/Constants";
+import HTFTMarket from "../../components/matchDetails/TournamentMarkets/HTFTMarket";
+import Masonry from "@mui/lab/Masonry";
+import DelayedChild from "../../components/Common/DelayedChild";
+import { resetPlacedBetsMatch } from "../../store/actions/addSession";
 
 const OtherMatchDetails = () => {
   const { state } = useLocation();
   const navigate = useNavigate();
+  const theme = useTheme();
+  const matchesMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const dispatch: AppDispatch = useDispatch();
-  const [socketConnected, setSocketConnected] = useState(true);
   const { matchDetail, loading, success } = useSelector(
     (state: RootState) => state.addMatch.addMatch
   );
@@ -70,15 +79,17 @@ const OtherMatchDetails = () => {
 
   const resultDeclared = (event: any) => {
     try {
-      if (event?.matchId === state?.id) {
-        if (event?.betType === "quickbookmaker1") {
-          navigate("/expert/match");
-        } else {
-          dispatch(getPlacedBetsMatch(state?.id));
-          dispatch(
-            updateResultBoxStatus({ visible: false, betId: event?.betId })
-          );
-        }
+      if (
+        (event?.matchId === state?.id && event?.isMatchDeclare) ||
+        (event?.matchId === state?.id && event?.betType === "quickbookmaker1")
+      ) {
+        navigate("/expert/match");
+      } else {
+        dispatch(getPlacedBetsMatch(state?.id));
+        dispatch(updateResultStatusOfMatch(event));
+        dispatch(
+          updateResultBoxStatus({ visible: false, betId: event?.betId })
+        );
       }
     } catch (e) {
       console.log(e);
@@ -227,11 +238,24 @@ const OtherMatchDetails = () => {
   };
 
   const handleSocketConnection = () => {
-    setSocketConnected(true);
+    if (state?.id) {
+      expertSocketService.match.joinMatchRoom(state?.id, "expert");
+    }
   };
-  const handleSocketError = () => {
-    setSocketConnected(false);
-  };
+
+  const firstKnownKey = marketArray.find((key: any) => {
+    const keyObject = (matchDetail ?? {})[key];
+
+    if (!keyObject) return false;
+
+    if (Array.isArray(keyObject)) {
+      return keyObject.some(
+        (item) => item.hasOwnProperty("isActive") && item.isActive === true
+      );
+    }
+
+    return keyObject.hasOwnProperty("isActive") && keyObject.isActive === true;
+  });
 
   useEffect(() => {
     try {
@@ -247,38 +271,36 @@ const OtherMatchDetails = () => {
 
   useEffect(() => {
     try {
-      if (success && socket && socketConnected) {
+      if (success && socket) {
         expertSocketService.match.getMatchRatesOff(state?.id);
         socketService.user.matchResultDeclaredOff();
         socketService.user.matchResultUnDeclaredOff();
         socketService.user.matchDeleteBetOff();
         socketService.user.sessionDeleteBetOff();
-        // socketService.user.sessionAddedOff();
         socketService.user.userMatchBetPlacedOff();
-        // socketService.user.userSessionBetPlacedOff();
-        // socketService.user.sessionResultDeclaredOff();
         socketService.user.updateInResultDeclareOff();
         socketService.user.updateDeleteReasonOff();
+        socketService.user.matchResultDeclareAllUserOff();
+        socketService.user.matchResultUnDeclareAllUserOff();
         expertSocketService.match.joinMatchRoom(state?.id, "expert");
         expertSocketService.match.getMatchRates(state?.id, (event: any) => {
           updateMatchDetailToRedux(event);
         });
         socketService.user.matchResultDeclared(resultDeclared);
+        socketService.user.matchResultDeclareAllUser(resultDeclared);
         socketService.user.matchResultUnDeclared(resultUnDeclared);
+        socketService.user.matchResultUnDeclareAllUser(resultUnDeclared);
         socketService.user.matchDeleteBet(matchDeleteBet);
-        // socketService.user.sessionDeleteBet(matchDeleteBet);
         socketService.user.userMatchBetPlaced(updateMatchBetPlaced);
-        // socketService.user.userSessionBetPlaced(updateSessionBetPlaced);
-        // socketService.user.sessionResultDeclared(updateSessionResultDeclared);
         socketService.user.updateInResultDeclare(updateSessionResultStatus);
         socketService.user.updateDeleteReason(updateDeleteBetReason);
-        expertSocketService.match.connectError(handleSocketError);
+        // expertSocketService.match.connectError(handleSocketError);
         expertSocketService.match.onConnect(handleSocketConnection);
       }
     } catch (e) {
       console.log(e);
     }
-  }, [success, socket, socketConnected]);
+  }, [success, socket]);
 
   useEffect(() => {
     try {
@@ -290,15 +312,14 @@ const OtherMatchDetails = () => {
           socketService.user.matchResultDeclaredOff();
           socketService.user.matchResultUnDeclaredOff();
           socketService.user.matchDeleteBetOff();
-          // socketService.user.sessionDeleteBetOff();
-          // socketService.user.sessionAddedOff();
           socketService.user.userMatchBetPlacedOff();
-          // socketService.user.userSessionBetPlacedOff();
-          // socketService.user.sessionResultDeclaredOff();
           socketService.user.updateInResultDeclareOff();
           socketService.user.updateDeleteReasonOff();
-          expertSocketService.match.connectErrorOff();
+          // expertSocketService.match.connectErrorOff();
           expertSocketService.match.onConnectOff();
+          socketService.user.matchResultDeclareAllUserOff();
+          socketService.user.matchResultUnDeclareAllUserOff();
+          dispatch(resetPlacedBetsMatch());
         };
       }
     } catch (error) {
@@ -335,149 +356,280 @@ const OtherMatchDetails = () => {
   }, []);
 
   return (
-    <Box
-      sx={{
-        display: { lg: "flex" },
-        alignSelf: "center",
-        borderRadius: "10px",
-        flexDirection: "row",
-        width: "100%",
-        height: {
-          xs: loading ? "80vh" : "100%",
-          lg: loading ? "90vh" : "100%",
-        },
-        // minHeight: "92vh",
-        // background: !loading ? "white" : "",
-        padding: 1,
-        gap: 1,
-      }}
-    >
-      {loading ? (
-        <Loader text="" />
-      ) : (
-        <>
-          <Box
-            sx={{
-              width: { lg: "50%", xs: "100%", md: "100%" },
-              flexDirection: "column",
-              display: "flex",
-              paddingLeft: "5px",
-              marginTop: { xs: "10px", lg: "0" },
-            }}
-          >
-            {matchDetail?.matchOdd?.isActive && (
-              <MatchOdds
-                showHeader={true}
-                currentMatch={matchDetail}
-                matchOddsLive={matchDetail?.matchOdd}
-                id={
-                  matchDetail?.quickBookmaker[
-                    matchDetail?.quickBookmaker?.findIndex(
-                      (item: any) => item.type === "quickbookmaker1"
-                    )
-                  ]?.id
-                }
-              />
+    <>
+      <Box
+        sx={{
+          display: { lg: "flex", md: "flex", sm: "flex" },
+          alignSelf: "center",
+          borderRadius: "10px",
+          flexDirection: "row",
+          width: "100%",
+          height: {
+            xs: loading ? "80vh" : "100%",
+            lg: loading ? "90vh" : "100%",
+          },
+          // minHeight: "92vh",
+          // background: !loading ? "white" : "",
+          // padding: 1,
+          // gap: 1,
+        }}
+      >
+        {loading ? (
+          <Loader text="" />
+        ) : (
+          <>
+            <Box
+              sx={{
+                width: { lg: "50%", xs: "100%", md: "50%", sm: "50%" },
+                // flexDirection: "column",
+                // display: "flex",
+                // flexWrap: "wrap",
+                // paddingLeft: "5px",
+                marginTop: { xs: "10px", lg: "0" },
+                gap: 1,
+              }}
+            >
+              <DelayedChild>
+                <Masonry
+                  columns={matchesMobile ? 1 : 2}
+                  spacing={matchesMobile ? 0 : 1}
+                >
+                  {matchDetail?.matchOdd &&
+                    (matchDetail?.matchOdd?.isActive === false
+                      ? false
+                      : true) && (
+                      <MatchOdds
+                        showHeader={true}
+                        currentMatch={matchDetail}
+                        matchOddsLive={matchDetail?.matchOdd}
+                        id={
+                          matchDetail?.quickBookmaker[
+                            matchDetail?.quickBookmaker?.findIndex(
+                              (item: any) => item.type === "quickbookmaker1"
+                            )
+                          ]?.id
+                        }
+                        showResultBox={firstKnownKey === "matchOdd"}
+                      />
+                    )}
+                  {matchDetail?.bookmaker &&
+                    (matchDetail?.bookmaker?.isActive === false
+                      ? false
+                      : true) && (
+                      <BookMarket
+                        currentMatch={matchDetail}
+                        liveData={matchDetail?.bookmaker}
+                        title={matchDetail?.bookmaker?.name}
+                        showResultBox={firstKnownKey === "bookmaker"}
+                      />
+                    )}
+                  {matchDetail?.marketBookmaker2 &&
+                    (matchDetail?.marketBookmaker2?.isActive === false
+                      ? false
+                      : true) && (
+                      <BookMarket
+                        currentMatch={matchDetail}
+                        liveData={matchDetail?.marketBookmaker2}
+                        title={matchDetail?.marketBookmaker2?.name}
+                        showResultBox={firstKnownKey === "marketBookmaker2"}
+                      />
+                    )}
+                  {matchDetail?.quickBookmaker
+                    ?.filter((item: any) => item?.isActive)
+                    ?.map((bookmaker: any) => (
+                      <ManualMarket
+                        key={bookmaker?.id}
+                        currentMatch={matchDetail}
+                        liveData={bookmaker}
+                        showResultBox={
+                          firstKnownKey === "quickBookmaker" &&
+                          bookmaker?.type === "quickbookmaker1"
+                            ? true
+                            : false
+                        }
+                      />
+                    ))}
+                  {matchDetail?.other &&
+                    matchDetail?.other?.map((market: any) => (
+                      <OtherMatchMarket
+                        key={market?.id}
+                        currentMatch={matchDetail}
+                        liveData={{
+                          ...market,
+                          type: "other",
+                          marketId: market?.mid ? market?.mid?.toString() : "",
+                        }}
+                        title={market?.name}
+                        firstKnownKey={firstKnownKey}
+                      />
+                    ))}
+                  {matchDetail?.tournament &&
+                    matchDetail?.tournament
+                      ?.filter((item: any) => item?.name !== "HT/FT")
+                      ?.map((market: any) => (
+                        <TournamentMarket
+                          key={market?.id}
+                          liveData={market}
+                          currentMatch={matchDetail}
+                          title={market?.name}
+                          firstKnownKey={firstKnownKey}
+                        />
+                      ))}
+
+                  {matchDetail?.halfTime &&
+                    (matchDetail?.halfTime?.isActive === false
+                      ? false
+                      : true) && (
+                      <HalfTime
+                        showHeader={true}
+                        currentMatch={matchDetail}
+                        matchOddsLive={matchDetail?.halfTime}
+                      />
+                    )}
+                  {matchDetail?.firstHalfGoal &&
+                    matchDetail?.firstHalfGoal
+                      ?.filter((item: any) => item?.isActive)
+                      ?.slice()
+                      ?.sort(customSortOnName)
+                      ?.map((market: any) => (
+                        <UnderOverMarket
+                          key={market?.id}
+                          currentMatch={matchDetail}
+                          liveData={market}
+                          title={convertString(market?.name)}
+                        />
+                      ))}
+                  {matchDetail?.overUnder &&
+                    matchDetail?.overUnder
+                      ?.filter((item: any) => item?.isActive)
+                      ?.slice()
+                      ?.sort(customSortOnName)
+                      ?.map((market: any) => (
+                        <UnderOverMarket
+                          key={market?.id}
+                          currentMatch={matchDetail}
+                          liveData={market}
+                          title={convertString(market?.name)}
+                        />
+                      ))}
+                  {matchDetail?.setWinner &&
+                    matchDetail?.setWinner?.length > 0 &&
+                    matchDetail?.setWinner
+                      ?.filter((item: any) => item?.isActive)
+                      ?.slice()
+                      ?.sort(customSortOnName)
+                      ?.map((market: any) => (
+                        <SetWinner
+                          key={market?.id}
+                          currentMatch={matchDetail}
+                          liveData={market}
+                          title={convertString(market?.name)}
+                        />
+                      ))}
+
+                  {matchDetail?.apiTideMatch &&
+                    (matchDetail?.apiTideMatch?.isActive === false
+                      ? false
+                      : true) && (
+                      <TiedMatchMarket
+                        currentMatch={matchDetail}
+                        liveData={matchDetail?.apiTideMatch}
+                        showResultBox={firstKnownKey === "apiTideMatch"}
+                      />
+                    )}
+                  {matchDetail?.manualTideMatch &&
+                    (matchDetail?.manualTideMatch?.isActive === false
+                      ? false
+                      : true) && (
+                      <ManualMarket
+                        currentMatch={matchDetail}
+                        liveData={matchDetail?.manualTideMatch}
+                        type="manualTiedMatch"
+                        showResultBox={firstKnownKey === "manualTideMatch"}
+                      />
+                    )}
+                  {matchDetail?.marketCompleteMatch &&
+                    (matchDetail?.marketCompleteMatch?.isActive === false
+                      ? false
+                      : true) && (
+                      <CompleteMatchMarket
+                        currentMatch={matchDetail}
+                        liveData={matchDetail?.marketCompleteMatch}
+                        showResultBox={firstKnownKey === "marketCompleteMatch"}
+                      />
+                    )}
+                </Masonry>
+              </DelayedChild>
+            </Box>
+            {matchesMobile && (
+              <Box
+                sx={{
+                  width: { lg: "50%", xs: "100%", md: "50%", sm: "50%" },
+                  // flexDirection: "column",
+                  // display: "flex",
+                  // flexWrap: "wrap",
+                  // paddingLeft: "5px",
+                  // marginTop: { xs: "10px", lg: "0" },
+                  // gap: 1,
+                }}
+              >
+                {matchDetail?.tournament &&
+                  matchDetail?.tournament
+                    ?.filter((item: any) => item?.name === "HT/FT")
+                    ?.map((market: any) => (
+                      <HTFTMarket
+                        key={market?.mid}
+                        liveData={market}
+                        currentMatch={matchDetail}
+                        title={market?.name}
+                        firstKnownKey={firstKnownKey}
+                      />
+                    ))}
+              </Box>
             )}
-            {matchDetail?.quickBookmaker
-              ?.filter((item: any) => item?.isActive)
-              ?.map((bookmaker: any) => (
-                <ManualMarket
-                  key={bookmaker?.id}
+            <Box
+              sx={{
+                width: { lg: "50%", xs: "100%", md: "50%", sm: "50%" },
+                flexDirection: "column",
+                display: "flex",
+                // paddingLeft: "5px",
+                marginTop: { xs: "10px", lg: "0" },
+              }}
+            >
+              {matchDetail?.id && (
+                <BetList allBetRates={placedBetsMatch} tag={true} />
+              )}
+            </Box>
+          </>
+        )}
+      </Box>
+      {!matchesMobile && (
+        <Box
+          sx={{
+            width: { lg: "50%", xs: "100%", md: "50%", sm: "50%" },
+            // flexDirection: "column",
+            // display: "flex",
+            // flexWrap: "wrap",
+            // paddingLeft: "5px",
+            marginTop: { xs: "10px", lg: "0" },
+            gap: 1,
+          }}
+        >
+          {matchDetail?.tournament &&
+            matchDetail?.tournament
+              ?.filter((item: any) => item?.name === "HT/FT")
+              ?.map((market: any) => (
+                <HTFTMarket
+                  key={market?.mid}
+                  liveData={market}
                   currentMatch={matchDetail}
-                  liveData={bookmaker}
+                  title={market?.name}
+                  firstKnownKey={firstKnownKey}
                 />
               ))}
-            {/* {matchDetail?.bookmaker?.isActive && (
-              <BookMarket
-                currentMatch={matchDetail}
-                liveData={matchDetail?.bookmaker}
-              />
-            )} */}
-            {matchDetail?.halfTime?.isActive && (
-              <HalfTime
-                showHeader={true}
-                currentMatch={matchDetail}
-                matchOddsLive={matchDetail?.halfTime}
-              />
-            )}
-            {matchDetail?.firstHalfGoal &&
-              matchDetail?.firstHalfGoal
-                ?.filter((item: any) => item?.isActive)
-                ?.slice()
-                ?.sort(customSortOnName)
-                ?.map((market: any) => (
-                  <UnderOverMarket
-                    key={market?.id}
-                    currentMatch={matchDetail}
-                    liveData={market}
-                    title={convertString(market?.name)}
-                  />
-                ))}
-            {matchDetail?.overUnder &&
-              matchDetail?.overUnder
-                ?.filter((item: any) => item?.isActive)
-                ?.slice()
-                ?.sort(customSortOnName)
-                ?.map((market: any) => (
-                  <UnderOverMarket
-                    key={market?.id}
-                    currentMatch={matchDetail}
-                    liveData={market}
-                    title={convertString(market?.name)}
-                  />
-                ))}
-            {matchDetail?.setWinner &&
-              matchDetail?.setWinner?.length > 0 &&
-              matchDetail?.setWinner
-                ?.filter((item: any) => item?.isActive)
-                ?.slice()
-                ?.sort(customSortOnName)
-                ?.map((market: any) => (
-                  <SetWinner
-                    key={market?.id}
-                    currentMatch={matchDetail}
-                    liveData={market}
-                    title={convertString(market?.name)}
-                  />
-                ))}
-
-            {matchDetail?.apiTideMatch?.isActive && (
-              <TiedMatchMarket
-                currentMatch={matchDetail}
-                liveData={matchDetail?.apiTideMatch}
-              />
-            )}
-            {matchDetail?.manualTideMatch?.isActive && (
-              <ManualMarket
-                currentMatch={matchDetail}
-                liveData={matchDetail?.manualTideMatch}
-                type="manualTiedMatch"
-              />
-            )}
-            {matchDetail?.marketCompleteMatch?.isActive && (
-              <CompleteMatchMarket
-                currentMatch={matchDetail}
-                liveData={matchDetail?.marketCompleteMatch}
-              />
-            )}
-          </Box>
-          <Box
-            sx={{
-              width: { lg: "50%", xs: "100%", md: "100%" },
-              flexDirection: "column",
-              display: "flex",
-              paddingLeft: "5px",
-              marginTop: { xs: "10px", lg: "0" },
-            }}
-          >
-            {matchDetail?.id && (
-              <BetList allBetRates={placedBetsMatch} tag={true} />
-            )}
-          </Box>
-        </>
+        </Box>
       )}
-    </Box>
+    </>
   );
 };
 

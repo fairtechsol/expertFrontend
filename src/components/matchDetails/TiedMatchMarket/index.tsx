@@ -1,27 +1,55 @@
 import { Box, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { ARROWUP } from "../../../assets";
 import { betLiveStatus } from "../../../store/actions/match/matchAction";
-import { AppDispatch } from "../../../store/store";
+import { AppDispatch, RootState } from "../../../store/store";
 import Divider from "../../Common/Divider";
 import { formatToINR } from "../../helper";
 import BoxComponent from "../MatchOdds/BoxComponent";
+import MaxBetAdd from "../MaxBetAdd";
 import Stop from "../SessionMarket/Stop";
 import SmallBox from "../SmallBox";
+import { profitLossDataForMatchConstants } from "../../../utils/Constants";
+import MaxLimitEditButton from "../../Common/MaxLimitEditButton";
+import AddMarketButton from "../../Common/AddMarketButton";
+import Result from "../Result";
+import ResultComponent from "../../updateBookmaker/BookmakerEdit/ResultComponent";
+import { declareMatchStatusReset } from "../../../store/actions/match/matchDeclareActions";
 
-const TiedMatchMarket = ({ currentMatch, liveData, title }: any) => {
+const TiedMatchMarket = ({
+  currentMatch,
+  liveData,
+  title,
+  showResultBox,
+}: any) => {
   const dispatch: AppDispatch = useDispatch();
 
+  const [open, setOpen] = useState(false);
   const [visibleImg, setVisibleImg] = useState(true);
+  const [visible, setVisible] = useState(false);
   const [live, setLive] = useState(
     liveData?.activeStatus === "live" ? true : false
   );
+  const { success } = useSelector((state: RootState) => state.match);
 
   useEffect(() => {
     setLive(liveData?.activeStatus === "live" ? true : false);
   }, [liveData?.activeStatus]);
 
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = (data: any) => {
+    setOpen(data);
+  };
+  useEffect(() => {
+    if (success) {
+      dispatch(declareMatchStatusReset());
+      setVisible(false);
+    }
+  }, [success]);
   return (
     <Box
       sx={{
@@ -29,20 +57,22 @@ const TiedMatchMarket = ({ currentMatch, liveData, title }: any) => {
         display: "flex",
         backgroundColor: "white",
         flexDirection: "column",
-        width: "100%",
+        width: { lg: "49%", md: "49%", xs: "100%" },
         marginTop: ".3vh",
         marginX: "0",
+        // flexBasis: "100%",
         alignSelf: {
           xs: "center",
-          md: "center",
+          md: "flex-start",
           lg: "flex-start",
+          position: "relative",
         },
       }}
     >
       <Box
         sx={{
           display: "flex",
-          height: 38,
+          height: 20,
           flexDirection: "row",
           width: "100%",
           alignSelf: "center",
@@ -57,28 +87,34 @@ const TiedMatchMarket = ({ currentMatch, liveData, title }: any) => {
             justifyContent: "space-between",
           }}
         >
-          <Typography
-            sx={{
-              fontSize: { lg: "13px", md: "12px", xs: "12px" },
-              fontWeight: "bold",
-              marginLeft: "7px",
-            }}
-          >
-            {title}
-          </Typography>
+          {(!liveData?.id || liveData?.activeStatus === "result") && (
+            <Typography
+              sx={{
+                fontSize: { lg: "9px", md: "9px", xs: "10px", sm: "8px" },
+                fontWeight: "bold",
+                marginLeft: "7px",
+              }}
+            >
+              {title}
+            </Typography>
+          )}
           {/* <img src={LOCKED} style={{ width: '14px', height: '20px' }} /> */}
-          <Stop
-            onClick={() => {
-              dispatch(
-                betLiveStatus({
-                  isStop: true,
-                  betId: liveData?.id,
-                  isManual: false,
-                })
-              );
-              setLive(false);
-            }}
-          />
+          {liveData?.id && liveData?.activeStatus !== "result" && (
+            <Stop
+              onClick={() => {
+                dispatch(
+                  betLiveStatus({
+                    isStop: true,
+                    betId: liveData?.id,
+                    isManual: false,
+                  })
+                );
+                setLive(false);
+              }}
+              height="18px"
+              title={title}
+            />
+          )}
         </Box>
         <Box
           sx={{
@@ -99,28 +135,43 @@ const TiedMatchMarket = ({ currentMatch, liveData, title }: any) => {
             justifyContent: "flex-end",
           }}
         >
-          {!currentMatch?.stopAt && (
-            <>
-              <SmallBox
-                onClick={() => {
-                  dispatch(
-                    betLiveStatus({
-                      isStop: live,
-                      betId: liveData?.id,
-                      isManual: false,
-                    })
-                  );
-                  setLive(!live);
-                }}
-                // width={"80px"}
-                title={live ? "Live" : "Go Live"}
-                color={live ? "#46e080" : "#FF4D4D"}
-                customStyle={{
-                  justifyContent: "center",
-                  textAlign: "center"
-                }}
-              />
-            </>
+          {showResultBox && (
+            <Result
+              width={"80px"}
+              onClick={() => {
+                setVisible(true);
+              }}
+              invert={true}
+            />
+          )}
+          {liveData?.id ? (
+            liveData?.activeStatus !== "result" && (
+              <>
+                <SmallBox
+                  onClick={() => {
+                    dispatch(
+                      betLiveStatus({
+                        isStop: live,
+                        betId: liveData?.id,
+                        isManual: false,
+                      })
+                    );
+                    setLive(!live);
+                  }}
+                  width={{ lg: "25px", xs: "20px" }}
+                  title={live ? "Live" : "Go Live"}
+                  color={live ? "#46e080" : "#FF4D4D"}
+                  customStyle={{
+                    justifyContent: "center",
+                    textAlign: "center",
+                  }}
+                  height="18px"
+                />
+                <MaxLimitEditButton handleClickOpen={handleClickOpen} />
+              </>
+            )
+          ) : (
+            <AddMarketButton handleClickOpen={handleClickOpen} />
           )}
           <img
             onClick={() => {
@@ -129,15 +180,39 @@ const TiedMatchMarket = ({ currentMatch, liveData, title }: any) => {
             src={ARROWUP}
             style={{
               transform: visibleImg ? "rotate(180deg)" : "rotate(0deg)",
-              width: "15px",
-              height: "15px",
-              marginRight: "5px",
-              marginLeft: "5px",
+              width: "10px",
+              height: "10px",
+              marginRight: "1px",
+              marginLeft: "1px",
               cursor: "pointer",
             }}
           />
         </Box>
       </Box>
+      {/* <Box
+        sx={{
+          position: "absolute",
+          zIndex: 999,
+          top: "26%",
+          right: "1%",
+          width: { lg: "30vh", xs: "30vh" },
+        }}
+      > */}
+      {visible && (
+        <ResultComponent
+          currentMatch={currentMatch}
+          teamA={currentMatch?.teamA}
+          stopAt={currentMatch?.stopAt}
+          teamB={currentMatch?.teamB}
+          tie={currentMatch?.matchType === "cricket" ? "Tie" : ""}
+          draw={currentMatch?.teamC ? currentMatch?.teamC : null}
+          onClick={() => {
+            setVisible(false);
+          }}
+          liveData={liveData}
+        />
+      )}
+      {/* </Box> */}
       <Divider />
       {visibleImg && (
         <>
@@ -145,7 +220,7 @@ const TiedMatchMarket = ({ currentMatch, liveData, title }: any) => {
             sx={{
               display: "flex",
               background: "#319E5B",
-              height: "25px",
+              height: "15px",
               width: "100%",
               alignSelf: "center",
             }}
@@ -154,35 +229,41 @@ const TiedMatchMarket = ({ currentMatch, liveData, title }: any) => {
               sx={{
                 display: "flex",
                 background: "'#319E5B'",
-                height: "25px",
-                width: "35%",
+                height: "15px",
+                width: { lg: "70%", xs: "50%", md: "60%", sm: "81%" },
                 alignItems: "center",
               }}
             >
               <Typography
                 sx={{
                   color: "white",
-                  fontSize: { lg: "11px", xs: "9px" },
+                  fontSize: { lg: "10px", xs: "8px" },
                   marginLeft: "7px",
+                  lineHeight: 1,
                 }}
               >
-                MIN: {formatToINR(currentMatch?.apiTideMatch?.minBet)} MAX:{" "}
-                {formatToINR(currentMatch?.apiTideMatch?.maxBet)}
+                MIN:{" "}
+                {formatToINR(
+                  liveData?.id
+                    ? liveData?.minBet
+                    : currentMatch?.betFairSessionMinBet
+                )}{" "}
+                MAX: {formatToINR(liveData?.maxBet)}
               </Typography>
             </Box>
             <Box
               sx={{
                 display: "flex",
                 background: "#319E5B",
-                height: "25px",
-                width: { lg: "65%", xs: "80%" },
-                justifyContent: { lg: "center", xs: "flex-end" },
+                height: "15px",
+                width: { lg: "30%", xs: "50%", md: "40%", sm: "43%" },
+                justifyContent: { lg: "flex-end", xs: "flex-end" },
               }}
             >
               <Box
                 sx={{
                   background: "#00C0F9",
-                  width: { lg: "16.5%", xs: "25%" },
+                  width: { lg: "36%", xs: "34.6%", md: "43%", sm: "100%" },
                   height: "100%",
                   display: "flex",
                   justifyContent: "center",
@@ -190,7 +271,7 @@ const TiedMatchMarket = ({ currentMatch, liveData, title }: any) => {
                 }}
               >
                 <Typography
-                  sx={{ fontSize: "12px", color: "black", fontWeight: "600" }}
+                  sx={{ fontSize: "10px", color: "black", fontWeight: "600" }}
                 >
                   Back
                 </Typography>
@@ -199,7 +280,7 @@ const TiedMatchMarket = ({ currentMatch, liveData, title }: any) => {
               <Box
                 sx={{
                   background: "#FF9292",
-                  width: { lg: "16.5%", xs: "24.7%" },
+                  width: { lg: "36%", xs: "34.6%", md: "43%", sm: "100%" },
                   height: "100%",
                   display: "flex",
                   justifyContent: "center",
@@ -207,7 +288,7 @@ const TiedMatchMarket = ({ currentMatch, liveData, title }: any) => {
                 }}
               >
                 <Typography
-                  sx={{ fontSize: "12px", color: "black", fontWeight: "600" }}
+                  sx={{ fontSize: "10px", color: "black", fontWeight: "600" }}
                 >
                   Lay
                 </Typography>
@@ -218,12 +299,27 @@ const TiedMatchMarket = ({ currentMatch, liveData, title }: any) => {
           <Box sx={{ position: "relative" }}>
             <BoxComponent
               teamRates={
-                currentMatch?.teamRates?.yesRateTie
-                  ? currentMatch?.teamRates?.yesRateTie
+                currentMatch?.teamRates
+                  ? currentMatch?.teamRates[
+                      profitLossDataForMatchConstants[liveData?.type]?.A +
+                        "_" +
+                        currentMatch?.id
+                    ]
+                    ? currentMatch?.teamRates[
+                        profitLossDataForMatchConstants[liveData?.type]?.A +
+                          "_" +
+                          currentMatch?.id
+                      ]
+                    : 0
                   : 0
               }
               teamImage={currentMatch?.apiTideMatch?.teamA_Image}
-              livestatus={liveData?.status === "SUSPENDED" ? true : false}
+              livestatus={
+                liveData?.runners?.length > 0 &&
+                !["ACTIVE", "OPEN", ""].includes(liveData?.runners[0]?.status)
+                  ? true
+                  : false
+              }
               data={liveData?.runners?.length > 0 ? liveData?.runners[0] : []}
               lock={liveData?.runners?.length > 0 ? false : true}
               name={"Yes"}
@@ -231,10 +327,25 @@ const TiedMatchMarket = ({ currentMatch, liveData, title }: any) => {
 
             <Divider />
             <BoxComponent
-              livestatus={liveData?.status === "SUSPENDED" ? true : false}
+              livestatus={
+                liveData?.runners?.length > 0 &&
+                !["ACTIVE", "OPEN", ""].includes(liveData?.runners[1]?.status)
+                  ? true
+                  : false
+              }
               teamRates={
-                currentMatch?.teamRates?.noRateTie
-                  ? currentMatch?.teamRates?.noRateTie
+                currentMatch?.teamRates
+                  ? currentMatch?.teamRates[
+                      profitLossDataForMatchConstants[liveData?.type]?.B +
+                        "_" +
+                        currentMatch?.id
+                    ]
+                    ? currentMatch?.teamRates[
+                        profitLossDataForMatchConstants[liveData?.type]?.B +
+                          "_" +
+                          currentMatch?.id
+                      ]
+                    : 0
                   : 0
               }
               teamImage={currentMatch?.apiTideMatch?.teamB_Image}
@@ -256,32 +367,61 @@ const TiedMatchMarket = ({ currentMatch, liveData, title }: any) => {
                 }}
               ></Box>
             )}
-            {currentMatch?.resultStatus &&
-              currentMatch?.resultStatus[liveData?.id]?.status && (
-                <Box
-                  sx={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    width: "100%",
-                    position: "absolute",
-                    height: "100%",
-                    bottom: 0,
-                    color: "#fff",
-                    backgroundColor: "rgba(203 24 24 / 70%)",
-                  }}
-                >
-                  <Typography sx={{ color: "#fff" }}>
-                    RESULT{" "}
-                    {liveData?.stopAt || liveData?.activeStatus === "result"
-                      ? "DECLARED"
-                      : currentMatch?.resultStatus[liveData?.id]?.status}
-                  </Typography>
-                </Box>
-              )}
+            {typeof currentMatch?.resultStatus === "string" &&
+            liveData?.id &&
+            showResultBox
+              ? currentMatch?.resultStatus && (
+                  <Box
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      width: "100%",
+                      position: "absolute",
+                      height: "100%",
+                      bottom: 0,
+                      color: "#fff",
+                      backgroundColor: "rgba(203 24 24 / 70%)",
+                    }}
+                  >
+                    <Typography sx={{ color: "#fff" }}>
+                      RESULT {currentMatch?.resultStatus}
+                    </Typography>
+                  </Box>
+                )
+              : currentMatch?.resultStatus &&
+                currentMatch?.resultStatus[liveData?.id]?.status && (
+                  <Box
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      width: "100%",
+                      position: "absolute",
+                      height: "100%",
+                      bottom: 0,
+                      color: "#fff",
+                      backgroundColor: "rgba(203 24 24 / 70%)",
+                    }}
+                  >
+                    <Typography sx={{ color: "#fff" }}>
+                      RESULT{" "}
+                      {liveData?.stopAt || liveData?.activeStatus === "result"
+                        ? "DECLARED"
+                        : currentMatch?.resultStatus[liveData?.id]?.status}
+                    </Typography>
+                  </Box>
+                )}
           </Box>
         </>
       )}
+      <MaxBetAdd
+        open={open}
+        handleClose={handleClose}
+        matchOddsLive={liveData}
+        currentMatch={currentMatch}
+        title={"API Tied Match Max Bet"}
+      />
     </Box>
   );
 };

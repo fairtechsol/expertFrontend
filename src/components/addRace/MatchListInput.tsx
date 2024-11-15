@@ -1,5 +1,4 @@
-import { Input, Typography } from "@mui/material";
-import { Box } from "@mui/system";
+import { Input, Typography, Box } from "@mui/material";
 import { numberInputOnWheelPreventChange } from "../../helpers";
 
 const MatchListInput = (props: any) => {

@@ -1,7 +1,7 @@
 import { Box, Button, Modal, TextField, Typography } from "@mui/material";
 import { useEffect } from "react";
 import { CancelDark } from "../../assets";
-import { notificationvalidationSchema } from "../../utils/Validations/login";
+// import { notificationvalidationSchema } from "../../utils/Validations/login";
 import { useFormik } from "formik";
 import { useDispatch } from "react-redux";
 import { headerAddNotification } from "../../store/actions/user/userAction";
@@ -23,10 +23,10 @@ const NotificationModal = ({
 
   const formik = useFormik({
     initialValues: initialValues,
-    validationSchema: notificationvalidationSchema,
+    // validationSchema: notificationvalidationSchema,
     onSubmit: (values: any) => {
       let payload = {
-        value: values.value,
+        value: values.value || "",
       };
       dispatch(headerAddNotification(payload));
       setVisible(false);
@@ -59,7 +59,7 @@ const NotificationModal = ({
         <form onSubmit={handleSubmit}>
           <Box
             sx={{
-              width: {lg:"500px",xs: "120%"},
+              width: {lg:"500px",xs: "100%"},
               height: "270px",
               padding: 0.2,
               borderRadius: 2,

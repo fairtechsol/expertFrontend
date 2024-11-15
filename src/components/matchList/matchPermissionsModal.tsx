@@ -20,32 +20,33 @@ const MatchPermissionsModal = (props: any) => {
     handleMatchProfitLossClick,
   } = props;
 
-  const { getProfile } = useSelector((state: RootState) => state.user.profile);
+  const { profileDetail } = useSelector(
+    (state: RootState) => state.user.profile
+  );
   const navigate = useNavigate();
   const matchesMobile = useMediaQuery(theme.breakpoints.down("lg"));
 
-
-  const uniqueNames :any = [];
+  const uniqueNames: any = [];
   let overUnderIncluded = false;
 
-const filteredData = data?.matchBettings.filter((item:any) => {
-  if (item.name.includes('over_under')) {
-    if (!overUnderIncluded) {
-      overUnderIncluded = true;
-      uniqueNames.push(item.name);
-      return true;
+  const filteredData = data?.matchBettings.filter((item: any) => {
+    if (item.name.includes("over_under")) {
+      if (!overUnderIncluded) {
+        overUnderIncluded = true;
+        uniqueNames.push(item.name);
+        return true;
+      }
+      return false;
     }
-    return false;
-  }
-  return true;
-});
+    return true;
+  });
   return (
     <Box
       sx={{
         width: "100%",
         display: "flex",
         background: "#ffe094",
-        justifyContent: {xs:"end"},
+        justifyContent: { xs: "end" },
         minHeight: { xs: "auto", md: "auto", lg: "7rem" },
         // paddingRight:{xs:"5%"}
       }}
@@ -57,7 +58,7 @@ const filteredData = data?.matchBettings.filter((item:any) => {
           flexWrap: "wrap",
           // flex: 3,
           alignItems: "center",
-          p: 3,
+          // p: 3,
           // borderLeft:{xs:"2px solid #fff"}
         }}
       >
@@ -73,7 +74,8 @@ const filteredData = data?.matchBettings.filter((item:any) => {
                   matchId={data?.id}
                   matchBettingType={"match"}
                   disable={
-                    getProfile?.allPrivilege || getProfile?.addMatchPrivilege
+                    profileDetail?.allPrivilege ||
+                    profileDetail?.addMatchPrivilege
                       ? false
                       : true
                   }
@@ -98,7 +100,8 @@ const filteredData = data?.matchBettings.filter((item:any) => {
                     matchId={data?.id}
                     matchBettingType={"match"}
                     disable={
-                      getProfile?.allPrivilege || getProfile?.addMatchPrivilege
+                      profileDetail?.allPrivilege ||
+                      profileDetail?.addMatchPrivilege
                         ? false
                         : true
                     }
@@ -109,22 +112,23 @@ const filteredData = data?.matchBettings.filter((item:any) => {
                 );
               }
             })}
-        {data?.matchType === "cricket" && !data?.eventId.includes("manual") && (
-          <BoxButtonWithSwitch
-            title="Session"
-            matchId={data?.id}
-            matchBettingType={"session"}
-            isManualBet={false}
-            disable={
-              getProfile?.allPrivilege || getProfile?.addMatchPrivilege
-                ? false
-                : true
-            }
-            updateMatchStatus={updateMatchStatus}
-            setUpdateMatchStatus={setUpdateMatchStatus}
-            place={1}
-          />
-        )}
+        {(data?.matchType === "cricket" || data?.matchType === "politics") &&
+          !data?.eventId.includes("manual") && (
+            <BoxButtonWithSwitch
+              title="Session"
+              matchId={data?.id}
+              matchBettingType={"session"}
+              isManualBet={false}
+              disable={
+                profileDetail?.allPrivilege || profileDetail?.addMatchPrivilege
+                  ? false
+                  : true
+              }
+              updateMatchStatus={updateMatchStatus}
+              setUpdateMatchStatus={setUpdateMatchStatus}
+              place={1}
+            />
+          )}
 
         {data?.matchType === "cricket" && (
           <BoxButtonWithSwitch
@@ -133,7 +137,7 @@ const filteredData = data?.matchBettings.filter((item:any) => {
             matchBettingType={"session"}
             isManualBet={true}
             disable={
-              getProfile?.allPrivilege || getProfile?.addMatchPrivilege
+              profileDetail?.allPrivilege || profileDetail?.addMatchPrivilege
                 ? false
                 : true
             }
@@ -146,7 +150,7 @@ const filteredData = data?.matchBettings.filter((item:any) => {
       {showUserModal && !matchesMobile && (
         <Box
           sx={{
-            width: "20%",
+            // width: "20%",
             flex: 1,
             display: "flex",
             justifyContent: "flex-end",
@@ -187,24 +191,25 @@ const filteredData = data?.matchBettings.filter((item:any) => {
                 cursor="default"
               />
             )}
-            {data?.matchType === "cricket" && data?.stopAt && (
-              <MatchListProfitLoss
-                containerStyle={{
-                  minWidth: { xs: "4%", sm: "12px" },
-                  width: { xs: "9%", sm: "100px" },
-                  marginBottom: { xs: "1rem", sm: "1rem", md: 0 },
-                }}
-                onClick={() => handleMatchProfitLossClick(data?.id)}
-                updateMatchStatusLabel="Session Profit/Loss"
-                updateMatchStatus={
-                  data?.pl &&
-                  data?.pl?.length > 0 &&
-                  data?.pl[0]?.sessionTotalProfitLoss
-                }
-                place="1"
-                cursor="pointer"
-              />
-            )}
+            {["cricket", "politics"].includes(data?.matchType) &&
+              data?.stopAt && (
+                <MatchListProfitLoss
+                  containerStyle={{
+                    minWidth: { xs: "4%", sm: "12px" },
+                    width: { xs: "9%", sm: "100px" },
+                    marginBottom: { xs: "1rem", sm: "1rem", md: 0 },
+                  }}
+                  onClick={() => handleMatchProfitLossClick(data?.id)}
+                  updateMatchStatusLabel="Session Profit/Loss"
+                  updateMatchStatus={
+                    data?.pl &&
+                    data?.pl?.length > 0 &&
+                    data?.pl[0]?.sessionTotalProfitLoss
+                  }
+                  place="1"
+                  cursor="pointer"
+                />
+              )}
           </Box>
           <Box
             sx={{
@@ -214,29 +219,45 @@ const filteredData = data?.matchBettings.filter((item:any) => {
               marginLeft: "10px",
             }}
           >
-            {data?.matchType === "cricket" && (getProfile?.allPrivilege ||
-              getProfile?.sessionMatchPrivilege) && (
+            {["cricket", "politics"].includes(data?.matchType) &&
+              (profileDetail?.allPrivilege ||
+                profileDetail?.sessionMatchPrivilege) && (
+                <CustomButton
+                  containerStyle={{
+                    margin: "5px",
+                  }}
+                  onClick={() => {
+                    navigate(`/expert/sessionBetList`, {
+                      state: { id: data?.id, marketId: data?.marketId },
+                    });
+                  }}
+                  title={"View Session"}
+                />
+              )}
+            {["cricket", "politics"].includes(data?.matchType) &&
+              (profileDetail?.allPrivilege ||
+                profileDetail?.sessionMatchPrivilege) && (
+                <CustomButton
+                  containerStyle={{
+                    margin: "5px",
+                  }}
+                  onClick={() => {
+                    navigate(`/expert/session`, {
+                      state: { id: data?.id, marketId: data?.marketId },
+                    });
+                  }}
+                  title={"Expert Session"}
+                />
+              )}
+            {(profileDetail?.allPrivilege ||
+              profileDetail?.betFairMatchPrivilege) && (
               <CustomButton
                 containerStyle={{
                   margin: "5px",
                 }}
+                title={"View Match"}
                 onClick={() => {
-                  navigate(`/expert/session`, {
-                    state: { id: data?.id, marketId: data?.marketId },
-                  });
-                }}
-                title={"Session"}
-              />
-            )}
-            {(getProfile?.allPrivilege ||
-              getProfile?.betFairMatchPrivilege) && (
-              <CustomButton
-                containerStyle={{
-                  margin: "5px",
-                }}
-                title={"Match"}
-                onClick={() => {
-                  if (data?.matchType === "cricket") {
+                  if (["cricket", "politics"].includes(data?.matchType)) {
                     navigate(`/expert/market`, {
                       state: { id: data?.id, marketId: data?.marketId },
                     });
@@ -248,7 +269,8 @@ const filteredData = data?.matchBettings.filter((item:any) => {
                 }}
               />
             )}
-            {(getProfile?.allPrivilege || getProfile?.addMatchPrivilege) && (
+            {(profileDetail?.allPrivilege ||
+              profileDetail?.addMatchPrivilege) && (
               <CustomButton
                 containerStyle={{
                   margin: "5px",

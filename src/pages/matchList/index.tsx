@@ -15,12 +15,12 @@ import {
   socket,
   socketService,
 } from "../../socketManager";
-import { Constants } from "../../utils/Constants";
+import { Constants, gameType } from "../../utils/Constants";
 
 const MatchList = ({}) => {
   const dispatch: AppDispatch = useDispatch();
   const [currentPage, setCurrentPage] = useState(1);
-  const { matchList, success } = useSelector(
+  const { matchList, success, selectedTab } = useSelector(
     (state: RootState) => state.matchList
   );
 
@@ -31,12 +31,17 @@ const MatchList = ({}) => {
   useEffect(() => {
     try {
       if (sessionStorage.getItem("jwtExpert")) {
-        dispatch(getMatchList({ currentPage: currentPage }));
+        dispatch(
+          getMatchList({
+            currentPage: currentPage,
+            matchType: gameType[selectedTab],
+          })
+        );
       }
     } catch (error) {
       console.log(error);
     }
-  }, [currentPage, sessionStorage]);
+  }, [currentPage, sessionStorage, selectedTab]);
 
   useEffect(() => {
     if (success) {
@@ -44,29 +49,41 @@ const MatchList = ({}) => {
     }
   }, [success]);
 
-  const getMatchListService = () => {
+  const getMatchListService = (event: any) => {
     setCurrentPage(1);
-    dispatch(
-      getMatchList({
-        currentPage: 1,
-      })
-    );
+    const index = gameType.indexOf(event?.gameType);
+    if (index === selectedTab) {
+      setTimeout(() => {
+        dispatch(
+          getMatchList({
+            currentPage: 1,
+            matchType: event?.gameType,
+          })
+        );
+      }, 500);
+    }
   };
-
+  
   useEffect(() => {
     try {
       if (socket) {
         expertSocketService.match.matchAdded(getMatchListService);
+        socketService.user.matchResultDeclareAllUser(getMatchListService);
+        socketService.user.matchResultDeclared(getMatchListService);
         socketService.user.matchResultUnDeclared(getMatchListService);
+        socketService.user.matchResultUnDeclareAllUser(getMatchListService);
         return () => {
           expertSocketService.match.matchAddedOff();
           socketService.user.matchResultUnDeclaredOff();
+          socketService.user.matchResultDeclaredOff();
+          socketService.user.matchResultDeclareAllUserOff();
+          socketService.user.matchResultDeclareAllUserOff();
         };
       }
     } catch (error) {
       console.log(error);
     }
-  }, [socket]);
+  }, [socket, selectedTab]);
 
   return (
     <>
@@ -84,7 +101,7 @@ const MatchList = ({}) => {
           }),
         ]}
       >
-        <MatchListHeader />
+        <MatchListHeader setCurrentPage={setCurrentPage} />
         <MatchListTableHeader />
 
         {matchList &&

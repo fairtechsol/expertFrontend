@@ -20,7 +20,9 @@ const MatchPermissionsModal = (props: any) => {
     handleMatchProfitLossClick,
   } = props;
 
-  const { getProfile } = useSelector((state: RootState) => state.user.profile);
+  const { profileDetail } = useSelector(
+    (state: RootState) => state.user.profile
+  );
   const navigate = useNavigate();
   const matchesMobile = useMediaQuery(theme.breakpoints.down("lg"));
   return (
@@ -55,7 +57,8 @@ const MatchPermissionsModal = (props: any) => {
                   matchId={data?.id}
                   matchBettingType={"match"}
                   disable={
-                    getProfile?.allPrivilege || getProfile?.addMatchPrivilege
+                    profileDetail?.allPrivilege ||
+                    profileDetail?.addMatchPrivilege
                       ? false
                       : true
                   }
@@ -80,7 +83,8 @@ const MatchPermissionsModal = (props: any) => {
                     matchId={data?.id}
                     matchBettingType={"match"}
                     disable={
-                      getProfile?.allPrivilege || getProfile?.addMatchPrivilege
+                      profileDetail?.allPrivilege ||
+                      profileDetail?.addMatchPrivilege
                         ? false
                         : true
                     }
@@ -98,7 +102,7 @@ const MatchPermissionsModal = (props: any) => {
             matchBettingType={"session"}
             isManualBet={false}
             disable={
-              getProfile?.allPrivilege || getProfile?.addMatchPrivilege
+              profileDetail?.allPrivilege || profileDetail?.addMatchPrivilege
                 ? false
                 : true
             }
@@ -115,7 +119,7 @@ const MatchPermissionsModal = (props: any) => {
             matchBettingType={"session"}
             isManualBet={true}
             disable={
-              getProfile?.allPrivilege || getProfile?.addMatchPrivilege
+              profileDetail?.allPrivilege || profileDetail?.addMatchPrivilege
                 ? false
                 : true
             }
@@ -196,22 +200,23 @@ const MatchPermissionsModal = (props: any) => {
               marginBottom: "10px",
             }}
           >
-            {data?.matchType === "cricket" && (getProfile?.allPrivilege ||
-              getProfile?.sessionMatchPrivilege) && (
-              <CustomButton
-                containerStyle={{
-                  margin: "5px",
-                }}
-                onClick={() => {
-                  navigate(`/expert/session`, {
-                    state: { id: data?.id, marketId: data?.marketId },
-                  });
-                }}
-                title={"Session"}
-              />
-            )}
-            {(getProfile?.allPrivilege ||
-              getProfile?.betFairMatchPrivilege) && (
+            {data?.matchType === "cricket" &&
+              (profileDetail?.allPrivilege ||
+                profileDetail?.sessionMatchPrivilege) && (
+                <CustomButton
+                  containerStyle={{
+                    margin: "5px",
+                  }}
+                  onClick={() => {
+                    navigate(`/expert/session`, {
+                      state: { id: data?.id, marketId: data?.marketId },
+                    });
+                  }}
+                  title={"Session"}
+                />
+              )}
+            {(profileDetail?.allPrivilege ||
+              profileDetail?.betFairMatchPrivilege) && (
               <CustomButton
                 containerStyle={{
                   margin: "5px",
@@ -230,7 +235,8 @@ const MatchPermissionsModal = (props: any) => {
                 }}
               />
             )}
-            {(getProfile?.allPrivilege || getProfile?.addMatchPrivilege) && (
+            {(profileDetail?.allPrivilege ||
+              profileDetail?.addMatchPrivilege) && (
               <CustomButton
                 containerStyle={{
                   margin: "5px",

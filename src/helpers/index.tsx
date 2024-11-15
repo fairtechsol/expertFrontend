@@ -21,6 +21,31 @@ export const customSort = (a: any, b: any) => {
   }
 };
 
+export const customSortUpdated = (a: any, b: any) => {
+  const order: any = { live: 1, save: 2, result: 3 };
+  const statusComparison = order[a?.activeStatus] - order[b?.activeStatus];
+
+  if (statusComparison !== 0) {
+    return statusComparison;
+  } else {
+    const aHasResultStatus = a?.resultStatus ? true : false;
+    const bHasResultStatus = b?.resultStatus ? true : false;
+
+    if (aHasResultStatus && !bHasResultStatus) {
+      return 1;
+    } else if (!aHasResultStatus && bHasResultStatus) {
+      return -1;
+    }
+    const aUpdatedAt = a?.updatedAt;
+    const bUpdatedAt = b?.updatedAt;
+
+    const aDate = new Date(aUpdatedAt);
+    const bDate = new Date(bUpdatedAt);
+
+    return bDate.getTime() - aDate.getTime();
+  }
+};
+
 export const customBetSort = (a: any, b: any) => {
   // If activeStatus is the same, compare by updatedAt
   const aUpdatedAt = a?.createdAt;
@@ -96,4 +121,53 @@ export const customSortOnName = (a: any, b: any) => {
   if (isNaN(numB)) numB = 0;
 
   return numA - numB;
+};
+
+const order: any = {
+  ballByBall: 1,
+  fancy1: 2, // changed position of fancy1 from 4 to 2 as client changed
+  session: 3,
+  overByover: 4,
+  oddEven: 5,
+};
+
+export const customSortBySessionMarketName = ([nameA]: any, [nameB]: any) => {
+  const orderA = order[nameA] || Infinity;
+  const orderB = order[nameB] || Infinity;
+  return orderA - orderB;
+};
+
+export const updateArray = (ab: any, cd: any) => {
+  const cdMap = new Map(cd.map((item: any) => [item?.id, item]));
+
+  ab = ab?.filter((obj: any) => {
+    if (cdMap.has(obj?.id)) {
+      const updatedObj: any = cdMap.get(obj?.id);
+      Object.assign(obj, { ...obj, ...updatedObj });
+      cdMap.delete(obj.id);
+      return true;
+    }
+    return false;
+  });
+
+  cdMap.forEach((value) => {
+    ab.push(value);
+  });
+
+  return ab;
+};
+
+export const sortByActiveStatusOfCricketCasino = (a: any, b: any) => {
+  const getPosition = (item: any) => {
+    if (item.isComplete && item.activeStatus === "result") {
+      return 3;
+    } else if (item.activeStatus === "live") {
+      return 2;
+    } else if (item.activeStatus === "save" || item.isComplete) {
+      return 1;
+    }
+    return 4;
+  };
+
+  return getPosition(a) - getPosition(b);
 };

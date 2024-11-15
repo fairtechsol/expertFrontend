@@ -8,27 +8,61 @@ export const getAllLiveTournaments = createAsyncThunk<any, string>(
   async (requestData, thunkApi) => {
     try {
       const { data } = await axios.get(
-        `${addMatchThirdParty}/competitionList?type=${requestData}`
+        `${addMatchThirdParty}/sportsList?type=${requestData}`
       );
+      let resp: any;
+      if (requestData === "cricket") {
+        try {
+          resp = await axios.get(
+            `${addMatchThirdParty}/getDirectMatchList?type=${requestData}`,
+            { timeout: 2000 }
+          );
+        } catch (error) {
+          console.log(error);
+        }
+      }
       if (data) {
-        let tournamentList: any = [
+        let matchesList: any = [
           {
-            EventName: "No Tournaments Available",
+            EventName: "No Matches Available",
           },
         ];
         if (data && data.length > 0) {
-          let tournamentList1: any = [];
-          data.forEach((tournament: any) => {
-            tournamentList1.push({
-              EventName: tournament?.competition?.name,
-              EventId: tournament?.competition?.id,
-              competitionRegion: tournament?.competitionRegion,
-              marketCount: tournament?.marketCount,
+          let matchesList1: any = [];
+          let matchesList2: any = resp?.data || [];
+          if (requestData === "cricket") {
+            data.forEach((match: any) => {
+              let matchList = match?.eventName.split(" / ");
+              matchesList1.push({
+                EventName: matchList[0],
+                EventId: match?.gameId,
+                MarketId: match?.marketId,
+                EventDate: matchList[1],
+                f: match?.f === "True" ? true : false,
+                tv: match?.tv === "True" ? true : false,
+                m1: match?.m1 === "True" ? true : false,
+                section: match?.section,
+              });
             });
-          });
-          tournamentList = tournamentList1;
+          } else {
+            data.forEach((match: any) => {
+              let matchList = match?.ename;
+              matchesList1.push({
+                EventName: matchList,
+                EventId: JSON.stringify(match?.gmid),
+                MarketId: JSON.stringify(match?.mid),
+                EventDate: match?.stime,
+                f: match?.f === "True" ? true : false,
+                tv: match?.tv === "True" ? true : false,
+                m1: match?.m1 === "True" ? true : false,
+                section: match?.section,
+              });
+            });
+          }
+
+          matchesList = { matchesList1, matchesList2 };
         }
-        return tournamentList;
+        return matchesList;
       }
     } catch (error) {
       const err = error as AxiosError;
@@ -82,7 +116,8 @@ export const getExtraMarketList = createAsyncThunk<any, any>(
   async (requestData, thunkApi) => {
     try {
       const { data } = await axios.get(
-        `${addMatchThirdParty}/extraMarketList/${requestData?.id}?eventType=${requestData?.eventType}`
+        `${addMatchThirdParty}/extraMarketList/${requestData?.id}?eventType=${requestData?.eventType}`,
+        { timeout: 2000 }
       );
       if (data) {
         let extraMarketList: any = {};
@@ -385,6 +420,31 @@ export const updateRaceRates = createAsyncThunk<any, any>(
     return matchDetails;
   }
 );
+
+export const updateMarketRates = createAsyncThunk<any, any>(
+  "/market/rates",
+  async (requestData, thunkApi) => {
+    try {
+      const resp = await service.post(
+        `${ApiConstants.BOOKMAKER.GET}/add`,
+        requestData
+      );
+      if (resp) {
+        return resp?.data;
+      }
+    } catch (error) {
+      const err = error as AxiosError;
+      return thunkApi.rejectWithValue(err.response?.status);
+    }
+  }
+);
+
+export const updateMultiSessionMinMax = createAsyncThunk<any, any>(
+  "/multiSessionMinMax/rates",
+  async (matchDetails) => {
+    return matchDetails;
+  }
+);
 export const addMatchReset = createAction("add/reset");
 export const editMatchReset = createAction("edit/reset");
 export const matchDetailReset = createAction("matchDetail/reset");
@@ -392,3 +452,4 @@ export const runnerDetailReset = createAction("runnerDetail/reset");
 export const matchDetailSuccessReset = createAction("matchDetailSuccess/reset");
 export const eventListReset = createAction("eventList/reset");
 export const tournamentListReset = createAction("tournamentList/reset");
+export const resetMarketListMinMax = createAction("marketListMinMax/reset");

@@ -83,6 +83,26 @@ export const headerAddNotification = createAsyncThunk<any, any>(
     }
   }
 );
+export const headerAddBanner = createAsyncThunk<any, any>(
+  "/general/banner/add",
+  async (requestData, thunkApi) => {
+    try {
+      const resp = await service.post(
+        `${ApiConstants.USER.BANNER}`,
+        requestData
+      );
+      if (resp) {
+        if (resp?.data) {
+          return resp?.data?.transactionPassword;
+        }
+        sessionStorage.clear();
+      }
+    } catch (error: any) {
+      const err = error as AxiosError;
+      return thunkApi.rejectWithValue(err.response?.status);
+    }
+  }
+);
 export const getDateList = createAsyncThunk<any, any>(
   "match/dateList",
   async (requestData, thunkApi) => {

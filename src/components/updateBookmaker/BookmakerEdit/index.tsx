@@ -17,6 +17,7 @@ const BookmakerEditSection = ({ add, match, bookmakerId, type }: Props) => {
   const [visible1, setVisible1] = useState(false);
   const { bookmakerById } = useSelector((state: RootState) => state.addSession);
   const matchesMobile = useMediaQuery(theme.breakpoints.down("lg"));
+
   return (
     <Box
       sx={{

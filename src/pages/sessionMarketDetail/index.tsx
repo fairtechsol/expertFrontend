@@ -1,8 +1,9 @@
 import { Box, Stack } from "@mui/material";
-import { useEffect, useState } from "react";
+import React, { Fragment, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
-import RunsBox from "../../components/matchDetails/RunsBox";
+import CasinoMarket from "../../components/matchDetails/CasinoMarket";
+import CasinoMarketLive from "../../components/matchDetails/CasinoMarketLive";
 import SessionMarket from "../../components/matchDetails/SessionMarket";
 import SessionMarketLive from "../../components/matchDetails/SessionMarketLive";
 import {
@@ -15,6 +16,7 @@ import {
   getMatchDetail,
   removeSessionProLoss,
   updateMatchRates,
+  updateMultiSessionMinMax,
   updateRates,
   updateSessionAdded,
   updateSessionProLoss,
@@ -24,7 +26,7 @@ import {
   updateApiSessionById,
 } from "../../store/actions/addSession";
 import {
-  getPlacedBetsForSessionDetail,
+  // getPlacedBetsForSessionDetail,
   getSessionProfitLossMatchDetailReset,
   updateDeletedBetReasonOnEdit,
   updateMatchBetsReason,
@@ -34,21 +36,19 @@ import {
   updateSessionBetsPlace,
 } from "../../store/actions/match/matchAction";
 import { AppDispatch, RootState } from "../../store/store";
-import BetListForSession from "../../components/matchDetails/BetListForSession";
+import RunsBox from "../../components/matchDetails/RunsBox";
+import { customSortBySessionMarketName } from "../../helpers";
 
 const SessionMarketDetail = () => {
   const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
   const { state } = useLocation();
-  const [socketConnected, setSocketConnected] = useState(true);
+
   const { matchDetail, success } = useSelector(
     (state: RootState) => state.addMatch.addMatch
   );
   const { sessionProLoss } = useSelector((state: RootState) => state.match);
   const { currentOdd } = useSelector((state: RootState) => state.addSession);
-  const { placedBetsMatch } = useSelector(
-    (state: RootState) => state.matchList
-  );
 
   const updateMatchDetailToRedux = (event: any) => {
     try {
@@ -62,7 +62,7 @@ const SessionMarketDetail = () => {
 
   const resultDeclared = (event: any) => {
     try {
-      if (event?.matchId === state?.id) {
+      if (event?.matchId === state?.id && event?.isMatchDeclare) {
         navigate("/expert/match");
       }
     } catch (e) {
@@ -73,7 +73,7 @@ const SessionMarketDetail = () => {
     try {
       if (event?.matchId === state?.id) {
         dispatch(getMatchDetail(state?.id));
-        dispatch(getPlacedBetsForSessionDetail(state?.id));
+        // dispatch(getPlacedBetsForSessionDetail(state?.id));
       }
     } catch (e) {
       console.log(e);
@@ -101,6 +101,14 @@ const SessionMarketDetail = () => {
             betPlaced: event?.profitLoss ? event?.profitLoss?.betPlaced : [],
           })
         );
+        dispatch(
+          updateMaxLoss({
+            id: event?.betId,
+            maxLoss: event?.profitLoss?.maxLoss,
+            totalBet: event?.profitLoss?.totalBet,
+            profitLoss: event?.profitLoss?.betPlaced,
+          })
+        );
       }
     } catch (e) {
       console.log(e);
@@ -121,7 +129,7 @@ const SessionMarketDetail = () => {
     try {
       if (state?.id === event?.matchId) {
         dispatch(updateApiSessionById(event));
-        dispatch(getPlacedBetsForSessionDetail(state?.id));
+        // dispatch(getPlacedBetsForSessionDetail(state?.id));
         if (event?.activeStatus === "result") {
           dispatch(
             removeSessionProLoss({
@@ -145,6 +153,8 @@ const SessionMarketDetail = () => {
               ? event?.profitLossObj?.maxLoss
               : event?.profitLoss,
             totalBet: event?.profitLossObj ? event?.profitLossObj?.totalBet : 0,
+            profitLoss:
+              event?.redisData?.betPlaced ?? event?.profitLossObj?.betPlaced,
           })
         );
       }
@@ -178,6 +188,7 @@ const SessionMarketDetail = () => {
             id: event?.jobData?.placedBet?.betId,
             maxLoss: event?.redisData?.maxLoss,
             totalBet: event?.redisData?.totalBet,
+            profitLoss: event?.redisData?.betPlaced,
           })
         );
         dispatch(
@@ -196,7 +207,12 @@ const SessionMarketDetail = () => {
   const updateSessionResultStatus = (event: any) => {
     try {
       if (event?.matchId === state?.id) {
-        dispatch(updateResultStatusOfSession(event));
+        dispatch(
+          updateResultStatusOfSession({
+            ...event,
+            loggedUserId: sessionStorage.getItem("pId"),
+          })
+        );
         dispatch(updateResultStatusOfMatch(event));
       }
     } catch (error) {
@@ -205,18 +221,28 @@ const SessionMarketDetail = () => {
   };
 
   const handleSocketConnection = () => {
-    setSocketConnected(true);
+    if (state?.id) {
+      expertSocketService.match.joinMatchRoom(state?.id, "expert");
+    }
   };
-  const handleSocketError = () => {
-    setSocketConnected(false);
-  };
+  // const handleSocketError = () => {
+  //   setSocketConnected(false);
+  // };
 
+  const handleMultiSessionMaxMin = (event: any) => {
+    try {
+      if (state?.id === event?.matchId) {
+        dispatch(updateMultiSessionMinMax(event));
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   useEffect(() => {
     try {
       if (state?.id) {
         dispatch(getSessionProfitLossMatchDetailReset());
         dispatch(getMatchDetail(state?.id));
-        dispatch(getPlacedBetsForSessionDetail(state?.id));
       }
     } catch (e) {
       console.log(e);
@@ -225,7 +251,7 @@ const SessionMarketDetail = () => {
 
   useEffect(() => {
     try {
-      if (success && socket && socketConnected) {
+      if (success && socket) {
         expertSocketService.match.getMatchRatesOff(state?.id);
         socketService.user.matchResultDeclaredOff();
         socketService.user.matchResultUnDeclaredOff();
@@ -235,6 +261,7 @@ const SessionMarketDetail = () => {
         socketService.user.sessionResultDeclaredOff();
         socketService.user.updateInResultDeclareOff();
         socketService.user.updateDeleteReasonOff();
+        socketService.user.multiSessionUpdatedOff();
         expertSocketService.match.joinMatchRoom(state?.id, "expert");
         expertSocketService.match.getMatchRates(state?.id, (event: any) => {
           updateMatchDetailToRedux(event);
@@ -248,13 +275,14 @@ const SessionMarketDetail = () => {
         socketService.user.sessionResultDeclared(updateSessionResultDeclared);
         socketService.user.updateInResultDeclare(updateSessionResultStatus);
         socketService.user.updateDeleteReason(updateDeleteBetReason);
-        expertSocketService.match.connectError(handleSocketError);
+        socketService.user.multiSessionUpdated(handleMultiSessionMaxMin);
+        // expertSocketService.match.connectError(handleSocketError);
         expertSocketService.match.onConnect(handleSocketConnection);
       }
     } catch (e) {
       console.log(e);
     }
-  }, [success, socket, socketConnected]);
+  }, [success, socket]);
 
   useEffect(() => {
     try {
@@ -272,7 +300,8 @@ const SessionMarketDetail = () => {
           socketService.user.sessionResultDeclaredOff();
           socketService.user.updateInResultDeclareOff();
           socketService.user.updateDeleteReasonOff();
-          expertSocketService.match.connectErrorOff();
+          socketService.user.multiSessionUpdatedOff();
+          // expertSocketService.match.connectErrorOff();
           expertSocketService.match.onConnectOff();
         };
       }
@@ -308,87 +337,275 @@ const SessionMarketDetail = () => {
     }
   }, []);
 
-  let completedSessions = matchDetail?.sessionBettings?.filter(
-    (item: any) =>
-      JSON.parse(item)?.isComplete &&
-      JSON.parse(item)?.showSessions &&
-      ((JSON.parse(item)?.resultData &&
-        JSON.parse(item)?.resultData === null) ||
-        JSON.parse(item)?.result === null)
-  );
-  let declaredSessions = matchDetail?.sessionBettings?.filter(
-    (item: any) =>
-      JSON.parse(item)?.isComplete &&
-      JSON.parse(item)?.showSessions &&
-      ((JSON.parse(item)?.resultData &&
-        JSON.parse(item)?.resultData !== null) ||
-        JSON.parse(item)?.result !== null)
-  );
-
-  let marketSessions = matchDetail?.sessionBettings?.filter(
-    (item: any) =>
-      !JSON.parse(item)?.isComplete && JSON.parse(item)?.showSessions
-  );
-
   return (
     <>
-      <Stack spacing={2} direction={{ lg: "row", xs: "column" }}>
-        <Box sx={{ width: { lg: "100%" } }}>
-          <SessionMarketLive
-            title="Session API Market"
-            sessionData={matchDetail?.apiSession}
-            currentMatch={matchDetail}
-          />
+      <Stack
+        spacing={{ lg: 2, xs: 0.5 }}
+        direction={{ lg: "row", xs: "column" }}
+        sx={{ marginTop: { lg: 0, xs: "5px" } }}
+      >
+        <Box sx={{ width: { lg: "70%" } }}>
+          {matchDetail?.apiSession &&
+            Object.entries(matchDetail?.apiSession)
+              ?.sort(customSortBySessionMarketName)
+              ?.filter(
+                ([name]: any) => name === "session" || name === "oddEven"
+              )
+              ?.map(([name, item]: any) => {
+                return (
+                  <>
+                    {item?.section
+                      ?.filter((i: any) => !i?.isManual)
+                      ?.filter(
+                        (items: any) =>
+                          !items?.activeStatus ||
+                          items?.activeStatus === "unSave"
+                      )?.length > 0 && (
+                      <SessionMarketLive
+                        key={name}
+                        title={item?.mname || name}
+                        sessionData={item}
+                        type={name}
+                        currentMatch={matchDetail}
+                      />
+                    )}
+                  </>
+                );
+              })}
+        </Box>
+        <Box sx={{ width: { lg: "70%" } }}>
+          {matchDetail?.apiSession &&
+            Object.entries(matchDetail?.apiSession)
+              ?.sort(customSortBySessionMarketName)
+              ?.map(([name, item]: any) => {
+                if (name === "session" || name === "oddEven") {
+                  return null;
+                } else if (name === "cricketCasino") {
+                  return (
+                    <React.Fragment key={name}>
+                      {item?.section
+                        ?.filter(
+                          (i: any) =>
+                            !i?.activeStatus || i?.activeStatus === "unSave"
+                        )
+                        ?.map((items: any) => (
+                          <CasinoMarketLive
+                            key={items?.SelectionId}
+                            title={items?.RunnerName || items?.name}
+                            sessionData={items}
+                            currentMatch={matchDetail}
+                            gtype={items?.gtype}
+                            type={name}
+                          />
+                        ))}
+                    </React.Fragment>
+                  );
+                } else
+                  return (
+                    <Fragment key={name}>
+                      {item?.section
+                        ?.filter((i: any) => !i?.isManual)
+                        ?.filter(
+                          (items: any) =>
+                            !items?.activeStatus ||
+                            items?.activeStatus === "unSave"
+                        )?.length > 0 && (
+                        <SessionMarketLive
+                          key={name}
+                          title={item?.mname || name}
+                          sessionData={item}
+                          type={name}
+                          currentMatch={matchDetail}
+                        />
+                      )}
+                    </Fragment>
+                  );
+              })}
         </Box>
         <Box sx={{ width: { lg: "100%" } }}>
-          {completedSessions?.length > 0 && (
-            <SessionMarket
-              title="Session Completed"
-              hideTotalBet={false}
-              stopAllHide={true}
-              profitLossData={matchDetail?.sessionProfitLoss}
-              sessionData={completedSessions}
-              hideResult={false}
-              currentMatch={matchDetail}
-              hideEditMaxButton={true}
-              cstmStyle={{
-                maxHeight: { sm: "40vh" },
-              }}
-            />
-          )}
-          {!(
-            (completedSessions?.length > 0 || declaredSessions?.length > 0) &&
-            marketSessions?.length <= 0
-          ) && (
-            <SessionMarket
-              title="Session Market"
-              hideTotalBet={false}
-              stopAllHide={false}
-              profitLossData={matchDetail?.sessionProfitLoss}
-              sessionData={marketSessions}
-              hideResult={true}
-              currentMatch={matchDetail}
-              hideEditMaxButton={false}
-            />
-          )}
-          {declaredSessions?.length > 0 && (
-            <SessionMarket
-              title="Session Declared"
-              hideTotalBet={false}
-              stopAllHide={true}
-              profitLossData={matchDetail?.sessionProfitLoss}
-              sessionData={declaredSessions}
-              hideResult={false}
-              currentMatch={matchDetail}
-              hideEditMaxButton={true}
-              cstmStyle={{
-                maxHeight: { sm: "40vh" },
-              }}
-            />
-          )}
-        </Box>
-        <Box sx={{ width: { lg: "100%" } }}>
-          <BetListForSession allBetRates={placedBetsMatch} tag={true} />
+          {matchDetail?.updatedSesssionBettings &&
+            Object.entries(matchDetail?.updatedSesssionBettings)
+              ?.sort(customSortBySessionMarketName)
+              ?.filter(([name]: any) => name !== "cricketCasino")
+              ?.map(([name, item]: any) => {
+                return (
+                  <Fragment key={name}>
+                    {item?.section
+                      ?.filter((i: any) => !i?.isManual)
+                      ?.filter(
+                        (items: any) =>
+                          items?.isComplete &&
+                          items?.activeStatus !== "unSave" &&
+                          ((items?.resultData && items?.resultData === null) ||
+                            items?.result === null)
+                      )?.length > 0 && (
+                      <SessionMarket
+                        title={`${name} Completed`}
+                        hideTotalBet={false}
+                        stopAllHide={true}
+                        profitLossData={matchDetail?.sessionProfitLoss}
+                        sessionData={item}
+                        hideResult={false}
+                        currentMatch={matchDetail}
+                        hideEditMaxButton={true}
+                        cstmStyle={{
+                          maxHeight: { sm: "40vh" },
+                        }}
+                        section="completed"
+                      />
+                    )}
+                  </Fragment>
+                );
+              })}
+          {matchDetail?.updatedSesssionBettings &&
+            Object.entries(matchDetail?.updatedSesssionBettings)
+              ?.sort(customSortBySessionMarketName)
+              ?.filter(([name]: any) => name === "cricketCasino")
+              ?.map(([name, item]: any) => {
+                return (
+                  <>
+                    {item?.section
+                      ?.filter(
+                        (i: any) =>
+                          i?.activeStatus !== "unSave" &&
+                          (i?.isComplete || i?.activeStatus === "save") &&
+                          i?.activeStatus !== "result"
+                      )
+                      // ?.sort(sortByActiveStatusOfCricketCasino)
+                      ?.map((items: any) => (
+                        <CasinoMarket
+                          key={items?.SelectionId}
+                          title={items?.RunnerName || items?.name}
+                          sessionData={items}
+                          gtype={items?.gtype}
+                          type={name}
+                          profitLossData={matchDetail?.sessionProfitLoss}
+                          section=" COMPLETED"
+                        />
+                      ))}
+                  </>
+                );
+              })}
+          {matchDetail?.updatedSesssionBettings &&
+            Object.entries(matchDetail?.updatedSesssionBettings)
+              ?.sort(customSortBySessionMarketName)
+              ?.filter(([name]: any) => name !== "cricketCasino")
+              ?.map(([name, item]: any) => {
+                return (
+                  <Fragment key={name}>
+                    {item?.section
+                      ?.filter((i: any) => !i?.isManual)
+                      ?.filter(
+                        (items: any) =>
+                          !items?.isComplete &&
+                          items?.activeStatus !== "unSave" &&
+                          ((items?.resultData && items?.resultData === null) ||
+                            items?.result === null)
+                      )?.length > 0 && (
+                      <SessionMarket
+                        title={`${name} Market`}
+                        hideTotalBet={false}
+                        stopAllHide={false}
+                        profitLossData={matchDetail?.sessionProfitLoss}
+                        sessionData={item}
+                        hideResult={true}
+                        currentMatch={matchDetail}
+                        hideEditMaxButton={false}
+                        section="market"
+                        name={name}
+                      />
+                    )}
+                  </Fragment>
+                );
+              })}
+          {matchDetail?.updatedSesssionBettings &&
+            Object.entries(matchDetail?.updatedSesssionBettings)
+              ?.sort(customSortBySessionMarketName)
+              ?.filter(([name]: any) => name === "cricketCasino")
+              ?.map(([name, item]: any) => {
+                return (
+                  <Fragment key={name}>
+                    {item?.section
+                      ?.filter(
+                        (i: any) =>
+                          i?.activeStatus !== "unSave" && !i?.isComplete
+                      )
+                      // ?.sort(sortByActiveStatusOfCricketCasino)
+                      ?.map((items: any) => (
+                        <CasinoMarket
+                          key={items?.SelectionId}
+                          title={items?.RunnerName || items?.name}
+                          sessionData={items}
+                          gtype={items?.gtype}
+                          type={name}
+                          profitLossData={matchDetail?.sessionProfitLoss}
+                          section=""
+                        />
+                      ))}
+                  </Fragment>
+                );
+              })}
+          {matchDetail?.updatedSesssionBettings &&
+            Object.entries(matchDetail?.updatedSesssionBettings)
+              ?.sort(customSortBySessionMarketName)
+              ?.filter(([name]: any) => name !== "cricketCasino")
+              ?.map(([name, item]: any) => {
+                return (
+                  <Fragment key={name}>
+                    {item?.section
+                      ?.filter((i: any) => !i?.isManual)
+                      ?.filter(
+                        (items: any) =>
+                          (items?.resultData && items?.resultData !== null) ||
+                          items?.result !== null
+                      )?.length > 0 && (
+                      <SessionMarket
+                        title={`${name} Declared`}
+                        hideTotalBet={false}
+                        stopAllHide={true}
+                        profitLossData={matchDetail?.sessionProfitLoss}
+                        sessionData={item}
+                        hideResult={false}
+                        currentMatch={matchDetail}
+                        hideEditMaxButton={true}
+                        cstmStyle={{
+                          maxHeight: { sm: "40vh" },
+                        }}
+                        section="declared"
+                      />
+                    )}
+                  </Fragment>
+                );
+              })}
+          {matchDetail?.updatedSesssionBettings &&
+            Object.entries(matchDetail?.updatedSesssionBettings)
+              ?.sort(customSortBySessionMarketName)
+              ?.filter(([name]: any) => name === "cricketCasino")
+              ?.map(([name, item]: any) => {
+                return (
+                  <>
+                    {item?.section
+                      ?.filter(
+                        (i: any) =>
+                          i?.activeStatus !== "unSave" &&
+                          i?.isComplete &&
+                          i?.activeStatus === "result"
+                      )
+                      // ?.sort(sortByActiveStatusOfCricketCasino)
+                      ?.map((items: any) => (
+                        <CasinoMarket
+                          key={items?.SelectionId}
+                          title={items?.RunnerName || items?.name}
+                          sessionData={items}
+                          gtype={items?.gtype}
+                          type={name}
+                          profitLossData={matchDetail?.sessionProfitLoss}
+                          section=" DECLARED"
+                        />
+                      ))}
+                  </>
+                );
+              })}
         </Box>
       </Stack>
       {sessionProLoss?.length > 0 && (
@@ -401,6 +618,9 @@ const SessionMarketDetail = () => {
             rowGap: "5px",
             height: "524px",
             overflow: "scroll",
+            "::-webkit-scrollbar": {
+              display: "none",
+            },
             marginTop: "1.25vw",
           }}
         >

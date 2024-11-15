@@ -1,13 +1,13 @@
 import { Box, TextField, Typography } from "@mui/material";
 import { useEffect, useRef, useState } from "react";
-import SessionResultCustomButton from "../../../components/addSession/AddSession/SessionResultCustomButton";
-import { CancelDark } from "../../../assets";
-import { AppDispatch, RootState } from "../../../store/store";
 import { useDispatch, useSelector } from "react-redux";
+import { CancelDark } from "../../../assets";
+import SessionResultCustomButton from "../../../components/addSession/AddSession/SessionResultCustomButton";
 import {
   resetSessionMaxLimitSuccess,
   updateSession,
 } from "../../../store/actions/addSession";
+import { AppDispatch, RootState } from "../../../store/store";
 
 const SessionLimitEdit = (props: any) => {
   const { newData, visible, onClickCancel } = props;
@@ -90,7 +90,12 @@ const SessionLimitEdit = (props: any) => {
         ]}
       >
         <Typography
-          sx={{ fontWeight: "bold", color: "white", fontSize: "14px",lineHeight: "1" }}
+          sx={{
+            fontWeight: "bold",
+            color: "white",
+            fontSize: "14px",
+            lineHeight: "1",
+          }}
         >
           Session max limit
         </Typography>
@@ -110,12 +115,12 @@ const SessionLimitEdit = (props: any) => {
           fontSize: { lg: "11px", md: "10px", xs: "9px" },
           marginLeft: "5px",
           fontWeight: "600",
-          lineHeight: '11px',
-          padding: 1
+          lineHeight: "11px",
+          padding: 1,
         }}
-      >SESSION NAME: {" "}{newData?.name}
+      >
+        SESSION NAME: {newData?.name}
       </Typography>
-
 
       {/* <form> */}
       <Box
@@ -135,7 +140,7 @@ const SessionLimitEdit = (props: any) => {
       >
         <TextField
           autoFocus
-          placeholder="Betfair Session Max Bet"
+          placeholder="API Session Max Bet"
           variant="standard"
           type="number"
           // value={selected}
@@ -192,19 +197,19 @@ const SessionLimitEdit = (props: any) => {
             title={"submit"}
             loading={loading}
             onClick={(e: any) => handleSubmit(e)}
-          // onClick={() => {
-          //   if (loading?.value) {
-          //     return false;
-          //   }
-          //   if (selected !== "" && /^\d+$/.test(selected)) {
-          //     declareResult();
-          //   } else if (selected === "") {
-          //     setError("Please enter score");
-          //   } else {
-          //     // toast.warn("Please enter score");
-          //     setError("Input field should contain numbers only");
-          //   }
-          // }}
+            // onClick={() => {
+            //   if (loading?.value) {
+            //     return false;
+            //   }
+            //   if (selected !== "" && /^\d+$/.test(selected)) {
+            //     declareResult();
+            //   } else if (selected === "") {
+            //     setError("Please enter score");
+            //   } else {
+            //     // toast.warn("Please enter score");
+            //     setError("Input field should contain numbers only");
+            //   }
+            // }}
           />
         </Box>
       </Box>

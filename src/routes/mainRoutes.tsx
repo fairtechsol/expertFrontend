@@ -15,6 +15,8 @@ import SessionMarketDetail from "../pages/sessionMarketDetail";
 import MatchMarketDetail from "../pages/matchMarketDetail";
 import AddRace from "../pages/addRace";
 import RaceDetails from "../pages/raceDetails";
+import SessionBetlistDetail from "../pages/sessionBetlistDetail";
+import TabList from "../pages/tabList";
 
 const MainRoutes = {
   path: Constants.MainPaths.root,
@@ -23,6 +25,10 @@ const MainRoutes = {
     {
       path: Constants.MainPaths.match,
       element: <MatchList />,
+    },
+    {
+      path: Constants.MainPaths.tab,
+      element: <TabList />,
     },
     {
       path: Constants.MainPaths.race,
@@ -71,6 +77,10 @@ const MainRoutes = {
     {
       path: Constants.MainPaths.session,
       element: <SessionMarketDetail />,
+    },
+    {
+      path: Constants.MainPaths.sessionBetList,
+      element: <SessionBetlistDetail />,
     },
     {
       path: Constants.MainPaths.market,

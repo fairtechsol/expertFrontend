@@ -17,6 +17,8 @@ import theme from "../../../theme";
 import { formatToINR, numberInputOnWheelPreventChange } from "../../../helpers";
 import { useLocation } from "react-router-dom";
 import { profitLossDataForMatchConstants } from "../../../utils/Constants";
+// import MaxLimitEditButtonBook from "../../Common/MaxLimitEditButtonBzook";
+import MaxBetAdd from "../../matchDetails/MaxBetAdd";
 
 const EditBookmaker = (props: any) => {
   const { state } = useLocation();
@@ -37,6 +39,7 @@ const EditBookmaker = (props: any) => {
 
   const [visible, setVisible] = useState(false);
   const [visible1, setVisible1] = useState(false);
+  const [open, setOpen] = useState(false);
 
   const [localQuickBookmaker, setLocalQuickBookmaker] = useState<any>({
     teamA: {
@@ -71,12 +74,18 @@ const EditBookmaker = (props: any) => {
   });
 
   const bookRatioB = (teamARates: any, teamBRates: any) => {
+    if (+teamARates === 0) {
+      return "0.00";
+    }
     const bookRatio = teamBRates != 0 ? teamARates / teamBRates || 0 : 0;
     const formattedRatio = Math.abs(bookRatio).toFixed(2);
     return teamBRates < 0 ? `-${formattedRatio}` : formattedRatio;
   };
 
   const bookRatioA = (teamARates: any, teamBRates: any) => {
+    if (+teamBRates === 0) {
+      return "0.00";
+    }
     const bookRatio = teamARates != 0 ? teamBRates / teamARates || 0 : 0;
     const formattedRatio = Math.abs(bookRatio).toFixed(2);
     return teamARates < 0 ? `-${formattedRatio}` : formattedRatio;
@@ -85,82 +94,87 @@ const EditBookmaker = (props: any) => {
   const handleChange = (event: any) => {
     try {
       let { name, value } = event.target;
-      // const regex = /^\d+(\.\d+)?$/;
       const decimalValue = value.split(".");
-      if (decimalValue[1]) {
+      if (
+        decimalValue[1] &&
+        !["2", "25", "5", "7", "75", "", "0"].includes(decimalValue[1])
+      ) {
+        return true;
+      }
+      if (decimalValue[1] && incGap !== 0.25) {
         return true;
       }
 
       setIsTab("");
 
       // if (regex.test(value)) {
-        if (
-          (!bookmakerById?.rateThan100 && value < 100) ||
-          bookmakerById?.rateThan100
-        ) {
-          if (name === "teamArate") {
-            updateLocalQuickBookmaker(
-              match,
-              Bid,
-              type,
-              "teamA",
-              +value,
-              +value + 1,
-              setLocalQuickBookmaker
-            );
-          } else if (name === "teamBrate") {
-            updateLocalQuickBookmaker(
-              match,
-              Bid,
-              type,
-              "teamB",
-              +value,
-              +value + 1,
-              setLocalQuickBookmaker
-            );
-          } else if (name === "teamCrate") {
-            updateLocalQuickBookmaker(
-              match,
-              Bid,
-              type,
-              "teamC",
-              +value,
-              +value + 1,
-              setLocalQuickBookmaker
-            );
-          }
-          setLocalQuickBookmaker((prev: any) => {
-            if (
-              !prev?.teamA?.suspended ||
-              !prev?.teamB?.suspended ||
-              !prev?.teamC?.suspended ||
-              prev?.teamBall
-            ) {
-              let data = {
-                matchId: match?.id,
-                id: Bid,
-                type: type,
-                backTeamA: prev.teamA.back ? prev.teamA.back : 0,
-                backTeamB: prev.teamB.back ? prev.teamB.back : 0,
-                backTeamC: prev.teamC.back ? prev.teamC.back : 0,
-                layTeamA: prev.teamA.lay ? prev.teamA.lay : 0,
-                layTeamB: prev.teamB.lay ? prev.teamB.lay : 0,
-                layTeamC: prev.teamC.lay ? prev.teamC.lay : 0,
-                statusTeamA: "suspended",
-                statusTeamB: "suspended",
-                statusTeamC: "suspended",
-              };
-              socketService.user.updateMatchBettingRate(data);
-            }
-            return {
-              ...prev,
-              teamA: { ...prev.teamA, suspended: true },
-              teamB: { ...prev.teamB, suspended: true },
-              teamC: { ...prev.teamC, suspended: true },
-              teamBall: false,
-            };
-          });
+      if (
+        (!bookmakerById?.rateThan100 && value < 100) ||
+        bookmakerById?.rateThan100
+      ) {
+        if (name === "teamArate") {
+          updateLocalQuickBookmaker(
+            match,
+            Bid,
+            type,
+            "teamA",
+            +value,
+            +value + incGap,
+            setLocalQuickBookmaker
+          );
+        } else if (name === "teamBrate") {
+          updateLocalQuickBookmaker(
+            match,
+            Bid,
+            type,
+            "teamB",
+            +value,
+            +value + incGap,
+            setLocalQuickBookmaker
+          );
+        } else if (name === "teamCrate") {
+          updateLocalQuickBookmaker(
+            match,
+            Bid,
+            type,
+            "teamC",
+            +value,
+            +value + incGap,
+            setLocalQuickBookmaker
+          );
         }
+        setLocalQuickBookmaker((prev: any) => {
+          if (
+            !prev?.teamA?.suspended ||
+            !prev?.teamB?.suspended ||
+            !prev?.teamC?.suspended ||
+            prev?.teamBall
+          ) {
+            let data = {
+              matchId: match?.id,
+              id: Bid,
+              type: type,
+              backTeamA: prev.teamA.back ? prev.teamA.back : 0,
+              backTeamB: prev.teamB.back ? prev.teamB.back : 0,
+              backTeamC: prev.teamC.back ? prev.teamC.back : 0,
+              layTeamA: prev.teamA.lay ? prev.teamA.lay : 0,
+              layTeamB: prev.teamB.lay ? prev.teamB.lay : 0,
+              layTeamC: prev.teamC.lay ? prev.teamC.lay : 0,
+              statusTeamA: "suspended",
+              statusTeamB: "suspended",
+              statusTeamC: "suspended",
+            };
+            socketService.user.updateMatchBettingRate(data);
+          }
+          return {
+            ...prev,
+            teamA: { ...prev.teamA, suspended: true },
+            teamB: { ...prev.teamB, suspended: true },
+            teamC: { ...prev.teamC, suspended: true },
+            teamBall: false,
+          };
+        });
+      }
       // }
     } catch (error) {
       console.error(error);
@@ -311,6 +325,7 @@ const EditBookmaker = (props: any) => {
     try {
       return () => {
         socketService.user.updateMatchBettingRateClientOff();
+        socketService.user.updateInResultDeclareOff();
       };
     } catch (error) {
       console.log(error);
@@ -318,13 +333,17 @@ const EditBookmaker = (props: any) => {
   }, [state?.id, bookmakerById, Bid]);
 
   const rateA =
-    +bookmakerById?.matchRates[
-      profitLossDataForMatchConstants[bookmakerById?.type]?.A
+    +bookmakerById?.matchRates?.[
+      profitLossDataForMatchConstants[bookmakerById?.type]?.A +
+        "_" +
+        bookmakerById?.matchId
     ] || 0;
 
   const rateB =
-    +bookmakerById?.matchRates[
-      profitLossDataForMatchConstants[bookmakerById?.type]?.B
+    +bookmakerById?.matchRates?.[
+      profitLossDataForMatchConstants[bookmakerById?.type]?.B +
+        "_" +
+        bookmakerById?.matchId
     ] || 0;
 
   const formattedRateB = rateB.toFixed(2);
@@ -333,7 +352,12 @@ const EditBookmaker = (props: any) => {
   const formattedRate = rateA.toFixed(2);
   const [integerPart, decimalPart] = formattedRate.split(".");
 
-  const rateC = +bookmakerById?.matchRates?.teamCRate || 0;
+  const rateC =
+    +bookmakerById?.matchRates[
+      profitLossDataForMatchConstants[bookmakerById?.type]?.C +
+        "_" +
+        bookmakerById?.matchId
+    ] || 0;
 
   const formattedRateC = rateC.toFixed(2);
   const [integerPartC, decimalPartC] = formattedRateC.split(".");
@@ -369,7 +393,19 @@ const EditBookmaker = (props: any) => {
             }}
           >
             {bookmakerById?.name}
+            <span
+              style={{
+                fontWeight: "600",
+                fontSize: "10px",
+                backgroundColor: "transparent",
+              }}
+            >
+              {` (Min:${bookmakerById?.minBet || 0} Max:${
+                bookmakerById?.maxBet || 0
+              })`}
+            </span>
           </Typography>
+          {/* <MaxLimitEditButtonBook handleClickOpen={() => setOpen(true)} /> */}
         </Box>
         <Box
           sx={{
@@ -377,7 +413,7 @@ const EditBookmaker = (props: any) => {
             background: "#262626",
           }}
         >
-          <div className="slanted"></div>
+          <div className="slanted-b"></div>
         </Box>
         <Box
           sx={{
@@ -391,20 +427,28 @@ const EditBookmaker = (props: any) => {
           <BookButton
             rate={bookRatioA(
               +bookmakerById?.matchRates[
-                profitLossDataForMatchConstants[bookmakerById?.type]?.A
+                `${profitLossDataForMatchConstants[bookmakerById?.type]?.A}_${
+                  bookmakerById?.matchId
+                }`
               ] || 0,
               +bookmakerById?.matchRates[
-                profitLossDataForMatchConstants[bookmakerById?.type]?.B
+                `${profitLossDataForMatchConstants[bookmakerById?.type]?.B}_${
+                  bookmakerById?.matchId
+                }`
               ] || 0
             )}
           />
           <BookButton
             rate={bookRatioB(
               +bookmakerById?.matchRates[
-                profitLossDataForMatchConstants[bookmakerById?.type]?.A
+                `${profitLossDataForMatchConstants[bookmakerById?.type]?.A}_${
+                  bookmakerById?.matchId
+                }`
               ] || 0,
               +bookmakerById?.matchRates[
-                profitLossDataForMatchConstants[bookmakerById?.type]?.B
+                `${profitLossDataForMatchConstants[bookmakerById?.type]?.B}_${
+                  bookmakerById?.matchId
+                }`
               ] || 0
             )}
           />
@@ -531,7 +575,10 @@ const EditBookmaker = (props: any) => {
                     fontWeight: "bold",
                     color:
                       +bookmakerById?.matchRates[
-                        profitLossDataForMatchConstants[bookmakerById?.type]?.A
+                        profitLossDataForMatchConstants[bookmakerById?.type]
+                          ?.A +
+                          "_" +
+                          bookmakerById?.matchId
                       ] <= 0
                         ? "#FF4D4D"
                         : "#319E5B",
@@ -606,7 +653,7 @@ const EditBookmaker = (props: any) => {
                       handleChange(e);
                     }}
                     onWheel={numberInputOnWheelPreventChange}
-                    name={"teamArate"}
+                    name="teamArate"
                     inputRef={innerRefTeamA}
                     // onFocus={() => handleFocus(innerRefTeamA)}
                     type="text"
@@ -704,7 +751,10 @@ const EditBookmaker = (props: any) => {
                     fontWeight: "bold",
                     color:
                       +bookmakerById?.matchRates[
-                        profitLossDataForMatchConstants[bookmakerById?.type]?.B
+                        profitLossDataForMatchConstants[bookmakerById?.type]
+                          ?.B +
+                          "_" +
+                          bookmakerById?.matchId
                       ] <= 0
                         ? "#FF4D4D"
                         : "#319E5B",
@@ -779,7 +829,7 @@ const EditBookmaker = (props: any) => {
                     value={+localQuickBookmaker?.teamB?.back}
                     onChange={(e) => handleChange(e)}
                     onWheel={numberInputOnWheelPreventChange}
-                    name={"teamBrate"}
+                    name="teamBrate"
                     inputRef={innerRefTeamB}
                     type="text"
                     // onFocus={() => handleFocus(innerRefTeamB)}
@@ -871,7 +921,12 @@ const EditBookmaker = (props: any) => {
                         fontSize: "16px",
                         fontWeight: "bold",
                         color:
-                          (+bookmakerById?.matchRates?.teamCRate || 0) <= 0
+                          +bookmakerById?.matchRates[
+                            profitLossDataForMatchConstants[bookmakerById?.type]
+                              ?.C +
+                              "_" +
+                              bookmakerById?.matchId
+                          ] <= 0
                             ? "#FF4D4D"
                             : "#319E5B",
                       }}
@@ -942,7 +997,7 @@ const EditBookmaker = (props: any) => {
                         value={+localQuickBookmaker?.teamC?.back}
                         onChange={(e) => handleChange(e)}
                         onWheel={numberInputOnWheelPreventChange}
-                        name={"teamCrate"}
+                        name="teamCrate"
                         inputRef={innerRefTeamC}
                         type="text"
                         autoComplete="off"
@@ -1360,6 +1415,15 @@ const EditBookmaker = (props: any) => {
           )}
         </Box>
       )}
+      <MaxBetAdd
+        open={open}
+        handleClose={() => setOpen(false)}
+        matchOddsLive={bookmakerById}
+        currentMatch={{
+          id: bookmakerById?.matchId,
+        }}
+        title={`${bookmakerById?.name} Max/Min Bet Limit`}
+      />
     </>
   );
 };

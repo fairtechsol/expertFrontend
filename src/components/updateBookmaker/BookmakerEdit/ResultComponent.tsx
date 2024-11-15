@@ -1,5 +1,5 @@
 import { Box, Typography } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { memo } from "react";
 import { CancelDark } from "../../../assets";
 import MatchOddsResultCustomButton from "./MatchOddsResultCustomButton";
@@ -8,6 +8,7 @@ import { AppDispatch, RootState } from "../../../store/store";
 import {
   declareMatchResult,
   declareMatchStatusReset,
+  // declareMatchStatusReset,
   otherDeclareMatchResult,
   otherUnDeclareMatchResult,
   unDeclareMatchResult,
@@ -27,6 +28,9 @@ const ResultComponent = ({
   const { success, error } = useSelector((state: RootState) => state.match);
   const [selected, setSelected] = useState(teamA);
   const [loading, setLoading] = useState({ id: "", value: false });
+  const [isBottom, setIsBottom] = useState(false);
+  const boxRef = useRef(null);
+
   const handleSubmit = (e: any) => {
     e.preventDefault();
   };
@@ -42,9 +46,12 @@ const ResultComponent = ({
   useEffect(() => {
     try {
       if (success) {
+        if (onClick) {
+          onClick();
+          dispatch(declareMatchStatusReset());
+        }
         setLoading({ id: "", value: false });
-        dispatch(declareMatchStatusReset());
-        onClick();
+
         // navigate("/expert/match");
       }
       if (error) {
@@ -55,38 +62,63 @@ const ResultComponent = ({
     }
   }, [success, error]);
 
+  const checkPosition = () => {
+    const box: any = boxRef.current;
+    if (box) {
+      const rect = box.getBoundingClientRect();
+      const windowHeight = window.innerHeight;
+
+      const isBottomState = windowHeight - rect.top < 300;
+
+      if (isBottomState !== isBottom) {
+        setIsBottom(isBottomState);
+      }
+    }
+  };
+
+  useLayoutEffect(() => {
+    checkPosition();
+    window.addEventListener("resize", checkPosition);
+
+    return () => {
+      window.removeEventListener("resize", checkPosition);
+    };
+  }, []);
+
   return (
     <Box
+      ref={boxRef}
       sx={{
         position: "absolute",
-        width: { lg: "100%", xs: "100%", md: "100%" },
-        marginRight: { md: "6em", xs: "4em" },
+        width: { lg: "20vw", xs: "40vw", md: "20vw", sm: "20vw" },
+        // marginRight: { md: "6em", xs: "4em" },
         // height: "300px",
         borderRadius: 2,
         boxShadow: "0px 5px 10px #1A568414",
         background: "white",
         zIndex: 999,
+        right: "1%",
+        top: !isBottom ? "24%" : "",
+        bottom: isBottom ? "100%" : "",
       }}
     >
       <Box
-        sx={[
-          {
-            width: "100%",
-            justifyContent: "space-between",
-            paddingX: "10px",
-            display: "flex",
-            alignItems: "center",
-            height: "50px",
-            borderRadius: "8px 8px 0 0",
-            background: "#ff4d4d",
-          },
-        ]}
+        sx={{
+          width: "100%",
+          justifyContent: "space-between",
+          paddingX: "10px",
+          display: "flex",
+          alignItems: "center",
+          height: "30px",
+          borderRadius: "8px 8px 0 0",
+          background: "#ff4d4d",
+        }}
       >
         <Typography
           sx={{
             fontWeight: "bold",
             color: "white",
-            fontSize: "18px",
+            fontSize: "12px",
             lineHeight: "0.9",
           }}
         >
@@ -98,7 +130,7 @@ const ResultComponent = ({
             onClick();
           }}
           src={CancelDark}
-          style={{ width: "25px", height: "25px", cursor: "pointer" }}
+          style={{ width: "15px", height: "15px", cursor: "pointer" }}
         />
       </Box>
       <Box sx={{ padding: 0 }}>
@@ -133,7 +165,7 @@ const ResultComponent = ({
                       display: "flex",
                       justifyContent: "center",
                       alignItems: "center",
-                      height: "50px",
+                      height: "30px",
                       cursor: "pointer",
                       background: selected === i ? "#0B4F26" : "#F8C851",
                       overflow: "hidden",
@@ -141,13 +173,13 @@ const ResultComponent = ({
                   >
                     <Typography
                       sx={{
-                        fontSize: "14px",
+                        fontSize: "10px",
                         fontWeight: "700",
                         color: selected === i ? "white" : "black",
                         lineHeight: 1,
                         overflowWrap: "anywhere",
-                        wordBreak: "break-word", 
-                        maxWidth: "200px", 
+                        wordBreak: "break-word",
+                        maxWidth: "200px",
                       }}
                     >
                       {i.length > 12 ? `${i.slice(0, 11)}...` : i}
@@ -189,8 +221,12 @@ const ResultComponent = ({
                         })
                       );
                     } else {
-                      liveData?.type === "matchOdd" ||
-                      liveData?.type === "quickbookmaker1"
+                      [
+                        "matchOdd",
+                        "quickbookmaker1",
+                        "bookmaker",
+                        "bookmaker2",
+                      ]?.includes(liveData?.type)
                         ? dispatch(
                             otherUnDeclareMatchResult({
                               matchId: currentMatch?.id,
@@ -229,8 +265,12 @@ const ResultComponent = ({
                           })
                         );
                       } else {
-                        liveData?.type === "matchOdd" ||
-                        liveData?.type === "quickbookmaker1"
+                        [
+                          "matchOdd",
+                          "quickbookmaker1",
+                          "bookmaker",
+                          "bookmaker2",
+                        ]?.includes(liveData?.type)
                           ? dispatch(
                               otherDeclareMatchResult({
                                 matchId: currentMatch?.id,
@@ -269,8 +309,12 @@ const ResultComponent = ({
                           })
                         );
                       } else {
-                        liveData?.type === "matchOdd" ||
-                        liveData?.type === "quickbookmaker1"
+                        [
+                          "matchOdd",
+                          "quickbookmaker1",
+                          "bookmaker",
+                          "bookmaker2",
+                        ]?.includes(liveData?.type)
                           ? dispatch(
                               otherDeclareMatchResult({
                                 matchId: currentMatch?.id,

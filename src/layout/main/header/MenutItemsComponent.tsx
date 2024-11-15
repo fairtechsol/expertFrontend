@@ -28,7 +28,7 @@ const MenutItemsComponent = ({
   const theme = useTheme();
   const dispatch: AppDispatch = useDispatch();
   const matchesMobile = useMediaQuery(theme.breakpoints.down("lg"));
-  const { getProfile } = useSelector((state: RootState) => state.user.profile);
+  const { profileDetail } = useSelector((state: RootState) => state.user.profile);
 
   const { matchListDropdown } = useSelector(
     (state: RootState) => state.matchList
@@ -86,8 +86,8 @@ const MenutItemsComponent = ({
         >
           {x?.matchType === "cricket" && (
             <>
-              {(getProfile?.allPrivilege ||
-                getProfile?.sessionMatchPrivilege) &&
+              {(profileDetail?.allPrivilege ||
+                profileDetail?.sessionMatchPrivilege) &&
                 matchListDropdown?.length > 0 &&
                 matchListDropdown?.map((event: any, index: number) => {
                   if (event?.id == x?.id) {
@@ -136,8 +136,8 @@ const MenutItemsComponent = ({
                   } else return null;
                 })}
 
-              {(getProfile?.allPrivilege ||
-                getProfile?.sessionMatchPrivilege) && (
+              {(profileDetail?.allPrivilege ||
+                profileDetail?.sessionMatchPrivilege) && (
                 <Box
                   onClick={(e: any) => {
                     e.stopPropagation();
@@ -177,8 +177,8 @@ const MenutItemsComponent = ({
             </>
           )}
 
-          {(getProfile?.allPrivilege ||
-            getProfile?.bookmakerMatchPrivilege) && (
+          {(profileDetail?.allPrivilege ||
+            profileDetail?.bookmakerMatchPrivilege) && (
             <Box
               sx={{ marginTop: "5px", display: "flex", alignItems: "center" }}
             >
@@ -191,7 +191,7 @@ const MenutItemsComponent = ({
               />
             </Box>
           )}
-          {(getProfile?.allPrivilege || getProfile?.bookmakerMatchPrivilege) &&
+          {(profileDetail?.allPrivilege || profileDetail?.bookmakerMatchPrivilege) &&
             matchListDropdown?.map((event: any, index: number) => {
               if (event?.id === x?.id) {
                 return (

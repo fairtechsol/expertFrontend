@@ -19,6 +19,10 @@ export const ApiConstants = {
     DECLARE: "bet/declare/result/match",
     OTHER_DECLARE: "bet/declare/result/other/match",
     RACE_DECLARE: "bet/declare/result/race/match",
+    OTHER_MARKET_DECLARE: "bet/declare/result/other/market",
+    OTHER_MARKET_UNDECLARE: "bet/unDeclare/result/other/market",
+    TOURNAMENT_MARKET_DECLARE: "bet/declare/result/tournament/match",
+    TOURNAMENT_MARKET_UNDECLARE: "bet/unDeclare/result/tournament/match",
     UNDECLARE: "bet/unDeclare/result/match",
     OTHER_UNDECLARE: "bet/unDeclare/result/other/match",
     RACE_UNDECLARE: "bet/unDeclare/result/race/match",
@@ -31,12 +35,14 @@ export const ApiConstants = {
   USER: {
     CHANGEPASSWORD: "user/password",
     MARQUEE_NOTIFICATION: "/general/notification/add",
+    BANNER: "/general/banner/add",
     PROFILE: "user/profile",
     LOGGED_USER: "user/totalLoginCount",
   },
   SESSION: {
     ADD: "session/add",
     UPDATE: "session/update",
+    UPDATE_MULTI_MARKET_AMOUNT: "session/multi/maxBet/update",
     GET: "session",
     BETTING_STATUS: "/session/status",
     RESULTDECLARE: "/bet/declare/result/session",
@@ -49,6 +55,11 @@ export const ApiConstants = {
     GET: "matchBeting",
     BETTINGSTATUS: "/matchBeting/status/change",
     RACESTATUS: "/matchBeting/race/status/change",
+  },
+  BLINK: {
+    GET_TAB: "blinkingTabs",
+    ADD: "blinkingTabs/add",
+    DELETE: "/blinkingTabs/",
   },
 };
 
@@ -75,6 +86,7 @@ export const Constants = {
   MainPaths: {
     root: "/expert",
     match: "match",
+    tab: "tab",
     race: "race/:raceType",
     addMatch: "add_match",
     addRace: "add_race",
@@ -87,6 +99,7 @@ export const Constants = {
     betOddsOtherGames: "betOdds/otherGames",
     betOddsRace: "betOdds/race",
     session: "session",
+    sessionBetList: "sessionBetList",
     market: "market",
     changePassword: "change-password",
   },
@@ -125,15 +138,19 @@ export const ButtonRatesQuickSessions = [
 export const matchBettingType = {
   matchOdd: "matchOdd",
   bookmaker: "bookmaker",
+  bookmaker2: "bookmaker2",
   quickbookmaker1: "quickbookmaker1",
   quickbookmaker2: "quickbookmaker2",
   quickbookmaker3: "quickbookmaker3",
   tiedMatch1: "tiedMatch1",
   tiedMatch2: "tiedMatch2",
+  tiedMatch3: "tiedMatch3",
   completeMatch: "completeMatch",
+  completeMatch1: "completeMatch1",
   completeManual: "completeManual",
   setWinner1: "setWinner1",
   setWinner2: "setWinner2",
+  other: "other",
   ...Array.from({ length: 20 }, (_, index: any) => index).reduce(
     (prev, curr) => {
       prev[`overUnder${curr}.5`] = `overUnder${curr}.5`;
@@ -162,16 +179,16 @@ export const eventWiseMatchData = {
       },
       {
         matchType: matchBettingType.tiedMatch2,
-        apiKey: "manualTiedMatch",
+        apiKey: "manualTideMatch",
         label: "Manual Tied Match Max Bet",
         name: "ManualTide",
-      }
+      },
     ],
     market: [
       {
         matchType: matchBettingType.tiedMatch1,
         apiKey: "apiTideMatch",
-        label: "Betfair Tied Match Max Bet",
+        label: "API Tied Match Max Bet",
         name: "Tied",
         marketIdKey: "apiTideMatch",
       },
@@ -179,20 +196,20 @@ export const eventWiseMatchData = {
         matchType: matchBettingType.matchOdd,
         apiKey: "matchOdd",
         marketIdKey: "matchOdd",
-        label: "Betfair Match Odd Max Bet",
+        label: "API Match Odd Max Bet",
         name: "MatchOdd",
       },
       {
         matchType: matchBettingType.bookmaker,
         apiKey: "bookmaker",
-        label: "Betfair Bookmaker Max Bet",
+        label: "API Bookmaker Max Bet",
         name: "Bookmaker",
         marketIdKey: "matchOdd",
       },
       {
         matchType: matchBettingType.completeMatch,
         apiKey: "marketCompleteMatch",
-        label: "Betfair Complete Match Max Bet",
+        label: "API Complete Match Max Bet",
         name: "Complete",
         marketIdKey: "marketCompleteMatch",
       },
@@ -205,7 +222,7 @@ export const eventWiseMatchData = {
         matchType: matchBettingType.matchOdd,
         apiKey: "matchOdd",
         marketIdKey: "matchOdd",
-        label: "Betfair Match Odd Max Bet",
+        label: "API Match Odd Max Bet",
         name: "MatchOdd",
       },
       ...Array.from({ length: 20 }, (_, index: any) => index).map((curr) => {
@@ -227,13 +244,13 @@ export const eventWiseMatchData = {
         matchType: matchBettingType.matchOdd,
         apiKey: "matchOdd",
         marketIdKey: "matchOdd",
-        label: "Betfair Match Odd Max Bet",
+        label: "API Match Odd Max Bet",
         name: "MatchOdd",
       },
       {
         matchType: matchBettingType.bookmaker,
         apiKey: "bookmaker",
-        label: "Betfair Bookmaker Max Bet",
+        label: "API Bookmaker Max Bet",
         name: "Bookmaker",
         marketIdKey: "matchOdd",
       },
@@ -280,6 +297,11 @@ export const profitLossDataForMatchConstants = {
     B: "teamBRate",
     C: "teamCRate",
   },
+  [matchBettingType.bookmaker2]: {
+    A: "teamARate",
+    B: "teamBRate",
+    C: "teamCRate",
+  },
   [matchBettingType.quickbookmaker1]: {
     A: "teamARate",
     B: "teamBRate",
@@ -303,13 +325,26 @@ export const profitLossDataForMatchConstants = {
     A: "yesRateTie",
     B: "noRateTie",
   },
+  [matchBettingType.tiedMatch3]: {
+    A: "yesRateTie",
+    B: "noRateTie",
+  },
   [matchBettingType.completeMatch]: {
+    A: "yesRateComplete",
+    B: "noRateComplete",
+  },
+  [matchBettingType.completeMatch1]: {
     A: "yesRateComplete",
     B: "noRateComplete",
   },
   [matchBettingType.completeManual]: {
     A: "yesRateComplete",
     B: "noRateComplete",
+  },
+  [matchBettingType.other]: {
+    A: "userTeamARateOther",
+    B: "userTeamBRateOther",
+    C: "userTeamCRateOther",
   },
   ...Array.from({ length: 20 }, (_, index) => index).reduce(
     (prev: any, curr) => {
@@ -350,10 +385,67 @@ export const profitLossDataForMatchConstants = {
   ),
 };
 
+export const gameTypeMatchBetting = {
+  match: "match",
+  match1: "match1",
+  fancy: "fancy",
+  fancy1: "fancy1",
+  oddeven: "oddeven",
+  cricketcasino: "cricketcasino",
+};
+
+export const betListColorConstants: any = {
+  session: { background: "#319E5B", textColor: "#fff" },
+  matchOdd: { background: "#fff", textColor: "#000" },
+  bookmaker: { background: "#F6C550", textColor: "#000" },
+  bookmaker2: { background: "#F6C550", textColor: "#000" },
+  quickbookmaker1: { background: "#5c1d04", textColor: "#fff" },
+  quickbookmaker2: { background: "#5c1d04", textColor: "#fff" },
+  quickbookmaker3: { background: "#5c1d04", textColor: "#fff" },
+  completeMatch: { background: "#0549F5", textColor: "#fff" },
+  completeMatch1: { background: "#0549F5", textColor: "#fff" },
+  completeManual: { background: "#3F345C", textColor: "#fff" },
+  tiedMatch1: { background: "#fcf11b", textColor: "#000" },
+  tiedMatch2: { background: "#EE82EE", textColor: "#000" },
+  tiedMatch3: { background: "#452245", textColor: "#fff" },
+  cricketCasino: { background: "#FF1111", textColor: "#fff" },
+  oddEven: { background: "#7c46e6", textColor: "#fff" },
+  fancy1: { background: "#FF8633", textColor: "#fff" },
+  overByover: { background: "#FFA07A", textColor: "#fff" },
+  ballByBall: { background: "#33FF33", textColor: "#fff" },
+  khado: { background: "#E6E6FA", textColor: "#000" },
+  meter: { background: "#808000 ", textColor: "#fff" },
+  other: { background: "#000", textColor: "#fff" },
+  tournament: { background: "#FFC0CB", textColor: "#000" },
+};
+
+export const marketArray = [
+  "matchOdd",
+  "bookmaker",
+  "marketBookmaker2",
+  "quickBookmaker",
+  "apiTideMatch",
+  "apiTiedMatch2",
+  "tiedMatch1",
+  "tiedMatch2",
+  "tiedMatch3",
+  "manualTiedMatch",
+  "marketCompleteMatch",
+  "marketCompleteMatch1",
+  "manualCompleteMatch",
+];
+
+export const gameType = ["cricket", "football", "tennis", "politics"];
+
 export const addMatchThirdParty =
   process.env.NODE_ENV === Constants.PRODUCTION
     ? Constants.thirdParty
     : Constants.localPathThird;
+
+export const serviceUrl =
+  process.env.NODE_ENV === Constants.PRODUCTION
+    ? Constants.expertSocketBasePath
+    : Constants.localPathExpert;
 
 export const baseUrls = {
   socket:
@@ -374,6 +466,11 @@ export const baseUrls = {
 //   process.env.NODE_ENV === Constants.PRODUCTION
 //     ? Constants.thirdPartyLive
 //     : Constants.localPathThird;
+
+// export const serviceUrl =
+//   process.env.NODE_ENV === Constants.PRODUCTION
+//     ? Constants.expertSocketBasePathLive
+//     : Constants.localPathExpert;
 
 // export const baseUrls = {
 //   socket:

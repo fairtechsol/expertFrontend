@@ -17,68 +17,68 @@ const ManualBoxComponent = ({
   const theme = useTheme();
   const matchesMobile = useMediaQuery(theme.breakpoints.down("lg"));
 
-  const handleDecimal = (
-    value: any,
-    gap: any,
-    type: any,
-    rateThan100: boolean
-  ) => {
-    let checkDecimal = value % 1;
-    if (checkDecimal >= 0.5) {
-      let getValue =
-        type == "back" ? Math.round(value) - gap : Math.round(value - 1) + gap;
-      let checkZeroHundred =
-        type == "back"
-          ? getValue < 1
-            ? 0
-            : Math.round(getValue)
-          : rateThan100
-          ? Math.round(getValue)
-          : getValue >= 100
-          ? 100
-          : Math.round(getValue);
-      let returnValue;
-      if (type == "back") {
-        let check = value % 1;
-        returnValue =
-          check >= 0.5
-            ? getValue < 1
-              ? checkZeroHundred
-              : checkZeroHundred - 1
-            : checkZeroHundred;
-      } else {
-        returnValue = checkZeroHundred;
-      }
-      return returnValue;
-    } else {
-      let getValue = type == "back" ? value - gap : value + gap;
-      let checkZeroHundred =
-        type == "back"
-          ? getValue < 1
-            ? 0
-            : Math.round(getValue)
-          : rateThan100
-          ? Math.round(getValue)
-          : getValue >= 100
-          ? 100
-          : Math.round(getValue);
-      let returnValue;
-      if (type == "back") {
-        let check = value % 1;
-        returnValue = check >= 0.5 ? checkZeroHundred - 1 : checkZeroHundred;
-      } else {
-        returnValue = checkZeroHundred;
-      }
-      return returnValue;
-    }
-  };
+  // const handleDecimal = (
+  //   value: any,
+  //   gap: any,
+  //   type: any,
+  //   rateThan100: boolean
+  // ) => {
+  //   let checkDecimal = value % 1;
+  //   if (checkDecimal >= 0.5) {
+  //     let getValue =
+  //       type == "back" ? Math.round(value) - gap : Math.round(value - 1) + gap;
+  //     let checkZeroHundred =
+  //       type == "back"
+  //         ? getValue < 1
+  //           ? 0
+  //           : Math.round(getValue)
+  //         : rateThan100
+  //         ? Math.round(getValue)
+  //         : getValue >= 100
+  //         ? 100
+  //         : Math.round(getValue);
+  //     let returnValue;
+  //     if (type == "back") {
+  //       let check = value % 1;
+  //       returnValue =
+  //         check >= 0.5
+  //           ? getValue < 1
+  //             ? checkZeroHundred
+  //             : checkZeroHundred - 1
+  //           : checkZeroHundred;
+  //     } else {
+  //       returnValue = checkZeroHundred;
+  //     }
+  //     return returnValue;
+  //   } else {
+  //     let getValue = type == "back" ? value - gap : value + gap;
+  //     let checkZeroHundred =
+  //       type == "back"
+  //         ? getValue < 1
+  //           ? 0
+  //           : Math.round(getValue)
+  //         : rateThan100
+  //         ? Math.round(getValue)
+  //         : getValue >= 100
+  //         ? 100
+  //         : Math.round(getValue);
+  //     let returnValue;
+  //     if (type == "back") {
+  //       let check = value % 1;
+  //       returnValue = check >= 0.5 ? checkZeroHundred - 1 : checkZeroHundred;
+  //     } else {
+  //       returnValue = checkZeroHundred;
+  //     }
+  //     return returnValue;
+  //   }
+  // };
 
   return (
     <Box
       sx={{
         display: "flex",
         background: "white",
-        height: "40px",
+        height: "30px",
         width: "100%",
         alignItems: "center",
         justifyContent: "space-between",
@@ -89,7 +89,7 @@ const ManualBoxComponent = ({
           display: "flex",
           background: "white",
           position: "relative",
-          height: "40px",
+          height: "30px",
           width: "35%",
           alignItems: "center",
         }}
@@ -105,10 +105,15 @@ const ManualBoxComponent = ({
           <Typography
             sx={{
               color: "black",
-              fontSize: { lg: "10px", xs: "13px" },
+              fontSize: { lg: "8px", xs: "8px" },
               fontWeight: "600",
-              marginLeft: "10px",
-              lineHeight: "0.8",
+              marginLeft: "5px",
+              lineHeight: "1.2",
+              overflowWrap: "anywhere",
+              whiteSpace: "nowrap",
+              overflow: "hidden",
+              textOverflow: matchesMobile ? "ellipsis" : "",
+              width: matchesMobile ? "6ch" : "100ch",
             }}
           >
             {name}
@@ -122,9 +127,9 @@ const ManualBoxComponent = ({
             sx={{
               display: "flex",
               background: "white",
-              height: "40px",
+              height: "30px",
               width: { lg: "65%", xs: "78%" },
-              justifyContent: { xs: "flex-end", lg: "center" },
+              justifyContent: { xs: "flex-end", lg: "flex-end" },
               alignItems: "center",
             }}
           ></Box>
@@ -166,20 +171,21 @@ const ManualBoxComponent = ({
           sx={{
             display: "flex",
             background: "white",
-            height: "40px",
-            width: { lg: "65%", xs: "78%" },
-            justifyContent: { xs: "flex-end", lg: "center" },
+            height: "30px",
+            width: { lg: "21.7%", xs: "78%" },
+            justifyContent: { xs: "flex-end", lg: "flex-end" },
             alignItems: "center",
           }}
         >
           <Box
             sx={{
               background: "rgba(0,0,0,1)",
-              height: "40px",
+              height: "30px",
               width: { lg: "100%", xs: "50.4%" },
               justifyContent: "center",
               alignItems: "center",
               display: "flex",
+              fontSize: { lg: "10px", sm: "8.5px", md: "10px", xs: "10px" },
             }}
           >
             <h4
@@ -187,7 +193,7 @@ const ManualBoxComponent = ({
                 textTransform: "uppercase",
                 color: "#FFF",
                 fontWeight: "400",
-                fontSize: matchesMobile ? "12px" : "22px",
+                // fontSize: matchesMobile ? "10px" : "9px",
               }}
             >
               {livestatus ? "SUSPENDED" : status}
@@ -200,13 +206,13 @@ const ManualBoxComponent = ({
             sx={{
               display: "flex",
               background: "white",
-              height: "40px",
-              width: { lg: "65%", xs: "78%" },
-              justifyContent: { xs: "flex-end", lg: "center" },
+              height: "30px",
+              width: { lg: "24%", xs: "78%" },
+              justifyContent: { xs: "flex-end", lg: "flex-end" },
               alignItems: "center",
             }}
           >
-            {!matchesMobile && (
+            {/* {!matchesMobile && (
               <ManualSeparateBox
                 currentMatch={currentMatch}
                 align={align}
@@ -266,7 +272,7 @@ const ManualBoxComponent = ({
                 }
                 color={"#C2E6FF"}
               />
-            )}
+            )} */}
             <Box
               sx={{ width: ".45%", display: "flex", background: "pink" }}
             ></Box>
@@ -293,7 +299,7 @@ const ManualBoxComponent = ({
               value={+data?.lay}
               color={"#FFB5B5"}
             />
-            {!matchesMobile && (
+            {/* {!matchesMobile && (
               <Box
                 sx={{ width: ".45%", display: "flex", background: "pink" }}
               ></Box>
@@ -351,7 +357,7 @@ const ManualBoxComponent = ({
                 }
                 color={"#ECD6D6"}
               />
-            )}
+            )} */}
           </Box>
         </>
       )}

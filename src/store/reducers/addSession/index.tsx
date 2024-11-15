@@ -6,6 +6,7 @@ import {
   getPlacedBets,
   getSessionById,
   getSessionProfitLoss,
+  resetMultiSessionMaxLimitSuccess,
   resetPlacedBets,
   resetSessionMaxLimitSuccess,
   sessionByIdReset,
@@ -15,7 +16,9 @@ import {
   updateBetsPlaced,
   updateDeleteReason,
   updateDeleteReasonOnEdit,
+  updateMarketMinMaxLimitOnQuickMaker,
   updateMatchBetsPlaced,
+  updateMultiSessionMarketAmount,
   updateProLossSession,
   updateRatesBook,
   updateResultStatusOfQuickBookmaker,
@@ -41,6 +44,7 @@ interface InitialState {
   addSuccess: boolean;
   getSessionSuccess: boolean;
   maxLimitUpdateSuccess: boolean;
+  multiMaxLimitUpdateSuccess: boolean;
   loading: boolean;
 }
 
@@ -56,6 +60,7 @@ const initialState: InitialState = {
   addSuccess: false,
   getSessionSuccess: false,
   maxLimitUpdateSuccess: false,
+  multiMaxLimitUpdateSuccess: false,
   loading: false,
 };
 
@@ -196,30 +201,42 @@ export const addSessionReducers = createReducer(initialState, (builder) => {
     })
     .addCase(updateTeamRatesOnManualMarket.fulfilled, (state, action) => {
       const { userRedisObj, jobData } = action?.payload;
-      if (["tiedMatch2", "tiedMatch1"].includes(jobData?.newBet?.marketType)) {
-        state.bookmakerById.matchRates = {
-          ...state.bookmakerById.matchRates,
-          yesRateTie: userRedisObj[jobData?.teamArateRedisKey],
-          noRateTie: userRedisObj[jobData?.teamBrateRedisKey],
-        };
-      } else if (
-        ["completeMatch", "completeManual"].includes(
-          jobData?.newBet?.marketType
-        )
-      ) {
-        state.bookmakerById.matchRates = {
-          ...state.bookmakerById.matchRates,
-          yesRateComplete: userRedisObj[jobData?.teamArateRedisKey],
-          noRateComplete: userRedisObj[jobData?.teamBrateRedisKey],
-        };
-      } else {
-        state.bookmakerById.matchRates = {
-          ...state.bookmakerById.matchRates,
-          teamARate: userRedisObj[jobData?.teamArateRedisKey],
-          teamBRate: userRedisObj[jobData?.teamBrateRedisKey],
-          teamCRate: userRedisObj[jobData?.teamCrateRedisKey] ?? "",
-        };
-      }
+      state.bookmakerById.matchRates = {
+        ...state.bookmakerById.matchRates,
+        [profitLossDataForMatchConstants[jobData?.newBet?.marketType].A +
+        "_" +
+        state.bookmakerById?.matchId]: userRedisObj[jobData?.teamArateRedisKey],
+        [profitLossDataForMatchConstants[jobData?.newBet?.marketType].B +
+        "_" +
+        state.bookmakerById?.matchId]: userRedisObj[jobData?.teamBrateRedisKey],
+        [profitLossDataForMatchConstants[jobData?.newBet?.marketType].C +
+        "_" +
+        state.bookmakerById?.matchId]: userRedisObj[jobData?.teamCrateRedisKey],
+      };
+      // if (["tiedMatch2", "tiedMatch1"].includes(jobData?.newBet?.marketType)) {
+      //   state.bookmakerById.matchRates = {
+      //     ...state.bookmakerById.matchRates,
+      //     yesRateTie: userRedisObj[jobData?.teamArateRedisKey],
+      //     noRateTie: userRedisObj[jobData?.teamBrateRedisKey],
+      //   };
+      // } else if (
+      //   ["completeMatch", "completeManual"].includes(
+      //     jobData?.newBet?.marketType
+      //   )
+      // ) {
+      //   state.bookmakerById.matchRates = {
+      //     ...state.bookmakerById.matchRates,
+      //     yesRateComplete: userRedisObj[jobData?.teamArateRedisKey],
+      //     noRateComplete: userRedisObj[jobData?.teamBrateRedisKey],
+      //   };
+      // } else {
+      //   state.bookmakerById.matchRates = {
+      //     ...state.bookmakerById.matchRates,
+      //     teamARate: userRedisObj[jobData?.teamArateRedisKey],
+      //     teamBRate: userRedisObj[jobData?.teamBrateRedisKey],
+      //     teamCRate: userRedisObj[jobData?.teamCrateRedisKey] ?? "",
+      //   };
+      // }
     })
     .addCase(updateSessionById.fulfilled, (state, action) => {
       state.sessionById = {
@@ -301,14 +318,26 @@ export const addSessionReducers = createReducer(initialState, (builder) => {
     .addCase(updateSession.rejected, (state) => {
       state.loading = false;
     })
+    .addCase(updateMultiSessionMarketAmount.pending, (state) => {
+      state.loading = true;
+      state.multiMaxLimitUpdateSuccess = false;
+    })
+    .addCase(updateMultiSessionMarketAmount.fulfilled, (state) => {
+      state.loading = false;
+      state.multiMaxLimitUpdateSuccess = true;
+    })
+    .addCase(updateMultiSessionMarketAmount.rejected, (state) => {
+      state.loading = false;
+    })
     .addCase(updateSessionMaxLimit.fulfilled, (state, action) => {
-      const { maxBet, id } = action?.payload;
+      const { maxBet, id, minBet } = action?.payload;
       const { sessionById } = state;
 
       if (id === sessionById?.id) {
         state.sessionById = {
           ...sessionById,
           maxBet,
+          minBet,
         };
         state.loading = false;
         state.maxLimitUpdateSuccess = true;
@@ -316,6 +345,9 @@ export const addSessionReducers = createReducer(initialState, (builder) => {
     })
     .addCase(resetSessionMaxLimitSuccess, (state) => {
       state.maxLimitUpdateSuccess = false;
+    })
+    .addCase(resetMultiSessionMaxLimitSuccess, (state) => {
+      state.multiMaxLimitUpdateSuccess = false;
     })
     .addCase(updateResultStatusOfSessionById.fulfilled, (state, action) => {
       const { status, betId } = action?.payload;
@@ -327,8 +359,18 @@ export const addSessionReducers = createReducer(initialState, (builder) => {
       }
     })
     .addCase(updateResultStatusOfQuickBookmaker.fulfilled, (state, action) => {
-      if (state.bookmakerById?.id === action.payload?.betId) {
+      // if (state.bookmakerById?.id === action.payload?.betId) {
         state.bookmakerById["resultStatus"] = action?.payload?.status;
+      // }
+       //after discussing with pankaj and sandeep sir
+    })
+    .addCase(updateMarketMinMaxLimitOnQuickMaker.fulfilled, (state, action) => {
+      if (state.bookmakerById?.id === action.payload?.betId) {
+        state.bookmakerById = {
+          ...state.bookmakerById,
+          minBet: action.payload.minBet,
+          maxBet: action.payload.maxBet,
+        };
       }
     });
 });
