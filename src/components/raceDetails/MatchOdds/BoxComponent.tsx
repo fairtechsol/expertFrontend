@@ -36,7 +36,7 @@ const BoxComponent = ({
           height: "40px",
           width: { lg: "35%", xs: "65%" },
           alignItems: "center",
-          justifyContent:"space-between"
+          justifyContent: "space-between",
         }}
       >
         <Box
@@ -45,7 +45,7 @@ const BoxComponent = ({
             display: "flex",
             width: { lg: "50%", xs: "60%" },
             alignItems: "center",
-            justifyContent:"space-between"
+            justifyContent: "space-between",
           }}
         >
           {/* {teamImage !== null && (
@@ -80,7 +80,8 @@ const BoxComponent = ({
         {name != "DRAW" && <MoneyBox value={teamRates} />}
       </Box>
 
-      {!["ACTIVE", "", undefined, null].includes(status) || livestatus ? (
+      {!["ACTIVE", "OPEN", "", undefined, null].includes(status) ||
+      livestatus ? (
         <Box
           sx={{
             display: "flex",

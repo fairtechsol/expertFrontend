@@ -315,7 +315,7 @@ const CompleteMatchMarket = ({
               teamImage={currentMatch?.marketCompleteMatch?.teamA_Image}
               livestatus={
                 liveData?.runners?.length > 0 &&
-                liveData?.runners[0]?.status === "SUSPENDED"
+                !["ACTIVE", "OPEN", ""].includes(liveData?.runners[0]?.status)
                   ? true
                   : false
               }
@@ -327,7 +327,7 @@ const CompleteMatchMarket = ({
             <BoxComponent
               livestatus={
                 liveData?.runners?.length > 0 &&
-                liveData?.runners[0]?.status === "SUSPENDED"
+                !["ACTIVE", "OPEN", ""].includes(liveData?.runners[1]?.status)
                   ? true
                   : false
               }

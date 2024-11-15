@@ -549,7 +549,7 @@ const OtherMatchDetails = () => {
                       />
                     )}
                   {matchDetail?.marketCompleteMatch &&
-                    (matchDetail?.manualTideMatch?.isActive === false
+                    (matchDetail?.marketCompleteMatch?.isActive === false
                       ? false
                       : true) && (
                       <CompleteMatchMarket
