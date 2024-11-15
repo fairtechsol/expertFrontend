@@ -33,6 +33,7 @@ import {
 import {
   editMatch,
   editSuccessReset,
+  updateMatchListCurrentPage,
 } from "../../store/actions/match/matchAction";
 import { AppDispatch, RootState } from "../../store/store";
 import { eventWiseMatchData, matchBettingType } from "../../utils/Constants";
@@ -465,6 +466,7 @@ const AddMatch = () => {
       });
     }
     if (matchAdded) {
+      dispatch(updateMatchListCurrentPage(1));
       navigate("/expert/match");
       dispatch(addMatchReset());
     }

@@ -505,6 +505,12 @@ export const setSelectedTabForMatchList = createAsyncThunk<any, any>(
     return data;
   }
 );
+export const updateMatchListCurrentPage = createAsyncThunk<any, any>(
+  "update/matchListCurrentPage",
+  async (data) => {
+    return data;
+  }
+);
 
 export const matchListReset = createAction("matchList/reset");
 export const raceListReset = createAction("raceList/reset");
