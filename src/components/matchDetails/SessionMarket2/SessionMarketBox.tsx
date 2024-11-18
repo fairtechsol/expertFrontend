@@ -108,7 +108,7 @@ const SessionMarketBox = ({ newData, index }: any) => {
               ) <= 1 && newData?.resultStatus}
             </h6>
           </Box>
-        ) : !["ACTIVE", "active", "", undefined, null, 0].includes(
+        ) : !["ACTIVE", "active","OPEN", "open", "", undefined, null, 0].includes(
             newData?.GameStatus
           ) || newData?.result ? (
           <Box
