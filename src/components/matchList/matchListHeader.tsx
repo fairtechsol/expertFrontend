@@ -7,6 +7,7 @@ import { AppDispatch, RootState } from "../../store/store";
 import {
   getMatchList,
   setSelectedTabForMatchList,
+  updateMatchListCurrentPage,
 } from "../../store/actions/match/matchAction";
 import { gameType } from "../../utils/Constants";
 
@@ -24,7 +25,7 @@ const CustomTabs = styled(Tabs)({
   },
 });
 
-const MatchListHeader = ({ setCurrentPage }: any) => {
+const MatchListHeader = () => {
   const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
   const { selectedTab } = useSelector((state: RootState) => state.matchList);
@@ -41,7 +42,7 @@ const MatchListHeader = ({ setCurrentPage }: any) => {
 
   const handleTabChange = (_: any, newValue: any) => {
     dispatch(setSelectedTabForMatchList(newValue));
-    setCurrentPage(1);
+    dispatch(updateMatchListCurrentPage(1));
   };
 
   return (

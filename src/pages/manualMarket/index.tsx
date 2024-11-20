@@ -30,7 +30,7 @@ const ManualMarket = ({ currentMatch, liveData, type, showResultBox }: any) => {
   const handleClickOpen = () => {
     setOpen(true);
   };
-  
+
   useEffect(() => {
     setLive(liveData?.activeStatus === "live" ? true : false);
   }, [liveData?.activeStatus]);
@@ -156,7 +156,7 @@ const ManualMarket = ({ currentMatch, liveData, type, showResultBox }: any) => {
               height="18px"
             />
           )}
-           <MaxLimitEditButton handleClickOpen={handleClickOpen} />
+          <MaxLimitEditButton handleClickOpen={handleClickOpen} />
 
           <img
             onClick={() => {
@@ -299,7 +299,11 @@ const ManualMarket = ({ currentMatch, liveData, type, showResultBox }: any) => {
                   : 0
               }
               status={liveData?.statusTeamA}
-              livestatus={liveData?.statusTeamA === "suspended" ? true : false}
+              livestatus={
+                !["ACTIVE", "OPEN", ""].includes(liveData?.statusTeamA)
+                  ? true
+                  : false
+              }
               data={{ back: liveData?.backTeamA, lay: liveData?.layTeamA }}
               //   lock={liveData?.runners?.length > 0 ? false : true}
               ballStatus={liveData?.statusTeamA === "ball start" ? true : false}
@@ -310,7 +314,11 @@ const ManualMarket = ({ currentMatch, liveData, type, showResultBox }: any) => {
 
             <Divider />
             <ManualBoxComponent
-              livestatus={liveData?.statusTeamB === "suspended" ? true : false}
+              livestatus={
+                !["ACTIVE", "OPEN", ""].includes(liveData?.statusTeamB)
+                  ? true
+                  : false
+              }
               teamRates={
                 currentMatch?.teamRates
                   ? currentMatch?.teamRates[
@@ -341,7 +349,9 @@ const ManualMarket = ({ currentMatch, liveData, type, showResultBox }: any) => {
                 <ManualBoxComponent
                   color={"#FF4D4D"}
                   livestatus={
-                    liveData?.statusTeamC === "suspended" ? true : false
+                    !["ACTIVE", "OPEN", ""].includes(liveData?.statusTeamC)
+                      ? true
+                      : false
                   }
                   teamRates={
                     currentMatch?.teamRates
@@ -428,7 +438,7 @@ const ManualMarket = ({ currentMatch, liveData, type, showResultBox }: any) => {
           </Box>
         </>
       )}
-       <MaxBetAdd
+      <MaxBetAdd
         open={open}
         handleClose={handleClose}
         matchOddsLive={liveData}

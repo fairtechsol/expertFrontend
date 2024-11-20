@@ -297,7 +297,7 @@ const UnderOverMarket = ({ currentMatch, liveData, title }: any) => {
                   : 0
               }
               teamImage={currentMatch?.apiTideMatch?.teamA_Image}
-              livestatus={liveData?.status === "SUSPENDED" ? true : false}
+              livestatus={!["ACTIVE", "OPEN", ""].includes(liveData?.status) ? true : false}
               data={liveData?.runners?.length > 0 ? liveData?.runners[0] : []}
               lock={liveData?.runners?.length > 0 ? false : true}
               name={`Under ${
@@ -309,7 +309,7 @@ const UnderOverMarket = ({ currentMatch, liveData, title }: any) => {
 
             <Divider />
             <BoxComponent
-              livestatus={liveData?.status === "SUSPENDED" ? true : false}
+              livestatus={!["ACTIVE", "OPEN", ""].includes(liveData?.status) ? true : false}
               teamRates={
                 !liveData?.stopAt || liveData?.activeStatus !== "result"
                   ? currentMatch?.teamRates

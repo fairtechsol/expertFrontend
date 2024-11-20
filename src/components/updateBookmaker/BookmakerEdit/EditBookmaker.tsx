@@ -325,6 +325,7 @@ const EditBookmaker = (props: any) => {
     try {
       return () => {
         socketService.user.updateMatchBettingRateClientOff();
+        socketService.user.updateInResultDeclareOff();
       };
     } catch (error) {
       console.log(error);

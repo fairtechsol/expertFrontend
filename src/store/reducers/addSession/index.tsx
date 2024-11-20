@@ -359,9 +359,10 @@ export const addSessionReducers = createReducer(initialState, (builder) => {
       }
     })
     .addCase(updateResultStatusOfQuickBookmaker.fulfilled, (state, action) => {
-      if (state.bookmakerById?.id === action.payload?.betId) {
+      // if (state.bookmakerById?.id === action.payload?.betId) {
         state.bookmakerById["resultStatus"] = action?.payload?.status;
-      }
+      // }
+       //after discussing with pankaj and sandeep sir
     })
     .addCase(updateMarketMinMaxLimitOnQuickMaker.fulfilled, (state, action) => {
       if (state.bookmakerById?.id === action.payload?.betId) {

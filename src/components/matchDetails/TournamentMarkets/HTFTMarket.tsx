@@ -293,7 +293,11 @@ const HTFTMarket = ({ currentMatch, liveData, title, firstKnownKey }: any) => {
                         )?.[item?.id] ?? 0
                       : 0
                   }
-                  livestatus={item?.status === "SUSPENDED" ? true : false}
+                  livestatus={
+                    !["ACTIVE", "OPEN", ""].includes(item?.status)
+                      ? true
+                      : false
+                  }
                   data={item}
                   lock={liveData?.runners?.length > 0 ? false : true}
                   name={item?.nat ?? item?.runnerName}

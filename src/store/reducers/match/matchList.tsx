@@ -32,6 +32,7 @@ import {
   updateMatchActiveStatusReset,
   updateMatchBetsPlace,
   updateMatchBetsReason,
+  updateMatchListCurrentPage,
   updateResultStatusOfrace,
   updateSessionBetsPlace,
   updateTeamRatesForHorseRacing,
@@ -44,6 +45,7 @@ interface InitialState {
   matchList: any;
   tabList: any;
   matchListDropdown: any;
+  matchListCurrentPage: number;
   success: boolean;
   editSuccess: boolean;
   editRaceSuccess: boolean;
@@ -65,6 +67,7 @@ const initialState: InitialState = {
   matchList: [],
   tabList: [],
   matchListDropdown: [],
+  matchListCurrentPage: 1,
   loading: false,
   success: false,
   dropDownLoading: false,
@@ -474,6 +477,9 @@ const matchList = createSlice({
       })
       .addCase(resetPlacedBetsMatch, (state) => {
         state.placedBetsMatch = [];
+      })
+      .addCase(updateMatchListCurrentPage.fulfilled, (state, action) => {
+        state.matchListCurrentPage = action.payload;
       });
   },
 });
