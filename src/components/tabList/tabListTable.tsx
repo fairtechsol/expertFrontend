@@ -253,7 +253,7 @@ const TabListTable = (props: any) => {
         >
           <button
             style={{
-              width: "25%",
+              // width: "25%",
               height: "40px",
               color: "#fff",
               backgroundColor: "#004A25",
@@ -272,7 +272,7 @@ const TabListTable = (props: any) => {
 
           <button
             style={{
-              width: "25%",
+              // width: "25%",
               height: "40px",
               color: "#fff",
               backgroundColor: "#004A25",
