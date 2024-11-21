@@ -123,7 +123,7 @@ const MatchListTable = (props: any) => {
               ? "#f78f65"
               : !upcoming
               ? "#FFE094"
-              : "#74ee15",
+              : "#a6d482",
             alignItems: { xs: "stretch", md: "center" },
             borderTop: "2px solid white",
           },
