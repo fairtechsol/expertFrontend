@@ -122,8 +122,8 @@ const MatchListTable = (props: any) => {
             background: data?.stopAt
               ? "#f78f65"
               : !upcoming
-              ? "#0dcaf0 "
-              : "#FFE094",
+              ? "#FFE094"
+              : "#74ee15",
             alignItems: { xs: "stretch", md: "center" },
             borderTop: "2px solid white",
           },
