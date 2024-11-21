@@ -16,6 +16,13 @@ import SessionResultComponent from "./sessionResultComponent";
 import { IconConstants } from "../helper/gameConstants";
 import { Constants } from "../../utils/Constants";
 
+interface TimeLeft {
+  days: string;
+  hours: string;
+  minutes: string;
+  seconds?: string;
+}
+
 const MatchListTable = (props: any) => {
   const { data, index, currentPage } = props;
   const navigate = useNavigate();
@@ -49,6 +56,46 @@ const MatchListTable = (props: any) => {
     }
   };
 
+  function calculateTimeLeft(): TimeLeft {
+    const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    const targetDate = moment(data?.startAt).tz(timezone);
+    const difference = targetDate.diff(moment().tz(timezone), "milliseconds");
+    let timeLeft: TimeLeft = {
+      days: "",
+      hours: "",
+      minutes: "",
+    }; // Initialize with the defined type
+
+    if (difference > 0) {
+      timeLeft = {
+        days:
+          ("0" + Math.floor(difference / (1000 * 60 * 60 * 24))).slice(-2) ||
+          "00",
+        hours:
+          ("0" + Math.floor((difference / (1000 * 60 * 60)) % 24)).slice(-2) ||
+          "00",
+        minutes:
+          ("0" + Math.floor((difference / 1000 / 60) % 60)).slice(-2) || "00",
+        seconds: ("0" + Math.floor((difference / 1000) % 60)).slice(-2) || "00",
+      };
+    } else {
+      timeLeft = {
+        days: "00",
+        hours: "00",
+        minutes: "00",
+      };
+    }
+
+    return timeLeft;
+  }
+
+  const timeLeft = calculateTimeLeft();
+
+  const upcoming =
+    Number(timeLeft.days) === 0 &&
+    Number(timeLeft.hours) === 0 &&
+    Number(timeLeft.minutes) <= 60;
+
   useEffect(() => {
     if (data) {
       const newBody = data?.matchBettings?.map((betting: any) => ({
@@ -72,7 +119,11 @@ const MatchListTable = (props: any) => {
           {
             display: "flex",
             // height: { xs: "auto", md: "45px" },
-            background: "#FFE094",
+            background: data?.stopAt
+              ? "#f78f65"
+              : !upcoming
+              ? "#0dcaf0 "
+              : "#FFE094",
             alignItems: { xs: "stretch", md: "center" },
             borderTop: "2px solid white",
           },
