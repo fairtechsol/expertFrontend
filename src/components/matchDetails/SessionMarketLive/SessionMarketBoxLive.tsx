@@ -152,7 +152,10 @@ const SessionMarketBoxLive = ({
                 fontWeight: "400",
               }}
             >
-              {newData?.GameStatus}
+              {Math.max(
+                newData?.ex?.availableToLay?.length ?? 0,
+                newData?.ex?.availableToBack?.length ?? 0
+              ) <= 1 && newData?.GameStatus}
             </Typography>
           </Box>
         ) : (
@@ -217,93 +220,124 @@ const SessionMarketBoxLive = ({
       ).map((item: number) => {
         return (
           <Fragment key={item}>
-            {!["ACTIVE", "", undefined, null].includes(newData?.GameStatus) ? (
-              <Box
-                sx={{
-                  margin: "1px",
-                  background: "rgba(0,0,0,1)",
-                  height: "25px",
-                  right: "0vh",
-                  position: "absolute",
-                  width: { lg: "27%", xs: "25.4%", md: "25.5%" },
-                  justifyContent: { xs: "center", lg: "center" },
-                  alignItems: "center",
-                  display: "flex",
-                }}
-              >
-                <Typography
-                  style={{
-                    fontSize: "10px",
-                    textTransform: "uppercase",
-                    textAlign: "center",
-                    width: "100%",
-                    color: "white",
-                    fontWeight: "400",
-                  }}
-                >
-                  {newData?.GameStatus}
-                </Typography>
-              </Box>
-            ) : (
+            <Box
+              sx={{
+                display: "flex",
+                background: "white",
+                height: "25px",
+                width: "100%",
+              }}
+            >
               <Box
                 sx={{
                   display: "flex",
-                  background: "white",
+                  background: index % 2 === 0 ? "#FFE094" : "#ECECEC",
                   height: "25px",
                   width: "100%",
+                  alignItems: "center",
                 }}
-              >
+              ></Box>
+              {!["ACTIVE", "", undefined, null].includes(
+                newData?.GameStatus
+              ) ? (
+                <Box
+                  sx={{
+                    margin: "1px",
+                    background: "rgba(0,0,0,1)",
+                    height: "25px",
+                    right: "0vh",
+                    position: "absolute",
+                    width: { lg: "27.6%", xs: "25.4%", md: "25.5%" },
+                    justifyContent: { xs: "center", lg: "center" },
+                    alignItems: "center",
+                    display: "flex",
+                  }}
+                >
+                  <Typography
+                    style={{
+                      fontSize: "10px",
+                      textTransform: "uppercase",
+                      textAlign: "center",
+                      width: "100%",
+                      color: "white",
+                      fontWeight: "400",
+                      marginTop:
+                        Math.max(
+                          newData?.ex?.availableToLay?.length ?? 0,
+                          newData?.ex?.availableToBack?.length ?? 0
+                        ) === 2
+                          ? "-25px"
+                          : "0",
+                    }}
+                  >
+                    {item === 1 && newData?.GameStatus}
+                  </Typography>
+                </Box>
+              ) : (
                 <Box
                   sx={{
                     display: "flex",
-                    position: "relative",
-                    background: index % 2 === 0 ? "#FFE094" : "#ECECEC",
+                    background: "white",
                     height: "25px",
                     width: "100%",
-                    justifyContent: "flex-end",
-                    alignItems: "center",
                   }}
                 >
-                  <SeparateBox
-                    width="13.8%"
-                    mWidth="12.7%"
-                    value={
-                      type === "oddEven"
-                        ? newData?.ex?.availableToBack[item]?.price || 0
-                        : newData?.ex?.availableToLay[item]?.price || 0
-                    }
-                    value2={formatNumber(
-                      type === "oddEven"
-                        ? newData?.ex?.availableToBack[item]?.size || 0
-                        : newData?.ex?.availableToLay[item]?.size || 0
-                    )}
-                    lock={newData?.GameStatus === "SUSPENDED"}
-                    color="#F6D0CB"
-                  />
-
                   <Box
-                    sx={{ width: ".20%", display: "flex", background: "pink" }}
-                  ></Box>
+                    sx={{
+                      display: "flex",
+                      position: "relative",
+                      background: index % 2 === 0 ? "#FFE094" : "#ECECEC",
+                      height: "25px",
+                      width: "100%",
+                      justifyContent: "flex-end",
+                      alignItems: "center",
+                    }}
+                  >
+                    <SeparateBox
+                      width="13.8%"
+                      mWidth="12.7%"
+                      value={
+                        type === "oddEven"
+                          ? newData?.ex?.availableToBack[item]?.price || 0
+                          : newData?.ex?.availableToLay[item]?.price || 0
+                      }
+                      value2={formatNumber(
+                        type === "oddEven"
+                          ? newData?.ex?.availableToBack[item]?.size || 0
+                          : newData?.ex?.availableToLay[item]?.size || 0
+                      )}
+                      lock={newData?.GameStatus === "SUSPENDED"}
+                      color="#F6D0CB"
+                    />
 
-                  <SeparateBox
-                    width="13.8%"
-                    mWidth="12.7%"
-                    value={
-                      type === "oddEven"
-                        ? newData?.ex?.availableToLay[item]?.price || 0
-                        : newData?.ex?.availableToBack[item]?.price || 0
-                    }
-                    value2={formatNumber(
-                      type === "oddEven"
-                        ? newData?.ex?.availableToLay[item]?.size || 0
-                        : newData?.ex?.availableToBack[item]?.size || 0
-                    )}
-                    lock={newData?.GameStatus === "SUSPENDED"}
-                    color="#B3E0FF"
-                  />
+                    <Box
+                      sx={{
+                        width: ".20%",
+                        display: "flex",
+                        background: "pink",
+                      }}
+                    ></Box>
+
+                    <SeparateBox
+                      width="13.8%"
+                      mWidth="12.7%"
+                      value={
+                        type === "oddEven"
+                          ? newData?.ex?.availableToLay[item]?.price || 0
+                          : newData?.ex?.availableToBack[item]?.price || 0
+                      }
+                      value2={formatNumber(
+                        type === "oddEven"
+                          ? newData?.ex?.availableToLay[item]?.size || 0
+                          : newData?.ex?.availableToBack[item]?.size || 0
+                      )}
+                      lock={newData?.GameStatus === "SUSPENDED"}
+                      color="#B3E0FF"
+                    />
+                  </Box>
                 </Box>
-              </Box>
-            )}
+              )}
+            </Box>{" "}
           </Fragment>
         );
       })}
