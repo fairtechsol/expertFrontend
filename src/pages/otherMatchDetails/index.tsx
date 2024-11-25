@@ -12,27 +12,18 @@ import {
 } from "../../socketManager";
 import {
   handleBetResultStatus,
-  // removeSessionProLoss,
   updateMatchRates,
   updateMatchRatesOnMarketUndeclare,
   updateRates,
-  // updateSessionProLoss,
 } from "../../store/actions/addMatch/addMatchAction";
-// import {
-//   setCurrentOdd,
-//   updateApiSessionById,
-// } from "../../store/actions/addSession";
 import {
   getPlacedBetsMatch,
   getSessionProfitLossMatchDetailReset,
   updateDeletedBetReasonOnEdit,
   updateMatchBetsPlace,
   updateMatchBetsReason,
-  // updateMaxLoss,
   updateResultBoxStatus,
   updateResultStatusOfMatch,
-  // updateResultStatusOfSession,
-  // updateSessionBetsPlace,
   updateTeamRates,
 } from "../../store/actions/match/matchAction";
 import { AppDispatch, RootState } from "../../store/store";
@@ -40,11 +31,7 @@ import TiedMatchMarket from "../../components/matchDetails/TiedMatchMarket";
 import CompleteMatchMarket from "../../components/matchDetails/CompleteMatchMarket";
 import { matchSocketService } from "../../socketManager/matchSocket";
 import ManualMarket from "../manualMarket";
-import UnderOverMarket from "../../components/otherMatchDetails/UnderOverMarket";
-import SetWinner from "../../components/matchDetails/SetWinner";
-import HalfTime from "../../components/matchDetails/HalfTime";
 import { getOtherGamesMatchDetail } from "../../store/actions/otherGamesAction/matchDetailActions";
-import { convertString, customSortOnName } from "../../helpers";
 import TournamentMarket from "../../components/matchDetails/TournamentMarkets";
 import BookMarket from "../../components/matchDetails/Bookmarket";
 import OtherMatchMarket from "../../components/matchDetails/OtherMatchMarket";
@@ -150,42 +137,6 @@ const OtherMatchDetails = () => {
     }
   };
 
-  // const updateSessionResultDeclared = (event: any) => {
-  //   try {
-  //     if (state?.id === event?.matchId) {
-  //       dispatch(updateApiSessionById(event));
-  //       dispatch(getPlacedBetsMatch(state?.id));
-  //       if (event?.activeStatus === "result") {
-  //         dispatch(
-  //           removeSessionProLoss({
-  //             id: event?.betId,
-  //           })
-  //         );
-  //       } else {
-  //         dispatch(
-  //           updateSessionProLoss({
-  //             id: event?.betId,
-  //             betPlaced: event?.profitLossObj
-  //               ? event?.profitLossObj?.betPlaced
-  //               : [],
-  //           })
-  //         );
-  //       }
-  //       dispatch(
-  //         updateMaxLoss({
-  //           id: event?.betId,
-  //           maxLoss: event?.profitLossObj
-  //             ? event?.profitLossObj?.maxLoss
-  //             : event?.profitLoss,
-  //           totalBet: event?.profitLossObj ? event?.profitLossObj?.totalBet : 0,
-  //         })
-  //       );
-  //     }
-  //   } catch (e) {
-  //     console.log(e);
-  //   }
-  // };
-
   const updateMatchBetPlaced = (event: any) => {
     try {
       if (event?.jobData?.newBet?.matchId === state?.id) {
@@ -196,36 +147,6 @@ const OtherMatchDetails = () => {
       console.log(e);
     }
   };
-
-  // const updateSessionBetPlaced = (event: any) => {
-  //   try {
-  //     if (event?.jobData?.placedBet?.matchId === state?.id) {
-  //       dispatch(updateSessionBetsPlace(event));
-  //       dispatch(
-  //         updateSessionProLoss({
-  //           id: event?.jobData?.placedBet?.betId,
-  //           betPlaced: event?.redisData?.betPlaced,
-  //         })
-  //       );
-  //       dispatch(
-  //         updateMaxLoss({
-  //           id: event?.jobData?.placedBet?.betId,
-  //           maxLoss: event?.redisData?.maxLoss,
-  //           totalBet: event?.redisData?.totalBet,
-  //         })
-  //       );
-  //       dispatch(
-  //         setCurrentOdd({
-  //           matchId: event?.jobData?.placedBet?.matchId,
-  //           betId: event?.jobData?.placedBet?.betId,
-  //           odds: event?.jobData?.placedBet?.odds,
-  //         })
-  //       );
-  //     }
-  //   } catch (e) {
-  //     console.log(e);
-  //   }
-  // };
 
   const updateSessionResultStatus = (event: any) => {
     try {
@@ -605,8 +526,6 @@ const OtherMatchDetails = () => {
     },
   ];
 
-  console.log(component);
-
   return (
     <>
       <Box
@@ -620,10 +539,6 @@ const OtherMatchDetails = () => {
             xs: loading ? "80vh" : "100%",
             lg: loading ? "90vh" : "100%",
           },
-          // minHeight: "92vh",
-          // background: !loading ? "white" : "",
-          // padding: 1,
-          // gap: 1,
         }}
       >
         {loading ? (
@@ -633,10 +548,6 @@ const OtherMatchDetails = () => {
             <Box
               sx={{
                 width: { lg: "50%", xs: "100%", md: "50%", sm: "50%" },
-                // flexDirection: "column",
-                // display: "flex",
-                // flexWrap: "wrap",
-                // paddingLeft: "5px",
                 marginTop: { xs: "10px", lg: "0" },
                 gap: 1,
               }}
@@ -732,59 +643,6 @@ const OtherMatchDetails = () => {
                           title={market?.name}
                           firstKnownKey={firstKnownKey}
                         />
-                      ))}
-
-                  {matchDetail?.halfTime &&
-                    (matchDetail?.halfTime?.isActive === false
-                      ? false
-                      : true) && (
-                      <HalfTime
-                        showHeader={true}
-                        currentMatch={matchDetail}
-                        matchOddsLive={matchDetail?.halfTime}
-                      />
-                    )}
-                  {matchDetail?.firstHalfGoal &&
-                    matchDetail?.firstHalfGoal
-                      ?.filter((item: any) => item?.isActive)
-                      ?.slice()
-                      ?.sort(customSortOnName)
-                      ?.map((market: any) => (
-                        <UnderOverMarket
-                          key={market?.id}
-                          currentMatch={matchDetail}
-                          liveData={market}
-                          title={convertString(market?.name)}
-                        />
-                      ))}
-                  {matchDetail?.overUnder &&
-                    matchDetail?.overUnder
-                      ?.filter((item: any) => item?.isActive)
-                      ?.slice()
-                      ?.sort(customSortOnName)
-                      ?.map((market: any) => (
-                        <UnderOverMarket
-                          key={market?.id}
-                          currentMatch={matchDetail}
-                          liveData={market}
-                          title={convertString(market?.name)}
-                        />
-                      ))}
-                  {matchDetail?.setWinner &&
-                    matchDetail?.setWinner?.length > 0 &&
-                    matchDetail?.setWinner
-                      ?.filter((item: any) => item?.isActive)
-                      ?.slice()
-                      ?.sort(customSortOnName)
-                      ?.map((market: any) => (
-                        <SetWinner
-                          key={market?.id}
-                          currentMatch={matchDetail}
-                          liveData={market}
-                          title={convertString(market?.name)}
-                        />
-                      ))}
-
                   {matchDetail?.apiTideMatch &&
                     (matchDetail?.apiTideMatch?.isActive === false
                       ? false
@@ -823,12 +681,6 @@ const OtherMatchDetails = () => {
               <Box
                 sx={{
                   width: { lg: "50%", xs: "100%", md: "50%", sm: "50%" },
-                  // flexDirection: "column",
-                  // display: "flex",
-                  // flexWrap: "wrap",
-                  // paddingLeft: "5px",
-                  // marginTop: { xs: "10px", lg: "0" },
-                  // gap: 1,
                 }}
               >
                 {matchDetail?.tournament &&
@@ -850,7 +702,6 @@ const OtherMatchDetails = () => {
                 width: { lg: "50%", xs: "100%", md: "50%", sm: "50%" },
                 flexDirection: "column",
                 display: "flex",
-                // paddingLeft: "5px",
                 marginTop: { xs: "10px", lg: "0" },
               }}
             >
@@ -865,10 +716,6 @@ const OtherMatchDetails = () => {
         <Box
           sx={{
             width: { lg: "50%", xs: "100%", md: "50%", sm: "50%" },
-            // flexDirection: "column",
-            // display: "flex",
-            // flexWrap: "wrap",
-            // paddingLeft: "5px",
             marginTop: { xs: "10px", lg: "0" },
             gap: 1,
           }}
