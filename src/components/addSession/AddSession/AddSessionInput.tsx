@@ -172,7 +172,7 @@ const AddSessionInput = (props: any) => {
               }}
             >
               <Typography
-                sx={{ color: "#fff", fontWeight: "bold", fontSize: "14px" }}
+                sx={{ color: "#fff", fontWeight: "bold", fontSize: "14px", textAlign: "center" }}
               >
                 RESULT {inputDetail?.resultStatus}
               </Typography>

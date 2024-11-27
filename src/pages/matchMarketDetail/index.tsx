@@ -1,5 +1,5 @@
 import { Box, useMediaQuery, useTheme } from "@mui/material";
-import { memo, useEffect } from "react";
+import { Fragment, memo, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import Loader from "../../components/Loader";
@@ -47,6 +47,7 @@ import TournamentMarket from "../../components/matchDetails/TournamentMarkets";
 import { marketArray } from "../../utils/Constants";
 import Masonry from "@mui/lab/Masonry";
 import DelayedChild from "../../components/Common/DelayedChild";
+import { handleMarketSorting } from "../../components/helper";
 
 const MatchMarketDetail = () => {
   const { state } = useLocation();
@@ -388,6 +389,255 @@ const MatchMarketDetail = () => {
     }
   }, []);
 
+  const component = [
+    {
+      component: matchDetail?.matchOdd &&
+        (matchDetail?.matchOdd?.isActive === false ? false : true) && (
+          <MatchOdds
+            showHeader={true}
+            currentMatch={matchDetail}
+            matchOddsLive={matchDetail?.matchOdd}
+            showResultBox={firstKnownKey === "matchOdd"}
+          />
+        ),
+      result:
+        matchDetail?.matchOdd && firstKnownKey === "matchOdd"
+          ? matchDetail?.stopAt
+            ? "declared"
+            : matchDetail?.resultStatus
+            ? "pending"
+            : ""
+          : "",
+    },
+    {
+      component: matchDetail?.bookmaker &&
+        (matchDetail?.bookmaker?.isActive === false ? false : true) && (
+          <BookMarket
+            currentMatch={matchDetail}
+            liveData={matchDetail?.bookmaker}
+            title={matchDetail?.bookmaker?.name}
+            showResultBox={firstKnownKey === "bookmaker"}
+          />
+        ),
+      result:
+        matchDetail?.bookmaker && firstKnownKey === "bookmaker"
+          ? matchDetail?.resultStatus
+            ? "pending"
+            : matchDetail?.stopAt
+            ? "declared"
+            : ""
+          : "",
+    },
+    {
+      component: matchDetail?.marketBookmaker2 &&
+        (matchDetail?.marketBookmaker2?.isActive === false ? false : true) && (
+          <BookMarket
+            currentMatch={matchDetail}
+            liveData={matchDetail?.marketBookmaker2}
+            title={matchDetail?.marketBookmaker2?.name}
+            showResultBox={firstKnownKey === "marketBookmaker2"}
+          />
+        ),
+      result:
+        matchDetail?.marketBookmaker2 && firstKnownKey === "marketBookmaker2"
+          ? matchDetail?.resultStatus
+            ? "pending"
+            : matchDetail?.stopAt
+            ? "declared"
+            : ""
+          : "",
+    },
+    ...(matchDetail?.quickBookmaker
+      ?.filter((item: any) => item?.isActive)
+      ?.map((bookmaker: any) => ({
+        component: (
+          <ManualMarket
+            key={bookmaker?.id}
+            currentMatch={matchDetail}
+            liveData={bookmaker}
+            showResultBox={
+              firstKnownKey === "quickBookmaker" &&
+              bookmaker?.type === "quickbookmaker1"
+                ? true
+                : false
+            }
+          />
+        ),
+        result:
+          firstKnownKey === "quickBookmaker" &&
+          bookmaker?.type === "quickbookmaker1"
+            ? true
+            : false
+            ? matchDetail?.resultStatus
+              ? "pending"
+              : matchDetail?.stopAt
+              ? "declared"
+              : ""
+            : "",
+      })) || []),
+    ...(matchDetail?.other?.map((market: any) => ({
+      component: (
+        <OtherMatchMarket
+          key={market?.id}
+          currentMatch={matchDetail}
+          liveData={{
+            ...market,
+            type: "other",
+            marketId: market?.mid ? market?.mid.toString() : "",
+          }}
+          title={market?.name}
+          firstKnownKey={firstKnownKey}
+        />
+      ),
+      result: matchDetail?.otherBettings?.[market?.id]
+        ? market?.activeStatus === "result"
+          ? "declared"
+          : "pending"
+        : "",
+    })) || []),
+    ...(matchDetail?.tournament
+      ?.filter((item: any) => item?.name !== "HT/FT")
+      ?.map((market: any, index: number) => ({
+        component: (
+          <TournamentMarket
+            key={index}
+            liveData={market}
+            currentMatch={matchDetail}
+            title={market?.name}
+            firstKnownKey={firstKnownKey}
+          />
+        ),
+        result: matchDetail?.otherBettings?.[market?.id]
+          ? market?.activeStatus === "result"
+            ? "declared"
+            : "pending"
+          : "",
+      })) || []),
+    {
+      component: matchDetail?.apiTideMatch &&
+        (matchDetail?.apiTideMatch?.isActive === false ? false : true) && (
+          <TiedMatchMarket
+            currentMatch={matchDetail}
+            liveData={matchDetail?.apiTideMatch}
+            title={matchDetail?.apiTideMatch?.name}
+            showResultBox={firstKnownKey === "apiTideMatch"}
+          />
+        ),
+      result:
+        matchDetail?.apiTideMatch && firstKnownKey === "apiTideMatch"
+          ? matchDetail?.resultStatus
+            ? "pending"
+            : matchDetail?.stopAt
+            ? "declared"
+            : ""
+          : "",
+    },
+    {
+      component: matchDetail?.apiTideMatch2 &&
+        (matchDetail?.apiTideMatch2?.isActive === false ? false : true) && (
+          <TiedMatchMarket
+            currentMatch={matchDetail}
+            liveData={matchDetail?.apiTideMatch2}
+            title={matchDetail?.apiTideMatch2?.name}
+            showResultBox={firstKnownKey === "apiTiedMatch2"}
+          />
+        ),
+      result:
+        matchDetail?.apiTideMatch2 && firstKnownKey === "apiTiedMatch2"
+          ? matchDetail?.resultStatus
+            ? "pending"
+            : matchDetail?.stopAt
+            ? "declared"
+            : ""
+          : "",
+    },
+    {
+      component: matchDetail?.manualTiedMatch &&
+        (matchDetail?.manualTiedMatch?.isActive === false ? false : true) && (
+          <ManualMarket
+            currentMatch={matchDetail}
+            liveData={matchDetail?.manualTiedMatch}
+            type="manualTiedMatch"
+            showResultBox={firstKnownKey === "manualTiedMatch"}
+          />
+        ),
+      result:
+        matchDetail?.manualTiedMatch && firstKnownKey === "manualTiedMatch"
+          ? matchDetail?.resultStatus
+            ? "pending"
+            : matchDetail?.stopAt
+            ? "declared"
+            : ""
+          : "",
+    },
+    {
+      component: matchDetail?.marketCompleteMatch &&
+        (matchDetail?.marketCompleteMatch?.isActive === false
+          ? false
+          : true) && (
+          <CompleteMatchMarket
+            currentMatch={matchDetail}
+            liveData={matchDetail?.marketCompleteMatch}
+            title={matchDetail?.marketCompleteMatch?.name}
+            showResultBox={firstKnownKey === "marketCompleteMatch"}
+          />
+        ),
+      result:
+        matchDetail?.marketCompleteMatch &&
+        firstKnownKey === "marketCompleteMatch"
+          ? matchDetail?.resultStatus
+            ? "pending"
+            : matchDetail?.stopAt
+            ? "declared"
+            : ""
+          : "",
+    },
+    {
+      component: matchDetail?.marketCompleteMatch1 &&
+        (matchDetail?.marketCompleteMatch1?.isActive === false
+          ? false
+          : true) && (
+          <CompleteMatchMarket
+            currentMatch={matchDetail}
+            liveData={matchDetail?.marketCompleteMatch1}
+            title={matchDetail?.marketCompleteMatch1?.name}
+            showResultBox={firstKnownKey === "marketCompleteMatch1"}
+          />
+        ),
+      result:
+        matchDetail?.marketCompleteMatch1 &&
+        firstKnownKey === "marketCompleteMatch1"
+          ? matchDetail?.resultStatus
+            ? "pending"
+            : matchDetail?.stopAt
+            ? "declared"
+            : ""
+          : "",
+    },
+    {
+      component: matchDetail?.manualCompleteMatch &&
+        (matchDetail?.manualCompleteMatch?.isActive === false
+          ? false
+          : true) && (
+          <ManualMarket
+            currentMatch={matchDetail}
+            liveData={matchDetail?.manualCompleteMatch}
+            type="manualTiedMatch"
+            showResultBox={firstKnownKey === "manualCompleteMatch"}
+          />
+        ),
+      result:
+        matchDetail?.manualCompleteMatch &&
+        firstKnownKey === "manualCompleteMatch"
+          ? matchDetail?.resultStatus
+            ? "pending"
+            : matchDetail?.stopAt
+            ? "declared"
+            : ""
+          : "",
+    },
+  ];
+
   return (
     <Box
       sx={{
@@ -400,10 +650,6 @@ const MatchMarketDetail = () => {
           xs: loading ? "80vh" : "100%",
           lg: loading ? "90vh" : "100%",
         },
-        // minHeight: "92vh",
-        // background: !loading ? "white" : "",
-        // padding: 1,
-        // gap: 1,
       }}
     >
       {loading ? (
@@ -413,10 +659,6 @@ const MatchMarketDetail = () => {
           <Box
             sx={{
               width: { lg: "45%", xs: "100%", md: "45%" },
-              // flexDirection: "column",
-              // display: "flex",
-              // flexWrap: "wrap",
-              // paddingLeft: "5px",
               marginTop: { xs: "10px", lg: "0" },
             }}
           >
@@ -425,7 +667,13 @@ const MatchMarketDetail = () => {
                 columns={matchesMobile ? 1 : 2}
                 spacing={matchesMobile ? 0 : 1}
               >
-                {matchDetail?.matchOdd &&
+                {component
+                  ?.slice()
+                  ?.sort(handleMarketSorting)
+                  ?.map((item: any, index: number) => {
+                    return <Fragment key={index}>{item?.component}</Fragment>;
+                  })}
+                {/* {matchDetail?.matchOdd &&
                   (matchDetail?.matchOdd?.isActive === false
                     ? false
                     : true) && (
@@ -562,7 +810,7 @@ const MatchMarketDetail = () => {
                       type="manualTiedMatch"
                       showResultBox={firstKnownKey === "manualCompleteMatch"}
                     />
-                  )}
+                  )} */}
               </Masonry>
             </DelayedChild>
           </Box>
@@ -571,7 +819,6 @@ const MatchMarketDetail = () => {
               width: { lg: "55%", xs: "100%", md: "55%" },
               flexDirection: "column",
               display: "flex",
-              // paddingLeft: "5px",
               marginTop: { xs: "10px", lg: "0" },
             }}
           >

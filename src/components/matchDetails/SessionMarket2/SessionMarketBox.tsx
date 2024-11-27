@@ -285,6 +285,13 @@ const SessionMarketBox = ({ newData, index }: any) => {
                     lineHeight: "11px",
                     color: "#FFF",
                     fontWeight: "400",
+                    marginTop:
+                      Math.max(
+                        newData?.ex?.availableToLay?.length ?? 0,
+                        newData?.ex?.availableToBack?.length ?? 0
+                      ) === 2
+                        ? "-5px"
+                        : "0",
                   }}
                 >
                   {item === 1 &&
