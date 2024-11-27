@@ -277,64 +277,53 @@ const SessionMarketBoxLive = ({
                 <Box
                   sx={{
                     display: "flex",
-                    background: "white",
+                    position: "relative",
+                    background: index % 2 === 0 ? "#FFE094" : "#ECECEC",
                     height: "25px",
-                    width: "100%",
+                    width: { lg: "85%", xs: "38.5%", md: "39%" },
+                    justifyContent: "flex-end",
+                    alignItems: "center",
                   }}
                 >
+                  <SeparateBox
+                    width="30%"
+                    value={
+                      type === "oddEven"
+                        ? newData?.ex?.availableToBack[item]?.price || 0
+                        : newData?.ex?.availableToLay[item]?.price || 0
+                    }
+                    value2={formatNumber(
+                      type === "oddEven"
+                        ? newData?.ex?.availableToBack[item]?.size || 0
+                        : newData?.ex?.availableToLay[item]?.size || 0
+                    )}
+                    lock={newData?.GameStatus === "SUSPENDED"}
+                    color="#F6D0CB"
+                  />
+
                   <Box
                     sx={{
+                      width: ".20%",
                       display: "flex",
-                      position: "relative",
-                      background: index % 2 === 0 ? "#FFE094" : "#ECECEC",
-                      height: "25px",
-                      width: "100%",
-                      justifyContent: "flex-end",
-                      alignItems: "center",
+                      background: "pink",
                     }}
-                  >
-                    <SeparateBox
-                      width="13.8%"
-                      mWidth="12.7%"
-                      value={
-                        type === "oddEven"
-                          ? newData?.ex?.availableToBack[item]?.price || 0
-                          : newData?.ex?.availableToLay[item]?.price || 0
-                      }
-                      value2={formatNumber(
-                        type === "oddEven"
-                          ? newData?.ex?.availableToBack[item]?.size || 0
-                          : newData?.ex?.availableToLay[item]?.size || 0
-                      )}
-                      lock={newData?.GameStatus === "SUSPENDED"}
-                      color="#F6D0CB"
-                    />
+                  ></Box>
 
-                    <Box
-                      sx={{
-                        width: ".20%",
-                        display: "flex",
-                        background: "pink",
-                      }}
-                    ></Box>
-
-                    <SeparateBox
-                      width="13.8%"
-                      mWidth="12.7%"
-                      value={
-                        type === "oddEven"
-                          ? newData?.ex?.availableToLay[item]?.price || 0
-                          : newData?.ex?.availableToBack[item]?.price || 0
-                      }
-                      value2={formatNumber(
-                        type === "oddEven"
-                          ? newData?.ex?.availableToLay[item]?.size || 0
-                          : newData?.ex?.availableToBack[item]?.size || 0
-                      )}
-                      lock={newData?.GameStatus === "SUSPENDED"}
-                      color="#B3E0FF"
-                    />
-                  </Box>
+                  <SeparateBox
+                    width="30%"
+                    value={
+                      type === "oddEven"
+                        ? newData?.ex?.availableToLay[item]?.price || 0
+                        : newData?.ex?.availableToBack[item]?.price || 0
+                    }
+                    value2={formatNumber(
+                      type === "oddEven"
+                        ? newData?.ex?.availableToLay[item]?.size || 0
+                        : newData?.ex?.availableToBack[item]?.size || 0
+                    )}
+                    lock={newData?.GameStatus === "SUSPENDED"}
+                    color="#B3E0FF"
+                  />
                 </Box>
               )}
             </Box>{" "}

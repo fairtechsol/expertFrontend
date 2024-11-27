@@ -382,7 +382,7 @@ const CompleteMatchMarket = ({
                       backgroundColor: "rgba(203 24 24 / 70%)",
                     }}
                   >
-                    <Typography sx={{ color: "#fff" }}>
+                    <Typography sx={{ color: "#fff", textAlign: "center" }}>
                       RESULT {currentMatch?.resultStatus}
                     </Typography>
                   </Box>
@@ -402,7 +402,7 @@ const CompleteMatchMarket = ({
                       backgroundColor: "rgba(203 24 24 / 70%)",
                     }}
                   >
-                    <Typography sx={{ color: "#fff" }}>
+                    <Typography sx={{ color: "#fff", textAlign: "center" }}>
                       RESULT{" "}
                       {liveData?.stopAt || liveData?.activeStatus === "result"
                         ? "DECLARED"

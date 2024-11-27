@@ -333,7 +333,7 @@ const HTFTMarket = ({ currentMatch, liveData, title, firstKnownKey }: any) => {
                     backgroundColor: "rgba(203 24 24 / 70%)",
                   }}
                 >
-                  <Typography sx={{ color: "#fff" }}>
+                  <Typography sx={{ color: "#fff", textAlign: "center" }}>
                     RESULT {currentMatch?.resultStatus[liveData?.id]?.status}
                   </Typography>
                 </Box>
@@ -352,7 +352,7 @@ const HTFTMarket = ({ currentMatch, liveData, title, firstKnownKey }: any) => {
                   backgroundColor: "rgba(203 24 24 / 70%)",
                 }}
               >
-                <Typography sx={{ color: "#fff" }}>
+                <Typography sx={{ color: "#fff", textAlign: "center" }}>
                   RESULT{" "}
                   {liveData?.activeStatus === "result"
                     ? "DECLARED"
