@@ -2,7 +2,7 @@ name: Deploy fairgame
 on:
   push:
     branches:
-      - pardeep_sortingMarket
+      - main
 jobs:
   deploy:
     runs-on: ubuntu-latest
