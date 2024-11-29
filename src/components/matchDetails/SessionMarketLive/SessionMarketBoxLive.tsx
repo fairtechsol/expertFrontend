@@ -128,7 +128,9 @@ const SessionMarketBoxLive = ({
           )}
         </Box>
 
-        {!["ACTIVE", "", undefined, null].includes(newData?.GameStatus) ? (
+        {!["ACTIVE", "", undefined, null, "active", "open"].includes(
+          newData?.GameStatus?.toLowerCase()
+        ) ? (
           <Box
             sx={{
               margin: "1px",
@@ -237,8 +239,8 @@ const SessionMarketBoxLive = ({
                   alignItems: "center",
                 }}
               ></Box>
-              {!["ACTIVE", "", undefined, null].includes(
-                newData?.GameStatus
+              {!["ACTIVE", "", undefined, null, "active", "open"].includes(
+                newData?.GameStatus?.toLowerCase()
               ) ? (
                 <Box
                   sx={{

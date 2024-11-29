@@ -246,9 +246,16 @@ const HTFTMarket = ({ currentMatch, liveData, title, firstKnownKey }: any) => {
                   position: "relative",
                 }}
               >
-                {(!["ACTIVE", "", undefined, null, "OPEN"].includes(
-                  item?.status
-                ) || item?.status === "SUSPENDED"
+                {(![
+                  "ACTIVE",
+                  "",
+                  undefined,
+                  null,
+                  "OPEN",
+                  "active",
+                  "open",
+                ].includes(item?.status?.toLowerCase()) ||
+                item?.status?.toLowerCase() === "suspended"
                   ? true
                   : false) && (
                   <Box
@@ -294,7 +301,9 @@ const HTFTMarket = ({ currentMatch, liveData, title, firstKnownKey }: any) => {
                       : 0
                   }
                   livestatus={
-                    !["ACTIVE", "OPEN", ""].includes(item?.status)
+                    !["ACTIVE", "OPEN", "", "active", "open"].includes(
+                      item?.status?.toLowerCase()
+                    )
                       ? true
                       : false
                   }
