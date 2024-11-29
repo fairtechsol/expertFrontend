@@ -150,7 +150,7 @@ const UnderOverMarket = ({ currentMatch, liveData, title }: any) => {
                     color={live ? "#46e080" : "#FF4D4D"}
                     customStyle={{
                       justifyContent: "center",
-                      textAlign: "center"
+                      textAlign: "center",
                     }}
                   />
                 )}
@@ -297,7 +297,13 @@ const UnderOverMarket = ({ currentMatch, liveData, title }: any) => {
                   : 0
               }
               teamImage={currentMatch?.apiTideMatch?.teamA_Image}
-              livestatus={!["ACTIVE", "OPEN", ""].includes(liveData?.status) ? true : false}
+              livestatus={
+                !["ACTIVE", "OPEN", "", "active", "open"].includes(
+                  liveData?.status?.toLowerCase()
+                )
+                  ? true
+                  : false
+              }
               data={liveData?.runners?.length > 0 ? liveData?.runners[0] : []}
               lock={liveData?.runners?.length > 0 ? false : true}
               name={`Under ${
@@ -309,7 +315,11 @@ const UnderOverMarket = ({ currentMatch, liveData, title }: any) => {
 
             <Divider />
             <BoxComponent
-              livestatus={!["ACTIVE", "OPEN", ""].includes(liveData?.status) ? true : false}
+              livestatus={
+                !["ACTIVE", "OPEN", "", "active", "open"].includes(liveData?.status?.toLowerCase())
+                  ? true
+                  : false
+              }
               teamRates={
                 !liveData?.stopAt || liveData?.activeStatus !== "result"
                   ? currentMatch?.teamRates

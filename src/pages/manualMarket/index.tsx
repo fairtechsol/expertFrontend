@@ -300,13 +300,19 @@ const ManualMarket = ({ currentMatch, liveData, type, showResultBox }: any) => {
               }
               status={liveData?.statusTeamA}
               livestatus={
-                !["ACTIVE", "OPEN", ""].includes(liveData?.statusTeamA)
+                !["ACTIVE", "OPEN", "", "active", "open"].includes(
+                  (liveData?.statusTeamA)?.toLowerCase()
+                )
                   ? true
                   : false
               }
               data={{ back: liveData?.backTeamA, lay: liveData?.layTeamA }}
               //   lock={liveData?.runners?.length > 0 ? false : true}
-              ballStatus={liveData?.statusTeamA === "ball start" ? true : false}
+              ballStatus={
+                (liveData?.statusTeamA)?.toLowerCase() === "ball start"
+                  ? true
+                  : false
+              }
               name={type === "manualTiedMatch" ? "Yes" : currentMatch?.teamA}
               isTeamC={currentMatch?.teamC}
               currentMatch={currentMatch}
@@ -315,7 +321,9 @@ const ManualMarket = ({ currentMatch, liveData, type, showResultBox }: any) => {
             <Divider />
             <ManualBoxComponent
               livestatus={
-                !["ACTIVE", "OPEN", ""].includes(liveData?.statusTeamB)
+                !["ACTIVE", "OPEN", "", "active", "open"].includes(
+                  (liveData?.statusTeamB)?.toLowerCase()
+                )
                   ? true
                   : false
               }
@@ -336,7 +344,11 @@ const ManualMarket = ({ currentMatch, liveData, type, showResultBox }: any) => {
               }
               //   lock={liveData?.runners?.length > 0 ? false : true}
               status={liveData?.statusTeamB}
-              ballStatus={liveData?.statusTeamB === "ball start" ? true : false}
+              ballStatus={
+                (liveData?.statusTeamB)?.toLowerCase() === "ball start"
+                  ? true
+                  : false
+              }
               name={type === "manualTiedMatch" ? "No" : currentMatch?.teamB}
               data={{ back: liveData?.backTeamB, lay: liveData?.layTeamB }}
               align="end"
@@ -349,7 +361,9 @@ const ManualMarket = ({ currentMatch, liveData, type, showResultBox }: any) => {
                 <ManualBoxComponent
                   color={"#FF4D4D"}
                   livestatus={
-                    !["ACTIVE", "OPEN", ""].includes(liveData?.statusTeamC)
+                    !["ACTIVE", "OPEN", "", "active", "open"].includes(
+                      (liveData?.statusTeamC)?.toLowerCase()
+                    )
                       ? true
                       : false
                   }
@@ -371,7 +385,9 @@ const ManualMarket = ({ currentMatch, liveData, type, showResultBox }: any) => {
                   name={currentMatch?.teamC}
                   status={liveData?.statusTeamC}
                   ballStatus={
-                    liveData?.statusTeamC === "ball start" ? true : false
+                    (liveData?.statusTeamC)?.toLowerCase() === "ball start"
+                      ? true
+                      : false
                   }
                   data={{ back: liveData?.backTeamC, lay: liveData?.layTeamC }}
                   align="end"

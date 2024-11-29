@@ -320,7 +320,9 @@ const TournamentMarket = ({
                       : 0
                   }
                   livestatus={
-                    !["ACTIVE", "OPEN", ""].includes(item?.status)
+                    !["ACTIVE", "OPEN", "", "active", "open"].includes(
+                      item?.status?.toLowerCase()
+                    )
                       ? true
                       : false
                   }

@@ -156,8 +156,8 @@ const CasinoMarket = ({
                     Result {sessionData?.resultStatus}
                   </Typography>
                 ) : (
-                  !["ACTIVE", "active", "", undefined, null, 0].includes(
-                    sessionData?.GameStatus
+                  !["ACTIVE", "active", "", undefined, null, 0, "open"].includes(
+                    sessionData?.GameStatus?.toLowerCase()
                   ) ||
                   (sessionData?.result && (
                     <Typography
