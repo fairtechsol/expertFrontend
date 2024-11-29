@@ -810,7 +810,7 @@ const EditBookmaker = (props: any) => {
                     "minus",
                     "l",
                   ]}
-                  isDisabled={false}
+                  isDisabled={bookmakerById?.resultStatus}
                   onKeyEvent={(key, e) =>
                     handleKeysMatchEvents(
                       Bid,
@@ -979,7 +979,7 @@ const EditBookmaker = (props: any) => {
                         "minus",
                         "l",
                       ]}
-                      isDisabled={false}
+                      isDisabled={bookmakerById?.resultStatus}
                       onKeyEvent={(key, e) =>
                         handleKeysMatchEvents(
                           Bid,
