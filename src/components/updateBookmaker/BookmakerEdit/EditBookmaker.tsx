@@ -93,6 +93,9 @@ const EditBookmaker = (props: any) => {
 
   const handleChange = (event: any) => {
     try {
+      if (!bookmakerById?.result && bookmakerById?.resultStatus) {
+        return true;
+      }
       let { name, value } = event.target;
       const decimalValue = value.split(".");
       if (
@@ -471,7 +474,12 @@ const EditBookmaker = (props: any) => {
             }}
           >
             <Typography
-              sx={{ color: "#fff", fontWeight: "bold", fontSize: "14px", textAlign: "center" }}
+              sx={{
+                color: "#fff",
+                fontWeight: "bold",
+                fontSize: "14px",
+                textAlign: "center",
+              }}
             >
               RESULT {bookmakerById?.resultStatus}
             </Typography>
@@ -627,7 +635,7 @@ const EditBookmaker = (props: any) => {
                     "minus",
                     "l",
                   ]}
-                  isDisabled={false}
+                  isDisabled={!bookmakerById?.result && bookmakerById?.resultStatus}
                   onKeyEvent={(key, e) =>
                     handleKeysMatchEvents(
                       Bid,
