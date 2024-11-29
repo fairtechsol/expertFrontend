@@ -93,7 +93,7 @@ const EditBookmaker = (props: any) => {
 
   const handleChange = (event: any) => {
     try {
-      if (!bookmakerById?.result && bookmakerById?.resultStatus) {
+      if (bookmakerById?.resultStatus) {
         return true;
       }
       let { name, value } = event.target;
@@ -635,7 +635,7 @@ const EditBookmaker = (props: any) => {
                     "minus",
                     "l",
                   ]}
-                  isDisabled={!bookmakerById?.result && bookmakerById?.resultStatus}
+                  isDisabled={bookmakerById?.resultStatus}
                   onKeyEvent={(key, e) =>
                     handleKeysMatchEvents(
                       Bid,
