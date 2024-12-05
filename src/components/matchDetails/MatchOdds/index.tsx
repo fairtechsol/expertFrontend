@@ -18,7 +18,8 @@ import MaxLimitEditButton from "../../Common/MaxLimitEditButton";
 import AddMarketButton from "../../Common/AddMarketButton";
 import { declareMatchStatusReset } from "../../../store/actions/match/matchDeclareActions";
 
-const MatchOdds = ({ currentMatch, matchOddsLive, id, showResultBox }: any) => {
+
+const MatchOdds = ({ currentMatch, matchOddsLive, id, showResultBox, exposureLimit }: any) => {
   const dispatch: AppDispatch = useDispatch();
   const [visible, setVisible] = useState(false);
   const [visibleImg, setVisibleImg] = useState(true);
@@ -571,6 +572,7 @@ const MatchOdds = ({ currentMatch, matchOddsLive, id, showResultBox }: any) => {
         matchOddsLive={matchOddsLive}
         currentMatch={currentMatch}
         title={"API Match Odds Max Bet"}
+        exposureLimit={exposureLimit}
       />
     </>
   );

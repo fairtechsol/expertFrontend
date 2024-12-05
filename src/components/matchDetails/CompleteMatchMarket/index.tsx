@@ -22,6 +22,7 @@ const CompleteMatchMarket = ({
   liveData,
   title,
   showResultBox,
+  exposureLimit,
 }: any) => {
   const dispatch: AppDispatch = useDispatch();
   const [visibleImg, setVisibleImg] = useState(true);
@@ -315,7 +316,9 @@ const CompleteMatchMarket = ({
               teamImage={currentMatch?.marketCompleteMatch?.teamA_Image}
               livestatus={
                 liveData?.runners?.length > 0 &&
-                !["ACTIVE", "OPEN", "", "active", "open"].includes(liveData?.runners[0]?.status?.toLowerCase())
+                !["ACTIVE", "OPEN", "", "active", "open"].includes(
+                  liveData?.runners[0]?.status?.toLowerCase()
+                )
                   ? true
                   : false
               }
@@ -327,7 +330,9 @@ const CompleteMatchMarket = ({
             <BoxComponent
               livestatus={
                 liveData?.runners?.length > 0 &&
-                !["ACTIVE", "OPEN", "", "active", "open"].includes(liveData?.runners[1]?.status?.toLowerCase())
+                !["ACTIVE", "OPEN", "", "active", "open"].includes(
+                  liveData?.runners[1]?.status?.toLowerCase()
+                )
                   ? true
                   : false
               }
@@ -419,6 +424,7 @@ const CompleteMatchMarket = ({
         matchOddsLive={liveData}
         currentMatch={currentMatch}
         title={"API Complete Match Max Bet"}
+        exposureLimit={exposureLimit}
       />
     </Box>
   );

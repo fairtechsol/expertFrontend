@@ -18,8 +18,8 @@ const MaxBetAdd = ({
   matchOddsLive,
   currentMatch,
   title,
-}: any) => {  
-  
+  exposureLimit,
+}: any) => {
   const [selected, setSelected] = useState<any>({
     maxLimit: 0,
     minLimit: 0,
@@ -70,7 +70,7 @@ const MaxBetAdd = ({
       setSelected({
         maxLimit: matchOddsLive?.maxBet,
         betLimit: matchOddsLive?.betLimit,
-        exposureLimit: matchOddsLive?.exposureLimit,
+        exposureLimit: exposureLimit,
         minLimit: matchOddsLive?.id
           ? matchOddsLive?.minBet
           : currentMatch?.betFairSessionMinBet,

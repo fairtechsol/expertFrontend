@@ -15,7 +15,14 @@ import Result from "../../components/matchDetails/Result";
 import { declareMatchStatusReset } from "../../store/actions/match/matchDeclareActions";
 import MaxLimitEditButton from "../../components/Common/MaxLimitEditButton";
 import MaxBetAdd from "../../components/matchDetails/MaxBetAdd";
-const ManualMarket = ({ currentMatch, liveData, type, showResultBox }: any) => {
+const ManualMarket = ({
+  currentMatch,
+  liveData,
+  type,
+  showResultBox,
+  exposureLimit,
+}: any) => {
+  console.log(exposureLimit);
   const [visible, setVisible] = useState(false);
   const dispatch: AppDispatch = useDispatch();
   const [visibleImg, setVisibleImg] = useState<boolean>(true);
@@ -301,7 +308,7 @@ const ManualMarket = ({ currentMatch, liveData, type, showResultBox }: any) => {
               status={liveData?.statusTeamA}
               livestatus={
                 !["ACTIVE", "OPEN", "", "active", "open"].includes(
-                  (liveData?.statusTeamA)?.toLowerCase()
+                  liveData?.statusTeamA?.toLowerCase()
                 )
                   ? true
                   : false
@@ -309,7 +316,7 @@ const ManualMarket = ({ currentMatch, liveData, type, showResultBox }: any) => {
               data={{ back: liveData?.backTeamA, lay: liveData?.layTeamA }}
               //   lock={liveData?.runners?.length > 0 ? false : true}
               ballStatus={
-                (liveData?.statusTeamA)?.toLowerCase() === "ball start"
+                liveData?.statusTeamA?.toLowerCase() === "ball start"
                   ? true
                   : false
               }
@@ -322,7 +329,7 @@ const ManualMarket = ({ currentMatch, liveData, type, showResultBox }: any) => {
             <ManualBoxComponent
               livestatus={
                 !["ACTIVE", "OPEN", "", "active", "open"].includes(
-                  (liveData?.statusTeamB)?.toLowerCase()
+                  liveData?.statusTeamB?.toLowerCase()
                 )
                   ? true
                   : false
@@ -345,7 +352,7 @@ const ManualMarket = ({ currentMatch, liveData, type, showResultBox }: any) => {
               //   lock={liveData?.runners?.length > 0 ? false : true}
               status={liveData?.statusTeamB}
               ballStatus={
-                (liveData?.statusTeamB)?.toLowerCase() === "ball start"
+                liveData?.statusTeamB?.toLowerCase() === "ball start"
                   ? true
                   : false
               }
@@ -362,7 +369,7 @@ const ManualMarket = ({ currentMatch, liveData, type, showResultBox }: any) => {
                   color={"#FF4D4D"}
                   livestatus={
                     !["ACTIVE", "OPEN", "", "active", "open"].includes(
-                      (liveData?.statusTeamC)?.toLowerCase()
+                      liveData?.statusTeamC?.toLowerCase()
                     )
                       ? true
                       : false
@@ -385,7 +392,7 @@ const ManualMarket = ({ currentMatch, liveData, type, showResultBox }: any) => {
                   name={currentMatch?.teamC}
                   status={liveData?.statusTeamC}
                   ballStatus={
-                    (liveData?.statusTeamC)?.toLowerCase() === "ball start"
+                    liveData?.statusTeamC?.toLowerCase() === "ball start"
                       ? true
                       : false
                   }
@@ -460,6 +467,7 @@ const ManualMarket = ({ currentMatch, liveData, type, showResultBox }: any) => {
         matchOddsLive={liveData}
         currentMatch={currentMatch}
         title={"API Bookmaker Max Bet"}
+        exposureLimit={exposureLimit}
       />
     </Box>
   );

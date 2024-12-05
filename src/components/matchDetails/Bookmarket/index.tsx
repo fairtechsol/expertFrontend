@@ -17,7 +17,13 @@ import Result from "../Result";
 import ResultComponent from "../../updateBookmaker/BookmakerEdit/ResultComponent";
 import { declareMatchStatusReset } from "../../../store/actions/match/matchDeclareActions";
 
-const BookMarket = ({ currentMatch, liveData, title, showResultBox }: any) => {
+const BookMarket = ({
+  currentMatch,
+  liveData,
+  title,
+  showResultBox,
+  exposureLimit,
+}: any) => {
   const dispatch: AppDispatch = useDispatch();
   const [visibleImg, setVisibleImg] = useState<boolean>(true);
   const [live, setLive] = useState<boolean>(
@@ -325,7 +331,9 @@ const BookMarket = ({ currentMatch, liveData, title, showResultBox }: any) => {
             <BoxComponent
               livestatus={
                 liveData?.runners?.length > 0 &&
-                !["ACTIVE", "OPEN", "", "active", "open"].includes(liveData?.runners[1]?.status?.toLowerCase())
+                !["ACTIVE", "OPEN", "", "active", "open"].includes(
+                  liveData?.runners[1]?.status?.toLowerCase()
+                )
                   ? true
                   : false
               }
@@ -454,6 +462,7 @@ const BookMarket = ({ currentMatch, liveData, title, showResultBox }: any) => {
         matchOddsLive={liveData}
         currentMatch={currentMatch}
         title={"API Bookmaker Max Bet"}
+        exposureLimit={exposureLimit}
       />
     </Box>
   );

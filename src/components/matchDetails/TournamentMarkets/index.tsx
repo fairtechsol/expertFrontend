@@ -21,6 +21,7 @@ const TournamentMarket = ({
   liveData,
   title,
   firstKnownKey,
+  exposureLimit,
 }: any) => {
   const dispatch: AppDispatch = useDispatch();
   const [visibleImg, setVisibleImg] = useState<boolean>(true);
@@ -397,6 +398,7 @@ const TournamentMarket = ({
         matchOddsLive={liveData}
         currentMatch={currentMatch}
         title={`${title} Max Bet`}
+        exposureLimit={exposureLimit}
       />
     </Box>
   );

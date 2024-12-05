@@ -18,6 +18,11 @@ const SessionLimitEdit = (props: any) => {
   const myDivRef: any = useRef(null);
   const [error, setError] = useState(false);
   const [value, setValue] = useState(newData?.maxBet ? newData?.maxBet : "");
+  const [exposureLimit, setExposureLimit] = useState(
+    newData?.exposureLimit ? newData?.exposureLimit : null
+  );
+
+  console.log(newData?.exposureLimit, exposureLimit, "abc");
 
   const scrollToBottom = () => {
     myDivRef.current?.scrollIntoView({
@@ -35,6 +40,7 @@ const SessionLimitEdit = (props: any) => {
           id: newData?.id,
           maxBet: parseInt(value),
           minBet: newData?.minBet,
+          exposureLimit: parseFloat(exposureLimit),
         };
         dispatch(updateSession(payload));
       } else {
@@ -180,6 +186,37 @@ const SessionLimitEdit = (props: any) => {
             Max Bet Should be Greater Than Min Bet
           </Box>
         )}
+        <TextField
+          label="Exposure Limit"
+          autoFocus
+          placeholder="API Session Exposure Limit"
+          variant="standard"
+          type="number"
+          // value={selected}
+          value={exposureLimit}
+          id="exposure"
+          name="exposure"
+          onChange={(e) => {
+            setExposureLimit(e?.target.value);
+          }}
+          // touched={touched.score}
+          // error={Boolean(errors.score)}
+          InputProps={{
+            disableUnderline: true,
+            sx: {
+              alignSelf: "center",
+              border: "1px solid #303030",
+              borderRadius: "5px",
+              paddingY: "5px",
+              paddingX: "1vw",
+            },
+          }}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              handleSubmit(e);
+            }
+          }}
+        />
 
         <Box
           sx={{
