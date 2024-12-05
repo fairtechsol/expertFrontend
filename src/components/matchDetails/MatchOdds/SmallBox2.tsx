@@ -43,7 +43,7 @@ const SmallBox2 = ({ valueA, valueB }: any) => {
             fontSize: "9px",
             fontWeight: "bold",
             color: valueA < 0 ? `#FF4D4D` : `#319E5B`,
-            lineHeight: 0.5,
+            lineHeight: 1,
           }}
         >
           {valueA < 0 ? ` ${valueA}` : `${valueA}`}
@@ -80,7 +80,7 @@ const SmallBox2 = ({ valueA, valueB }: any) => {
             fontSize: "9px",
             fontWeight: "bold",
             color: valueB < 0 ? `#FF4D4D` : `#319E5B`,
-            lineHeight: 0.5,
+            lineHeight: 1,
           }}
         >
           {valueB < 0 ? ` ${valueB}` : `${valueB}`}
