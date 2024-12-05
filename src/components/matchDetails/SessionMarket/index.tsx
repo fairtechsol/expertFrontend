@@ -232,6 +232,8 @@ const SessionMarket = ({
               maxBet:
                 currentMatch?.sessionMaxBets?.[name] ??
                 currentMatch?.betFairSessionMaxBet,
+              exposureLimit:
+                currentMatch?.sessionMaxBets?.[`${name}_exposureLimit`],
             }}
             onClickCancel={() => {
               setSessionMaxBetAmountLimit(false);
