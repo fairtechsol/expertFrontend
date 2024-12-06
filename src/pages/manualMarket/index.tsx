@@ -22,7 +22,6 @@ const ManualMarket = ({
   showResultBox,
   exposureLimit,
 }: any) => {
-  console.log(exposureLimit);
   const [visible, setVisible] = useState(false);
   const dispatch: AppDispatch = useDispatch();
   const [visibleImg, setVisibleImg] = useState<boolean>(true);

@@ -157,6 +157,7 @@ const SessionLimit2 = ({
                   placeholder="Enter Exposure Bet..."
                   name="exposureLimit"
                   id="exposureLimit"
+                  step="1"
                   value={selected.exposureLimit}
                   onChange={handleChange}
                 />

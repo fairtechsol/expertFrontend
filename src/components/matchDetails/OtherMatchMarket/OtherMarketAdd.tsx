@@ -181,6 +181,7 @@ const OtherMarketAdd = ({
                   placeholder="Enter Exposure Limit"
                   name="exposureLimit"
                   id="exposureLimit"
+                  step="1"
                   value={selected.exposureLimit}
                   onChange={handleChange}
                 />
