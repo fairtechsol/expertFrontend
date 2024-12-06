@@ -398,6 +398,7 @@ const MatchMarketDetail = () => {
             currentMatch={matchDetail}
             matchOddsLive={matchDetail?.matchOdd}
             showResultBox={firstKnownKey === "matchOdd"}
+            exposureLimit={matchDetail?.quickBookmaker?.[0]?.exposureLimit}
           />
         ),
       result:
@@ -417,6 +418,7 @@ const MatchMarketDetail = () => {
             liveData={matchDetail?.bookmaker}
             title={matchDetail?.bookmaker?.name}
             showResultBox={firstKnownKey === "bookmaker"}
+            exposureLimit={matchDetail?.quickBookmaker?.[0]?.exposureLimit}
           />
         ),
       result:
@@ -436,6 +438,7 @@ const MatchMarketDetail = () => {
             liveData={matchDetail?.marketBookmaker2}
             title={matchDetail?.marketBookmaker2?.name}
             showResultBox={firstKnownKey === "marketBookmaker2"}
+            exposureLimit={matchDetail?.quickBookmaker?.[0]?.exposureLimit}
           />
         ),
       result:
@@ -461,6 +464,7 @@ const MatchMarketDetail = () => {
                 ? true
                 : false
             }
+            exposureLimit={matchDetail?.quickBookmaker?.[0]?.exposureLimit}
           />
         ),
         result:
@@ -487,6 +491,7 @@ const MatchMarketDetail = () => {
           }}
           title={market?.name}
           firstKnownKey={firstKnownKey}
+          exposureLimit={market?.exposureLimit}
         />
       ),
       result: matchDetail?.otherBettings?.[market?.id]
@@ -505,6 +510,7 @@ const MatchMarketDetail = () => {
             currentMatch={matchDetail}
             title={market?.name}
             firstKnownKey={firstKnownKey}
+            exposureLimit={market?.exposureLimit}
           />
         ),
         result: matchDetail?.otherBettings?.[market?.id]
@@ -521,6 +527,7 @@ const MatchMarketDetail = () => {
             liveData={matchDetail?.apiTideMatch}
             title={matchDetail?.apiTideMatch?.name}
             showResultBox={firstKnownKey === "apiTideMatch"}
+            exposureLimit={matchDetail?.manualTiedMatch?.exposureLimit}
           />
         ),
       result:
@@ -540,6 +547,7 @@ const MatchMarketDetail = () => {
             liveData={matchDetail?.apiTideMatch2}
             title={matchDetail?.apiTideMatch2?.name}
             showResultBox={firstKnownKey === "apiTiedMatch2"}
+            exposureLimit={matchDetail?.manualTiedMatch?.exposureLimit}
           />
         ),
       result:
@@ -559,6 +567,7 @@ const MatchMarketDetail = () => {
             liveData={matchDetail?.manualTiedMatch}
             type="manualTiedMatch"
             showResultBox={firstKnownKey === "manualTiedMatch"}
+            exposureLimit={matchDetail?.manualTiedMatch?.exposureLimit}
           />
         ),
       result:
@@ -580,6 +589,7 @@ const MatchMarketDetail = () => {
             liveData={matchDetail?.marketCompleteMatch}
             title={matchDetail?.marketCompleteMatch?.name}
             showResultBox={firstKnownKey === "marketCompleteMatch"}
+            exposureLimit={matchDetail?.manualCompleteMatch?.exposureLimit}
           />
         ),
       result:
@@ -602,6 +612,7 @@ const MatchMarketDetail = () => {
             liveData={matchDetail?.marketCompleteMatch1}
             title={matchDetail?.marketCompleteMatch1?.name}
             showResultBox={firstKnownKey === "marketCompleteMatch1"}
+            exposureLimit={matchDetail?.manualCompleteMatch?.exposureLimit}
           />
         ),
       result:
@@ -624,6 +635,7 @@ const MatchMarketDetail = () => {
             liveData={matchDetail?.manualCompleteMatch}
             type="manualTiedMatch"
             showResultBox={firstKnownKey === "manualCompleteMatch"}
+            exposureLimit={matchDetail?.manualCompleteMatch?.exposureLimit}
           />
         ),
       result:

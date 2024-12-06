@@ -18,11 +18,13 @@ const MaxBetAdd = ({
   matchOddsLive,
   currentMatch,
   title,
+  exposureLimit,
 }: any) => {
   const [selected, setSelected] = useState<any>({
     maxLimit: 0,
     minLimit: 0,
     betLimit: 0,
+    exposureLimit: null,
   });
   const dispatch: AppDispatch = useDispatch();
   const { maxLimitSuccess, maxLimitLoading } = useSelector(
@@ -37,6 +39,7 @@ const MaxBetAdd = ({
       name: matchOddsLive?.name,
       maxBet: parseFloat(selected.maxLimit),
       minBet: parseFloat(selected.minLimit),
+      exposureLimit: parseFloat(selected.exposureLimit),
       marketId: matchOddsLive?.mid?.toString(),
       gtype: matchOddsLive?.gtype,
       ...(matchOddsLive?.id && { id: matchOddsLive.id }),
@@ -67,6 +70,7 @@ const MaxBetAdd = ({
       setSelected({
         maxLimit: matchOddsLive?.maxBet,
         betLimit: matchOddsLive?.betLimit,
+        exposureLimit: exposureLimit,
         minLimit: matchOddsLive?.id
           ? matchOddsLive?.minBet
           : currentMatch?.betFairSessionMinBet,
@@ -141,6 +145,25 @@ const MaxBetAdd = ({
                   name="maxLimit"
                   id="maxLimit"
                   value={selected.maxLimit}
+                  onChange={handleChange}
+                />
+              </Box>
+              <Box
+                sx={{
+                  width: {
+                    xs: "100%",
+                    lg: "50%",
+                    md: "50%",
+                  },
+                }}
+              >
+                <MatchListInput
+                  label="Exposure Limit"
+                  type="number"
+                  placeholder="Enter Exposure Limit"
+                  name="exposureLimit"
+                  id="exposureLimit"
+                  value={selected.exposureLimit}
                   onChange={handleChange}
                 />
               </Box>

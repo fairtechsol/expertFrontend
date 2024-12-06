@@ -22,6 +22,7 @@ const OtherMatchMarket = ({
   liveData,
   title,
   firstKnownKey,
+  exposureLimit,
 }: any) => {
   const dispatch: AppDispatch = useDispatch();
   const [visibleImg, setVisibleImg] = useState<boolean>(true);
@@ -319,7 +320,9 @@ const OtherMatchMarket = ({
               // teamImage={currentMatch?.bookmaker?.teamA_Image}
               livestatus={
                 liveData?.runners?.length > 0 &&
-                !["ACTIVE", "OPEN", "", "active", "open"].includes(liveData?.runners[0]?.status?.toLowerCase())
+                !["ACTIVE", "OPEN", "", "active", "open"].includes(
+                  liveData?.runners[0]?.status?.toLowerCase()
+                )
                   ? true
                   : false
               }
@@ -337,7 +340,9 @@ const OtherMatchMarket = ({
             <BoxComponent
               livestatus={
                 liveData?.runners?.length > 0 &&
-                !["ACTIVE", "OPEN", "", "active", "open"].includes(liveData?.runners[1]?.status?.toLowerCase())
+                !["ACTIVE", "OPEN", "", "active", "open"].includes(
+                  liveData?.runners[1]?.status?.toLowerCase()
+                )
                   ? true
                   : false
               }
@@ -435,6 +440,7 @@ const OtherMatchMarket = ({
         matchOddsLive={liveData}
         currentMatch={currentMatch}
         title={"API Bookmaker Max Bet"}
+        exposureLimit={exposureLimit}
       />
     </Box>
   );

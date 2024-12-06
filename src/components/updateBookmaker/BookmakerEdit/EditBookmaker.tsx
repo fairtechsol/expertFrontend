@@ -22,7 +22,7 @@ import MaxBetAdd from "../../matchDetails/MaxBetAdd";
 
 const EditBookmaker = (props: any) => {
   const { state } = useLocation();
-  const { add, match, Bid, type } = props;
+  const { add, match, Bid, type, exposureLimit } = props;
   const dispatch: AppDispatch = useDispatch();
   const matchesMobile = useMediaQuery(theme.breakpoints.down("lg"));
   const { bookmakerById, success } = useSelector(
@@ -1431,6 +1431,7 @@ const EditBookmaker = (props: any) => {
           id: bookmakerById?.matchId,
         }}
         title={`${bookmakerById?.name} Max/Min Bet Limit`}
+        exposureLimit={exposureLimit}
       />
     </>
   );

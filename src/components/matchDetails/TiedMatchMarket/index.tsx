@@ -22,6 +22,7 @@ const TiedMatchMarket = ({
   liveData,
   title,
   showResultBox,
+  exposureLimit,
 }: any) => {
   const dispatch: AppDispatch = useDispatch();
 
@@ -425,6 +426,7 @@ const TiedMatchMarket = ({
         matchOddsLive={liveData}
         currentMatch={currentMatch}
         title={"API Tied Match Max Bet"}
+        exposureLimit={exposureLimit}
       />
     </Box>
   );

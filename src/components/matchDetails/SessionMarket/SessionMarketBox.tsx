@@ -597,6 +597,7 @@ const SessionMarketBox = ({
               name: newData.name,
               minBet: newData?.minBet,
               maxBet: newData?.maxBet,
+              exposureLimit: newData?.exposureLimit
             }}
             onClickCancel={() => {
               setShowMaxLimitModal(false);
