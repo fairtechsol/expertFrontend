@@ -22,8 +22,6 @@ const SessionLimitEdit = (props: any) => {
     newData?.exposureLimit ? newData?.exposureLimit : null
   );
 
-  console.log(newData?.exposureLimit, exposureLimit, "abc");
-
   const scrollToBottom = () => {
     myDivRef.current?.scrollIntoView({
       behavior: "smooth",
@@ -191,13 +189,21 @@ const SessionLimitEdit = (props: any) => {
           autoFocus
           placeholder="API Session Exposure Limit"
           variant="standard"
-          type="number"
+          type="text"
           // value={selected}
           value={exposureLimit}
           id="exposure"
           name="exposure"
+          inputProps={{
+            inputMode: "numeric",
+            pattern: "[0-9]*",
+          }}
           onChange={(e) => {
-            setExposureLimit(e?.target.value);
+            const inputValue = e.target.value;
+
+            if (/^\d*$/.test(inputValue)) {
+              setExposureLimit(inputValue);
+            }
           }}
           // touched={touched.score}
           // error={Boolean(errors.score)}

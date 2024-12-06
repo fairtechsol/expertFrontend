@@ -18,7 +18,9 @@ const SessionMarketMaxBetAmountEdit = (props: any) => {
   const myDivRef: any = useRef(null);
   const [value, setValue] = useState(newData?.maxBet ? newData?.maxBet : "");
   const [value1, setValue1] = useState(newData?.minBet ? newData?.minBet : "");
-  const [exposureLimit, setExposureLimit] = useState(newData?.exposureLimit ? newData?.exposureLimit : null);
+  const [exposureLimit, setExposureLimit] = useState(
+    newData?.exposureLimit ? newData?.exposureLimit : null
+  );
   const scrollToBottom = () => {
     myDivRef.current?.scrollIntoView({
       behavior: "smooth",
@@ -201,16 +203,22 @@ const SessionMarketMaxBetAmountEdit = (props: any) => {
           autoFocus
           placeholder="API Session Exposure Limit"
           variant="standard"
-          type="number"
+          type="text"
           // value={selected}
           value={exposureLimit}
+          inputProps={{
+            inputMode: "numeric",
+            pattern: "[0-9]*",
+          }}
           id="exposure"
           name="exposure"
           onChange={(e) => {
-            setExposureLimit(e?.target.value);
+            const inputValue = e.target.value;
+
+            if (/^\d*$/.test(inputValue)) {
+              setExposureLimit(inputValue);
+            }
           }}
-          // touched={touched.score}
-          // error={Boolean(errors.score)}
           InputProps={{
             disableUnderline: true,
             sx: {
@@ -227,7 +235,7 @@ const SessionMarketMaxBetAmountEdit = (props: any) => {
             }
           }}
         />
-        
+
         <Box
           sx={{
             display: "flex",
