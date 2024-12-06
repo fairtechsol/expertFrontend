@@ -312,8 +312,8 @@ const SessionMarketBox = ({
               ) <= 1 && newData?.resultStatus}
             </h6>
           </Box>
-        ) : !["ACTIVE", "active", "", undefined, null, 0].includes(
-            newData?.GameStatus
+        ) : !["ACTIVE", "active", "", undefined, null, 0, "open"].includes(
+            newData?.GameStatus?.toLowerCase()
           ) || newData?.result ? (
           <Box
             sx={{
@@ -481,8 +481,8 @@ const SessionMarketBox = ({
                   {item === 1 && newData?.resultStatus}
                 </h6>
               </Box>
-            ) : !["ACTIVE", "active", "", undefined, null, 0].includes(
-                newData?.GameStatus
+            ) : !["ACTIVE", "active", "", undefined, null, 0, "open"].includes(
+                newData?.GameStatus?.toLowerCase()
               ) || newData?.result ? (
               <Box
                 sx={{
@@ -506,6 +506,13 @@ const SessionMarketBox = ({
                     lineHeight: "11px",
                     color: "#FFF",
                     fontWeight: "400",
+                    marginTop:
+                      Math.max(
+                        newData?.ex?.availableToLay?.length ?? 0,
+                        newData?.ex?.availableToBack?.length ?? 0
+                      ) === 2
+                        ? "-5px"
+                        : "0",
                   }}
                 >
                   {item === 1 &&

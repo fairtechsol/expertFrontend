@@ -310,7 +310,9 @@ const BookMarket = ({ currentMatch, liveData, title, showResultBox }: any) => {
               // teamImage={currentMatch?.bookmaker?.teamA_Image}
               livestatus={
                 liveData?.runners?.length > 0 &&
-                !["ACTIVE", "OPEN", ""].includes(liveData?.runners[0]?.status)
+                !["ACTIVE", "OPEN", "", "active", "open"].includes(
+                  liveData?.runners[0]?.status?.toLowerCase()
+                )
                   ? true
                   : false
               }
@@ -323,7 +325,7 @@ const BookMarket = ({ currentMatch, liveData, title, showResultBox }: any) => {
             <BoxComponent
               livestatus={
                 liveData?.runners?.length > 0 &&
-                !["ACTIVE", "OPEN", ""].includes(liveData?.runners[1]?.status)
+                !["ACTIVE", "OPEN", "", "active", "open"].includes(liveData?.runners[1]?.status?.toLowerCase())
                   ? true
                   : false
               }
@@ -356,8 +358,8 @@ const BookMarket = ({ currentMatch, liveData, title, showResultBox }: any) => {
                   color={"#FF4D4D"}
                   livestatus={
                     liveData?.runners?.length > 0 &&
-                    !["ACTIVE", "OPEN", ""].includes(
-                      liveData?.runners[2]?.status
+                    !["ACTIVE", "OPEN", "", "active", "open"].includes(
+                      liveData?.runners[2]?.status?.toLowerCase()
                     )
                       ? true
                       : false
@@ -418,7 +420,7 @@ const BookMarket = ({ currentMatch, liveData, title, showResultBox }: any) => {
                       backgroundColor: "rgba(203 24 24 / 70%)",
                     }}
                   >
-                    <Typography sx={{ color: "#fff" }}>
+                    <Typography sx={{ color: "#fff", textAlign: "center" }}>
                       RESULT {currentMatch?.resultStatus}
                     </Typography>
                   </Box>
@@ -438,7 +440,7 @@ const BookMarket = ({ currentMatch, liveData, title, showResultBox }: any) => {
                       backgroundColor: "rgba(203 24 24 / 70%)",
                     }}
                   >
-                    <Typography sx={{ color: "#fff" }}>
+                    <Typography sx={{ color: "#fff", textAlign: "center" }}>
                       RESULT {currentMatch?.resultStatus[liveData?.id]?.status}
                     </Typography>
                   </Box>

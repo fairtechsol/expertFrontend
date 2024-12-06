@@ -44,3 +44,8 @@ export const formatToINR = (amount: any) => {
   });
   return formatter.format(amount || 0);
 };
+
+export const handleMarketSorting = (a: any, b: any) => {
+  const order: any = { "": 1, pending: 2, declared: 3 };
+  return order[a?.result] - order[b?.result];
+};

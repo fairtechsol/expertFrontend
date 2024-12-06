@@ -319,7 +319,7 @@ const OtherMatchMarket = ({
               // teamImage={currentMatch?.bookmaker?.teamA_Image}
               livestatus={
                 liveData?.runners?.length > 0 &&
-                !["ACTIVE", "OPEN", ""].includes(liveData?.runners[0]?.status)
+                !["ACTIVE", "OPEN", "", "active", "open"].includes(liveData?.runners[0]?.status?.toLowerCase())
                   ? true
                   : false
               }
@@ -337,7 +337,7 @@ const OtherMatchMarket = ({
             <BoxComponent
               livestatus={
                 liveData?.runners?.length > 0 &&
-                !["ACTIVE", "OPEN", ""].includes(liveData?.runners[1]?.status)
+                !["ACTIVE", "OPEN", "", "active", "open"].includes(liveData?.runners[1]?.status?.toLowerCase())
                   ? true
                   : false
               }
@@ -399,7 +399,7 @@ const OtherMatchMarket = ({
                     backgroundColor: "rgba(203 24 24 / 70%)",
                   }}
                 >
-                  <Typography sx={{ color: "#fff" }}>
+                  <Typography sx={{ color: "#fff", textAlign: "center" }}>
                     RESULT {currentMatch?.resultStatus[liveData?.id]?.status}
                   </Typography>
                 </Box>
@@ -418,7 +418,7 @@ const OtherMatchMarket = ({
                   backgroundColor: "rgba(203 24 24 / 70%)",
                 }}
               >
-                <Typography sx={{ color: "#fff" }}>
+                <Typography sx={{ color: "#fff", textAlign: "center" }}>
                   RESULT{" "}
                   {liveData?.activeStatus === "result"
                     ? "DECLARED"

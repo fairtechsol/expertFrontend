@@ -316,7 +316,9 @@ const TiedMatchMarket = ({
               teamImage={currentMatch?.apiTideMatch?.teamA_Image}
               livestatus={
                 liveData?.runners?.length > 0 &&
-                !["ACTIVE", "OPEN", ""].includes(liveData?.runners[0]?.status)
+                !["ACTIVE", "OPEN", "", "active", "open"].includes(
+                  liveData?.runners[0]?.status?.toLowerCase()
+                )
                   ? true
                   : false
               }
@@ -329,7 +331,9 @@ const TiedMatchMarket = ({
             <BoxComponent
               livestatus={
                 liveData?.runners?.length > 0 &&
-                !["ACTIVE", "OPEN", ""].includes(liveData?.runners[1]?.status)
+                !["ACTIVE", "OPEN", "", "active", "open"].includes(
+                  liveData?.runners[1]?.status?.toLowerCase()
+                )
                   ? true
                   : false
               }
@@ -384,7 +388,7 @@ const TiedMatchMarket = ({
                       backgroundColor: "rgba(203 24 24 / 70%)",
                     }}
                   >
-                    <Typography sx={{ color: "#fff" }}>
+                    <Typography sx={{ color: "#fff", textAlign: "center" }}>
                       RESULT {currentMatch?.resultStatus}
                     </Typography>
                   </Box>
@@ -404,7 +408,7 @@ const TiedMatchMarket = ({
                       backgroundColor: "rgba(203 24 24 / 70%)",
                     }}
                   >
-                    <Typography sx={{ color: "#fff" }}>
+                    <Typography sx={{ color: "#fff", textAlign: "center" }}>
                       RESULT{" "}
                       {liveData?.stopAt || liveData?.activeStatus === "result"
                         ? "DECLARED"

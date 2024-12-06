@@ -38,7 +38,7 @@ const CasinoMarketBox = ({ newData, index }: any) => {
           </Typography>
         </Box>
 
-        {!["ACTIVE", "", undefined, null].includes(newData?.gstatus) ? (
+        {!["ACTIVE", "", undefined, null, "active", "open"].includes(newData?.gstatus?.toLowerCase()) ? (
           <Box
             sx={{
               margin: "1px",

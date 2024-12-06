@@ -320,7 +320,9 @@ const TournamentMarket = ({
                       : 0
                   }
                   livestatus={
-                    !["ACTIVE", "OPEN", ""].includes(item?.status)
+                    !["ACTIVE", "OPEN", "", "active", "open"].includes(
+                      item?.status?.toLowerCase()
+                    )
                       ? true
                       : false
                   }
@@ -359,7 +361,7 @@ const TournamentMarket = ({
                     backgroundColor: "rgba(203 24 24 / 70%)",
                   }}
                 >
-                  <Typography sx={{ color: "#fff" }}>
+                  <Typography sx={{ color: "#fff", textAlign: "center" }}>
                     RESULT {currentMatch?.resultStatus[liveData?.id]?.status}
                   </Typography>
                 </Box>
@@ -378,7 +380,7 @@ const TournamentMarket = ({
                   backgroundColor: "rgba(203 24 24 / 70%)",
                 }}
               >
-                <Typography sx={{ color: "#fff" }}>
+                <Typography sx={{ color: "#fff", textAlign: "center" }}>
                   RESULT{" "}
                   {liveData?.activeStatus === "result"
                     ? "DECLARED"

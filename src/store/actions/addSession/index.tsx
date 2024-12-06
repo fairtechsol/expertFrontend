@@ -255,6 +255,7 @@ export const updateResultStatusOfQuickBookmaker = createAsyncThunk<
 >("update/resultStatusQuickBookmaker", async (requestData) => {
   return requestData;
 });
+
 export const sessionByIdReset = createAction("sessionById/reset");
 export const successReset = createAction("success/reset");
 export const addsuccessReset = createAction("addsuccess/reset");
