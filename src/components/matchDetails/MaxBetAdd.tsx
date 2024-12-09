@@ -109,7 +109,17 @@ const MaxBetAdd = ({
               gap: 1,
             }}
           >
-            <Box sx={{ display: "flex", width: "100%", gap: 1 }}>
+            <Box
+              sx={{
+                display: "flex",
+                width: "100%",
+                gap: 1,
+                flexDirection: {
+                  xs: "column",
+                  md: "row",
+                },
+              }}
+            >
               <Box
                 sx={{
                   width: {

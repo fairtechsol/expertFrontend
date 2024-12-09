@@ -143,6 +143,7 @@ const SessionLimitEdit = (props: any) => {
         ref={myDivRef}
       >
         <TextField
+          label="Max Limit"
           autoFocus
           placeholder="API Session Max Bet"
           variant="standard"

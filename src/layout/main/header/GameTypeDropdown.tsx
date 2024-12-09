@@ -2,6 +2,8 @@ import { useState } from "react";
 import { Box, Menu, MenuItem, useMediaQuery, useTheme } from "@mui/material";
 import { AppDispatch } from "../../../store/store";
 import { useDispatch } from "react-redux";
+import React from 'react';
+
 import {
   getMatchListDropdown,
   resetMatchListDropdown,
@@ -46,7 +48,7 @@ const GameTypeDropdown = ({
       >
         {allMatchg?.length > 0 &&
           allMatchg?.map((x: any, i: any) => (
-            <>
+            <div>
               <MenuItem
                 key={i}
                 dense={true}
@@ -85,7 +87,7 @@ const GameTypeDropdown = ({
                 {x.title}
               </MenuItem>
               {selected === i && (
-                <>
+                <div>
                   <Box
                     sx={{
                       background: "#F8C851",
@@ -108,9 +110,9 @@ const GameTypeDropdown = ({
                         />
                       ))}
                   </Box>
-                </>
+                </div>
               )}
-            </>
+            </div>
           ))}
       </Menu>
       {/* {matchListDropdown?.length > 0 && (
