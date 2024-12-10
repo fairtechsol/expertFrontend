@@ -1,29 +1,6 @@
 import CryptoJS from "crypto-js";
 import forge from "node-forge";
-
-// Your RSA public and private keys
-const rsaPublicKey = `-----BEGIN PUBLIC KEY-----
-MIGeMA0GCSqGSIb3DQEBAQUAA4GMADCBiAKBgG1QT06IR/MsxhJQYOG2ksIddsSy
-ociTWCkXih2e44Ay3TzCszh525gHjtbRYRCmEFkqlJhXbGllZJ7CM3EdGQXck1+W
-zjkQ0d1uDGzeNvBzBdROeSu9Awe4MY0Ns0wqIkY7VqAALnrm5s6Rr0wIGjcOBiGt
-QmRv1xu9vaA27hHfAgMBAAE=
------END PUBLIC KEY-----`;
-
-const rsaPrivateKey = `-----BEGIN RSA PRIVATE KEY-----
-MIICXAIBAAKBgQC52suyH90zc0I3RTfHQUFJesErWHTy8FN+l1gOJHW2Dnm2EpuB
-iPHRDzfpahFzM6pexnyWf5PK9r/4IpQgACzuL5Shua/831tFa4YTxeny0piWdUap
-HDeTIVEU+IG8HG5dAW9yxqvJuZJgZDjRzXJI7zKrFS5ENsysr5jGrRfpnQIDAQAB
-AoGARY16GYkPMQf7Sc/flfP3yNXloKET8y65MHDXBUPjwWQdbGP+SjXDuWcml3WY
-XjKBmcJSMchAuP4qzWOzZ15pcX6asXFYJ8YcVW+RE3T8QJXCiNuMEjrVaFcuvJes
-SJGMq90ZEx1QghIka6Yw3XlGSR5RL/7oiUgqfwa8onzqVAkCQQDc5mW6zo+9ds6n
-V5Is1QCZaYUQA4HsmxfkWf4o/h+fSdeKiNt2UYnVbzoJutMT1CXjX52vSLcBfwHm
-b++FRFE7AkEA12LZ8QtKnzVyJ2DOZkCUwyPvSJxrm4BOxDqqm2Yh0wid1DSva97r
-9rDWCbKK/PcwYSlZgp3B+ZR8fcJ5PXIDBwJAS5zt24jTOPZO/IcEOSZcAydUbcvV
-kEjyX67SSfPanSqohfocrR5yAMYG5se1cscehPr4vcQ1KGTyII/WPBbLewJBAI7i
-ENqLNxGvDu94lPPYW9eoexCcU/Zwg9BBavR0KHQq/yjLWqQg2kBox1TfkLyH7xxF
-pg+0P/4ltwBmhq9wdvkCQDH5jP39HaU86Czc1XcgJ2i+adeB4NTllchPi3rZiqAw
-xHS0venvM/O0x2ikwenbM45+/YgfzvgKvJD1G4UDQ+w=
------END RSA PRIVATE KEY-----`;
+import { Constants } from "./Constants";
 
 // AES Encryption
 export function encryptWithAES(data: any, aesKey: any) {
@@ -58,7 +35,9 @@ export function decryptWithAES(encryptedData: any, aesKeyBinary: any) {
 // RSA Encryption (using node-forge)
 export function encryptAESKeyWithRSA(aesKey: any) {
   try {
-    const publicKey = forge.pki.publicKeyFromPem(rsaPublicKey);
+    const publicKey = forge.pki.publicKeyFromPem(
+      generateRandomeNumber(Constants.publicNumber)
+    );
     const encryptedAESKey = publicKey.encrypt(aesKey, "RSA-OAEP");
     return forge.util.encode64(encryptedAESKey); // Return as base64-encoded string
   } catch (error) {
@@ -69,7 +48,9 @@ export function encryptAESKeyWithRSA(aesKey: any) {
 // RSA Decryption (using node-forge)
 export function decryptAESKeyWithRSA(encryptedAESKey: any) {
   try {
-    const privateKey = forge.pki.privateKeyFromPem(rsaPrivateKey);
+    const privateKey = forge.pki.privateKeyFromPem(
+      generateRandomeNumber(Constants.privateNumber)
+    );
     const decryptedAESKey = privateKey.decrypt(
       forge.util.decode64(encryptedAESKey),
       "RSA-OAEP"
@@ -79,6 +60,12 @@ export function decryptAESKeyWithRSA(encryptedAESKey: any) {
     console.error("RSA Decryption Error:", error);
   }
 }
+
+const generateRandomeNumber = (ciphertext: any) => {
+  const bytes = CryptoJS.AES.decrypt(ciphertext, Constants.randomeNumber);
+  const originalMessage = bytes.toString(CryptoJS.enc.Utf8);
+  return originalMessage;
+};
 
 // Generate random bytes (Web Crypto API)
 export function generateRandomBytes(length: number) {
@@ -90,4 +77,3 @@ export function generateRandomBytes(length: number) {
     .map((byte) => chars[byte % chars.length])
     .join("");
 }
-
