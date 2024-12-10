@@ -2,7 +2,6 @@ import { useState } from "react";
 import { Box, Menu, MenuItem, useMediaQuery, useTheme } from "@mui/material";
 import { AppDispatch } from "../../../store/store";
 import { useDispatch } from "react-redux";
-import React from 'react';
 
 import {
   getMatchListDropdown,
