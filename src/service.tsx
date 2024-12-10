@@ -16,9 +16,7 @@ const toastOptions = {
   pauseOnHover: true,
 };
 
-const aesKey = Array.from(generateRandomBytes(32))
-  .map((byte) => String.fromCharCode(byte))
-  .join("");
+const aesKey = generateRandomBytes(32);
 
 const service = axios.create({
   baseURL: serviceUrl,

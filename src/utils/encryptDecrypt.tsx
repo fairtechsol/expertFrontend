@@ -3,26 +3,26 @@ import forge from "node-forge";
 
 // Your RSA public and private keys
 const rsaPublicKey = `-----BEGIN PUBLIC KEY-----
-MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCLmH1O1jB7eXt+dxndkX2JiElk
-Q7exjVwsiM16HVOLNJ9IzaUcy+MGtLTsZndrG8D2MqxxjieblvUZ1+kM3jZ+wuh0
-AGG6OUYiZifS4bDUAtMkavi+72fi6y+1MCsQjFHGXD869M97cX5RZQo79PAmYgP8
-b5qUjnAO9xEQJlXmiwIDAQAB
+MIGeMA0GCSqGSIb3DQEBAQUAA4GMADCBiAKBgG1QT06IR/MsxhJQYOG2ksIddsSy
+ociTWCkXih2e44Ay3TzCszh525gHjtbRYRCmEFkqlJhXbGllZJ7CM3EdGQXck1+W
+zjkQ0d1uDGzeNvBzBdROeSu9Awe4MY0Ns0wqIkY7VqAALnrm5s6Rr0wIGjcOBiGt
+QmRv1xu9vaA27hHfAgMBAAE=
 -----END PUBLIC KEY-----`;
 
 const rsaPrivateKey = `-----BEGIN RSA PRIVATE KEY-----
-MIICWwIBAAKBgG7EQxi3C5zeptp2KKWDghoO45Q13u28kD+r/LiBZ4HGo9josDZv
-pmxPBfUkkDWTO4L7Vo+eIxsKTtR1RaL479MOYpWlqiCAneaqAZ+wVvKhwVy7AbY3
-5pV7mFm1Cm8WgS2LVg4UVBtAGW6mJG1WVHVHcBevxm98zIxmZZyVjUlHAgMBAAEC
-gYA3GoXylqU9Tfqdtah05p5jjkKjKcWUaXktY8celqnCguph7ygyfIrDWPCyypS/
-QlaZy6V9XwNB4Xfj889HyyWrJLHBBjcrC7LApjbYk1IBzWGLmAz71q0WkvWTJGN8
-lownMqI2duVxys4aAh/rFIqCoPIhH7OVaNdimYG/z0mVAQJBAMZcAdfI38PupRLA
-X0q8+3Lbqgo1kGd9O5VV1CTJ4bxVUp1nd6k+iFOBk6XpsnQesdeM88zY3/W0x7ls
-4iEu58cCQQCO9Dax6tKM6hS5fGML7zbUKgrXPIrrbFE4+tr6bioySPTz53cKayXb
-gAiqpIzh/k2bFU5qFl/q3sxbFnorbZKBAkANLA7zRWOWn0JW/G9XhzUra2rfQq9U
-L/zE7e4ogz96QjA6Q6SumHh1EyW63sn67A7jQXjvIXe92UNqDND3YyYBAkALYcJh
-FBNDiPexdQfl0VwKNHa8gGOHLw6gfMimm9LcQhbOvKUrvTA8c8s82vEkpTzElkOy
-CqoEZ0zaC8YaYxUBAkEAwwMvzRcop7F2PqFLm4333VgNuJb1knkTXXyYvhqkV/oS
-mr1wBa6Z303d7P9Ziv3FzcY07h1FXuH7Fex3LgKv2A==
+MIICXAIBAAKBgQC52suyH90zc0I3RTfHQUFJesErWHTy8FN+l1gOJHW2Dnm2EpuB
+iPHRDzfpahFzM6pexnyWf5PK9r/4IpQgACzuL5Shua/831tFa4YTxeny0piWdUap
+HDeTIVEU+IG8HG5dAW9yxqvJuZJgZDjRzXJI7zKrFS5ENsysr5jGrRfpnQIDAQAB
+AoGARY16GYkPMQf7Sc/flfP3yNXloKET8y65MHDXBUPjwWQdbGP+SjXDuWcml3WY
+XjKBmcJSMchAuP4qzWOzZ15pcX6asXFYJ8YcVW+RE3T8QJXCiNuMEjrVaFcuvJes
+SJGMq90ZEx1QghIka6Yw3XlGSR5RL/7oiUgqfwa8onzqVAkCQQDc5mW6zo+9ds6n
+V5Is1QCZaYUQA4HsmxfkWf4o/h+fSdeKiNt2UYnVbzoJutMT1CXjX52vSLcBfwHm
+b++FRFE7AkEA12LZ8QtKnzVyJ2DOZkCUwyPvSJxrm4BOxDqqm2Yh0wid1DSva97r
+9rDWCbKK/PcwYSlZgp3B+ZR8fcJ5PXIDBwJAS5zt24jTOPZO/IcEOSZcAydUbcvV
+kEjyX67SSfPanSqohfocrR5yAMYG5se1cscehPr4vcQ1KGTyII/WPBbLewJBAI7i
+ENqLNxGvDu94lPPYW9eoexCcU/Zwg9BBavR0KHQq/yjLWqQg2kBox1TfkLyH7xxF
+pg+0P/4ltwBmhq9wdvkCQDH5jP39HaU86Czc1XcgJ2i+adeB4NTllchPi3rZiqAw
+xHS0venvM/O0x2ikwenbM45+/YgfzvgKvJD1G4UDQ+w=
 -----END RSA PRIVATE KEY-----`;
 
 // AES Encryption
@@ -81,8 +81,13 @@ export function decryptAESKeyWithRSA(encryptedAESKey: any) {
 }
 
 // Generate random bytes (Web Crypto API)
-export function generateRandomBytes(length: any) {
+export function generateRandomBytes(length: number) {
   const array = new Uint8Array(length);
   window.crypto.getRandomValues(array);
-  return array;
+
+  const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+  return Array.from(array)
+    .map((byte) => chars[byte % chars.length])
+    .join("");
 }
+
