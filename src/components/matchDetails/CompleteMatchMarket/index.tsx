@@ -5,7 +5,7 @@ import { ARROWUP } from "../../../assets";
 import { betLiveStatus } from "../../../store/actions/match/matchAction";
 import { AppDispatch, RootState } from "../../../store/store";
 import Divider from "../../Common/Divider";
-import { formatToINR } from "../../helper";
+import { formatNumber, formatToINR } from "../../helper";
 import BoxComponent from "../MatchOdds/BoxComponent";
 import MaxBetAdd from "../MaxBetAdd";
 import Stop from "../SessionMarket/Stop";
@@ -249,6 +249,8 @@ const CompleteMatchMarket = ({
                     : currentMatch?.betFairSessionMinBet
                 )}{" "}
                 MAX: {formatToINR(liveData?.maxBet)}
+                {" "}EXP:
+                {formatNumber(liveData?.exposureLimit)}
               </Typography>
             </Box>
             <Box

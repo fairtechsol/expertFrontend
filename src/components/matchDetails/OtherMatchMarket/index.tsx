@@ -6,7 +6,7 @@ import { betLiveStatus } from "../../../store/actions/match/matchAction";
 import { AppDispatch, RootState } from "../../../store/store";
 import { profitLossDataForMatchConstants } from "../../../utils/Constants";
 import Divider from "../../Common/Divider";
-import { formatToINR } from "../../helper";
+import { formatNumber } from "../../helper";
 import BoxComponent from "../MatchOdds/BoxComponent";
 import Stop from "../SessionMarket/Stop";
 import SmallBox from "../SmallBox";
@@ -241,12 +241,14 @@ const OtherMatchMarket = ({
                 }}
               >
                 MIN:{" "}
-                {formatToINR(
+                {formatNumber(
                   liveData?.id
                     ? liveData?.minBet
                     : currentMatch?.betFairSessionMinBet
                 )}{" "}
-                MAX: {formatToINR(liveData?.maxBet)}
+                MAX: {formatNumber(liveData?.maxBet)}
+                {" "}EXP:
+                {formatNumber(liveData?.exposureLimit)}
               </Typography>
             </Box>
             <Box
