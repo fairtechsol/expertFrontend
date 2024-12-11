@@ -8,6 +8,7 @@ import {
   updateSession,
 } from "../../../store/actions/addSession";
 import { AppDispatch, RootState } from "../../../store/store";
+import { MaterialUISwitch } from "../../tabList/materialUiSwitch";
 
 const SessionLimitEdit = (props: any) => {
   const { newData, visible, onClickCancel } = props;
@@ -18,6 +19,7 @@ const SessionLimitEdit = (props: any) => {
   const myDivRef: any = useRef(null);
   const [error, setError] = useState(false);
   const [value, setValue] = useState(newData?.maxBet ? newData?.maxBet : "");
+  const [commission, setCommission] = useState(false);
   const [exposureLimit, setExposureLimit] = useState(
     newData?.exposureLimit ? newData?.exposureLimit : null
   );
@@ -39,6 +41,7 @@ const SessionLimitEdit = (props: any) => {
           maxBet: parseInt(value),
           minBet: newData?.minBet,
           exposureLimit: parseFloat(exposureLimit),
+          toggle: commission,
         };
         dispatch(updateSession(payload));
       } else {
@@ -224,6 +227,26 @@ const SessionLimitEdit = (props: any) => {
             }
           }}
         />
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "8px",
+            background: "#004a25",
+            color: "#fff",
+            borderRadius: "8px",
+            padding: "2px 10px",
+          }}
+        >
+          <label htmlFor="commission-switch">Set Commission</label>
+          <MaterialUISwitch
+            id="commission-switch"
+            checked={commission}
+            onChange={() => {
+              setCommission((p) => !p);
+            }}
+          />
+        </div>
 
         <Box
           sx={{
