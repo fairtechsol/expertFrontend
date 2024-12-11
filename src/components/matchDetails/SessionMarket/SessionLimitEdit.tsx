@@ -19,7 +19,9 @@ const SessionLimitEdit = (props: any) => {
   const myDivRef: any = useRef(null);
   const [error, setError] = useState(false);
   const [value, setValue] = useState(newData?.maxBet ? newData?.maxBet : "");
-  const [commission, setCommission] = useState(false);
+  const [commission, setCommission] = useState(
+    newData?.isCommissionActive ? newData?.isCommissionActive : false
+  );
   const [exposureLimit, setExposureLimit] = useState(
     newData?.exposureLimit ? newData?.exposureLimit : null
   );
@@ -250,7 +252,7 @@ const SessionLimitEdit = (props: any) => {
             id="commission-switch"
             checked={commission}
             onChange={() => {
-              setCommission((p) => !p);
+              setCommission((p: boolean) => !p);
             }}
           />
         </div>
