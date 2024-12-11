@@ -231,14 +231,21 @@ const SessionLimitEdit = (props: any) => {
           style={{
             display: "flex",
             alignItems: "center",
-            gap: "8px",
+            gap: "6px",
             background: "#004a25",
             color: "#fff",
             borderRadius: "8px",
-            padding: "2px 10px",
+            padding: "1px 5px",
           }}
         >
-          <label htmlFor="commission-switch">Set Commission</label>
+          <Typography
+            sx={{
+              color: "#fff",
+              fontSize: { lg: "11px", md: "10px", xs: "9px" },
+            }}
+          >
+            Set Commission
+          </Typography>
           <MaterialUISwitch
             id="commission-switch"
             checked={commission}
