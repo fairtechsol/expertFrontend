@@ -6,7 +6,6 @@ import Divider from "../../components/Common/Divider";
 import ManualBoxComponent from "../../components/manualMarket/manualBoxComponent";
 import Stop from "../../components/matchDetails/SessionMarket/Stop";
 import SmallBox from "../../components/matchDetails/SmallBox";
-import { formatToINR } from "../../helpers";
 import { betLiveStatus } from "../../store/actions/match/matchAction";
 import { AppDispatch, RootState } from "../../store/store";
 import { profitLossDataForMatchConstants } from "../../utils/Constants";
@@ -15,6 +14,7 @@ import Result from "../../components/matchDetails/Result";
 import { declareMatchStatusReset } from "../../store/actions/match/matchDeclareActions";
 import MaxLimitEditButton from "../../components/Common/MaxLimitEditButton";
 import MaxBetAdd from "../../components/matchDetails/MaxBetAdd";
+import { formatNumber } from "../../components/helper";
 const ManualMarket = ({
   currentMatch,
   liveData,
@@ -234,12 +234,14 @@ const ManualMarket = ({
                 }}
               >
                 MIN:{" "}
-                {formatToINR(
+                {formatNumber(
                   liveData?.id
                     ? liveData?.minBet
                     : currentMatch?.betFairSessionMinBet
                 )}{" "}
-                MAX: {formatToINR(liveData?.maxBet)}
+                MAX: {formatNumber(liveData?.maxBet)}
+                {" "}EXP:
+                {formatNumber(liveData?.exposureLimit)}
               </Typography>
             </Box>
             <Box
