@@ -155,7 +155,9 @@ const SessionMarketBox = ({
                 fontWeight: "500",
               }}
             >
-              {!hideEditMaxButton && <>Exp: {formatNumber(newData?.exposureLimit)} </>}
+              {!hideEditMaxButton && (
+                <>Exp: {formatNumber(newData?.exposureLimit)} </>
+              )}
             </Typography>
           </Box>
         </Box>
@@ -610,6 +612,7 @@ const SessionMarketBox = ({
               minBet: newData?.minBet,
               maxBet: newData?.maxBet,
               exposureLimit: newData?.exposureLimit,
+              isCommissionActive: newData?.isCommissionActive,
             }}
             onClickCancel={() => {
               setShowMaxLimitModal(false);
