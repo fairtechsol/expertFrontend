@@ -41,7 +41,7 @@ const SessionLimitEdit = (props: any) => {
           maxBet: parseInt(value),
           minBet: newData?.minBet,
           exposureLimit: parseFloat(exposureLimit),
-          toggle: commission,
+          isCommissionActive: commission,
         };
         dispatch(updateSession(payload));
       } else {
