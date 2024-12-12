@@ -156,7 +156,11 @@ const SessionMarketBox = ({
               }}
             >
               {!hideEditMaxButton && (
-                <>Exp: {formatNumber(newData?.exposureLimit)} </>
+                <>
+                  {newData?.exposureLimit
+                    ? `Exp: ${formatNumber(newData?.exposureLimit)}`
+                    : ""}{" "}
+                </>
               )}
             </Typography>
           </Box>
