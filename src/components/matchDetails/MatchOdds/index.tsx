@@ -23,7 +23,6 @@ const MatchOdds = ({
   matchOddsLive,
   id,
   showResultBox,
-  exposureLimit,
 }: any) => {
   const dispatch: AppDispatch = useDispatch();
   const [visible, setVisible] = useState(false);

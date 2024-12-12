@@ -15,13 +15,7 @@ import { declareMatchStatusReset } from "../../store/actions/match/matchDeclareA
 import MaxLimitEditButton from "../../components/Common/MaxLimitEditButton";
 import MaxBetAdd from "../../components/matchDetails/MaxBetAdd";
 import { formatNumber } from "../../components/helper";
-const ManualMarket = ({
-  currentMatch,
-  liveData,
-  type,
-  showResultBox,
-  exposureLimit,
-}: any) => {
+const ManualMarket = ({ currentMatch, liveData, type, showResultBox }: any) => {
   const [visible, setVisible] = useState(false);
   const dispatch: AppDispatch = useDispatch();
   const [visibleImg, setVisibleImg] = useState<boolean>(true);
