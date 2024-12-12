@@ -5,7 +5,7 @@ import { ARROWUP } from "../../../assets";
 import { betLiveStatus } from "../../../store/actions/match/matchAction";
 import { AppDispatch, RootState } from "../../../store/store";
 import Divider from "../../Common/Divider";
-import { formatToINR } from "../../helper";
+import { formatNumber } from "../../helper";
 import BoxComponent from "../MatchOdds/BoxComponent";
 import MaxBetAdd from "../MaxBetAdd";
 import Stop from "../SessionMarket/Stop";
@@ -243,12 +243,16 @@ const TiedMatchMarket = ({
                 }}
               >
                 MIN:{" "}
-                {formatToINR(
+                {formatNumber(
                   liveData?.id
                     ? liveData?.minBet
                     : currentMatch?.betFairSessionMinBet
                 )}{" "}
-                MAX: {formatToINR(liveData?.maxBet)}
+                MAX: {formatNumber(liveData?.maxBet)}{" "}
+                {liveData?.exposureLimit
+                  ? `EXP:
+                  ${formatNumber(liveData?.exposureLimit)}`
+                  : ""}
               </Typography>
             </Box>
             <Box
@@ -316,7 +320,9 @@ const TiedMatchMarket = ({
               teamImage={currentMatch?.apiTideMatch?.teamA_Image}
               livestatus={
                 liveData?.runners?.length > 0 &&
-                !["ACTIVE", "OPEN", ""].includes(liveData?.runners[0]?.status)
+                !["ACTIVE", "OPEN", "", "active", "open"].includes(
+                  liveData?.runners[0]?.status?.toLowerCase()
+                )
                   ? true
                   : false
               }
@@ -329,7 +335,9 @@ const TiedMatchMarket = ({
             <BoxComponent
               livestatus={
                 liveData?.runners?.length > 0 &&
-                !["ACTIVE", "OPEN", ""].includes(liveData?.runners[1]?.status)
+                !["ACTIVE", "OPEN", "", "active", "open"].includes(
+                  liveData?.runners[1]?.status?.toLowerCase()
+                )
                   ? true
                   : false
               }
@@ -421,6 +429,7 @@ const TiedMatchMarket = ({
         matchOddsLive={liveData}
         currentMatch={currentMatch}
         title={"API Tied Match Max Bet"}
+        exposureLimit={liveData?.exposureLimit}
       />
     </Box>
   );

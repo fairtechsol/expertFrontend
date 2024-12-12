@@ -8,6 +8,7 @@ import {
   updateSession,
 } from "../../../store/actions/addSession";
 import { AppDispatch, RootState } from "../../../store/store";
+import { MaterialUISwitch } from "../../tabList/materialUiSwitch";
 
 const SessionLimitEdit = (props: any) => {
   const { newData, visible, onClickCancel } = props;
@@ -18,6 +19,12 @@ const SessionLimitEdit = (props: any) => {
   const myDivRef: any = useRef(null);
   const [error, setError] = useState(false);
   const [value, setValue] = useState(newData?.maxBet ? newData?.maxBet : "");
+  const [commission, setCommission] = useState(
+    newData?.isCommissionActive ? newData?.isCommissionActive : false
+  );
+  const [exposureLimit, setExposureLimit] = useState(
+    newData?.exposureLimit ? newData?.exposureLimit : null
+  );
 
   const scrollToBottom = () => {
     myDivRef.current?.scrollIntoView({
@@ -35,6 +42,8 @@ const SessionLimitEdit = (props: any) => {
           id: newData?.id,
           maxBet: parseInt(value),
           minBet: newData?.minBet,
+          exposureLimit: parseFloat(exposureLimit),
+          isCommissionActive: commission,
         };
         dispatch(updateSession(payload));
       } else {
@@ -139,6 +148,7 @@ const SessionLimitEdit = (props: any) => {
         ref={myDivRef}
       >
         <TextField
+          label="Max Limit"
           autoFocus
           placeholder="API Session Max Bet"
           variant="standard"
@@ -180,6 +190,72 @@ const SessionLimitEdit = (props: any) => {
             Max Bet Should be Greater Than Min Bet
           </Box>
         )}
+        <TextField
+          label="Exposure Limit"
+          autoFocus
+          placeholder="API Session Exposure Limit"
+          variant="standard"
+          type="text"
+          // value={selected}
+          value={exposureLimit}
+          id="exposure"
+          name="exposure"
+          inputProps={{
+            inputMode: "numeric",
+            pattern: "[0-9]*",
+          }}
+          onChange={(e) => {
+            const inputValue = e.target.value;
+
+            if (/^\d*$/.test(inputValue)) {
+              setExposureLimit(inputValue);
+            }
+          }}
+          // touched={touched.score}
+          // error={Boolean(errors.score)}
+          InputProps={{
+            disableUnderline: true,
+            sx: {
+              alignSelf: "center",
+              border: "1px solid #303030",
+              borderRadius: "5px",
+              paddingY: "5px",
+              paddingX: "1vw",
+            },
+          }}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              handleSubmit(e);
+            }
+          }}
+        />
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "6px",
+            background: "#004a25",
+            color: "#fff",
+            borderRadius: "8px",
+            padding: "1px 5px",
+          }}
+        >
+          <Typography
+            sx={{
+              color: "#fff",
+              fontSize: { lg: "11px", md: "10px", xs: "9px" },
+            }}
+          >
+            Set Commission
+          </Typography>
+          <MaterialUISwitch
+            id="commission-switch"
+            checked={commission}
+            onChange={() => {
+              setCommission((p: boolean) => !p);
+            }}
+          />
+        </div>
 
         <Box
           sx={{

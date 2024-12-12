@@ -5,7 +5,7 @@ import { ARROWUP } from "../../../assets";
 import { betLiveStatus } from "../../../store/actions/match/matchAction";
 import { AppDispatch, RootState } from "../../../store/store";
 import Divider from "../../Common/Divider";
-import { formatToINR } from "../../helper";
+import { formatNumber } from "../../helper";
 import BoxComponent from "../MatchOdds/BoxComponent";
 import Stop from "../SessionMarket/Stop";
 import SmallBox from "../SmallBox";
@@ -241,12 +241,16 @@ const TournamentMarket = ({
                 }}
               >
                 MIN:{" "}
-                {formatToINR(
+                {formatNumber(
                   liveData?.id
                     ? liveData?.minBet
                     : currentMatch?.betFairSessionMinBet
                 )}{" "}
-                MAX: {formatToINR(liveData?.maxBet)}
+                MAX: {formatNumber(liveData?.maxBet)}{" "}
+                {liveData?.exposureLimit
+                  ? `EXP:
+                  ${formatNumber(liveData?.exposureLimit)}`
+                  : ""}
               </Typography>
             </Box>
             <Box
@@ -320,7 +324,9 @@ const TournamentMarket = ({
                       : 0
                   }
                   livestatus={
-                    !["ACTIVE", "OPEN", ""].includes(item?.status)
+                    !["ACTIVE", "OPEN", "", "active", "open"].includes(
+                      item?.status?.toLowerCase()
+                    )
                       ? true
                       : false
                   }
@@ -395,6 +401,7 @@ const TournamentMarket = ({
         matchOddsLive={liveData}
         currentMatch={currentMatch}
         title={`${title} Max Bet`}
+        exposureLimit={liveData?.exposureLimit}
       />
     </Box>
   );

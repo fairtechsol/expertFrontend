@@ -13,10 +13,17 @@ import DialogTitle from "@mui/material/DialogTitle";
 import { Box } from "@mui/material";
 import MatchListInput from "../../addMatch/MatchListInput";
 
-const SessionLimit2 = ({ open, handleClose, matchOddsLive, title }: any) => {
+const SessionLimit2 = ({
+  open,
+  handleClose,
+  matchOddsLive,
+  title,
+  exposureLimit,
+}: any) => {
   const [selected, setSelected] = useState<any>({
     maxLimit: 0,
     minLimit: 0,
+    exposureLimit: null,
   });
   const dispatch: AppDispatch = useDispatch();
   const { maxLimitUpdateSuccess } = useSelector(
@@ -32,6 +39,7 @@ const SessionLimit2 = ({ open, handleClose, matchOddsLive, title }: any) => {
           id: matchOddsLive?.id,
           maxBet: selected?.maxLimit,
           minBet: selected?.minLimit,
+          exposureLimit: parseFloat(selected?.exposureLimit),
         };
         dispatch(updateSession(payload));
         //   }
@@ -60,6 +68,7 @@ const SessionLimit2 = ({ open, handleClose, matchOddsLive, title }: any) => {
       setSelected({
         maxLimit: matchOddsLive?.maxBet,
         minLimit: matchOddsLive?.minBet,
+        exposureLimit: exposureLimit,
       });
     } catch (error) {
       console.error(error);
@@ -130,6 +139,26 @@ const SessionLimit2 = ({ open, handleClose, matchOddsLive, title }: any) => {
                   name="maxLimit"
                   id="maxLimit"
                   value={selected.maxLimit}
+                  onChange={handleChange}
+                />
+              </Box>
+              <Box
+                sx={{
+                  width: {
+                    xs: "100%",
+                    lg: "50%",
+                    md: "50%",
+                  },
+                }}
+              >
+                <MatchListInput
+                  label="Exposure Limit"
+                  type="number"
+                  placeholder="Enter Exposure Bet..."
+                  name="exposureLimit"
+                  id="exposureLimit"
+                  step="1"
+                  value={selected.exposureLimit}
                   onChange={handleChange}
                 />
               </Box>

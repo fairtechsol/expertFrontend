@@ -6,7 +6,7 @@ import { betLiveStatus } from "../../../store/actions/match/matchAction";
 import { AppDispatch, RootState } from "../../../store/store";
 import { profitLossDataForMatchConstants } from "../../../utils/Constants";
 import Divider from "../../Common/Divider";
-import { formatToINR } from "../../helper";
+import { formatNumber } from "../../helper";
 import BoxComponent from "../MatchOdds/BoxComponent";
 import Stop from "../SessionMarket/Stop";
 import SmallBox from "../SmallBox";
@@ -240,12 +240,16 @@ const OtherMatchMarket = ({
                 }}
               >
                 MIN:{" "}
-                {formatToINR(
+                {formatNumber(
                   liveData?.id
                     ? liveData?.minBet
                     : currentMatch?.betFairSessionMinBet
                 )}{" "}
-                MAX: {formatToINR(liveData?.maxBet)}
+                MAX: {formatNumber(liveData?.maxBet)}{" "}
+                {liveData?.exposureLimit
+                  ? `EXP:
+                  ${formatNumber(liveData?.exposureLimit)}`
+                  : ""}
               </Typography>
             </Box>
             <Box
@@ -319,7 +323,9 @@ const OtherMatchMarket = ({
               // teamImage={currentMatch?.bookmaker?.teamA_Image}
               livestatus={
                 liveData?.runners?.length > 0 &&
-                !["ACTIVE", "OPEN", ""].includes(liveData?.runners[0]?.status)
+                !["ACTIVE", "OPEN", "", "active", "open"].includes(
+                  liveData?.runners[0]?.status?.toLowerCase()
+                )
                   ? true
                   : false
               }
@@ -337,7 +343,9 @@ const OtherMatchMarket = ({
             <BoxComponent
               livestatus={
                 liveData?.runners?.length > 0 &&
-                !["ACTIVE", "OPEN", ""].includes(liveData?.runners[1]?.status)
+                !["ACTIVE", "OPEN", "", "active", "open"].includes(
+                  liveData?.runners[1]?.status?.toLowerCase()
+                )
                   ? true
                   : false
               }
@@ -435,6 +443,7 @@ const OtherMatchMarket = ({
         matchOddsLive={liveData}
         currentMatch={currentMatch}
         title={"API Bookmaker Max Bet"}
+        exposureLimit={liveData?.exposureLimit}
       />
     </Box>
   );

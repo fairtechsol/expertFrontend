@@ -6,7 +6,7 @@ import { betLiveStatus } from "../../../store/actions/match/matchAction";
 import { AppDispatch, RootState } from "../../../store/store";
 import { profitLossDataForMatchConstants } from "../../../utils/Constants";
 import Divider from "../../Common/Divider";
-import { formatToINR } from "../../helper";
+import { formatNumber, formatToINR } from "../../helper";
 import ResultComponent from "../../updateBookmaker/BookmakerEdit/ResultComponent";
 import MaxBetAdd from "../MaxBetAdd";
 import Result from "../Result";
@@ -91,7 +91,7 @@ const MatchOdds = ({ currentMatch, matchOddsLive, id, showResultBox }: any) => {
       setVisible(false);
     }
   }, [success]);
-
+  console.log(matchOddsLive, "kjasb");
   return (
     <>
       <Box
@@ -350,7 +350,11 @@ const MatchOdds = ({ currentMatch, matchOddsLive, id, showResultBox }: any) => {
                       : currentMatch?.betFairSessionMinBet
                   )}{" "}
                   MAX:
-                  {formatToINR(matchOddsLive?.maxBet)}
+                  {formatToINR(matchOddsLive?.maxBet)}{" "}
+                  {matchOddsLive?.exposureLimit
+                    ? `EXP:
+                  ${formatNumber(matchOddsLive?.exposureLimit)}`
+                    : ""}
                 </Typography>
               </Box>
               <Box
@@ -571,6 +575,7 @@ const MatchOdds = ({ currentMatch, matchOddsLive, id, showResultBox }: any) => {
         matchOddsLive={matchOddsLive}
         currentMatch={currentMatch}
         title={"API Match Odds Max Bet"}
+        exposureLimit={matchOddsLive?.exposureLimit}
       />
     </>
   );

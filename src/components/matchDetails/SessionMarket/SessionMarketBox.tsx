@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { sessionBetLiveStatus } from "../../../store/actions/match/matchAction";
 import { AppDispatch, RootState } from "../../../store/store";
-import { formatNumber, formatToINR } from "../../helper";
+import { formatNumber } from "../../helper";
 import Result from "../Result";
 import SeparateBox from "../SeparateBox";
 import SmallBox from "../SmallBox";
@@ -94,6 +94,7 @@ const SessionMarketBox = ({
             alignItems: "center",
             boxShadow: visible ? 3 : 0,
             // backgroundColor:'#E15151'
+            justifyContent: "space-between",
           }}
           // className="example-2"
         >
@@ -113,8 +114,10 @@ const SessionMarketBox = ({
           <Box
             sx={{
               paddingTop: "3px",
-              width: { lg: "100%", xs: "70%" },
+              width: { lg: "100%", xs: "100%" },
               display: "flex",
+              justifyContent: "space-between", // Distribute the content evenly
+              alignItems: "center",
             }}
           >
             <Typography
@@ -122,10 +125,9 @@ const SessionMarketBox = ({
                 color: "black",
                 maxHeight: "30px",
                 fontSize: { lg: "9px", md: "9px", xs: "8px" },
-                marginLeft: "3px",
                 fontWeight: "bold",
-                // lineHeight: 1,
                 overflow: "hidden",
+                marginLeft: "7px",
                 // textOverflow: "ellipsis",
                 // whiteSpace: "nowrap",
                 display: "-webkit-box",
@@ -143,7 +145,23 @@ const SessionMarketBox = ({
                 fontWeight: "500",
               }}
             >
-              {!hideEditMaxButton && <>max : {formatToINR(newData?.maxBet)} </>}
+              {!hideEditMaxButton && <>max: {formatNumber(newData?.maxBet)} </>}
+            </Typography>
+            <Typography
+              sx={{
+                color: "black",
+                fontSize: { lg: "9px", md: "9px", xs: "7px" },
+                marginLeft: "7px",
+                fontWeight: "500",
+              }}
+            >
+              {!hideEditMaxButton && (
+                <>
+                  {newData?.exposureLimit
+                    ? `Exp: ${formatNumber(newData?.exposureLimit)}`
+                    : ""}{" "}
+                </>
+              )}
             </Typography>
           </Box>
         </Box>
@@ -153,7 +171,7 @@ const SessionMarketBox = ({
             position: "absolute",
             minWidth: { lg: "36%", xs: "45%", md: "25%" },
             justifyContent: "flex-end",
-            left: { lg: "7vw", md: "21vw" },
+            left: { lg: "11vw", md: "31vw", xs: "11.5vw" },
             display: "flex",
             height: "30px",
             zIndex: 100,
@@ -285,9 +303,9 @@ const SessionMarketBox = ({
               margin: "1px",
               background: "rgba(0,0,0,1)",
               height: "30px",
-              right: { lg: "24.6%", xs: "16.8%", md: "14.9%" },
+              right: { lg: "18.6%", xs: "18.8%", md: "14.9%" },
               position: "absolute",
-              width: { lg: "16.9%", xs: "36%" },
+              width: { lg: "16.9%", xs: "20%" },
               justifyContent: { xs: "center", lg: "center" },
               alignItems: "center",
               display: "flex",
@@ -312,17 +330,17 @@ const SessionMarketBox = ({
               ) <= 1 && newData?.resultStatus}
             </h6>
           </Box>
-        ) : !["ACTIVE", "active", "", undefined, null, 0].includes(
-            newData?.GameStatus
+        ) : !["ACTIVE", "active", "", undefined, null, 0, "open"].includes(
+            newData?.GameStatus?.toLowerCase()
           ) || newData?.result ? (
           <Box
             sx={{
               margin: "1px",
               background: "rgba(0,0,0,1)",
               height: "30px",
-              right: { lg: "24.6%", xs: "16.8%", md: "14.9%" },
+              right: { lg: "18.6%", xs: "16.8%", md: "14.9%" },
               position: "absolute",
-              width: { lg: "16.9%", xs: "36%" },
+              width: { lg: "16.9%", xs: "26%", md: "19.9%" },
               justifyContent: { xs: "center", lg: "center" },
               alignItems: "center",
               display: "flex",
@@ -350,12 +368,12 @@ const SessionMarketBox = ({
             sx={{
               display: "flex",
               position: "relative",
-              right: { lg: "-17.5%", xs: "-5%", md: "-7%" },
+              right: { lg: "-22.5%", xs: "-20%", md: "-24%" },
               // background: "white",
               height: "30px",
-              width: { lg: "18.6%", xs: "40%" },
-              justifyContent: "center",
-              alignItems: "center",
+              width: { lg: "18.6%", xs: "20%", md: "20%" },
+              justifyContent: "end",
+              alignItems: "end",
             }}
           >
             <SeparateBox
@@ -481,8 +499,8 @@ const SessionMarketBox = ({
                   {item === 1 && newData?.resultStatus}
                 </h6>
               </Box>
-            ) : !["ACTIVE", "active", "", undefined, null, 0].includes(
-                newData?.GameStatus
+            ) : !["ACTIVE", "active", "", undefined, null, 0, "open"].includes(
+                newData?.GameStatus?.toLowerCase()
               ) || newData?.result ? (
               <Box
                 sx={{
@@ -597,6 +615,8 @@ const SessionMarketBox = ({
               name: newData.name,
               minBet: newData?.minBet,
               maxBet: newData?.maxBet,
+              exposureLimit: newData?.exposureLimit,
+              isCommissionActive: newData?.isCommissionActive,
             }}
             onClickCancel={() => {
               setShowMaxLimitModal(false);

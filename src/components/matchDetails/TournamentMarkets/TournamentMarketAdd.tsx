@@ -18,11 +18,13 @@ const TournamentMarketAdd = ({
   matchOddsLive,
   currentMatch,
   title,
+  exposureLimit,
 }: any) => {
   const [selected, setSelected] = useState<any>({
     maxLimit: 0,
     minLimit: 0,
     betLimit: 0,
+    exposureLimit: null,
   });
   const dispatch: AppDispatch = useDispatch();
   const { maxLimitSuccess, maxLimitLoading } = useSelector(
@@ -37,6 +39,7 @@ const TournamentMarketAdd = ({
       name: matchOddsLive?.name,
       maxBet: parseFloat(selected.maxLimit),
       minBet: parseFloat(selected.minLimit),
+      exposureLimit: parseFloat(selected.exposureLimit),
       // betLimit: selected.betLimit,
       marketId: matchOddsLive?.mid?.toString(),
       gtype: matchOddsLive?.gtype,
@@ -79,6 +82,7 @@ const TournamentMarketAdd = ({
         minLimit: matchOddsLive?.id
           ? matchOddsLive?.minBet
           : currentMatch?.betFairSessionMinBet,
+        exposureLimit: exposureLimit,
         // betLimit: matchOddsLive?.betLimit,
       });
     } catch (error) {
@@ -151,6 +155,26 @@ const TournamentMarketAdd = ({
                   name="maxLimit"
                   id="maxLimit"
                   value={selected.maxLimit}
+                  onChange={handleChange}
+                />
+              </Box>
+              <Box
+                sx={{
+                  width: {
+                    xs: "100%",
+                    lg: "50%",
+                    md: "50%",
+                  },
+                }}
+              >
+                <MatchListInput
+                  label="Exposure Limit"
+                  type="number"
+                  placeholder="Enter Exposure Limit"
+                  name="exposureLimit"
+                  id="exposureLimit"
+                  step="1"
+                  value={selected.exposureLimit}
                   onChange={handleChange}
                 />
               </Box>

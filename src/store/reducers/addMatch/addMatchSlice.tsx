@@ -715,13 +715,14 @@ const addMatch = createSlice({
         state.success = true;
       })
       .addCase(updateMultiSessionMinMax.fulfilled, (state, action) => {
-        const { type, minBet, maxBet } = action.payload;
+        const { type, minBet, maxBet, exposureLimit } = action.payload;
         state.matchDetail = {
           ...state.matchDetail,
           sessionMaxBets: {
             ...state.matchDetail.sessionMaxBets,
             [type]: maxBet,
             [type + "_minBet"]: minBet,
+            [type + "_exposureLimit"]: exposureLimit,
           },
         };
       })

@@ -398,6 +398,7 @@ const MatchMarketDetail = () => {
             currentMatch={matchDetail}
             matchOddsLive={matchDetail?.matchOdd}
             showResultBox={firstKnownKey === "matchOdd"}
+            exposureLimit={matchDetail?.quickBookmaker?.[0]?.exposureLimit}
           />
         ),
       result:

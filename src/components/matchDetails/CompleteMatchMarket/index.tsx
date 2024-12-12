@@ -5,7 +5,7 @@ import { ARROWUP } from "../../../assets";
 import { betLiveStatus } from "../../../store/actions/match/matchAction";
 import { AppDispatch, RootState } from "../../../store/store";
 import Divider from "../../Common/Divider";
-import { formatToINR } from "../../helper";
+import { formatNumber, formatToINR } from "../../helper";
 import BoxComponent from "../MatchOdds/BoxComponent";
 import MaxBetAdd from "../MaxBetAdd";
 import Stop from "../SessionMarket/Stop";
@@ -247,7 +247,10 @@ const CompleteMatchMarket = ({
                     ? liveData?.minBet
                     : currentMatch?.betFairSessionMinBet
                 )}{" "}
-                MAX: {formatToINR(liveData?.maxBet)}
+                MAX: {formatToINR(liveData?.maxBet)}{" "}
+                {liveData?.exposureLimit ?
+                  `EXP:
+                  ${formatNumber(liveData?.exposureLimit)}`: ""}
               </Typography>
             </Box>
             <Box
@@ -315,7 +318,9 @@ const CompleteMatchMarket = ({
               teamImage={currentMatch?.marketCompleteMatch?.teamA_Image}
               livestatus={
                 liveData?.runners?.length > 0 &&
-                !["ACTIVE", "OPEN", ""].includes(liveData?.runners[0]?.status)
+                !["ACTIVE", "OPEN", "", "active", "open"].includes(
+                  liveData?.runners[0]?.status?.toLowerCase()
+                )
                   ? true
                   : false
               }
@@ -327,7 +332,9 @@ const CompleteMatchMarket = ({
             <BoxComponent
               livestatus={
                 liveData?.runners?.length > 0 &&
-                !["ACTIVE", "OPEN", ""].includes(liveData?.runners[1]?.status)
+                !["ACTIVE", "OPEN", "", "active", "open"].includes(
+                  liveData?.runners[1]?.status?.toLowerCase()
+                )
                   ? true
                   : false
               }
@@ -419,6 +426,7 @@ const CompleteMatchMarket = ({
         matchOddsLive={liveData}
         currentMatch={currentMatch}
         title={"API Complete Match Max Bet"}
+        exposureLimit={liveData?.exposureLimit}
       />
     </Box>
   );

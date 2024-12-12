@@ -18,7 +18,9 @@ const SessionMarketMaxBetAmountEdit = (props: any) => {
   const myDivRef: any = useRef(null);
   const [value, setValue] = useState(newData?.maxBet ? newData?.maxBet : "");
   const [value1, setValue1] = useState(newData?.minBet ? newData?.minBet : "");
-
+  const [exposureLimit, setExposureLimit] = useState(
+    newData?.exposureLimit ? newData?.exposureLimit : null
+  );
   const scrollToBottom = () => {
     myDivRef.current?.scrollIntoView({
       behavior: "smooth",
@@ -33,6 +35,7 @@ const SessionMarketMaxBetAmountEdit = (props: any) => {
         matchId: newData?.matchId,
         maxBet: parseInt(value),
         minBet: parseInt(value1),
+        exposureLimit: parseFloat(exposureLimit),
         type: newData?.type,
       };
       dispatch(updateMultiSessionMarketAmount(payload));
@@ -194,6 +197,45 @@ const SessionMarketMaxBetAmountEdit = (props: any) => {
             },
           }}
         />
+
+        <TextField
+          label="Exposure Limit"
+          autoFocus
+          placeholder="API Session Exposure Limit"
+          variant="standard"
+          type="text"
+          // value={selected}
+          value={exposureLimit}
+          inputProps={{
+            inputMode: "numeric",
+            pattern: "[0-9]*",
+          }}
+          id="exposure"
+          name="exposure"
+          onChange={(e) => {
+            const inputValue = e.target.value;
+
+            if (/^\d*$/.test(inputValue)) {
+              setExposureLimit(inputValue);
+            }
+          }}
+          InputProps={{
+            disableUnderline: true,
+            sx: {
+              alignSelf: "center",
+              border: "1px solid #303030",
+              borderRadius: "5px",
+              paddingY: "5px",
+              paddingX: "1vw",
+            },
+          }}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              handleSubmit(e);
+            }
+          }}
+        />
+
         <Box
           sx={{
             display: "flex",

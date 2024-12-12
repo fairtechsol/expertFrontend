@@ -22,7 +22,7 @@ import MaxBetAdd from "../../matchDetails/MaxBetAdd";
 
 const EditBookmaker = (props: any) => {
   const { state } = useLocation();
-  const { add, match, Bid, type } = props;
+  const { add, match, Bid, type, exposureLimit } = props;
   const dispatch: AppDispatch = useDispatch();
   const matchesMobile = useMediaQuery(theme.breakpoints.down("lg"));
   const { bookmakerById, success } = useSelector(
@@ -93,6 +93,9 @@ const EditBookmaker = (props: any) => {
 
   const handleChange = (event: any) => {
     try {
+      if (bookmakerById?.resultStatus) {
+        return true;
+      }
       let { name, value } = event.target;
       const decimalValue = value.split(".");
       if (
@@ -471,7 +474,12 @@ const EditBookmaker = (props: any) => {
             }}
           >
             <Typography
-              sx={{ color: "#fff", fontWeight: "bold", fontSize: "14px", textAlign: "center" }}
+              sx={{
+                color: "#fff",
+                fontWeight: "bold",
+                fontSize: "14px",
+                textAlign: "center",
+              }}
             >
               RESULT {bookmakerById?.resultStatus}
             </Typography>
@@ -627,7 +635,7 @@ const EditBookmaker = (props: any) => {
                     "minus",
                     "l",
                   ]}
-                  isDisabled={false}
+                  isDisabled={bookmakerById?.resultStatus}
                   onKeyEvent={(key, e) =>
                     handleKeysMatchEvents(
                       Bid,
@@ -802,7 +810,7 @@ const EditBookmaker = (props: any) => {
                     "minus",
                     "l",
                   ]}
-                  isDisabled={false}
+                  isDisabled={bookmakerById?.resultStatus}
                   onKeyEvent={(key, e) =>
                     handleKeysMatchEvents(
                       Bid,
@@ -971,7 +979,7 @@ const EditBookmaker = (props: any) => {
                         "minus",
                         "l",
                       ]}
-                      isDisabled={false}
+                      isDisabled={bookmakerById?.resultStatus}
                       onKeyEvent={(key, e) =>
                         handleKeysMatchEvents(
                           Bid,
@@ -1423,6 +1431,7 @@ const EditBookmaker = (props: any) => {
           id: bookmakerById?.matchId,
         }}
         title={`${bookmakerById?.name} Max/Min Bet Limit`}
+        exposureLimit={exposureLimit}
       />
     </>
   );
