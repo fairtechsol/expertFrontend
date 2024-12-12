@@ -248,9 +248,9 @@ const CompleteMatchMarket = ({
                     : currentMatch?.betFairSessionMinBet
                 )}{" "}
                 MAX: {formatToINR(liveData?.maxBet)}{" "}
-                {liveData?.exposureLimit &&
+                {liveData?.exposureLimit ?
                   `EXP:
-                  ${formatNumber(liveData?.exposureLimit)}`}
+                  ${formatNumber(liveData?.exposureLimit)}`: ""}
               </Typography>
             </Box>
             <Box

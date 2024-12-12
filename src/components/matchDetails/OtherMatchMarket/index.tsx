@@ -246,9 +246,10 @@ const OtherMatchMarket = ({
                     : currentMatch?.betFairSessionMinBet
                 )}{" "}
                 MAX: {formatNumber(liveData?.maxBet)}{" "}
-                {liveData?.exposureLimit &&
-                  `EXP:
-                  ${formatNumber(liveData?.exposureLimit)}`}
+                {liveData?.exposureLimit
+                  ? `EXP:
+                  ${formatNumber(liveData?.exposureLimit)}`
+                  : ""}
               </Typography>
             </Box>
             <Box

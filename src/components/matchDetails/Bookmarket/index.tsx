@@ -17,12 +17,7 @@ import Result from "../Result";
 import ResultComponent from "../../updateBookmaker/BookmakerEdit/ResultComponent";
 import { declareMatchStatusReset } from "../../../store/actions/match/matchDeclareActions";
 
-const BookMarket = ({
-  currentMatch,
-  liveData,
-  title,
-  showResultBox,
-}: any) => {
+const BookMarket = ({ currentMatch, liveData, title, showResultBox }: any) => {
   const dispatch: AppDispatch = useDispatch();
   const [visibleImg, setVisibleImg] = useState<boolean>(true);
   const [live, setLive] = useState<boolean>(
@@ -248,9 +243,10 @@ const BookMarket = ({
                     : currentMatch?.betFairSessionMinBet
                 )}{" "}
                 MAX: {formatNumber(liveData?.maxBet)}{" "}
-                {liveData?.exposureLimit &&
-                  `EXP:
-                  ${formatNumber(liveData?.exposureLimit)}`}
+                {liveData?.exposureLimit
+                  ? `EXP:
+                  ${formatNumber(liveData?.exposureLimit)}`
+                  : ""}
               </Typography>
             </Box>
             <Box
