@@ -18,8 +18,13 @@ import MaxLimitEditButton from "../../Common/MaxLimitEditButton";
 import AddMarketButton from "../../Common/AddMarketButton";
 import { declareMatchStatusReset } from "../../../store/actions/match/matchDeclareActions";
 
-
-const MatchOdds = ({ currentMatch, matchOddsLive, id, showResultBox, exposureLimit }: any) => {
+const MatchOdds = ({
+  currentMatch,
+  matchOddsLive,
+  id,
+  showResultBox,
+  exposureLimit,
+}: any) => {
   const dispatch: AppDispatch = useDispatch();
   const [visible, setVisible] = useState(false);
   const [visibleImg, setVisibleImg] = useState(true);
@@ -92,7 +97,7 @@ const MatchOdds = ({ currentMatch, matchOddsLive, id, showResultBox, exposureLim
       setVisible(false);
     }
   }, [success]);
-console.log(matchOddsLive, "kjasb")
+  console.log(matchOddsLive, "kjasb");
   return (
     <>
       <Box
@@ -351,9 +356,10 @@ console.log(matchOddsLive, "kjasb")
                       : currentMatch?.betFairSessionMinBet
                   )}{" "}
                   MAX:
-                  {formatToINR(matchOddsLive?.maxBet)}
-                  {" "}EXP:
-                  {formatNumber(matchOddsLive?.exposureLimit)}
+                  {formatToINR(matchOddsLive?.maxBet)}{" "}
+                  {matchOddsLive?.exposureLimit &&
+                    `EXP:
+                  ${formatNumber(matchOddsLive?.exposureLimit)}`}
                 </Typography>
               </Box>
               <Box
@@ -574,7 +580,7 @@ console.log(matchOddsLive, "kjasb")
         matchOddsLive={matchOddsLive}
         currentMatch={currentMatch}
         title={"API Match Odds Max Bet"}
-        exposureLimit={exposureLimit}
+        exposureLimit={matchOddsLive?.exposureLimit}
       />
     </>
   );

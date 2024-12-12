@@ -246,9 +246,10 @@ const OtherMatchMarket = ({
                     ? liveData?.minBet
                     : currentMatch?.betFairSessionMinBet
                 )}{" "}
-                MAX: {formatNumber(liveData?.maxBet)}
-                {" "}EXP:
-                {formatNumber(liveData?.exposureLimit)}
+                MAX: {formatNumber(liveData?.maxBet)}{" "}
+                {liveData?.exposureLimit &&
+                  `EXP:
+                  ${formatNumber(liveData?.exposureLimit)}`}
               </Typography>
             </Box>
             <Box
@@ -442,7 +443,7 @@ const OtherMatchMarket = ({
         matchOddsLive={liveData}
         currentMatch={currentMatch}
         title={"API Bookmaker Max Bet"}
-        exposureLimit={exposureLimit}
+        exposureLimit={liveData?.exposureLimit}
       />
     </Box>
   );
