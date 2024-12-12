@@ -22,7 +22,6 @@ const BookMarket = ({
   liveData,
   title,
   showResultBox,
-  exposureLimit,
 }: any) => {
   const dispatch: AppDispatch = useDispatch();
   const [visibleImg, setVisibleImg] = useState<boolean>(true);

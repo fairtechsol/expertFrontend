@@ -22,7 +22,6 @@ const OtherMatchMarket = ({
   liveData,
   title,
   firstKnownKey,
-  exposureLimit,
 }: any) => {
   const dispatch: AppDispatch = useDispatch();
   const [visibleImg, setVisibleImg] = useState<boolean>(true);

@@ -22,7 +22,6 @@ const TiedMatchMarket = ({
   liveData,
   title,
   showResultBox,
-  exposureLimit,
 }: any) => {
   const dispatch: AppDispatch = useDispatch();
 

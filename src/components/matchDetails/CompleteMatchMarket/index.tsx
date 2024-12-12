@@ -22,7 +22,6 @@ const CompleteMatchMarket = ({
   liveData,
   title,
   showResultBox,
-  exposureLimit,
 }: any) => {
   const dispatch: AppDispatch = useDispatch();
   const [visibleImg, setVisibleImg] = useState(true);
