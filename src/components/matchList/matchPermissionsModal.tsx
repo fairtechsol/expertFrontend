@@ -18,6 +18,7 @@ const MatchPermissionsModal = (props: any) => {
     updateMatchStatus,
     setUpdateMatchStatus,
     handleMatchProfitLossClick,
+    upcoming
   } = props;
 
   const { profileDetail } = useSelector(
@@ -45,7 +46,11 @@ const MatchPermissionsModal = (props: any) => {
       sx={{
         width: "100%",
         display: "flex",
-        background: "#ffe094",
+        background: data?.stopAt
+          ? "#f78f65"
+          : !upcoming
+          ? "#FFE094"
+          : "#a6d482",
         justifyContent: { xs: "end" },
         minHeight: { xs: "auto", md: "auto", lg: "7rem" },
         // paddingRight:{xs:"5%"}
