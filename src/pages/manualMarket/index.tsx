@@ -141,28 +141,30 @@ const ManualMarket = ({
             />
           )}
           {liveData?.activeStatus !== "result" && (
-            <SmallBox
-              onClick={() => {
-                dispatch(
-                  betLiveStatus({
-                    isStop: live,
-                    betId: liveData?.id,
-                    isManual: true,
-                  })
-                );
-                setLive(!live);
-              }}
-              width={{ lg: "25px", xs: "20px" }}
-              title={live ? "Live" : "Go Live"}
-              color={live ? "#46e080" : "#FF4D4D"}
-              customStyle={{
-                justifyContent: "center",
-                textAlign: "center",
-              }}
-              height="18px"
-            />
+            <>
+              <SmallBox
+                onClick={() => {
+                  dispatch(
+                    betLiveStatus({
+                      isStop: live,
+                      betId: liveData?.id,
+                      isManual: true,
+                    })
+                  );
+                  setLive(!live);
+                }}
+                width={{ lg: "25px", xs: "20px" }}
+                title={live ? "Live" : "Go Live"}
+                color={live ? "#46e080" : "#FF4D4D"}
+                customStyle={{
+                  justifyContent: "center",
+                  textAlign: "center",
+                }}
+                height="18px"
+              />
+              <MaxLimitEditButton handleClickOpen={handleClickOpen} />
+            </>
           )}
-          <MaxLimitEditButton handleClickOpen={handleClickOpen} />
 
           <img
             onClick={() => {
@@ -239,9 +241,10 @@ const ManualMarket = ({
                     ? liveData?.minBet
                     : currentMatch?.betFairSessionMinBet
                 )}{" "}
-                MAX: {formatNumber(liveData?.maxBet)}
-                {" "}EXP:
-                {formatNumber(liveData?.exposureLimit)}
+                MAX: {formatNumber(liveData?.maxBet)}{" "}
+                {liveData?.exposureLimit &&
+                  `EXP:
+                  ${formatNumber(liveData?.exposureLimit)}`}
               </Typography>
             </Box>
             <Box
@@ -468,7 +471,7 @@ const ManualMarket = ({
         matchOddsLive={liveData}
         currentMatch={currentMatch}
         title={"API Bookmaker Max Bet"}
-        exposureLimit={exposureLimit}
+        exposureLimit={liveData?.exposureLimit}
       />
     </Box>
   );

@@ -247,9 +247,10 @@ const TournamentMarket = ({
                     ? liveData?.minBet
                     : currentMatch?.betFairSessionMinBet
                 )}{" "}
-                MAX: {formatNumber(liveData?.maxBet)}
-                {" "}EXP:
-                {formatNumber(liveData?.exposureLimit)}
+                MAX: {formatNumber(liveData?.maxBet)}{" "}
+                {liveData?.exposureLimit &&
+                  `EXP:
+                  ${formatNumber(liveData?.exposureLimit)}`}
               </Typography>
             </Box>
             <Box
@@ -400,7 +401,7 @@ const TournamentMarket = ({
         matchOddsLive={liveData}
         currentMatch={currentMatch}
         title={`${title} Max Bet`}
-        exposureLimit={exposureLimit}
+        exposureLimit={liveData?.exposureLimit}
       />
     </Box>
   );

@@ -248,9 +248,10 @@ const CompleteMatchMarket = ({
                     ? liveData?.minBet
                     : currentMatch?.betFairSessionMinBet
                 )}{" "}
-                MAX: {formatToINR(liveData?.maxBet)}
-                {" "}EXP:
-                {formatNumber(liveData?.exposureLimit)}
+                MAX: {formatToINR(liveData?.maxBet)}{" "}
+                {liveData?.exposureLimit &&
+                  `EXP:
+                  ${formatNumber(liveData?.exposureLimit)}`}
               </Typography>
             </Box>
             <Box
@@ -426,7 +427,7 @@ const CompleteMatchMarket = ({
         matchOddsLive={liveData}
         currentMatch={currentMatch}
         title={"API Complete Match Max Bet"}
-        exposureLimit={exposureLimit}
+        exposureLimit={liveData?.exposureLimit}
       />
     </Box>
   );

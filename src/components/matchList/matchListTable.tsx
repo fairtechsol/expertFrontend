@@ -432,6 +432,7 @@ const MatchListTable = (props: any) => {
           setUpdateBettings={setUpdateBettings}
           updateMatchStatus={updateMatchStatus}
           setUpdateMatchStatus={setUpdateMatchStatus}
+          upcoming={upcoming}
         />
       )}
       <ModalMUI
