@@ -8,6 +8,7 @@ import {
   updateMultiSessionMarketAmount,
 } from "../../../store/actions/addSession";
 import { AppDispatch, RootState } from "../../../store/store";
+import { formatToINR } from "../../helper";
 
 const SessionMarketMaxBetAmountEdit = (props: any) => {
   const { newData, visible, onClickCancel } = props;
@@ -59,6 +60,14 @@ const SessionMarketMaxBetAmountEdit = (props: any) => {
   //   setValue(newData?.maxBet);
   //   setValue1(newData?.minBet);
   // }, [newData?.minBet, newData?.maxBet]);
+
+  const handleNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const rawValue = e.target.value.replace(/,/g, ""); 
+    if (/^\d*\.?\d*$/.test(rawValue)) {
+      setValue(rawValue);
+    }
+  };
+  
 
   return (
     <Box
@@ -145,7 +154,7 @@ const SessionMarketMaxBetAmountEdit = (props: any) => {
           autoFocus
           placeholder="API Session Min Bet"
           variant="standard"
-          type="number"
+          type="text"
           // value={selected}
           value={value1}
           id="minBet"
@@ -176,14 +185,12 @@ const SessionMarketMaxBetAmountEdit = (props: any) => {
           autoFocus
           placeholder="API Session Max Bet"
           variant="standard"
-          type="number"
+          type="text"
           // value={selected}
-          value={value}
+          value={value ? formatToINR(value) : ""}
           id="maxBet"
           name="maxBet"
-          onChange={(e) => {
-            setValue(e?.target.value);
-          }}
+           onChange={handleNumberChange} 
           // touched={touched.score}
           // error={Boolean(errors.score)}
           InputProps={{
@@ -205,7 +212,7 @@ const SessionMarketMaxBetAmountEdit = (props: any) => {
           variant="standard"
           type="text"
           // value={selected}
-          value={exposureLimit}
+          value={exposureLimit ? formatToINR(exposureLimit) : ""}
           inputProps={{
             inputMode: "numeric",
             pattern: "[0-9]*",
@@ -213,10 +220,9 @@ const SessionMarketMaxBetAmountEdit = (props: any) => {
           id="exposure"
           name="exposure"
           onChange={(e) => {
-            const inputValue = e.target.value;
-
+            const inputValue = e.target.value.replace(/,/g, ""); // Remove commas for raw value
             if (/^\d*$/.test(inputValue)) {
-              setExposureLimit(inputValue);
+              setExposureLimit(inputValue); // Store raw value without commas
             }
           }}
           InputProps={{

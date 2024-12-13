@@ -11,6 +11,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import { Box } from "@mui/material";
 import MatchListInput from "../addMatch/MatchListInput";
+import { formatToINR } from "../helper";
 
 const MaxBetAdd = ({
   open,
@@ -55,16 +56,21 @@ const MaxBetAdd = ({
   const handleChange = (e: any) => {
     try {
       const { name, value } = e.target;
-      setSelected((prev: any) => {
-        return {
+      // Remove commas from the input value for raw numeric processing
+      const rawValue = value.replace(/,/g, ""); 
+  
+      // Update state only if it's a valid number
+      if (/^\d*$/.test(rawValue)) {
+        setSelected((prev: any) => ({
           ...prev,
-          [name]: value,
-        };
-      });
+          [name]: rawValue, // Store the raw number
+        }));
+      }
     } catch (error) {
       console.error(error);
     }
   };
+  
   useEffect(() => {
     try {
       setSelected({
@@ -131,11 +137,11 @@ const MaxBetAdd = ({
               >
                 <MatchListInput
                   label="Min Limit*"
-                  type="number"
+                  type="text"
                   placeholder="Enter Min Bet..."
                   name="minLimit"
                   id="minLimit"
-                  value={selected.minLimit}
+                  value={formatToINR(selected.minLimit)}
                   onChange={handleChange}
                 />
               </Box>
@@ -150,11 +156,11 @@ const MaxBetAdd = ({
               >
                 <MatchListInput
                   label="Max Limit*"
-                  type="number"
+                  type="text"
                   placeholder="Enter Max Bet..."
                   name="maxLimit"
                   id="maxLimit"
-                  value={selected.maxLimit}
+                  value={formatToINR(selected.maxLimit)}
                   onChange={handleChange}
                 />
               </Box>
@@ -169,12 +175,12 @@ const MaxBetAdd = ({
               >
                 <MatchListInput
                   label="Exposure Limit"
-                  type="number"
+                  type="text"
                   placeholder="Enter Exposure Limit"
                   name="exposureLimit"
                   id="exposureLimit"
                   step="1"
-                  value={selected.exposureLimit}
+                  value={formatToINR(selected.exposureLimit)}
                   onChange={handleChange}
                 />
               </Box>
@@ -192,12 +198,12 @@ const MaxBetAdd = ({
                 >
                   <MatchListInput
                     label="Bet Limit*"
-                    type="number"
+                    type="text"
                     placeholder="Enter Bet Limit..."
                     name="betLimit"
                     id="betLimit"
                     onChange={handleChange}
-                    value={selected.betLimit}
+                    value={formatToINR(selected.betLimit)}
                   />
                 </Box>
               )}

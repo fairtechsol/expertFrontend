@@ -344,13 +344,13 @@ const MatchOdds = ({ currentMatch, matchOddsLive, id, showResultBox }: any) => {
                   }}
                 >
                   MIN:{" "}
-                  {formatToINR(
+                  {formatNumber(
                     matchOddsLive?.id
                       ? matchOddsLive?.minBet
                       : currentMatch?.betFairSessionMinBet
                   )}{" "}
                   MAX:
-                  {formatToINR(matchOddsLive?.maxBet)}{" "}
+                  {formatNumber(matchOddsLive?.maxBet)}{" "}
                   {matchOddsLive?.exposureLimit
                     ? `EXP:
                   ${formatNumber(matchOddsLive?.exposureLimit)}`
