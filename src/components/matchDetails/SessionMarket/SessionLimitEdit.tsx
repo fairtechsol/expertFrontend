@@ -8,7 +8,7 @@ import {
   updateSession,
 } from "../../../store/actions/addSession";
 import { AppDispatch, RootState } from "../../../store/store";
-// import { MaterialUISwitch } from "../../tabList/materialUiSwitch";
+import { MaterialUISwitch } from "../../tabList/materialUiSwitch";
 
 const SessionLimitEdit = (props: any) => {
   const { newData, visible, onClickCancel } = props;
@@ -19,9 +19,9 @@ const SessionLimitEdit = (props: any) => {
   const myDivRef: any = useRef(null);
   const [error, setError] = useState(false);
   const [value, setValue] = useState(newData?.maxBet ? newData?.maxBet : "");
-  // const [commission, setCommission] = useState(
-  //   newData?.isCommissionActive ? newData?.isCommissionActive : false
-  // );
+  const [commission, setCommission] = useState(
+    newData?.isCommissionActive ? newData?.isCommissionActive : false
+  );
   const [exposureLimit, setExposureLimit] = useState(
     newData?.exposureLimit ? newData?.exposureLimit : null
   );
@@ -43,7 +43,7 @@ const SessionLimitEdit = (props: any) => {
           maxBet: parseInt(value),
           minBet: newData?.minBet,
           exposureLimit: parseFloat(exposureLimit),
-          // isCommissionActive: commission,
+          isCommissionActive: commission,
         };
         dispatch(updateSession(payload));
       } else {
@@ -229,7 +229,7 @@ const SessionLimitEdit = (props: any) => {
             }
           }}
         />
-        {/* <div
+        <div
           style={{
             display: "flex",
             alignItems: "center",
@@ -255,7 +255,7 @@ const SessionLimitEdit = (props: any) => {
               setCommission((p: boolean) => !p);
             }}
           />
-        </div> */}
+        </div>
 
         <Box
           sx={{
