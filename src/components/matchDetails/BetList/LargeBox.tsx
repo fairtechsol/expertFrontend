@@ -40,10 +40,19 @@ const LargeBox = ({ item, k }: any) => {
           display: "flex",
           WebkitLineClamp: 2,
           WebkitBoxOrient: "vertical",
+          alignItems: "center",
         }}
       >
-        {item?.isCommissionActive && <CommissionDot />}
         {item?.name}
+        {item?.isCommissionActive && (
+          <Box
+            sx={{
+              margin: "5px",
+            }}
+          >
+            <CommissionDot />
+          </Box>
+        )}
       </Typography>
       {item?.domain && (
         <Typography
