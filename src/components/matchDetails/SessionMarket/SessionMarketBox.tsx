@@ -116,7 +116,7 @@ const SessionMarketBox = ({
               paddingTop: "3px",
               width: { lg: "100%", xs: "100%", md: "100%" },
               display: "flex",
-              justifyContent: "space-between", 
+              justifyContent: "space-between",
               alignItems: "center",
             }}
           >
@@ -135,7 +135,6 @@ const SessionMarketBox = ({
                 WebkitBoxOrient: "vertical",
               }}
             >
-              
               {newData?.RunnerName ?? newData?.name}
             </Typography>
           </Box>
@@ -144,7 +143,7 @@ const SessionMarketBox = ({
         <Box
           sx={{
             position: "absolute",
-           
+
             minWidth: { lg: "36%", xs: "45%", md: "25%" },
             justifyContent: "flex-end",
             left: { lg: "11vw", md: "31vw", xs: "11.5vw" },
@@ -165,10 +164,9 @@ const SessionMarketBox = ({
               zIndex: 100,
               alignItems: "center",
               paddingRight: "10px",
-              lineHeight: 2
+              lineHeight: 2,
             }}
           >
-            
             <Typography
               sx={{
                 color: "black",
@@ -197,16 +195,16 @@ const SessionMarketBox = ({
             </Typography>
           </Box>
           {newData?.isCommissionActive && (
-                <Box
-                  sx={{
-                    width: { xs: 10, lg: 10, md: 10 },
-                    height: { xs: 10, lg: 10, md: 10 },
-                    borderRadius: "50%",
-                    backgroundColor: "green",
-                    marginRight: "2px",
-                  }}
-                />
-              )}
+            <Box
+              sx={{
+                width: { xs: 10, lg: 10, md: 10 },
+                height: { xs: 10, lg: 10, md: 10 },
+                borderRadius: "50%",
+                backgroundColor: "#74ee15",
+                marginRight: "2px",
+              }}
+            />
+          )}
           <Typography sx={{ marginRight: "10px", zIndex: "999" }}>
             {(newData?.activeStatus === "live" ||
               newData?.activeStatus === "save") &&
