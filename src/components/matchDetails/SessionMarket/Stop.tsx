@@ -6,7 +6,6 @@ import {
   useTheme,
 } from "@mui/material";
 import { BroadCast_ } from "../../../assets";
-import CommissionDot from "../../Common/CommissionDot";
 
 const Stop = ({ color, onClick, height, title, isCommissionActive }: any) => {
   const theme = useTheme();
