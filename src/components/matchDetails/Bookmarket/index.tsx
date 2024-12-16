@@ -107,6 +107,7 @@ const BookMarket = ({ currentMatch, liveData, title, showResultBox }: any) => {
               }}
               height="18px"
               title={title}
+              isCommissionActive={liveData?.isCommissionActive}
             />
           )}
         </Box>
@@ -461,6 +462,7 @@ const BookMarket = ({ currentMatch, liveData, title, showResultBox }: any) => {
         currentMatch={currentMatch}
         title={"API Bookmaker Max Bet"}
         exposureLimit={liveData?.exposureLimit}
+        isCommissionActive={liveData?.isCommissionActive}
       />
     </Box>
   );

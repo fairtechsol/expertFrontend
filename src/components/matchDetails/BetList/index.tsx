@@ -55,6 +55,7 @@ const BetList = ({ tag, allBetRates, title }: any) => {
               deleteReason: v?.deleteReason,
               width: { lg: "16%", xs: "50%" },
               domain: v?.domain,
+              isCommissionActive: v?.isCommissionActive,
             },
             {
               name:

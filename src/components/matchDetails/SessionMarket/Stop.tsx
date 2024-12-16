@@ -6,8 +6,9 @@ import {
   useTheme,
 } from "@mui/material";
 import { BroadCast_ } from "../../../assets";
+import CommissionDot from "../../Common/CommissionDot";
 
-const Stop = ({ color, onClick, height, title }: any) => {
+const Stop = ({ color, onClick, height, title, isCommissionActive }: any) => {
   const theme = useTheme();
   const matchesMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const matchesMiddle = useMediaQuery(theme.breakpoints.down("md"));
@@ -51,8 +52,21 @@ const Stop = ({ color, onClick, height, title }: any) => {
               fontWeight: "600",
               color: color ? "white" : "white",
               lineHeight: 1,
+              display: "flex",
+              alignItems: "center",
             }}
           >
+            {isCommissionActive && (
+              <Box
+                sx={{
+                  width: 8,
+                  height: 8,
+                  borderRadius: "50%",
+                  backgroundColor: "#74ee15",
+                  margin: "2px",
+                }}
+              />
+            )}
             {title && displayTitle}
           </Typography>
         </Tooltip>

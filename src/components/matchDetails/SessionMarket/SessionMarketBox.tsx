@@ -13,6 +13,7 @@ import { edit } from "../../../assets";
 import SessionLimitEdit from "./SessionLimitEdit";
 import ModalMUI from "@mui/material/Modal";
 import { TiArrowLeftThick } from "react-icons/ti";
+import CommissionDot from "../../Common/CommissionDot";
 
 const SessionMarketBox = ({
   newData,
@@ -114,9 +115,9 @@ const SessionMarketBox = ({
           <Box
             sx={{
               paddingTop: "3px",
-              width: { lg: "100%", xs: "100%" },
+              width: { lg: "100%", xs: "100%", md: "100%" },
               display: "flex",
-              justifyContent: "space-between", // Distribute the content evenly
+              justifyContent: "space-between",
               alignItems: "center",
             }}
           >
@@ -128,26 +129,45 @@ const SessionMarketBox = ({
                 fontWeight: "bold",
                 overflow: "hidden",
                 marginLeft: "7px",
-                // textOverflow: "ellipsis",
-                // whiteSpace: "nowrap",
+                textOverflow: "ellipsis",
+                whiteSpace: "nowrap",
                 display: "flex",
                 WebkitLineClamp: "2",
                 WebkitBoxOrient: "vertical",
               }}
             >
-              {newData?.isCommissionActive && (
-                <Box
-                  sx={{
-                    width: { xs: 10, lg: 10, md: 10 },
-                    height: { xs: 10, lg: 10, md: 10 },
-                    borderRadius: "50%",
-                    backgroundColor: "green",
-                    marginRight: "2px",
-                  }}
-                />
-              )}
               {newData?.RunnerName ?? newData?.name}
             </Typography>
+          </Box>
+        </Box>
+
+        <Box
+          sx={{
+            position: "absolute",
+
+            minWidth: { lg: "36%", xs: "45%", md: "25%" },
+            justifyContent: "flex-end",
+            left: { lg: "11vw", md: "31vw", xs: "11.5vw" },
+            display: "flex",
+            height: "30px",
+            zIndex: 100,
+            gap: 0,
+            alignItems: "center",
+          }}
+        >
+          <Box
+            sx={{
+              minWidth: { lg: "20%", xs: "20%", md: "25%" },
+              justifyContent: "flex-end",
+              display: "flex",
+              flexDirection: "column",
+              height: "25px",
+              zIndex: 100,
+              alignItems: "center",
+              paddingRight: "10px",
+              lineHeight: 2,
+            }}
+          >
             <Typography
               sx={{
                 color: "black",
@@ -175,21 +195,7 @@ const SessionMarketBox = ({
               )}
             </Typography>
           </Box>
-        </Box>
-
-        <Box
-          sx={{
-            position: "absolute",
-            minWidth: { lg: "36%", xs: "45%", md: "25%" },
-            justifyContent: "flex-end",
-            left: { lg: "11vw", md: "31vw", xs: "11.5vw" },
-            display: "flex",
-            height: "30px",
-            zIndex: 100,
-            gap: 0,
-            alignItems: "center",
-          }}
-        >
+          {newData?.isCommissionActive && <CommissionDot />}
           <Typography sx={{ marginRight: "10px", zIndex: "999" }}>
             {(newData?.activeStatus === "live" ||
               newData?.activeStatus === "save") &&
@@ -379,10 +385,10 @@ const SessionMarketBox = ({
             sx={{
               display: "flex",
               position: "relative",
-              right: { lg: "-22.5%", xs: "-20%", md: "-24%" },
+              right: { lg: "-22.5%", xs: "-15%", md: "-24%" },
               // background: "white",
               height: "30px",
-              width: { lg: "18.6%", xs: "20%", md: "20%" },
+              width: { lg: "18.6%", xs: "28%", md: "20%" },
               justifyContent: "end",
               alignItems: "end",
             }}

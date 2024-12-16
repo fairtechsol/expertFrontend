@@ -103,6 +103,7 @@ const ManualMarket = ({ currentMatch, liveData, type, showResultBox }: any) => {
               }}
               height="18px"
               title={liveData?.name}
+              isCommissionActive={liveData?.isCommissionActive}
             />
           )}
         </Box>

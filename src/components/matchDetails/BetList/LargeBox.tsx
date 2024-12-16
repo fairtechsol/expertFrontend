@@ -1,15 +1,16 @@
 import { Box, Typography } from "@mui/material";
+import CommissionDot from "../../Common/CommissionDot";
 
 const LargeBox = ({ item, k }: any) => {
-  const handleDomain=(url:any)=>{
+  const handleDomain = (url: any) => {
     url = url?.replace(/^(?:https?:\/\/)/, "");
 
     const parts = url?.split(".");
-  
-    url = parts?.[parts.length-2]
-    
+
+    url = parts?.[parts.length - 2];
+
     return url || "";
-  }
+  };
   return (
     <Box
       sx={{
@@ -36,11 +37,12 @@ const LargeBox = ({ item, k }: any) => {
           lineHeight: 1,
           // px: "2px",
           overflow: "hidden",
-          display: " -webkit-box",
+          display: "flex",
           WebkitLineClamp: 2,
           WebkitBoxOrient: "vertical",
         }}
       >
+        {item?.isCommissionActive && <CommissionDot />}
         {item?.name}
       </Typography>
       {item?.domain && (
@@ -52,7 +54,7 @@ const LargeBox = ({ item, k }: any) => {
             overflowWrap: "anywhere",
             // padding: "2px",
             overflow: "hidden",
-            lineHeight: 1
+            lineHeight: 1,
           }}
         >
           {handleDomain(item?.domain)}
