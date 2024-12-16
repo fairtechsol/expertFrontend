@@ -9,8 +9,9 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
-import { Box } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import MatchListInput from "../addMatch/MatchListInput";
+import { MaterialUISwitch } from "../tabList/materialUiSwitch";
 
 const MaxBetAdd = ({
   open,
@@ -19,6 +20,7 @@ const MaxBetAdd = ({
   currentMatch,
   title,
   exposureLimit,
+  isCommissionActive,
 }: any) => {
   const [selected, setSelected] = useState<any>({
     maxLimit: 0,
@@ -26,6 +28,9 @@ const MaxBetAdd = ({
     betLimit: 0,
     exposureLimit: null,
   });
+  const [commission, setCommission] = useState(
+    isCommissionActive ? isCommissionActive : false
+  );
   const dispatch: AppDispatch = useDispatch();
   const { maxLimitSuccess, maxLimitLoading } = useSelector(
     (state: RootState) => state.addMatch.addMatch
@@ -42,6 +47,7 @@ const MaxBetAdd = ({
       exposureLimit: parseFloat(selected.exposureLimit),
       marketId: matchOddsLive?.mid?.toString(),
       gtype: matchOddsLive?.gtype,
+      isCommissionActive: commission,
       ...(matchOddsLive?.id && { id: matchOddsLive.id }),
     };
     if (
@@ -201,6 +207,34 @@ const MaxBetAdd = ({
                   />
                 </Box>
               )}
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  gap: "6px",
+                  background: "#004a25",
+                  color: "#fff",
+                  borderRadius: "8px",
+                  padding: "1px 5px",
+                }}
+              >
+                <Typography
+                  sx={{
+                    color: "#fff",
+                    fontSize: { lg: "11px", md: "10px", xs: "9px" },
+                  }}
+                >
+                  Set Commission
+                </Typography>
+                <MaterialUISwitch
+                  id="commission-switch"
+                  checked={commission}
+                  onChange={() => {
+                    setCommission((p: boolean) => !p);
+                  }}
+                />
+              </div>
             </Box>
           </Box>
         </DialogContent>
