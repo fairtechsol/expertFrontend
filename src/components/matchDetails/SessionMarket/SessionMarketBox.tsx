@@ -130,11 +130,22 @@ const SessionMarketBox = ({
                 marginLeft: "7px",
                 // textOverflow: "ellipsis",
                 // whiteSpace: "nowrap",
-                display: "-webkit-box",
+                display: "flex",
                 WebkitLineClamp: "2",
                 WebkitBoxOrient: "vertical",
               }}
             >
+              {newData?.isCommissionActive && (
+                <Box
+                  sx={{
+                    width: { xs: 10, lg: 10, md: 10 },
+                    height: { xs: 10, lg: 10, md: 10 },
+                    borderRadius: "50%",
+                    backgroundColor: "green",
+                    marginRight: "2px",
+                  }}
+                />
+              )}
               {newData?.RunnerName ?? newData?.name}
             </Typography>
             <Typography
