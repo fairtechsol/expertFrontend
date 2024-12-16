@@ -157,6 +157,7 @@ const MatchOdds = ({ currentMatch, matchOddsLive, id, showResultBox }: any) => {
                 }}
                 height="18px"
                 title={"Match Odds"}
+                isCommissionActive={matchOddsLive?.isCommissionActive}
               />
             )}
 

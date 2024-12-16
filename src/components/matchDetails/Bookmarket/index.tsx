@@ -107,6 +107,7 @@ const BookMarket = ({ currentMatch, liveData, title, showResultBox }: any) => {
               }}
               height="18px"
               title={title}
+              isCommissionActive={liveData?.isCommissionActive}
             />
           )}
         </Box>

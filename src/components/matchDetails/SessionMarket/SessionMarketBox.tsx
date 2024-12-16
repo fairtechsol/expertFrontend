@@ -13,6 +13,7 @@ import { edit } from "../../../assets";
 import SessionLimitEdit from "./SessionLimitEdit";
 import ModalMUI from "@mui/material/Modal";
 import { TiArrowLeftThick } from "react-icons/ti";
+import CommissionDot from "../../Common/CommissionDot";
 
 const SessionMarketBox = ({
   newData,
@@ -194,17 +195,7 @@ const SessionMarketBox = ({
               )}
             </Typography>
           </Box>
-          {newData?.isCommissionActive && (
-            <Box
-              sx={{
-                width: { xs: 10, lg: 10, md: 10 },
-                height: { xs: 10, lg: 10, md: 10 },
-                borderRadius: "50%",
-                backgroundColor: "#74ee15",
-                marginRight: "2px",
-              }}
-            />
-          )}
+          {newData?.isCommissionActive && <CommissionDot />}
           <Typography sx={{ marginRight: "10px", zIndex: "999" }}>
             {(newData?.activeStatus === "live" ||
               newData?.activeStatus === "save") &&

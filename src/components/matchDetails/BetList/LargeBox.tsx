@@ -1,4 +1,5 @@
 import { Box, Typography } from "@mui/material";
+import CommissionDot from "../../Common/CommissionDot";
 
 const LargeBox = ({ item, k }: any) => {
   const handleDomain = (url: any) => {
@@ -41,17 +42,7 @@ const LargeBox = ({ item, k }: any) => {
           WebkitBoxOrient: "vertical",
         }}
       >
-        {item?.isCommissionActive && (
-          <Box
-            sx={{
-              width: { xs: 10, lg: 10, md: 10 },
-              height: { xs: 10, lg: 10, md: 10 },
-              borderRadius: "50%",
-              backgroundColor: "#74ee15",
-              marginRight: "5px",
-            }}
-          />
-        )}
+        {item?.isCommissionActive && <CommissionDot />}
         {item?.name}
       </Typography>
       {item?.domain && (
