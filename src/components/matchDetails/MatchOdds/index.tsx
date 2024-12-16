@@ -6,7 +6,7 @@ import { betLiveStatus } from "../../../store/actions/match/matchAction";
 import { AppDispatch, RootState } from "../../../store/store";
 import { profitLossDataForMatchConstants } from "../../../utils/Constants";
 import Divider from "../../Common/Divider";
-import { formatNumber, formatToINR } from "../../helper";
+import { formatNumber } from "../../helper";
 import ResultComponent from "../../updateBookmaker/BookmakerEdit/ResultComponent";
 import MaxBetAdd from "../MaxBetAdd";
 import Result from "../Result";
@@ -344,13 +344,13 @@ const MatchOdds = ({ currentMatch, matchOddsLive, id, showResultBox }: any) => {
                   }}
                 >
                   MIN:{" "}
-                  {formatToINR(
+                  {formatNumber(
                     matchOddsLive?.id
                       ? matchOddsLive?.minBet
                       : currentMatch?.betFairSessionMinBet
                   )}{" "}
                   MAX:
-                  {formatToINR(matchOddsLive?.maxBet)}{" "}
+                  {formatNumber(matchOddsLive?.maxBet)}{" "}
                   {matchOddsLive?.exposureLimit
                     ? `EXP:
                   ${formatNumber(matchOddsLive?.exposureLimit)}`

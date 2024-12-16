@@ -9,6 +9,7 @@ import {
 } from "../../../store/actions/addSession";
 import { AppDispatch, RootState } from "../../../store/store";
 import { MaterialUISwitch } from "../../tabList/materialUiSwitch";
+import { formatToINR } from "../../helper";
 
 const SessionLimitEdit = (props: any) => {
   const { newData, visible, onClickCancel } = props;
@@ -64,6 +65,14 @@ const SessionLimitEdit = (props: any) => {
   useEffect(() => {
     scrollToBottom();
   }, [visible]);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const rawValue = e.target.value.replace(/,/g, ""); // Remove commas for processing
+    if (/^\d*$/.test(rawValue)) {
+      setValue(rawValue); // Set raw numeric value
+      setError(false); // Reset error state if any
+    }
+  };
 
   return (
     <Box
@@ -152,15 +161,12 @@ const SessionLimitEdit = (props: any) => {
           autoFocus
           placeholder="API Session Max Bet"
           variant="standard"
-          type="number"
+          type="text"
           // value={selected}
-          value={value}
+          value={value ? formatToINR(value) : ""}
           id="score"
           name="score"
-          onChange={(e) => {
-            setValue(e?.target.value);
-            setError(false);
-          }}
+          onChange={handleChange}
           // touched={touched.score}
           // error={Boolean(errors.score)}
           InputProps={{
@@ -197,7 +203,7 @@ const SessionLimitEdit = (props: any) => {
           variant="standard"
           type="text"
           // value={selected}
-          value={exposureLimit}
+          value={exposureLimit ? formatToINR(exposureLimit) : ""}
           id="exposure"
           name="exposure"
           inputProps={{
@@ -205,10 +211,9 @@ const SessionLimitEdit = (props: any) => {
             pattern: "[0-9]*",
           }}
           onChange={(e) => {
-            const inputValue = e.target.value;
-
+            const inputValue = e.target.value.replace(/,/g, ""); // Remove commas for raw value
             if (/^\d*$/.test(inputValue)) {
-              setExposureLimit(inputValue);
+              setExposureLimit(inputValue); // Store raw value without commas
             }
           }}
           // touched={touched.score}
