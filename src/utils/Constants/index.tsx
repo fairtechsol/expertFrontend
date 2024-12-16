@@ -413,7 +413,7 @@ export const betListColorConstants: any = {
   tiedMatch3: { background: "#452245", textColor: "#fff" },
   cricketCasino: { background: "#FF1111", textColor: "#fff" },
   oddEven: { background: "#7c46e6", textColor: "#fff" },
-  fancy1: { background: "#FF8633", textColor: "#fff" },
+  fancy1: { background: "#FF8633", textColor: "#000" },
   overByover: { background: "#FFA07A", textColor: "#fff" },
   ballByBall: { background: "#33FF33", textColor: "#fff" },
   khado: { background: "#E6E6FA", textColor: "#000" },

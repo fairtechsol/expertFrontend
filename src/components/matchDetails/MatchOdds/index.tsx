@@ -576,6 +576,7 @@ const MatchOdds = ({ currentMatch, matchOddsLive, id, showResultBox }: any) => {
         currentMatch={currentMatch}
         title={"API Match Odds Max Bet"}
         exposureLimit={matchOddsLive?.exposureLimit}
+        isCommissionActive={matchOddsLive?.isCommissionActive}
       />
     </>
   );
