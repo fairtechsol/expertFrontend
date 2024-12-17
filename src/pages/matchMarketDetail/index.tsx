@@ -366,8 +366,12 @@ const MatchMarketDetail = () => {
       const handleVisibilityChange = () => {
         if (document.visibilityState === "visible") {
           if (state?.id) {
-            dispatch(getMatchDetail(state?.id));
+            // dispatch(getMatchDetail(state?.id));
             dispatch(getPlacedBetsMatch(state?.id));
+            expertSocketService.match.joinMatchRoom(state?.id, "expert");
+            expertSocketService.match.getMatchRates(state?.id, (event: any) => {
+              updateMatchDetailToRedux(event);
+            });
           }
         } else if (document.visibilityState === "hidden") {
           if (state?.id) {
@@ -387,7 +391,7 @@ const MatchMarketDetail = () => {
     } catch (error) {
       console.error(error);
     }
-  }, []);
+  }, [state?.id]);
 
   const component = [
     {
