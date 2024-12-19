@@ -13,8 +13,8 @@ const BetList = ({ tag, allBetRates, title }: any) => {
   const scrollRef = useRef<HTMLDivElement | null>(null);
   const [showButton, setShowButton] = useState(false);
   const ITEMS_PER_PAGE = 100;
-  const [visibleData, setVisibleData] = useState<any[]>([]); 
-  const [hasMore, setHasMore] = useState(true); 
+  const [visibleData, setVisibleData] = useState<any[]>([]);
+  const [hasMore, setHasMore] = useState(true);
 
   useEffect(() => {
     // Load initial data
@@ -326,13 +326,11 @@ const BetList = ({ tag, allBetRates, title }: any) => {
               {/* <HeaderRow tag={tag} /> */}
 
               <InfiniteScroll
-                dataLength={visibleData.length} 
-                next={fetchMoreData} 
-                hasMore={hasMore} 
-                loader={<h4>Loading...</h4>} 
-                endMessage={
-                  <p style={{ textAlign: "center" }}>No more bets to show</p>
-                } 
+                dataLength={visibleData.length}
+                next={fetchMoreData}
+                hasMore={hasMore}
+                loader={""}
+                endMessage={""}
               >
                 {visibleData.map((i: any, k: any) => {
                   const num = newData.length - k;
