@@ -47,7 +47,7 @@ const LargeBox = ({ item, k }: any) => {
         {item?.isCommissionActive && (
           <Box
             sx={{
-              margin: "5px",
+              marginLeft: "5px",
             }}
           >
             <CommissionDot />
