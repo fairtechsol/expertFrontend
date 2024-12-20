@@ -3,7 +3,7 @@ import moment from "moment";
 import { useEffect, useRef, useState } from "react";
 import { ARROWUP } from "../../../assets";
 import { formatToINR } from "../../helper";
-// import HeaderRow from "./HeaderRow";
+import InfiniteScroll from "react-infinite-scroll-component";
 import Row from "./Row";
 import { betListColorConstants } from "../../../utils/Constants";
 
@@ -12,6 +12,30 @@ const BetList = ({ tag, allBetRates, title }: any) => {
   const [visibleImg, setVisibleImg] = useState(true);
   const scrollRef = useRef<HTMLDivElement | null>(null);
   const [showButton, setShowButton] = useState(false);
+  const ITEMS_PER_PAGE = 100;
+  const [visibleData, setVisibleData] = useState<any[]>([]);
+  const [hasMore, setHasMore] = useState(true);
+
+  useEffect(() => {
+    // Load initial data
+    if (newData && newData.length > 0) {
+      setVisibleData(newData.slice(0, ITEMS_PER_PAGE));
+    }
+  }, [newData]);
+
+  const fetchMoreData = () => {
+    const startIndex = visibleData.length;
+    const endIndex = startIndex + ITEMS_PER_PAGE;
+
+    if (newData.length > startIndex) {
+      setVisibleData((prev) => [
+        ...prev,
+        ...newData.slice(startIndex, endIndex),
+      ]);
+    } else {
+      setHasMore(false); // No more data to load
+    }
+  };
 
   const scrollToTop = () => {
     if (scrollRef.current) {
@@ -301,12 +325,18 @@ const BetList = ({ tag, allBetRates, title }: any) => {
             >
               {/* <HeaderRow tag={tag} /> */}
 
-              {newData?.length > 0 &&
-                newData?.map((i: any, k: any) => {
-                  const num = newData?.length - k;
+              <InfiniteScroll
+                dataLength={visibleData.length}
+                next={fetchMoreData}
+                hasMore={hasMore}
+                loader={""}
+                endMessage={""}
+              >
+                {visibleData.map((i: any, k: any) => {
+                  const num = newData.length - k;
                   return (
                     <div
-                      key={k}
+                      key={i.id || k}
                       style={{ display: "flex", position: "relative" }}
                     >
                       <Box
@@ -375,6 +405,7 @@ const BetList = ({ tag, allBetRates, title }: any) => {
                     </div>
                   );
                 })}
+              </InfiniteScroll>
             </Box>
           </>
         )}
