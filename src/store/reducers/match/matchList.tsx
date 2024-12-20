@@ -257,15 +257,25 @@ const matchList = createSlice({
         state.error = action?.error?.message;
       })
       .addCase(updateMatchBetsReason.fulfilled, (state, action) => {
-        const { betPlacedId, deleteReason } = action?.payload;
+        const { betPlacedId, deleteReason, isPermanentDelete } =
+          action?.payload;
         const updateDeleteReason = (bet: any) => {
           if (betPlacedId?.includes(bet?.id)) {
             bet.deleteReason = deleteReason;
           }
-
           return bet;
         };
+        if (isPermanentDelete) {
+          const updatedBetPlaced = state?.placedBetsMatch?.filter(
+            (item: any) => !betPlacedId?.includes(item?.id)
+          );
+          state.placedBetsMatch = Array.from(new Set(updatedBetPlaced));
+        } else {
+          const updatedBetPlaced =
+            state?.placedBetsMatch?.map(updateDeleteReason);
 
+          state.placedBetsMatch = Array.from(new Set(updatedBetPlaced));
+        }
         const updatedBetPlaced =
           state?.placedBetsMatch?.map(updateDeleteReason);
 
