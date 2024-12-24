@@ -63,8 +63,8 @@ const MaxBetAdd = ({
     try {
       const { name, value } = e.target;
       // Remove commas from the input value for raw numeric processing
-      const rawValue = value.replace(/,/g, ""); 
-  
+      const rawValue = value.replace(/,/g, "");
+
       // Update state only if it's a valid number
       if (/^\d*$/.test(rawValue)) {
         setSelected((prev: any) => ({
@@ -76,7 +76,7 @@ const MaxBetAdd = ({
       console.error(error);
     }
   };
-  
+
   useEffect(() => {
     try {
       setSelected({
@@ -213,6 +213,16 @@ const MaxBetAdd = ({
                   />
                 </Box>
               )}
+            </Box>
+            <Box
+              sx={{
+                width: {
+                  xs: "100%",
+                  lg: "50%",
+                  md: "50%",
+                },
+              }}
+            >
               <div
                 style={{
                   display: "flex",
