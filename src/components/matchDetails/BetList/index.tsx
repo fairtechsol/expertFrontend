@@ -3,7 +3,6 @@ import moment from "moment";
 import { useEffect, useRef, useState } from "react";
 import { ARROWUP } from "../../../assets";
 import { formatToINR } from "../../helper";
-import InfiniteScroll from "react-infinite-scroll-component";
 import Row from "./Row";
 import { betListColorConstants } from "../../../utils/Constants";
 
@@ -12,30 +11,6 @@ const BetList = ({ tag, allBetRates, title }: any) => {
   const [visibleImg, setVisibleImg] = useState(true);
   const scrollRef = useRef<HTMLDivElement | null>(null);
   const [showButton, setShowButton] = useState(false);
-  const ITEMS_PER_PAGE = 100;
-  const [visibleData, setVisibleData] = useState<any[]>([]);
-  const [hasMore, setHasMore] = useState(true);
-
-  useEffect(() => {
-    // Load initial data
-    if (newData && newData.length > 0) {
-      setVisibleData(newData.slice(0, ITEMS_PER_PAGE));
-    }
-  }, [newData]);
-
-  const fetchMoreData = () => {
-    const startIndex = visibleData.length;
-    const endIndex = startIndex + ITEMS_PER_PAGE;
-
-    if (newData.length > startIndex) {
-      setVisibleData((prev) => [
-        ...prev,
-        ...newData.slice(startIndex, endIndex),
-      ]);
-    } else {
-      setHasMore(false); // No more data to load
-    }
-  };
 
   const scrollToTop = () => {
     if (scrollRef.current) {
@@ -324,88 +299,79 @@ const BetList = ({ tag, allBetRates, title }: any) => {
               }}
             >
               {/* <HeaderRow tag={tag} /> */}
-
-              <InfiniteScroll
-                dataLength={visibleData.length}
-                next={fetchMoreData}
-                hasMore={hasMore}
-                loader={""}
-                endMessage={""}
-              >
-                {visibleData.map((i: any, k: any) => {
-                  const num = newData.length - k;
-                  return (
-                    <div
-                      key={i.id || k}
-                      style={{ display: "flex", position: "relative" }}
+              {newData?.map((i: any, k: any) => {
+                const num = newData.length - k;
+                return (
+                  <div
+                    key={i?.id || k}
+                    style={{ display: "flex", position: "relative" }}
+                  >
+                    <Box
+                      sx={{
+                        width: { lg: "4%", xs: "6%" },
+                        border: "1px solid white",
+                        background: "black",
+                        height: "30px",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        display: "flex",
+                      }}
                     >
+                      <Typography
+                        sx={{
+                          fontSize: !tag ? "10px" : "11px",
+                          fontWeight: tag ? "bold" : "600",
+                          color: "white",
+                        }}
+                      >
+                        {num < 10 ? "0" + num : num.toString()}
+                      </Typography>
+                    </Box>
+                    <Row index={k} values={i?.values} />
+                    {i?.values?.[0]?.deleteReason && (
                       <Box
                         sx={{
-                          width: { lg: "4%", xs: "6%" },
-                          border: "1px solid white",
-                          background: "black",
+                          background: "rgba(0,0,0,0.5)",
+                          width: "100%",
                           height: "30px",
-                          justifyContent: "center",
-                          alignItems: "center",
+                          position: "absolute",
                           display: "flex",
                         }}
                       >
-                        <Typography
-                          sx={{
-                            fontSize: !tag ? "10px" : "11px",
-                            fontWeight: tag ? "bold" : "600",
-                            color: "white",
-                          }}
-                        >
-                          {num < 10 ? "0" + num : num.toString()}
-                        </Typography>
-                      </Box>
-                      <Row index={k} values={i?.values} />
-                      {i?.values[0]?.deleteReason && (
-                        <Box
-                          sx={{
-                            background: "rgba(0,0,0,0.5)",
-                            width: "100%",
-                            height: "30px",
-                            position: "absolute",
-                            display: "flex",
-                          }}
-                        >
-                          <Box sx={{ flex: 1, display: "flex" }}>
-                            <Box sx={{ width: "34%", height: "30px" }}></Box>
-                            <Box
-                              sx={{
-                                width: "66%",
-                                height: "30px",
-                                display: "flex",
-                                justifyContent: "center",
-                                alignItems: "flex-end",
-                              }}
-                            >
-                              {
-                                <Typography
-                                  sx={{
-                                    fontSize: "10px",
-                                    fontWeight: "700",
-                                    color: "white",
-                                    textTransform: "uppercase",
-                                  }}
-                                >
-                                  Bet{" "}
-                                  <span style={{ color: "#e41b23" }}>
-                                    deleted
-                                  </span>{" "}
-                                  due to {i?.values[0]?.deleteReason}
-                                </Typography>
-                              }
-                            </Box>
+                        <Box sx={{ flex: 1, display: "flex" }}>
+                          <Box sx={{ width: "34%", height: "30px" }}></Box>
+                          <Box
+                            sx={{
+                              width: "66%",
+                              height: "30px",
+                              display: "flex",
+                              justifyContent: "center",
+                              alignItems: "flex-end",
+                            }}
+                          >
+                            {
+                              <Typography
+                                sx={{
+                                  fontSize: "10px",
+                                  fontWeight: "700",
+                                  color: "white",
+                                  textTransform: "uppercase",
+                                }}
+                              >
+                                Bet{" "}
+                                <span style={{ color: "#e41b23" }}>
+                                  deleted
+                                </span>{" "}
+                                due to {i?.values?.[0]?.deleteReason}
+                              </Typography>
+                            }
                           </Box>
                         </Box>
-                      )}
-                    </div>
-                  );
-                })}
-              </InfiniteScroll>
+                      </Box>
+                    )}
+                  </div>
+                );
+              })}
             </Box>
           </>
         )}
