@@ -3,19 +3,19 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ARROWUP } from "../../../assets";
 import { betLiveStatus } from "../../../store/actions/match/matchAction";
+import { declareMatchStatusReset } from "../../../store/actions/match/matchDeclareActions";
 import { AppDispatch, RootState } from "../../../store/store";
 import { profitLossDataForMatchConstants } from "../../../utils/Constants";
+import AddMarketButton from "../../Common/AddMarketButton";
 import Divider from "../../Common/Divider";
+import MaxLimitEditButton from "../../Common/MaxLimitEditButton";
 import { formatNumber } from "../../helper";
 import BoxComponent from "../MatchOdds/BoxComponent";
+import Result from "../Result";
 import Stop from "../SessionMarket/Stop";
 import SmallBox from "../SmallBox";
 import OtherMarketAdd from "./OtherMarketAdd";
-import Result from "../Result";
 import ResultComponentOtherMarket from "./ResultComponentOtherMarket";
-import MaxLimitEditButton from "../../Common/MaxLimitEditButton";
-import AddMarketButton from "../../Common/AddMarketButton";
-import { declareMatchStatusReset } from "../../../store/actions/match/matchDeclareActions";
 
 const OtherMatchMarket = ({
   currentMatch,
@@ -381,6 +381,48 @@ const OtherMatchMarket = ({
               align="end"
               liveData={liveData}
             />
+            {liveData?.runners?.length>2&&<><Divider />
+            <BoxComponent
+              livestatus={
+                liveData?.runners?.length > 0 &&
+                !["ACTIVE", "OPEN", "", "active", "open"].includes(
+                  liveData?.runners[1]?.status?.toLowerCase()
+                )
+                  ? true
+                  : false
+              }
+              teamRates={
+                liveData?.activeStatus === "result"
+                  ? 0
+                  : currentMatch?.teamRates
+                  ? currentMatch?.teamRates[
+                      profitLossDataForMatchConstants[liveData?.type]?.C +
+                        "_" +
+                        liveData?.id +
+                        "_" +
+                        currentMatch?.id
+                    ]
+                    ? currentMatch?.teamRates[
+                        profitLossDataForMatchConstants[liveData?.type]?.C +
+                          "_" +
+                          liveData?.id +
+                          "_" +
+                          currentMatch?.id
+                      ]
+                    : 0
+                  : 0
+              }
+              teamImage={currentMatch?.bookmaker?.teamC_Image}
+              lock={liveData?.runners?.length > 0 ? false : true}
+              name={
+                liveData?.runners?.length > 0
+                  ? liveData?.runners[2]?.nat
+                  : liveData?.metaData?.teamC
+              }
+              data={liveData?.runners?.length > 0 ? liveData?.runners[2] : []}
+              align="end"
+              liveData={liveData}
+            /></>}
             {!live && (
               <Box
                 sx={{
