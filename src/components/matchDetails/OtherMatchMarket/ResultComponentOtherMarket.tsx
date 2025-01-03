@@ -1,14 +1,13 @@
 import { Box, Typography } from "@mui/material";
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
-import { memo } from "react";
+import { memo, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../../../store/store";
+import { CancelDark } from "../../../assets";
 import {
   declareMatchStatusReset,
   declareOtherMarketCricketResult,
   UnDeclareOtherMarketCricketResult,
 } from "../../../store/actions/match/matchDeclareActions";
-import { CancelDark } from "../../../assets";
+import { AppDispatch, RootState } from "../../../store/store";
 import MatchOddsResultCustomButton from "../../updateBookmaker/BookmakerEdit/MatchOddsResultCustomButton";
 
 const ResultComponentOtherMarket = ({
@@ -139,67 +138,69 @@ const ResultComponentOtherMarket = ({
                 py: "5px",
               }}
             >
-              {[0, 1].map((item: any, k: number) => {
-                return (
-                  <Box
-                    key={k}
-                    onClick={() => {
-                      setSelected(
-                        liveData?.runners?.[item]?.nat ||
-                          (item === 0
-                            ? liveData?.metaData?.teamA
-                            : liveData?.metaData?.teamB)
-                      );
-                    }}
-                    sx={{
-                      width: "40%",
-                      marginY: "5px",
-                      marginX: "5px",
-                      borderRadius: "3px",
-                      border: "2px solid #2626261A",
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      height: "30px",
-                      cursor: "pointer",
-                      background:
-                        selected ===
-                        (liveData?.runners?.[item]?.nat ||
-                          (item === 0
-                            ? liveData?.metaData?.teamA
-                            : liveData?.metaData?.teamB))
-                          ? "#0B4F26"
-                          : "#F8C851",
-                      overflow: "hidden",
-                    }}
-                  >
-                    <Typography
+              {[0, 1, ...(liveData?.runners?.length > 2 ? [2] : [])].map(
+                (item: any, k: number) => {
+                  return (
+                    <Box
+                      key={k}
+                      onClick={() => {
+                        setSelected(
+                          liveData?.runners?.[item]?.nat ||
+                            (item === 0
+                              ? liveData?.metaData?.teamA
+                              : liveData?.metaData?.teamB)
+                        );
+                      }}
                       sx={{
-                        fontSize: "10px",
-                        fontWeight: "700",
-                        color:
+                        width: "40%",
+                        marginY: "5px",
+                        marginX: "5px",
+                        borderRadius: "3px",
+                        border: "2px solid #2626261A",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        height: "30px",
+                        cursor: "pointer",
+                        background:
                           selected ===
                           (liveData?.runners?.[item]?.nat ||
                             (item === 0
                               ? liveData?.metaData?.teamA
                               : liveData?.metaData?.teamB))
-                            ? "white"
-                            : "black",
-                        lineHeight: 1,
-                        overflowWrap: "anywhere",
-                        whiteSpace: "nowrap",
+                            ? "#0B4F26"
+                            : "#F8C851",
                         overflow: "hidden",
-                        textOverflow: "ellipsis",
                       }}
                     >
-                      {liveData?.runners?.[item]?.nat ||
-                        (item === 0
-                          ? liveData?.metaData?.teamA
-                          : liveData?.metaData?.teamB)}
-                    </Typography>
-                  </Box>
-                );
-              })}
+                      <Typography
+                        sx={{
+                          fontSize: "10px",
+                          fontWeight: "700",
+                          color:
+                            selected ===
+                            (liveData?.runners?.[item]?.nat ||
+                              (item === 0
+                                ? liveData?.metaData?.teamA
+                                : liveData?.metaData?.teamB))
+                              ? "white"
+                              : "black",
+                          lineHeight: 1,
+                          overflowWrap: "anywhere",
+                          whiteSpace: "nowrap",
+                          overflow: "hidden",
+                          textOverflow: "ellipsis",
+                        }}
+                      >
+                        {liveData?.runners?.[item]?.nat ||
+                          (item === 0
+                            ? liveData?.metaData?.teamA
+                            : liveData?.metaData?.teamB)}
+                      </Typography>
+                    </Box>
+                  );
+                }
+              )}
             </Box>
           )}
 
