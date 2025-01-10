@@ -1,19 +1,19 @@
 import { Box, Typography } from "@mui/material";
+import ModalMUI from "@mui/material/Modal";
 import { useEffect, useState } from "react";
+import { TiArrowLeftThick } from "react-icons/ti";
 import { useDispatch, useSelector } from "react-redux";
+import { edit } from "../../../assets";
 import { sessionBetLiveStatus } from "../../../store/actions/match/matchAction";
 import { AppDispatch, RootState } from "../../../store/store";
+import CommissionDot from "../../Common/CommissionDot";
 import { formatNumber } from "../../helper";
 import Result from "../Result";
 import SeparateBox from "../SeparateBox";
 import SmallBox from "../SmallBox";
 import CustomSessionResult from "./CustomSessionResult";
 import PlaceBetComponent from "./PlaceBetComponent";
-import { edit } from "../../../assets";
 import SessionLimitEdit from "./SessionLimitEdit";
-import ModalMUI from "@mui/material/Modal";
-import { TiArrowLeftThick } from "react-icons/ti";
-import CommissionDot from "../../Common/CommissionDot";
 
 const SessionMarketBox = ({
   newData,
@@ -492,13 +492,13 @@ const SessionMarketBox = ({
                   margin: "1px",
                   background: "rgba(0,0,0,1)",
                   height: "30px",
-                  right: { lg: "24.6%", xs: "16.8%", md: "14.9%" },
                   position: "absolute",
-                  width: { lg: "16.9%", xs: "36%" },
                   justifyContent: { xs: "center", lg: "center" },
                   alignItems: "center",
                   display: "flex",
                   backgroundColor: newData?.selfDeclare ? "#46e080" : "#FF4D4D",
+                  right: { lg: "18.6%", xs: "16.8%", md: "14.9%" },
+                  width: { lg: "16.9%", xs: "26%", md: "20%" },
                 }}
               >
                 <h6
@@ -511,6 +511,13 @@ const SessionMarketBox = ({
                     // color={newData?.resultStatus === "PENDING" ? "red" : "#FFF"}
                     fontWeight: "400",
                     overflowWrap: "anywhere",
+                    marginTop:
+                    Math.max(
+                      newData?.ex?.availableToLay?.length ?? 0,
+                      newData?.ex?.availableToBack?.length ?? 0
+                    ) === 2
+                      ? "-5px"
+                      : "0",
                   }}
                 >
                   {item === 1 && newData?.resultStatus}
