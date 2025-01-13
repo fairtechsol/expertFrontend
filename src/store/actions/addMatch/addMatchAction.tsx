@@ -321,7 +321,7 @@ export const getMatchDetail = createAsyncThunk<any, any>(
       );
       if (resp) {
         let sessionBetting = resp?.data?.sessionBettings;
-        const updatedData = sessionBetting.map((item: any) => {
+        const updatedData = sessionBetting?.map((item: any) => {
           const parsedItem = JSON.parse(item);
 
           if (
