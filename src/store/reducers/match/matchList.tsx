@@ -1,4 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { updateRaceRates } from "../../actions/addMatch/addMatchAction";
+import { resetPlacedBetsMatch } from "../../actions/addSession";
 import {
   betLiveStatus,
   editMatch,
@@ -17,6 +19,7 @@ import {
   noResultDeclare,
   raceListReset,
   raceLiveStatus,
+  removeBetByBetId,
   resetContryCodeList,
   resetMatchListDropdown,
   resetMatchListSessionProLoss,
@@ -38,8 +41,6 @@ import {
   updateTeamRatesForHorseRacing,
   updateTeamRatesForHorseRacingOnDelete,
 } from "../../actions/match/matchAction";
-import { updateRaceRates } from "../../actions/addMatch/addMatchAction";
-import { resetPlacedBetsMatch } from "../../actions/addSession";
 
 interface InitialState {
   matchList: any;
@@ -242,6 +243,13 @@ const matchList = createSlice({
         state.loading = false;
         state.error = action?.error?.message;
       })
+      .addCase(removeBetByBetId.fulfilled, (state, action) => {
+        state.loading = false;
+        state.success = true;
+        state.placedBetsMatch = state.placedBetsMatch?.filter(
+          (items: any) => items?.betId != action?.payload
+        );
+      })
       .addCase(getPlacedBetsForSessionDetail.pending, (state) => {
         state.loading = true;
         state.success = false;
@@ -257,8 +265,11 @@ const matchList = createSlice({
         state.error = action?.error?.message;
       })
       .addCase(updateMatchBetsReason.fulfilled, (state, action) => {
-        const { betPlacedId, deleteReason, isPermanentDelete } =
-          action?.payload;
+        const {
+          betPlacedId,
+          deleteReason,
+          isPermanentDelete,
+        } = action?.payload;
         const updateDeleteReason = (bet: any) => {
           if (betPlacedId?.includes(bet?.id)) {
             bet.deleteReason = deleteReason;
@@ -271,13 +282,15 @@ const matchList = createSlice({
           );
           state.placedBetsMatch = Array.from(new Set(updatedBetPlaced));
         } else {
-          const updatedBetPlaced =
-            state?.placedBetsMatch?.map(updateDeleteReason);
+          const updatedBetPlaced = state?.placedBetsMatch?.map(
+            updateDeleteReason
+          );
 
           state.placedBetsMatch = Array.from(new Set(updatedBetPlaced));
         }
-        const updatedBetPlaced =
-          state?.placedBetsMatch?.map(updateDeleteReason);
+        const updatedBetPlaced = state?.placedBetsMatch?.map(
+          updateDeleteReason
+        );
 
         state.placedBetsMatch = Array.from(new Set(updatedBetPlaced));
       })
@@ -291,8 +304,9 @@ const matchList = createSlice({
           return bet;
         };
 
-        const updatedBetPlaced =
-          state?.placedBetsMatch?.map(updateDeleteReason);
+        const updatedBetPlaced = state?.placedBetsMatch?.map(
+          updateDeleteReason
+        );
 
         state.placedBetsMatch = Array.from(new Set(updatedBetPlaced));
       })
