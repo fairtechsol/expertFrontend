@@ -1,10 +1,7 @@
 import { Box, Typography } from "@mui/material";
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
-import { memo } from "react";
-import { CancelDark } from "../../../assets";
-import MatchOddsResultCustomButton from "./MatchOddsResultCustomButton";
+import { memo, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../../../store/store";
+import { CancelDark } from "../../../assets";
 import {
   declareMatchResult,
   declareMatchStatusReset,
@@ -13,6 +10,8 @@ import {
   otherUnDeclareMatchResult,
   unDeclareMatchResult,
 } from "../../../store/actions/match/matchDeclareActions";
+import { AppDispatch, RootState } from "../../../store/store";
+import MatchOddsResultCustomButton from "./MatchOddsResultCustomButton";
 
 const ResultComponent = ({
   currentMatch,

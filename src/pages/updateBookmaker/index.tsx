@@ -1,33 +1,35 @@
 import { Box, Grid, Paper } from "@mui/material";
-import BetsList from "../../components/updateBookmaker/BetsList";
-import { useLocation, useNavigate } from "react-router-dom";
-import BookmakerEditSection from "../../components/updateBookmaker/BookmakerEdit";
 import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useLocation, useNavigate } from "react-router-dom";
+import BetsList from "../../components/updateBookmaker/BetsList";
+import BookmakerEditSection from "../../components/updateBookmaker/BookmakerEdit";
+import { socket, socketService } from "../../socketManager";
+import { geTournamentBetting } from "../../store/actions/addMatch/addMatchAction";
 import {
-  getBookmakerById,
   getPlacedBets,
   updateDeleteReason,
   updateDeleteReasonOnEdit,
   updateMarketMinMaxLimitOnQuickMaker,
   updateMatchBetsPlaced,
   updateRatesBook,
-  updateTeamRatesOnManualMarket,
+  updateTeamRatesOnManualMarket
 } from "../../store/actions/addSession";
 import { AppDispatch, RootState } from "../../store/store";
-import { useDispatch, useSelector } from "react-redux";
-import { socket, socketService } from "../../socketManager";
 
 const UpdateBookmaker = () => {
   const { state }: any = useLocation();
   const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
   const { placedBets } = useSelector((state: RootState) => state.addSession);
-
+  const { tournament } = useSelector(
+    (states: RootState) => states.addMatch.addMatch
+  );
   const updateBetList = (event: any) => {
     try {
-      if (state?.match?.id === event?.jobData?.newBet?.matchId) {
+      if (state?.matchId === event?.jobData?.newBet?.matchId) {
         dispatch(updateTeamRatesOnManualMarket(event));
-        if (state?.id === event?.jobData?.newBet?.betId) {
+        if (state?.betId === event?.jobData?.newBet?.betId) {
           dispatch(updateMatchBetsPlaced(event));
         }
       }
@@ -38,7 +40,7 @@ const UpdateBookmaker = () => {
 
   const resultDeclared = (event: any) => {
     try {
-      if (event?.matchId === state?.match?.id) {
+      if (event?.matchId === state?.matchId) {
         navigate("/expert/match");
       }
     } catch (e) {
@@ -47,9 +49,9 @@ const UpdateBookmaker = () => {
   };
   const matchDeleteBet = (event: any) => {
     try {
-      if (event?.matchId === state?.match?.id) {
+      if (event?.matchId === state?.matchId) {
         dispatch(updateRatesBook(event));
-        if (event?.betId === state?.id) {
+        if (event?.betId === state?.betId) {
           dispatch(updateDeleteReason(event));
         }
         // dispatch(
@@ -66,7 +68,7 @@ const UpdateBookmaker = () => {
 
   const updateDeleteBetReason = (event: any) => {
     try {
-      if (event?.matchId === state?.match?.id) {
+      if (event?.matchId === state?.matchId) {
         dispatch(updateDeleteReasonOnEdit(event));
       }
     } catch (e) {
@@ -75,7 +77,7 @@ const UpdateBookmaker = () => {
   };
 
   const handleMinMaxLimitChange = (event: any) => {
-    if (event?.matchId === state?.match?.id) {
+    if (event?.matchId === state?.matchId) {
       dispatch(updateMarketMinMaxLimitOnQuickMaker(event));
     }
     try {
@@ -86,22 +88,18 @@ const UpdateBookmaker = () => {
 
   useEffect(() => {
     try {
-      if (state?.id) {
+      if (state?.betId) {
         dispatch(
-          getBookmakerById({
-            matchId: state?.match?.id,
-            id: state?.id,
-            type: state?.type,
-          })
+          geTournamentBetting({ matchId: state?.matchId, betId: state?.betId })
         );
-        dispatch(getPlacedBets(state?.id));
+        dispatch(getPlacedBets(state?.betId));
       } else {
         navigate("/expert/match");
       }
     } catch (error) {
       console.error(error);
     }
-  }, [state?.id]);
+  }, [state?.betId]);
 
   useEffect(() => {
     if (socket) {
@@ -123,7 +121,7 @@ const UpdateBookmaker = () => {
         socketService.user.matchBettingMinMaxChangeOff();
       };
     }
-  }, [socket, state?.id]);
+  }, [socket, state?.betId]);
 
   return (
     <Box display="flex">
@@ -132,9 +130,11 @@ const UpdateBookmaker = () => {
           <Paper style={{ margin: "2px" }}>
             <BookmakerEditSection
               add={true}
-              match={state?.match}
-              bookmakerId={state?.id}
-              type={state?.type}
+              match={tournament?.match}
+              bookmakerId={state?.betId}
+              runners={tournament?.runners}
+              matchBetting={tournament?.matchBetting}
+              teamRates={tournament?.teamRates}
             />
           </Paper>
         </Grid>

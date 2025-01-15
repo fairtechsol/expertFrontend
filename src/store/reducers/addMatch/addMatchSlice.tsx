@@ -1,5 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {
+  convertData,
+  updateSessionBettingsItem,
+} from "../../../helpers/sessionsHelpers";
+import { profitLossDataForMatchConstants } from "../../../utils/Constants";
+import {
   addMatchExpert,
   addMatchReset,
   addRaceExpert,
@@ -9,6 +14,7 @@ import {
   getAllLiveTournaments,
   getExtraMarketList,
   getMatchDetail,
+  geTournamentBetting,
   getRaceMatches,
   handleBetResultStatus,
   matchDetailReset,
@@ -35,11 +41,6 @@ import {
   updateTeamRates,
 } from "../../actions/match/matchAction";
 import { getOtherGamesMatchDetail } from "../../actions/otherGamesAction/matchDetailActions";
-import { profitLossDataForMatchConstants } from "../../../utils/Constants";
-import {
-  convertData,
-  updateSessionBettingsItem,
-} from "../../../helpers/sessionsHelpers";
 
 interface InitialState {
   tournamentList: any;
@@ -57,6 +58,7 @@ interface InitialState {
   quickBookmaker1: any;
   maxLimitLoading: boolean;
   maxLimitSuccess: boolean;
+  tournament: any;
 }
 
 const initialState: InitialState = {
@@ -83,6 +85,7 @@ const initialState: InitialState = {
   quickBookmaker1: [],
   maxLimitLoading: false,
   maxLimitSuccess: false,
+  tournament: {},
 };
 
 const addMatch = createSlice({
@@ -152,6 +155,19 @@ const addMatch = createSlice({
         state.success = true;
       })
       .addCase(getExtraMarketList.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action?.error?.message;
+      })
+      .addCase(geTournamentBetting.pending, (state) => {
+        state.loading = true;
+        state.tournament = {};
+        state.error = null;
+      })
+      .addCase(geTournamentBetting.fulfilled, (state, action) => {
+        state.tournament = action?.payload;
+        state.loading = false;
+      })
+      .addCase(geTournamentBetting.rejected, (state, action) => {
         state.loading = false;
         state.error = action?.error?.message;
       })
@@ -534,8 +550,11 @@ const addMatch = createSlice({
         } else if (matchBetType === "tournament") {
           state.matchDetail.teamRates = {
             ...state.matchDetail.teamRates,
-            [betId + "_" + "profitLoss" + "_" + state.matchDetail?.id]:
-              JSON.stringify(teamRate),
+            [betId +
+            "_" +
+            "profitLoss" +
+            "_" +
+            state.matchDetail?.id]: JSON.stringify(teamRate),
           };
         } else
           state.matchDetail.teamRates = {

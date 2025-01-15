@@ -115,7 +115,9 @@ export const getExtraMarketList = createAsyncThunk<any, any>(
   "addMatch/extraMarketList",
   async (requestData, thunkApi) => {
     try {
-      const { data } = await axios.get(
+      const {
+        data,
+      } = await axios.get(
         `${addMatchThirdParty}/extraMarketList/${requestData?.id}?eventType=${requestData?.eventType}`,
         { timeout: 2000 }
       );
@@ -295,6 +297,24 @@ export const addMatchExpert = createAsyncThunk<any, any>(
     }
   }
 );
+
+export const geTournamentBetting = createAsyncThunk<any, any>(
+  "getTournamentBetting",
+  async ({ matchId, betId }, thunkApi) => {
+    try {
+      const resp = await service.get(
+        `${ApiConstants.MATCH.GET_TOURNAMENT}${matchId}?id=${betId}&isRate=true`
+      );
+      if (resp) {
+        return resp?.data;
+      }
+    } catch (error) {
+      const err = error as AxiosError;
+      return thunkApi.rejectWithValue(err.response?.status);
+    }
+  }
+);
+
 export const addRaceExpert = createAsyncThunk<any, any>(
   "addRaceExpert",
   async (requestData, thunkApi) => {

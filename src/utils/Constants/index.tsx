@@ -31,6 +31,7 @@ export const ApiConstants = {
     GET_COUNTRY_CODE: "match/countryWiseList",
     GET_RACE_LIST: "match/racing/list",
     GET_RACE_MATCH: "match/racing",
+    GET_TOURNAMENT:"matchBeting/tournament/"
   },
   USER: {
     CHANGEPASSWORD: "user/password",
@@ -95,6 +96,7 @@ export const Constants = {
     live: "live",
     live_update: "live/:id",
     addBookMaker: "add_book_maker",
+    addManualMarket: "addManualMarket",
     // betOdds: "betOdds",
     betOddsOtherGames: "betOdds/otherGames",
     betOddsRace: "betOdds/race",

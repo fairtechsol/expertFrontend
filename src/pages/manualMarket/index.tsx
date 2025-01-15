@@ -3,18 +3,18 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ARROWUP } from "../../assets";
 import Divider from "../../components/Common/Divider";
+import MaxLimitEditButton from "../../components/Common/MaxLimitEditButton";
+import { formatNumber } from "../../components/helper";
 import ManualBoxComponent from "../../components/manualMarket/manualBoxComponent";
+import MaxBetAdd from "../../components/matchDetails/MaxBetAdd";
+import Result from "../../components/matchDetails/Result";
 import Stop from "../../components/matchDetails/SessionMarket/Stop";
 import SmallBox from "../../components/matchDetails/SmallBox";
+import ResultComponent from "../../components/updateBookmaker/BookmakerEdit/ResultComponent";
 import { betLiveStatus } from "../../store/actions/match/matchAction";
+import { declareMatchStatusReset } from "../../store/actions/match/matchDeclareActions";
 import { AppDispatch, RootState } from "../../store/store";
 import { profitLossDataForMatchConstants } from "../../utils/Constants";
-import ResultComponent from "../../components/updateBookmaker/BookmakerEdit/ResultComponent";
-import Result from "../../components/matchDetails/Result";
-import { declareMatchStatusReset } from "../../store/actions/match/matchDeclareActions";
-import MaxLimitEditButton from "../../components/Common/MaxLimitEditButton";
-import MaxBetAdd from "../../components/matchDetails/MaxBetAdd";
-import { formatNumber } from "../../components/helper";
 const ManualMarket = ({ currentMatch, liveData, type, showResultBox }: any) => {
   const [visible, setVisible] = useState(false);
   const dispatch: AppDispatch = useDispatch();
@@ -24,6 +24,7 @@ const ManualMarket = ({ currentMatch, liveData, type, showResultBox }: any) => {
     liveData?.activeStatus === "live" ? true : false
   );
   const { success } = useSelector((state: RootState) => state.match);
+
   const handleClose = (data: any) => {
     setOpen(data);
   };
@@ -41,7 +42,6 @@ const ManualMarket = ({ currentMatch, liveData, type, showResultBox }: any) => {
       setVisible(false);
     }
   }, [success]);
-
   return (
     <Box
       sx={{

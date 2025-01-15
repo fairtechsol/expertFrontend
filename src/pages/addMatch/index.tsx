@@ -14,6 +14,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import CustomErrorMessage from "../../components/Common/CustomErrorMessage";
 import DropDown from "../../components/Common/DropDown";
+import SearchableInput from "../../components/Common/SearchableInput";
 import BoxButtonManualMatch from "../../components/addMatch/ButtonSwitchManualMatch";
 import LabelValueComponent from "../../components/addMatch/LabelValueComponent";
 import MatchListInput from "../../components/addMatch/MatchListInput";
@@ -27,8 +28,7 @@ import {
   getAllLiveTournaments,
   getMatchDetail,
   matchDetailSuccessReset,
-  tournamentListReset,
-  updateExtraMarketListOnEdit,
+  tournamentListReset
 } from "../../store/actions/addMatch/addMatchAction";
 import {
   editMatch,
@@ -36,44 +36,12 @@ import {
   updateMatchListCurrentPage,
 } from "../../store/actions/match/matchAction";
 import { AppDispatch, RootState } from "../../store/store";
-import { eventWiseMatchData, matchBettingType } from "../../utils/Constants";
-import SearchableInput from "../../components/Common/SearchableInput";
+import { eventWiseMatchData } from "../../utils/Constants";
 
-function flattenObject(obj: any) {
-  if (obj) {
-    return Object.keys(obj).reduce((acc: any, key) => {
-      if (Array.isArray(obj[key])) {
-        obj[key].forEach((item: any) => {
-          acc[item?.type] = item;
-        });
-      } else {
-        acc[key] = obj[key];
-      }
-      return acc;
-    }, {});
-  }
-  return {};
-}
 
 const initialFormikValues = {
   minBet: "",
   betfairSessionMaxBet: "",
-
-  [matchBettingType.completeManual]: {
-    maxBet: "",
-  },
-  [matchBettingType.tiedMatch2]: {
-    maxBet: "",
-  },
-  marketName1: "",
-  marketMaxBet1: "",
-  marketId1: "",
-  marketName2: "",
-  marketMaxBet2: "",
-  marketId2: "",
-  marketName3: "",
-  marketMaxBet3: "",
-  marketId3: "",
   rateThan100: false,
 };
 
@@ -82,7 +50,6 @@ const initialValues = {
   teamB: "",
   teamC: "",
   title: "",
-  manualBookmaker: 0,
   gameType: "",
   tournamentName: "",
   tournamentId: "",
@@ -119,8 +86,6 @@ const AddMatch = () => {
     textTransform: "capitalize",
   };
 
-  const selectionData = [1, 2, 3];
-
   const { editSuccess } = useSelector((state: RootState) => state.matchList);
   const formik = useFormik({
     // validationSchema: addMatchValidation(manualMatchToggle, selected.gameType,extraMarketList),
@@ -137,61 +102,18 @@ const AddMatch = () => {
         return;
       }
       if (state?.id) {
-        let bookmakers;
 
-        if (selected.manualBookmaker === 1) {
-          bookmakers = [
-            {
-              maxBet: values.marketMaxBet1,
-              id: values.marketId1,
-            },
-          ];
-        } else if (selected.manualBookmaker === 2) {
-          bookmakers = [
-            {
-              maxBet: values.marketMaxBet1,
-              id: values.marketId1,
-            },
-            {
-              maxBet: values.marketMaxBet2,
-              id: values.marketId2,
-            },
-          ];
-        } else if (selected.manualBookmaker === 3) {
-          bookmakers = [
-            {
-              maxBet: values.marketMaxBet1,
-              id: values.marketId1,
-            },
-            {
-              maxBet: values.marketMaxBet2,
-              id: values.marketId2,
-            },
-            {
-              maxBet: values.marketMaxBet3,
-              id: values.marketId3,
-            },
-          ];
-        }
         let payload: any;
 
         if (selected?.teamB) {
           payload = {
             id: state?.id,
             minBet: value.minBet,
-            marketData: [],
             betFairSessionMaxBet: value.betfairSessionMaxBet,
-            bookmakers: bookmakers,
             startAt: selected.startAt,
             rateThan100: value.rateThan100,
           };
 
-          eventWiseMatchData[selected.gameType]?.manual?.forEach((item) => {
-            payload.marketData.push({
-              maxBet: value?.[item?.matchType]?.maxBet,
-              type: item?.matchType,
-            });
-          });
         } else {
           payload = {
             id: state?.id,
@@ -213,43 +135,9 @@ const AddMatch = () => {
         // }
         dispatch(editMatch(payload));
       } else {
-        let bookmakers;
 
         let addMatchpayload: any;
-        if (selected.manualBookmaker === 1) {
-          bookmakers = [
-            {
-              maxBet: values.marketMaxBet1,
-              marketName: values.marketName1,
-            },
-          ];
-        } else if (selected.manualBookmaker === 2) {
-          bookmakers = [
-            {
-              maxBet: values.marketMaxBet1,
-              marketName: values.marketName1,
-            },
-            {
-              maxBet: values.marketMaxBet2,
-              marketName: values.marketName2,
-            },
-          ];
-        } else if (selected.manualBookmaker === 3) {
-          bookmakers = [
-            {
-              maxBet: values.marketMaxBet1,
-              marketName: values.marketName1,
-            },
-            {
-              maxBet: values.marketMaxBet2,
-              marketName: values.marketName2,
-            },
-            {
-              maxBet: values.marketMaxBet3,
-              marketName: values.marketName3,
-            },
-          ];
-        }
+       
         if (selected.title === "") {
           setError((prev: any) => {
             return {
@@ -270,7 +158,6 @@ const AddMatch = () => {
             teamC: selected.teamC,
             startAt: selected.startAt,
             minBet: value.minBet,
-            marketData: [],
             rateThan100: value.rateThan100,
             isFancy: selected?.f,
             isTv: selected?.tv,
@@ -279,17 +166,11 @@ const AddMatch = () => {
               selected.gameType === "cricket"
                 ? value.betfairSessionMaxBet
                 : value.minBet + 1,
-            bookmakers: bookmakers,
             competitionName: selected?.competitionName,
             competitionId: selected?.competitionId,
           };
 
-          eventWiseMatchData[selected.gameType]?.manual?.forEach((item) => {
-            addMatchpayload.marketData.push({
-              maxBet: value?.[item?.matchType]?.maxBet,
-              type: item?.matchType,
-            });
-          });
+          
         } else {
           addMatchpayload = {
             matchType: selected.gameType,
@@ -390,7 +271,6 @@ const AddMatch = () => {
           teamB: "",
           teamC: "",
           title: "",
-          manualBookmaker: 0,
           tournamentName: "",
           tournamentId: "",
           matchName: "",
@@ -422,7 +302,6 @@ const AddMatch = () => {
           teamB: "",
           teamC: "",
           title: "",
-          manualBookmaker: 0,
           matchName: "",
           competitionName: "",
           eventId: "",
@@ -476,79 +355,14 @@ const AddMatch = () => {
     try {
       if (matchDetail && state?.id) {
         if (success) {
-          const quickBookmaker1 =
-            matchDetail?.quickBookmaker?.find(
-              (bookmaker: any) => bookmaker.type === "quickbookmaker1"
-            ) || {};
-          const quickBookmaker2 =
-            matchDetail?.quickBookmaker?.find(
-              (bookmaker: any) => bookmaker.type === "quickbookmaker2"
-            ) || {};
-          const quickBookmaker3 =
-            matchDetail?.quickBookmaker?.find(
-              (bookmaker: any) => bookmaker.type === "quickbookmaker3"
-            ) || {};
+        
           const formikValues = {
             ...values,
             minBet: matchDetail?.betFairSessionMinBet ?? "",
             betfairSessionMaxBet: matchDetail?.betFairSessionMaxBet ?? "",
-            marketName1: quickBookmaker1.name ?? "",
-            marketMaxBet1: quickBookmaker1?.maxBet ?? "",
-            marketId1: quickBookmaker1?.id ?? "",
-            marketName2: quickBookmaker2?.name ?? "",
-            marketMaxBet2: quickBookmaker2?.maxBet ?? "",
-            marketId2: quickBookmaker2?.id ?? "",
-            marketName3: quickBookmaker3?.name ?? "",
-            marketMaxBet3: quickBookmaker3?.maxBet ?? "",
-            marketId3: quickBookmaker3?.id ?? "",
             rateThan100: matchDetail?.rateThan100 ?? false,
           };
           setIsChecked(matchDetail?.rateThan100);
-
-          if (!manualMatchToggle) {
-            eventWiseMatchData[matchDetail?.matchType]?.market?.forEach(
-              (item) => {
-                if (matchDetail[item?.apiKey]) {
-                  formikValues[item?.matchType] = {
-                    maxBet: matchDetail[item?.apiKey].maxBet,
-                  };
-                }
-              }
-            );
-          }
-
-          eventWiseMatchData[matchDetail?.matchType]?.manual?.forEach(
-            (item) => {
-              if (matchDetail[item?.apiKey]) {
-                formikValues[item?.matchType] = {
-                  maxBet: matchDetail[item?.apiKey].maxBet,
-                };
-              } else if (matchDetail["manualTiedMatch"]) {
-                formikValues[item?.matchType] = {
-                  maxBet: matchDetail["manualTiedMatch"].maxBet,
-                };
-              }
-            }
-          );
-          let extraMarketListArray = {};
-          eventWiseMatchData[matchDetail?.matchType]?.market?.forEach(
-            (item) => {
-              let updatedMatchDetail: any = flattenObject(matchDetail);
-              if (updatedMatchDetail[item?.apiKey]) {
-                formikValues[item?.matchType] = {
-                  maxBet: updatedMatchDetail[item?.apiKey].maxBet,
-                };
-                extraMarketListArray = {
-                  ...extraMarketListArray,
-                  [item?.apiKey]: {
-                    marketId: updatedMatchDetail[item?.apiKey].marketId,
-                  },
-                };
-              }
-            }
-          );
-
-          dispatch(updateExtraMarketListOnEdit(extraMarketListArray));
 
           formik.setValues(formikValues);
           setSelected((prev: any) => {
@@ -557,7 +371,6 @@ const AddMatch = () => {
               teamA: matchDetail?.teamA,
               teamB: matchDetail?.teamB,
               teamC: matchDetail?.teamC,
-              manualBookmaker: matchDetail?.quickBookmaker?.length,
               title: matchDetail?.title,
               gameType: matchDetail?.matchType,
               tournamentName: matchDetail?.competitionName,
@@ -1058,299 +871,6 @@ const AddMatch = () => {
                   touched={touched.betfairSessionMaxBet}
                   errors={errors.betfairSessionMaxBet}
                 />
-              </Box>
-            )}
-
-            {selected.teamB &&
-              eventWiseMatchData[selected.gameType]?.manual?.map(
-                (item: any) => {
-                  return (
-                    <Box sx={{ width: { xs: "100%", lg: "18%", md: "24%" } }}>
-                      <MatchListInput
-                        required={true}
-                        containerStyle={{ flex: 1, width: "100%" }}
-                        label={`${item?.label}*`}
-                        {...formik.getFieldProps(`${item?.matchType}.maxBet`)}
-                        type={"Number"}
-                        touched={(touched?.[item?.matchType] as any)?.maxBet}
-                        value={values?.[item?.matchType]?.maxBet}
-                        // onChange={handleChange}
-                        placeholder={`Enter ${item?.name} Max Bet...`}
-                        place={15}
-                        onBlur={formik.handleBlur}
-                      />
-                      <CustomErrorMessage
-                        touched={(touched?.[item?.matchType] as any)?.maxBet}
-                        errors={(errors?.[item?.matchType] as any)?.maxBet}
-                      />
-                    </Box>
-                  );
-                }
-              )}
-
-            {/* {!manualMatchToggle &&
-              eventWiseMatchData[selected.gameType]?.market
-                ?.filter(
-                  (item: any) =>
-                    extraMarketList[item.marketIdKey]?.marketId !== null &&
-                    extraMarketList[item.marketIdKey]?.marketId !== undefined
-                )
-                ?.map((item: any) => {
-                  return (
-                    <Box sx={{ width: { xs: "100%", lg: "18%", md: "24%" } }}>
-                      <MatchListInput
-                        required={true}
-                        containerStyle={{ flex: 1, width: "100%" }}
-                        label={`${item?.label}*`}
-                        {...formik.getFieldProps(`${item?.matchType}.maxBet`)}
-                        onChange={(e: any) => {
-                          formik.setValues({
-                            ...values,
-                            [item.matchType]: {
-                              ...values[item.matchType],
-                              maxBet: e.target.value,
-                            },
-                          });
-                        }}
-                        type={"Number"}
-                        touched={(touched?.[item?.matchType] as any)?.maxBet}
-                        value={values?.[item?.matchType]?.maxBet}
-                        placeholder={`Enter ${item?.name} Max Bet...`}
-                        place={15}
-                        onBlur={formik.handleBlur}
-                      />
-                      <CustomErrorMessage
-                        touched={(touched?.[item?.matchType] as any)?.maxBet}
-                        errors={(errors?.[item?.matchType] as any)?.maxBet}
-                      />
-                    </Box>
-                  );
-                })} */}
-
-            {selected.teamB && (
-              <Box
-                sx={{
-                  width: "100%",
-                  cursor: "pointer",
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: "15px",
-                }}
-              >
-                <Box
-                  sx={{
-                    width: { xs: "100%", lg: "18%", md: "24%" },
-                  }}
-                >
-                  <DropDown
-                    name="manualBookmaker"
-                    valued="Select Bookmaker"
-                    dropStyle={{
-                      filter:
-                        "invert(.9) sepia(1) saturate(5) hue-rotate(175deg);",
-                    }}
-                    disable={state?.id ? true : false}
-                    valueStyle={{ ...inputStyle, color: "white" }}
-                    title={"Bookmaker*"}
-                    valueContainerStyle={{
-                      height: "45px",
-                      marginX: "0px",
-                      background: "#0B4F26",
-                      border: "1px solid #DEDEDE",
-                      borderRadius: "5px",
-                    }}
-                    containerStyle={{
-                      width: "100%",
-                      position: "relative",
-                      marginTop: "5px",
-                    }}
-                    titleStyle={{ marginLeft: "0px", color: "#575757" }}
-                    data={selectionData}
-                    dropDownStyle={{
-                      width: "100%",
-                      marginLeft: "0px",
-                      marginTop: "0px",
-                      position: "absolute",
-                      maxHeight: "500px",
-                      overflow: "auto",
-                    }}
-                    selected={selected}
-                    setSelected={setSelected}
-                    dropDownTextStyle={inputStyle}
-                    place={4}
-                    onOpen={handleDropDownOpen}
-                  />
-                </Box>
-
-                <Box
-                  sx={{
-                    display: "flex",
-                    flexDirection: "column",
-                    width: "100%",
-                    gap: 1,
-                  }}
-                >
-                  {selected.manualBookmaker >= 1 && (
-                    <Box sx={{ display: "flex", width: "100%", gap: 1 }}>
-                      <Box
-                        sx={{
-                          width: {
-                            xs: "100%",
-                            lg: "18%",
-                            md: "24%",
-                          },
-                        }}
-                      >
-                        <MatchListInput
-                          required={true}
-                          label={"Market Name*"}
-                          type={"text"}
-                          placeholder="Enter Market Name..."
-                          place={11}
-                          name="marketName1"
-                          id="marketName1"
-                          disable={state?.id ? true : false}
-                          value={values.marketName1}
-                          onChange={handleChange}
-                        />
-                      </Box>
-
-                      <Box
-                        sx={{
-                          width: {
-                            xs: "100%",
-                            lg: "18%",
-                            md: "24%",
-                          },
-                        }}
-                      >
-                        <MatchListInput
-                          label={"Max Limit*"}
-                          type={"number"}
-                          placeholder="Enter Max Bet..."
-                          place={11}
-                          name="marketMaxBet1"
-                          id="marketMaxBet1"
-                          value={values.marketMaxBet1}
-                          onChange={handleChange}
-                        />
-                      </Box>
-                      {/* <Box
-                        sx={{
-                          width: {
-                            xs: "100%",
-                            lg: "18%",
-                            md: "24%",
-                          },
-                        }}
-                      >
-                        <MatchListInput
-                          label={"Bet Limit*"}
-                          type={"number"}
-                          placeholder="Enter Bet Limit..."
-                          place={11}
-                          name="betLimit1"
-                          id="betLimit1"
-                          onChange={handleChange}
-                          value={values.betLimit1}
-                        />
-                      </Box> */}
-                    </Box>
-                  )}
-                  {selected.manualBookmaker >= 2 && (
-                    <Box sx={{ display: "flex", width: "100%", gap: 1 }}>
-                      <Box
-                        sx={{
-                          width: {
-                            xs: "100%",
-                            lg: "18%",
-                            md: "24%",
-                          },
-                        }}
-                      >
-                        <MatchListInput
-                          required={true}
-                          label={"Market Name*"}
-                          type={"text"}
-                          placeholder="Enter Market Name..."
-                          place={11}
-                          name="marketName2"
-                          id="marketName2"
-                          disable={state?.id ? true : false}
-                          onChange={handleChange}
-                          value={values.marketName2}
-                        />
-                      </Box>
-
-                      <Box
-                        sx={{
-                          width: {
-                            xs: "100%",
-                            lg: "18%",
-                            md: "24%",
-                          },
-                        }}
-                      >
-                        <MatchListInput
-                          label={"Max Limit*"}
-                          type={"number"}
-                          placeholder="Enter Max Bet..."
-                          place={11}
-                          name="marketMaxBet2"
-                          id="marketMaxBet2"
-                          onChange={handleChange}
-                          value={values.marketMaxBet2}
-                        />
-                      </Box>
-                    </Box>
-                  )}
-                  {selected.manualBookmaker === 3 && (
-                    <Box sx={{ display: "flex", width: "100%", gap: 1 }}>
-                      <Box
-                        sx={{
-                          width: {
-                            xs: "100%",
-                            lg: "18%",
-                            md: "24%",
-                          },
-                        }}
-                      >
-                        <MatchListInput
-                          required={true}
-                          label={"Market Name*"}
-                          type={"text"}
-                          placeholder="Enter Market Name..."
-                          place={11}
-                          name="marketName3"
-                          id="marketName3"
-                          disable={state?.id ? true : false}
-                          value={values.marketName3}
-                          onChange={handleChange}
-                        />
-                      </Box>
-                      <Box
-                        sx={{
-                          width: {
-                            xs: "100%",
-                            lg: "18%",
-                            md: "24%",
-                          },
-                        }}
-                      >
-                        <MatchListInput
-                          label={"Max Limit*"}
-                          type={"number"}
-                          placeholder="Enter Max Bet..."
-                          place={11}
-                          name="marketMaxBet3"
-                          id="marketMaxBet3"
-                          onChange={handleChange}
-                          value={values.marketMaxBet3}
-                        />
-                      </Box>
-                    </Box>
-                  )}
-                </Box>
               </Box>
             )}
 

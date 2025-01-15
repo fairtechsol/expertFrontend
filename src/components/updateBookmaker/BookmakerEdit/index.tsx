@@ -1,21 +1,27 @@
 import { Box, Typography, useMediaQuery } from "@mui/material";
-import EditBookmaker from "./EditBookmaker";
-import ResultComponent from "./ResultComponent";
-import theme from "../../../theme";
-import { useSelector } from "react-redux";
-import { RootState } from "../../../store/store";
 import { useState } from "react";
+import theme from "../../../theme";
+import ResultComponentTournamentMarket from "../../matchDetails/TournamentMarkets/ResultComponentTournamentMarket";
+import EditBookmaker from "./EditBookmaker";
 interface Props {
   add: boolean;
   match: any;
   bookmakerId: string;
-  type: string;
+  runners: any;
+  matchBetting: any;
+  teamRates:any;
 }
 
-const BookmakerEditSection = ({ add, match, bookmakerId, type }: Props) => {
+const BookmakerEditSection = ({
+  add,
+  match,
+  bookmakerId,
+  runners,
+  matchBetting,
+  teamRates
+}: Props) => {
   const [visible, setVisible] = useState(false);
   const [visible1, setVisible1] = useState(false);
-  const { bookmakerById } = useSelector((state: RootState) => state.addSession);
   const matchesMobile = useMediaQuery(theme.breakpoints.down("lg"));
 
   return (
@@ -97,7 +103,7 @@ const BookmakerEditSection = ({ add, match, bookmakerId, type }: Props) => {
             }}
           >
             <Box sx={{ width: "2%" }}></Box>
-            {bookmakerById?.stopAt ? (
+            {matchBetting?.stopAt ? (
               <Box
                 onClick={(e) => {
                   setVisible1(true);
@@ -132,22 +138,13 @@ const BookmakerEditSection = ({ add, match, bookmakerId, type }: Props) => {
                   }}
                 >
                   {visible1 && (
-                    <ResultComponent
-                      onClick={() => {
-                        setVisible1(false);
-                      }}
+                    <ResultComponentTournamentMarket
                       currentMatch={match}
-                      teamA={match?.teamA}
-                      teamB={match?.teamB}
-                      tie={match?.matchType === "cricket" ? "Tie" : ""}
-                      draw={
-                        match?.teamC &&
-                        !["tiedMatch2", "completeManual"].includes(type)
-                          ? match?.teamC
-                          : ""
-                      }
-                      stopAt={match?.stopAt}
-                      // betStatus={localSelectedBookmaker?.betStatus}
+                      // stopAt={liveData?.stopAt}
+                      onClick={() => {
+                        setVisible(false);
+                      }}
+                      liveData={{ ...matchBetting, runners: runners }}
                     />
                   )}
                 </Box>
@@ -191,23 +188,14 @@ const BookmakerEditSection = ({ add, match, bookmakerId, type }: Props) => {
                   }}
                 >
                   {visible && (
-                    <ResultComponent
-                      onClick={() => {
-                        setVisible(false);
-                      }}
-                      currentMatch={match}
-                      stopAt={match?.stopAt}
-                      teamA={match?.teamA}
-                      teamB={match?.teamB}
-                      tie={match?.matchType === "cricket" ? "Tie" : ""}
-                      draw={
-                        match?.teamC &&
-                        !["tiedMatch2", "completeManual"].includes(type)
-                          ? match?.teamC
-                          : ""
-                      }
-                      // betStatus={localSelectedBookmaker?.betStatus}
-                    />
+                    <ResultComponentTournamentMarket
+                    currentMatch={match}
+                    // stopAt={liveData?.stopAt}
+                    onClick={() => {
+                      setVisible(false);
+                    }}
+                    liveData={{ ...matchBetting, runners: runners }}
+                  />
                   )}
                 </Box>
               </Box>
@@ -229,7 +217,10 @@ const BookmakerEditSection = ({ add, match, bookmakerId, type }: Props) => {
             add={add}
             match={match}
             Bid={bookmakerId}
-            type={type}
+            matchBetting={matchBetting}
+            runners={runners}
+            exposureLimit={matchBetting?.exposureLimit}
+            teamRates={teamRates}
           />
         </Box>
       </Box>

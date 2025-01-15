@@ -1,14 +1,13 @@
 import { Box, Typography } from "@mui/material";
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
-import { memo } from "react";
+import { memo, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../../../store/store";
+import { CancelDark } from "../../../assets";
 import {
   declareMatchStatusReset,
   declareTournamentMarketCricketResult,
   UnDeclareTournamentMarketCricketResult,
 } from "../../../store/actions/match/matchDeclareActions";
-import { CancelDark } from "../../../assets";
+import { AppDispatch, RootState } from "../../../store/store";
 import MatchOddsResultCustomButton from "../../updateBookmaker/BookmakerEdit/MatchOddsResultCustomButton";
 
 const ResultComponentTournamentMarket = ({
@@ -138,6 +137,7 @@ const ResultComponentTournamentMarket = ({
               }}
             >
               {liveData?.runners?.map((item: any, k: number) => {
+                console.log(item);
                 return (
                   <Box
                     key={k}

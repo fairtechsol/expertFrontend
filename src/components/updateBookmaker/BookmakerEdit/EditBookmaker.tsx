@@ -2,36 +2,41 @@ import { Box, TextField, Typography, useMediaQuery } from "@mui/material";
 import { memo, useEffect, useRef, useState } from "react";
 import KeyboardEventHandler from "react-keyboard-event-handler";
 import { useDispatch, useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
 import { BallStart, Lock } from "../../../assets";
+import { formatToINR, numberInputOnWheelPreventChange } from "../../../helpers";
 import { socket, socketService } from "../../../socketManager";
 import {
   successReset,
   updateResultStatusOfQuickBookmaker,
 } from "../../../store/actions/addSession";
 import { AppDispatch, RootState } from "../../../store/store";
+import theme from "../../../theme";
+import { profitLossDataForMatchConstants } from "../../../utils/Constants";
 import { handleKeysMatchEvents } from "../../../utils/InputKeys/Bookmaker/BookmakerSessionKeys";
 import { updateLocalQuickBookmaker } from "../../../utils/InputKeys/Bookmaker/Utils";
 import BookButton from "./BookButton";
-import ResultComponent from "./ResultComponent";
-import theme from "../../../theme";
-import { formatToINR, numberInputOnWheelPreventChange } from "../../../helpers";
-import { useLocation } from "react-router-dom";
-import { profitLossDataForMatchConstants } from "../../../utils/Constants";
 // import MaxLimitEditButtonBook from "../../Common/MaxLimitEditButtonBzook";
 import MaxBetAdd from "../../matchDetails/MaxBetAdd";
+import ResultComponentTournamentMarket from "../../matchDetails/TournamentMarkets/ResultComponentTournamentMarket";
 
 const EditBookmaker = (props: any) => {
   const { state } = useLocation();
-  const { add, match, Bid, type, exposureLimit } = props;
+  const {
+    add,
+    match,
+    type,
+    exposureLimit,
+    matchBetting,
+    runners,
+    teamRates,
+  } = props;
   const dispatch: AppDispatch = useDispatch();
   const matchesMobile = useMediaQuery(theme.breakpoints.down("lg"));
   const { bookmakerById, success } = useSelector(
     (state: RootState) => state.addSession
   );
-
-  const innerRefTeamA: any = useRef();
   const innerRefTeamB: any = useRef();
-  const innerRefTeamC: any = useRef();
 
   const [incGap, setIncGap] = useState<number>(1);
 
@@ -42,7 +47,8 @@ const EditBookmaker = (props: any) => {
   const [open, setOpen] = useState(false);
 
   const [localQuickBookmaker, setLocalQuickBookmaker] = useState<any>({
-    teamA: {
+    teams: runners?.map((item: any) => ({
+      ...item,
       rightBack: 0,
       rightLay: 0,
       lock: true,
@@ -50,25 +56,7 @@ const EditBookmaker = (props: any) => {
       lay: 0,
       back: 0,
       layLock: false,
-    },
-    teamB: {
-      rightBack: 0,
-      rightLay: 0,
-      lock: true,
-      suspended: true,
-      lay: 0,
-      back: 0,
-      layLock: false,
-    },
-    teamC: {
-      rightBack: 0,
-      rightLay: 0,
-      lock: true,
-      suspended: true,
-      lay: 0,
-      back: 0,
-      layLock: false,
-    },
+    })),
     teamBall: false,
     teamBackUnlock: true,
   });
@@ -93,7 +81,7 @@ const EditBookmaker = (props: any) => {
 
   const handleChange = (event: any) => {
     try {
-      if (bookmakerById?.resultStatus) {
+      if (matchBetting?.resultStatus) {
         return true;
       }
       let { name, value } = event.target;
@@ -111,69 +99,40 @@ const EditBookmaker = (props: any) => {
       setIsTab("");
 
       // if (regex.test(value)) {
-      if (
-        (!bookmakerById?.rateThan100 && value < 100) ||
-        bookmakerById?.rateThan100
-      ) {
-        if (name === "teamArate") {
-          updateLocalQuickBookmaker(
-            match,
-            Bid,
-            type,
-            "teamA",
-            +value,
-            +value + incGap,
-            setLocalQuickBookmaker
-          );
-        } else if (name === "teamBrate") {
-          updateLocalQuickBookmaker(
-            match,
-            Bid,
-            type,
-            "teamB",
-            +value,
-            +value + incGap,
-            setLocalQuickBookmaker
-          );
-        } else if (name === "teamCrate") {
-          updateLocalQuickBookmaker(
-            match,
-            Bid,
-            type,
-            "teamC",
-            +value,
-            +value + incGap,
-            setLocalQuickBookmaker
-          );
-        }
+      if ((!match?.rateThan100 && value < 100) || match?.rateThan100) {
+        updateLocalQuickBookmaker(
+          match,
+          matchBetting.id,
+          name,
+          +value,
+          +value + incGap,
+          setLocalQuickBookmaker
+        );
+
         setLocalQuickBookmaker((prev: any) => {
           if (
-            !prev?.teamA?.suspended ||
-            !prev?.teamB?.suspended ||
-            !prev?.teamC?.suspended ||
+            prev.teams?.find((item: any) => !item.suspended) ||
             prev?.teamBall
           ) {
             let data = {
               matchId: match?.id,
-              id: Bid,
+              id: matchBetting.id,
               type: type,
-              backTeamA: prev.teamA.back ? prev.teamA.back : 0,
-              backTeamB: prev.teamB.back ? prev.teamB.back : 0,
-              backTeamC: prev.teamC.back ? prev.teamC.back : 0,
-              layTeamA: prev.teamA.lay ? prev.teamA.lay : 0,
-              layTeamB: prev.teamB.lay ? prev.teamB.lay : 0,
-              layTeamC: prev.teamC.lay ? prev.teamC.lay : 0,
-              statusTeamA: "suspended",
-              statusTeamB: "suspended",
-              statusTeamC: "suspended",
+              teams: prev.teams?.map((item: any) => ({
+                back: item.back ?? 0,
+                lay: item.lay ?? 0,
+                id: item.id,
+                status: "suspended",
+              })),
             };
             socketService.user.updateMatchBettingRate(data);
           }
           return {
             ...prev,
-            teamA: { ...prev.teamA, suspended: true },
-            teamB: { ...prev.teamB, suspended: true },
-            teamC: { ...prev.teamC, suspended: true },
+            teams: prev.teams?.map((item: any) => ({
+              ...item,
+              suspended: true,
+            })),
             teamBall: false,
           };
         });
@@ -196,87 +155,43 @@ const EditBookmaker = (props: any) => {
         setLocalQuickBookmaker((prev: any) => {
           return {
             ...prev,
-            teamA: {
-              ...prev.teamA,
-              back: bookmakerById?.backTeamA
-                ? Number(bookmakerById?.backTeamA)
-                : 0,
-              lay: Number(bookmakerById?.layTeamA)
-                ? bookmakerById?.layTeamA
-                : 0,
-              rightBack: bookmakerById?.backTeamA
-                ? Number(bookmakerById?.backTeamA)
-                : 0,
-              rightLay: Number(bookmakerById?.layTeamA)
-                ? bookmakerById?.layTeamA
-                : 0,
-              suspended: bookmakerById?.statusTeamA !== "active" ? true : false,
-            },
-            teamB: {
-              ...prev.teamB,
-              back: bookmakerById?.backTeamB
-                ? Number(bookmakerById?.backTeamB)
-                : 0,
-              lay: bookmakerById?.layTeamB
-                ? Number(bookmakerById?.layTeamB)
-                : 0,
-              rightBack: bookmakerById?.backTeamB
-                ? Number(bookmakerById?.backTeamB)
-                : 0,
-              rightLay: bookmakerById?.layTeamB
-                ? Number(bookmakerById?.layTeamB)
-                : 0,
-              suspended: bookmakerById?.statusTeamB !== "active" ? true : false,
-            },
-            teamC: {
-              ...prev.teamC,
-              back: bookmakerById?.backTeamC
-                ? Number(bookmakerById?.backTeamC)
-                : 0,
-              lay: bookmakerById?.layTeamC
-                ? Number(bookmakerById?.layTeamC)
-                : 0,
-              rightBack: bookmakerById?.backTeamC
-                ? Number(bookmakerById?.backTeamC)
-                : 0,
-              rightLay: bookmakerById?.layTeamC
-                ? Number(bookmakerById?.layTeamC)
-                : 0,
-              suspended: bookmakerById?.statusTeamC !== "active" ? true : false,
-            },
-            teamBall:
-              bookmakerById?.statusTeamA === "ball start" &&
-              bookmakerById?.statusTeamB === "ball start" &&
-              bookmakerById?.statusTeamC === "ball start"
-                ? true
-                : false,
+            teams: runners?.map((items: any) => ({
+              ...items,
+              back: items.backRate ? Number(items.backRate) : 0,
+              lay: Number(items.layRate) ? items.layRate : 0,
+              rightBack: items.backRate ? Number(items.backRate) : 0,
+              rightLay: Number(items.layRate) ? items.layRate : 0,
+              suspended: items?.status !== "active" ? true : false,
+            })),
+            teamBall: !!prev.teams?.find(
+              (items: any) => items.status == "ball start"
+            ),
           };
         });
-        if (
-          Number(bookmakerById?.backTeamA) &&
-          Number(bookmakerById?.backTeamB) &&
-          Number(bookmakerById?.backTeamC)
-        ) {
-          setIsTab("tab");
-        } else {
-          setIsTab("");
-        }
+        // if (
+        //   Number(bookmakerById?.backTeamA) &&
+        //   Number(bookmakerById?.backTeamB) &&
+        //   Number(bookmakerById?.backTeamC)
+        // ) {
+        //   setIsTab("tab");
+        // } else {
+        //   setIsTab("");
+        // }
         dispatch(successReset());
       }
     } catch (error) {
       console.log(error);
     }
-  }, [bookmakerById, success, state?.id]);
+  }, [matchBetting, success, state?.betId]);
 
   useEffect(() => {
     try {
       if (socket) {
         socketService.user.updateMatchBettingRateClient((data: any) => {
-          if (match?.id === data?.matchId && Bid === data?.id) {
+          console.log(data);
+          if (match?.id === data?.matchId && matchBetting.id === data?.id) {
             if (
-              data?.statusTeamA === "ball start" &&
-              data?.statusTeamB === "ball start" &&
-              data?.statusTeamC === "ball start"
+              data.teams?.find((items: any) => items.status == "ball start")
             ) {
               setLocalQuickBookmaker((prev: any) => {
                 return {
@@ -293,26 +208,38 @@ const EditBookmaker = (props: any) => {
               });
             }
             setLocalQuickBookmaker((prev: any) => {
+              console.log(
+                prev.teams?.map((items: any) => ({
+                  ...items,
+                  rightBack: data?.teams?.find(
+                    (item: any) => item.id == items.id
+                  )?.back,
+                  rightLay: data?.teams?.find(
+                    (item: any) => item.id == items.id
+                  )?.lay,
+                  suspended:
+                    data?.teams?.find((item: any) => item.id == items.id)
+                      ?.status !== "active"
+                      ? true
+                      : false,
+                }))
+              );
               return {
                 ...prev,
-                teamA: {
-                  ...prev.teamA,
-                  rightBack: data?.backTeamA,
-                  rightLay: data?.layTeamA,
-                  suspended: data?.statusTeamA !== "active" ? true : false,
-                },
-                teamB: {
-                  ...prev.teamB,
-                  rightBack: data?.backTeamB,
-                  rightLay: data?.layTeamB,
-                  suspended: data?.statusTeamB !== "active" ? true : false,
-                },
-                teamC: {
-                  ...prev.teamC,
-                  rightBack: data?.backTeamC,
-                  rightLay: data?.layTeamC,
-                  suspended: data?.statusTeamC !== "active" ? true : false,
-                },
+                teams: prev.teams?.map((items: any) => ({
+                  ...items,
+                  rightBack: data?.teams?.find(
+                    (item: any) => item.id == items.id
+                  )?.back,
+                  rightLay: data?.teams?.find(
+                    (item: any) => item.id == items.id
+                  )?.lay,
+                  suspended:
+                    data?.teams?.find((item: any) => item.id == items.id)
+                      ?.status !== "active"
+                      ? true
+                      : false,
+                })),
               };
             });
           }
@@ -322,7 +249,7 @@ const EditBookmaker = (props: any) => {
     } catch (error) {
       console.log(error);
     }
-  }, [socket, bookmakerById, state?.id]);
+  }, [socket, matchBetting, state?.betId]);
 
   useEffect(() => {
     try {
@@ -333,7 +260,7 @@ const EditBookmaker = (props: any) => {
     } catch (error) {
       console.log(error);
     }
-  }, [state?.id, bookmakerById, Bid]);
+  }, [matchBetting, state?.betId]);
 
   const rateA =
     +bookmakerById?.matchRates?.[
@@ -395,7 +322,7 @@ const EditBookmaker = (props: any) => {
               marginLeft: "7px",
             }}
           >
-            {bookmakerById?.name}
+            {matchBetting?.name}
             <span
               style={{
                 fontWeight: "600",
@@ -403,8 +330,8 @@ const EditBookmaker = (props: any) => {
                 backgroundColor: "transparent",
               }}
             >
-              {` (Min:${bookmakerById?.minBet || 0} Max:${
-                bookmakerById?.maxBet || 0
+              {` (Min:${matchBetting?.minBet || 0} Max:${
+                matchBetting?.maxBet || 0
               })`}
             </span>
           </Typography>
@@ -458,7 +385,7 @@ const EditBookmaker = (props: any) => {
         </Box>
       </Box>
       <Box sx={{ border: "2px solid #FFFFFF", position: "relative" }}>
-        {!bookmakerById?.result && bookmakerById?.resultStatus && (
+        {!matchBetting?.result && matchBetting?.resultStatus && (
           <Box
             sx={{
               position: "absolute",
@@ -481,7 +408,7 @@ const EditBookmaker = (props: any) => {
                 textAlign: "center",
               }}
             >
-              RESULT {bookmakerById?.resultStatus}
+              RESULT {matchBetting?.resultStatus}
             </Typography>
           </Box>
         )}
@@ -542,521 +469,176 @@ const EditBookmaker = (props: any) => {
                 />
               </Box>
             )}
-            <Box
-              sx={{
-                borderWidth: 0,
-                justifyContent: "space-between",
-                alignItems: "center",
-                display: "flex",
-                width: "100%",
-                paddingLeft: "10px",
-              }}
-            >
-              <Typography
-                sx={{ fontSize: "14px", fontWeight: "600", width: "50%" }}
-              >
-                {type === "tiedMatch2" || type === "completeManual"
-                  ? "Yes"
-                  : match?.teamA
-                  ? match?.teamA.slice(0, 4) +
-                    (match?.teamA.length > 4 ? "..." : "")
-                  : ""}
-              </Typography>
-              <Box
-                sx={{
-                  width: { lg: "220px", xs: "120px" },
-                  // my: "5px",
-
-                  marginRight: "10px",
-                  border: "1px solid #2626264D",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  display: "flex",
-                  height: "50px",
-                  background: "#F6F6F6",
-                  borderRadius: "7px",
-                }}
-              >
-                <Typography
-                  sx={{
-                    fontSize: "16px",
-                    fontWeight: "bold",
-                    color:
-                      +bookmakerById?.matchRates[
-                        profitLossDataForMatchConstants[bookmakerById?.type]
-                          ?.A +
-                          "_" +
-                          bookmakerById?.matchId
-                      ] <= 0
-                        ? "#FF4D4D"
-                        : "#319E5B",
-                  }}
-                >
-                  {/* {bookmakerById?.type !== "tiedMatch2"
-                    ? +bookmakerById?.matchRates?.teamARate || 0
-                    : +bookmakerById?.matchRates?.yesRateTie || 0} */}
-                  <span>{formatToINR(integerPart || 0)}</span>
-                  <span
-                    style={{ fontSize: "0.8em", fontWeight: "normal" }}
-                  >{`.${decimalPart}`}</span>
-                </Typography>
-              </Box>
-
-              <Box
-                sx={{
-                  display: "flex",
-                  width: "70%",
-                  borderTop: "1px solid white",
-                }}
-              >
-                <KeyboardEventHandler
-                  handleKeys={[
-                    "d",
-                    "a",
-                    "w",
-                    "z",
-                    "up",
-                    "down",
-                    "left",
-                    "right",
-                    "tab",
-                    "shift",
-                    "`",
-                    ",",
-                    ".",
-                    "/",
-                    "enter",
-                    "return",
-                    "esc",
-                    "*",
-                    "ctrl",
-                    "plus",
-                    "=",
-                    "minus",
-                    "l",
-                  ]}
-                  isDisabled={bookmakerById?.resultStatus}
-                  onKeyEvent={(key, e) =>
-                    handleKeysMatchEvents(
-                      Bid,
-                      type,
-                      key,
-                      e,
-                      setLocalQuickBookmaker,
-                      innerRefTeamB,
-                      innerRefTeamC,
-                      innerRefTeamA,
-                      match,
-                      incGap,
-                      setIncGap,
-                      isTab,
-                      setIsTab,
-                      bookmakerById
-                    )
-                  }
-                >
-                  <TextField
-                    className="InputChild"
-                    onChange={(e) => {
-                      handleChange(e);
-                    }}
-                    onWheel={numberInputOnWheelPreventChange}
-                    name="teamArate"
-                    inputRef={innerRefTeamA}
-                    // onFocus={() => handleFocus(innerRefTeamA)}
-                    type="text"
-                    variant="standard"
-                    value={+localQuickBookmaker?.teamA?.back}
-                    autoComplete="off"
-                    InputProps={{
-                      disableUnderline: true,
-                      sx: {
-                        // position: "relative",
-                        height: "55px",
-                        width: "90%",
-                        background: "#F6F6F6",
-                        alignSelf: "flex-end",
-                        textAlign: "center",
-                        alignItems: "center",
-                        paddingX: "2px",
-                        color: "#319E5B",
-                        fontWeight: "600",
-                        backgroundColor: "#A7DCFF",
-                      },
-                      inputProps: {
-                        style: { textAlign: "center" },
-                      },
-                    }}
-                  />
-                </KeyboardEventHandler>
-                <TextField
-                  className="InputChild"
-                  disabled
-                  onChange={(e) => handleChange(e)}
-                  variant="standard"
-                  value={+localQuickBookmaker?.teamA?.lay}
-                  InputProps={{
-                    disableUnderline: true,
-                    sx: {
-                      height: "55px",
-                      width: "97%",
-                      background: "#F6F6F6",
-                      alignSelf: "flex-end",
-                      alignItems: "center",
-                      paddingX: "2px",
-                      color: "#319E5B",
-                      fontWeight: "600",
-                      backgroundColor: "#FFB5B5",
-                      textAlign: "center",
-                    },
-                    inputProps: {
-                      style: { textAlign: "center" },
-                    },
-                  }}
-                />
-              </Box>
-            </Box>
-
-            <Box
-              sx={{
-                border: ".2px solid #2626264D",
-                borderBottomWidth: 0,
-                alignItems: "center",
-                display: "flex",
-                borderRightWidth: 0,
-                paddingLeft: "10px",
-                borderLeftWidth: 0,
-                width: "100%",
-                justifyContent: "space-between",
-              }}
-            >
-              <Typography
-                sx={{ fontSize: "14px", fontWeight: "600", width: "50%" }}
-              >
-                {type === "tiedMatch2" || type === "completeManual"
-                  ? "No"
-                  : match?.teamB
-                  ? match?.teamB.slice(0, 4) +
-                    (match?.teamB.length > 4 ? "..." : "")
-                  : ""}
-              </Typography>
-              <Box
-                sx={{
-                  width: { lg: "220px", xs: "120px" },
-                  marginRight: "10px",
-                  border: "1px solid #2626264D",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  display: "flex",
-                  height: "50px",
-                  background: "#F6F6F6",
-                  borderRadius: "7px",
-                }}
-              >
-                <Typography
-                  sx={{
-                    fontSize: "16px",
-                    fontWeight: "bold",
-                    color:
-                      +bookmakerById?.matchRates[
-                        profitLossDataForMatchConstants[bookmakerById?.type]
-                          ?.B +
-                          "_" +
-                          bookmakerById?.matchId
-                      ] <= 0
-                        ? "#FF4D4D"
-                        : "#319E5B",
-                  }}
-                >
-                  {/* {bookmakerById?.type !== "tiedMatch2"
-                    ? +bookmakerById?.matchRates?.teamBRate || 0
-                    : +bookmakerById?.matchRates?.noRateTie || 0} */}
-                  <span>{formatToINR(integerPartB || 0)}</span>
-                  <span
-                    style={{ fontSize: "0.8em", fontWeight: "normal" }}
-                  >{`.${decimalPartB}`}</span>
-                </Typography>
-              </Box>
-              <Box
-                sx={{
-                  display: "flex",
-                  width: "70%",
-                  borderTop: "2px solid white",
-                }}
-              >
-                <KeyboardEventHandler
-                  handleKeys={[
-                    "d",
-                    "a",
-                    "w",
-                    "z",
-                    "up",
-                    "down",
-                    "left",
-                    "right",
-                    "tab",
-                    "shift",
-                    "`",
-                    ",",
-                    ".",
-                    "/",
-                    "enter",
-                    "return",
-                    "esc",
-                    "*",
-                    "ctrl",
-                    "plus",
-                    "=",
-                    "minus",
-                    "l",
-                  ]}
-                  isDisabled={bookmakerById?.resultStatus}
-                  onKeyEvent={(key, e) =>
-                    handleKeysMatchEvents(
-                      Bid,
-                      type,
-                      key,
-                      e,
-                      setLocalQuickBookmaker,
-                      innerRefTeamB,
-                      innerRefTeamC,
-                      innerRefTeamA,
-                      match,
-                      incGap,
-                      setIncGap,
-                      isTab,
-                      setIsTab,
-                      bookmakerById
-                    )
-                  }
-                >
-                  <TextField
-                    // fullWidth
-                    className="InputChild"
-                    variant="standard"
-                    value={+localQuickBookmaker?.teamB?.back}
-                    onChange={(e) => handleChange(e)}
-                    onWheel={numberInputOnWheelPreventChange}
-                    name="teamBrate"
-                    inputRef={innerRefTeamB}
-                    type="text"
-                    // onFocus={() => handleFocus(innerRefTeamB)}
-                    autoComplete="off"
-                    InputProps={{
-                      disableUnderline: true,
-                      sx: {
-                        height: "55px",
-                        width: "90%",
-                        background: "#F6F6F6",
-                        alignSelf: "flex-end",
-                        textAlign: "center",
-                        alignItems: "center",
-                        paddingX: "2px",
-                        color: "#319E5B",
-                        fontWeight: "600",
-                        backgroundColor: "#A7DCFF",
-                      },
-                      inputProps: {
-                        style: { textAlign: "center" },
-                      },
-                    }}
-                  />
-                </KeyboardEventHandler>
-
-                <TextField
-                  className="InputChild"
-                  variant="standard"
-                  disabled
-                  // fullWidth
-                  value={+localQuickBookmaker?.teamB?.lay}
-                  // onChange={(i) => setTeamBLayValue(i.target.value)}
-                  InputProps={{
-                    disableUnderline: true,
-                    sx: {
-                      height: "55px",
-                      width: "97%",
-                      background: "#F6F6F6",
-                      alignSelf: "flex-end",
-                      alignItems: "center",
-                      paddingX: "2px",
-                      color: "#319E5B",
-                      fontWeight: "600",
-                      backgroundColor: "#FFB5B5",
-                      textAlign: "center",
-                    },
-                    inputProps: {
-                      style: { textAlign: "center" },
-                    },
-                  }}
-                />
-              </Box>
-            </Box>
-            {match?.teamC &&
-              !["tiedMatch2", "completeManual"].includes(type) && (
-                <Box
-                  sx={{
-                    border: ".2px solid #2626264D",
-                    borderBottomWidth: 0,
-                    alignItems: "center",
-                    display: "flex",
-                    borderRightWidth: 0,
-                    paddingLeft: "10px",
-                    borderLeftWidth: 0,
-                    width: "100%",
-                    justifyContent: "space-between",
-                  }}
-                >
-                  <Typography
-                    sx={{ fontSize: "14px", fontWeight: "600", width: "50%" }}
-                  >
-                    {match?.teamC}
-                  </Typography>
+            {localQuickBookmaker?.teams?.map((item: any) => {
+              return (
+                <>
                   <Box
                     sx={{
-                      width: { lg: "220px", xs: "120px" },
-                      marginRight: "10px",
-                      border: "1px solid #2626264D",
-                      justifyContent: "center",
+                      borderWidth: 0,
+                      justifyContent: "space-between",
                       alignItems: "center",
                       display: "flex",
-                      height: "55px",
-                      background: "#F6F6F6",
-                      borderRadius: "7px",
+                      width: "100%",
+                      paddingLeft: "10px",
                     }}
                   >
                     <Typography
+                      sx={{ fontSize: "14px", fontWeight: "600", width: "50%" }}
+                    >
+                      {item.runnerName}
+                    </Typography>
+                    <Box
                       sx={{
-                        fontSize: "16px",
-                        fontWeight: "bold",
-                        color:
-                          +bookmakerById?.matchRates[
-                            profitLossDataForMatchConstants[bookmakerById?.type]
-                              ?.C +
-                              "_" +
-                              bookmakerById?.matchId
-                          ] <= 0
-                            ? "#FF4D4D"
-                            : "#319E5B",
+                        width: { lg: "220px", xs: "120px" },
+                        // my: "5px",
+
+                        marginRight: "10px",
+                        border: "1px solid #2626264D",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        display: "flex",
+                        height: "50px",
+                        background: "#F6F6F6",
+                        borderRadius: "7px",
                       }}
                     >
-                      {/* {bookmakerById?.matchRates?.teamCRate || 0} */}
-                      <span>{integerPartC}</span>
-                      <span
-                        style={{ fontSize: "0.8em", fontWeight: "normal" }}
-                      >{`.${decimalPartC}`}</span>
-                    </Typography>
-                  </Box>
-                  <Box
-                    sx={{
-                      display: "flex",
-                      width: "70%",
-                      borderTop: "2px solid white",
-                    }}
-                  >
-                    <KeyboardEventHandler
-                      handleKeys={[
-                        "d",
-                        "a",
-                        "w",
-                        "z",
-                        "up",
-                        "down",
-                        "left",
-                        "right",
-                        "tab",
-                        "shift",
-                        "`",
-                        ",",
-                        ".",
-                        "/",
-                        "enter",
-                        "return",
-                        "esc",
-                        "*",
-                        "ctrl",
-                        "plus",
-                        "=",
-                        "minus",
-                        "l",
-                      ]}
-                      isDisabled={bookmakerById?.resultStatus}
-                      onKeyEvent={(key, e) =>
-                        handleKeysMatchEvents(
-                          Bid,
-                          type,
-                          key,
-                          e,
-                          setLocalQuickBookmaker,
-                          innerRefTeamB,
-                          innerRefTeamC,
-                          innerRefTeamA,
-                          match,
-                          incGap,
-                          setIncGap,
-                          isTab,
-                          setIsTab,
-                          bookmakerById
-                        )
-                      }
+                      <Typography
+                        sx={{
+                          fontSize: "16px",
+                          fontWeight: "bold",
+                          color:
+                            +bookmakerById?.matchRates[
+                              profitLossDataForMatchConstants[
+                                bookmakerById?.type
+                              ]?.A +
+                                "_" +
+                                bookmakerById?.matchId
+                            ] <= 0
+                              ? "#FF4D4D"
+                              : "#319E5B",
+                        }}
+                      >
+                        {/* {bookmakerById?.type !== "tiedMatch2"
+                      ? +bookmakerById?.matchRates?.teamARate || 0
+                      : +bookmakerById?.matchRates?.yesRateTie || 0} */}
+                        <span>{formatToINR(integerPart || 0)}</span>
+                        <span
+                          style={{ fontSize: "0.8em", fontWeight: "normal" }}
+                        >{`.${decimalPart}`}</span>
+                      </Typography>
+                    </Box>
+
+                    <Box
+                      sx={{
+                        display: "flex",
+                        width: "70%",
+                        borderTop: "1px solid white",
+                      }}
                     >
+                      <KeyboardEventHandler
+                        handleKeys={[
+                          "d",
+                          "a",
+                          "w",
+                          "z",
+                          "up",
+                          "down",
+                          "left",
+                          "right",
+                          "tab",
+                          "shift",
+                          "`",
+                          ",",
+                          ".",
+                          "/",
+                          "enter",
+                          "return",
+                          "esc",
+                          "*",
+                          "ctrl",
+                          "plus",
+                          "=",
+                          "minus",
+                          "l",
+                        ]}
+                        isDisabled={matchBetting?.resultStatus}
+                        onKeyEvent={(key, e) =>
+                          handleKeysMatchEvents(
+                            matchBetting.id,
+                            key,
+                            e,
+                            setLocalQuickBookmaker,
+                            innerRefTeamB,
+                            match,
+                            incGap,
+                            setIncGap,
+                            isTab,
+                            setIsTab
+                          )
+                        }
+                      >
+                        <TextField
+                          className="InputChild"
+                          onChange={(e) => {
+                            handleChange(e);
+                          }}
+                          onWheel={numberInputOnWheelPreventChange}
+                          name={item.id}
+                          type="text"
+                          variant="standard"
+                          value={+item?.back}
+                          autoComplete="off"
+                          InputProps={{
+                            disableUnderline: true,
+                            sx: {
+                              // position: "relative",
+                              height: "55px",
+                              width: "90%",
+                              background: "#F6F6F6",
+                              alignSelf: "flex-end",
+                              textAlign: "center",
+                              alignItems: "center",
+                              paddingX: "2px",
+                              color: "#319E5B",
+                              fontWeight: "600",
+                              backgroundColor: "#A7DCFF",
+                            },
+                            inputProps: {
+                              style: { textAlign: "center" },
+                            },
+                          }}
+                        />
+                      </KeyboardEventHandler>
                       <TextField
                         className="InputChild"
-                        variant="standard"
-                        value={+localQuickBookmaker?.teamC?.back}
+                        disabled
                         onChange={(e) => handleChange(e)}
-                        onWheel={numberInputOnWheelPreventChange}
-                        name="teamCrate"
-                        inputRef={innerRefTeamC}
-                        type="text"
-                        autoComplete="off"
+                        variant="standard"
+                        value={+item?.lay}
                         InputProps={{
                           disableUnderline: true,
                           sx: {
                             height: "55px",
-                            width: "90%",
+                            width: "97%",
                             background: "#F6F6F6",
                             alignSelf: "flex-end",
-                            textAlign: "center",
                             alignItems: "center",
                             paddingX: "2px",
                             color: "#319E5B",
                             fontWeight: "600",
-                            backgroundColor: "#A7DCFF",
+                            backgroundColor: "#FFB5B5",
+                            textAlign: "center",
                           },
                           inputProps: {
                             style: { textAlign: "center" },
                           },
                         }}
                       />
-                    </KeyboardEventHandler>
-                    <TextField
-                      className="InputChild"
-                      variant="standard"
-                      disabled
-                      value={+localQuickBookmaker?.teamC?.lay}
-                      InputProps={{
-                        disableUnderline: true,
-                        // inputProps: { min: "0", max: "100" },
-                        sx: {
-                          height: "55px",
-                          width: "97%",
-                          background: "#F6F6F6",
-                          alignSelf: "flex-end",
-                          alignItems: "center",
-                          paddingX: "2px",
-                          color: "#319E5B",
-                          fontWeight: "600",
-                          backgroundColor: "#FFB5B5",
-                          textAlign: "center",
-                        },
-                        inputProps: {
-                          style: { textAlign: "center" },
-                        },
-                      }}
-                    />
+                    </Box>
                   </Box>
-                </Box>
-              )}
+                </>
+              );
+            })}
           </Box>
 
           <Box sx={{ borderLeft: "2px solid white", width: "35%" }}>
@@ -1085,209 +667,66 @@ const EditBookmaker = (props: any) => {
               </Box>
             ) : (
               <>
-                <Box display={"flex"} sx={{ borderTop: "2px solid white" }}>
-                  {
-                    <Box
-                      sx={{
-                        background: localQuickBookmaker?.teamA?.suspended
-                          ? "#FDF21A"
-                          : "#A7DCFF",
-                        width: "50%",
-                        display: "flex",
-                        height: "55px",
-                        justifyContent: "center",
-                        alignItems: "center",
-                      }}
-                    >
-                      {!localQuickBookmaker?.teamA?.suspended &&
-                      localQuickBookmaker?.teamA?.rightBack > 0 ? (
-                        <Typography
-                          sx={{ fontWeight: "600", fontSize: "22px" }}
+                {localQuickBookmaker?.teams?.map((item: any) => {
+                  return (
+                    <Box display={"flex"} sx={{ borderTop: "2px solid white" }}>
+                      {
+                        <Box
+                          sx={{
+                            background: item?.suspended ? "#FDF21A" : "#A7DCFF",
+                            width: "50%",
+                            display: "flex",
+                            height: "55px",
+                            justifyContent: "center",
+                            alignItems: "center",
+                          }}
                         >
-                          {localQuickBookmaker?.teamA?.suspended
-                            ? ""
-                            : +localQuickBookmaker?.teamA?.rightBack}
-                        </Typography>
-                      ) : (
-                        <img
-                          src={Lock}
-                          style={{ width: "10px", height: "15px" }}
-                        />
-                      )}
-                    </Box>
-                  }
-                  {
-                    <Box
-                      sx={{
-                        background:
-                          localQuickBookmaker?.teamA?.suspended ||
-                          localQuickBookmaker?.teamA?.rightLay === 0
-                            ? "#FDF21A"
-                            : "#FFB5B5",
-                        width: "50%",
-                        borderLeft: "2px solid white",
-                        display: "flex",
-                        height: "55px",
-                        justifyContent: "center",
-                        alignItems: "center",
-                      }}
-                    >
-                      {!localQuickBookmaker?.teamA?.suspended &&
-                      localQuickBookmaker?.teamA?.rightLay ? (
-                        <Typography
-                          sx={{ fontWeight: "600", fontSize: "22px" }}
-                        >
-                          {localQuickBookmaker?.teamA?.suspended
-                            ? 0
-                            : +localQuickBookmaker?.teamA?.rightLay}
-                        </Typography>
-                      ) : (
-                        <img
-                          src={Lock}
-                          style={{ width: "10px", height: "15px" }}
-                        />
-                      )}
-                    </Box>
-                  }
-                </Box>
-                <Box display={"flex"} sx={{ borderTop: "2px solid white" }}>
-                  {
-                    <Box
-                      sx={{
-                        background: localQuickBookmaker?.teamB?.suspended
-                          ? "#FDF21A"
-                          : "#A7DCFF",
-                        width: "50%",
-                        display: "flex",
-                        height: "55px",
-                        justifyContent: "center",
-                        alignItems: "center",
-                      }}
-                    >
-                      {!localQuickBookmaker?.teamB?.suspended &&
-                      localQuickBookmaker?.teamB?.rightBack > 0 ? (
-                        <Typography
-                          sx={{ fontWeight: "600", fontSize: "22px" }}
-                        >
-                          {localQuickBookmaker?.teamB?.suspended
-                            ? ""
-                            : +localQuickBookmaker?.teamB?.rightBack}
-                        </Typography>
-                      ) : (
-                        <img
-                          src={Lock}
-                          style={{ width: "10px", height: "15px" }}
-                        />
-                      )}
-                    </Box>
-                  }
-                  {
-                    <Box
-                      sx={{
-                        background:
-                          localQuickBookmaker?.teamB?.suspended ||
-                          localQuickBookmaker?.teamB?.rightLay === 0
-                            ? "#FDF21A"
-                            : "#FFB5B5",
-                        width: "50%",
-                        borderLeft: "2px solid white",
-                        display: "flex",
-                        height: "55px",
-                        justifyContent: "center",
-                        alignItems: "center",
-                      }}
-                    >
-                      {!localQuickBookmaker?.teamB?.suspended &&
-                      localQuickBookmaker?.teamB?.rightLay > 0 ? (
-                        <Typography
-                          sx={{ fontWeight: "600", fontSize: "22px" }}
-                        >
-                          {localQuickBookmaker?.teamB?.suspended
-                            ? 0
-                            : +localQuickBookmaker?.teamB?.rightLay}
-                        </Typography>
-                      ) : (
-                        <img
-                          src={Lock}
-                          style={{ width: "10px", height: "15px" }}
-                        />
-                      )}
-                    </Box>
-                  }
-                </Box>
-                {match?.teamC &&
-                  !["tiedMatch2", "completeManual"].includes(type) && (
-                    <>
-                      <Box
-                        display={"flex"}
-                        sx={{ borderTop: "2px solid white" }}
-                      >
-                        {
-                          <Box
-                            sx={{
-                              background: localQuickBookmaker?.teamC?.suspended
+                          {!item?.suspended && item?.rightBack > 0 ? (
+                            <Typography
+                              sx={{ fontWeight: "600", fontSize: "22px" }}
+                            >
+                              {item?.suspended ? "" : +item?.rightBack}
+                            </Typography>
+                          ) : (
+                            <img
+                              src={Lock}
+                              style={{ width: "10px", height: "15px" }}
+                            />
+                          )}
+                        </Box>
+                      }
+                      {
+                        <Box
+                          sx={{
+                            background:
+                              item?.suspended || item?.rightLay === 0
                                 ? "#FDF21A"
-                                : "#A7DCFF",
-                              width: "50%",
-                              display: "flex",
-                              height: "56px",
-                              justifyContent: "center",
-                              alignItems: "center",
-                            }}
-                          >
-                            {!localQuickBookmaker?.teamC?.suspended &&
-                            localQuickBookmaker?.teamC?.rightBack > 0 ? (
-                              <Typography
-                                sx={{ fontWeight: "600", fontSize: "22px" }}
-                              >
-                                {localQuickBookmaker?.teamC?.suspended
-                                  ? ""
-                                  : +localQuickBookmaker?.teamC?.rightBack}
-                              </Typography>
-                            ) : (
-                              <img
-                                src={Lock}
-                                style={{ width: "10px", height: "15px" }}
-                              />
-                            )}
-                          </Box>
-                        }
-                        {
-                          <Box
-                            sx={{
-                              background:
-                                localQuickBookmaker?.teamC?.suspended ||
-                                localQuickBookmaker?.teamC?.rightLay === 0
-                                  ? "#FDF21A"
-                                  : "#FFB5B5",
-                              width: "50%",
-                              borderLeft: "2px solid white",
-                              display: "flex",
-                              height: "56px",
-                              justifyContent: "center",
-                              alignItems: "center",
-                            }}
-                          >
-                            {!localQuickBookmaker?.teamC?.suspended &&
-                            localQuickBookmaker?.teamC?.rightLay ? (
-                              <Typography
-                                sx={{ fontWeight: "600", fontSize: "22px" }}
-                              >
-                                {localQuickBookmaker?.teamC?.suspended
-                                  ? 0
-                                  : +localQuickBookmaker?.teamC?.rightLay}
-                              </Typography>
-                            ) : (
-                              <img
-                                src={Lock}
-                                style={{ width: "10px", height: "15px" }}
-                              />
-                            )}
-                          </Box>
-                        }
-                      </Box>
-                    </>
-                  )}
+                                : "#FFB5B5",
+                            width: "50%",
+                            borderLeft: "2px solid white",
+                            display: "flex",
+                            height: "55px",
+                            justifyContent: "center",
+                            alignItems: "center",
+                          }}
+                        >
+                          {!item?.suspended && item?.rightLay ? (
+                            <Typography
+                              sx={{ fontWeight: "600", fontSize: "22px" }}
+                            >
+                              {item?.suspended ? 0 : +item?.rightLay}
+                            </Typography>
+                          ) : (
+                            <img
+                              src={Lock}
+                              style={{ width: "10px", height: "15px" }}
+                            />
+                          )}
+                        </Box>
+                      }
+                    </Box>
+                  );
+                })}
               </>
             )}
           </Box>
@@ -1307,7 +746,7 @@ const EditBookmaker = (props: any) => {
           }}
         >
           <Box sx={{ width: "2%" }}></Box>
-          {bookmakerById?.stopAt ? (
+          {match?.stopAt ? (
             <Box
               onClick={(e) => {
                 setVisible1(true);
@@ -1342,22 +781,13 @@ const EditBookmaker = (props: any) => {
                 }}
               >
                 {visible1 && (
-                  <ResultComponent
-                    onClick={() => {
-                      setVisible1(false);
-                    }}
+                  <ResultComponentTournamentMarket
                     currentMatch={match}
-                    teamA={match?.teamA}
-                    teamB={match?.teamB}
-                    tie={match?.matchType === "cricket" ? "Tie" : ""}
-                    draw={
-                      match?.teamC &&
-                      !["tiedMatch2", "completeManual"].includes(type)
-                        ? match?.teamC
-                        : ""
-                    }
-                    stopAt={match?.stopAt}
-                    // betStatus={localSelectedBookmaker?.betStatus}
+                    // stopAt={liveData?.stopAt}
+                    onClick={() => {
+                      setVisible(false);
+                    }}
+                    liveData={{ ...matchBetting, runners: runners }}
                   />
                 )}
               </Box>
@@ -1400,22 +830,13 @@ const EditBookmaker = (props: any) => {
                 }}
               >
                 {visible && (
-                  <ResultComponent
+                  <ResultComponentTournamentMarket
+                    currentMatch={match}
+                    // stopAt={liveData?.stopAt}
                     onClick={() => {
                       setVisible(false);
                     }}
-                    currentMatch={match}
-                    stopAt={match?.stopAt}
-                    teamA={match?.teamA}
-                    teamB={match?.teamB}
-                    tie={match?.matchType === "cricket" ? "Tie" : ""}
-                    draw={
-                      match?.teamC &&
-                      !["tiedMatch2", "completeManual"].includes(type)
-                        ? match?.teamC
-                        : ""
-                    }
-                    // betStatus={localSelectedBookmaker?.betStatus}
+                    liveData={{ ...matchBetting, runners: runners }}
                   />
                 )}
               </Box>
@@ -1426,11 +847,11 @@ const EditBookmaker = (props: any) => {
       <MaxBetAdd
         open={open}
         handleClose={() => setOpen(false)}
-        matchOddsLive={bookmakerById}
+        matchOddsLive={matchBetting}
         currentMatch={{
-          id: bookmakerById?.matchId,
+          id: match?.id,
         }}
-        title={`${bookmakerById?.name} Max/Min Bet Limit`}
+        title={`${matchBetting?.name} Max/Min Bet Limit`}
         exposureLimit={exposureLimit}
       />
     </>
