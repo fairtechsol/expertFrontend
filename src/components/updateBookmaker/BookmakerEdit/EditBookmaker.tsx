@@ -1,5 +1,5 @@
 import { Box, TextField, Typography, useMediaQuery } from "@mui/material";
-import { memo, useEffect, useRef, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import KeyboardEventHandler from "react-keyboard-event-handler";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
@@ -33,10 +33,9 @@ const EditBookmaker = (props: any) => {
   } = props;
   const dispatch: AppDispatch = useDispatch();
   const matchesMobile = useMediaQuery(theme.breakpoints.down("lg"));
-  const { bookmakerById, success } = useSelector(
+  const { success } = useSelector(
     (state: RootState) => state.addSession
   );
-  const innerRefTeamB: any = useRef();
 
   const [incGap, setIncGap] = useState<number>(1);
 
@@ -518,7 +517,6 @@ const EditBookmaker = (props: any) => {
                             key,
                             e,
                             setLocalQuickBookmaker,
-                            innerRefTeamB,
                             match,
                             incGap,
                             setIncGap,

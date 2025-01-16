@@ -6,7 +6,6 @@ export const handleKeysMatchEvents = (
   key: any,
   e: any,
   setLocalQuickBookmaker: any,
-  innerRefTeam: any,
   match: any,
   incGap: number,
   setIncGap: any,
@@ -585,7 +584,7 @@ export const handleKeysMatchEvents = (
           (item: any) => item.id == e.target.name
         );
         let teamARateDecimal = +currTeam?.back % 1;
-        let value;
+        let value=0;
         if (teamARateDecimal >= 0.5) {
           value = Math.round(currTeam?.back) - 1;
         } else {
