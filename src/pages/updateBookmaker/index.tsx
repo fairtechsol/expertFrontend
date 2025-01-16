@@ -13,7 +13,7 @@ import {
   updateMarketMinMaxLimitOnQuickMaker,
   updateMatchBetsPlaced,
   updateRatesBook,
-  updateTeamRatesOnManualMarket
+  updateTeamRatesOnManualMarket,
 } from "../../store/actions/addSession";
 import { AppDispatch, RootState } from "../../store/store";
 
@@ -23,6 +23,9 @@ const UpdateBookmaker = () => {
   const navigate = useNavigate();
   const { placedBets } = useSelector((state: RootState) => state.addSession);
   const { tournament } = useSelector(
+    (states: RootState) => states.addMatch.addMatch
+  );
+  const { maxLimitSuccess } = useSelector(
     (states: RootState) => states.addMatch.addMatch
   );
   const updateBetList = (event: any) => {
@@ -123,6 +126,19 @@ const UpdateBookmaker = () => {
     }
   }, [socket, state?.betId]);
 
+
+  useEffect(() => {
+    try {
+      if (maxLimitSuccess) {
+        dispatch(
+          geTournamentBetting({ matchId: state?.matchId, betId: state?.betId })
+        );
+      } 
+    } catch (error) {
+      console.error(error);
+    }
+  }, [maxLimitSuccess]);
+
   return (
     <Box display="flex">
       <Grid container>
@@ -142,6 +158,7 @@ const UpdateBookmaker = () => {
           <Paper style={{ margin: "2px" }}>
             <BetsList
               betData={placedBets && placedBets.length > 0 ? placedBets : []}
+              name={tournament?.matchBetting?.name}
             />
           </Paper>
         </Grid>

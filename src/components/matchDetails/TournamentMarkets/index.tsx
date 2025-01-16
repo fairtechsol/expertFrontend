@@ -3,18 +3,18 @@ import { Fragment, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ARROWUP } from "../../../assets";
 import { betLiveStatus } from "../../../store/actions/match/matchAction";
+import { declareMatchStatusReset } from "../../../store/actions/match/matchDeclareActions";
 import { AppDispatch, RootState } from "../../../store/store";
+import AddMarketButton from "../../Common/AddMarketButton";
 import Divider from "../../Common/Divider";
+import MaxLimitEditButton from "../../Common/MaxLimitEditButton";
 import { formatNumber } from "../../helper";
 import BoxComponent from "../MatchOdds/BoxComponent";
+import Result from "../Result";
 import Stop from "../SessionMarket/Stop";
 import SmallBox from "../SmallBox";
-import Result from "../Result";
-import TournamentMarketAdd from "./TournamentMarketAdd";
 import ResultComponentTournamentMarket from "./ResultComponentTournamentMarket";
-import AddMarketButton from "../../Common/AddMarketButton";
-import MaxLimitEditButton from "../../Common/MaxLimitEditButton";
-import { declareMatchStatusReset } from "../../../store/actions/match/matchDeclareActions";
+import TournamentMarketAdd from "./TournamentMarketAdd";
 
 const TournamentMarket = ({
   currentMatch,
@@ -49,7 +49,7 @@ const TournamentMarket = ({
       setVisible(false);
     }
   }, [success]);
-
+console.log(liveData);
   return (
     <Box
       sx={{
@@ -402,6 +402,8 @@ const TournamentMarket = ({
         currentMatch={currentMatch}
         title={`${title} Max Bet`}
         exposureLimit={liveData?.exposureLimit}
+        isManual={liveData.isManual}
+        isCommissionActive={liveData.isCommissionActive}
       />
     </Box>
   );

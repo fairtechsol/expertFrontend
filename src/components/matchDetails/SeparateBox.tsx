@@ -64,17 +64,19 @@ const SeparateBox = ({
               >
                 {value}
               </Typography>
-              <Typography
-                sx={{
-                  fontSize: "8px",
-                  marginTop: -0.4,
-                  color: color == "white" ? "white" : "black",
-                  textAlign: "center",
-                  fontWeight: "600",
-                }}
-              >
-                {value2}
-              </Typography>
+              {value2 ? (
+                <Typography
+                  sx={{
+                    fontSize: "8px",
+                    marginTop: -0.4,
+                    color: color == "white" ? "white" : "black",
+                    textAlign: "center",
+                    fontWeight: "600",
+                  }}
+                >
+                  {value2}
+                </Typography>
+              ):""}
             </Box>
           )}
           {[0, "0", undefined, null].includes(value) && (

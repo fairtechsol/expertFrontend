@@ -12,13 +12,13 @@ import {
 } from "../../../store/actions/addSession";
 import { AppDispatch, RootState } from "../../../store/store";
 import theme from "../../../theme";
-import { profitLossDataForMatchConstants } from "../../../utils/Constants";
 import { handleKeysMatchEvents } from "../../../utils/InputKeys/Bookmaker/BookmakerSessionKeys";
 import { updateLocalQuickBookmaker } from "../../../utils/InputKeys/Bookmaker/Utils";
 import BookButton from "./BookButton";
 // import MaxLimitEditButtonBook from "../../Common/MaxLimitEditButtonBzook";
-import MaxBetAdd from "../../matchDetails/MaxBetAdd";
+import MaxLimitEditButtonBook from "../../Common/MaxLimitEditButtonBook";
 import ResultComponentTournamentMarket from "../../matchDetails/TournamentMarkets/ResultComponentTournamentMarket";
+import TournamentMarketAdd from "../../matchDetails/TournamentMarkets/TournamentMarketAdd";
 
 const EditBookmaker = (props: any) => {
   const { state } = useLocation();
@@ -262,36 +262,6 @@ const EditBookmaker = (props: any) => {
     }
   }, [matchBetting, state?.betId]);
 
-  const rateA =
-    +bookmakerById?.matchRates?.[
-      profitLossDataForMatchConstants[bookmakerById?.type]?.A +
-        "_" +
-        bookmakerById?.matchId
-    ] || 0;
-
-  const rateB =
-    +bookmakerById?.matchRates?.[
-      profitLossDataForMatchConstants[bookmakerById?.type]?.B +
-        "_" +
-        bookmakerById?.matchId
-    ] || 0;
-
-  const formattedRateB = rateB.toFixed(2);
-  const [integerPartB, decimalPartB] = formattedRateB.split(".");
-
-  const formattedRate = rateA.toFixed(2);
-  const [integerPart, decimalPart] = formattedRate.split(".");
-
-  const rateC =
-    +bookmakerById?.matchRates[
-      profitLossDataForMatchConstants[bookmakerById?.type]?.C +
-        "_" +
-        bookmakerById?.matchId
-    ] || 0;
-
-  const formattedRateC = rateC.toFixed(2);
-  const [integerPartC, decimalPartC] = formattedRateC.split(".");
-
   return (
     <>
       <Box
@@ -335,7 +305,7 @@ const EditBookmaker = (props: any) => {
               })`}
             </span>
           </Typography>
-          {/* <MaxLimitEditButtonBook handleClickOpen={() => setOpen(true)} /> */}
+          <MaxLimitEditButtonBook handleClickOpen={() => setOpen(true)} />
         </Box>
         <Box
           sx={{
@@ -356,30 +326,14 @@ const EditBookmaker = (props: any) => {
         >
           <BookButton
             rate={bookRatioA(
-              +bookmakerById?.matchRates[
-                `${profitLossDataForMatchConstants[bookmakerById?.type]?.A}_${
-                  bookmakerById?.matchId
-                }`
-              ] || 0,
-              +bookmakerById?.matchRates[
-                `${profitLossDataForMatchConstants[bookmakerById?.type]?.B}_${
-                  bookmakerById?.matchId
-                }`
-              ] || 0
+              +teamRates?.[runners?.[0]?.id]|| 0,
+              +teamRates?.[runners?.[1]?.id] || 0
             )}
           />
           <BookButton
             rate={bookRatioB(
-              +bookmakerById?.matchRates[
-                `${profitLossDataForMatchConstants[bookmakerById?.type]?.A}_${
-                  bookmakerById?.matchId
-                }`
-              ] || 0,
-              +bookmakerById?.matchRates[
-                `${profitLossDataForMatchConstants[bookmakerById?.type]?.B}_${
-                  bookmakerById?.matchId
-                }`
-              ] || 0
+              +teamRates?.[runners?.[0]?.id]|| 0,
+              +teamRates?.[runners?.[1]?.id] || 0
             )}
           />
         </Box>
@@ -470,6 +424,10 @@ const EditBookmaker = (props: any) => {
               </Box>
             )}
             {localQuickBookmaker?.teams?.map((item: any) => {
+              const rate = +teamRates?.[item?.id] || 0;
+
+              const formattedRate = rate.toFixed(2);
+              const [integerPart, decimalPart] = formattedRate.split(".");
               return (
                 <>
                   <Box
@@ -481,6 +439,7 @@ const EditBookmaker = (props: any) => {
                       width: "100%",
                       paddingLeft: "10px",
                     }}
+                    key={item.id}
                   >
                     <Typography
                       sx={{ fontSize: "14px", fontWeight: "600", width: "50%" }}
@@ -507,20 +466,11 @@ const EditBookmaker = (props: any) => {
                           fontSize: "16px",
                           fontWeight: "bold",
                           color:
-                            +bookmakerById?.matchRates[
-                              profitLossDataForMatchConstants[
-                                bookmakerById?.type
-                              ]?.A +
-                                "_" +
-                                bookmakerById?.matchId
-                            ] <= 0
+                            +teamRates?.[item?.id] <= 0
                               ? "#FF4D4D"
                               : "#319E5B",
                         }}
                       >
-                        {/* {bookmakerById?.type !== "tiedMatch2"
-                      ? +bookmakerById?.matchRates?.teamARate || 0
-                      : +bookmakerById?.matchRates?.yesRateTie || 0} */}
                         <span>{formatToINR(integerPart || 0)}</span>
                         <span
                           style={{ fontSize: "0.8em", fontWeight: "normal" }}
@@ -844,15 +794,15 @@ const EditBookmaker = (props: any) => {
           )}
         </Box>
       )}
-      <MaxBetAdd
+      <TournamentMarketAdd
         open={open}
         handleClose={() => setOpen(false)}
-        matchOddsLive={matchBetting}
-        currentMatch={{
-          id: match?.id,
-        }}
-        title={`${matchBetting?.name} Max/Min Bet Limit`}
+        matchOddsLive={{ ...(matchBetting || {}), runners: runners }}
+        currentMatch={match}
+        title={`${matchBetting?.name} Max Bet`}
         exposureLimit={exposureLimit}
+        isManual={true}
+        isCommissionActive={matchBetting?.isCommissionActive}
       />
     </>
   );

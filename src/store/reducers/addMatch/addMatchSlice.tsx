@@ -59,6 +59,7 @@ interface InitialState {
   maxLimitLoading: boolean;
   maxLimitSuccess: boolean;
   tournament: any;
+  addedBettingId: any;
 }
 
 const initialState: InitialState = {
@@ -86,6 +87,7 @@ const initialState: InitialState = {
   maxLimitLoading: false,
   maxLimitSuccess: false,
   tournament: {},
+  addedBettingId: null,
 };
 
 const addMatch = createSlice({
@@ -747,16 +749,20 @@ const addMatch = createSlice({
       })
       .addCase(updateMarketRates.pending, (state) => {
         state.maxLimitLoading = true;
+        state.addedBettingId = null;
       })
-      .addCase(updateMarketRates.fulfilled, (state) => {
+      .addCase(updateMarketRates.fulfilled, (state, action) => {
         state.maxLimitLoading = false;
         state.maxLimitSuccess = true;
+        state.addedBettingId = action.payload?.id;
       })
       .addCase(updateMarketRates.rejected, (state) => {
         state.maxLimitLoading = false;
+        state.addedBettingId = null;
       })
       .addCase(resetMarketListMinMax, (state) => {
         state.maxLimitSuccess = false;
+        state.addedBettingId = null;
       });
   },
 });

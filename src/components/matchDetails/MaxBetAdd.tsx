@@ -1,18 +1,18 @@
+import { Box, Typography } from "@mui/material";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogTitle from "@mui/material/DialogTitle";
 import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import {
   resetMarketListMinMax,
   updateMarketRates,
 } from "../../store/actions/addMatch/addMatchAction";
 import { AppDispatch, RootState } from "../../store/store";
-import { useDispatch, useSelector } from "react-redux";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogTitle from "@mui/material/DialogTitle";
-import { Box, Typography } from "@mui/material";
 import MatchListInput from "../addMatch/MatchListInput";
-import { MaterialUISwitch } from "../tabList/materialUiSwitch";
 import { formatToINR } from "../helper";
+import { MaterialUISwitch } from "../tabList/materialUiSwitch";
 
 const MaxBetAdd = ({
   open,

@@ -32,7 +32,7 @@ const AddManualMarket = () => {
   const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
   const matchesMobile = useMediaQuery(theme.breakpoints.down("lg"));
-  const { maxLimitSuccess } = useSelector(
+  const { addedBettingId } = useSelector(
     (states: RootState) => states.addMatch.addMatch
   );
   const matchBettingRunner = {
@@ -64,7 +64,7 @@ const AddManualMarket = () => {
         minBet: parseFloat(value.minBet),
         exposureLimit: parseFloat(value.exposureLimit),
         betLimit: value.betLimit,
-        gtype: "match",
+        gtype: "match1",
         isCommissionActive: values.isCommissionActive,
         runners: values.runners,
         marketId: new Date().getTime()?.toString(),
@@ -122,10 +122,15 @@ const AddManualMarket = () => {
   }, [socket, state?.id]);
 
   useEffect(() => {
-    if (maxLimitSuccess) {
-      navigate("");
+    if (addedBettingId) {
+      navigate("/expert/add_book_maker", {
+        state: {
+          betId: addedBettingId,
+          matchId: state.match.id,
+        },
+      });
     }
-  }, [maxLimitSuccess]);
+  }, [addedBettingId]);
 
   return (
     <Box display="flex">

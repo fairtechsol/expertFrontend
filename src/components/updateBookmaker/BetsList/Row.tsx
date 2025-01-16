@@ -79,7 +79,7 @@ const Row = ({ index, values }: any) => {
               fontSize: { xs: "8px", lg: "12px" },
             }}
           >
-            {index < 100 ? "0" + index : +index}
+            {index < 10 ? "0" + index : +index}
           </Typography>
         </Box>
         <Box
