@@ -1,16 +1,24 @@
 import { Box, Button, Typography } from "@mui/material";
 import moment from "moment";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { ARROWUP } from "../../../assets";
+import { betListColorConstants } from "../../../utils/Constants";
 import { formatToINR } from "../../helper";
 import Row from "./Row";
-import { betListColorConstants } from "../../../utils/Constants";
+
+const ITEMS_PER_PAGE = 100;
+const BUFFER_SIZE = 30;
+const ROW_HEIGHT = 30;
 
 const BetList = ({ tag, allBetRates, title }: any) => {
-  const [newData, setNewBets] = useState([]);
+  const [newData, setNewBets] = useState<any[]>([]);
   const [visibleImg, setVisibleImg] = useState(true);
   const scrollRef = useRef<HTMLDivElement | null>(null);
   const [showButton, setShowButton] = useState(false);
+  const [visibleRange, setVisibleRange] = useState({
+    start: 0,
+    end: ITEMS_PER_PAGE,
+  });
 
   const scrollToTop = () => {
     if (scrollRef.current) {
@@ -21,12 +29,135 @@ const BetList = ({ tag, allBetRates, title }: any) => {
     }
   };
 
-  const handleScroll = () => {
+  const handleScroll = useCallback(() => {
     if (scrollRef.current) {
-      const { scrollTop } = scrollRef.current;
+      const { scrollTop, clientHeight } = scrollRef.current;
       setShowButton(scrollTop > 0);
+
+      // Calculate visible range based on scroll position
+      const start = Math.floor(scrollTop / ROW_HEIGHT);
+      const visibleCount = Math.ceil(clientHeight / ROW_HEIGHT);
+
+      setVisibleRange({
+        start: Math.max(0, start - BUFFER_SIZE),
+        end: Math.min(newData.length, start + visibleCount + BUFFER_SIZE),
+      });
+    
     }
-  };
+  }, [newData.length]);
+
+  const processNextChunk = useCallback(() => {
+
+    const chunk = allBetRates.map((v: any) => ({
+      values: [
+        {
+          name: v?.user?.userName,
+          color: betListColorConstants[v?.marketType]
+            ? betListColorConstants[v?.marketType]?.textColor
+            : "#000",
+          background: betListColorConstants[v?.marketType]
+            ? betListColorConstants[v?.marketType]?.background
+            : "#319E5B",
+          deleteReason: v?.deleteReason,
+          width: { lg: "16%", xs: "50%" },
+          domain: v?.domain,
+          isCommissionActive: v?.isCommissionActive,
+        },
+        {
+          name:
+            v?.marketType == "MANUAL BOOKMAKER"
+              ? "Quick Bookmaker"
+              : v?.bettingName ?? v?.marketType,
+          color: betListColorConstants[v?.marketType]
+            ? betListColorConstants[v?.marketType]?.textColor
+            : "#000",
+          background: betListColorConstants[v?.marketType]
+            ? betListColorConstants[v?.marketType]?.background
+            : "#319E5B",
+          deleteReason: v?.deleteReason,
+          width: { lg: "10%", xs: "35%" },
+          overflowWrap: "anywhere",
+        },
+        {
+          name: v?.teamName,
+          color: "black",
+          background: ["YES", "BACK"].includes(v?.betType)
+            ? "#B3E0FF"
+            : "rgb(255, 146, 146)",
+          deleteReason: v?.deleteReason,
+          width: { lg: "28%", xs: "50%" },
+          overflowWrap: "anywhere",
+          textAlign: "center",
+        },
+        {
+          name: v?.odds,
+          color: "black",
+          rate: (v?.betType === "NO" || v?.betType === "YES") && v?.rate,
+          background: ["YES", "BACK"].includes(v?.betType)
+            ? "#B3E0FF"
+            : "rgb(255, 146, 146)",
+          small: true,
+          deleteReason: v?.deleteReason,
+          width: { lg: "7%", xs: "25%" },
+          fSize: "13px",
+          lHeight: 1,
+        },
+        {
+          name:
+            v?.marketType === "oddEven"
+              ? v?.teamName?.match(/[-_](odd|even)$/i)?.[1]?.toUpperCase() ||
+                v?.betType
+              : v?.betType,
+          color: "black",
+          background: ["YES", "BACK"].includes(v?.betType)
+            ? "#B3E0FF"
+            : "rgb(255, 146, 146)",
+          small: true,
+          deleteReason: v?.deleteReason,
+          width: { lg: "7%", xs: "25%" },
+        },
+        {
+          name: formatToINR(v?.amount),
+          color: "black",
+          background: ["YES", "BACK"].includes(v?.betType)
+            ? "#B3E0FF"
+            : "rgb(255, 146, 146)",
+          deleteReason: v?.deleteReason,
+          width: { lg: "10%", xs: "35%" },
+          fSize: "12px",
+        },
+        {
+          name: +v.myStake
+            ? formatToINR(+v.myStake)
+            : formatToINR((+v?.amount * +v?.user?.fwPartnership || 0) / 100),
+          color: "white",
+          background: "#0B4F26",
+          deleteReason: v?.deleteReason,
+          width: { lg: "12%", xs: "35%" },
+        },
+        {
+          name: moment.utc(v?.createdAt).utcOffset("+05:30").format("LTS"),
+          color: "black",
+          background: ["YES", "BACK"].includes(v?.betType)
+            ? "#B3E0FF"
+            : "rgb(255, 146, 146)",
+          time: true,
+          date: moment.utc(v?.createdAt).utcOffset("+05:30").format("L"),
+          deleteReason: v?.deleteReason,
+          width: { lg: "11%", xs: "45%" },
+        },
+      ],
+    }));
+    setNewBets(chunk);
+
+  }, [allBetRates]);
+
+  useEffect(() => {
+    setNewBets([]);
+    if (allBetRates?.length) {
+      processNextChunk();
+    }
+  }, [allBetRates, processNextChunk]);
 
   useEffect(() => {
     const scrollElement = scrollRef.current;
@@ -36,120 +167,11 @@ const BetList = ({ tag, allBetRates, title }: any) => {
         scrollElement.removeEventListener("scroll", handleScroll);
       };
     }
-  }, []);
-
-  useEffect(() => {
-    if (allBetRates) {
-      const body = allBetRates?.map((v: any) => {
-        const values = {
-          values: [
-            {
-              name: v?.user?.userName,
-              color: betListColorConstants[v?.marketType]
-                ? betListColorConstants[v?.marketType]?.textColor
-                : "#000",
-              background: betListColorConstants[v?.marketType]
-                ? betListColorConstants[v?.marketType]?.background
-                : "#319E5B",
-              deleteReason: v?.deleteReason,
-              width: { lg: "16%", xs: "50%" },
-              domain: v?.domain,
-              isCommissionActive: v?.isCommissionActive,
-            },
-            {
-              name:
-                v?.marketType == "MANUAL BOOKMAKER"
-                  ? "Quick Bookmaker"
-                  : v?.bettingName ?? v?.marketType,
-              color: betListColorConstants[v?.marketType]
-                ? betListColorConstants[v?.marketType]?.textColor
-                : "#000",
-              background: betListColorConstants[v?.marketType]
-                ? betListColorConstants[v?.marketType]?.background
-                : "#319E5B",
-              deleteReason: v?.deleteReason,
-              width: { lg: "10%", xs: "35%" },
-              overflowWrap: "anywhere",
-            },
-            {
-              name: v?.teamName,
-              color: "black",
-              background: ["YES", "BACK"].includes(v?.betType)
-                ? "#B3E0FF"
-                : "rgb(255, 146, 146)",
-              deleteReason: v?.deleteReason,
-              width: { lg: "28%", xs: "50%" },
-              overflowWrap: "anywhere",
-              textAlign: "center",
-            },
-            {
-              name: v?.odds,
-              color: "black",
-              rate: (v?.betType === "NO" || v?.betType === "YES") && v?.rate,
-              background: ["YES", "BACK"].includes(v?.betType)
-                ? "#B3E0FF"
-                : "rgb(255, 146, 146)",
-              small: true,
-              deleteReason: v?.deleteReason,
-              width: { lg: "7%", xs: "25%" },
-              fSize: "13px",
-              lHeight: 1,
-            },
-            {
-              name:
-                v?.marketType === "oddEven"
-                  ? v?.teamName
-                      ?.match(/[-_](odd|even)$/i)?.[1]
-                      ?.toUpperCase() || v?.betType
-                  : v?.betType,
-              color: "black",
-              background: ["YES", "BACK"].includes(v?.betType)
-                ? "#B3E0FF"
-                : "rgb(255, 146, 146)",
-              small: true,
-              deleteReason: v?.deleteReason,
-              width: { lg: "7%", xs: "25%" },
-            },
-            {
-              name: formatToINR(v?.amount),
-              color: "black",
-              background: ["YES", "BACK"].includes(v?.betType)
-                ? "#B3E0FF"
-                : "rgb(255, 146, 146)",
-              deleteReason: v?.deleteReason,
-              width: { lg: "10%", xs: "35%" },
-              fSize: "12px",
-            },
-            {
-              name: +v.myStake
-                ? formatToINR(+v.myStake)
-                : formatToINR(
-                    (+v?.amount * +v?.user?.fwPartnership || 0) / 100
-                  ),
-              color: "white",
-              background: "#0B4F26",
-              deleteReason: v?.deleteReason,
-              width: { lg: "12%", xs: "35%" },
-            },
-            {
-              name: moment.utc(v?.createdAt).utcOffset("+05:30").format("LTS"),
-              color: "black",
-              background: ["YES", "BACK"].includes(v?.betType)
-                ? "#B3E0FF"
-                : "rgb(255, 146, 146)",
-              time: true,
-              date: moment.utc(v?.createdAt).utcOffset("+05:30").format("L"),
-              deleteReason: v?.deleteReason,
-              width: { lg: "11%", xs: "45%" },
-            },
-          ],
-        };
-        return values;
-      });
-
-      setNewBets(body);
-    }
-  }, [allBetRates]);
+  }, [handleScroll]);
+  // Calculate visible items
+  const visibleItems = useMemo(() => {
+    return newData.slice(visibleRange.start, visibleRange.end);
+  }, [newData, visibleRange]);
 
   return (
     <Box
@@ -218,7 +240,6 @@ const BetList = ({ tag, allBetRates, title }: any) => {
           sx={{
             flex: 0.1,
             background: "#262626",
-            // '#262626'
           }}
         >
           <div className="slanted"></div>
@@ -228,7 +249,6 @@ const BetList = ({ tag, allBetRates, title }: any) => {
             width: "100px",
             flex: 1,
             background: "#262626",
-            // '#262626' ,
             display: "flex",
             alignItems: "center",
             justifyContent: "flex-end",
@@ -243,7 +263,6 @@ const BetList = ({ tag, allBetRates, title }: any) => {
               borderRadius: "3px",
               alignItems: "center",
               display: "flex",
-              // flexDirection: "column",
             }}
           >
             <Typography
@@ -262,7 +281,7 @@ const BetList = ({ tag, allBetRates, title }: any) => {
                 color: "#0B4F26",
               }}
             >
-              {newData?.length || 0}
+              {allBetRates?.length || 0}
             </Typography>
           </Box>
           <img
@@ -282,12 +301,7 @@ const BetList = ({ tag, allBetRates, title }: any) => {
         </Box>
       </Box>
 
-      <Box
-        sx={{
-          // overflowX: { xs: "scroll", lg: "auto" },
-          width: "100%",
-        }}
-      >
+      <Box sx={{ width: "100%" }}>
         {visibleImg && (
           <>
             <Box
@@ -298,13 +312,19 @@ const BetList = ({ tag, allBetRates, title }: any) => {
                 overflow: "auto",
               }}
             >
-              {/* <HeaderRow tag={tag} /> */}
-              {newData?.map((i: any, k: any) => {
-                const num = newData.length - k;
+              {/* Virtual list spacer */}
+              <div style={{ height: visibleRange.start * ROW_HEIGHT }} />
+
+              {visibleItems.map((i: any, k: number) => {
+                const num = allBetRates.length - (k + visibleRange.start);
                 return (
                   <div
-                    key={i?.id || k}
-                    style={{ display: "flex", position: "relative" }}
+                    key={k + visibleRange.start}
+                    style={{
+                      display: "flex",
+                      position: "relative",
+                      height: ROW_HEIGHT,
+                    }}
                   >
                     <Box
                       sx={{
@@ -327,7 +347,7 @@ const BetList = ({ tag, allBetRates, title }: any) => {
                         {num < 10 ? "0" + num : num.toString()}
                       </Typography>
                     </Box>
-                    <Row index={k} values={i?.values} />
+                    <Row index={k + visibleRange.start} values={i?.values} />
                     {i?.values?.[0]?.deleteReason && (
                       <Box
                         sx={{
@@ -372,6 +392,13 @@ const BetList = ({ tag, allBetRates, title }: any) => {
                   </div>
                 );
               })}
+
+              {/* Virtual list spacer */}
+              <div
+                style={{
+                  height: (allBetRates.length - visibleRange.end) * ROW_HEIGHT,
+                }}
+              />
             </Box>
           </>
         )}

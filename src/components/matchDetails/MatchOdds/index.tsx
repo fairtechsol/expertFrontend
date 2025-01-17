@@ -3,9 +3,12 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ARROWUP } from "../../../assets";
 import { betLiveStatus } from "../../../store/actions/match/matchAction";
+import { declareMatchStatusReset } from "../../../store/actions/match/matchDeclareActions";
 import { AppDispatch, RootState } from "../../../store/store";
 import { profitLossDataForMatchConstants } from "../../../utils/Constants";
+import AddMarketButton from "../../Common/AddMarketButton";
 import Divider from "../../Common/Divider";
+import MaxLimitEditButton from "../../Common/MaxLimitEditButton";
 import { formatNumber } from "../../helper";
 import ResultComponent from "../../updateBookmaker/BookmakerEdit/ResultComponent";
 import MaxBetAdd from "../MaxBetAdd";
@@ -14,9 +17,6 @@ import Stop from "../SessionMarket/Stop";
 import SmallBox from "../SmallBox";
 import BoxComponent from "./BoxComponent";
 import SmallBox2 from "./SmallBox2";
-import MaxLimitEditButton from "../../Common/MaxLimitEditButton";
-import AddMarketButton from "../../Common/AddMarketButton";
-import { declareMatchStatusReset } from "../../../store/actions/match/matchDeclareActions";
 
 const MatchOdds = ({ currentMatch, matchOddsLive, id, showResultBox }: any) => {
   const dispatch: AppDispatch = useDispatch();
@@ -91,7 +91,6 @@ const MatchOdds = ({ currentMatch, matchOddsLive, id, showResultBox }: any) => {
       setVisible(false);
     }
   }, [success]);
-  console.log(matchOddsLive, "kjasb");
   return (
     <>
       <Box

@@ -5,12 +5,15 @@ import { useLocation, useNavigate } from "react-router-dom";
 import Loader from "../../components/Loader";
 import BetList from "../../components/matchDetails/BetList";
 import BookMarket from "../../components/matchDetails/Bookmarket";
+import CompleteMatchMarket from "../../components/matchDetails/CompleteMatchMarket";
 import MatchOdds from "../../components/matchDetails/MatchOdds";
+import TiedMatchMarket from "../../components/matchDetails/TiedMatchMarket";
 import {
   expertSocketService,
   socket,
   socketService,
 } from "../../socketManager";
+import { matchSocketService } from "../../socketManager/matchSocket";
 import {
   getMatchDetail,
   removeSessionProLoss,
@@ -36,18 +39,15 @@ import {
   updateTeamRates,
 } from "../../store/actions/match/matchAction";
 import { AppDispatch, RootState } from "../../store/store";
-import TiedMatchMarket from "../../components/matchDetails/TiedMatchMarket";
-import CompleteMatchMarket from "../../components/matchDetails/CompleteMatchMarket";
-import { matchSocketService } from "../../socketManager/matchSocket";
 import ManualMarket from "../manualMarket";
 // import Scoreboard from "../../components/matchDetails/Scoreboard";
 // import service from "../../service";
-import OtherMatchMarket from "../../components/matchDetails/OtherMatchMarket";
-import TournamentMarket from "../../components/matchDetails/TournamentMarkets";
-import { marketArray } from "../../utils/Constants";
 import Masonry from "@mui/lab/Masonry";
 import DelayedChild from "../../components/Common/DelayedChild";
 import { handleMarketSorting } from "../../components/helper";
+import OtherMatchMarket from "../../components/matchDetails/OtherMatchMarket";
+import TournamentMarket from "../../components/matchDetails/TournamentMarkets";
+import { marketArray } from "../../utils/Constants";
 
 const MatchMarketDetail = () => {
   const { state } = useLocation();
@@ -96,7 +96,7 @@ const MatchMarketDetail = () => {
   const resultUnDeclared = (event: any) => {
     try {
       if (event?.matchId === state?.id) {
-        dispatch(getMatchDetail(state?.id));
+        dispatch(getMatchDetail(`${state?.id}?isSessionAllowed=false`));
         dispatch(getPlacedBetsMatch(state?.id));
       }
     } catch (e) {
@@ -272,7 +272,7 @@ const MatchMarketDetail = () => {
     try {
       if (state?.id) {
         dispatch(getSessionProfitLossMatchDetailReset());
-        dispatch(getMatchDetail(state?.id));
+        dispatch(getMatchDetail(`${state?.id}?isSessionAllowed=false`));
         dispatch(getPlacedBetsMatch(state?.id));
       }
     } catch (e) {

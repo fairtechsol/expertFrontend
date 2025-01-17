@@ -4,8 +4,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import CasinoMarket from "../../components/matchDetails/CasinoMarket";
 import CasinoMarketLive from "../../components/matchDetails/CasinoMarketLive";
+import RunsBox from "../../components/matchDetails/RunsBox";
 import SessionMarket from "../../components/matchDetails/SessionMarket";
 import SessionMarketLive from "../../components/matchDetails/SessionMarketLive";
+import { customSortBySessionMarketName } from "../../helpers";
 import {
   expertSocketService,
   socket,
@@ -36,8 +38,6 @@ import {
   updateSessionBetsPlace,
 } from "../../store/actions/match/matchAction";
 import { AppDispatch, RootState } from "../../store/store";
-import RunsBox from "../../components/matchDetails/RunsBox";
-import { customSortBySessionMarketName } from "../../helpers";
 
 const SessionMarketDetail = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -72,7 +72,7 @@ const SessionMarketDetail = () => {
   const resultUnDeclared = (event: any) => {
     try {
       if (event?.matchId === state?.id) {
-        dispatch(getMatchDetail(state?.id));
+        dispatch(getMatchDetail(`${state?.id}?isMarketAllowed=false`));
         // dispatch(getPlacedBetsForSessionDetail(state?.id));
       }
     } catch (e) {
@@ -242,7 +242,7 @@ const SessionMarketDetail = () => {
     try {
       if (state?.id) {
         dispatch(getSessionProfitLossMatchDetailReset());
-        dispatch(getMatchDetail(state?.id));
+        dispatch(getMatchDetail(`${state?.id}?isMarketAllowed=false`));
       }
     } catch (e) {
       console.log(e);

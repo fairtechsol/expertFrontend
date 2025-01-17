@@ -145,6 +145,14 @@ export const getPlacedBetsMatch = createAsyncThunk<any, any>(
     }
   }
 );
+
+export const removeBetByBetId = createAsyncThunk<any, any>(
+  "removePlacedBets/match",
+  async (betId ) => {
+    return betId;
+  }
+);
+
 export const getPlacedBetsForSessionDetail = createAsyncThunk<any, any>(
   "placedBets/sessionDetail",
   async (requestData, thunkApi) => {
