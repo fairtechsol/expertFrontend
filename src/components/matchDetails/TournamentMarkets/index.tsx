@@ -49,7 +49,6 @@ const TournamentMarket = ({
       setVisible(false);
     }
   }, [success]);
-console.log(liveData);
   return (
     <Box
       sx={{

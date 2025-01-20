@@ -33,9 +33,7 @@ const EditBookmaker = (props: any) => {
   } = props;
   const dispatch: AppDispatch = useDispatch();
   const matchesMobile = useMediaQuery(theme.breakpoints.down("lg"));
-  const { success } = useSelector(
-    (state: RootState) => state.addSession
-  );
+  const { success } = useSelector((state: RootState) => state.addSession);
 
   const [incGap, setIncGap] = useState<number>(1);
 
@@ -325,13 +323,13 @@ const EditBookmaker = (props: any) => {
         >
           <BookButton
             rate={bookRatioA(
-              +teamRates?.[runners?.[0]?.id]|| 0,
+              +teamRates?.[runners?.[0]?.id] || 0,
               +teamRates?.[runners?.[1]?.id] || 0
             )}
           />
           <BookButton
             rate={bookRatioB(
-              +teamRates?.[runners?.[0]?.id]|| 0,
+              +teamRates?.[runners?.[0]?.id] || 0,
               +teamRates?.[runners?.[1]?.id] || 0
             )}
           />
@@ -409,6 +407,7 @@ const EditBookmaker = (props: any) => {
                   left: "30%",
                   top: "1px",
                   background: "black",
+                  height: "100%",
                 }}
               >
                 <img
@@ -465,9 +464,7 @@ const EditBookmaker = (props: any) => {
                           fontSize: "16px",
                           fontWeight: "bold",
                           color:
-                            +teamRates?.[item?.id] <= 0
-                              ? "#FF4D4D"
-                              : "#319E5B",
+                            +teamRates?.[item?.id] <= 0 ? "#FF4D4D" : "#319E5B",
                         }}
                       >
                         <span>{formatToINR(integerPart || 0)}</span>
@@ -595,11 +592,7 @@ const EditBookmaker = (props: any) => {
                 sx={{
                   borderTop: "2px solid white",
                   background: "rgba(0,0,0,1)",
-                  height:
-                    match?.teamC &&
-                    !["tiedMatch2", "completeManual"].includes(type)
-                      ? "170px"
-                      : "112px",
+                  height: "100%",
                   right: 0,
                   width: "100%",
                   justifyContent: { xs: "center", lg: "center" },
