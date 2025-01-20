@@ -113,6 +113,7 @@ console.log(liveData);
               }}
               height="18px"
               title={title}
+              isCommissionActive={liveData?.isCommissionActive}
             />
           )}
         </Box>
