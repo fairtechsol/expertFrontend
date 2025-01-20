@@ -1,23 +1,24 @@
 import {
-    Box,
-    Button,
-    FormControl,
-    FormControlLabel,
-    FormLabel,
-    Grid,
-    IconButton,
-    Paper,
-    Radio,
-    RadioGroup,
-    TextField,
-    Typography,
-    useMediaQuery,
+  Box,
+  Button,
+  FormControl,
+  FormControlLabel,
+  FormLabel,
+  Grid,
+  IconButton,
+  Paper,
+  Radio,
+  RadioGroup,
+  TextField,
+  Typography,
+  useMediaQuery,
 } from "@mui/material";
 import { useFormik } from "formik";
 import { useEffect } from "react";
 import { TiDelete } from "react-icons/ti";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import MatchListInput from "../../components/addMatch/MatchListInput";
 import CustomErrorMessage from "../../components/Common/CustomErrorMessage";
 import { MaterialUISwitch } from "../../components/tabList/materialUiSwitch";
@@ -70,6 +71,10 @@ const AddManualMarket = () => {
         marketId: new Date().getTime()?.toString(),
         isManual: true,
       };
+      if(values.runners?.length<=1){
+        toast.error("Please add at least two team");
+        return;
+      }
       dispatch(updateMarketRates(data));
     },
   });
