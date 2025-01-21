@@ -32,7 +32,7 @@ import {
   updateRates,
   updateSessionAdded,
 } from "../../actions/addMatch/addMatchAction";
-import { updateApiSessionById } from "../../actions/addSession";
+import { updateApiSessionById, updateResultStatusOfQuickBookmaker } from "../../actions/addSession";
 import {
   updateMaxLoss,
   updateResultBoxStatus,
@@ -172,6 +172,9 @@ const addMatch = createSlice({
       .addCase(geTournamentBetting.rejected, (state, action) => {
         state.loading = false;
         state.error = action?.error?.message;
+      })
+      .addCase(updateResultStatusOfQuickBookmaker.fulfilled, (state, action) => {
+        state.tournament.matchBetting["resultStatus"] = action?.payload?.status;
       })
       .addCase(addMatchExpert.pending, (state) => {
         state.loading = true;

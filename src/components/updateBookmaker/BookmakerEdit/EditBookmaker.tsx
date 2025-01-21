@@ -16,7 +16,9 @@ import { handleKeysMatchEvents } from "../../../utils/InputKeys/Bookmaker/Bookma
 import { updateLocalQuickBookmaker } from "../../../utils/InputKeys/Bookmaker/Utils";
 import BookButton from "./BookButton";
 // import MaxLimitEditButtonBook from "../../Common/MaxLimitEditButtonBzook";
+import { betLiveStatus } from "../../../store/actions/match/matchAction";
 import MaxLimitEditButtonBook from "../../Common/MaxLimitEditButtonBook";
+import SmallBox from "../../matchDetails/SmallBox";
 import ResultComponentTournamentMarket from "../../matchDetails/TournamentMarkets/ResultComponentTournamentMarket";
 import TournamentMarketAdd from "../../matchDetails/TournamentMarkets/TournamentMarketAdd";
 
@@ -42,7 +44,9 @@ const EditBookmaker = (props: any) => {
   const [visible, setVisible] = useState(false);
   const [visible1, setVisible1] = useState(false);
   const [open, setOpen] = useState(false);
-
+  const [live, setLive] = useState<boolean>(
+    matchBetting?.activeStatus === "live" ? true : false
+  );
   const [localQuickBookmaker, setLocalQuickBookmaker] = useState<any>({
     teams: runners?.map((item: any) => ({
       ...item,
@@ -141,13 +145,14 @@ const EditBookmaker = (props: any) => {
   };
 
   const updateBookmakerResultStatus = (event: any) => {
-    if (event?.matchId === state?.match?.id) {
+    if (event?.matchId === state?.matchId) {
       dispatch(updateResultStatusOfQuickBookmaker(event));
     }
   };
 
   useEffect(() => {
     try {
+      setLive(matchBetting?.activeStatus == "live");
       if (success) {
         setLocalQuickBookmaker((prev: any) => {
           return {
@@ -258,7 +263,6 @@ const EditBookmaker = (props: any) => {
       console.log(error);
     }
   }, [matchBetting, state?.betId]);
-
   return (
     <>
       <Box
@@ -287,22 +291,61 @@ const EditBookmaker = (props: any) => {
               fontSize: { lg: "13px", md: "12px", xs: "12px" },
               fontWeight: "bold",
               marginLeft: "7px",
+              display: "flex",
+              alignItems: "center",
+              gap: "5px",
             }}
           >
-            {matchBetting?.name}
-            <span
-              style={{
-                fontWeight: "600",
-                fontSize: "10px",
-                backgroundColor: "transparent",
-              }}
-            >
-              {` (Min:${matchBetting?.minBet || 0} Max:${
-                matchBetting?.maxBet || 0
-              })`}
-            </span>
+            {matchBetting?.isCommissionActive && (
+              <Box
+                sx={{
+                  width: 8,
+                  height: 8,
+                  borderRadius: "50%",
+                  backgroundColor: "#74ee15",
+                }}
+              />
+            )}
+            <Box>
+              {matchBetting?.name}
+              <span
+                style={{
+                  fontWeight: "600",
+                  fontSize: "10px",
+                  backgroundColor: "transparent",
+                }}
+              >
+                {` (Min:${matchBetting?.minBet || 0} Max:${
+                  matchBetting?.maxBet || 0
+                })`}
+              </span>
+            </Box>
           </Typography>
-          <MaxLimitEditButtonBook handleClickOpen={() => setOpen(true)} />
+          {!matchBetting?.result && (
+            <>
+              <SmallBox
+                onClick={() => {
+                  dispatch(
+                    betLiveStatus({
+                      isStop: live,
+                      betId: matchBetting?.id,
+                      isManual: false,
+                      isTournament: true,
+                    })
+                  );
+                  setLive(!live);
+                }}
+                width={{ lg: "35px", xs: "20px" }}
+                title={live ? "Live" : "Go Live"}
+                color={live ? "#46e080" : "#FF4D4D"}
+                customStyle={{
+                  justifyContent: "center",
+                }}
+                height="25px"
+              />
+              <MaxLimitEditButtonBook handleClickOpen={() => setOpen(true)} />
+            </>
+          )}
         </Box>
         <Box
           sx={{
@@ -336,6 +379,34 @@ const EditBookmaker = (props: any) => {
         </Box>
       </Box>
       <Box sx={{ border: "2px solid #FFFFFF", position: "relative" }}>
+        {!live && !matchBetting?.resultStatus && (
+          <Box
+            sx={{
+              position: "absolute",
+              top: "0px",
+              left: "0px",
+              height: "100%",
+              width: "100%",
+              background: "rgba(0, 0, 0, 0.5)",
+              zIndex: 1,
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            {" "}
+            <Typography
+              sx={{
+                color: "#fff",
+                fontWeight: "bold",
+                fontSize: "14px",
+                textAlign: "center",
+              }}
+            >
+              RESULT DECLARED
+            </Typography>
+          </Box>
+        )}
         {!matchBetting?.result && matchBetting?.resultStatus && (
           <Box
             sx={{

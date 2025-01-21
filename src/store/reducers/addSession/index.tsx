@@ -1,4 +1,5 @@
 import { createReducer } from "@reduxjs/toolkit";
+import { profitLossDataForMatchConstants } from "../../../utils/Constants";
 import {
   addSession,
   addsuccessReset,
@@ -21,16 +22,14 @@ import {
   updateMultiSessionMarketAmount,
   updateProLossSession,
   updateRatesBook,
-  updateResultStatusOfQuickBookmaker,
   updateResultStatusOfSessionById,
   updateSession,
   updateSessionById,
   updateSessionByIdForUndeclare,
   updateSessionMaxLimit,
   updateSessionProfitLoss,
-  updateTeamRatesOnManualMarket,
+  updateTeamRatesOnManualMarket
 } from "../../actions/addSession";
-import { profitLossDataForMatchConstants } from "../../../utils/Constants";
 
 interface InitialState {
   sessionById: any;
@@ -363,12 +362,12 @@ export const addSessionReducers = createReducer(initialState, (builder) => {
         };
       }
     })
-    .addCase(updateResultStatusOfQuickBookmaker.fulfilled, (state, action) => {
-      // if (state.bookmakerById?.id === action.payload?.betId) {
-      state.bookmakerById["resultStatus"] = action?.payload?.status;
-      // }
-      //after discussing with pankaj and sandeep sir
-    })
+    // .addCase(updateResultStatusOfQuickBookmaker.fulfilled, (state, action) => {
+    //   // if (state.bookmakerById?.id === action.payload?.betId) {
+    //   state.bookmakerById["resultStatus"] = action?.payload?.status;
+    //   // }
+    //   //after discussing with pankaj and sandeep sir
+    // })
     .addCase(updateMarketMinMaxLimitOnQuickMaker.fulfilled, (state, action) => {
       if (state.bookmakerById?.id === action.payload?.betId) {
         state.bookmakerById = {

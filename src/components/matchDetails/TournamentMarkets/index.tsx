@@ -56,7 +56,7 @@ const TournamentMarket = ({
         display: "flex",
         backgroundColor: "white",
         flexDirection: "column",
-        width: { lg: "49%", md: "49%", xs: "100%" },
+        width: { lg: "100%", md: "100%", xs: "100%" },
         marginTop: ".3vh",
         marginX: "0",
         alignSelf: {
