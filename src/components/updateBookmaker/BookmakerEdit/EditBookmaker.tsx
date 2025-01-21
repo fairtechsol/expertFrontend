@@ -379,7 +379,7 @@ const EditBookmaker = (props: any) => {
         </Box>
       </Box>
       <Box sx={{ border: "2px solid #FFFFFF", position: "relative" }}>
-        {!live && !matchBetting?.resultStatus && (
+        {!live && matchBetting?.result && (
           <Box
             sx={{
               position: "absolute",

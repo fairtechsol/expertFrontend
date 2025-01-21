@@ -71,7 +71,7 @@ const AddManualMarket = () => {
         marketId: new Date().getTime()?.toString(),
         isManual: true,
       };
-      if(values.runners?.length<=1){
+      if (values.runners?.length <= 1) {
         toast.error("Please add at least two team");
         return;
       }
@@ -86,6 +86,7 @@ const AddManualMarket = () => {
     setValues,
     errors,
     handleChange,
+    isSubmitting,
   } = formik;
 
   const resultDeclared = (event: any) => {
@@ -489,6 +490,7 @@ const AddManualMarket = () => {
                 </Grid>
                 <Grid item lg={12}>
                   <Button
+                    disabled={isSubmitting}
                     size="small"
                     variant="contained"
                     sx={{ float: "right" }}
