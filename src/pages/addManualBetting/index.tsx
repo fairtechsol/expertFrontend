@@ -56,7 +56,7 @@ const AddManualMarket = () => {
       runners: [matchBettingRunner],
       teamType: 0,
     },
-    onSubmit: (value: any) => {
+    onSubmit: (value: any,{setSubmitting}) => {
       let data = {
         matchId: state?.match?.id,
         type: "tournament",
@@ -76,6 +76,8 @@ const AddManualMarket = () => {
         return;
       }
       dispatch(updateMarketRates(data));
+      setSubmitting(false)
+
     },
   });
 
