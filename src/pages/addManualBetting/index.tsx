@@ -56,7 +56,7 @@ const AddManualMarket = () => {
       runners: [matchBettingRunner],
       teamType: 0,
     },
-    onSubmit: (value: any,{setSubmitting}) => {
+    onSubmit: (value: any, { setSubmitting }) => {
       let data = {
         matchId: state?.match?.id,
         type: "tournament",
@@ -72,12 +72,12 @@ const AddManualMarket = () => {
         isManual: true,
       };
       if (values.runners?.length <= 1) {
+        setSubmitting(false);
         toast.error("Please add at least two team");
         return;
       }
       dispatch(updateMarketRates(data));
-      setSubmitting(false)
-
+      setSubmitting(false);
     },
   });
 
@@ -90,7 +90,7 @@ const AddManualMarket = () => {
     handleChange,
     isSubmitting,
   } = formik;
-
+  console.log(isSubmitting);
   const resultDeclared = (event: any) => {
     try {
       if (event?.matchId === state?.match?.id) {
