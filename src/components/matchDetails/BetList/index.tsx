@@ -2,7 +2,9 @@ import { Box, Button, Typography } from "@mui/material";
 import moment from "moment";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { ARROWUP } from "../../../assets";
-import { betListColorConstants } from "../../../utils/Constants";
+import {
+  betListColorConstants
+} from "../../../utils/Constants";
 import { formatToINR } from "../../helper";
 import Row from "./Row";
 
@@ -42,21 +44,39 @@ const BetList = ({ tag, allBetRates, title }: any) => {
         start: Math.max(0, start - BUFFER_SIZE),
         end: Math.min(newData.length, start + visibleCount + BUFFER_SIZE),
       });
-    
     }
   }, [newData.length]);
 
   const processNextChunk = useCallback(() => {
-
     const chunk = allBetRates.map((v: any) => ({
       values: [
         {
           name: v?.user?.userName,
-          color: betListColorConstants[v?.marketType]
-            ? betListColorConstants[v?.marketType]?.textColor
+          color: betListColorConstants[
+            v?.marketType == "tournament"
+              ? v.bettingName?.toLowerCase()?.replace(/[^a-zA-Z0-9_]/g, "")
+              : v?.marketType
+          ]
+            ? betListColorConstants[
+                v?.marketType == "tournament"
+                  ? v.bettingName?.toLowerCase()?.replace(/[^a-zA-Z0-9_]/g, "")
+                  : v?.marketType
+              ]?.textColor
+            : v?.marketType == "tournament"
+            ? betListColorConstants.tournament.textColor
             : "#000",
-          background: betListColorConstants[v?.marketType]
-            ? betListColorConstants[v?.marketType]?.background
+          background: betListColorConstants[
+            v?.marketType == "tournament"
+              ? v.bettingName?.toLowerCase()?.replace(/[^a-zA-Z0-9_]/g, "")
+              : v?.marketType
+          ]
+            ? betListColorConstants[
+                v?.marketType == "tournament"
+                  ? v.bettingName?.toLowerCase()?.replace(/[^a-zA-Z0-9_]/g, "")
+                  : v?.marketType
+              ]?.background
+            : v?.marketType == "tournament"
+            ? betListColorConstants.tournament.background
             : "#319E5B",
           deleteReason: v?.deleteReason,
           width: { lg: "16%", xs: "50%" },
@@ -68,11 +88,31 @@ const BetList = ({ tag, allBetRates, title }: any) => {
             v?.marketType == "MANUAL BOOKMAKER"
               ? "Quick Bookmaker"
               : v?.bettingName ?? v?.marketType,
-          color: betListColorConstants[v?.marketType]
-            ? betListColorConstants[v?.marketType]?.textColor
+          color: betListColorConstants[
+            v?.marketType == "tournament"
+              ? v.bettingName?.toLowerCase()?.replace(/[^a-zA-Z0-9_]/g, "")
+              : v?.marketType
+          ]
+            ? betListColorConstants[
+                v?.marketType == "tournament"
+                  ? v.bettingName?.toLowerCase()?.replace(/[^a-zA-Z0-9_]/g, "")
+                  : v?.marketType
+              ]?.textColor
+            : v?.marketType == "tournament"
+            ? betListColorConstants.tournament.textColor
             : "#000",
-          background: betListColorConstants[v?.marketType]
-            ? betListColorConstants[v?.marketType]?.background
+          background: betListColorConstants[
+            v?.marketType == "tournament"
+              ? v.bettingName?.toLowerCase()?.replace(/[^a-zA-Z0-9_]/g, "")
+              : v?.marketType
+          ]
+            ? betListColorConstants[
+                v?.marketType == "tournament"
+                  ? v.bettingName?.toLowerCase()?.replace(/[^a-zA-Z0-9_]/g, "")
+                  : v?.marketType
+              ]?.background
+            : v?.marketType == "tournament"
+            ? betListColorConstants.tournament.background
             : "#319E5B",
           deleteReason: v?.deleteReason,
           width: { lg: "10%", xs: "35%" },
@@ -149,7 +189,6 @@ const BetList = ({ tag, allBetRates, title }: any) => {
       ],
     }));
     setNewBets(chunk);
-
   }, [allBetRates]);
 
   useEffect(() => {
