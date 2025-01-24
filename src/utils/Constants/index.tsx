@@ -443,11 +443,11 @@ export const marketArray = [
 
 export const gameType = ["cricket", "football", "tennis", "politics"];
 
-export const addMatchThirdParty = import.meta.env.THIRD_PARTY_BASE_URL;
+export const addMatchThirdParty = import.meta.env.VITE_THIRD_PARTY_BASE_URL;
 
-export const serviceUrl = import.meta.env.BASE_URL;
+export const serviceUrl = import.meta.env.VITE_BASE_URL;
 
 export const baseUrls = {
-  matchSocket: import.meta.env.THIRD_PARTY_BASE_URL,
-  expertSocket: import.meta.env.BASE_URL,
+  matchSocket: import.meta.env.VITE_THIRD_PARTY_BASE_URL,
+  expertSocket: import.meta.env.VITE_BASE_URL,
 };
