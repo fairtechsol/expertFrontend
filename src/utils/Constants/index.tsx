@@ -31,7 +31,7 @@ export const ApiConstants = {
     GET_COUNTRY_CODE: "match/countryWiseList",
     GET_RACE_LIST: "match/racing/list",
     GET_RACE_MATCH: "match/racing",
-    GET_TOURNAMENT:"matchBeting/tournament/"
+    GET_TOURNAMENT: "matchBeting/tournament/",
   },
   USER: {
     CHANGEPASSWORD: "user/password",
@@ -443,52 +443,11 @@ export const marketArray = [
 
 export const gameType = ["cricket", "football", "tennis", "politics"];
 
-export const addMatchThirdParty =
-  process.env.NODE_ENV === Constants.PRODUCTION
-    ? Constants.thirdParty
-    : Constants.localPathThird;
+export const addMatchThirdParty = import.meta.env.THIRD_PARTY_BASE_URL;
 
-export const serviceUrl =
-  process.env.NODE_ENV === Constants.PRODUCTION
-    ? Constants.expertSocketBasePath
-    : Constants.localPathExpert;
+export const serviceUrl = import.meta.env.BASE_URL;
 
 export const baseUrls = {
-  socket:
-    process.env.NODE_ENV === Constants.PRODUCTION
-      ? Constants.apiBasePath
-      : Constants.localPath,
-  expertSocket:
-    process.env.NODE_ENV === Constants.PRODUCTION
-      ? Constants.expertSocketBasePath
-      : Constants.localPathExpert,
-  matchSocket:
-    process.env.NODE_ENV === Constants.PRODUCTION
-      ? Constants.thirdParty
-      : Constants.localPathThird,
+  matchSocket: import.meta.env.THIRD_PARTY_BASE_URL,
+  expertSocket: import.meta.env.BASE_URL,
 };
-
-// export const addMatchThirdParty =
-//   process.env.NODE_ENV === Constants.PRODUCTION
-//     ? Constants.thirdPartyLive
-//     : Constants.localPathThird;
-
-// export const serviceUrl =
-//   process.env.NODE_ENV === Constants.PRODUCTION
-//     ? Constants.expertSocketBasePathLive
-//     : Constants.localPathExpert;
-
-// export const baseUrls = {
-//   socket:
-//     process.env.NODE_ENV === Constants.PRODUCTION
-//       ? Constants.apiBasePathLive
-//       : Constants.localPath,
-//   expertSocket:
-//     process.env.NODE_ENV === Constants.PRODUCTION
-//       ? Constants.expertSocketBasePathLive
-//       : Constants.localPathExpert,
-//   matchSocket:
-//     process.env.NODE_ENV === Constants.PRODUCTION
-//       ? Constants.thirdPartyLive
-//       : Constants.localPathThird,
-// };
