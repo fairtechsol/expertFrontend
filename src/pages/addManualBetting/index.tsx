@@ -70,6 +70,7 @@ const AddManualMarket = () => {
         runners: values.runners,
         marketId: new Date().getTime()?.toString(),
         isManual: true,
+        sNo: 3,
       };
       if (values.runners?.length <= 1) {
         setSubmitting(false);

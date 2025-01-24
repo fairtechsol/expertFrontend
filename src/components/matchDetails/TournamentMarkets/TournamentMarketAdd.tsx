@@ -42,6 +42,7 @@ const TournamentMarketAdd = ({
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
+    console.log(matchOddsLive);
     let data = {
       matchId: currentMatch?.id,
       type: "tournament",
@@ -53,6 +54,7 @@ const TournamentMarketAdd = ({
       marketId: matchOddsLive?.mid?.toString(),
       isCommissionActive: commission,
       gtype: matchOddsLive?.gtype,
+      sNo: matchOddsLive?.sno,
       ...(isManual ? { name: selected.name } : {}),
       runners: (isManual ? selected?.runners : matchOddsLive?.runners)?.map(
         (item: any) => {
