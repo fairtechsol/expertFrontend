@@ -42,8 +42,6 @@ import { AppDispatch, RootState } from "../../store/store";
 import ManualMarket from "../manualMarket";
 // import Scoreboard from "../../components/matchDetails/Scoreboard";
 // import service from "../../service";
-import Masonry from "@mui/lab/Masonry";
-import DelayedChild from "../../components/Common/DelayedChild";
 import { handleMarketSorting } from "../../components/helper";
 import OtherMatchMarket from "../../components/matchDetails/OtherMatchMarket";
 import TournamentMarket from "../../components/matchDetails/TournamentMarkets";
@@ -655,6 +653,7 @@ const MatchMarketDetail = () => {
           xs: loading ? "80vh" : "100%",
           lg: loading ? "90vh" : "100%",
         },
+        gap: "5px",
       }}
     >
       {loading ? (
@@ -663,23 +662,49 @@ const MatchMarketDetail = () => {
         <>
           <Box
             sx={{
-              width: { lg: "45%", xs: "100%", md: "45%" },
+              width: { lg: "22.5%", xs: "100%", md: "45%" },
               marginTop: { xs: "10px", lg: "0" },
+              display: "flex",
+              flexDirection: "column",
+              gap: "5px",
             }}
           >
-            <DelayedChild>
+            {/* <DelayedChild>
               <Masonry
                 columns={matchesMobile ? 1 : 2}
                 spacing={matchesMobile ? 0 : 1}
-              >
-                {component
-                  ?.slice()
-                  ?.sort(handleMarketSorting)
-                  ?.map((item: any, index: number) => {
-                    return <Fragment key={index}>{item?.component}</Fragment>;
-                  })}
-              </Masonry>
-            </DelayedChild>
+              > */}
+            {component
+              ?.sort(handleMarketSorting)
+              ?.filter((_: any, index: any) => index % 2 != 0)
+              ?.map((item: any, index: number) => {
+                return <Fragment key={index}>{item?.component}</Fragment>;
+              })}
+            {/* </Masonry>
+            </DelayedChild> */}
+          </Box>
+          <Box
+            sx={{
+              width: { lg: "22.5%", xs: "100%", md: "45%" },
+              marginTop: { xs: "10px", lg: "0" },
+              display: "flex",
+              flexDirection: "column",
+              gap: "5px",
+            }}
+          >
+            {/* <DelayedChild>
+              <Masonry
+                columns={matchesMobile ? 1 : 2}
+                spacing={matchesMobile ? 0 : 1}
+              > */}
+            {component
+              ?.sort(handleMarketSorting)
+              ?.filter((_: any, index: any) => index % 2 == 0)
+              ?.map((item: any, index: number) => {
+                return <Fragment key={index}>{item?.component}</Fragment>;
+              })}
+            {/* </Masonry>
+            </DelayedChild> */}
           </Box>
           <Box
             sx={{
