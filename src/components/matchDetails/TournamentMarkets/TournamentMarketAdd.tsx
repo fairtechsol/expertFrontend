@@ -42,7 +42,6 @@ const TournamentMarketAdd = ({
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
-    console.log(matchOddsLive);
     let data = {
       matchId: currentMatch?.id,
       type: "tournament",
@@ -112,7 +111,14 @@ const TournamentMarketAdd = ({
     } catch (error) {
       console.error(error);
     }
-  }, [matchOddsLive?.maxBet, isCommissionActive, matchOddsLive?.minBet]);
+  }, [
+    matchOddsLive?.maxBet,
+    matchOddsLive?.betLimit,
+    matchOddsLive?.minBet,
+    isCommissionActive,
+    matchOddsLive?.minBet,
+    exposureLimit,
+  ]);
 
   useEffect(() => {
     if (maxLimitSuccess) {
