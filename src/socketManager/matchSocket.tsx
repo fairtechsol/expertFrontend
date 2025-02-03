@@ -1,4 +1,5 @@
 import { matchSocket, socket } from ".";
+let currSocket: any = [];
 
 export const matchSocketService = {
   joinMatchRoom: (matchId: any, roleName: any) => {
@@ -6,18 +7,35 @@ export const matchSocketService = {
       id: matchId,
     });
 
-    matchSocket?.emit("initCricketData", {
+   
+    matchSocket.emit("initCricketData", {
       matchId: matchId,
       roleName: roleName,
     });
+    currSocket.push(
+      setInterval(() => {
+        matchSocket.emit("initCricketData", {
+          matchId: matchId,
+          roleName: roleName,
+        });
+      }, 120000)
+    );
   },
   leaveMatchRoom: (matchId: any) => {
+    for (let item of currSocket) {
+      clearInterval(item);
+    }
+    currSocket = [];
     matchSocket?.emit("disconnectCricketData", {
       matchId: matchId,
       roleName: "expert",
     });
   },
   leaveAllRooms: () => {
+    for (let item of currSocket) {
+      clearInterval(item);
+    }
+    currSocket = [];
     matchSocket?.emit("leaveAll");
   },
   matchAdded: (callback: any) => {
@@ -42,6 +60,10 @@ export const matchSocketService = {
     socket?.off("addMatch");
   },
   getMatchRatesOff: (matchId: string) => {
+    for (let item of currSocket) {
+      clearInterval(item);
+    }
+    currSocket = [];
     matchSocket?.off(`liveData${matchId}`);
   },
   connectErrorOff: () => {
