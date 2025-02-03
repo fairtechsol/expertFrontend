@@ -1,21 +1,33 @@
+import Masonry from "@mui/lab/Masonry";
 import { Box, useMediaQuery, useTheme } from "@mui/material";
 import { Fragment, memo, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
+import DelayedChild from "../../components/Common/DelayedChild";
+import { handleMarketSorting } from "../../components/helper";
 import Loader from "../../components/Loader";
 import BetList from "../../components/matchDetails/BetList";
+import BookMarket from "../../components/matchDetails/Bookmarket";
+import CompleteMatchMarket from "../../components/matchDetails/CompleteMatchMarket";
 import MatchOdds from "../../components/matchDetails/MatchOdds";
+import OtherMatchMarket from "../../components/matchDetails/OtherMatchMarket";
+import TiedMatchMarket from "../../components/matchDetails/TiedMatchMarket";
+import TournamentMarket from "../../components/matchDetails/TournamentMarkets";
+import HTFTMarket from "../../components/matchDetails/TournamentMarkets/HTFTMarket";
 import {
   expertSocketService,
+  matchSocket,
   socket,
   socketService,
 } from "../../socketManager";
+import { matchSocketService } from "../../socketManager/matchSocket";
 import {
   handleBetResultStatus,
   updateMatchRates,
   updateMatchRatesOnMarketUndeclare,
   updateRates,
 } from "../../store/actions/addMatch/addMatchAction";
+import { resetPlacedBetsMatch } from "../../store/actions/addSession";
 import {
   getPlacedBetsMatch,
   getSessionProfitLossMatchDetailReset,
@@ -26,21 +38,10 @@ import {
   updateResultStatusOfMatch,
   updateTeamRates,
 } from "../../store/actions/match/matchAction";
-import { AppDispatch, RootState } from "../../store/store";
-import TiedMatchMarket from "../../components/matchDetails/TiedMatchMarket";
-import CompleteMatchMarket from "../../components/matchDetails/CompleteMatchMarket";
-import { matchSocketService } from "../../socketManager/matchSocket";
-import ManualMarket from "../manualMarket";
 import { getOtherGamesMatchDetail } from "../../store/actions/otherGamesAction/matchDetailActions";
-import TournamentMarket from "../../components/matchDetails/TournamentMarkets";
-import BookMarket from "../../components/matchDetails/Bookmarket";
-import OtherMatchMarket from "../../components/matchDetails/OtherMatchMarket";
+import { AppDispatch, RootState } from "../../store/store";
 import { marketArray } from "../../utils/Constants";
-import HTFTMarket from "../../components/matchDetails/TournamentMarkets/HTFTMarket";
-import Masonry from "@mui/lab/Masonry";
-import DelayedChild from "../../components/Common/DelayedChild";
-import { resetPlacedBetsMatch } from "../../store/actions/addSession";
-import { handleMarketSorting } from "../../components/helper";
+import ManualMarket from "../manualMarket";
 
 const OtherMatchDetails = () => {
   const { state } = useLocation();
@@ -280,6 +281,21 @@ const OtherMatchDetails = () => {
       console.error(error);
     }
   }, [state?.id]);
+
+  useEffect(() => {
+    try {
+      if (matchDetail?.id && matchSocket) {
+        let currRateInt = setInterval(() => {
+          expertSocketService.match.joinMatchRoom(matchDetail?.id, "expert");
+        }, 60000);
+        return () => {
+          clearInterval(currRateInt);
+        };
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }, [matchDetail?.id]);
 
   const component = [
     {

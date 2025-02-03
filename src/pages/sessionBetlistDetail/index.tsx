@@ -10,6 +10,7 @@ import SessionMarket2 from "../../components/matchDetails/SessionMarket2";
 import { customSortBySessionMarketName } from "../../helpers";
 import {
   expertSocketService,
+  matchSocket,
   socket,
   socketService,
 } from "../../socketManager";
@@ -288,6 +289,21 @@ const SessionBetlistDetail = () => {
       console.log(error);
     }
   }, [state?.id]);
+
+  useEffect(() => {
+    try {
+      if (matchDetail?.id && matchSocket) {
+        let currRateInt = setInterval(() => {
+          expertSocketService.match.joinMatchRoom(matchDetail?.id, "expert");
+        }, 60000);
+        return () => {
+          clearInterval(currRateInt);
+        };
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }, [matchDetail?.id]);
 
   useEffect(() => {
     try {

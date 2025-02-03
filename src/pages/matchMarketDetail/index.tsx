@@ -10,6 +10,7 @@ import MatchOdds from "../../components/matchDetails/MatchOdds";
 import TiedMatchMarket from "../../components/matchDetails/TiedMatchMarket";
 import {
   expertSocketService,
+  matchSocket,
   socket,
   socketService,
 } from "../../socketManager";
@@ -642,6 +643,21 @@ const MatchMarketDetail = () => {
           : "",
     },
   ];
+
+    useEffect(() => {
+      try {
+        if (matchDetail?.id && matchSocket) {
+          let currRateInt = setInterval(() => {
+            expertSocketService.match.joinMatchRoom(matchDetail?.id, "expert");
+          }, 60000);
+          return () => {
+            clearInterval(currRateInt);
+          };
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }, [matchDetail?.id]);
 
   return (
     <Box
