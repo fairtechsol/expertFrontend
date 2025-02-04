@@ -219,7 +219,7 @@ const Row = ({ index, values }: any) => {
           </Typography>
         </Box>
       </Box>
-      {values?.deleted_reason && (
+      {values?.deleteReason && (
         <Box
           sx={{
             background: "rgba(0,0,0,0.5)",
@@ -250,7 +250,7 @@ const Row = ({ index, values }: any) => {
                   }}
                 >
                   Bet <span style={{ color: "#e41b23" }}>deleted</span> due to{" "}
-                  {values?.deleted_reason}
+                  {values?.deleteReason}
                 </Typography>
               }
             </Box>

@@ -310,7 +310,7 @@ const Row = ({ index, values }: any) => {
                   }}
                 >
                   Bet <span style={{ color: "#e41b23" }}>deleted</span> due to{" "}
-                  {values?.deleted_reason}
+                  {values?.deleteReason}
                 </Typography>
               }
             </Box>
