@@ -42,6 +42,7 @@ const ManualMarket = ({ currentMatch, liveData, type, showResultBox }: any) => {
       setVisible(false);
     }
   }, [success]);
+
   return (
     <Box
       sx={{

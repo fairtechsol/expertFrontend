@@ -111,6 +111,13 @@ export const getAllEventsList = createAsyncThunk<any, string>(
   }
 );
 
+export const updateTeamRatesOnManualTournamentMarket = createAsyncThunk<any,any>(
+  "update/updateTeamRatesOnManualTournamentMarket",
+  async (requestData) => {
+    return requestData;
+  }
+);
+
 export const getExtraMarketList = createAsyncThunk<any, any>(
   "addMatch/extraMarketList",
   async (requestData, thunkApi) => {

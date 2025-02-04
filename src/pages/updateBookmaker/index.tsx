@@ -5,15 +5,14 @@ import { useLocation, useNavigate } from "react-router-dom";
 import BetsList from "../../components/updateBookmaker/BetsList";
 import BookmakerEditSection from "../../components/updateBookmaker/BookmakerEdit";
 import { socket, socketService } from "../../socketManager";
-import { geTournamentBetting } from "../../store/actions/addMatch/addMatchAction";
+import { geTournamentBetting, updateTeamRatesOnManualTournamentMarket } from "../../store/actions/addMatch/addMatchAction";
 import {
   getPlacedBets,
   updateDeleteReason,
   updateDeleteReasonOnEdit,
   updateMarketMinMaxLimitOnQuickMaker,
   updateMatchBetsPlaced,
-  updateRatesBook,
-  updateTeamRatesOnManualMarket,
+  updateRatesBook
 } from "../../store/actions/addSession";
 import { AppDispatch, RootState } from "../../store/store";
 
@@ -31,7 +30,7 @@ const UpdateBookmaker = () => {
   const updateBetList = (event: any) => {
     try {
       if (state?.matchId === event?.jobData?.newBet?.matchId) {
-        dispatch(updateTeamRatesOnManualMarket(event));
+        dispatch(updateTeamRatesOnManualTournamentMarket(event));
         if (state?.betId === event?.jobData?.newBet?.betId) {
           dispatch(updateMatchBetsPlaced(event));
         }
