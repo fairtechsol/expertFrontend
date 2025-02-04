@@ -14,6 +14,7 @@ import TournamentMarket from "../../components/matchDetails/TournamentMarkets";
 import HTFTMarket from "../../components/matchDetails/TournamentMarkets/HTFTMarket";
 import {
   expertSocketService,
+  matchSocket,
   socket,
   socketService,
 } from "../../socketManager";
@@ -526,6 +527,21 @@ const OtherMatchDetails = () => {
           : "",
     },
   ];
+
+  useEffect(() => {
+    try {
+      if (matchDetail?.id && matchSocket) {
+        let currRateInt = setInterval(() => {
+          expertSocketService.match.joinMatchRoom(matchDetail?.id, "expert");
+        }, 60000);
+        return () => {
+          clearInterval(currRateInt);
+        };
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }, [matchDetail?.id]);
 
   return (
     <>
