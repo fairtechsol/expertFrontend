@@ -339,16 +339,37 @@ const TournamentMarket = ({
                 <Divider />
               </Fragment>
             ))}
-            {!live && (
+            {(!live ||
+              (!["ACTIVE", "OPEN", ""].includes(liveData?.status) &&
+                liveData?.gtype == "match")) && (
               <Box
                 sx={{
                   width: "100%",
                   position: "absolute",
                   height: "100%",
                   bottom: 0,
-                  background: "rgba(0,0,0,0.5)",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  background: "rgba(0,0,0,0.71)",
                 }}
-              ></Box>
+              >
+                <Typography
+                  sx={{
+                    fontSize: { xs: "12px", lg: "22px" },
+                    textTransform: "uppercase",
+                    width: "100%",
+                    textAlign: "center",
+                    color: "white",
+                    fontWeight: "400",
+                  }}
+                >
+                  {!["ACTIVE", "OPEN", ""].includes(liveData?.status) &&
+                  liveData?.gtype == "match"
+                    ? liveData?.status
+                    : ""}
+                </Typography>
+              </Box>
             )}
             {currentMatch?.resultStatus &&
               currentMatch?.resultStatus[liveData?.id]?.status && (
