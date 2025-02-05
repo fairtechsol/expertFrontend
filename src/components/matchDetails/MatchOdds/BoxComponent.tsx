@@ -1,7 +1,7 @@
 import { Box, Typography, useMediaQuery, useTheme } from "@mui/material";
 import { memo } from "react";
-import SeparateBox from "../SeparateBox";
 import { formatNumber } from "../../helper";
+import SeparateBox from "../SeparateBox";
 import MoneyBox from "./MoneyBox";
 // import Whitebox from "../WhiteBox";
 const BoxComponent = ({
@@ -14,6 +14,7 @@ const BoxComponent = ({
   lock,
   teamRates,
   livestatus,
+  liveData
 }: any) => {
   const theme = useTheme();
   const matchesMobile = useMediaQuery(theme.breakpoints.down("lg"));
@@ -67,8 +68,12 @@ const BoxComponent = ({
         {name != "DRAW" && <MoneyBox value={teamRates} />}
       </Box>
 
-      {!["ACTIVE", "", undefined, null, "OPEN", "active", "open"].includes(status?.toLowerCase()) ||
-      livestatus ? (
+      {(![ "", undefined, null, "active", "open"].includes(status?.toLowerCase()) ||
+      livestatus)&&
+      !(
+        !["ACTIVE", "OPEN", ""].includes(liveData?.status) &&
+        liveData?.gtype == "match"
+      ) ? (
         <Box
           sx={{
             display: "flex",
