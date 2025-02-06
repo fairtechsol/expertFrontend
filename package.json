@@ -4,7 +4,7 @@
   "version": "1.4.1",
   "type": "module",
   "scripts": {
-    "dev": "vite --port 5200 --mode staging",
+    "dev": "vite --port 5200",
     "build:dev": "tsc && vite build --mode development",
     "build:staging": "tsc && vite build --mode staging",
     "build:prod": "tsc && vite build --mode production",
