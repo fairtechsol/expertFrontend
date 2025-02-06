@@ -318,7 +318,7 @@ const MatchMarketDetail = () => {
     } catch (e) {
       console.log(e);
     }
-  }, [success, socket]);
+  }, [success, socket, matchSocket]);
 
   useEffect(() => {
     try {
@@ -368,6 +368,9 @@ const MatchMarketDetail = () => {
     try {
       const handleVisibilityChange = () => {
         if (document.visibilityState === "visible") {
+          if (!socket.connected || !matchSocket.connected) {
+            socketService.connect();
+          }
           if (state?.id) {
             // dispatch(getMatchDetail(state?.id));
             dispatch(getPlacedBetsMatch(state?.id));
@@ -659,7 +662,7 @@ const MatchMarketDetail = () => {
     } catch (error) {
       console.log(error);
     }
-  }, [matchDetail?.id]);
+  }, [matchDetail?.id, matchSocket]);
 
   const desktop = useMediaQuery(theme.breakpoints.up("sm"));
   return (
