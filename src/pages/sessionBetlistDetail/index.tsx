@@ -453,7 +453,7 @@ const SessionBetlistDetail = () => {
 
         <Box sx={{ width: { lg: "50%", md: "50%", xs: "100%", sm: "50%" } }}>
           <BetList
-            allBetRates={placedBetsMatch}
+            allBetRates={Array.from(new Set(placedBetsMatch))}
             tag={true}
             title={matchDetail?.title}
           />

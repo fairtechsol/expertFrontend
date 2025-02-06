@@ -537,7 +537,7 @@ const MatchDetails = () => {
             )}
 
             {matchDetail?.id && (
-              <BetList allBetRates={placedBetsMatch} tag={true} />
+              <BetList allBetRates={ Array.from(new Set(placedBetsMatch))} tag={true} />
             )}
           </Box>
         </>
