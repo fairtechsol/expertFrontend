@@ -283,7 +283,7 @@ const SessionMarketDetail = () => {
     } catch (e) {
       console.log(e);
     }
-  }, [success, socket]);
+  }, [success, socket, matchSocket]);
 
   useEffect(() => {
     try {
@@ -315,6 +315,9 @@ const SessionMarketDetail = () => {
     try {
       const handleVisibilityChange = () => {
         if (document.visibilityState === "visible") {
+          if (!socket.connected || !matchSocket.connected) {
+            socketService.connect();
+          }
           if (state?.id) {
             // alert("check expert session")
             // dispatch(getMatchDetail(state?.id));
@@ -343,20 +346,20 @@ const SessionMarketDetail = () => {
     }
   }, [state?.id]);
 
-    useEffect(() => {
-      try {
-        if (matchDetail?.id && matchSocket) {
-          let currRateInt = setInterval(() => {
-            expertSocketService.match.joinMatchRoom(matchDetail?.id, "expert");
-          }, 60000);
-          return () => {
-            clearInterval(currRateInt);
-          };
-        }
-      } catch (error) {
-        console.log(error);
+  useEffect(() => {
+    try {
+      if (matchDetail?.id && matchSocket) {
+        let currRateInt = setInterval(() => {
+          expertSocketService.match.joinMatchRoom(matchDetail?.id, "expert");
+        }, 60000);
+        return () => {
+          clearInterval(currRateInt);
+        };
       }
-    }, [matchDetail?.id]);
+    } catch (error) {
+      console.log(error);
+    }
+  }, [matchDetail?.id, matchSocket]);
 
   return (
     <>
