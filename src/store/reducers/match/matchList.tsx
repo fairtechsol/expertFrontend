@@ -327,8 +327,12 @@ const matchList = createSlice({
       .addCase(updateMatchBetsPlace.fulfilled, (state, action) => {
         const { jobData } = action?.payload;
         state.placedBetsMatch = state?.placedBetsMatch || [];
+        const betId = jobData?.newBet?.betId;
 
-        if (jobData && jobData?.newBet) {
+        const isBetAlreadyPlaced = state.placedBetsMatch?.some(
+          (item: any) => item?.id === betId
+        );
+        if (jobData && jobData?.newBet && !isBetAlreadyPlaced) {
           let obj = jobData?.newBet;
           obj.user = {
             userName: jobData?.userName,
@@ -341,8 +345,12 @@ const matchList = createSlice({
       .addCase(updateSessionBetsPlace.fulfilled, (state, action) => {
         const { jobData } = action?.payload;
         state.placedBetsMatch = state?.placedBetsMatch || [];
+        const betId = jobData?.newBet?.betId;
 
-        if (jobData && jobData?.placedBet) {
+        const isBetAlreadyPlaced = state.placedBetsMatch?.some(
+          (item: any) => item?.id === betId
+        );
+        if (jobData && jobData?.placedBet && !isBetAlreadyPlaced) {
           let obj = jobData?.placedBet;
           const partnership = JSON.parse(jobData?.partnership);
           obj.user = {
