@@ -220,7 +220,7 @@ const OtherMatchDetails = () => {
     } catch (e) {
       console.log(e);
     }
-  }, [success, socket, state?.id]);
+  }, [success, socket, state?.id, matchSocket]);
 
   useEffect(() => {
     try {
@@ -251,6 +251,9 @@ const OtherMatchDetails = () => {
     try {
       const handleVisibilityChange = () => {
         if (document.visibilityState === "visible") {
+          if (!socket.connected || !matchSocket.connected) {
+            socketService.connect();
+          }
           if (state?.id) {
             // dispatch(getOtherGamesMatchDetail(state?.id));
             dispatch(getPlacedBetsMatch(state?.id));
@@ -541,7 +544,7 @@ const OtherMatchDetails = () => {
     } catch (error) {
       console.log(error);
     }
-  }, [matchDetail?.id]);
+  }, [matchDetail?.id, matchSocket]);
 
   return (
     <>
