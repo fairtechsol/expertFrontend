@@ -2,7 +2,7 @@ name: Deploy fairgame
 on:
   push:
     branches:
-      - tournament-main
+      - tournament-preMain
 jobs:
   deploy:
     runs-on: ubuntu-latest
