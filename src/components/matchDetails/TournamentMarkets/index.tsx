@@ -2,7 +2,10 @@ import { Box, Typography } from "@mui/material";
 import { Fragment, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ARROWUP } from "../../../assets";
-import { betLiveStatus } from "../../../store/actions/match/matchAction";
+import {
+  betLiveStatus,
+  updateMatchActiveStatus,
+} from "../../../store/actions/match/matchAction";
 import { declareMatchStatusReset } from "../../../store/actions/match/matchDeclareActions";
 import { AppDispatch, RootState } from "../../../store/store";
 import AddMarketButton from "../../Common/AddMarketButton";
@@ -101,14 +104,13 @@ const TournamentMarket = ({
             <Stop
               onClick={() => {
                 dispatch(
-                  betLiveStatus({
-                    isStop: true,
-                    betId: liveData?.id,
-                    isManual: false,
-                    isTournament: true,
+                  updateMatchActiveStatus({
+                    matchId: currentMatch?.id,
+                    bettingId: liveData?.id,
+                    type: "tournament",
+                    isActive: !liveData?.isActive,
                   })
                 );
-                setLive(false);
               }}
               height="18px"
               title={title}
@@ -340,6 +342,7 @@ const TournamentMarket = ({
               </Fragment>
             ))}
             {(!live ||
+              !liveData?.isActive ||
               (!["ACTIVE", "OPEN", ""].includes(liveData?.status) &&
                 liveData?.gtype == "match")) && (
               <Box
