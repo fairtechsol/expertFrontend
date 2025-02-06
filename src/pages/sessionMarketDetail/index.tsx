@@ -319,6 +319,7 @@ const SessionMarketDetail = () => {
             socketService.connect();
           }
           if (state?.id) {
+            // alert("check expert session")
             // dispatch(getMatchDetail(state?.id));
             expertSocketService.match.joinMatchRoom(state?.id, "expert");
             expertSocketService.match.getMatchRates(state?.id, (event: any) => {
