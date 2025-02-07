@@ -43,7 +43,7 @@ import axios from "axios";
 import { baseUrls } from "../../utils/Constants";
 
 const SessionMarketDetail = () => {
-  const intervalRef = useRef<NodeJS.Timeout | null>(null);
+  const intervalRef = useRef<number | null>(null);
   const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
   const { state } = useLocation();
@@ -332,7 +332,7 @@ const SessionMarketDetail = () => {
     if (document.visibilityState === "visible") {
       if (!intervalRef.current) {
         fetchLiveData();
-        intervalRef.current = setInterval(fetchLiveData, 500);
+        intervalRef.current = window.setInterval(fetchLiveData, 500) as unknown as number;
       }
     } else if (document.visibilityState === "hidden") {
       if (intervalRef.current) {

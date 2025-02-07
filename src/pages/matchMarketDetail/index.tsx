@@ -31,6 +31,7 @@ import {
   getPlacedBetsMatch,
   getSessionProfitLossMatchDetailReset,
   addStatusBetByBetId,
+  updateBetVerify,
   updateDeletedBetReasonOnEdit,
   updateMatchBetsPlace,
   updateMatchBetsReason,
@@ -53,7 +54,7 @@ import axios from "axios";
 import { baseUrls } from "../../utils/Constants";
 
 const MatchMarketDetail = () => {
-  const intervalRef = useRef<NodeJS.Timeout | null>(null);
+  const intervalRef = useRef<number | null>(null);
   const { state } = useLocation();
   const navigate = useNavigate();
   const dispatch: AppDispatch = useDispatch();
@@ -138,6 +139,17 @@ const MatchMarketDetail = () => {
     try {
       if (event?.matchId === state?.id) {
         dispatch(updateDeletedBetReasonOnEdit(event));
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const updateVerifyBet = (event: any) => {
+    try {
+      console.log("event :", event)
+      if (event?.matchId === state?.id) {
+        dispatch(updateBetVerify(event));
       }
     } catch (e) {
       console.log(e);
@@ -276,6 +288,7 @@ const MatchMarketDetail = () => {
   });
 
   useEffect(() => {
+    // alert("match")
     try {
       if (state?.id) {
         dispatch(getSessionProfitLossMatchDetailReset());
@@ -306,6 +319,13 @@ const MatchMarketDetail = () => {
         // expertSocketService.match.getMatchRates(state?.id, (event: any) => {
         //   updateMatchDetailToRedux(event);
         // });
+
+        socketService.user.betVerify(updateVerifyBet);
+        //  expertSocketService.match.betVerify((event: any) => {
+        //   console.log("event :", event)
+        //   // updateMatchDetailToRedux(event);
+        // });
+        
         socketService.user.matchResultDeclared(resultDeclared);
         socketService.user.matchResultDeclareAllUser(resultDeclared);
         socketService.user.matchResultUnDeclared(resultUnDeclared);
@@ -369,7 +389,7 @@ const MatchMarketDetail = () => {
     if (document.visibilityState === "visible") {
       if (!intervalRef.current) {
         fetchLiveData();
-        intervalRef.current = setInterval(fetchLiveData, 500);
+        intervalRef.current = window.setInterval(fetchLiveData, 500) as unknown as number;
       }
     } else if (document.visibilityState === "hidden") {
       if (intervalRef.current) {
