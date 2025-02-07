@@ -30,7 +30,7 @@ import {
 import {
   getPlacedBetsMatch,
   getSessionProfitLossMatchDetailReset,
-  removeBetByBetId,
+  addStatusBetByBetId,
   updateDeletedBetReasonOnEdit,
   updateMatchBetsPlace,
   updateMatchBetsReason,
@@ -146,7 +146,8 @@ const MatchMarketDetail = () => {
       if (state?.id === event?.matchId) {
         dispatch(updateApiSessionById(event));
         // dispatch(getPlacedBetsMatch(state?.id));
-        dispatch(removeBetByBetId(event?.betId));
+        // dispatch(removeBetByBetId(event?.betId));
+        dispatch(addStatusBetByBetId(event?.betId));
 
         if (event?.activeStatus === "result") {
           dispatch(

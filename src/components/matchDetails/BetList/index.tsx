@@ -79,6 +79,7 @@ const BetList = ({ tag, allBetRates, title }: any) => {
             ? betListColorConstants.tournament.background
             : "#319E5B",
           deleteReason: v?.deleteReason,
+          result: v?.result,
           width: { lg: "16%", xs: "50%" },
           domain: v?.domain,
           isCommissionActive: v?.isCommissionActive,
@@ -115,6 +116,7 @@ const BetList = ({ tag, allBetRates, title }: any) => {
             ? betListColorConstants.tournament.background
             : "#319E5B",
           deleteReason: v?.deleteReason,
+          result: v?.result,
           width: { lg: "10%", xs: "35%" },
           overflowWrap: "anywhere",
         },
@@ -125,6 +127,7 @@ const BetList = ({ tag, allBetRates, title }: any) => {
             ? "#B3E0FF"
             : "rgb(255, 146, 146)",
           deleteReason: v?.deleteReason,
+          result: v?.result,
           width: { lg: "28%", xs: "50%" },
           overflowWrap: "anywhere",
           textAlign: "center",
@@ -138,6 +141,7 @@ const BetList = ({ tag, allBetRates, title }: any) => {
             : "rgb(255, 146, 146)",
           small: true,
           deleteReason: v?.deleteReason,
+          result: v?.result,
           width: { lg: "7%", xs: "25%" },
           fSize: "13px",
           lHeight: 1,
@@ -154,6 +158,7 @@ const BetList = ({ tag, allBetRates, title }: any) => {
             : "rgb(255, 146, 146)",
           small: true,
           deleteReason: v?.deleteReason,
+          result: v?.result,
           width: { lg: "7%", xs: "25%" },
         },
         {
@@ -163,6 +168,7 @@ const BetList = ({ tag, allBetRates, title }: any) => {
             ? "#B3E0FF"
             : "rgb(255, 146, 146)",
           deleteReason: v?.deleteReason,
+          result: v?.result,
           width: { lg: "10%", xs: "35%" },
           fSize: "12px",
         },
@@ -173,6 +179,7 @@ const BetList = ({ tag, allBetRates, title }: any) => {
           color: "white",
           background: "#0B4F26",
           deleteReason: v?.deleteReason,
+          result: v?.result,
           width: { lg: "12%", xs: "35%" },
         },
         {
@@ -184,6 +191,7 @@ const BetList = ({ tag, allBetRates, title }: any) => {
           time: true,
           date: moment.utc(v?.createdAt).utcOffset("+05:30").format("L"),
           deleteReason: v?.deleteReason,
+          result: v?.result,
           width: { lg: "11%", xs: "45%" },
         },
       ],
@@ -209,6 +217,7 @@ const BetList = ({ tag, allBetRates, title }: any) => {
   }, [handleScroll]);
   // Calculate visible items
   const visibleItems = useMemo(() => {
+    console.log("newData :", newData)
     return newData.slice(visibleRange.start, visibleRange.end);
   }, [newData, visibleRange]);
 
@@ -365,6 +374,30 @@ const BetList = ({ tag, allBetRates, title }: any) => {
                       height: ROW_HEIGHT,
                     }}
                   >
+                    {/* <Box
+                      sx={{
+                        width: { lg: "4%", xs: "6%" },
+                        border: "1px solid white",
+                        background: "black",
+                        height: "30px",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        display: "flex",
+                      }}
+                    >
+                      <Typography
+                        sx={{
+                          fontSize: !tag ? "10px" : "11px",
+                          fontWeight: tag ? "bold" : "600",
+                          color: "white",
+                        }}
+                      >
+                       
+                    <Box sx={{}}>
+                      <img src={CHECK} style={{ width: "20px", height: "20px" }} />
+                    </Box>
+                      </Typography>
+                    </Box> */}
                     <Box
                       sx={{
                         width: { lg: "4%", xs: "6%" },
@@ -426,6 +459,18 @@ const BetList = ({ tag, allBetRates, title }: any) => {
                             }
                           </Box>
                         </Box>
+                      </Box>
+                    )}
+                    {i?.values?.[0]?.result && ["LOSS", "WIN"].includes(i.values[0].result) && (
+                     <Box
+                        sx={{
+                          background: "rgba(0,0,0,0.5)",
+                          width: "100%",
+                          height: "30px",
+                          position: "absolute",
+                          display: "flex",
+                        }}
+                      >
                       </Box>
                     )}
                   </div>
