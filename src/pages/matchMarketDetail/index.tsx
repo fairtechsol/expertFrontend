@@ -1,5 +1,5 @@
 import { Box, useMediaQuery } from "@mui/material";
-import { Fragment, memo, useCallback, useEffect, useRef, useState } from "react";
+import { Fragment, memo, useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import Loader from "../../components/Loader";
@@ -52,7 +52,7 @@ import theme from "../../theme";
 import { marketArray } from "../../utils/Constants";
 
 const MatchMarketDetail = () => {
-  const intervalRef = useRef<number | null>(null);
+  // const intervalRef = useRef<NodeJS.Timeout | null>(null);
   const { state } = useLocation();
   const navigate = useNavigate();
   const dispatch: AppDispatch = useDispatch();
