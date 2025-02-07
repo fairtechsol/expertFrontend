@@ -19,11 +19,10 @@ import {
   getMatchDetail,
   getMatchRates,
   removeSessionProLoss,
-  updateMatchRates,
   updateMultiSessionMinMax,
   updateRates,
   updateSessionAdded,
-  updateSessionProLoss,
+  updateSessionProLoss
 } from "../../store/actions/addMatch/addMatchAction";
 import {
   setCurrentOdd,
@@ -55,15 +54,15 @@ const SessionMarketDetail = () => {
   const { sessionProLoss } = useSelector((state: RootState) => state.match);
   const { currentOdd } = useSelector((state: RootState) => state.addSession);
 
-  const updateMatchDetailToRedux = (event: any) => {
-    try {
-      if (state?.id === event?.id) {
-        dispatch(updateMatchRates(event));
-      } else return;
-    } catch (e) {
-      console.log(e);
-    }
-  };
+  // const updateMatchDetailToRedux = (event: any) => {
+  //   try {
+  //     if (state?.id === event?.id) {
+  //       dispatch(updateMatchRates(event));
+  //     } else return;
+  //   } catch (e) {
+  //     console.log(e);
+  //   }
+  // };
 
   const resultDeclared = (event: any) => {
     try {
