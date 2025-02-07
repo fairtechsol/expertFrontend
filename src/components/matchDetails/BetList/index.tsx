@@ -513,7 +513,7 @@ const BetList = ({ tag, allBetRates, title }: any) => {
                       >
                       </Box>
                     )}
-                    {i?.values?.[0]?.verifyBy && (
+                    {/* {i?.values?.[0]?.verifyBy && (
                      <Box
                         sx={{
                           background: "rgba(42,133,4,0.5)",
@@ -550,7 +550,7 @@ const BetList = ({ tag, allBetRates, title }: any) => {
                           </Box>
                         </Box>
                       </Box>
-                    )}
+                    )} */}
                     
                   </div>
                 );
