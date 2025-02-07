@@ -352,23 +352,6 @@ const MatchMarketDetail = () => {
     }
   }, [state?.id]);
 
-  useEffect(() => {
-    try {
-      if (state?.id && matchSocket) {
-        let currInitRateInt = setInterval(() => {
-          expertSocketService.match.joinMatchRoom(state?.id, "user");
-        }, 60000);
-
-        return () => {
-          if (currInitRateInt) {
-            clearInterval(currInitRateInt);
-          }
-        };
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  }, [state?.id]);
 
   useEffect(() => {
     try {
