@@ -31,7 +31,7 @@ import {
 import {
   getPlacedBetsForSessionDetail,
   getSessionProfitLossMatchDetailReset,
-  removeBetByBetId,
+  addStatusBetByBetId,
   updateDeletedBetReasonOnEdit,
   updateMatchBetsReason,
   updateMaxLoss,
@@ -126,7 +126,8 @@ const SessionBetlistDetail = () => {
     try {
       if (state?.id === event?.matchId) {
         dispatch(updateApiSessionById(event));
-        dispatch(removeBetByBetId(event?.betId));
+        // dispatch(removeBetByBetId(event?.betId));
+        dispatch(addStatusBetByBetId(event?.betId));
         if (event?.activeStatus === "result") {
           dispatch(
             removeSessionProLoss({
