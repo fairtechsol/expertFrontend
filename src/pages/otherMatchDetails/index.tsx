@@ -1,5 +1,5 @@
 import { Box, useMediaQuery, useTheme } from "@mui/material";
-import { Fragment, memo, useEffect } from "react";
+import { Fragment, memo, useEffect, useRef, useCallback  } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import { handleMarketSorting } from "../../components/helper";
@@ -40,6 +40,8 @@ import { getOtherGamesMatchDetail } from "../../store/actions/otherGamesAction/m
 import { AppDispatch, RootState } from "../../store/store";
 import { marketArray } from "../../utils/Constants";
 import ManualMarket from "../manualMarket";
+import axios from "axios";
+import { baseUrls } from "../../utils/Constants";
 
 const OtherMatchDetails = () => {
   // const intervalRef = useRef<NodeJS.Timeout | null>(null);
@@ -195,7 +197,7 @@ const OtherMatchDetails = () => {
   useEffect(() => {
     try {
       if (success && socket) {
-        expertSocketService.match.getMatchRatesOff(state?.id);
+        // expertSocketService.match.getMatchRatesOff(state?.id);
         socketService.user.matchResultDeclaredOff();
         socketService.user.matchResultUnDeclaredOff();
         socketService.user.matchDeleteBetOff();
@@ -206,9 +208,9 @@ const OtherMatchDetails = () => {
         socketService.user.matchResultDeclareAllUserOff();
         socketService.user.matchResultUnDeclareAllUserOff();
         expertSocketService.match.joinMatchRoom(state?.id, "expert");
-        expertSocketService.match.getMatchRates(state?.id, (event: any) => {
-          updateMatchDetailToRedux(event);
-        });
+        // expertSocketService.match.getMatchRates(state?.id, (event: any) => {
+        //   updateMatchDetailToRedux(event);
+        // });
         socketService.user.matchResultDeclared(resultDeclared);
         socketService.user.matchResultDeclareAllUser(resultDeclared);
         socketService.user.matchResultUnDeclared(resultUnDeclared);

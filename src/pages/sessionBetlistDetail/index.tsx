@@ -1,5 +1,5 @@
 import { Box, Stack } from "@mui/material";
-import { Fragment, useEffect } from "react";
+import { Fragment, useEffect, useRef, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 // import CasinoMarket2 from "../../components/matchDetails/CasinoMarket2";
@@ -41,6 +41,8 @@ import {
   updateSessionBetsPlace,
 } from "../../store/actions/match/matchAction";
 import { AppDispatch, RootState } from "../../store/store";
+import axios from "axios";
+import { baseUrls } from "../../utils/Constants";
 
 const SessionBetlistDetail = () => {
   // const intervalRef = useRef<NodeJS.Timeout | null>(null);
@@ -249,7 +251,7 @@ const SessionBetlistDetail = () => {
   useEffect(() => {
     try {
       if (success && socket) {
-        expertSocketService.match.getMatchRatesOff(state?.id);
+        // expertSocketService.match.getMatchRatesOff(state?.id);
         socketService.user.matchResultDeclaredOff();
         socketService.user.matchResultUnDeclaredOff();
         socketService.user.sessionDeleteBetOff();
@@ -259,9 +261,9 @@ const SessionBetlistDetail = () => {
         socketService.user.updateInResultDeclareOff();
         socketService.user.updateDeleteReasonOff();
         expertSocketService.match.joinMatchRoom(state?.id, "expert");
-        expertSocketService.match.getMatchRates(state?.id, (event: any) => {
-          updateMatchDetailToRedux(event);
-        });
+        // expertSocketService.match.getMatchRates(state?.id, (event: any) => {
+        //   updateMatchDetailToRedux(event);
+        // });
         // socketService.user.matchBettingStatusChange(updateBettingStatus);
         socketService.user.betVerify(updateVerifyBet);
         socketService.user.matchResultDeclared(resultDeclared);
