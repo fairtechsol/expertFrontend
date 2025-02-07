@@ -1,5 +1,5 @@
 import { Box, Stack } from "@mui/material";
-import React, { Fragment, useEffect } from "react";
+import React, { Fragment, useEffect, useRef , useCallback} from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import CasinoMarket from "../../components/matchDetails/CasinoMarket";
@@ -39,8 +39,11 @@ import {
   updateSessionBetsPlace,
 } from "../../store/actions/match/matchAction";
 import { AppDispatch, RootState } from "../../store/store";
+import axios from "axios";
+import { baseUrls } from "../../utils/Constants";
 
 const SessionMarketDetail = () => {
+  const intervalRef = useRef<NodeJS.Timeout | null>(null);
   const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
   const { state } = useLocation();
@@ -253,7 +256,7 @@ const SessionMarketDetail = () => {
   useEffect(() => {
     try {
       if (success && socket) {
-        expertSocketService.match.getMatchRatesOff(state?.id);
+        // expertSocketService.match.getMatchRatesOff(state?.id);
         socketService.user.matchResultDeclaredOff();
         socketService.user.matchResultUnDeclaredOff();
         socketService.user.sessionDeleteBetOff();
@@ -264,9 +267,9 @@ const SessionMarketDetail = () => {
         socketService.user.updateDeleteReasonOff();
         socketService.user.multiSessionUpdatedOff();
         expertSocketService.match.joinMatchRoom(state?.id, "expert");
-        expertSocketService.match.getMatchRates(state?.id, (event: any) => {
-          updateMatchDetailToRedux(event);
-        });
+        // expertSocketService.match.getMatchRates(state?.id, (event: any) => {
+        //   updateMatchDetailToRedux(event);
+        // });
         // socketService.user.matchBettingStatusChange(updateBettingStatus);
         socketService.user.matchResultDeclared(resultDeclared);
         socketService.user.matchResultUnDeclared(resultUnDeclared);
@@ -311,40 +314,123 @@ const SessionMarketDetail = () => {
     }
   }, [state?.id]);
 
-  useEffect(() => {
+  const fetchLiveData = useCallback(async () => {
     try {
-      const handleVisibilityChange = () => {
-        if (document.visibilityState === "visible") {
-          if (!socket.connected || !matchSocket.connected) {
-            socketService.connect();
-          }
-          if (state?.id) {
-            // alert("check expert session")
-            // dispatch(getMatchDetail(state?.id));
-            expertSocketService.match.joinMatchRoom(state?.id, "expert");
-            expertSocketService.match.getMatchRates(state?.id, (event: any) => {
-              updateMatchDetailToRedux(event);
-            });
-          }
-        } else if (document.visibilityState === "hidden") {
-          if (state?.id) {
-            expertSocketService.match.leaveMatchRoom(state?.id);
-            expertSocketService.match.getMatchRatesOff(state?.id);
-          }
-        }
-      };
-
-      document.addEventListener("visibilitychange", handleVisibilityChange);
-      return () => {
-        document.removeEventListener(
-          "visibilitychange",
-          handleVisibilityChange
-        );
-      };
+      const response = await axios.get(`${baseUrls.matchSocket}/getExpertRateDetails/${state?.id}`, {
+        // headers: {
+        //   Authorization: `Bearer ${sessionStorage.getItem("jwtExpert")}`,
+        // },
+      });
+      updateMatchDetailToRedux(response.data);
+      // console.log("Live Data:", response.data);
     } catch (error) {
-      console.error(error);
+      console.error("Error fetching live data:", error);
     }
   }, [state?.id]);
+
+  const handleVisibilityChange = useCallback(() => {
+    if (document.visibilityState === "visible") {
+      if (!intervalRef.current) {
+        fetchLiveData();
+        intervalRef.current = setInterval(fetchLiveData, 500);
+      }
+    } else if (document.visibilityState === "hidden") {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+        intervalRef.current = null;
+      }
+    }
+  }, [intervalRef, fetchLiveData]);
+
+  useEffect(() => {
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+    handleVisibilityChange();
+
+    return () => {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+      }
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+    };
+  }, [handleVisibilityChange]);
+
+
+  // useEffect(() => {
+  //   try {
+  //     const handleVisibilityChange = () => {
+  //       if (document.visibilityState === "visible") {
+  //         if (!socket.connected || !matchSocket.connected) {
+  //           socketService.connect();
+  //         }
+  //         if (state?.id) {
+  //           // dispatch(getMatchDetail(state?.id));
+  //           expertSocketService.match.joinMatchRoom(state?.id, "expert");
+  //           // expertSocketService.match.getMatchRates(state?.id, (event: any) => {
+  //           //   updateMatchDetailToRedux(event);
+  //           // });
+  //         }
+  //       } else if (document.visibilityState === "hidden") {
+  //         if (state?.id) {
+  //           expertSocketService.match.leaveMatchRoom(state?.id);
+  //           // expertSocketService.match.getMatchRatesOff(state?.id);
+  //         }
+  //       }
+  //     };
+
+  //     document.addEventListener("visibilitychange", handleVisibilityChange);
+  //     return () => {
+  //       document.removeEventListener(
+  //         "visibilitychange",
+  //         handleVisibilityChange
+  //       );
+  //     };
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // }, [state?.id]);
+
+
+  useEffect(() => {
+    let interval: NodeJS.Timeout | null = null;
+  
+    const fetchLiveData = async () => {
+      try {
+        const response = await axios.get(`${baseUrls.matchSocket}/getExpertRateDetails/${state?.id}`, {
+        // headers: {
+        //   Authorization: `Bearer ${sessionStorage.getItem("jwtExpert")}`, // If needed
+        // },
+      });
+      console.log("Live Data:", response.data);
+      // Update your state or store with response.data
+    } catch (error) {
+      console.error("Error fetching live data:", error);
+    }
+  };
+
+  const handleVisibilityChange = () => {
+    if (document.visibilityState === "visible") {
+      if (!interval) {
+        fetchLiveData();
+        interval = setInterval(fetchLiveData, 500); 
+      }
+    } else if (document.visibilityState === "hidden") {
+      if (interval) {
+        clearInterval(interval);
+        interval = null; 
+      }
+    }
+  };
+  handleVisibilityChange();
+
+  document.addEventListener("visibilitychange", handleVisibilityChange);
+
+  return () => {
+    if (interval) {
+      clearInterval(interval);
+    }
+    document.removeEventListener("visibilitychange", handleVisibilityChange);
+  };
+}, [state?.id]);
 
   useEffect(() => {
     try {

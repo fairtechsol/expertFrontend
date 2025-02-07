@@ -1,5 +1,5 @@
 import { Box, useMediaQuery } from "@mui/material";
-import { Fragment, memo, useEffect } from "react";
+import { Fragment, memo, useEffect, useRef, useCallback  } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import Loader from "../../components/Loader";
@@ -49,8 +49,11 @@ import OtherMatchMarket from "../../components/matchDetails/OtherMatchMarket";
 import TournamentMarket from "../../components/matchDetails/TournamentMarkets";
 import theme from "../../theme";
 import { marketArray } from "../../utils/Constants";
+import axios from "axios";
+import { baseUrls } from "../../utils/Constants";
 
 const MatchMarketDetail = () => {
+  const intervalRef = useRef<NodeJS.Timeout | null>(null);
   const { state } = useLocation();
   const navigate = useNavigate();
   const dispatch: AppDispatch = useDispatch();
@@ -287,7 +290,7 @@ const MatchMarketDetail = () => {
   useEffect(() => {
     try {
       if (success && socket) {
-        expertSocketService.match.getMatchRatesOff(state?.id);
+        // expertSocketService.match.getMatchRatesOff(state?.id);
         socketService.user.matchResultDeclaredOff();
         socketService.user.matchResultUnDeclaredOff();
         socketService.user.matchDeleteBetOff();
@@ -300,9 +303,9 @@ const MatchMarketDetail = () => {
         socketService.user.updateDeleteReasonOff();
         socketService.user.matchResultDeclareAllUserOff();
         expertSocketService.match.joinMatchRoom(state?.id, "expert");
-        expertSocketService.match.getMatchRates(state?.id, (event: any) => {
-          updateMatchDetailToRedux(event);
-        });
+        // expertSocketService.match.getMatchRates(state?.id, (event: any) => {
+        //   updateMatchDetailToRedux(event);
+        // });
         socketService.user.matchResultDeclared(resultDeclared);
         socketService.user.matchResultDeclareAllUser(resultDeclared);
         socketService.user.matchResultUnDeclared(resultUnDeclared);
@@ -349,6 +352,45 @@ const MatchMarketDetail = () => {
     }
   }, [state?.id]);
 
+  const fetchLiveData = useCallback(async () => {
+    try {
+      const response = await axios.get(`${baseUrls.matchSocket}/getExpertRateDetails/${state?.id}`, {
+        // headers: {
+        //   Authorization: `Bearer ${sessionStorage.getItem("jwtExpert")}`,
+        // },
+      });
+      updateMatchDetailToRedux(response.data);
+    } catch (error) {
+      console.error("Error fetching live data:", error);
+    }
+  }, [state?.id]);
+
+  const handleVisibilityChange = useCallback(() => {
+    if (document.visibilityState === "visible") {
+      if (!intervalRef.current) {
+        fetchLiveData();
+        intervalRef.current = setInterval(fetchLiveData, 500);
+      }
+    } else if (document.visibilityState === "hidden") {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+        intervalRef.current = null;
+      }
+    }
+  }, [intervalRef, fetchLiveData]);
+
+  useEffect(() => {
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+    handleVisibilityChange();
+
+    return () => {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+      }
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+    };
+  }, [handleVisibilityChange]);
+
   // useEffect(() => {
   //   if (matchDetail?.marketId) {
   //     let intervalTime = 500;
@@ -376,14 +418,14 @@ const MatchMarketDetail = () => {
             // dispatch(getMatchDetail(state?.id));
             dispatch(getPlacedBetsMatch(state?.id));
             expertSocketService.match.joinMatchRoom(state?.id, "expert");
-            expertSocketService.match.getMatchRates(state?.id, (event: any) => {
-              updateMatchDetailToRedux(event);
-            });
+            // expertSocketService.match.getMatchRates(state?.id, (event: any) => {
+            //   updateMatchDetailToRedux(event);
+            // });
           }
         } else if (document.visibilityState === "hidden") {
           if (state?.id) {
             expertSocketService.match.leaveMatchRoom(state?.id);
-            expertSocketService.match.getMatchRatesOff(state?.id);
+            // expertSocketService.match.getMatchRatesOff(state?.id);
           }
         }
       };
