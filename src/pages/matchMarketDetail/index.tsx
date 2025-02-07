@@ -150,6 +150,7 @@ const MatchMarketDetail = () => {
 
   const updateVerifyBet = (event: any) => {
     try {
+      console.log("event :", event)
       if (event?.matchId === state?.id) {
         dispatch(updateBetVerify(event));
       }
@@ -321,6 +322,13 @@ const MatchMarketDetail = () => {
         // expertSocketService.match.getMatchRates(state?.id, (event: any) => {
         //   updateMatchDetailToRedux(event);
         // });
+
+        socketService.user.betVerify(updateVerifyBet);
+        //  expertSocketService.match.betVerify((event: any) => {
+        //   console.log("event :", event)
+        //   // updateMatchDetailToRedux(event);
+        // });
+        
         socketService.user.matchResultDeclared(resultDeclared);
         socketService.user.matchResultDeclareAllUser(resultDeclared);
         socketService.user.matchResultUnDeclared(resultUnDeclared);

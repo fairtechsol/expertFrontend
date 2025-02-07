@@ -47,7 +47,7 @@ import axios from "axios";
 import { baseUrls } from "../../utils/Constants";
 
 const MatchDetails = () => {
-  const intervalRef = useRef<NodeJS.Timeout | null>(null);
+  const intervalRef = useRef<number | null>(null);
   const { state } = useLocation();
   const navigate = useNavigate();
   const dispatch: AppDispatch = useDispatch();
@@ -319,7 +319,7 @@ const MatchDetails = () => {
     if (document.visibilityState === "visible") {
       if (!intervalRef.current) {
         fetchLiveData();
-        intervalRef.current = setInterval(fetchLiveData, 500);
+        intervalRef.current = window.setInterval(fetchLiveData, 500) as unknown as number;
       }
     } else if (document.visibilityState === "hidden") {
       if (intervalRef.current) {
