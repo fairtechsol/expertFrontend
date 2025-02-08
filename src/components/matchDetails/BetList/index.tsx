@@ -1,10 +1,10 @@
 import { Box, Button, Typography } from "@mui/material";
 import moment from "moment";
-import { useDispatch } from "react-redux";
-import { betVerifyStatus } from "../../../store/actions/match/matchAction";
-import { AppDispatch } from "../../../store/store";
+// import { useDispatch } from "react-redux";
+// import { betVerifyStatus } from "../../../store/actions/match/matchAction";
+// import { AppDispatch } from "../../../store/store";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { ARROWUP, CHECK } from "../../../assets";
+import { ARROWUP } from "../../../assets";
 import {
   betListColorConstants
 } from "../../../utils/Constants";
@@ -16,7 +16,7 @@ const BUFFER_SIZE = 30;
 const ROW_HEIGHT = 30;
 
 const BetList = ({ tag, allBetRates, title }: any) => {
-  const dispatch: AppDispatch = useDispatch();
+  // const dispatch: AppDispatch = useDispatch();
   const [newData, setNewBets] = useState<any[]>([]);
   const [visibleImg, setVisibleImg] = useState(true);
   const scrollRef = useRef<HTMLDivElement | null>(null);
