@@ -14,6 +14,7 @@ import {
   getAllLiveTournaments,
   getExtraMarketList,
   getMatchDetail,
+  getMatchRates,
   geTournamentBetting,
   getRaceMatches,
   handleBetResultStatus,
@@ -246,6 +247,112 @@ const addMatch = createSlice({
       .addCase(editMatchReset, (state) => {
         state.success = false;
         state.matchDetail = null;
+      })
+      .addCase(getMatchRates.fulfilled,(state, action) => {
+        const {
+          apiSession,
+          apiTiedMatch,
+          apiTiedMatch2,
+          bookmaker,
+          bookmaker2,
+          marketCompleteMatch,
+          matchOdd,
+          firstHalfGoal,
+          overUnder,
+          halfTime,
+          setWinner,
+          manualTideMatch,
+          completeManual,
+          quickbookmaker,
+          other,
+          marketCompleteMatch1,
+          tournament,
+        } = action.payload;
+
+        let parsedSessionBettings = state?.matchDetail?.sessionBettings?.map(
+          (item: any) => {
+            let parsedItem = JSON.parse(item);
+            return parsedItem;
+          }
+        );
+
+        let updatedFormat = convertData(parsedSessionBettings);
+
+        let updatedSessionBettings = updateSessionBettingsItem(
+          updatedFormat,
+          apiSession
+        );
+
+        state.matchDetail = {
+          ...state.matchDetail,
+          apiSessionActive: apiSession ? true : false,
+          apiSession: apiSession,
+          firstHalfGoal,
+          overUnder,
+          halfTime,
+          apiTideMatch: apiTiedMatch,
+          apiTideMatch2: apiTiedMatch2,
+          bookmaker,
+          marketBookmaker2: bookmaker2,
+          marketCompleteMatch,
+          marketCompleteMatch1: marketCompleteMatch1,
+          matchOdd,
+          setWinner,
+          manualTiedMatch: manualTideMatch,
+          manualCompleteMatch: completeManual,
+          quickBookmaker: quickbookmaker,
+          updatedSesssionBettings: updatedSessionBettings || {},
+          other,
+          tournament: tournament,
+          // sessionBettings: state.matchDetail?.sessionBettings?.map(
+          //   (item: any) => {
+          //     const parsedItem = JSON.parse(item);
+          //     let id = parsedItem?.id;
+
+          //     const matchingApiSession = apiSession?.find(
+          //       (sessionItem: any) => sessionItem?.id === id
+          //     );
+
+          //     if (matchingApiSession) {
+          //       return JSON.stringify({
+          //         ...parsedItem,
+          //         noRate: matchingApiSession?.LayPrice1 ?? 0,
+          //         noPercent: matchingApiSession?.LaySize1 ?? 0,
+          //         yesRate: matchingApiSession?.BackPrice1 ?? 0,
+          //         yesPercent: matchingApiSession?.BackSize1 ?? 0,
+          //         activeStatus: matchingApiSession?.activeStatus,
+          //         maxBet: matchingApiSession?.max,
+          //         minBet: matchingApiSession?.min,
+          //         status: matchingApiSession?.GameStatus,
+          //         updatedAt: matchingApiSession?.updatedAt,
+          //         isComplete:
+          //           (!matchingApiSession?.LayPrice1 &&
+          //             !matchingApiSession?.LaySize1 &&
+          //             !matchingApiSession?.BackPrice1 &&
+          //             !matchingApiSession?.BackSize1) ||
+          //           matchingApiSession?.activeStatus !== "live"
+          //             ? true
+          //             : false,
+          //         showSessions: true,
+          //       });
+          //     } else {
+          //       return JSON.stringify({
+          //         ...parsedItem,
+          //         noRate: 0,
+          //         yesRate: 0,
+          //         yesPercent: 0,
+          //         noPercent: 0,
+          //         activeStatus:
+          //           parsedItem.activeStatus === "live"
+          //             ? "save"
+          //             : parsedItem.activeStatus,
+          //         isComplete: true,
+          //         showSessions: true,
+          //       });
+          //     }
+          //   }
+          // ),
+        };
       })
       .addCase(updateMatchRates.fulfilled, (state, action) => {
         const {

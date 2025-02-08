@@ -1,7 +1,7 @@
 import { createAction, createAsyncThunk } from "@reduxjs/toolkit";
 import axios, { AxiosError } from "axios";
 import service from "../../../service";
-import { ApiConstants, addMatchThirdParty } from "../../../utils/Constants";
+import { ApiConstants, addMatchThirdParty, baseUrls } from "../../../utils/Constants";
 
 export const getAllLiveTournaments = createAsyncThunk<any, string>(
   "addMatch/getAllLiveTournaments",
@@ -380,6 +380,24 @@ export const updateMatchRates = createAsyncThunk<any, any>(
     return matchDetails;
   }
 );
+
+export const getMatchRates = createAsyncThunk<any, any>(
+  "/third/match/rates",
+  async (matchId,thunkApi) => {
+    try {
+      const resp = await axios.get(
+        `${baseUrls.matchSocket}${ApiConstants.MATCH.RATES}${matchId}`
+      );
+      if (resp) {
+        return resp?.data;
+      }
+    } catch (error: any) {
+      const err = error as AxiosError;
+      return thunkApi.rejectWithValue(err.response?.status);
+    }
+  }
+);
+
 export const updateSessionAdded = createAsyncThunk<any, any>(
   "/session/added",
   async (matchDetails) => {
