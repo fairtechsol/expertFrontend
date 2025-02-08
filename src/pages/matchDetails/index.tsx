@@ -1,5 +1,5 @@
 import { Box, useMediaQuery, useTheme } from "@mui/material";
-import { memo, useEffect, useState, useRef, useCallback  } from "react";
+import { memo, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import Loader from "../../components/Loader";
@@ -42,11 +42,8 @@ import {
   updateTeamRates,
 } from "../../store/actions/match/matchAction";
 import { AppDispatch, RootState } from "../../store/store";
-import axios from "axios";
-import { baseUrls } from "../../utils/Constants";
 
 const MatchDetails = () => {
-  const intervalRef = useRef<NodeJS.Timeout | null>(null);
   const { state } = useLocation();
   const navigate = useNavigate();
   const dispatch: AppDispatch = useDispatch();
@@ -232,7 +229,7 @@ const MatchDetails = () => {
   useEffect(() => {
     try {
       if (success && socket) {
-        // expertSocketService.match.getMatchRatesOff(state?.id);
+        expertSocketService.match.getMatchRatesOff(state?.id);
         // socketService.user.matchBettingStatusChangeOff();
         socketService.user.matchResultDeclaredOff();
         socketService.user.matchResultUnDeclaredOff();
@@ -244,9 +241,9 @@ const MatchDetails = () => {
         socketService.user.sessionResultDeclaredOff();
         socketService.user.updateInResultDeclareOff();
         expertSocketService.match.joinMatchRoom(state?.id, "expert");
-        // expertSocketService.match.getMatchRates(state?.id, (event: any) => {
-        //   updateMatchDetailToRedux(event);
-        // });
+        expertSocketService.match.getMatchRates(state?.id, (event: any) => {
+          updateMatchDetailToRedux(event);
+        });
         // socketService.user.matchBettingStatusChange(updateBettingStatus);
         socketService.user.matchResultDeclared(resultDeclared);
         socketService.user.matchResultUnDeclared(resultUnDeclared);
@@ -268,7 +265,7 @@ const MatchDetails = () => {
       if (state?.id) {
         return () => {
           expertSocketService.match.leaveMatchRoom(state?.id);
-          // expertSocketService.match.getMatchRatesOff(state?.id);
+          expertSocketService.match.getMatchRatesOff(state?.id);
           // socketService.user.matchBettingStatusChangeOff();
           socketService.user.matchResultDeclaredOff();
           socketService.user.matchResultUnDeclaredOff();
@@ -286,46 +283,6 @@ const MatchDetails = () => {
     }
   }, [state?.id]);
 
-  const fetchLiveData = useCallback(async () => {
-    try {
-      const response = await axios.get(`${baseUrls.matchSocket}/getExpertRateDetails/${state?.id}`, {
-        // headers: {
-        //   Authorization: `Bearer ${sessionStorage.getItem("jwtExpert")}`,
-        // },
-      });
-      updateMatchDetailToRedux(response.data);
-      // console.log("Live Data:", response.data);
-    } catch (error) {
-      console.error("Error fetching live data:", error);
-    }
-  }, [state?.id]);
-
-  const handleVisibilityChange = useCallback(() => {
-    if (document.visibilityState === "visible") {
-      if (!intervalRef.current) {
-        fetchLiveData();
-        intervalRef.current = setInterval(fetchLiveData, 500);
-      }
-    } else if (document.visibilityState === "hidden") {
-      if (intervalRef.current) {
-        clearInterval(intervalRef.current);
-        intervalRef.current = null;
-      }
-    }
-  }, [intervalRef, fetchLiveData]);
-
-  useEffect(() => {
-    document.addEventListener("visibilitychange", handleVisibilityChange);
-    handleVisibilityChange();
-
-    return () => {
-      if (intervalRef.current) {
-        clearInterval(intervalRef.current);
-      }
-      document.removeEventListener("visibilitychange", handleVisibilityChange);
-    };
-  }, [handleVisibilityChange]);
-
   useEffect(() => {
     try {
       const handleVisibilityChange = () => {
@@ -337,7 +294,7 @@ const MatchDetails = () => {
         } else if (document.visibilityState === "hidden") {
           if (state?.id) {
             expertSocketService.match.leaveMatchRoom(state?.id);
-            // expertSocketService.match.getMatchRatesOff(state?.id);
+            expertSocketService.match.getMatchRatesOff(state?.id);
           }
         }
       };
