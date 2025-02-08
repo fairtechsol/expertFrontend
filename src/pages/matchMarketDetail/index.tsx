@@ -307,6 +307,7 @@ const MatchMarketDetail = () => {
     try {
       if (success && socket) {
         // expertSocketService.match.getMatchRatesOff(state?.id);
+        socketService.user.betVerifyOff();
         socketService.user.matchResultDeclaredOff();
         socketService.user.matchResultUnDeclaredOff();
         socketService.user.matchDeleteBetOff();
@@ -354,6 +355,7 @@ const MatchMarketDetail = () => {
           matchSocketService.leaveAllRooms();
           expertSocketService.match.leaveMatchRoom(state?.id);
           expertSocketService.match.getMatchRatesOff(state?.id);
+          socketService.user.betVerifyOff();
           socketService.user.matchResultDeclaredOff();
           socketService.user.matchResultUnDeclaredOff();
           socketService.user.matchDeleteBetOff();

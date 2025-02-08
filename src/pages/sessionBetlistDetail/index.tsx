@@ -252,6 +252,7 @@ const SessionBetlistDetail = () => {
     try {
       if (success && socket) {
         // expertSocketService.match.getMatchRatesOff(state?.id);
+        socketService.user.betVerifyOff();
         socketService.user.matchResultDeclaredOff();
         socketService.user.matchResultUnDeclaredOff();
         socketService.user.sessionDeleteBetOff();
