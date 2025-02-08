@@ -280,7 +280,7 @@ const MatchDetails = () => {
       if (state?.id) {
         return () => {
           expertSocketService.match.leaveMatchRoom(state?.id);
-          // expertSocketService.match.getMatchRatesOff(state?.id);
+          expertSocketService.match.getMatchRatesOff(state?.id);
           // socketService.user.matchBettingStatusChangeOff();
           socketService.user.betVerifyOff();
           socketService.user.matchResultDeclaredOff();
