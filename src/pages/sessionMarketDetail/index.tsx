@@ -258,7 +258,7 @@ const SessionMarketDetail = () => {
   useEffect(() => {
     try {
       if (success && socket) {
-        // expertSocketService.match.getMatchRatesOff(state?.id);
+        expertSocketService.match.getMatchRatesOff(state?.id);
         socketService.user.matchResultDeclaredOff();
         socketService.user.matchResultUnDeclaredOff();
         socketService.user.sessionDeleteBetOff();
@@ -269,9 +269,9 @@ const SessionMarketDetail = () => {
         socketService.user.updateDeleteReasonOff();
         socketService.user.multiSessionUpdatedOff();
         expertSocketService.match.joinMatchRoom(state?.id, "expert");
-        // expertSocketService.match.getMatchRates(state?.id, (event: any) => {
-        //   updateMatchDetailToRedux(event);
-        // });
+        expertSocketService.match.getMatchRates(state?.id, (event: any) => {
+          updateMatchDetailToRedux(event);
+        });
         // socketService.user.matchBettingStatusChange(updateBettingStatus);
         socketService.user.matchResultDeclared(resultDeclared);
         socketService.user.matchResultUnDeclared(resultUnDeclared);
