@@ -260,7 +260,7 @@ const matchList = createSlice({
           item.betId === action?.payload ? { ...item, result: "WIN" } : item
         );
       })
-      .addCase(betVerifyStatus.fulfilled, (state, action) => {
+      .addCase(betVerifyStatus.fulfilled, (state) => {
         state.loading = false;
         state.success = true;
       })
