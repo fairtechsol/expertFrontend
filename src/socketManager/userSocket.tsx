@@ -63,6 +63,9 @@ export const userSocketService = {
   updateDeleteReason: (callback: any) => {
     socket?.on("updateDeleteReason", callback);
   },
+  betVerify: (callback: any) => {
+    socket?.on(`verifyBet`, callback);
+  },
   matchBettingMinMaxChange: (callback: any) => {
     socket?.on("matchBettingMinMaxChange", callback);
   },
@@ -110,6 +113,9 @@ export const userSocketService = {
   },
   updateDeleteReasonOff: () => {
     socket?.off("updateDeleteReason");
+  },
+  betVerifyOff: () => {
+    socket?.off("verifyBet");
   },
   matchResultDeclareAllUserOff: () => {
     socket?.off("matchResultDeclareAllUser");

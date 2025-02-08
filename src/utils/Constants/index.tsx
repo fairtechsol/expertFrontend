@@ -34,6 +34,7 @@ export const ApiConstants = {
     GET_RACE_MATCH: "match/racing",
     GET_TOURNAMENT: "matchBeting/tournament/",
     GET_RATE: "getExpertRateDetails/",
+     BET_VERIFY: "bet/verify",
   },
   USER: {
     CHANGEPASSWORD: "user/password",

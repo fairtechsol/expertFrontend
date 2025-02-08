@@ -21,6 +21,8 @@ import {
   raceLiveStatus,
   removeBetByBetId,
   addStatusBetByBetId,
+  betVerifyStatus,
+  updateBetVerify,
   resetContryCodeList,
   resetMatchListDropdown,
   resetMatchListSessionProLoss,
@@ -256,6 +258,17 @@ const matchList = createSlice({
         state.success = true;
         state.placedBetsMatch = state.placedBetsMatch?.map((item: any) =>
           item.betId === action?.payload ? { ...item, result: "WIN" } : item
+        );
+      })
+      .addCase(betVerifyStatus.fulfilled, (state, action) => {
+        state.loading = false;
+        state.success = true;
+      })
+      .addCase(updateBetVerify.fulfilled, (state, action) => {
+        state.placedBetsMatch = state.placedBetsMatch?.map((item: any) =>
+          item.id === action?.payload.id
+            ? { ...item, isVerified: action.payload.isVerified, verifyBy: action.payload.verifyBy }
+            : item
         );
       })
       .addCase(getPlacedBetsForSessionDetail.pending, (state) => {

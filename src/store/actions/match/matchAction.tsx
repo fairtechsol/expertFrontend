@@ -165,6 +165,33 @@ export const addStatusBetByBetId = createAsyncThunk<any, any>(
   }
 );
 
+export const betVerifyStatus = createAsyncThunk<any, any>(
+  "bet/verify",
+  async (requestData, thunkApi) => {
+    try {
+      const { betId, ...data } = requestData;
+      console.log("payload :", data)
+      const response = await service.post(
+        `${ApiConstants.MATCH.BET_VERIFY}`,
+        data
+      );
+      if (response) {
+        return response?.data;
+      }
+    } catch (error) {
+      const err = error as AxiosError;
+      return thunkApi.rejectWithValue(err.response?.status);
+    }
+  }
+);
+
+export const updateBetVerify = createAsyncThunk<any, SessionById>(
+  "update/bet/verify",
+  async (requestData) => {
+    return requestData;
+  }
+);
+
 export const getPlacedBetsForSessionDetail = createAsyncThunk<any, any>(
   "placedBets/sessionDetail",
   async (requestData, thunkApi) => {

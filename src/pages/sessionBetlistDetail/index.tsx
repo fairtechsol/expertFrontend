@@ -1,5 +1,5 @@
 import { Box, Stack } from "@mui/material";
-import { Fragment, useEffect } from "react";
+import { Fragment, useEffect, useRef, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 // import CasinoMarket2 from "../../components/matchDetails/CasinoMarket2";
@@ -32,6 +32,7 @@ import {
   getPlacedBetsForSessionDetail,
   getSessionProfitLossMatchDetailReset,
   addStatusBetByBetId,
+  updateBetVerify,
   updateDeletedBetReasonOnEdit,
   updateMatchBetsReason,
   updateMaxLoss,
@@ -40,6 +41,8 @@ import {
   updateSessionBetsPlace,
 } from "../../store/actions/match/matchAction";
 import { AppDispatch, RootState } from "../../store/store";
+import axios from "axios";
+import { baseUrls } from "../../utils/Constants";
 
 const SessionBetlistDetail = () => {
   // const intervalRef = useRef<NodeJS.Timeout | null>(null);
@@ -124,6 +127,16 @@ const SessionBetlistDetail = () => {
       console.log(e);
     }
   };
+
+  const updateVerifyBet = (event: any) => {
+      try {
+        if (event?.matchId === state?.id) {
+          dispatch(updateBetVerify(event));
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    };
 
   const updateSessionResultDeclared = (event: any) => {
     try {
@@ -239,6 +252,7 @@ const SessionBetlistDetail = () => {
     try {
       if (success && socket) {
         expertSocketService.match.getMatchRatesOff(state?.id);
+        socketService.user.betVerifyOff();
         socketService.user.matchResultDeclaredOff();
         socketService.user.matchResultUnDeclaredOff();
         socketService.user.sessionDeleteBetOff();
@@ -252,6 +266,7 @@ const SessionBetlistDetail = () => {
           updateMatchDetailToRedux(event);
         });
         // socketService.user.matchBettingStatusChange(updateBettingStatus);
+        socketService.user.betVerify(updateVerifyBet);
         socketService.user.matchResultDeclared(resultDeclared);
         socketService.user.matchResultUnDeclared(resultUnDeclared);
         socketService.user.sessionDeleteBet(matchDeleteBet);
@@ -276,6 +291,7 @@ const SessionBetlistDetail = () => {
           expertSocketService.match.leaveMatchRoom(state?.id);
           expertSocketService.match.getMatchRatesOff(state?.id);
           // socketService.user.matchBettingStatusChangeOff();
+          socketService.user.betVerifyOff();
           socketService.user.matchResultDeclaredOff();
           socketService.user.matchResultUnDeclaredOff();
           socketService.user.sessionDeleteBetOff();
@@ -334,39 +350,39 @@ const SessionBetlistDetail = () => {
   //   };
   // }, [handleVisibilityChange]);
 
-  // useEffect(() => {
-  //   try {
-  //     const handleVisibilityChange = () => {
-  //       if (document.visibilityState === "visible") {
-  //         if (!socket.connected || !matchSocket.connected) {
-  //           socketService.connect();
-  //         }
-  //         if (state?.id) {
-  //           // dispatch(getMatchDetail(state?.id));
-  //           expertSocketService.match.joinMatchRoom(state?.id, "expert");
-  //           // expertSocketService.match.getMatchRates(state?.id, (event: any) => {
-  //           //   updateMatchDetailToRedux(event);
-  //           // });
-  //         }
-  //       } else if (document.visibilityState === "hidden") {
-  //         if (state?.id) {
-  //           expertSocketService.match.leaveMatchRoom(state?.id);
-  //           // expertSocketService.match.getMatchRatesOff(state?.id);
-  //         }
-  //       }
-  //     };
+  useEffect(() => {
+    try {
+      const handleVisibilityChange = () => {
+        if (document.visibilityState === "visible") {
+          if (!socket.connected || !matchSocket.connected) {
+            socketService.connect();
+          }
+          if (state?.id) {
+            // dispatch(getMatchDetail(state?.id));
+            expertSocketService.match.joinMatchRoom(state?.id, "expert");
+            // expertSocketService.match.getMatchRates(state?.id, (event: any) => {
+            //   updateMatchDetailToRedux(event);
+            // });
+          }
+        } else if (document.visibilityState === "hidden") {
+          if (state?.id) {
+            expertSocketService.match.leaveMatchRoom(state?.id);
+            // expertSocketService.match.getMatchRatesOff(state?.id);
+          }
+        }
+      };
 
-  //     document.addEventListener("visibilitychange", handleVisibilityChange);
-  //     return () => {
-  //       document.removeEventListener(
-  //         "visibilitychange",
-  //         handleVisibilityChange
-  //       );
-  //     };
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // }, [state?.id]);
+      document.addEventListener("visibilitychange", handleVisibilityChange);
+      return () => {
+        document.removeEventListener(
+          "visibilitychange",
+          handleVisibilityChange
+        );
+      };
+    } catch (error) {
+      console.error(error);
+    }
+  }, [state?.id]);
 
   useEffect(() => {
     try {
