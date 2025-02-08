@@ -114,6 +114,9 @@ export const userSocketService = {
   updateDeleteReasonOff: () => {
     socket?.off("updateDeleteReason");
   },
+  betVerifyOff: () => {
+    socket?.off("verifyBet");
+  },
   matchResultDeclareAllUserOff: () => {
     socket?.off("matchResultDeclareAllUser");
   },

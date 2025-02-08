@@ -33,6 +33,7 @@ import {
   getPlacedBetsMatch,
   getSessionProfitLossMatchDetailReset,
   addStatusBetByBetId,
+  updateBetVerify,
   updateMatchBetsPlace,
   updateMatchBetsReason,
   updateMaxLoss,
@@ -128,6 +129,16 @@ const MatchDetails = () => {
       console.log(e);
     }
   };
+
+  const updateVerifyBet = (event: any) => {
+      try {
+        if (event?.matchId === state?.id) {
+          dispatch(updateBetVerify(event));
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    };
 
   const updateSessionResultDeclared = (event: any) => {
     try {
@@ -235,6 +246,7 @@ const MatchDetails = () => {
       if (success && socket) {
         // expertSocketService.match.getMatchRatesOff(state?.id);
         // socketService.user.matchBettingStatusChangeOff();
+        socketService.user.betVerifyOff();
         socketService.user.matchResultDeclaredOff();
         socketService.user.matchResultUnDeclaredOff();
         socketService.user.matchDeleteBetOff();
@@ -249,6 +261,7 @@ const MatchDetails = () => {
         //   updateMatchDetailToRedux(event);
         // });
         // socketService.user.matchBettingStatusChange(updateBettingStatus);
+        socketService.user.betVerify(updateVerifyBet);
         socketService.user.matchResultDeclared(resultDeclared);
         socketService.user.matchResultUnDeclared(resultUnDeclared);
         socketService.user.matchDeleteBet(matchDeleteBet);
@@ -271,6 +284,7 @@ const MatchDetails = () => {
           expertSocketService.match.leaveMatchRoom(state?.id);
           // expertSocketService.match.getMatchRatesOff(state?.id);
           // socketService.user.matchBettingStatusChangeOff();
+          socketService.user.betVerifyOff();
           socketService.user.matchResultDeclaredOff();
           socketService.user.matchResultUnDeclaredOff();
           socketService.user.matchDeleteBetOff();
