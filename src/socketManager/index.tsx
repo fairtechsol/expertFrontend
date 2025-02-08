@@ -10,10 +10,10 @@ export let socket: any = null;
 export const initialiseSocket = () => {
   matchSocket = io(baseUrls.matchSocket, {
     transports: [
-      process.env.NODE_ENV === "production"
-        ? `${Constants.POLLING}`
-        : 
-        `${Constants.WEBSOCKET}`,
+      // process.env.NODE_ENV === "production"
+      //   ? `${Constants.POLLING}`
+      //   : 
+        `${Constants.WEBSOCKET}`,`${Constants.POLLING}`
     ],
     auth: {
       token: `${sessionStorage.getItem("jwtExpert")}`,
@@ -22,7 +22,7 @@ export const initialiseSocket = () => {
     reconnectionDelay: 5000,
   });
   socket = io(baseUrls.expertSocket, {
-    transports: ["websocket"],
+    transports: [ `${Constants.WEBSOCKET}`,`${Constants.POLLING}`],
     auth: {
       token: `${sessionStorage.getItem("jwtExpert")}`,
     },
