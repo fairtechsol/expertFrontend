@@ -411,7 +411,7 @@ const BetList = ({ tag, allBetRates, title }: any) => {
                       </Typography>
                     </Box>
 
-                    <Box
+                    {/* <Box
                       sx={{
                         width: { lg: "4%", xs: "6%" },
                         border: "1px solid white",
@@ -458,7 +458,7 @@ const BetList = ({ tag, allBetRates, title }: any) => {
                       )}
                     </Box>
                       </Typography>
-                    </Box>
+                    </Box> */}
                     <Row index={k + visibleRange.start} values={i?.values} />
                     {i?.values?.[0]?.deleteReason && (
                       <Box
@@ -513,7 +513,7 @@ const BetList = ({ tag, allBetRates, title }: any) => {
                       >
                       </Box>
                     )}
-                    {i?.values?.[0]?.verifyBy && (
+                    {/* {i?.values?.[0]?.verifyBy && (
                      <Box
                         sx={{
                           background: "rgba(42,133,4,0.5)",
@@ -550,7 +550,7 @@ const BetList = ({ tag, allBetRates, title }: any) => {
                           </Box>
                         </Box>
                       </Box>
-                    )}
+                    )} */}
                     
                   </div>
                 );
