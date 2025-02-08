@@ -411,7 +411,7 @@ const BetList = ({ tag, allBetRates, title }: any) => {
                       </Typography>
                     </Box>
 
-                    <Box
+                    {/* <Box
                       sx={{
                         width: { lg: "4%", xs: "6%" },
                         border: "1px solid white",
@@ -458,7 +458,7 @@ const BetList = ({ tag, allBetRates, title }: any) => {
                       )}
                     </Box>
                       </Typography>
-                    </Box>
+                    </Box> */}
                     <Row index={k + visibleRange.start} values={i?.values} />
                     {i?.values?.[0]?.deleteReason && (
                       <Box
