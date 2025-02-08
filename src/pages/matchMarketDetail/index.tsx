@@ -50,8 +50,6 @@ import OtherMatchMarket from "../../components/matchDetails/OtherMatchMarket";
 import TournamentMarket from "../../components/matchDetails/TournamentMarkets";
 import theme from "../../theme";
 import { marketArray } from "../../utils/Constants";
-// import axios from "axios";
-// import { baseUrls } from "../../utils/Constants";
 
 const MatchMarketDetail = () => {
   // const intervalRef = useRef<NodeJS.Timeout | null>(null);

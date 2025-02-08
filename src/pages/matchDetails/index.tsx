@@ -1,5 +1,5 @@
 import { Box, useMediaQuery, useTheme } from "@mui/material";
-import { memo, useEffect, useState, useRef, useCallback  } from "react";
+import { memo, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import Loader from "../../components/Loader";
@@ -43,11 +43,9 @@ import {
   updateTeamRates,
 } from "../../store/actions/match/matchAction";
 import { AppDispatch, RootState } from "../../store/store";
-import axios from "axios";
-import { baseUrls } from "../../utils/Constants";
 
 const MatchDetails = () => {
-  const intervalRef = useRef<number | null>(null);
+  // const intervalRef = useRef<number | null>(null);
   const { state } = useLocation();
   const navigate = useNavigate();
   const dispatch: AppDispatch = useDispatch();

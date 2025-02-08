@@ -40,8 +40,6 @@ import { getOtherGamesMatchDetail } from "../../store/actions/otherGamesAction/m
 import { AppDispatch, RootState } from "../../store/store";
 import { marketArray } from "../../utils/Constants";
 import ManualMarket from "../manualMarket";
-import axios from "axios";
-import { baseUrls } from "../../utils/Constants";
 
 const OtherMatchDetails = () => {
   // const intervalRef = useRef<NodeJS.Timeout | null>(null);
