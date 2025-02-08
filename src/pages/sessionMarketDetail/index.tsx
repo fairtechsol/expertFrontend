@@ -39,8 +39,6 @@ import {
   updateSessionBetsPlace,
 } from "../../store/actions/match/matchAction";
 import { AppDispatch, RootState } from "../../store/store";
-import axios from "axios";
-import { baseUrls } from "../../utils/Constants";
 
 const SessionMarketDetail = () => {
   // const intervalRef = useRef<NodeJS.Timeout | null>(null);
