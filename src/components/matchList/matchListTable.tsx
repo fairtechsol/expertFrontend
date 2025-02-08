@@ -125,7 +125,7 @@ const MatchListTable = (props: any) => {
               ? "#FFE094"
               : "#a6d482",
             alignItems: { xs: "stretch", md: "center" },
-            borderTop: "2px solid white",
+            borderTop: "1px solid white",
           },
         ]}
       >
@@ -220,7 +220,7 @@ const MatchListTable = (props: any) => {
               },
               order: { xs: "1", sm: "2", md: "3" },
               // width: { lg: "66%", xs: "100%", sm: "auto" },
-              py: { xs: 1, sm: 0 },
+              // py: { xs: 1, sm: 0 },// remove top and bottom padding
               // px: "10px",
               // overflow: "hidden",
               display: showUserModal && !matchesMobile ? "none" : "flex",
@@ -309,7 +309,8 @@ const MatchListTable = (props: any) => {
                       // marginLeft: { xs: "1%", sm: "10px" },
                       // marginBottom: { xs: "1%", sm: "10px" },
                       // gap: 0.5,
-                      margin: "5px",
+                      // margin: "5px",
+                      margin: { xs: "2px", sm: "2px", md: "5px", lg: "5px" },
                     }}
                     onClick={() => {
                       navigate(`/expert/sessionBetList`, {
@@ -329,7 +330,8 @@ const MatchListTable = (props: any) => {
                       // marginLeft: { xs: "1%", sm: "10px" },
                       // marginBottom: { xs: "1%", sm: "10px" },
                       // gap: 0.5,
-                      margin: "5px",
+                      // margin: "5px",
+                      margin: { xs: "2px", sm: "2px", md: "5px", lg: "5px" },
                     }}
                     onClick={() => {
                       navigate(`/expert/session`, {
@@ -384,7 +386,8 @@ const MatchListTable = (props: any) => {
                     // marginLeft: { xs: "1%", sm: "10px" },
                     // marginBottom: { xs: "1%", sm: "10px" },
                     // gap: 0.5,
-                    margin: "5px",
+                    // margin: "5px",
+                    margin: { xs: "2px", sm: "2px", md: "5px", lg: "5px" },
                   }}
                   onClick={() => {
                     if (["cricket", "politics"].includes(data?.matchType)) {
@@ -407,7 +410,8 @@ const MatchListTable = (props: any) => {
                     // minWidth: { xs: "40%", sm: "100px" },
                     // width: { xs: "40%", sm: "100px" },
                     // gap: 0.5,
-                    margin: "5px",
+                    // margin: "5px",
+                    margin: { xs: "2px", sm: "2px", md: "5px", lg: "5px" },
                     // marginLeft: { xs: "1%", sm: "10px" },
                     // marginBottom: { xs: "1%", sm: "10px" },
                   }}
