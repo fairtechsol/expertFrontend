@@ -31,6 +31,7 @@ import {
   getSessionProfitLossMatchDetailReset,
   updateDeletedBetReasonOnEdit,
   updateMatchBetsPlace,
+  updateBetVerify,
   updateMatchBetsReason,
   updateResultBoxStatus,
   updateResultStatusOfMatch,
@@ -84,6 +85,17 @@ const OtherMatchDetails = () => {
       console.log(e);
     }
   };
+
+  const updateVerifyBet = (event: any) => {
+        try {
+          if (event?.matchId === state?.id) {
+            dispatch(updateBetVerify(event));
+          }
+        } catch (e) {
+          console.log(e);
+        }
+      };
+
   const resultUnDeclared = (event: any) => {
     try {
       if (event?.matchId === state?.id) {
@@ -209,6 +221,7 @@ const OtherMatchDetails = () => {
         expertSocketService.match.getMatchRates(state?.id, (event: any) => {
           updateMatchDetailToRedux(event);
         });
+        socketService.user.betVerify(updateVerifyBet);
         socketService.user.matchResultDeclared(resultDeclared);
         socketService.user.matchResultDeclareAllUser(resultDeclared);
         socketService.user.matchResultUnDeclared(resultUnDeclared);
