@@ -1,13 +1,17 @@
-import { Box, Button, Typography } from "@mui/material";
+import { Box, Button, Popover, Typography } from "@mui/material";
 import moment from "moment";
 // import { useDispatch } from "react-redux";
 // import { betVerifyStatus } from "../../../store/actions/match/matchAction";
 // import { AppDispatch } from "../../../store/store";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { ARROWUP } from "../../../assets";
 import {
-  betListColorConstants
-} from "../../../utils/Constants";
+  declareFinalMatchResult,
+  unDeclareFinalMatchResult,
+} from "../../../store/actions/match/matchDeclareActions";
+import { AppDispatch, RootState } from "../../../store/store";
+import { betListColorConstants } from "../../../utils/Constants";
 import { formatToINR } from "../../helper";
 import Row from "./Row";
 
@@ -15,8 +19,9 @@ const ITEMS_PER_PAGE = 100;
 const BUFFER_SIZE = 30;
 const ROW_HEIGHT = 30;
 
-const BetList = ({ tag, allBetRates, title }: any) => {
-  // const dispatch: AppDispatch = useDispatch();
+const BetList = ({ tag, allBetRates, title, isMatchDeclare }: any) => {
+  const dispatch: AppDispatch = useDispatch();
+  
   const [newData, setNewBets] = useState<any[]>([]);
   const [visibleImg, setVisibleImg] = useState(true);
   const scrollRef = useRef<HTMLDivElement | null>(null);
@@ -25,6 +30,23 @@ const BetList = ({ tag, allBetRates, title }: any) => {
     start: 0,
     end: ITEMS_PER_PAGE,
   });
+
+  const [anchorEl, setAnchorEl] = useState(null);
+
+  const handleOpen = (event) => setAnchorEl(event.currentTarget);
+  const handleClose = () => setAnchorEl(null);
+
+  const handleConfirm = () => {
+    if (matchDetail?.stopAt) {
+      dispatch(unDeclareFinalMatchResult({ matchId: matchDetail?.id }));
+    }
+    dispatch(declareFinalMatchResult({ matchId: matchDetail?.id }));
+    handleClose();
+  };
+
+  const { matchDetail } = useSelector(
+    (state: RootState) => state.addMatch.addMatch
+  );
 
   const scrollToTop = () => {
     if (scrollRef.current) {
@@ -298,6 +320,59 @@ const BetList = ({ tag, allBetRates, title }: any) => {
           >
             {`All Bets${title ? ` (${title})` : ""}`}
           </Typography>
+          {isMatchDeclare && (
+        <Box onClick={handleOpen} sx={{ zIndex: 2, cursor: "pointer" }}>
+          <Box
+            sx={{
+              display: "flex",
+              marginX: "2px",
+              justifyContent: "center",
+              paddingX: 0.5,
+              alignItems: "center",
+              height: "18px",
+              background: matchDetail?.stopAt ? "red" : "white",
+              borderRadius: "2px",
+            }}
+          >
+            <Typography
+              sx={{
+                fontSize: { lg: "8px", xs: "6px" },
+                fontWeight: "600",
+                color: matchDetail?.stopAt ? "white" : "#0B4F26",
+              }}
+            >
+              {matchDetail?.stopAt ? "Final Result Un Declare" : "Final Result Declare"}
+            </Typography>
+          </Box>
+        </Box>
+      )}
+
+      {/* Dialog Component */}
+      <Popover
+        open={Boolean(anchorEl)}
+        anchorEl={anchorEl}
+        onClose={handleClose}
+        anchorOrigin={{
+          vertical: "bottom",
+          horizontal: "right",
+        }}
+        transformOrigin={{
+          vertical: "top",
+          horizontal: "right",
+        }}
+      >
+        <Box sx={{ padding: 2, textAlign: "center" }}>
+          <Typography>
+            {`Are you sure you want to ${matchDetail?.stopAt ? "Un Declare" : "Declare"} the final result?`}
+          </Typography>
+          <Box sx={{ display: "flex", justifyContent: "space-between", marginTop: 1 }}>
+            <Button onClick={handleClose} color="error" size="small" variant="contained" >Cancel</Button>
+            <Button onClick={handleConfirm} color="primary" variant="contained" size="small">
+              {matchDetail?.stopAt ? "Un Declare" : "Declare"}
+            </Button>
+          </Box>
+        </Box>
+      </Popover>
         </Box>
         <Box
           sx={{
