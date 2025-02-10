@@ -289,7 +289,6 @@ const MatchMarketDetail = () => {
   });
 
   useEffect(() => {
-    // alert("match")
     try {
       if (state?.id) {
         dispatch(getSessionProfitLossMatchDetailReset());
