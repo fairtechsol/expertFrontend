@@ -55,7 +55,7 @@ const CustomButton = ({
           height: "35px",
           //minWidth: "80px",
           minWidth: { lg: "90px", md: "80px", sm: 0, xs: 0 },
-          padding: { xs: "5px", sm: "5px", md: 0, lg: 0 },
+          padding: { xs: "6px", sm: "6px", md: 0, lg: 0 },
           // marginLeft: "10px",
           borderRadius: "5px",
           background: bgColor ? bgColor : "#0B4F26",

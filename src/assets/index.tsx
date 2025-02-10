@@ -52,3 +52,4 @@ export { default as Cricket } from "./images/cricket.png";
 export { default as Tennis } from "./images/tennis.png";
 export { default as WALLET } from "./images/wallet.webp";
 export { default as POLITICS } from "./images/politics.png";
+export { default as CHECK } from "./images/check.png";

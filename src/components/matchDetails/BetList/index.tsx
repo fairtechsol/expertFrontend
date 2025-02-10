@@ -1,5 +1,8 @@
 import { Box, Button, Popover, Typography } from "@mui/material";
 import moment from "moment";
+// import { useDispatch } from "react-redux";
+// import { betVerifyStatus } from "../../../store/actions/match/matchAction";
+// import { AppDispatch } from "../../../store/store";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ARROWUP } from "../../../assets";
@@ -19,7 +22,6 @@ const ROW_HEIGHT = 30;
 const BetList = ({ tag, allBetRates, title, isMatchDeclare }: any) => {
   const dispatch: AppDispatch = useDispatch();
   
-
   const [newData, setNewBets] = useState<any[]>([]);
   const [visibleImg, setVisibleImg] = useState(true);
   const scrollRef = useRef<HTMLDivElement | null>(null);
@@ -103,8 +105,13 @@ const BetList = ({ tag, allBetRates, title, isMatchDeclare }: any) => {
             ? betListColorConstants.tournament.background
             : "#319E5B",
           deleteReason: v?.deleteReason,
+          result: v?.result,
+          isVerified: v?.isVerified,
           width: { lg: "16%", xs: "50%" },
           domain: v?.domain,
+          verifyBy:  v?.verifyBy,
+          id: v?.id,
+          matchId: v?.matchId,
           isCommissionActive: v?.isCommissionActive,
         },
         {
@@ -139,6 +146,8 @@ const BetList = ({ tag, allBetRates, title, isMatchDeclare }: any) => {
             ? betListColorConstants.tournament.background
             : "#319E5B",
           deleteReason: v?.deleteReason,
+          result: v?.result,
+          verifyBy:  v?.verifyBy,
           width: { lg: "10%", xs: "35%" },
           overflowWrap: "anywhere",
         },
@@ -149,6 +158,8 @@ const BetList = ({ tag, allBetRates, title, isMatchDeclare }: any) => {
             ? "#B3E0FF"
             : "rgb(255, 146, 146)",
           deleteReason: v?.deleteReason,
+          result: v?.result,
+          verifyBy:  v?.verifyBy,
           width: { lg: "28%", xs: "50%" },
           overflowWrap: "anywhere",
           textAlign: "center",
@@ -162,6 +173,8 @@ const BetList = ({ tag, allBetRates, title, isMatchDeclare }: any) => {
             : "rgb(255, 146, 146)",
           small: true,
           deleteReason: v?.deleteReason,
+          result: v?.result,
+          verifyBy:  v?.verifyBy,
           width: { lg: "7%", xs: "25%" },
           fSize: "13px",
           lHeight: 1,
@@ -178,6 +191,8 @@ const BetList = ({ tag, allBetRates, title, isMatchDeclare }: any) => {
             : "rgb(255, 146, 146)",
           small: true,
           deleteReason: v?.deleteReason,
+          result: v?.result,
+          verifyBy:  v?.verifyBy,
           width: { lg: "7%", xs: "25%" },
         },
         {
@@ -187,6 +202,8 @@ const BetList = ({ tag, allBetRates, title, isMatchDeclare }: any) => {
             ? "#B3E0FF"
             : "rgb(255, 146, 146)",
           deleteReason: v?.deleteReason,
+          result: v?.result,
+          verifyBy:  v?.verifyBy,
           width: { lg: "10%", xs: "35%" },
           fSize: "12px",
         },
@@ -197,6 +214,8 @@ const BetList = ({ tag, allBetRates, title, isMatchDeclare }: any) => {
           color: "white",
           background: "#0B4F26",
           deleteReason: v?.deleteReason,
+          result: v?.result,
+          verifyBy:  v?.verifyBy,
           width: { lg: "12%", xs: "35%" },
         },
         {
@@ -208,6 +227,8 @@ const BetList = ({ tag, allBetRates, title, isMatchDeclare }: any) => {
           time: true,
           date: moment.utc(v?.createdAt).utcOffset("+05:30").format("L"),
           deleteReason: v?.deleteReason,
+          result: v?.result,
+          verifyBy:  v?.verifyBy,
           width: { lg: "11%", xs: "45%" },
         },
       ],
@@ -233,6 +254,7 @@ const BetList = ({ tag, allBetRates, title, isMatchDeclare }: any) => {
   }, [handleScroll]);
   // Calculate visible items
   const visibleItems = useMemo(() => {
+    // console.log("newData :", newData)
     return newData.slice(visibleRange.start, visibleRange.end);
   }, [newData, visibleRange]);
 
@@ -463,6 +485,55 @@ const BetList = ({ tag, allBetRates, title, isMatchDeclare }: any) => {
                         {num < 10 ? "0" + num : num.toString()}
                       </Typography>
                     </Box>
+
+                    {/* <Box
+                      sx={{
+                        width: { lg: "4%", xs: "6%" },
+                        border: "1px solid white",
+                        background: "black",
+                        height: "30px",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        display: "flex",
+                      }}
+                    >
+                      <Typography
+                        sx={{
+                          fontSize: !tag ? "10px" : "11px",
+                          fontWeight: tag ? "bold" : "600",
+                          color: "white",
+                        }}
+                      >
+                       
+                    <Box sx={{}}>
+                    {i?.values?.[0]?.isVerified ? (<img onClick={() => {
+                      dispatch(betVerifyStatus({ 
+                        matchId: i?.values?.[0]?.matchId,
+                        isVerified: false, 
+                        id: i?.values?.[0]?.id, 
+                        domain: i?.values?.[0]?.domain
+                        })); 
+                                  }} src={CHECK} style={{ width: "28px", height: "28px", marginTop:5 }} />
+                    ) : (
+                      <Typography onClick={() => { 
+                        dispatch(betVerifyStatus({ 
+                          matchId: i?.values?.[0]?.matchId,
+                          isVerified: true, 
+                          id: i?.values?.[0]?.id, 
+                          domain: i?.values?.[0]?.domain
+                          })); 
+                        }} 
+                        sx={{ 
+                          width: "20px", 
+                          height: "20px", 
+                          borderRadius: "50%", 
+                          backgroundColor: "white",
+                           border: "1px solid #ccc"
+                        }} />
+                      )}
+                    </Box>
+                      </Typography>
+                    </Box> */}
                     <Row index={k + visibleRange.start} values={i?.values} />
                     {i?.values?.[0]?.deleteReason && (
                       <Box
@@ -505,6 +576,57 @@ const BetList = ({ tag, allBetRates, title, isMatchDeclare }: any) => {
                         </Box>
                       </Box>
                     )}
+                    {i?.values?.[0]?.result && ["LOSS", "WIN"].includes(i.values[0].result) && (
+                     <Box
+                        sx={{
+                          background: "rgba(0,0,0,0.5)",
+                          width: "100%",
+                          height: "30px",
+                          position: "absolute",
+                          display: "flex",
+                        }}
+                      >
+                      </Box>
+                    )}
+                    {/* {i?.values?.[0]?.verifyBy && (
+                     <Box
+                        sx={{
+                          background: "rgba(42,133,4,0.5)",
+                          width: "100%",
+                          height: "30px",
+                          position: "absolute",
+                          display: "flex",
+                        }}
+                      >
+                        <Box sx={{ flex: 1, display: "flex" }}>
+                          <Box
+                            sx={{
+                              width: "46%",
+                              height: "25px",
+                              display: "flex",
+                              justifyContent: "center",
+                              alignItems: "flex-end",
+                            }}
+                          >
+                            {
+                              <Typography
+                                sx={{
+                                  fontSize: "10px",
+                                  fontWeight: "700",
+                                  color: "white",
+                                  textTransform: "uppercase",
+                                }}
+                              >
+                                <span style={{ color: "#e41b23" }}>
+                                {i?.values?.[0]?.verifyBy}
+                                </span>
+                              </Typography>
+                            }
+                          </Box>
+                        </Box>
+                      </Box>
+                    )} */}
+                    
                   </div>
                 );
               })}

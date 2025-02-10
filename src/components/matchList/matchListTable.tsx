@@ -310,7 +310,7 @@ const MatchListTable = (props: any) => {
                       // marginBottom: { xs: "1%", sm: "10px" },
                       // gap: 0.5,
                       // margin: "5px",
-                      margin: "1px 1px 0px 1px"
+                      margin: { xs: "2px", sm: "2px", md: "5px", lg: "5px" },
                     }}
                     onClick={() => {
                       navigate(`/expert/sessionBetList`, {
@@ -330,7 +330,8 @@ const MatchListTable = (props: any) => {
                       // marginLeft: { xs: "1%", sm: "10px" },
                       // marginBottom: { xs: "1%", sm: "10px" },
                       // gap: 0.5,
-                      margin: "5px",
+                      // margin: "5px",
+                      margin: { xs: "2px", sm: "2px", md: "5px", lg: "5px" },
                     }}
                     onClick={() => {
                       navigate(`/expert/session`, {
@@ -385,7 +386,8 @@ const MatchListTable = (props: any) => {
                     // marginLeft: { xs: "1%", sm: "10px" },
                     // marginBottom: { xs: "1%", sm: "10px" },
                     // gap: 0.5,
-                    margin: "5px",
+                    // margin: "5px",
+                    margin: { xs: "2px", sm: "2px", md: "5px", lg: "5px" },
                   }}
                   onClick={() => {
                     if (["cricket", "politics"].includes(data?.matchType)) {

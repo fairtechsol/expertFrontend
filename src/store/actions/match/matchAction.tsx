@@ -128,13 +128,18 @@ export const getPlacedBetsMatch = createAsyncThunk<any, any>(
   "placedBets/match",
   async (requestData, thunkApi) => {
     try {
+      // const response = await service.get(
+      //   `${
+      //     ApiConstants.MATCH.GET_BETS
+      //   }?betPlaced.matchId=${requestData}&result=inArr${JSON.stringify([
+      //     "PENDING",
+      //     "UNDECLARE",
+      //   ])}&sort=betPlaced.createdAt:DESC`
+      // );
       const response = await service.get(
         `${
           ApiConstants.MATCH.GET_BETS
-        }?betPlaced.matchId=${requestData}&result=inArr${JSON.stringify([
-          "PENDING",
-          "UNDECLARE",
-        ])}&sort=betPlaced.createdAt:DESC`
+        }?betPlaced.matchId=${requestData}&sort=betPlaced.createdAt:DESC`
       );
       if (response?.data) {
         return response?.data;
@@ -153,6 +158,40 @@ export const removeBetByBetId = createAsyncThunk<any, any>(
   }
 );
 
+export const addStatusBetByBetId = createAsyncThunk<any, any>(
+  "addStatusPlacedBets/match",
+  async (betId ) => {
+    return betId;
+  }
+);
+
+export const betVerifyStatus = createAsyncThunk<any, any>(
+  "bet/verify",
+  async (requestData, thunkApi) => {
+    try {
+      const { betId, ...data } = requestData;
+      console.log("payload :", data)
+      const response = await service.post(
+        `${ApiConstants.MATCH.BET_VERIFY}`,
+        data
+      );
+      if (response) {
+        return response?.data;
+      }
+    } catch (error) {
+      const err = error as AxiosError;
+      return thunkApi.rejectWithValue(err.response?.status);
+    }
+  }
+);
+
+export const updateBetVerify = createAsyncThunk<any, SessionById>(
+  "update/bet/verify",
+  async (requestData) => {
+    return requestData;
+  }
+);
+
 export const getPlacedBetsForSessionDetail = createAsyncThunk<any, any>(
   "placedBets/sessionDetail",
   async (requestData, thunkApi) => {
@@ -160,10 +199,7 @@ export const getPlacedBetsForSessionDetail = createAsyncThunk<any, any>(
       const response = await service.get(
         `${
           ApiConstants.MATCH.GET_BETS
-        }?betPlaced.matchId=${requestData}&result=inArr${JSON.stringify([
-          "PENDING",
-          "UNDECLARE",
-        ])}&marketBetType=eqSESSION`
+        }?betPlaced.matchId=${requestData}&marketBetType=eqSESSION`
       );
       if (response?.data) {
         return response?.data;
