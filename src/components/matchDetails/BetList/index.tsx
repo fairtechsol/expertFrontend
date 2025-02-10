@@ -513,7 +513,7 @@ const BetList = ({ tag, allBetRates, title, isMatchDeclare }: any) => {
                                 id: i?.values?.[0]?.id,
                                 domain: i?.values?.[0]?.domain
                               }));
-                          }} src={CHECK} style={{ width: "28px", height: "28px", marginTop: 5 }} />
+                          }} src={CHECK} style={{ width: "30px", height: "28px", marginTop: 5 }} />
                           ) : (
                             <Typography onClick={() => {
                               dispatch(betVerifyStatus({
