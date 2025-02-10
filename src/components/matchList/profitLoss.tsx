@@ -28,10 +28,11 @@ const MatchListProfitLoss = (Props: any) => {
           border: "1px solid #0B4F26",
           background: "#FFF",
           display: "flex",
-          justifyContent: "space-between",
+          justifyContent: { xs: "center", sm: "space-between", lg: "space-between" }, // mobile ui
           alignItems: "center",
-          width: { xs: "100%", md: "130px", lg: "160px" },
+          width: { md: "130px", lg: "160px" }, // mobile ui remove xs: "100%",
           marginTop: showUserModal ? { xs: "1%", sm: "5%", lg: "0%" } : "0",
+          flexDirection: { xs: "column", sm: "row", lg: "row"},// mobile ui
         }}
       >
         <Typography
@@ -40,6 +41,7 @@ const MatchListProfitLoss = (Props: any) => {
             fontFamily: "Poppins, sans-serif",
             fontWeight: "700",
             fontSize: { lg: "12px", md: "10px", xs: "9px" },
+            marginRight: { xs: "2px" }, // mobile ui
             lineHeight: "1.2",
             color: "#575757",
             marginLeft: "1vw",
