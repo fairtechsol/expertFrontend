@@ -433,7 +433,6 @@ const BetList = ({ tag, allBetRates, title }: any) => {
                         <Box sx={{}}>
                           {i?.values?.[0]?.isVerified ? (
                             <img onClick={() => {
-                              alert(1)
                               dispatch(betVerifyStatus({
                                 matchId: i?.values?.[0]?.matchId,
                                 isVerified: false,
