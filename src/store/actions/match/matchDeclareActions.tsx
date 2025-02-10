@@ -1,7 +1,7 @@
 import { createAction, createAsyncThunk } from "@reduxjs/toolkit";
+import { AxiosError } from "axios";
 import service from "../../../service";
 import { ApiConstants } from "../../../utils/Constants";
-import { AxiosError } from "axios";
 
 export const declareMatchResult = createAsyncThunk<any, any>(
   "/match/declareResult",
@@ -20,6 +20,25 @@ export const declareMatchResult = createAsyncThunk<any, any>(
     }
   }
 );
+
+export const declareFinalMatchResult = createAsyncThunk<any, any>(
+  "/match/declareFinalResult",
+  async (requestData, thunkApi) => {
+    try {
+      const response = await service.post(
+        `${ApiConstants.MATCH.FINAL_DECLARE}`,
+        requestData
+      );
+      if (response?.status === 200) {
+        return response?.data;
+      }
+    } catch (error) {
+      const err = error as AxiosError;
+      return thunkApi.rejectWithValue(err.response?.status);
+    }
+  }
+);
+
 export const otherDeclareMatchResult = createAsyncThunk<any, any>(
   "/match/otherDeclareResult",
   async (requestData, thunkApi) => {
@@ -54,6 +73,25 @@ export const unDeclareMatchResult = createAsyncThunk<any, any>(
     }
   }
 );
+
+export const unDeclareFinalMatchResult = createAsyncThunk<any, any>(
+  "/match/unDeclareFinalResult",
+  async (requestData, thunkApi) => {
+    try {
+      const response = await service.post(
+        `${ApiConstants.MATCH.FINAL_UNDECLARE}`,
+        requestData
+      );
+      if (response?.status === 200) {
+        return response?.data;
+      }
+    } catch (error) {
+      const err = error as AxiosError;
+      return thunkApi.rejectWithValue(err.response?.status);
+    }
+  }
+);
+
 export const otherUnDeclareMatchResult = createAsyncThunk<any, any>(
   "/match/otherUnDeclareResult",
   async (requestData, thunkApi) => {
