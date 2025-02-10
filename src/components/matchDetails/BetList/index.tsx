@@ -2,7 +2,6 @@ import { Box, Button, Popover, Typography } from "@mui/material";
 import moment from "moment";
 import { betVerifyStatus } from "../../../store/actions/match/matchAction";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { ARROWUP, CHECK } from "../../../assets";
 import { useDispatch, useSelector } from "react-redux";
 import {
