@@ -1,8 +1,8 @@
 import { Box, Button, Popover, Typography } from "@mui/material";
 import moment from "moment";
 import { betVerifyStatus } from "../../../store/actions/match/matchAction";
-import { AppDispatch } from "../../../store/store";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { ARROWUP, CHECK } from "../../../assets";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -18,8 +18,10 @@ const ITEMS_PER_PAGE = 100;
 const BUFFER_SIZE = 30;
 const ROW_HEIGHT = 30;
 
-const BetList = ({ tag, allBetRates, title }: any) => {
+const BetList = ({ tag, allBetRates, title, isMatchDeclare }: any) => {
   const dispatch: AppDispatch = useDispatch();
+  
+
   const [newData, setNewBets] = useState<any[]>([]);
   const [visibleImg, setVisibleImg] = useState(true);
   const scrollRef = useRef<HTMLDivElement | null>(null);
