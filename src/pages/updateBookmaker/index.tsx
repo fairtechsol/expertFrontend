@@ -35,7 +35,7 @@ const UpdateBookmaker = () => {
       if (state?.matchId === event?.jobData?.newBet?.matchId) {
         dispatch(updateTeamRatesOnManualTournamentMarket(event));
         if (state?.betId === event?.jobData?.newBet?.betId||
-          event?.jobData?.newBet?.betId == tournament?.parentBetId) {
+          state?.betId == event?.jobData?.newBet?.childBetId) {
           dispatch(updateMatchBetsPlaced(event));
         }
       }
