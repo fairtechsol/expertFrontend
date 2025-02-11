@@ -31,7 +31,7 @@ import {
   getSessionProfitLossMatchDetailReset,
   updateDeletedBetReasonOnEdit,
   updateMatchBetsPlace,
-  updateBetVerify,
+  // updateBetVerify,
   updateMatchBetsReason,
   updateResultBoxStatus,
   updateResultStatusOfMatch,
@@ -86,15 +86,15 @@ const OtherMatchDetails = () => {
     }
   };
 
-  const updateVerifyBet = (event: any) => {
-        try {
-          if (event?.matchId === state?.id) {
-            dispatch(updateBetVerify(event));
-          }
-        } catch (e) {
-          console.log(e);
-        }
-      };
+  // const updateVerifyBet = (event: any) => {
+  //       try {
+  //         if (event?.matchId === state?.id) {
+  //           dispatch(updateBetVerify(event));
+  //         }
+  //       } catch (e) {
+  //         console.log(e);
+  //       }
+  //     };
 
   const resultUnDeclared = (event: any) => {
     try {
@@ -208,7 +208,7 @@ const OtherMatchDetails = () => {
     try {
       if (success && socket) {
         expertSocketService.match.getMatchRatesOff(state?.id);
-        socketService.user.betVerifyOff();
+        // socketService.user.betVerifyOff();
         socketService.user.matchResultDeclaredOff();
         socketService.user.matchResultUnDeclaredOff();
         socketService.user.matchDeleteBetOff();
@@ -222,7 +222,7 @@ const OtherMatchDetails = () => {
         expertSocketService.match.getMatchRates(state?.id, (event: any) => {
           updateMatchDetailToRedux(event);
         });
-        socketService.user.betVerify(updateVerifyBet);
+        // socketService.user.betVerify(updateVerifyBet);
         socketService.user.matchResultDeclared(resultDeclared);
         socketService.user.matchResultDeclareAllUser(resultDeclared);
         socketService.user.matchResultUnDeclared(resultUnDeclared);
@@ -253,7 +253,7 @@ const OtherMatchDetails = () => {
           socketService.user.updateInResultDeclareOff();
           socketService.user.updateDeleteReasonOff();
           // expertSocketService.match.connectErrorOff();
-          socketService.user.betVerifyOff();
+          // socketService.user.betVerifyOff();
           expertSocketService.match.onConnectOff();
           socketService.user.matchResultDeclareAllUserOff();
           socketService.user.matchResultUnDeclareAllUserOff();

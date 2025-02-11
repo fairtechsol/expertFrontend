@@ -1,8 +1,8 @@
 import { Box, Button, Popover, Typography } from "@mui/material";
 import moment from "moment";
-import { betVerifyStatus } from "../../../store/actions/match/matchAction";
+// import { betVerifyStatus } from "../../../store/actions/match/matchAction";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { ARROWUP, CHECK } from "../../../assets";
+import { ARROWUP } from "../../../assets";
 import { useDispatch, useSelector } from "react-redux";
 import {
   declareFinalMatchResult,
@@ -485,7 +485,7 @@ const BetList = ({ tag, allBetRates, title, isMatchDeclare }: any) => {
                       </Typography>
                     </Box>
 
-                    <Box
+                    {/* <Box
                       sx={{
                         width: { lg: "4%", xs: "6%" },
                         border: "1px solid white",
@@ -533,7 +533,7 @@ const BetList = ({ tag, allBetRates, title, isMatchDeclare }: any) => {
                           )}
                         </Box>
                       </Typography>
-                    </Box>
+                    </Box> */}
                     <Row index={k + visibleRange.start} values={i?.values} verifyBy={i?.values?.[0]?.verifyBy} />
                     {i?.values?.[0]?.deleteReason && (
                       <Box
