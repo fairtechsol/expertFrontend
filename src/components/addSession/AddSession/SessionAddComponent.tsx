@@ -1,11 +1,13 @@
-import { useEffect, useRef, useState } from "react";
 import { Box, Typography } from "@mui/material";
-import RunsAmountBox from "./RunsAmountBox";
-import SessionResultModal from "../SessionResult/SessionResultModal";
-import AddSessionInput from "./AddSessionInput";
+import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../store/store";
+import SessionResultModal from "../SessionResult/SessionResultModal";
+import AddSessionInput from "./AddSessionInput";
+import RunsAmountBox from "./RunsAmountBox";
 // import MaxBetAdd from "../../matchDetails/MaxBetAdd";
+import { useNavigate, useParams } from "react-router-dom";
+import { socket, socketService } from "../../../socketManager";
 import {
   addSession,
   addsuccessReset,
@@ -23,14 +25,12 @@ import {
   updateSessionMaxLimit,
   updateSessionProfitLoss,
 } from "../../../store/actions/addSession";
-import { socket, socketService } from "../../../socketManager";
 import {
   getMatchListSessionProfitLoss,
   // getMatchListSessionProfitLoss,
   sessionResultSuccessReset,
 } from "../../../store/actions/match/matchAction";
 import { ButtonRatesQuickSessions } from "../../../utils/Constants";
-import { useNavigate, useParams } from "react-router-dom";
 // import SessionLimit from "./SessionLimit";
 import SessionLimit2 from "./SessionLimit2";
 
@@ -158,7 +158,7 @@ const SessionAddComponent = ({ createSession, match, setMode }: any) => {
         } else if (event?.activeStatus === "live") {
           dispatch(updateSessionById(event));
           dispatch(getSessionProfitLoss(id));
-          dispatch(getPlacedBets(id));
+          dispatch(getPlacedBets({betId:id}));
         }
       }
     } catch (e) {

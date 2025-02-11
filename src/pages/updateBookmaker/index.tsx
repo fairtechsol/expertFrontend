@@ -5,14 +5,17 @@ import { useLocation, useNavigate } from "react-router-dom";
 import BetsList from "../../components/updateBookmaker/BetsList";
 import BookmakerEditSection from "../../components/updateBookmaker/BookmakerEdit";
 import { socket, socketService } from "../../socketManager";
-import { geTournamentBetting, updateTeamRatesOnManualTournamentMarket } from "../../store/actions/addMatch/addMatchAction";
+import {
+  geTournamentBetting,
+  updateTeamRatesOnManualTournamentMarket,
+} from "../../store/actions/addMatch/addMatchAction";
 import {
   getPlacedBets,
   updateDeleteReason,
   updateDeleteReasonOnEdit,
   updateMarketMinMaxLimitOnQuickMaker,
   updateMatchBetsPlaced,
-  updateRatesBook
+  updateRatesBook,
 } from "../../store/actions/addSession";
 import { AppDispatch, RootState } from "../../store/store";
 
@@ -94,7 +97,7 @@ const UpdateBookmaker = () => {
         dispatch(
           geTournamentBetting({ matchId: state?.matchId, betId: state?.betId })
         );
-        dispatch(getPlacedBets(state?.betId));
+        dispatch(getPlacedBets({ parentBetId: state?.betId }));
       } else {
         navigate("/expert/match");
       }
@@ -125,14 +128,13 @@ const UpdateBookmaker = () => {
     }
   }, [socket, state?.betId]);
 
-
   useEffect(() => {
     try {
       if (maxLimitSuccess) {
         dispatch(
           geTournamentBetting({ matchId: state?.matchId, betId: state?.betId })
         );
-      } 
+      }
     } catch (error) {
       console.error(error);
     }

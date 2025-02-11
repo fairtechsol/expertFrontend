@@ -51,6 +51,7 @@ const TournamentMarketAdd = ({
       exposureLimit: parseFloat(selected.exposureLimit),
       betLimit: selected.betLimit,
       marketId: matchOddsLive?.mid?.toString(),
+      mid: matchOddsLive?.mid?.toString(),
       isCommissionActive: commission,
       gtype: matchOddsLive?.gtype,
       sNo: matchOddsLive?.sno,

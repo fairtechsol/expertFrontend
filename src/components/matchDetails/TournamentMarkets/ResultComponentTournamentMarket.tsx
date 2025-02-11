@@ -29,7 +29,9 @@ const ResultComponentTournamentMarket = ({
   useEffect(() => {
     try {
       if (liveData?.runners?.length > 0) {
-        setSelected(liveData?.runners[0]?.id);
+        setSelected(
+          liveData?.runners[0]?.parentRunnerId || liveData?.runners[0]?.id
+        );
       }
     } catch (error) {
       console.log(error);
@@ -137,12 +139,11 @@ const ResultComponentTournamentMarket = ({
               }}
             >
               {liveData?.runners?.map((item: any, k: number) => {
-                console.log(item);
                 return (
                   <Box
                     key={k}
                     onClick={() => {
-                      setSelected(item?.id);
+                      setSelected(item.parentRunnerId || item?.id);
                     }}
                     sx={{
                       width: "40%",
@@ -155,7 +156,10 @@ const ResultComponentTournamentMarket = ({
                       alignItems: "center",
                       height: "30px",
                       cursor: "pointer",
-                      background: selected === item?.id ? "#0B4F26" : "#F8C851",
+                      background:
+                        selected === (item.parentRunnerId || item?.id)
+                          ? "#0B4F26"
+                          : "#F8C851",
                       overflow: "hidden",
                     }}
                   >
@@ -163,7 +167,10 @@ const ResultComponentTournamentMarket = ({
                       sx={{
                         fontSize: "10px",
                         fontWeight: "700",
-                        color: selected === item?.id ? "white" : "black",
+                        color:
+                          selected === (item.parentRunnerId || item?.id)
+                            ? "white"
+                            : "black",
                         lineHeight: 1,
                         overflowWrap: "anywhere",
                         whiteSpace: "nowrap",
@@ -206,7 +213,7 @@ const ResultComponentTournamentMarket = ({
                     dispatch(
                       UnDeclareTournamentMarketCricketResult({
                         matchId: currentMatch?.id,
-                        betId: liveData?.id,
+                        betId: liveData?.parentBetId || liveData?.id,
                       })
                     );
                   } catch (e) {
@@ -231,7 +238,7 @@ const ResultComponentTournamentMarket = ({
                         declareTournamentMarketCricketResult({
                           matchId: currentMatch?.id,
                           result: selected,
-                          betId: liveData?.id,
+                          betId: liveData?.parentBetId || liveData?.id,
                         })
                       );
                     } catch (e) {
@@ -254,7 +261,7 @@ const ResultComponentTournamentMarket = ({
                         declareTournamentMarketCricketResult({
                           matchId: currentMatch?.id,
                           result: "No Result",
-                          betId: liveData?.id,
+                          betId: liveData?.parentBetId || liveData?.id,
                         })
                       );
                     } catch (e) {
