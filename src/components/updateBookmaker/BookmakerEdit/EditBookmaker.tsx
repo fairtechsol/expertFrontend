@@ -190,7 +190,6 @@ const EditBookmaker = (props: any) => {
     try {
       if (socket) {
         socketService.user.updateMatchBettingRateClient((data: any) => {
-          console.log(data);
           if (match?.id === data?.matchId && matchBetting.id === data?.id) {
             if (
               data.teams?.find((items: any) => items.status == "ball start")
@@ -366,14 +365,18 @@ const EditBookmaker = (props: any) => {
         >
           <BookButton
             rate={bookRatioA(
-              +teamRates?.[runners?.[0]?.id] || 0,
-              +teamRates?.[runners?.[1]?.id] || 0
+              +teamRates?.[runners?.[0]?.parentRunnerId || runners?.[0]?.id] ||
+                0,
+              +teamRates?.[runners?.[1]?.parentRunnerId || runners?.[1]?.id] ||
+                0
             )}
           />
           <BookButton
             rate={bookRatioB(
-              +teamRates?.[runners?.[0]?.id] || 0,
-              +teamRates?.[runners?.[1]?.id] || 0
+              +teamRates?.[runners?.[0]?.parentRunnerId || runners?.[0]?.id] ||
+                0,
+              +teamRates?.[runners?.[1]?.parentRunnerId || runners?.[1]?.id] ||
+                0
             )}
           />
         </Box>
@@ -493,7 +496,7 @@ const EditBookmaker = (props: any) => {
               </Box>
             )}
             {localQuickBookmaker?.teams?.map((item: any) => {
-              const rate = +teamRates?.[item?.id] || 0;
+              const rate = +teamRates?.[item?.parentRunnerId || item?.id] || 0;
 
               const formattedRate = rate.toFixed(2);
               const [integerPart, decimalPart] = formattedRate.split(".");
@@ -535,7 +538,9 @@ const EditBookmaker = (props: any) => {
                           fontSize: "16px",
                           fontWeight: "bold",
                           color:
-                            +teamRates?.[item?.id] <= 0 ? "#FF4D4D" : "#319E5B",
+                            +teamRates?.[item?.parentRunnerId || item?.id] <= 0
+                              ? "#FF4D4D"
+                              : "#319E5B",
                         }}
                       >
                         <span>{formatToINR(integerPart || 0)}</span>
