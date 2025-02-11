@@ -196,12 +196,13 @@ export const getPlacedBets = createAsyncThunk<any, any>(
   async (requestData, thunkApi) => {
     try {
       const resp = await service.get(
-        `${
-          ApiConstants.SESSION.GET_PLACED_BETS
-        }?betPlaced.betId=${requestData}&result=inArr${JSON.stringify([
-          "PENDING",
-          "UNDECLARE",
-        ])}&sort=betPlaced.createdAt:DESC`
+        `${ApiConstants.SESSION.GET_PLACED_BETS}?sort=betPlaced.createdAt:DESC${
+          requestData?.betId
+            ? `&betPlaced.betId=${requestData?.betId}`
+            : requestData?.parentBetId
+            ? `&betPlaced.childBetId=${requestData?.parentBetId}`
+            : ""
+        }&result=inArr${JSON.stringify(["PENDING", "UNDECLARE"])}`
       );
       if (resp?.data) {
         return resp?.data;

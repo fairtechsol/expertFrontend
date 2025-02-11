@@ -1,12 +1,13 @@
 import { Box, Grid, Paper } from "@mui/material";
-import SessionResult from "../../components/addSession/SessionResult/SessionResult";
-import SessionInputFields from "../../components/addSession/AddSession/SessionAddComponent";
-import DailogModal from "../../components/helper/DailogModal";
-import BetsList from "../../components/addSession/BetList";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../../store/store";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
+import SessionInputFields from "../../components/addSession/AddSession/SessionAddComponent";
+import BetsList from "../../components/addSession/BetList";
+import SessionResult from "../../components/addSession/SessionResult/SessionResult";
+import DailogModal from "../../components/helper/DailogModal";
+import { socket, socketService } from "../../socketManager";
+import { getMatchDetail } from "../../store/actions/addMatch/addMatchAction";
 import {
   getPlacedBets,
   getSessionById,
@@ -14,8 +15,7 @@ import {
   sessionSuccessReset,
 } from "../../store/actions/addSession";
 import { getMatchListSessionProfitLoss } from "../../store/actions/match/matchAction";
-import { getMatchDetail } from "../../store/actions/addMatch/addMatchAction";
-import { socket, socketService } from "../../socketManager";
+import { AppDispatch, RootState } from "../../store/store";
 // import { socketService } from "../../socketManager";
 
 const AddSession = () => {
@@ -83,7 +83,7 @@ const AddSession = () => {
       if (getSessionSuccess) {
         if (!sessionById?.result) {
           dispatch(getSessionProfitLoss(id));
-          dispatch(getPlacedBets(id));
+          dispatch(getPlacedBets({betId:id}));
         }
         dispatch(sessionSuccessReset());
       }
