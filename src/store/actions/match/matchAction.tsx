@@ -124,6 +124,24 @@ export const sessionBetLiveStatus = createAsyncThunk<any, any>(
   }
 );
 
+export const marketClone = createAsyncThunk<any, any>(
+  "matchBeting/clone",
+  async (requestData, thunkApi) => {
+    try {
+      const response = await service.post(
+        `${ApiConstants.MATCH.MARKET_CLONE}`,
+        requestData
+      );
+      if (response) {
+        return response?.data;
+      }
+    } catch (error) {
+      const err = error as AxiosError;
+      return thunkApi.rejectWithValue(err.response?.status);
+    }
+  }
+);
+
 export const getPlacedBetsMatch = createAsyncThunk<any, any>(
   "placedBets/match",
   async (requestData, thunkApi) => {

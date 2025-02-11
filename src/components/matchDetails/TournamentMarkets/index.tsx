@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { ARROWUP } from "../../../assets";
 import {
   betLiveStatus,
-  updateMatchActiveStatus,
+  updateMatchActiveStatus
 } from "../../../store/actions/match/matchAction";
 import { declareMatchStatusReset } from "../../../store/actions/match/matchDeclareActions";
 import { AppDispatch, RootState } from "../../../store/store";
@@ -171,6 +171,15 @@ const TournamentMarket = ({
                     height="18px"
                   />
                   <MaxLimitEditButton handleClickOpen={handleClickOpen} />
+                  {/* {!liveData.isManual &&
+                    <Clone width={"80px"} onClick={() => {
+                      dispatch(
+                        marketClone({
+                            matchId: currentMatch?.id,
+                            betId: liveData?.id,
+                          })
+                        )}} invert={true} />
+                    } */}
                 </>
               )}
             </>
