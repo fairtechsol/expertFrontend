@@ -31,7 +31,7 @@ import {
   getPlacedBetsMatch,
   getSessionProfitLossMatchDetailReset,
   addStatusBetByBetId,
-  updateBetVerify,
+  // updateBetVerify,
   updateDeletedBetReasonOnEdit,
   updateMatchBetsPlace,
   updateMatchBetsReason,
@@ -146,16 +146,16 @@ const MatchMarketDetail = () => {
     }
   };
 
-  const updateVerifyBet = (event: any) => {
-    try {
-      console.log("event :", event)
-      if (event?.matchId === state?.id) {
-        dispatch(updateBetVerify(event));
-      }
-    } catch (e) {
-      console.log(e);
-    }
-  };
+  // const updateVerifyBet = (event: any) => {
+  //   try {
+  //     console.log("event :", event)
+  //     if (event?.matchId === state?.id) {
+  //       dispatch(updateBetVerify(event));
+  //     }
+  //   } catch (e) {
+  //     console.log(e);
+  //   }
+  // };
 
   const updateSessionResultDeclared = (event: any) => {
     try {
@@ -289,7 +289,6 @@ const MatchMarketDetail = () => {
   });
 
   useEffect(() => {
-    // alert("match")
     try {
       if (state?.id) {
         dispatch(getSessionProfitLossMatchDetailReset());
@@ -305,7 +304,7 @@ const MatchMarketDetail = () => {
     try {
       if (success && socket) {
         expertSocketService.match.getMatchRatesOff(state?.id);
-        socketService.user.betVerifyOff();
+        // socketService.user.betVerifyOff();
         socketService.user.matchResultDeclaredOff();
         socketService.user.matchResultUnDeclaredOff();
         socketService.user.matchDeleteBetOff();
@@ -322,7 +321,7 @@ const MatchMarketDetail = () => {
           updateMatchDetailToRedux(event);
         });
 
-        socketService.user.betVerify(updateVerifyBet);
+        // socketService.user.betVerify(updateVerifyBet);
         //  expertSocketService.match.betVerify((event: any) => {
         //   console.log("event :", event)
         //   // updateMatchDetailToRedux(event);
@@ -353,7 +352,7 @@ const MatchMarketDetail = () => {
           matchSocketService.leaveAllRooms();
           expertSocketService.match.leaveMatchRoom(state?.id);
           expertSocketService.match.getMatchRatesOff(state?.id);
-          socketService.user.betVerifyOff();
+          // socketService.user.betVerifyOff();
           socketService.user.matchResultDeclaredOff();
           socketService.user.matchResultUnDeclaredOff();
           socketService.user.matchDeleteBetOff();
@@ -918,7 +917,7 @@ const MatchMarketDetail = () => {
             }}
           >
             {matchDetail?.id && (
-              <BetList allBetRates={ Array.from(new Set(placedBetsMatch))} tag={true} />
+              <BetList allBetRates={ Array.from(new Set(placedBetsMatch))} tag={true} isMatchDeclare={true} />
             )}
           </Box>
         </>

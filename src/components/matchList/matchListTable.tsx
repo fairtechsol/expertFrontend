@@ -233,7 +233,7 @@ const MatchListTable = (props: any) => {
               sx={{
                 display: "flex",
                 flexDirection: {
-                  xs: "column",
+                  xs: "row", // mobile ui
                   md: "row",
                   sm: "row",
                   lg: "row",
@@ -243,6 +243,7 @@ const MatchListTable = (props: any) => {
                 alignItems: "center",
                 marginTop: { sm: "5px", lg: "2.5px", md: 0 },
                 paddingRight: "5px",
+                flexWrap: { xs: "wrap", sm: "nowrap" }, // mobile ui
               }}
             >
               {data?.stopAt && (
