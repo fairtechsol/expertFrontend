@@ -27,10 +27,9 @@ import { resetPlacedBetsMatch } from "../../store/actions/addSession";
 import {
   getPlacedBetsMatch,
   getSessionProfitLossMatchDetailReset,
-  updateBetVerify,
+  // updateBetVerify,
   updateDeletedBetReasonOnEdit,
   updateMatchBetsPlace,
-  // updateBetVerify,
   updateMatchBetsReason,
   updateResultBoxStatus,
   updateResultStatusOfMatch,
