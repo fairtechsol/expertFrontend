@@ -1,8 +1,8 @@
-import { Box, Typography } from "@mui/material";
+import { Box } from "@mui/material";
 import SmallBox from "./SmallBox";
 import LargeBox from "./LargeBox";
 
-const Row = ({ values, verifyBy }: any) => {
+const Row = ({ values }: any) => {
   return (
     <Box sx={{ width: "100%", display: "flex" }}>
       {values?.map((item: any, k: any) => {
@@ -12,7 +12,7 @@ const Row = ({ values, verifyBy }: any) => {
           return <SmallBox k={k} key={k} item={item} />;
         }
       })}
-      {verifyBy && ( 
+      {/* {verifyBy && ( 
       <Box sx={{ background: "rgba(0,0,0,0.5)", width: { lg: "92.3%", xs: "88.3%" }, height: "30px", position: "absolute", display: "flex", }} >
       <Box sx={{ flex: 1, display: "flex" }}>
         <Box sx={{ width: "34%", height: "30px" }}></Box>
@@ -27,7 +27,7 @@ const Row = ({ values, verifyBy }: any) => {
         </Box>
       </Box>
     </Box>
-      )}
+      )} */}
     </Box>
   );
 };
