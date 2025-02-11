@@ -13,6 +13,7 @@ import {
   matchSocket,
   socket,
   socketService,
+  matchService,
 } from "../../socketManager";
 import { matchSocketService } from "../../socketManager/matchSocket";
 import {
@@ -63,6 +64,13 @@ const MatchMarketDetail = () => {
   // const [errorCount, setErrorCount] = useState<number>(0);
   // const [rateInterval, setRateInterval] = useState<any>({ intervalData: [] });
 
+
+  useEffect(() => {
+    matchService.connect();
+    return () => {
+      matchService.disconnect(); 
+    };
+  }, []);
 
   const { matchDetail, loading, success } = useSelector(
     (state: RootState) => state.addMatch.addMatch
@@ -519,8 +527,11 @@ const MatchMarketDetail = () => {
     try {
       const handleVisibilityChange = () => {
         if (document.visibilityState === "visible") {
-          if (!socket.connected || !matchSocket.connected) {
+          if (!socket.connected) {
             socketService.connect();
+          }
+          if (!matchSocket.connected) {
+            matchService.connect();
           }
           if (state?.id) {
             // dispatch(getMatchDetail(state?.id));

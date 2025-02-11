@@ -13,6 +13,7 @@ import {
   matchSocket,
   socket,
   socketService,
+  matchService,
 } from "../../socketManager";
 import { matchSocketService } from "../../socketManager/matchSocket";
 import {
@@ -53,6 +54,13 @@ const SessionMarketDetail = () => {
   );
   const { sessionProLoss } = useSelector((state: RootState) => state.match);
   const { currentOdd } = useSelector((state: RootState) => state.addSession);
+
+  useEffect(() => {
+    matchService.connect();
+    return () => {
+      matchService.disconnect(); 
+    };
+  }, []);
 
   const updateMatchDetailToRedux = (event: any) => {
     try {

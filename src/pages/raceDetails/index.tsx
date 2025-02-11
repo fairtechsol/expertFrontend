@@ -9,6 +9,7 @@ import {
   expertSocketService,
   socket,
   socketService,
+  matchService,
 } from "../../socketManager";
 import {
   updateRaceRates,
@@ -47,6 +48,14 @@ const RaceDetails = () => {
   const { raceDetail, success } = useSelector(
     (state: RootState) => state.matchList
   );
+
+  useEffect(() => {
+    matchService.connect();
+    return () => {
+      matchService.disconnect(); 
+    };
+  }, []);
+
   const updateMatchDetailToRedux = (event: any) => {
     try {
       if (state?.id === event?.id) {
