@@ -576,7 +576,7 @@ const BetList = ({ tag, allBetRates, title, isMatchDeclare }: any) => {
                         </Box>
                       </Box>
                     )}
-                    {i?.values?.[0]?.result && ["LOSS", "WIN"].includes(i.values[0].result) && (
+                    {i?.values?.[0]?.result && ["LOSS", "WIN", "TIE"].includes(i.values[0].result) && (
                       <Box
                         sx={{
                           background: "rgba(0,0,0,0.5)",
