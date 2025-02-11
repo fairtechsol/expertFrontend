@@ -367,8 +367,11 @@ const SessionMarketDetail = () => {
     try {
       const handleVisibilityChange = () => {
         if (document.visibilityState === "visible") {
-          if (!socket.connected || !matchSocket.connected) {
+          if (!socket.connected) {
             socketService.connect();
+          }
+          if (!matchSocket.connected) {
+            matchService.connect();
           }
           if (state?.id) {
             // dispatch(getMatchDetail(state?.id));
