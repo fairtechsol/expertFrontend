@@ -5,7 +5,7 @@ import { ARROWUP } from "../../../assets";
 import {
   betLiveStatus,
   marketClone,
-  updateMatchActiveStatus,
+  updateMatchActiveStatus
 } from "../../../store/actions/match/matchAction";
 import { declareMatchStatusReset } from "../../../store/actions/match/matchDeclareActions";
 import { AppDispatch, RootState } from "../../../store/store";

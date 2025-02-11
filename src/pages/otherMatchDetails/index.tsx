@@ -20,15 +20,14 @@ import {
 } from "../../socketManager";
 import { matchSocketService } from "../../socketManager/matchSocket";
 import {
-  handleBetResultStatus,
   updateMatchRates,
-  updateMatchRatesOnMarketUndeclare,
   updateRates
 } from "../../store/actions/addMatch/addMatchAction";
 import { resetPlacedBetsMatch } from "../../store/actions/addSession";
 import {
   getPlacedBetsMatch,
   getSessionProfitLossMatchDetailReset,
+  // updateBetVerify,
   updateDeletedBetReasonOnEdit,
   updateMatchBetsPlace,
   updateMatchBetsReason,
@@ -84,17 +83,28 @@ const OtherMatchDetails = () => {
       console.log(e);
     }
   };
+
+  // const updateVerifyBet = (event: any) => {
+  //       try {
+  //         if (event?.matchId === state?.id) {
+  //           dispatch(updateBetVerify(event));
+  //         }
+  //       } catch (e) {
+  //         console.log(e);
+  //       }
+  //     };
+
   const resultUnDeclared = (event: any) => {
     try {
       if (event?.matchId === state?.id) {
-        if (event?.betType === "quickbookmaker1") {
+        // if (event?.betType === "quickbookmaker1") {
           dispatch(getOtherGamesMatchDetail(state?.id));
           dispatch(getPlacedBetsMatch(state?.id));
-        } else {
-          dispatch(getPlacedBetsMatch(state?.id));
-          dispatch(handleBetResultStatus(event));
-          dispatch(updateMatchRatesOnMarketUndeclare(event));
-        }
+        // } else {
+          // dispatch(getPlacedBetsMatch(state?.id));
+          // dispatch(handleBetResultStatus(event));
+          // dispatch(updateMatchRatesOnMarketUndeclare(event));
+        // }
       }
     } catch (e) {
       console.log(e);
@@ -196,6 +206,7 @@ const OtherMatchDetails = () => {
     try {
       if (success && socket) {
         expertSocketService.match.getMatchRatesOff(state?.id);
+        // socketService.user.betVerifyOff();
         socketService.user.matchResultDeclaredOff();
         socketService.user.matchResultUnDeclaredOff();
         socketService.user.matchDeleteBetOff();
@@ -209,6 +220,7 @@ const OtherMatchDetails = () => {
         expertSocketService.match.getMatchRates(state?.id, (event: any) => {
           updateMatchDetailToRedux(event);
         });
+        // socketService.user.betVerify(updateVerifyBet);
         socketService.user.matchResultDeclared(resultDeclared);
         socketService.user.matchResultDeclareAllUser(resultDeclared);
         socketService.user.matchResultUnDeclared(resultUnDeclared);
@@ -239,6 +251,7 @@ const OtherMatchDetails = () => {
           socketService.user.updateInResultDeclareOff();
           socketService.user.updateDeleteReasonOff();
           // expertSocketService.match.connectErrorOff();
+          // socketService.user.betVerifyOff();
           expertSocketService.match.onConnectOff();
           socketService.user.matchResultDeclareAllUserOff();
           socketService.user.matchResultUnDeclareAllUserOff();
@@ -768,7 +781,7 @@ const OtherMatchDetails = () => {
               }}
             >
               {matchDetail?.id && (
-                <BetList allBetRates={ Array.from(new Set(placedBetsMatch))} tag={true} />
+                <BetList allBetRates={ Array.from(new Set(placedBetsMatch))} tag={true} isMatchDeclare={true}/>
               )}
             </Box>
           </>
