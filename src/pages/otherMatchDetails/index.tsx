@@ -20,15 +20,14 @@ import {
 } from "../../socketManager";
 import { matchSocketService } from "../../socketManager/matchSocket";
 import {
-  handleBetResultStatus,
   updateMatchRates,
-  updateMatchRatesOnMarketUndeclare,
   updateRates
 } from "../../store/actions/addMatch/addMatchAction";
 import { resetPlacedBetsMatch } from "../../store/actions/addSession";
 import {
   getPlacedBetsMatch,
   getSessionProfitLossMatchDetailReset,
+  updateBetVerify,
   updateDeletedBetReasonOnEdit,
   updateMatchBetsPlace,
   // updateBetVerify,
@@ -99,14 +98,14 @@ const OtherMatchDetails = () => {
   const resultUnDeclared = (event: any) => {
     try {
       if (event?.matchId === state?.id) {
-        if (event?.betType === "quickbookmaker1") {
+        // if (event?.betType === "quickbookmaker1") {
           dispatch(getOtherGamesMatchDetail(state?.id));
           dispatch(getPlacedBetsMatch(state?.id));
-        } else {
-          dispatch(getPlacedBetsMatch(state?.id));
-          dispatch(handleBetResultStatus(event));
-          dispatch(updateMatchRatesOnMarketUndeclare(event));
-        }
+        // } else {
+          // dispatch(getPlacedBetsMatch(state?.id));
+          // dispatch(handleBetResultStatus(event));
+          // dispatch(updateMatchRatesOnMarketUndeclare(event));
+        // }
       }
     } catch (e) {
       console.log(e);
