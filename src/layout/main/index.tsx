@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { Outlet, useNavigate } from "react-router-dom";
 import BackgroundLayout from "../../components/Common/BackgroundLayout";
 import ScrollToTop from "../../components/Common/ScrollToTop";
-import { socket, socketService } from "../../socketManager";
+import { socketService } from "../../socketManager";
 import { getProfile } from "../../store/actions/user/userAction";
 import { AppDispatch } from "../../store/store";
 import Header from "./header";
@@ -28,10 +28,11 @@ const MainLayout = () => {
   useEffect(() => {
     try {
       if (sessionStorage.getItem("jwtExpert")) {
-        if (!socket.connected) {
-          socketService.connect();
-        }
+        socketService.connect();
         socketService.auth.logout();
+      }
+      return ()=>{
+        socketService.disconnect();
       }
     } catch (e) {
       console.log(e);
