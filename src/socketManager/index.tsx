@@ -26,6 +26,7 @@ export const initialiseSocket = () => {
     auth: {
       token: `${sessionStorage.getItem("jwtExpert")}`,
     },
+    reconnection: true,
     reconnectionDelay: 5000,
   });
 };
