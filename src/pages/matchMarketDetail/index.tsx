@@ -28,9 +28,9 @@ import {
   updateApiSessionById,
 } from "../../store/actions/addSession";
 import {
+  addStatusBetByBetId,
   getPlacedBetsMatch,
   getSessionProfitLossMatchDetailReset,
-  addStatusBetByBetId,
   // updateBetVerify,
   updateDeletedBetReasonOnEdit,
   updateMatchBetsPlace,
@@ -520,6 +520,7 @@ const MatchMarketDetail = () => {
       const handleVisibilityChange = () => {
         if (document.visibilityState === "visible") {
           if (!socket.connected || !matchSocket.connected) {
+            console.log("object comming");
             socketService.connect();
           }
           if (state?.id) {
