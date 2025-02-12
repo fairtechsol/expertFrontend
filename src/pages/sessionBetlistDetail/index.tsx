@@ -29,9 +29,9 @@ import {
   updateApiSessionById,
 } from "../../store/actions/addSession";
 import {
+  addStatusBetByBetId,
   getPlacedBetsForSessionDetail,
   getSessionProfitLossMatchDetailReset,
-  addStatusBetByBetId,
   // updateBetVerify,
   updateDeletedBetReasonOnEdit,
   updateMatchBetsReason,
@@ -352,9 +352,9 @@ const SessionBetlistDetail = () => {
     try {
       const handleVisibilityChange = () => {
         if (document.visibilityState === "visible") {
-          if (!socket.connected || !matchSocket.connected) {
-            socketService.connect();
-          }
+          // if (!socket.connected || !matchSocket.connected) {
+          //   socketService.connect();
+          // }
           if (state?.id) {
             // dispatch(getMatchDetail(state?.id));
             expertSocketService.match.joinMatchRoom(state?.id, "expert");
