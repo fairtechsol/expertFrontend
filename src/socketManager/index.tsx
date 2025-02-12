@@ -6,14 +6,14 @@ import { userSocketService } from "./userSocket";
 
 export let matchSocket: any = null;
 export let socket: any = null;
+let isConnected = false;
 
 export const initialiseSocket = () => {
   matchSocket = io(baseUrls.matchSocket, {
     transports: [
       process.env.NODE_ENV === "production"
         ? `${Constants.POLLING}`
-        : 
-        `${Constants.WEBSOCKET}`
+        : `${Constants.WEBSOCKET}`,
     ],
     auth: {
       token: `${sessionStorage.getItem("jwtExpert")}`,
@@ -22,7 +22,7 @@ export const initialiseSocket = () => {
     reconnectionDelay: 5000,
   });
   socket = io(baseUrls.expertSocket, {
-    transports: [ `${Constants.WEBSOCKET}`,`${Constants.POLLING}`],
+    transports: [`${Constants.WEBSOCKET}`, `${Constants.POLLING}`],
     auth: {
       token: `${sessionStorage.getItem("jwtExpert")}`,
     },
@@ -34,12 +34,18 @@ export const socketService = {
   connect: () => {
     initialiseSocket();
     // Connect to the socket server
-    socket?.connect();
+    if (!isConnected) {
+      socket?.connect();
+    }
     socket?.on("reconnect", () => {
       console.log("reconnet");
     });
     socket?.on("disconnect", () => {
       console.log("disconnect");
+      isConnected = false;
+    });
+    socket?.on("connect", () => {
+      isConnected = true;
     });
     matchSocket?.connect();
 
