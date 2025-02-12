@@ -33,9 +33,9 @@ export const initialiseSocket = () => {
 
 export const socketService = {
   connect: () => {
-    initialiseSocket();
     // Connect to the socket server
     if (!isConnected) {
+      initialiseSocket();
       socket?.connect();
     }
     socket?.on("reconnect", () => {
