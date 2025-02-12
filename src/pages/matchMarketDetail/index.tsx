@@ -519,9 +519,12 @@ const MatchMarketDetail = () => {
     try {
       const handleVisibilityChange = () => {
         if (document.visibilityState === "visible") {
-          if (!socket.connected || !matchSocket.connected) {
+          if (!socket.connected) {
             console.log("object comming");
             socketService.connect();
+          }
+          if(!matchSocket.connected){
+            matchSocket.connect();
           }
           if (state?.id) {
             // dispatch(getMatchDetail(state?.id));
