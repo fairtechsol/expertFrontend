@@ -519,11 +519,9 @@ const MatchMarketDetail = () => {
     try {
       const handleVisibilityChange = () => {
         if (document.visibilityState === "visible") {
-          if (!socket.connected) {
+          if (!socket.connected||!matchSocket.connected) {
+            console.log("object comming");
             socketService.connect();
-          }
-          if(!matchSocket.connected){
-            matchSocket.connect();
           }
           if (state?.id) {
             // dispatch(getMatchDetail(state?.id));
@@ -537,6 +535,7 @@ const MatchMarketDetail = () => {
           if (state?.id) {
             expertSocketService.match.leaveMatchRoom(state?.id);
             expertSocketService.match.getMatchRatesOff(state?.id);
+            socketService.disconnect();
           }
         }
       };
