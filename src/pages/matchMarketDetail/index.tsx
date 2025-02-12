@@ -520,7 +520,6 @@ const MatchMarketDetail = () => {
       const handleVisibilityChange = () => {
         if (document.visibilityState === "visible") {
           if (!socket.connected) {
-            console.log("object comming");
             socketService.connect();
           }
           if(!matchSocket.connected){
