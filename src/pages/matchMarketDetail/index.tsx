@@ -28,9 +28,9 @@ import {
   updateApiSessionById,
 } from "../../store/actions/addSession";
 import {
+  addStatusBetByBetId,
   getPlacedBetsMatch,
   getSessionProfitLossMatchDetailReset,
-  addStatusBetByBetId,
   // updateBetVerify,
   updateDeletedBetReasonOnEdit,
   updateMatchBetsPlace,
@@ -519,9 +519,9 @@ const MatchMarketDetail = () => {
     try {
       const handleVisibilityChange = () => {
         if (document.visibilityState === "visible") {
-          if (!socket.connected || !matchSocket.connected) {
-            socketService.connect();
-          }
+          // if (!socket.connected||!matchSocket.connected) {
+          //   socketService.connect();
+          // }
           if (state?.id) {
             // dispatch(getMatchDetail(state?.id));
             dispatch(getPlacedBetsMatch(state?.id));
@@ -534,6 +534,7 @@ const MatchMarketDetail = () => {
           if (state?.id) {
             expertSocketService.match.leaveMatchRoom(state?.id);
             expertSocketService.match.getMatchRatesOff(state?.id);
+            // socketService.disconnect();
           }
         }
       };

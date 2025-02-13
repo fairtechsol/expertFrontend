@@ -307,9 +307,9 @@ const OtherMatchDetails = () => {
     try {
       const handleVisibilityChange = () => {
         if (document.visibilityState === "visible") {
-          if (!socket.connected || !matchSocket.connected) {
-            socketService.connect();
-          }
+          // if (!socket.connected || !matchSocket.connected) {
+          //   socketService.connect();
+          // }
           if (state?.id) {
             // dispatch(getOtherGamesMatchDetail(state?.id));
             dispatch(getPlacedBetsMatch(state?.id));

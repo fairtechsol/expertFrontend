@@ -5,14 +5,17 @@ import { useLocation, useNavigate } from "react-router-dom";
 import BetsList from "../../components/updateBookmaker/BetsList";
 import BookmakerEditSection from "../../components/updateBookmaker/BookmakerEdit";
 import { socket, socketService } from "../../socketManager";
-import { geTournamentBetting, updateTeamRatesOnManualTournamentMarket } from "../../store/actions/addMatch/addMatchAction";
+import {
+  geTournamentBetting,
+  updateTeamRatesOnManualTournamentMarket,
+} from "../../store/actions/addMatch/addMatchAction";
 import {
   getPlacedBets,
   updateDeleteReason,
   updateDeleteReasonOnEdit,
   updateMarketMinMaxLimitOnQuickMaker,
   updateMatchBetsPlaced,
-  updateRatesBook
+  updateRatesBook,
 } from "../../store/actions/addSession";
 import { AppDispatch, RootState } from "../../store/store";
 
@@ -31,7 +34,8 @@ const UpdateBookmaker = () => {
     try {
       if (state?.matchId === event?.jobData?.newBet?.matchId) {
         dispatch(updateTeamRatesOnManualTournamentMarket(event));
-        if (state?.betId === event?.jobData?.newBet?.betId) {
+        if (state?.betId === event?.jobData?.newBet?.betId||
+          state?.betId == event?.jobData?.newBet?.childBetId) {
           dispatch(updateMatchBetsPlaced(event));
         }
       }
@@ -53,7 +57,10 @@ const UpdateBookmaker = () => {
     try {
       if (event?.matchId === state?.matchId) {
         dispatch(updateRatesBook(event));
-        if (event?.betId === state?.betId) {
+        if (
+          event?.betId === state?.betId ||
+          state?.betId == tournament?.parentBetId
+        ) {
           dispatch(updateDeleteReason(event));
         }
         // dispatch(
@@ -94,7 +101,7 @@ const UpdateBookmaker = () => {
         dispatch(
           geTournamentBetting({ matchId: state?.matchId, betId: state?.betId })
         );
-        dispatch(getPlacedBets(state?.betId));
+        dispatch(getPlacedBets({ parentBetId: state?.betId }));
       } else {
         navigate("/expert/match");
       }
@@ -125,14 +132,13 @@ const UpdateBookmaker = () => {
     }
   }, [socket, state?.betId]);
 
-
   useEffect(() => {
     try {
       if (maxLimitSuccess) {
         dispatch(
           geTournamentBetting({ matchId: state?.matchId, betId: state?.betId })
         );
-      } 
+      }
     } catch (error) {
       console.error(error);
     }

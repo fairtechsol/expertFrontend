@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { ARROWUP } from "../../../assets";
 import {
   betLiveStatus,
+  marketClone,
   updateMatchActiveStatus
 } from "../../../store/actions/match/matchAction";
 import { declareMatchStatusReset } from "../../../store/actions/match/matchDeclareActions";
@@ -12,6 +13,7 @@ import AddMarketButton from "../../Common/AddMarketButton";
 import Divider from "../../Common/Divider";
 import MaxLimitEditButton from "../../Common/MaxLimitEditButton";
 import { formatNumber } from "../../helper";
+import Clone from "../Clone";
 import BoxComponent from "../MatchOdds/BoxComponent";
 import Result from "../Result";
 import Stop from "../SessionMarket/Stop";
@@ -171,15 +173,20 @@ const TournamentMarket = ({
                     height="18px"
                   />
                   <MaxLimitEditButton handleClickOpen={handleClickOpen} />
-                  {/* {!liveData.isManual &&
-                    <Clone width={"80px"} onClick={() => {
-                      dispatch(
-                        marketClone({
+                  {!liveData.isManual && (
+                    <Clone
+                      width={"80px"}
+                      onClick={() => {
+                        dispatch(
+                          marketClone({
                             matchId: currentMatch?.id,
                             betId: liveData?.id,
                           })
-                        )}} invert={true} />
-                    } */}
+                        );
+                      }}
+                      invert={true}
+                    />
+                  )}
                 </>
               )}
             </>
@@ -317,7 +324,7 @@ const TournamentMarket = ({
                     liveData?.activeStatus === "result"
                       ? 0
                       : currentMatch?.teamRates?.[
-                          liveData?.id +
+                          (liveData?.parentBetId || liveData?.id) +
                             "_" +
                             "profitLoss" +
                             "_" +
@@ -325,13 +332,13 @@ const TournamentMarket = ({
                         ]
                       ? JSON.parse(
                           currentMatch?.teamRates?.[
-                            liveData?.id +
+                            (liveData?.parentBetId || liveData?.id) +
                               "_" +
                               "profitLoss" +
                               "_" +
                               currentMatch?.id
                           ]
-                        )?.[item?.id] ?? 0
+                        )?.[item?.parentRunnerId || item?.id] ?? 0
                       : 0
                   }
                   livestatus={
@@ -384,7 +391,8 @@ const TournamentMarket = ({
               </Box>
             )}
             {currentMatch?.resultStatus &&
-              currentMatch?.resultStatus[liveData?.id]?.status && (
+              currentMatch?.resultStatus[liveData?.parentBetId || liveData?.id]
+                ?.status && (
                 <Box
                   sx={{
                     display: "flex",
@@ -399,11 +407,18 @@ const TournamentMarket = ({
                   }}
                 >
                   <Typography sx={{ color: "#fff", textAlign: "center" }}>
-                    RESULT {currentMatch?.resultStatus[liveData?.id]?.status}
+                    RESULT{" "}
+                    {
+                      currentMatch?.resultStatus[
+                        liveData?.parentBetId || liveData?.id
+                      ]?.status
+                    }
                   </Typography>
                 </Box>
               )}
-            {currentMatch?.otherBettings?.[liveData?.id] && (
+            {currentMatch?.otherBettings?.[
+              liveData?.parentBetId || liveData?.id
+            ] && (
               <Box
                 sx={{
                   display: "flex",
@@ -421,7 +436,9 @@ const TournamentMarket = ({
                   RESULT{" "}
                   {liveData?.activeStatus === "result"
                     ? "DECLARED"
-                    : currentMatch?.otherBettings?.[liveData?.id]}
+                    : currentMatch?.otherBettings?.[
+                        liveData?.parentBetId || liveData?.id
+                      ]}
                 </Typography>
               </Box>
             )}

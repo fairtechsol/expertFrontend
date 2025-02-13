@@ -2,11 +2,11 @@ import { memo, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { Outlet, useNavigate } from "react-router-dom";
 import BackgroundLayout from "../../components/Common/BackgroundLayout";
+import ScrollToTop from "../../components/Common/ScrollToTop";
 import { socketService } from "../../socketManager";
 import { getProfile } from "../../store/actions/user/userAction";
 import { AppDispatch } from "../../store/store";
 import Header from "./header";
-import ScrollToTop from "../../components/Common/ScrollToTop";
 
 const MainLayout = () => {
   const navigate = useNavigate();
@@ -30,6 +30,9 @@ const MainLayout = () => {
       if (sessionStorage.getItem("jwtExpert")) {
         socketService.connect();
         socketService.auth.logout();
+      }
+      return ()=>{
+        socketService.disconnect();
       }
     } catch (e) {
       console.log(e);
