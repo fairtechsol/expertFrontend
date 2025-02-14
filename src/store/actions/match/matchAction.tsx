@@ -36,6 +36,44 @@ export const getMatchList = createAsyncThunk<any, any>(
     }
   }
 );
+
+
+
+export const getSessionProfitLossAfterDeclare = createAsyncThunk<any, any>(
+  "/session/profitLoss/declare",
+  async (requestData, thunkApi) => {
+    try {
+      const response = await service.get(
+        `${ApiConstants.MATCH.SESSION_PL}?betId=${requestData?.id}`
+      );
+      if (response) {
+        return response?.data;
+      }
+    } catch (error) {
+      const err = error as AxiosError;
+      return thunkApi.rejectWithValue(err.response?.status);
+    }
+  }
+);
+
+export const getSessionProfitLossBets = createAsyncThunk<any, any>(
+  "/session/profitLoss/declare/bets",
+  async (requestData, thunkApi) => {
+    try {
+      const response = await service.get(
+        `${ApiConstants.MATCH.SESSION_PL_BETS}?betId=${requestData?.betId}&matchId=${requestData?.matchId}&url=${requestData?.url}&userId=${requestData?.userId}`
+      );
+      if (response) {
+        return response?.data;
+      }
+    } catch (error) {
+      const err = error as AxiosError;
+      return thunkApi.rejectWithValue(err.response?.status);
+    }
+  }
+);
+
+
 export const getTabList = createAsyncThunk<any, any>(
   "/tab/list",
   async (requestData, thunkApi) => {
