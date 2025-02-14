@@ -58,11 +58,13 @@ const OtherMatchDetails = () => {
   );
 
   useEffect(() => {
-    matchService.connect();
+    if (state?.marketId) {
+      matchService.connect([state?.id]);
+    }
     return () => {
       matchService.disconnect(); 
     };
-  }, []);
+  }, [state]);
 
   const updateMatchDetailToRedux = (event: any) => {
     try {

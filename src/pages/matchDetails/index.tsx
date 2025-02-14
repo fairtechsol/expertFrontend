@@ -62,12 +62,14 @@ const MatchDetails = () => {
   const { sessionProLoss } = useSelector((state: RootState) => state.match);
   const { currentOdd } = useSelector((state: RootState) => state.addSession);
 
-   useEffect(() => {
-      matchService.connect();
-      return () => {
-        matchService.disconnect(); 
-      };
-    }, []);
+  useEffect(() => {
+    if (state?.marketId) {
+      matchService.connect([state?.id]);
+    }
+    return () => {
+      matchService.disconnect(); 
+    };
+  }, [state]);
     
   const updateMatchDetailToRedux = (event: any) => {
     try {

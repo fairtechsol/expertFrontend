@@ -30,7 +30,7 @@ export const initialiseSocket = () => {
   });
 };
 
-export const initialiseMatchSocket = () => {
+export const initialiseMatchSocket = (matchId: string[]) => {
    matchSocket = io(baseUrls.matchSocket, {
     transports: [
       process.env.NODE_ENV === "production"
@@ -40,6 +40,10 @@ export const initialiseMatchSocket = () => {
     ],
     auth: {
       token: `${sessionStorage.getItem("jwtExpert")}`,
+    },
+    query: {
+      matchIdArray: matchId,
+      roleName: "expert"
     },
     reconnection: true,
     reconnectionDelay: 5000,
@@ -80,8 +84,8 @@ export const socketService = {
 };
 
 export const matchService = {
-  connect: () => {
-    initialiseMatchSocket();
+  connect: (matchId: string[]) => {
+    initialiseMatchSocket(matchId);
     matchSocket?.connect();
   },
   disconnect: () => {
