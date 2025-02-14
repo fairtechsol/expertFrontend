@@ -13,7 +13,6 @@ import SessionMarketLive from "../../components/matchDetails/SessionMarketLive";
 import TiedMatchMarket from "../../components/matchDetails/TiedMatchMarket";
 import {
   expertSocketService,
-  matchSocket,
   socket,
   socketService,
   matchService,
