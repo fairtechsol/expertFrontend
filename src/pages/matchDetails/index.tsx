@@ -64,7 +64,7 @@ const MatchDetails = () => {
 
   useEffect(() => {
     if (state?.marketId) {
-      matchService.connect([state?.id]);
+      matchService.connect([state?.id, state?.id]);
     }
     return () => {
       matchService.disconnect(); 
