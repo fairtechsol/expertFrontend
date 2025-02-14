@@ -99,7 +99,7 @@ const TournamentMarket = ({
                 lineHeight: 1,
               }}
             >
-              {title}
+              {title}dddd
             </Typography>
           )}
           {liveData?.id && liveData?.activeStatus !== "result" && (
@@ -119,6 +119,19 @@ const TournamentMarket = ({
               isCommissionActive={liveData?.isCommissionActive}
             />
           )}
+          {!liveData.isManual && liveData?.activeStatus !== "result" && (
+           <Clone width={"80px"} 
+           onClick={() => { 
+            dispatch(
+              marketClone({ 
+                matchId: currentMatch?.id, 
+                betId: liveData?.id
+                }) 
+              )
+            }} 
+            invert={true} 
+          />
+        )}
         </Box>
         <Box
           sx={{
@@ -173,7 +186,7 @@ const TournamentMarket = ({
                     height="18px"
                   />
                   <MaxLimitEditButton handleClickOpen={handleClickOpen} />
-                  {!liveData.isManual && (
+                  {/* {!liveData.isManual && (
                     <Clone
                       width={"80px"}
                       onClick={() => {
@@ -186,7 +199,7 @@ const TournamentMarket = ({
                       }}
                       invert={true}
                     />
-                  )}
+                  )} */}
                 </>
               )}
             </>
