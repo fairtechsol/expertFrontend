@@ -234,11 +234,11 @@ const SessionMarketDetail = () => {
     }
   };
 
-  // const handleSocketConnection = () => {
-  //   if (state?.id) {
-  //     expertSocketService.match.joinMatchRoom(state?.id, "expert");
-  //   }
-  // };
+  const handleSocketConnection = () => {
+    if (state?.id) {
+      expertSocketService.match.joinMatchRoom(state?.id);
+    }
+  };
   // const handleSocketError = () => {
   //   setSocketConnected(false);
   // };
@@ -276,7 +276,7 @@ const SessionMarketDetail = () => {
         socketService.user.updateInResultDeclareOff();
         socketService.user.updateDeleteReasonOff();
         socketService.user.multiSessionUpdatedOff();
-        // expertSocketService.match.joinMatchRoom(state?.id, "expert");
+        expertSocketService.match.joinMatchRoom(state?.id);
         expertSocketService.match.getMatchRates(state?.id, (event: any) => {
           updateMatchDetailToRedux(event);
         });
@@ -291,7 +291,7 @@ const SessionMarketDetail = () => {
         socketService.user.updateDeleteReason(updateDeleteBetReason);
         socketService.user.multiSessionUpdated(handleMultiSessionMaxMin);
         // expertSocketService.match.connectError(handleSocketError);
-        // expertSocketService.match.onConnect(handleSocketConnection);
+        expertSocketService.match.onConnect(handleSocketConnection);
       }
     } catch (e) {
       console.log(e);
@@ -374,7 +374,7 @@ const SessionMarketDetail = () => {
           // }
           if (state?.id) {
             // dispatch(getMatchDetail(state?.id));
-            // expertSocketService.match.joinMatchRoom(state?.id, "expert");
+            expertSocketService.match.joinMatchRoom(state?.id);
             expertSocketService.match.getMatchRates(state?.id, (event: any) => {
               updateMatchDetailToRedux(event);
             });

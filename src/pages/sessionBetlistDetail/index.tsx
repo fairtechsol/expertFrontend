@@ -236,11 +236,11 @@ const SessionBetlistDetail = () => {
     }
   };
 
-  // const handleSocketConnection = () => {
-  //   if (state?.id) {
-  //     expertSocketService.match.joinMatchRoom(state?.id, "expert");
-  //   }
-  // };
+  const handleSocketConnection = () => {
+    if (state?.id) {
+      expertSocketService.match.joinMatchRoom(state?.id);
+    }
+  };
   // const handleSocketError = () => {
   //   setSocketConnected(false);
   // };
@@ -285,7 +285,7 @@ const SessionBetlistDetail = () => {
         socketService.user.updateInResultDeclare(updateSessionResultStatus);
         socketService.user.updateDeleteReason(updateDeleteBetReason);
         // expertSocketService.match.connectError(handleSocketError);
-        // expertSocketService.match.onConnect(handleSocketConnection);
+        expertSocketService.match.onConnect(handleSocketConnection);
       }
     } catch (e) {
       console.log(e);
@@ -297,7 +297,7 @@ const SessionBetlistDetail = () => {
       if (state?.id) {
         return () => {
           matchSocketService.leaveAllRooms();
-          // expertSocketService.match.leaveMatchRoom(state?.id);
+          expertSocketService.match.leaveMatchRoom(state?.id);
           expertSocketService.match.getMatchRatesOff(state?.id);
           // socketService.user.matchBettingStatusChangeOff();
           // socketService.user.betVerifyOff();
@@ -368,14 +368,14 @@ const SessionBetlistDetail = () => {
           // }
           if (state?.id) {
             // dispatch(getMatchDetail(state?.id));
-            // expertSocketService.match.joinMatchRoom(state?.id, "expert");
+            expertSocketService.match.joinMatchRoom(state?.id);
             expertSocketService.match.getMatchRates(state?.id, (event: any) => {
               updateMatchDetailToRedux(event);
             });
           }
         } else if (document.visibilityState === "hidden") {
           if (state?.id) {
-            // expertSocketService.match.leaveMatchRoom(state?.id);
+            expertSocketService.match.leaveMatchRoom(state?.id);
             expertSocketService.match.getMatchRatesOff(state?.id);
           }
         }

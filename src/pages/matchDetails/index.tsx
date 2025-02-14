@@ -264,7 +264,7 @@ const MatchDetails = () => {
         socketService.user.userSessionBetPlacedOff();
         socketService.user.sessionResultDeclaredOff();
         socketService.user.updateInResultDeclareOff();
-        // expertSocketService.match.joinMatchRoom(state?.id, "expert");
+        expertSocketService.match.joinMatchRoom(state?.id);
         expertSocketService.match.getMatchRates(state?.id, (event: any) => {
           updateMatchDetailToRedux(event);
         });

@@ -174,7 +174,7 @@ const RaceDetails = () => {
         socketService.user.userMatchBetPlacedOff();
         socketService.user.updateInResultDeclareOff();
         socketService.user.updateDeleteReasonOff();
-        // expertSocketService.match.joinMatchRoom(state?.id, "expert");
+        expertSocketService.match.joinMatchRoom(state?.id);
         expertSocketService.match.getMatchRates(state?.id, (event: any) => {
           updateMatchDetailToRedux(event);
         });

@@ -181,11 +181,11 @@ const OtherMatchDetails = () => {
     }
   };
 
-  // const handleSocketConnection = () => {
-  //   if (state?.id) {
-  //     expertSocketService.match.joinMatchRoom(state?.id, "expert");
-  //   }
-  // };
+  const handleSocketConnection = () => {
+    if (state?.id) {
+      expertSocketService.match.joinMatchRoom(state?.id);
+    }
+  };
 
   const firstKnownKey = marketArray.find((key: any) => {
     const keyObject = (matchDetail ?? {})[key];
@@ -227,7 +227,7 @@ const OtherMatchDetails = () => {
         socketService.user.updateDeleteReasonOff();
         socketService.user.matchResultDeclareAllUserOff();
         socketService.user.matchResultUnDeclareAllUserOff();
-        // expertSocketService.match.joinMatchRoom(state?.id, "expert");
+        expertSocketService.match.joinMatchRoom(state?.id);
         expertSocketService.match.getMatchRates(state?.id, (event: any) => {
           updateMatchDetailToRedux(event);
         });
@@ -241,7 +241,7 @@ const OtherMatchDetails = () => {
         socketService.user.updateInResultDeclare(updateSessionResultStatus);
         socketService.user.updateDeleteReason(updateDeleteBetReason);
         // expertSocketService.match.connectError(handleSocketError);
-        // expertSocketService.match.onConnect(handleSocketConnection);
+        expertSocketService.match.onConnect(handleSocketConnection);
       }
     } catch (e) {
       console.log(e);
@@ -324,7 +324,7 @@ const OtherMatchDetails = () => {
           if (state?.id) {
             // dispatch(getOtherGamesMatchDetail(state?.id));
             dispatch(getPlacedBetsMatch(state?.id));
-            // expertSocketService.match.joinMatchRoom(state?.id, "expert");
+            expertSocketService.match.joinMatchRoom(state?.id);
             expertSocketService.match.getMatchRates(state?.id, (event: any) => {
               updateMatchDetailToRedux(event);
             });
