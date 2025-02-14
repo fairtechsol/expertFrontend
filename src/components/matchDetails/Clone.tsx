@@ -14,7 +14,7 @@ const Clone = ({ invert, onClick, height }: any) => {
           // paddingX: 0.5,
           alignItems: "center",
           height: height ? height : "18px",
-          background: invert ? "#f1c550" : "#f1c550",
+          background: invert ? "#46e080" : "#46e080",
           borderRadius: "2px",
           cursor: "pointer",
         }}
@@ -23,7 +23,7 @@ const Clone = ({ invert, onClick, height }: any) => {
           sx={{
             fontSize: { lg: "8px", xs: "6px" },
             fontWeight: "600",
-            color: invert ? "0B4F26" : "white",
+            color: invert ? "#ffffff" : "#ffffff",
           }}
         >
           {"Clone"}
