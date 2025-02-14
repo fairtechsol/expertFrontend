@@ -8,13 +8,14 @@ import { DownGIcon } from "../../assets";
 import { getMatchListSessionProfitLoss } from "../../store/actions/match/matchAction";
 import { AppDispatch, RootState } from "../../store/store";
 import theme from "../../theme";
+import { Constants } from "../../utils/Constants";
 import CustomButton from "../Common/CustomButton";
 import StyledImage from "../Common/StyledImages";
+import { IconConstants } from "../helper/gameConstants";
 import MatchPermissionsModal from "./matchPermissionsModal";
 import MatchListProfitLoss from "./profitLoss";
+import SessionProLoss from "./sessionPLAndBets";
 import SessionResultComponent from "./sessionResultComponent";
-import { IconConstants } from "../helper/gameConstants";
-import { Constants } from "../../utils/Constants";
 
 interface TimeLeft {
   days: string;
@@ -32,10 +33,12 @@ const MatchListTable = (props: any) => {
   );
   const { sessionProLoss } = useSelector((state: RootState) => state.matchList);
   const [showPopup, setShowPopup] = useState(false);
+  const [showSessionPopup, setShowSessionPopup] = useState(false);
+  const [betId, setBetId] = useState(null);
+  const [matchId, setMatchId] = useState(null);
   const [showUserModal, setShowUserModal] = useState(false);
   const matchesMobile = useMediaQuery(theme.breakpoints.down("lg"));
   const [updateBettings, setUpdateBettings] = useState<any>([]);
-
   const [updateMatchStatus, setUpdateMatchStatus] = useState({
     1: {
       field: "apiSessionActive",
@@ -268,7 +271,10 @@ const MatchListTable = (props: any) => {
               )}
               {data?.matchType === "cricket" && data?.stopAt && (
                 <MatchListProfitLoss
-                  onClick={() => handleMatchProfitLossClick(data?.id)}
+                  onClick={() => {
+                    setMatchId(data?.id);
+                    handleMatchProfitLossClick(data?.id);
+                  }}
                   updateMatchStatusLabel="Session P/L"
                   updateMatchStatus={
                     data?.pl &&
@@ -449,8 +455,21 @@ const MatchListTable = (props: any) => {
           <SessionResultComponent
             setShowPopup={setShowPopup}
             sessionResults={sessionProLoss}
+            setShowSessionPopup={setShowSessionPopup}
+            setBetId={setBetId}
           />
         </>
+      </ModalMUI>
+      <ModalMUI
+        open={showSessionPopup}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <SessionProLoss
+          setShowSessionPopup={setShowSessionPopup}
+          betId={betId}
+          matchId={matchId}
+        />
       </ModalMUI>
     </>
   );

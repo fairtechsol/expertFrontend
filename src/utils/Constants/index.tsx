@@ -11,6 +11,8 @@ export const ApiConstants = {
     EDIT: "match/update",
     EDIT_RACE: "match/racingUpdate",
     LIST: "match/list",
+    SESSION_PL: "session/profitLoss/userWise",
+    SESSION_PL_BETS: "session/profitLoss/userWiseBets",
     LIST_SESSION_PRO_LOSS: "session/result",
     DROPDOWNLIST: "/match/listWithManualBetting",
     GETDETAIL: "match",

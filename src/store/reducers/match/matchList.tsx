@@ -2,7 +2,9 @@ import { createSlice } from "@reduxjs/toolkit";
 import { updateRaceRates } from "../../actions/addMatch/addMatchAction";
 import { resetPlacedBetsMatch } from "../../actions/addSession";
 import {
+  addStatusBetByBetId,
   betLiveStatus,
+  betVerifyStatus,
   editMatch,
   editRace,
   editSuccessReset,
@@ -14,15 +16,14 @@ import {
   getPlacedBetsMatch,
   getRaceList,
   getRaceMatch,
+  getSessionProfitLossAfterDeclare,
+  getSessionProfitLossBets,
   getTabList,
   matchListReset,
   noResultDeclare,
   raceListReset,
   raceLiveStatus,
   removeBetByBetId,
-  addStatusBetByBetId,
-  betVerifyStatus,
-  updateBetVerify,
   resetContryCodeList,
   resetMatchListDropdown,
   resetMatchListSessionProLoss,
@@ -33,6 +34,7 @@ import {
   sessionResultSuccessReset,
   setSelectedTabForMatchList,
   undeclareResult,
+  updateBetVerify,
   updateDeletedBetReasonOnEdit,
   updateMatchActiveStatus,
   updateMatchActiveStatusReset,
@@ -65,6 +67,8 @@ interface InitialState {
   raceList: any;
   raceDetail: any;
   selectedTab: number;
+  sessionPL:any;
+  sessionPLBets:any;
 }
 
 const initialState: InitialState = {
@@ -87,6 +91,8 @@ const initialState: InitialState = {
   raceList: [],
   raceDetail: null,
   selectedTab: 0,
+  sessionPL:null,
+  sessionPLBets:null
 };
 
 const matchList = createSlice({
@@ -282,6 +288,32 @@ const matchList = createSlice({
         state.placedBetsMatch = action?.payload;
       })
       .addCase(getPlacedBetsForSessionDetail.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action?.error?.message;
+      })
+      .addCase(getSessionProfitLossAfterDeclare.pending, (state) => {
+        state.loading = true;
+        state.sessionPL = null;
+        state.error = null;
+      })
+      .addCase(getSessionProfitLossAfterDeclare.fulfilled, (state, action) => {
+        state.loading = false;
+        state.sessionPL = action?.payload;
+      })
+      .addCase(getSessionProfitLossAfterDeclare.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action?.error?.message;
+      })
+      .addCase(getSessionProfitLossBets.pending, (state) => {
+        state.loading = true;
+        state.sessionPLBets = null;
+        state.error = null;
+      })
+      .addCase(getSessionProfitLossBets.fulfilled, (state, action) => {
+        state.loading = false;
+        state.sessionPLBets = action?.payload;
+      })
+      .addCase(getSessionProfitLossBets.rejected, (state, action) => {
         state.loading = false;
         state.error = action?.error?.message;
       })
