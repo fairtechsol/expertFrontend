@@ -236,11 +236,11 @@ const SessionBetlistDetail = () => {
     }
   };
 
-  const handleSocketConnection = () => {
-    if (state?.id) {
-      expertSocketService.match.joinMatchRoom(state?.id, "expert");
-    }
-  };
+  // const handleSocketConnection = () => {
+  //   if (state?.id) {
+  //     expertSocketService.match.joinMatchRoom(state?.id, "expert");
+  //   }
+  // };
   // const handleSocketError = () => {
   //   setSocketConnected(false);
   // };
@@ -270,7 +270,7 @@ const SessionBetlistDetail = () => {
         socketService.user.sessionResultDeclaredOff();
         socketService.user.updateInResultDeclareOff();
         socketService.user.updateDeleteReasonOff();
-        expertSocketService.match.joinMatchRoom(state?.id, "expert");
+        // expertSocketService.match.joinMatchRoom(state?.id, "expert");
         expertSocketService.match.getMatchRates(state?.id, (event: any) => {
           updateMatchDetailToRedux(event);
         });
@@ -285,7 +285,7 @@ const SessionBetlistDetail = () => {
         socketService.user.updateInResultDeclare(updateSessionResultStatus);
         socketService.user.updateDeleteReason(updateDeleteBetReason);
         // expertSocketService.match.connectError(handleSocketError);
-        expertSocketService.match.onConnect(handleSocketConnection);
+        // expertSocketService.match.onConnect(handleSocketConnection);
       }
     } catch (e) {
       console.log(e);
@@ -297,7 +297,7 @@ const SessionBetlistDetail = () => {
       if (state?.id) {
         return () => {
           matchSocketService.leaveAllRooms();
-          expertSocketService.match.leaveMatchRoom(state?.id);
+          // expertSocketService.match.leaveMatchRoom(state?.id);
           expertSocketService.match.getMatchRatesOff(state?.id);
           // socketService.user.matchBettingStatusChangeOff();
           // socketService.user.betVerifyOff();
@@ -368,14 +368,14 @@ const SessionBetlistDetail = () => {
           // }
           if (state?.id) {
             // dispatch(getMatchDetail(state?.id));
-            expertSocketService.match.joinMatchRoom(state?.id, "expert");
+            // expertSocketService.match.joinMatchRoom(state?.id, "expert");
             expertSocketService.match.getMatchRates(state?.id, (event: any) => {
               updateMatchDetailToRedux(event);
             });
           }
         } else if (document.visibilityState === "hidden") {
           if (state?.id) {
-            expertSocketService.match.leaveMatchRoom(state?.id);
+            // expertSocketService.match.leaveMatchRoom(state?.id);
             expertSocketService.match.getMatchRatesOff(state?.id);
           }
         }
@@ -393,20 +393,20 @@ const SessionBetlistDetail = () => {
     }
   }, [state?.id]);
 
-  useEffect(() => {
-    try {
-      if (matchDetail?.id && matchSocket) {
-        let currRateInt = setInterval(() => {
-          expertSocketService.match.joinMatchRoom(matchDetail?.id, "expert");
-        }, 60000);
-        return () => {
-          clearInterval(currRateInt);
-        };
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  }, [matchDetail?.id, matchSocket]);
+  // useEffect(() => {
+  //   try {
+  //     if (matchDetail?.id && matchSocket) {
+  //       let currRateInt = setInterval(() => {
+  //         expertSocketService.match.joinMatchRoom(matchDetail?.id, "expert");
+  //       }, 60000);
+  //       return () => {
+  //         clearInterval(currRateInt);
+  //       };
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // }, [matchDetail?.id, matchSocket]);
 
   // useEffect(() => {
   //   try {

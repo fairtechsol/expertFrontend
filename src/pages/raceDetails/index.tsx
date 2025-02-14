@@ -174,7 +174,7 @@ const RaceDetails = () => {
         socketService.user.userMatchBetPlacedOff();
         socketService.user.updateInResultDeclareOff();
         socketService.user.updateDeleteReasonOff();
-        expertSocketService.match.joinMatchRoom(state?.id, "expert");
+        // expertSocketService.match.joinMatchRoom(state?.id, "expert");
         expertSocketService.match.getMatchRates(state?.id, (event: any) => {
           updateMatchDetailToRedux(event);
         });
@@ -194,7 +194,7 @@ const RaceDetails = () => {
   useEffect(() => {
     try {
       return () => {
-        expertSocketService.match.leaveMatchRoom(state?.id);
+        // expertSocketService.match.leaveMatchRoom(state?.id);
         expertSocketService.match.getMatchRatesOff(state?.id);
         // socketService.user.matchBettingStatusChangeOff();
         socketService.user.matchResultDeclaredOff();
@@ -219,7 +219,7 @@ const RaceDetails = () => {
           }
         } else if (document.visibilityState === "hidden") {
           if (state?.id) {
-            expertSocketService.match.leaveMatchRoom(state?.id);
+            // expertSocketService.match.leaveMatchRoom(state?.id);
             expertSocketService.match.getMatchRatesOff(state?.id);
           }
         }
