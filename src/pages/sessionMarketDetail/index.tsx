@@ -56,11 +56,13 @@ const SessionMarketDetail = () => {
   const { currentOdd } = useSelector((state: RootState) => state.addSession);
 
   useEffect(() => {
-    matchService.connect();
+    if (state?.marketId) {
+      matchService.connect([state?.id]);
+    }
     return () => {
       matchService.disconnect(); 
     };
-  }, []);
+  }, [state]);
 
   const updateMatchDetailToRedux = (event: any) => {
     try {

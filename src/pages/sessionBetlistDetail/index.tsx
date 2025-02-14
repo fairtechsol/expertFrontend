@@ -60,11 +60,13 @@ const SessionBetlistDetail = () => {
   );
 
   useEffect(() => {
-      matchService.connect();
-      return () => {
-        matchService.disconnect(); 
-      };
-    }, []);
+    if (state?.marketId) {
+      matchService.connect([state?.id]);
+    }
+    return () => {
+      matchService.disconnect(); 
+    };
+  }, [state]);
 
   const updateMatchDetailToRedux = (event: any) => {
     try {
