@@ -210,7 +210,7 @@ const SessionProLoss = ({ setShowSessionPopup, matchId, betId }: any) => {
                 sx={{
                   background: "#0B4F26",
                   paddingX: "2px",
-                  width: { xs: "25%", sm: "20%", lg: "20%" },
+                  width: { xs: "35%", sm: "20%", lg: "20%" },
                   height: "100%",
                   marginLeft: 0.1,
                   justifyContent: "center",
