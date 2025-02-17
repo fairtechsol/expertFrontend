@@ -99,7 +99,7 @@ const TournamentMarket = ({
                 lineHeight: 1,
               }}
             >
-              {title}dddd
+              {title}
             </Typography>
           )}
           {liveData?.id && liveData?.activeStatus !== "result" && (
