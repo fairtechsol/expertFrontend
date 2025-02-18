@@ -145,7 +145,7 @@ const EditBookmaker = (props: any) => {
   };
 
   const updateBookmakerResultStatus = (event: any) => {
-    if (event?.matchId === state?.matchId) {
+    if (event?.matchId === state?.matchId && event.betType === "tournament") {
       dispatch(updateResultStatusOfQuickBookmaker(event));
     }
   };

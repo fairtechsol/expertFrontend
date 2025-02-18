@@ -13,6 +13,7 @@ import {
   matchSocket,
   socket,
   socketService,
+  matchService,
 } from "../../socketManager";
 import { matchSocketService } from "../../socketManager/matchSocket";
 import {
@@ -53,6 +54,15 @@ const SessionMarketDetail = () => {
   );
   const { sessionProLoss } = useSelector((state: RootState) => state.match);
   const { currentOdd } = useSelector((state: RootState) => state.addSession);
+
+  useEffect(() => {
+    if (state?.marketId) {
+      matchService.connect([state?.id]);
+    }
+    return () => {
+      matchService.disconnect(); 
+    };
+  }, [state]);
 
   const updateMatchDetailToRedux = (event: any) => {
     try {
@@ -226,7 +236,7 @@ const SessionMarketDetail = () => {
 
   const handleSocketConnection = () => {
     if (state?.id) {
-      expertSocketService.match.joinMatchRoom(state?.id, "expert");
+      expertSocketService.match.joinMatchRoom(state?.id);
     }
   };
   // const handleSocketError = () => {
@@ -266,7 +276,7 @@ const SessionMarketDetail = () => {
         socketService.user.updateInResultDeclareOff();
         socketService.user.updateDeleteReasonOff();
         socketService.user.multiSessionUpdatedOff();
-        expertSocketService.match.joinMatchRoom(state?.id, "expert");
+        expertSocketService.match.joinMatchRoom(state?.id);
         expertSocketService.match.getMatchRates(state?.id, (event: any) => {
           updateMatchDetailToRedux(event);
         });
@@ -293,7 +303,7 @@ const SessionMarketDetail = () => {
       if (state?.id) {
         return () => {
           matchSocketService.leaveAllRooms();
-          expertSocketService.match.leaveMatchRoom(state?.id);
+          // expertSocketService.match.leaveMatchRoom(state?.id);
           expertSocketService.match.getMatchRatesOff(state?.id);
           // socketService.user.matchBettingStatusChangeOff();
           socketService.user.matchResultDeclaredOff();
@@ -364,14 +374,14 @@ const SessionMarketDetail = () => {
           // }
           if (state?.id) {
             // dispatch(getMatchDetail(state?.id));
-            expertSocketService.match.joinMatchRoom(state?.id, "expert");
+            expertSocketService.match.joinMatchRoom(state?.id);
             expertSocketService.match.getMatchRates(state?.id, (event: any) => {
               updateMatchDetailToRedux(event);
             });
           }
         } else if (document.visibilityState === "hidden") {
           if (state?.id) {
-            expertSocketService.match.leaveMatchRoom(state?.id);
+            // expertSocketService.match.leaveMatchRoom(state?.id);
             expertSocketService.match.getMatchRatesOff(state?.id);
           }
         }
@@ -432,20 +442,20 @@ const SessionMarketDetail = () => {
 //   };
 // }, [state?.id]);
 
-  useEffect(() => {
-    try {
-      if (matchDetail?.id && matchSocket) {
-        let currRateInt = setInterval(() => {
-          expertSocketService.match.joinMatchRoom(matchDetail?.id, "expert");
-        }, 60000);
-        return () => {
-          clearInterval(currRateInt);
-        };
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  }, [matchDetail?.id, matchSocket]);
+  // useEffect(() => {
+  //   try {
+  //     if (matchDetail?.id && matchSocket) {
+  //       let currRateInt = setInterval(() => {
+  //         expertSocketService.match.joinMatchRoom(matchDetail?.id, "expert");
+  //       }, 60000);
+  //       return () => {
+  //         clearInterval(currRateInt);
+  //       };
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // }, [matchDetail?.id, matchSocket]);
 
     // useEffect(() => {
     //   try {

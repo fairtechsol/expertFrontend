@@ -17,6 +17,7 @@ import {
   matchSocket,
   socket,
   socketService,
+  matchService,
 } from "../../socketManager";
 import { matchSocketService } from "../../socketManager/matchSocket";
 import {
@@ -55,6 +56,16 @@ const OtherMatchDetails = () => {
   const { placedBetsMatch } = useSelector(
     (state: RootState) => state.matchList
   );
+
+  useEffect(() => {
+    if (state?.marketId) {
+      matchService.connect([state?.id]);
+    }
+    return () => {
+      matchService.disconnect(); 
+    };
+  }, [state]);
+
   const updateMatchDetailToRedux = (event: any) => {
     try {
       if (state?.id === event?.id) {
@@ -172,7 +183,7 @@ const OtherMatchDetails = () => {
 
   const handleSocketConnection = () => {
     if (state?.id) {
-      expertSocketService.match.joinMatchRoom(state?.id, "expert");
+      expertSocketService.match.joinMatchRoom(state?.id);
     }
   };
 
@@ -216,7 +227,7 @@ const OtherMatchDetails = () => {
         socketService.user.updateDeleteReasonOff();
         socketService.user.matchResultDeclareAllUserOff();
         socketService.user.matchResultUnDeclareAllUserOff();
-        expertSocketService.match.joinMatchRoom(state?.id, "expert");
+        expertSocketService.match.joinMatchRoom(state?.id);
         expertSocketService.match.getMatchRates(state?.id, (event: any) => {
           updateMatchDetailToRedux(event);
         });
@@ -242,7 +253,7 @@ const OtherMatchDetails = () => {
       if (state?.id) {
         return () => {
           matchSocketService.leaveAllRooms();
-          expertSocketService.match.leaveMatchRoom(state?.id);
+          // expertSocketService.match.leaveMatchRoom(state?.id);
           expertSocketService.match.getMatchRatesOff(state?.id);
           socketService.user.matchResultDeclaredOff();
           socketService.user.matchResultUnDeclaredOff();
@@ -313,14 +324,14 @@ const OtherMatchDetails = () => {
           if (state?.id) {
             // dispatch(getOtherGamesMatchDetail(state?.id));
             dispatch(getPlacedBetsMatch(state?.id));
-            expertSocketService.match.joinMatchRoom(state?.id, "expert");
+            expertSocketService.match.joinMatchRoom(state?.id);
             expertSocketService.match.getMatchRates(state?.id, (event: any) => {
               updateMatchDetailToRedux(event);
             });
           }
         } else if (document.visibilityState === "hidden") {
           if (state?.id) {
-            expertSocketService.match.leaveMatchRoom(state?.id);
+            // expertSocketService.match.leaveMatchRoom(state?.id);
             expertSocketService.match.getMatchRatesOff(state?.id);
           }
         }
@@ -587,20 +598,20 @@ const OtherMatchDetails = () => {
     },
   ];
 
-  useEffect(() => {
-    try {
-      if (matchDetail?.id && matchSocket) {
-        let currRateInt = setInterval(() => {
-          expertSocketService.match.joinMatchRoom(matchDetail?.id, "expert");
-        }, 60000);
-        return () => {
-          clearInterval(currRateInt);
-        };
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  }, [matchDetail?.id, matchSocket]);
+  // useEffect(() => {
+  //   try {
+  //     if (matchDetail?.id && matchSocket) {
+  //       let currRateInt = setInterval(() => {
+  //         expertSocketService.match.joinMatchRoom(matchDetail?.id, "expert");
+  //       }, 60000);
+  //       return () => {
+  //         clearInterval(currRateInt);
+  //       };
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // }, [matchDetail?.id, matchSocket]);
 
   
   //   useEffect(() => {
