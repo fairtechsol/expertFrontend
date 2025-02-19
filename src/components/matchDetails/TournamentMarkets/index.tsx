@@ -119,9 +119,10 @@ const TournamentMarket = ({
               isCommissionActive={liveData?.isCommissionActive}
             />
           )}
-          {!liveData.isManual && liveData?.activeStatus !== "result" && (
+          {!liveData.isManual && liveData?.activeStatus !== "result" && liveData?.id  && (
            <Clone width={"80px"} 
-           onClick={() => { 
+           onClick={(e: any) => {
+            e.preventDefault();
             dispatch(
               marketClone({ 
                 matchId: currentMatch?.id, 
