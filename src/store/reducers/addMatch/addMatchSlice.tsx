@@ -303,7 +303,16 @@ const addMatch = createSlice({
           quickBookmaker: quickbookmaker,
           updatedSesssionBettings: updatedSessionBettings || {},
           other,
-          tournament: tournament,
+          tournament: tournament?.sort((a: any, b: any) => {
+            // Primary sort by sno (ascending)
+            if (a.sno !== b.sno) {
+              return a.sno - b.sno;
+            }
+            // If sno values are equal, sort so that null parentId comes first
+            if (a.parentBetId === null && b.parentBetId !== null) return -1;
+            if (a.parentBetId !== null && b.parentBetId === null) return 1;
+            return 0;
+          }),
           // sessionBettings: state.matchDetail?.sessionBettings?.map(
           //   (item: any) => {
           //     const parsedItem = JSON.parse(item);
@@ -409,7 +418,16 @@ const addMatch = createSlice({
           quickBookmaker: quickbookmaker,
           updatedSesssionBettings: updatedSessionBettings || {},
           other,
-          tournament: tournament,
+          tournament: tournament?.sort((a: any, b: any) => {
+            // Primary sort by sno (ascending)
+            if (a.sno !== b.sno) {
+              return a.sno - b.sno;
+            }
+            // If sno values are equal, sort so that null parentId comes first
+            if (a.parentBetId === null && b.parentBetId !== null) return -1;
+            if (a.parentBetId !== null && b.parentBetId === null) return 1;
+            return 0;
+          }),
           // sessionBettings: state.matchDetail?.sessionBettings?.map(
           //   (item: any) => {
           //     const parsedItem = JSON.parse(item);
