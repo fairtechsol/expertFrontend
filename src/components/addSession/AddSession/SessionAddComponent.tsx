@@ -485,6 +485,7 @@ const SessionAddComponent = ({ createSession, match, setMode }: any) => {
               }}
               title={`${sessionById?.name} Max/Min Bet Limit`}
               exposureLimit={sessionById?.exposureLimit}
+              isCommissionActive={sessionById?.isCommissionActive}
             />
           )}
         </Box>
