@@ -32,6 +32,7 @@ import {
 } from "../../../store/actions/match/matchAction";
 import { ButtonRatesQuickSessions } from "../../../utils/Constants";
 // import SessionLimit from "./SessionLimit";
+import CommissionDot from "../../Common/CommissionDot";
 import SessionLimit2 from "./SessionLimit2";
 
 const stateDetail = {
@@ -418,7 +419,7 @@ const SessionAddComponent = ({ createSession, match, setMode }: any) => {
           }
         }}
         sx={{
-          width: { xs: "25%", lg: "12%", md: "12%", sm: "12%" },
+          width: { xs: "28%", lg: "15%", md: "15%", sm: "15%" },
           position: "relative",
           display: "flex",
           background: "#0B4F26",
@@ -441,6 +442,8 @@ const SessionAddComponent = ({ createSession, match, setMode }: any) => {
         >
           Set limits
         </Typography>
+      {sessionById?.isCommissionActive&&<CommissionDot/>}
+
         <Box
           sx={{
             position: "absolute",
@@ -490,6 +493,7 @@ const SessionAddComponent = ({ createSession, match, setMode }: any) => {
           )}
         </Box>
       </Box>
+
       <Box sx={{ display: "flex", marginTop: "6px" }}>
         <Box
           sx={{

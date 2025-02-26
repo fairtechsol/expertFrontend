@@ -1,5 +1,5 @@
 import { Box, TextField, Typography, useMediaQuery } from "@mui/material";
-import { memo, useEffect, useState } from "react";
+import React, { memo, useEffect, useState } from "react";
 import KeyboardEventHandler from "react-keyboard-event-handler";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
@@ -295,16 +295,9 @@ const EditBookmaker = (props: any) => {
               gap: "5px",
             }}
           >
-            {matchBetting?.isCommissionActive && (
-              <Box
-                sx={{
-                  width: 8,
-                  height: 8,
-                  borderRadius: "50%",
-                  backgroundColor: "#74ee15",
-                }}
-              />
-            )}
+            {/* {matchBetting?.isCommissionActive && (
+              <CommissionDot/>
+            )} */}
             <Box>
               {matchBetting?.name}
               <span
@@ -501,7 +494,7 @@ const EditBookmaker = (props: any) => {
               const formattedRate = rate.toFixed(2);
               const [integerPart, decimalPart] = formattedRate.split(".");
               return (
-                <>
+                <React.Fragment key={item?.parentRunnerId || item?.id}>
                   <Box
                     sx={{
                       borderWidth: 0,
@@ -657,7 +650,7 @@ const EditBookmaker = (props: any) => {
                       />
                     </Box>
                   </Box>
-                </>
+                </React.Fragment>
               );
             })}
           </Box>

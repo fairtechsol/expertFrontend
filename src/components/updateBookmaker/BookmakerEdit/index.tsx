@@ -1,6 +1,7 @@
 import { Box, Typography, useMediaQuery } from "@mui/material";
 import { useState } from "react";
 import theme from "../../../theme";
+import CommissionDot from "../../Common/CommissionDot";
 import ResultComponentTournamentMarket from "../../matchDetails/TournamentMarkets/ResultComponentTournamentMarket";
 import EditBookmaker from "./EditBookmaker";
 interface Props {
@@ -9,7 +10,7 @@ interface Props {
   bookmakerId: string;
   runners: any;
   matchBetting: any;
-  teamRates:any;
+  teamRates: any;
 }
 
 const BookmakerEditSection = ({
@@ -18,7 +19,7 @@ const BookmakerEditSection = ({
   bookmakerId,
   runners,
   matchBetting,
-  teamRates
+  teamRates,
 }: Props) => {
   const [visible, setVisible] = useState(false);
   const [visible1, setVisible1] = useState(false);
@@ -51,17 +52,20 @@ const BookmakerEditSection = ({
         ></Box>
       )}
       {!matchesMobile && (
-        <Typography
-          sx={{
-            color: "white",
-            fontSize: { lg: "25px", xs: "1rem", md: "20px" },
-            fontWeight: "600",
-            zIndex: 2,
-            position: "relative",
-          }}
-        >
-          {match?.title}
-        </Typography>
+        <Box sx={{ display: "flex", gap: 1, alignItems: "center" }}>
+          {matchBetting?.isCommissionActive && <CommissionDot />}
+          <Typography
+            sx={{
+              color: "white",
+              fontSize: { lg: "25px", xs: "1rem", md: "20px" },
+              fontWeight: "600",
+              zIndex: 2,
+              position: "relative",
+            }}
+          >
+            {match?.title}
+          </Typography>
+        </Box>
       )}
       {matchesMobile && (
         <Box
@@ -76,6 +80,7 @@ const BookmakerEditSection = ({
             alignSelf: "center",
           }}
         >
+          <Box>{matchBetting?.isCommissionActive && <CommissionDot />}</Box>
           <Typography
             sx={{
               width: "100%",
@@ -189,13 +194,13 @@ const BookmakerEditSection = ({
                 >
                   {visible && (
                     <ResultComponentTournamentMarket
-                    currentMatch={match}
-                    // stopAt={liveData?.stopAt}
-                    onClick={() => {
-                      setVisible(false);
-                    }}
-                    liveData={{ ...matchBetting, runners: runners }}
-                  />
+                      currentMatch={match}
+                      // stopAt={liveData?.stopAt}
+                      onClick={() => {
+                        setVisible(false);
+                      }}
+                      liveData={{ ...matchBetting, runners: runners }}
+                    />
                   )}
                 </Box>
               </Box>

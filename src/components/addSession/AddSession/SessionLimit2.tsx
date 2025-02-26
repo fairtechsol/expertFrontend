@@ -178,6 +178,7 @@ const SessionLimit2 = ({
                 color: "#fff",
                 borderRadius: "8px",
                 padding: "1px 5px",
+                width:"fit-content"
               }}
             >
               <Typography
