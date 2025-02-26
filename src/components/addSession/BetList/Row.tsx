@@ -87,15 +87,19 @@ const Row = ({ index, values }: any) => {
           }}
         >
           <Typography
-            sx={{ color: "white", fontWeight: "600", fontSize: "14px" }}
+            sx={{ color: "white", 
+              // fontWeight: "600", 
+              lineHeight: 1.1,
+              fontSize: "12px" }}
           >
             {values?.user?.userName}
           </Typography>{" "}
           <Typography
             sx={{
-              fontWeight: "600",
+              // fontWeight: "600",
               fontSize: "8px",
               color: "white",
+              lineHeight: 1.1,
               wordWrap: "break-word",
               maxWidth: "100%",
             }}
