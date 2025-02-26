@@ -90,7 +90,9 @@ const Row = ({ index, values }: any) => {
             sx={{ color: "white", 
               // fontWeight: "600", 
               lineHeight: 1.1,
-              fontSize: "12px" }}
+              // fontSize: "12px" 
+              fontSize: { lg: "12px", xs: "9px", sm: "10px", md: "12px" },
+            }}
           >
             {values?.user?.userName}
           </Typography>{" "}
@@ -122,7 +124,7 @@ const Row = ({ index, values }: any) => {
           <Typography
             sx={{
               fontWeight: "600",
-              fontSize: "14px",
+              fontSize: { lg: "14px", xs: "9px", sm: "10px", md: "12px" },
               color: "black",
               lineHeight: 1.1,
               marginRight: "2px",
@@ -157,7 +159,7 @@ const Row = ({ index, values }: any) => {
           <Typography
             sx={{
               fontWeight: "600",
-              fontSize: { xs: "10px", lg: "13px" },
+              fontSize: { lg: "14px", xs: "9px", sm: "10px", md: "12px" },
               color: "black",
               position: "static",
               top: 0,
@@ -178,7 +180,7 @@ const Row = ({ index, values }: any) => {
           }}
         >
           <Typography
-            sx={{ fontWeight: "600", fontSize: "14px", color: "black" }}
+            sx={{ fontWeight: "600", fontSize: { lg: "14px", xs: "9px", sm: "10px", md: "12px" }, color: "black" }}
           >
             {values.betType == "YES" ? "Yes" : "No"}
           </Typography>
@@ -194,7 +196,7 @@ const Row = ({ index, values }: any) => {
           }}
         >
           <Typography
-            sx={{ fontWeight: "600", fontSize: "14px", color: "black" }}
+            sx={{ fontWeight: "600", fontSize: { lg: "14px", xs: "9px", sm: "10px", md: "12px" }, color: "black" }}
           >
             {formatToINR(values?.amount)}
           </Typography>
@@ -210,7 +212,7 @@ const Row = ({ index, values }: any) => {
           }}
         >
           <Typography
-            sx={{ fontWeight: "600", fontSize: "14px", color: "white" }}
+            sx={{ fontWeight: "600", fontSize: { lg: "14px", xs: "9px", sm: "10px", md: "12px" }, color: "white" }}
           >
             {formatToINR(
               values?.myStake
