@@ -5,7 +5,7 @@ import { ARROWUP } from "../../../assets";
 import {
   betLiveStatus,
   marketClone,
-  updateMatchActiveStatus
+  updateMatchActiveStatus,
 } from "../../../store/actions/match/matchAction";
 import { declareMatchStatusReset } from "../../../store/actions/match/matchDeclareActions";
 import { AppDispatch, RootState } from "../../../store/store";
@@ -14,6 +14,7 @@ import Divider from "../../Common/Divider";
 import MaxLimitEditButton from "../../Common/MaxLimitEditButton";
 import { formatNumber } from "../../helper";
 import Clone from "../Clone";
+import DisableClone from "../DisableClone";
 import BoxComponent from "../MatchOdds/BoxComponent";
 import Result from "../Result";
 import Stop from "../SessionMarket/Stop";
@@ -119,20 +120,39 @@ const TournamentMarket = ({
               isCommissionActive={liveData?.isCommissionActive}
             />
           )}
-          {!liveData.isManual && liveData?.activeStatus !== "result" && liveData?.id  && (
-           <Clone width={"80px"} 
-           onClick={(e: any) => {
-            e.preventDefault();
-            dispatch(
-              marketClone({ 
-                matchId: currentMatch?.id, 
-                betId: liveData?.id
-                }) 
-              )
-            }} 
-            invert={true} 
-          />
-        )}
+          {!liveData.isManual &&
+            liveData?.activeStatus !== "result" &&
+            liveData?.id && (
+              <Clone
+                width={"80px"}
+                onClick={(e: any) => {
+                  e.preventDefault();
+                  dispatch(
+                    marketClone({
+                      matchId: currentMatch?.id,
+                      betId: liveData?.id,
+                    })
+                  );
+                }}
+                invert={true}
+              />
+            )}
+          {liveData.isManual && liveData?.parentBetId && (
+            <DisableClone
+              width={"80px"}
+              onClick={(e: any) => {
+                e.preventDefault();
+                dispatch(
+                  marketClone({
+                    matchId: currentMatch?.id,
+                    betId: liveData?.parentBetId,
+                    disabled: true,
+                  })
+                );
+              }}
+              invert={true}
+            />
+          )}
         </Box>
         <Box
           sx={{
