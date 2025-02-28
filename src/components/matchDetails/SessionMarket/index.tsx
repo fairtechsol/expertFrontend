@@ -1,15 +1,15 @@
 import { Box, Typography } from "@mui/material";
+import ModalMUI from "@mui/material/Modal";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
 import { ARROWUP, edit } from "../../../assets";
-import Divider from "../../Common/Divider";
-import Stop from "./Stop";
-import SessionMarketBox from "./SessionMarketBox";
+import { customSortUpdated } from "../../../helpers";
 import { sessionBetLiveStatus } from "../../../store/actions/match/matchAction";
 import { AppDispatch } from "../../../store/store";
-import { useDispatch } from "react-redux";
-import { customSortUpdated } from "../../../helpers";
-import ModalMUI from "@mui/material/Modal";
+import Divider from "../../Common/Divider";
+import SessionMarketBox from "./SessionMarketBox";
 import SessionMarketMaxBetAmountEdit from "./SessionMarketMaxBetAmountEdit";
+import Stop from "./Stop";
 // import { formatToINR } from "../../helper";
 
 const SessionMarket = ({
@@ -169,7 +169,7 @@ const SessionMarket = ({
             >
               {sessionData?.section?.length > 0 &&
                 sessionData?.section
-                  ?.filter((item: any) => !item?.isManual)
+                  // ?.filter((item: any) => !item?.isManual)
                   ?.filter((item: any) =>
                     section === "market"
                       ? !item?.isComplete &&

@@ -10,10 +10,10 @@ import SessionMarket2 from "../../components/matchDetails/SessionMarket2";
 import { customSortBySessionMarketName } from "../../helpers";
 import {
   expertSocketService,
+  matchService,
   matchSocket,
   socket,
-  socketService,
-  matchService
+  socketService
 } from "../../socketManager";
 import { matchSocketService } from "../../socketManager/matchSocket";
 import {
@@ -510,7 +510,7 @@ const SessionBetlistDetail = () => {
                 return (
                   <Fragment key={name}>
                     {item?.section
-                      ?.filter((item: any) => !item?.isManual)
+                      // ?.filter((item: any) => !item?.isManual)
                       ?.filter(
                         (items: any) =>
                           !items?.isComplete &&
@@ -547,7 +547,7 @@ const SessionBetlistDetail = () => {
               ?.map(([name, item]: any) => (
                 <Fragment key={name}>
                   {item?.section
-                    ?.filter((item: any) => !item?.isManual)
+                    // ?.filter((item: any) => !item?.isManual)
                     ?.filter(
                       (items: any) =>
                         !items?.isComplete &&

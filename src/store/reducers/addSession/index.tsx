@@ -28,7 +28,7 @@ import {
   updateSessionByIdForUndeclare,
   updateSessionMaxLimit,
   updateSessionProfitLoss,
-  updateTeamRatesOnManualMarket
+  updateTeamRatesOnManualMarket,
 } from "../../actions/addSession";
 
 interface InitialState {
@@ -333,7 +333,13 @@ export const addSessionReducers = createReducer(initialState, (builder) => {
       state.loading = false;
     })
     .addCase(updateSessionMaxLimit.fulfilled, (state, action) => {
-      const { maxBet, id, minBet, exposureLimit } = action?.payload;
+      const {
+        maxBet,
+        id,
+        minBet,
+        exposureLimit,
+        isCommissionActive,
+      } = action?.payload;
       const { sessionById } = state;
 
       if (id === sessionById?.id) {
@@ -342,6 +348,7 @@ export const addSessionReducers = createReducer(initialState, (builder) => {
           maxBet,
           minBet,
           exposureLimit,
+          isCommissionActive,
         };
         state.loading = false;
         state.maxLimitUpdateSuccess = true;

@@ -135,7 +135,19 @@ const AddSession = () => {
   return (
     <Box>
       <Grid container>
-        <Grid item xs={12} md={12} lg={6}>
+
+      {/* <Grid
+  item
+  xs={12}
+  md={6}
+  lg={6}
+  sx={{
+    width: { xs: "100%", md: "700px" }, // Full width below 700px, 700px width on md+
+    maxWidth: "100%", // Ensures it doesn't overflow
+  }}
+> */}
+
+        <Grid item xs={12} sm={6} md={6} lg={6}  >
           <Paper style={{ margin: "4px" }}>
             <SessionInputFields
               createSession={state?.createSession}
@@ -153,7 +165,7 @@ const AddSession = () => {
             />
           </Paper>
         </Grid>
-        <Grid item xs={12} md={12} lg={6}>
+        <Grid item xs={12} sm={6} md={6} lg={6}>
           <Paper style={{ margin: "4px" }}>
             {true && (
               <BetsList

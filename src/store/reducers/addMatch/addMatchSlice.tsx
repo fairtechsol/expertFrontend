@@ -387,12 +387,13 @@ const addMatch = createSlice({
         let parsedSessionBettings = state?.matchDetail?.sessionBettings?.map(
           (item: any) => {
             let parsedItem = JSON.parse(item);
+            if(parsedItem?.isManual){
+              parsedItem.type="manualSession"
+            }
             return parsedItem;
           }
         );
-
         let updatedFormat = convertData(parsedSessionBettings);
-
         let updatedSessionBettings = updateSessionBettingsItem(
           updatedFormat,
           apiSession

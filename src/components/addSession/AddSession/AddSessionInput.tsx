@@ -141,8 +141,11 @@ const AddSessionInput = (props: any) => {
             InputProps={{
               placeholder: "Your Bet Condition Here...",
               disableUnderline: true,
+              sx: {
+                fontSize: { lg: "14px", xs: "8px", sm: "10px", md: "14px" },
+              },
               style: {
-                fontSize: "15px",
+                // fontSize: "8px",
                 marginLeft: "5px",
                 height: "45px",
                 fontWeight: "600",
@@ -244,8 +247,11 @@ const AddSessionInput = (props: any) => {
                       variant="standard"
                       InputProps={{
                         disableUnderline: true,
+                        sx: {
+                          fontSize: { lg: "14px", xs: "8px", sm: "12px", md: "14px" },
+                        },
                         style: {
-                          fontSize: "14px",
+                          // fontSize: "14px",
                           marginLeft: "5px",
                           height: "45px",
                           fontWeight: "600",
@@ -279,8 +285,11 @@ const AddSessionInput = (props: any) => {
                     disabled={true}
                     InputProps={{
                       disableUnderline: true,
+                      sx: {
+                        fontSize: { lg: "14px", xs: "8px", sm: "12px", md: "14px" },
+                      },
                       style: {
-                        fontSize: "14px",
+                        // fontSize: "14px",
                         marginLeft: "5px",
                         height: "45px",
                         fontWeight: "600",
@@ -318,8 +327,11 @@ const AddSessionInput = (props: any) => {
                     variant="standard"
                     InputProps={{
                       disableUnderline: true,
+                      sx: {
+                        fontSize: { lg: "14px", xs: "8px", sm: "12px", md: "14px" },
+                      },
                       style: {
-                        fontSize: "14px",
+                        // fontSize: "14px",
                         marginLeft: "5px",
                         height: "45px",
                         fontWeight: "600",
@@ -356,8 +368,11 @@ const AddSessionInput = (props: any) => {
                     variant="standard"
                     InputProps={{
                       disableUnderline: true,
+                      sx: {
+                        fontSize: { lg: "14px", xs: "8px", sm: "12px", md: "14px" },
+                      },
                       style: {
-                        fontSize: "14px",
+                        // fontSize: "14px",
                         marginLeft: "5px",
                         height: "45px",
                         fontWeight: "600",
@@ -388,7 +403,8 @@ const AddSessionInput = (props: any) => {
                         component={"span"}
                         sx={{
                           fontWeight: "600",
-                          fontSize: "18px",
+                          // fontSize: "18px",
+                          fontSize: { lg: "18px", xs: "10px", sm: "15px", md: "18px" },
                           color: "black",
                         }}
                       >
@@ -419,7 +435,8 @@ const AddSessionInput = (props: any) => {
                         component={"span"}
                         sx={{
                           fontWeight: "600",
-                          fontSize: "18px",
+                          fontSize: { lg: "18px", xs: "10px", sm: "15px", md: "18px" },
+                          // fontSize: "18px",
                           color: "black",
                         }}
                       >
@@ -450,7 +467,8 @@ const AddSessionInput = (props: any) => {
                         component={"span"}
                         sx={{
                           fontWeight: "600",
-                          fontSize: "18px",
+                          fontSize: { lg: "18px", xs: "10px", sm: "15px", md: "18px" },
+                          // fontSize: "18px",
                           color: "black",
                         }}
                       >
@@ -480,7 +498,8 @@ const AddSessionInput = (props: any) => {
                         component={"span"}
                         sx={{
                           fontWeight: "600",
-                          fontSize: "18px",
+                          fontSize: { lg: "18px", xs: "10px", sm: "15px", md: "18px" },
+                          // fontSize: "18px",
                           color: "black",
                         }}
                       >

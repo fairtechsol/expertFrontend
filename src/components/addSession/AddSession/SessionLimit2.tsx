@@ -1,17 +1,18 @@
 import { useEffect, useState } from "react";
 //import { updateMarketRates } from "../../../store/actions/addMatch/addMatchAction";
+import { Box, Typography } from "@mui/material";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogTitle from "@mui/material/DialogTitle";
+import { useDispatch, useSelector } from "react-redux";
 import {
   resetSessionMaxLimitSuccess,
   updateSession,
 } from "../../../store/actions/addSession";
 import { AppDispatch, RootState } from "../../../store/store";
-import { useDispatch, useSelector } from "react-redux";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogTitle from "@mui/material/DialogTitle";
-import { Box } from "@mui/material";
 import MatchListInput from "../../addMatch/MatchListInput";
+import { MaterialUISwitch } from "../../tabList/materialUiSwitch";
 
 const SessionLimit2 = ({
   open,
@@ -19,12 +20,15 @@ const SessionLimit2 = ({
   matchOddsLive,
   title,
   exposureLimit,
+  isCommissionActive,
 }: any) => {
   const [selected, setSelected] = useState<any>({
     maxLimit: 0,
     minLimit: 0,
     exposureLimit: null,
+    commission: isCommissionActive,
   });
+
   const dispatch: AppDispatch = useDispatch();
   const { maxLimitUpdateSuccess } = useSelector(
     (state: RootState) => state.addSession
@@ -40,6 +44,7 @@ const SessionLimit2 = ({
           maxBet: selected?.maxLimit,
           minBet: selected?.minLimit,
           exposureLimit: parseFloat(selected?.exposureLimit),
+          isCommissionActive: selected.commission,
         };
         dispatch(updateSession(payload));
         //   }
@@ -69,6 +74,7 @@ const SessionLimit2 = ({
         maxLimit: matchOddsLive?.maxBet,
         minLimit: matchOddsLive?.minBet,
         exposureLimit: exposureLimit,
+        commission: isCommissionActive,
       });
     } catch (error) {
       console.error(error);
@@ -163,6 +169,39 @@ const SessionLimit2 = ({
                 />
               </Box>
             </Box>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "6px",
+                background: "#004a25",
+                color: "#fff",
+                borderRadius: "8px",
+                padding: "1px 5px",
+                width:"fit-content"
+              }}
+            >
+              <Typography
+                sx={{
+                  color: "#fff",
+                  fontSize: { lg: "11px", md: "10px", xs: "9px" },
+                }}
+              >
+                Set Commission
+              </Typography>
+              <MaterialUISwitch
+                id="commission-switch"
+                checked={selected.commission}
+                onChange={() => {
+                  setSelected((prev: any) => {
+                    return {
+                      ...prev,
+                      commission: !prev.commission,
+                    };
+                  });
+                }}
+              />
+            </div>
           </Box>
         </DialogContent>
         <DialogActions

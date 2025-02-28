@@ -10,10 +10,10 @@ import SessionMarketLive from "../../components/matchDetails/SessionMarketLive";
 import { customSortBySessionMarketName } from "../../helpers";
 import {
   expertSocketService,
+  matchService,
   matchSocket,
   socket,
   socketService,
-  matchService,
 } from "../../socketManager";
 import { matchSocketService } from "../../socketManager/matchSocket";
 import {
@@ -538,7 +538,7 @@ const SessionMarketDetail = () => {
     //     }
     //   };
     // }, [handleVisibilityChange, rateInterval, setRateInterval]);
-  
+console.log(matchDetail?.updatedSesssionBettings);
 
   return (
     <>
@@ -558,7 +558,7 @@ const SessionMarketDetail = () => {
                 return (
                   <>
                     {item?.section
-                      ?.filter((i: any) => !i?.isManual)
+                      // ?.filter((i: any) => !i?.isManual)
                       ?.filter(
                         (items: any) =>
                           !items?.activeStatus ||
@@ -607,7 +607,7 @@ const SessionMarketDetail = () => {
                   return (
                     <Fragment key={name}>
                       {item?.section
-                        ?.filter((i: any) => !i?.isManual)
+                        // ?.filter((i: any) => !i?.isManual)
                         ?.filter(
                           (items: any) =>
                             !items?.activeStatus ||
@@ -634,7 +634,7 @@ const SessionMarketDetail = () => {
                 return (
                   <Fragment key={name}>
                     {item?.section
-                      ?.filter((i: any) => !i?.isManual)
+                      // ?.filter((i: any) => !i?.isManual)
                       ?.filter(
                         (items: any) =>
                           items?.isComplete &&
@@ -697,7 +697,7 @@ const SessionMarketDetail = () => {
                 return (
                   <Fragment key={name}>
                     {item?.section
-                      ?.filter((i: any) => !i?.isManual)
+                      // ?.filter((i: any) => !i?.isManual)
                       ?.filter(
                         (items: any) =>
                           !items?.isComplete &&
@@ -756,7 +756,7 @@ const SessionMarketDetail = () => {
                 return (
                   <Fragment key={name}>
                     {item?.section
-                      ?.filter((i: any) => !i?.isManual)
+                      // ?.filter((i: any) => !i?.isManual)
                       ?.filter(
                         (items: any) =>
                           (items?.resultData && items?.resultData !== null) ||
