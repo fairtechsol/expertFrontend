@@ -170,7 +170,7 @@ const NewEditBookmaker = (props: any) => {
                             lay: Number(items.layRate) ? items.layRate : 0,
                             rightBack: items.backRate ? Number(items.backRate) : 0,
                             rightLay: Number(items.layRate) ? items.layRate : 0,
-                            suspended: items?.status !== "active" ? false : false,
+                            suspended: items?.status !== "active" ? true : false,
                         })),
                         teamBall: !!prev.teams?.find(
                             (items: any) => items.status == "ball start"
@@ -245,7 +245,7 @@ const NewEditBookmaker = (props: any) => {
                                     suspended:
                                         data?.teams?.find((item: any) => item.id == items.id)
                                             ?.status !== "active"
-                                            ? false
+                                            ? true
                                             : false,
                                 })),
                             };

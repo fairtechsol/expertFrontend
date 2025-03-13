@@ -112,10 +112,10 @@ export const handleKeysMatchEvents = (
                         else {
                             return {
                                 ...item,
-                                back: Number(rates[checkValue + +incGap]),
-                                lay: Number(rates[value]),
-                                rightBack: Number(rates[checkValue + +incGap]),
-                                rightLay: Number(rates[value]),
+                                back: Number(rates[checkValue + +incGap] ?? 0),
+                                lay: Number(rates[value] ?? 0),
+                                rightBack: Number(rates[checkValue + +incGap] ?? 0),
+                                rightLay: Number(rates[value] ?? 0),
                             };
                         }
                         // return { ...item, back: 0, lay: 0, rightBack: 0, rightLay: 0 };
@@ -191,8 +191,8 @@ export const handleKeysMatchEvents = (
                         else {
                             return {
                                 ...item,
-                                back: Number(rates[checkValue + +incGap]),
-                                lay: Number(rates[value]),
+                                back: Number(rates[checkValue + +incGap] ?? 0),
+                                lay: Number(rates[value] ?? 0),
                             }
                         }
                         // return { ...item, back: 0, lay: 0 };
@@ -214,8 +214,8 @@ export const handleKeysMatchEvents = (
                         }
                         else {
                             return {
-                                back: Number(rates[item.lay]),
-                                lay: Number(rates[item.back]),
+                                back: Number(rates[item.lay] ?? 0),
+                                lay: Number(rates[item.back] ?? 0),
                                 id: item.id,
                                 status: "active",
                             }
@@ -257,10 +257,10 @@ export const handleKeysMatchEvents = (
                         } else {
                             return {
                                 ...item,
-                                back: Number(rates[checkValue - +incGap]),
-                                lay: Number(rates[value]),
-                                rightBack: Number(rates[checkValue - +incGap]),
-                                rightLay: Number(rates[value]),
+                                back: Number(rates[checkValue - +incGap] ?? 0),
+                                lay: Number(rates[value] ?? 0),
+                                rightBack: Number(rates[checkValue - +incGap] ?? 0),
+                                rightLay: Number(rates[value] ?? 0),
                             };
                         }
                         // return { ...item, back: 0, lay: 0, rightBack: 0, rightLay: 0 };
@@ -329,8 +329,8 @@ export const handleKeysMatchEvents = (
                         } else {
                             return {
                                 ...item,
-                                back: Number(rates[checkValue - +incGap]),
-                                lay: Number(rates[value]),
+                                back: Number(rates[checkValue - +incGap] ?? 0),
+                                lay: Number(rates[value] ?? 0),
                             }
                         }
                         // return { ...item, back: 0, lay: 0 };
@@ -351,8 +351,8 @@ export const handleKeysMatchEvents = (
                             };
                         }
                         return {
-                            back: Number(rates[item.lay]),
-                            lay: Number(rates[item.back]),
+                            back: Number(rates[item.lay] ?? 0),
+                            lay: Number(rates[item.back] ?? 0),
                             id: item.id,
                             status: "active",
 
@@ -413,14 +413,14 @@ export const handleKeysMatchEvents = (
                                         ? 1
                                         : value
                                             ? value + 1
-                                            : NaN]),
+                                            : 0]),
                                 rightBack: Number(rates[incGap < 1
                                     ? value + incGap
                                     : value === 0
                                         ? 1
                                         : value
                                             ? value + 1
-                                            : NaN]),
+                                            : 0]),
                             }
                         }
                         // return {
@@ -491,7 +491,7 @@ export const handleKeysMatchEvents = (
                                             ? 1
                                             : value
                                                 ? value + 1
-                                                : NaN,
+                                                : 0,
                             };
                         } else {
                             return {
@@ -502,7 +502,7 @@ export const handleKeysMatchEvents = (
                                         ? 1
                                         : value
                                             ? value + 1
-                                            : NaN]),
+                                            : 0]),
                             };
                             // return {
                             //     ...item,
@@ -560,8 +560,8 @@ export const handleKeysMatchEvents = (
                             } else {
                                 return {
                                     ...item,
-                                    back: Number(rates[currTeam?.lay ? currTeam?.lay - 1 : currTeam?.back]),
-                                    rightBack: Number(rates[currTeam?.lay ? currTeam?.lay - 1 : currTeam?.back]),
+                                    back: Number(rates[currTeam?.lay ? currTeam?.lay - 1 : currTeam?.back] ?? 0),
+                                    rightBack: Number(rates[currTeam?.lay ? currTeam?.lay - 1 : currTeam?.back] ?? 0),
                                 }
                             }
                             // return {
@@ -628,7 +628,7 @@ export const handleKeysMatchEvents = (
                             } else {
                                 return {
                                     ...item,
-                                    back: Number(rates[currTeam?.lay ? currTeam?.lay - 1 : currTeam?.back]),
+                                    back: Number(rates[currTeam?.lay ? currTeam?.lay - 1 : currTeam?.back] ?? 0),
                                 }
 
                             }
@@ -690,10 +690,10 @@ export const handleKeysMatchEvents = (
                         else {
                             return {
                                 ...item,
-                                back: Number(rates[+value + 1]),
-                                lay: Number(rates[+value]),
-                                rightBack: Number(rates[+value + 1]),
-                                rightLay: Number(rates[+value]),
+                                back: Number(rates[+value + 1] ?? 0),
+                                lay: Number(rates[+value] ?? 0),
+                                rightBack: Number(rates[+value + 1] ?? 0),
+                                rightLay: Number(rates[+value] ?? 0),
                             }
 
                         }
@@ -768,8 +768,8 @@ export const handleKeysMatchEvents = (
                             } else {
                                 return {
                                     ...item,
-                                    back: Number(rates[item.lay ?? 0]),
-                                    lay: Number(rates[item.back ?? 0]),
+                                    back: Number(rates[item.lay ?? 0] ?? 0),
+                                    lay: Number(rates[item.back ?? 0] ?? 0),
                                     id: item.id,
                                     status: "active",
                                 }
@@ -883,8 +883,8 @@ export const handleKeysMatchEvents = (
                             } else {
                                 return {
                                     ...item,
-                                    back: Number(rates[value + 1]),
-                                    lay: Number(rates[value - 0.5]),
+                                    back: Number(rates[value + 1] ?? 0),
+                                    lay: Number(rates[value - 0.5] ?? 0),
                                 }
                             }
                             // return { ...item, back: 0, lay: 0 };
@@ -960,8 +960,8 @@ export const handleKeysMatchEvents = (
                         } else {
                             return {
                                 ...item,
-                                back: Number(rates[value + 1.5]),
-                                lay: Number(rates[value]),
+                                back: Number(rates[value + 1.5] ?? 0),
+                                lay: Number(rates[value] ?? 0),
                             }
                         }
                         // return { ...item, back: 0, lay: 0 };
@@ -1031,10 +1031,10 @@ export const handleKeysMatchEvents = (
                             } else {
                                 return {
                                     ...item,
-                                    back: Number(rates[value + 1]),
-                                    lay: Number(rates[value]),
-                                    rightBack: Number(rates[value + 1]),
-                                    rightLay: Number(rates[value]),
+                                    back: Number(rates[value + 1] ?? 0),
+                                    lay: Number(rates[value] ?? 0),
+                                    rightBack: Number(rates[value + 1] ?? 0),
+                                    rightLay: Number(rates[value] ?? 0),
                                 }
                             }
                             // return { ...item, lay: 0, back: 0, rightBack: 0, rightLay: 0 };
@@ -1067,10 +1067,10 @@ export const handleKeysMatchEvents = (
                                 } else {
                                     return {
                                         ...item,
-                                        back: Number(rates[value ? value + incGap : incGap]),
-                                        lay: Number(rates[value ? value : 0]),
-                                        rightBack: Number(rates[value ? value + incGap : incGap]),
-                                        rightLay: Number(rates[value ? value : 0]),
+                                        back: Number(rates[value ? value + incGap : incGap] ?? 0),
+                                        lay: Number(rates[value ? value : 0] ?? 0),
+                                        rightBack: Number(rates[value ? value + incGap : incGap] ?? 0),
+                                        rightLay: Number(rates[value ? value : 0] ?? 0),
                                     }
                                 }
                                 // return { ...item, lay: 0, back: 0, rightBack: 0, rightLay: 0 };
@@ -1124,10 +1124,10 @@ export const handleKeysMatchEvents = (
                         } else {
                             return {
                                 ...item,
-                                back: Number(rates[value + 0.5]),
-                                lay: Number(rates[value]),
-                                rightBack: Number(rates[value + 0.5]),
-                                rightLay: Number(rates[value]),
+                                back: Number(rates[value + 0.5] ?? 0),
+                                lay: Number(rates[value] ?? 0),
+                                rightBack: Number(rates[value + 0.5] ?? 0),
+                                rightLay: Number(rates[value] ?? 0),
                             }
                         }
                         // return {
@@ -1185,10 +1185,10 @@ export const handleKeysMatchEvents = (
                         } else {
                             return {
                                 ...item,
-                                back: Number(rates[value + 5]),
-                                lay: Number(rates[value]),
-                                rightBack: Number(rates[value + 5]),
-                                rightLay: Number(rates[value]),
+                                back: Number(rates[value + 5] ?? 0),
+                                lay: Number(rates[value] ?? 0),
+                                rightBack: Number(rates[value + 5] ?? 0),
+                                rightLay: Number(rates[value] ?? 0),
                             }
                         }
                         // return {
