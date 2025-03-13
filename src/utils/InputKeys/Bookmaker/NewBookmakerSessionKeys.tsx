@@ -394,7 +394,7 @@ export const handleKeysMatchEvents = (
                                             ? 1
                                             : value
                                                 ? value + 1
-                                                : NaN,
+                                                : 0,
                                 rightLay:
                                     incGap < 1
                                         ? value + incGap
@@ -402,7 +402,7 @@ export const handleKeysMatchEvents = (
                                             ? 1
                                             : value
                                                 ? value + 1
-                                                : NaN,
+                                                : 0,
                             };
                         } else {
                             return {
@@ -413,14 +413,14 @@ export const handleKeysMatchEvents = (
                                         ? 1
                                         : value
                                             ? value + 1
-                                            : 0]),
+                                            : 0] ?? 0),
                                 rightBack: Number(rates[incGap < 1
                                     ? value + incGap
                                     : value === 0
                                         ? 1
                                         : value
                                             ? value + 1
-                                            : 0]),
+                                            : 0] ?? 0),
                             }
                         }
                         // return {
@@ -502,7 +502,7 @@ export const handleKeysMatchEvents = (
                                         ? 1
                                         : value
                                             ? value + 1
-                                            : 0]),
+                                            : 0] ?? 0),
                             };
                             // return {
                             //     ...item,
