@@ -1,4 +1,6 @@
 import { socketService } from "../../../socketManager";
+import { rates } from "./Rates";
+
 export const handleSuspend = (
   back: number,
   lay: number,
@@ -44,7 +46,16 @@ export const updateLocalQuickBookmaker = (
             rightLay: +lay,
           };
         }
-        return item;
+        else {
+          return {
+            ...item,
+            back: Number(rates[lay]),
+            lay: Number(rates[back]),
+            rightBack: Number(rates[lay]),
+            rightLay: Number(rates[back]),
+          };
+        }
+        // return item;
       }),
     };
     return newBody;
@@ -52,7 +63,7 @@ export const updateLocalQuickBookmaker = (
 
   setLocalQuickBookmaker((prev: any) => {
     if (
-      prev.teams?.find((item:any)=>!item.suspended)
+      prev.teams?.find((item: any) => !item.suspended)
     ) {
       let data = {
         matchId: match?.id,

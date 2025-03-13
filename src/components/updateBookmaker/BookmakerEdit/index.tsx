@@ -4,6 +4,7 @@ import theme from "../../../theme";
 import CommissionDot from "../../Common/CommissionDot";
 import ResultComponentTournamentMarket from "../../matchDetails/TournamentMarkets/ResultComponentTournamentMarket";
 import EditBookmaker from "./EditBookmaker";
+import NewEditBookmaker from "./NewEditBookmaker";
 interface Props {
   add: boolean;
   match: any;
@@ -24,7 +25,6 @@ const BookmakerEditSection = ({
   const [visible, setVisible] = useState(false);
   const [visible1, setVisible1] = useState(false);
   const matchesMobile = useMediaQuery(theme.breakpoints.down("lg"));
-
   return (
     <Box
       sx={{
@@ -218,15 +218,27 @@ const BookmakerEditSection = ({
             flexDirection: "column",
           }}
         >
-          <EditBookmaker
-            add={add}
-            match={match}
-            Bid={bookmakerId}
-            matchBetting={matchBetting}
-            runners={runners}
-            exposureLimit={matchBetting?.exposureLimit}
-            teamRates={teamRates}
-          />
+          {runners?.length > 2 ? (
+            <EditBookmaker
+              add={add}
+              match={match}
+              Bid={bookmakerId}
+              matchBetting={matchBetting}
+              runners={runners}
+              exposureLimit={matchBetting?.exposureLimit}
+              teamRates={teamRates}
+            />
+          ) : (
+            <NewEditBookmaker
+              add={add}
+              match={match}
+              Bid={bookmakerId}
+              matchBetting={matchBetting}
+              runners={runners}
+              exposureLimit={matchBetting?.exposureLimit}
+              teamRates={teamRates}
+            />
+          )}
         </Box>
       </Box>
     </Box>
