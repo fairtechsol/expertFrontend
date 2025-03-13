@@ -758,28 +758,12 @@ export const handleKeysMatchEvents = (
                         matchId: match?.id,
                         id: Bid,
                         teams: prev.teams?.map((item: any) => {
-                            if (item.id == e.target.name) {
-                                return {
-                                    back: item.back ?? 0,
-                                    lay: item.lay ?? 0,
-                                    id: item.id,
-                                    status: "active",
-                                };
-                            } else {
-                                return {
-                                    ...item,
-                                    back: Number(rates[item.lay ?? 0] ?? 0),
-                                    lay: Number(rates[item.back ?? 0] ?? 0),
-                                    id: item.id,
-                                    status: "active",
-                                }
-                            }
-                            // return {
-                            //     back: item.back ?? 0,
-                            //     lay: item.lay ?? 0,
-                            //     id: item.id,
-                            //     status: "suspended",
-                            // };
+                            return {
+                                back: item.back ?? 0,
+                                lay: item.lay ?? 0,
+                                id: item.id,
+                                status: "active",
+                            };
                         }),
                     };
                     socketService.user.updateMatchBettingRate(data);

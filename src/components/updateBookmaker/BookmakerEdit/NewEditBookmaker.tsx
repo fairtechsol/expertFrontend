@@ -97,11 +97,10 @@ const NewEditBookmaker = (props: any) => {
             if (decimalValue[1] && incGap !== 0.25) {
                 return true;
             }
-
             setIsTab("");
 
             // if (regex.test(value)) {
-            if ((!match?.rateThan100 && value < 100) || match?.rateThan100) {
+            if ((!match?.rateThan100) || match?.rateThan100) {
                 updateLocalQuickBookmaker(
                     match,
                     matchBetting.id,
@@ -120,8 +119,8 @@ const NewEditBookmaker = (props: any) => {
                             ? { ...item, back: item.back, lay: item.lay, suspended: false }
                             : {
                                 ...item,
-                                back: rates[backKey],
-                                lay: rates[layKey],
+                                back: rates[backKey] ?? 0,
+                                lay: rates[layKey] ?? 0,
                                 id: item.id,
                                 status: "suspended",
                             };
@@ -608,7 +607,6 @@ const NewEditBookmaker = (props: any) => {
                                                     onWheel={numberInputOnWheelPreventChange}
                                                     name={item.id}
                                                     type="text"
-                                                    disabled={item?.sortPriority !== 0}
                                                     variant="standard"
                                                     value={+item?.back}
                                                     autoComplete="off"

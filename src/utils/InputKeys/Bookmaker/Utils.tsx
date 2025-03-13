@@ -49,10 +49,10 @@ export const updateLocalQuickBookmaker = (
         else {
           return {
             ...item,
-            back: Number(rates[lay]),
-            lay: Number(rates[back]),
-            rightBack: Number(rates[lay]),
-            rightLay: Number(rates[back]),
+            back: Number(rates[lay] ?? 0),
+            lay: Number(rates[back] ?? 0),
+            rightBack: Number(rates[lay] ?? 0),
+            rightLay: Number(rates[back] ?? 0),
           };
         }
         // return item;
