@@ -10,10 +10,10 @@ import MatchOdds from "../../components/matchDetails/MatchOdds";
 import TiedMatchMarket from "../../components/matchDetails/TiedMatchMarket";
 import {
   expertSocketService,
+  matchService,
   matchSocket,
   socket,
   socketService,
-  matchService,
 } from "../../socketManager";
 import { matchSocketService } from "../../socketManager/matchSocket";
 import {
@@ -70,7 +70,7 @@ const MatchMarketDetail = () => {
       matchService.connect([state?.id]);
     }
     return () => {
-      matchService.disconnect(); 
+      matchService.disconnect();
     };
   }, [state]);
 
@@ -336,7 +336,7 @@ const MatchMarketDetail = () => {
         //   console.log("event :", event)
         //   // updateMatchDetailToRedux(event);
         // });
-        
+
         socketService.user.matchResultDeclared(resultDeclared);
         socketService.user.matchResultDeclareAllUser(resultDeclared);
         socketService.user.matchResultUnDeclared(resultUnDeclared);
@@ -435,7 +435,7 @@ const MatchMarketDetail = () => {
   //         // });
   //       }
   //       handleRateInterval();
-      
+
   //   } else if (document.visibilityState === "hidden") {
   //     expertSocketService.match.leaveMatchRoom(state?.id);
   //     if (rateInterval?.intervalData?.length) {
@@ -578,8 +578,8 @@ const MatchMarketDetail = () => {
           ? matchDetail?.stopAt
             ? "declared"
             : matchDetail?.resultStatus
-            ? "pending"
-            : ""
+              ? "pending"
+              : ""
           : "",
     },
     {
@@ -597,8 +597,8 @@ const MatchMarketDetail = () => {
           ? matchDetail?.resultStatus
             ? "pending"
             : matchDetail?.stopAt
-            ? "declared"
-            : ""
+              ? "declared"
+              : ""
           : "",
     },
     {
@@ -616,8 +616,8 @@ const MatchMarketDetail = () => {
           ? matchDetail?.resultStatus
             ? "pending"
             : matchDetail?.stopAt
-            ? "declared"
-            : ""
+              ? "declared"
+              : ""
           : "",
     },
     ...(matchDetail?.quickBookmaker
@@ -630,7 +630,7 @@ const MatchMarketDetail = () => {
             liveData={bookmaker}
             showResultBox={
               firstKnownKey === "quickBookmaker" &&
-              bookmaker?.type === "quickbookmaker1"
+                bookmaker?.type === "quickbookmaker1"
                 ? true
                 : false
             }
@@ -638,15 +638,15 @@ const MatchMarketDetail = () => {
         ),
         result:
           firstKnownKey === "quickBookmaker" &&
-          bookmaker?.type === "quickbookmaker1"
+            bookmaker?.type === "quickbookmaker1"
             ? true
             : false
-            ? matchDetail?.resultStatus
-              ? "pending"
-              : matchDetail?.stopAt
-              ? "declared"
-              : ""
-            : "",
+              ? matchDetail?.resultStatus
+                ? "pending"
+                : matchDetail?.stopAt
+                  ? "declared"
+                  : ""
+              : "",
       })) || []),
     ...(matchDetail?.other?.map((market: any) => ({
       component: (
@@ -701,8 +701,8 @@ const MatchMarketDetail = () => {
           ? matchDetail?.resultStatus
             ? "pending"
             : matchDetail?.stopAt
-            ? "declared"
-            : ""
+              ? "declared"
+              : ""
           : "",
     },
     {
@@ -720,8 +720,8 @@ const MatchMarketDetail = () => {
           ? matchDetail?.resultStatus
             ? "pending"
             : matchDetail?.stopAt
-            ? "declared"
-            : ""
+              ? "declared"
+              : ""
           : "",
     },
     {
@@ -739,8 +739,8 @@ const MatchMarketDetail = () => {
           ? matchDetail?.resultStatus
             ? "pending"
             : matchDetail?.stopAt
-            ? "declared"
-            : ""
+              ? "declared"
+              : ""
           : "",
     },
     {
@@ -757,12 +757,12 @@ const MatchMarketDetail = () => {
         ),
       result:
         matchDetail?.marketCompleteMatch &&
-        firstKnownKey === "marketCompleteMatch"
+          firstKnownKey === "marketCompleteMatch"
           ? matchDetail?.resultStatus
             ? "pending"
             : matchDetail?.stopAt
-            ? "declared"
-            : ""
+              ? "declared"
+              : ""
           : "",
     },
     {
@@ -779,12 +779,12 @@ const MatchMarketDetail = () => {
         ),
       result:
         matchDetail?.marketCompleteMatch1 &&
-        firstKnownKey === "marketCompleteMatch1"
+          firstKnownKey === "marketCompleteMatch1"
           ? matchDetail?.resultStatus
             ? "pending"
             : matchDetail?.stopAt
-            ? "declared"
-            : ""
+              ? "declared"
+              : ""
           : "",
     },
     {
@@ -801,12 +801,12 @@ const MatchMarketDetail = () => {
         ),
       result:
         matchDetail?.manualCompleteMatch &&
-        firstKnownKey === "manualCompleteMatch"
+          firstKnownKey === "manualCompleteMatch"
           ? matchDetail?.resultStatus
             ? "pending"
             : matchDetail?.stopAt
-            ? "declared"
-            : ""
+              ? "declared"
+              : ""
           : "",
     },
   ];
@@ -928,7 +928,7 @@ const MatchMarketDetail = () => {
             }}
           >
             {matchDetail?.id && (
-              <BetList allBetRates={ Array.from(new Set(placedBetsMatch))} tag={true} isMatchDeclare={true} />
+              <BetList allBetRates={Array.from(new Set(placedBetsMatch))} tag={true} isMatchDeclare={true} />
             )}
           </Box>
         </>
