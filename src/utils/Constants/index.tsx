@@ -5,7 +5,7 @@ export const ApiConstants = {
   LOGOUT: "auth/logout",
   OLD_PASSWORD: "/user/check/oldPassword",
   MATCH: {
-    RATES:"/getExpertRateDetails/",
+    RATES: "/getExpertRateDetails/",
     ADD: "match/add",
     ADD_RACE: "match/racingAdd",
     EDIT: "match/update",
@@ -111,6 +111,7 @@ export const Constants = {
     session: "session",
     sessionBetList: "sessionBetList",
     market: "market",
+    betDetail: "betDetail",
     changePassword: "change-password",
   },
   WEBSOCKET: "websocket",

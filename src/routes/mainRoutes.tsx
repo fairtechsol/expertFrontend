@@ -12,6 +12,7 @@ import UpdateBookmaker from "../pages/updateBookmaker";
 // import MatchDetails from "../pages/matchDetails";
 import AddManualMarket from "../pages/addManualBetting";
 import AddRace from "../pages/addRace";
+import BetDetail from "../pages/betDetail";
 import ChangePassword from "../pages/changePassword";
 import MatchMarketDetail from "../pages/matchMarketDetail";
 import RaceDetails from "../pages/raceDetails";
@@ -90,6 +91,10 @@ const MainRoutes = {
     {
       path: Constants.MainPaths.market,
       element: <MatchMarketDetail />,
+    },
+    {
+      path: Constants.MainPaths.betDetail,
+      element: <BetDetail />,
     },
     {
       path: Constants.MainPaths.changePassword,
