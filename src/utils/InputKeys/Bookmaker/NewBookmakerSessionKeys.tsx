@@ -214,8 +214,8 @@ export const handleKeysMatchEvents = (
                         }
                         else {
                             return {
-                                back: Number(rates[item.lay] ?? 0),
-                                lay: Number(rates[item.back] ?? 0),
+                                back: item.back ?? 0,
+                                lay: item.lay ?? 0,
                                 id: item.id,
                                 status: "active",
                             }
@@ -351,8 +351,8 @@ export const handleKeysMatchEvents = (
                             };
                         }
                         return {
-                            back: Number(rates[item.lay] ?? 0),
-                            lay: Number(rates[item.back] ?? 0),
+                            back: item.back ?? 0,
+                            lay: item.lay ?? 0,
                             id: item.id,
                             status: "active",
 
@@ -530,7 +530,7 @@ export const handleKeysMatchEvents = (
                             back: item.back ?? 0,
                             lay: item.lay ?? 0,
                             id: item.id,
-                            status: "suspended",
+                            status: "active",
                         };
                     }),
                 };
@@ -654,7 +654,7 @@ export const handleKeysMatchEvents = (
                             back: item.back ?? 0,
                             lay: item.lay ?? 0,
                             id: item.id,
-                            status: "suspended",
+                            status: "active",
                         };
                     }),
                 };
@@ -893,7 +893,7 @@ export const handleKeysMatchEvents = (
                             back: item.back ?? 0,
                             lay: item.lay ?? 0,
                             id: item.id,
-                            status: "suspended",
+                            status: "active",
                         };
                     }),
                 };
@@ -969,7 +969,7 @@ export const handleKeysMatchEvents = (
                             back: item.back ?? 0,
                             lay: item.lay ?? 0,
                             id: item.id,
-                            status: "suspended",
+                            status: "active",
                         };
                     }),
                 };
