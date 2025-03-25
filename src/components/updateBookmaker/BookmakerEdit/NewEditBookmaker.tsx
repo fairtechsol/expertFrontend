@@ -87,6 +87,10 @@ const NewEditBookmaker = (props: any) => {
                 return true;
             }
             let { name, value } = event.target;
+
+            if (!/^\d*$/.test(value)) {
+                return;
+            }
             const decimalValue = value.split(".");
             if (
                 decimalValue[1] &&
