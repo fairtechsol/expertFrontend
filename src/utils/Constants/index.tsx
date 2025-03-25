@@ -18,7 +18,6 @@ export const ApiConstants = {
     GETDETAIL: "match",
     OTHER_MATCH_DETAIL: "match/otherMatch",
     UPDATEACTIVESTATUS: "match/updateActiveStatus",
-    UPDATEMULTIPLEACTIVESTATUS: "match/updateActiveStatus/multiple",
     DECLARE: "bet/declare/result/match",
     FINAL_DECLARE: "bet/declare/result/final/match",
     OTHER_DECLARE: "bet/declare/result/other/match",
