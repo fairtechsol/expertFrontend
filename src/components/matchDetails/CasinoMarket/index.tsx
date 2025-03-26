@@ -1,5 +1,7 @@
 import { Box, Typography } from "@mui/material";
+import ModalMUI from "@mui/material/Modal";
 import { memo, useEffect, useState } from "react";
+import { TiArrowLeftThick } from "react-icons/ti";
 import { useDispatch, useSelector } from "react-redux";
 import { ARROWUP, edit, UD } from "../../../assets";
 import { sessionBetLiveStatus } from "../../../store/actions/match/matchAction";
@@ -7,12 +9,10 @@ import { AppDispatch, RootState } from "../../../store/store";
 import Divider from "../../Common/Divider";
 import { formatToINR } from "../../helper";
 import Result from "../Result";
+import SessionLimitEdit from "../SessionMarket/SessionLimitEdit";
 import CasinoMarketBox from "./CasinoMarketBox";
 import CustomCasinoMarketResult from "./CustomCasinoMarketResult";
 import LiveStatusButtonBox from "./LiveStatusButtonBox";
-import { TiArrowLeftThick } from "react-icons/ti";
-import ModalMUI from "@mui/material/Modal";
-import SessionLimitEdit from "../SessionMarket/SessionLimitEdit";
 
 const CasinoMarket = ({ title, sessionData, profitLossData, section }: any) => {
   const [visible, setVisible] = useState(true);
@@ -203,7 +203,6 @@ const CasinoMarket = ({ title, sessionData, profitLossData, section }: any) => {
           sx={{
             flex: 0.1,
             background: "#262626",
-            // '#262626'
           }}
         >
           <div className="slanted"></div>
@@ -213,7 +212,6 @@ const CasinoMarket = ({ title, sessionData, profitLossData, section }: any) => {
           sx={{
             flex: 0.5,
             background: "#262626",
-            // '#262626' ,
             display: "flex",
             alignItems: "center",
             justifyContent: "flex-end",
@@ -442,7 +440,6 @@ const CasinoMarket = ({ title, sessionData, profitLossData, section }: any) => {
                 flexDirection: "column",
                 width: "100%",
                 position: "relative",
-                // maxHeight: { lg: "85vh", xs: "40vh" },
                 overflowY: "auto",
                 "::-webkit-scrollbar": {
                   display: "none",

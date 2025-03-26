@@ -178,15 +178,6 @@ const ManualMarket = ({ currentMatch, liveData, type, showResultBox }: any) => {
           />
         </Box>
       </Box>
-      {/* <Box
-        sx={{
-          position: "absolute",
-          zIndex: 999,
-          top: "26%",
-          right: "1%",
-          width: { lg: "30vh", xs: "30vh" },
-        }}
-      > */}
       {visible && (
         <ResultComponent
           currentMatch={currentMatch}
@@ -315,7 +306,6 @@ const ManualMarket = ({ currentMatch, liveData, type, showResultBox }: any) => {
                   : false
               }
               data={{ back: liveData?.backTeamA, lay: liveData?.layTeamA }}
-              //   lock={liveData?.runners?.length > 0 ? false : true}
               ballStatus={
                 liveData?.statusTeamA?.toLowerCase() === "ball start"
                   ? true
@@ -350,7 +340,6 @@ const ManualMarket = ({ currentMatch, liveData, type, showResultBox }: any) => {
                     : 0
                   : 0
               }
-              //   lock={liveData?.runners?.length > 0 ? false : true}
               status={liveData?.statusTeamB}
               ballStatus={
                 liveData?.statusTeamB?.toLowerCase() === "ball start"

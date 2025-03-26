@@ -1,38 +1,11 @@
 import { Box, Typography } from "@mui/material";
 import { memo, useState } from "react";
 import { ARROWUP } from "../../../assets";
-// import { sessionBetLiveStatus } from "../../../store/actions/match/matchAction";
-// import { RootState } from "../../../store/store";
 import Divider from "../../Common/Divider";
-// import { formatToINR } from "../../helper";
-// import Result from "../Result";
 import CasinoMarketBox from "./CasinoMarketBox";
-// import { useSelector } from "react-redux";
-// import CustomCasinoMarketResult from "./CustomCasinoMarketResult";
-// import LiveStatusButtonBox from "./LiveStatusButtonBox";
-// import PlaceBetComponent from "../SessionMarket/PlaceBetComponent";
-const CasinoMarket = ({
-  title,
-  sessionData,
-  // currentMatch,
-  profitLossData,
-}: any) => {
+
+const CasinoMarket = ({ title, sessionData, profitLossData }: any) => {
   const [visible, setVisible] = useState(true);
-  // const [showResultModal, setShowResultModal] = useState(false);
-  // const dispatch: AppDispatch = useDispatch();
-
-  // const { success } = useSelector((state: RootState) => state.matchList);
-  // const { matchDetail } = useSelector(
-  //   (state: RootState) => state.addMatch.addMatch
-  // );
-
-  // useEffect(() => {
-  //   if (success) {
-  //     setShowResultModal(false);
-  //   }
-  // }, [success]);
-
-  // let totalBet = 0;
   return (
     <Box
       sx={{
@@ -66,7 +39,6 @@ const CasinoMarket = ({
             alignItems: "center",
             display: "flex",
             justifyContent: "space-between",
-            // height: "40px",
           }}
         >
           <Typography
@@ -79,13 +51,11 @@ const CasinoMarket = ({
           >
             {title}
           </Typography>
-          <Box></Box>
         </Box>
         <Box
           sx={{
             flex: 0.1,
             background: "#262626",
-            // '#262626'
           }}
         >
           <div className="slanted"></div>
@@ -95,7 +65,6 @@ const CasinoMarket = ({
           sx={{
             flex: 0.5,
             background: "#262626",
-            // '#262626' ,
             display: "flex",
             alignItems: "center",
             justifyContent: "flex-end",
@@ -156,9 +125,15 @@ const CasinoMarket = ({
                     Result {sessionData?.resultStatus}
                   </Typography>
                 ) : (
-                  !["ACTIVE", "active", "", undefined, null, 0, "open"].includes(
-                    sessionData?.GameStatus?.toLowerCase()
-                  ) ||
+                  ![
+                    "ACTIVE",
+                    "active",
+                    "",
+                    undefined,
+                    null,
+                    0,
+                    "open",
+                  ].includes(sessionData?.GameStatus?.toLowerCase()) ||
                   (sessionData?.result && (
                     <Typography
                       sx={{
@@ -185,7 +160,6 @@ const CasinoMarket = ({
                 flexDirection: "column",
                 width: "100%",
                 position: "relative",
-                // maxHeight: { lg: "85vh", xs: "40vh" },
                 overflowY: "auto",
                 "::-webkit-scrollbar": {
                   display: "none",

@@ -2,7 +2,6 @@ import { Box, Stack } from "@mui/material";
 import { Fragment, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
-// import CasinoMarket2 from "../../components/matchDetails/CasinoMarket2";
 import BetList from "../../components/matchDetails/BetList";
 import CasinoMarket2 from "../../components/matchDetails/CasinoMarket2";
 import RunsBox from "../../components/matchDetails/RunsBox";
@@ -13,7 +12,7 @@ import {
   matchService,
   matchSocket,
   socket,
-  socketService
+  socketService,
 } from "../../socketManager";
 import { matchSocketService } from "../../socketManager/matchSocket";
 import {
@@ -22,7 +21,7 @@ import {
   updateMatchRates,
   updateRates,
   updateSessionAdded,
-  updateSessionProLoss
+  updateSessionProLoss,
 } from "../../store/actions/addMatch/addMatchAction";
 import {
   resetPlacedBetsMatch,
@@ -44,9 +43,6 @@ import {
 import { AppDispatch, RootState } from "../../store/store";
 
 const SessionBetlistDetail = () => {
-  // const intervalRef = useRef<NodeJS.Timeout | null>(null);
-  // const [rateInterval, setRateInterval] = useState<any>({ intervalData: [] });
-
   const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
   const { state } = useLocation();
@@ -64,7 +60,7 @@ const SessionBetlistDetail = () => {
       matchService.connect([state?.id]);
     }
     return () => {
-      matchService.disconnect(); 
+      matchService.disconnect();
     };
   }, [state]);
 
@@ -97,19 +93,6 @@ const SessionBetlistDetail = () => {
     }
   };
 
-  // const updateBettingStatus = (event: any) => {
-  //   try {
-  //     if (state?.id === event?.matchId) {
-  //       dispatch(updateMatchBettingStatus(event));
-  //     }
-  //   } catch (e) {
-  //     console.log(e);
-  //   }
-  // };
-  // console.log(
-  //   "matchDetail?.updatedSesssionBettings :",
-  //   JSON.stringify(matchDetail?.updatedSesssionBettings)
-  // );
   const matchDeleteBet = (event: any) => {
     try {
       if (event?.matchId === state?.id) {
@@ -137,21 +120,10 @@ const SessionBetlistDetail = () => {
     }
   };
 
-  // const updateVerifyBet = (event: any) => {
-  //     try {
-  //       if (event?.matchId === state?.id) {
-  //         dispatch(updateBetVerify(event));
-  //       }
-  //     } catch (e) {
-  //       console.log(e);
-  //     }
-  //   };
-
   const updateSessionResultDeclared = (event: any) => {
     try {
       if (state?.id === event?.matchId) {
         dispatch(updateApiSessionById(event));
-        // dispatch(removeBetByBetId(event?.betId));
         dispatch(addStatusBetByBetId(event?.betId));
         if (event?.activeStatus === "result") {
           dispatch(
@@ -241,9 +213,6 @@ const SessionBetlistDetail = () => {
       expertSocketService.match.joinMatchRoom(state?.id);
     }
   };
-  // const handleSocketError = () => {
-  //   setSocketConnected(false);
-  // };
 
   useEffect(() => {
     try {
@@ -261,7 +230,6 @@ const SessionBetlistDetail = () => {
     try {
       if (success && socket) {
         expertSocketService.match.getMatchRatesOff(state?.id);
-        // socketService.user.betVerifyOff();
         socketService.user.matchResultDeclaredOff();
         socketService.user.matchResultUnDeclaredOff();
         socketService.user.sessionDeleteBetOff();
@@ -270,12 +238,9 @@ const SessionBetlistDetail = () => {
         socketService.user.sessionResultDeclaredOff();
         socketService.user.updateInResultDeclareOff();
         socketService.user.updateDeleteReasonOff();
-        // expertSocketService.match.joinMatchRoom(state?.id, "expert");
         expertSocketService.match.getMatchRates(state?.id, (event: any) => {
           updateMatchDetailToRedux(event);
         });
-        // socketService.user.matchBettingStatusChange(updateBettingStatus);
-        // socketService.user.betVerify(updateVerifyBet);
         socketService.user.matchResultDeclared(resultDeclared);
         socketService.user.matchResultUnDeclared(resultUnDeclared);
         socketService.user.sessionDeleteBet(matchDeleteBet);
@@ -284,7 +249,6 @@ const SessionBetlistDetail = () => {
         socketService.user.sessionResultDeclared(updateSessionResultDeclared);
         socketService.user.updateInResultDeclare(updateSessionResultStatus);
         socketService.user.updateDeleteReason(updateDeleteBetReason);
-        // expertSocketService.match.connectError(handleSocketError);
         expertSocketService.match.onConnect(handleSocketConnection);
       }
     } catch (e) {
@@ -319,55 +283,11 @@ const SessionBetlistDetail = () => {
     }
   }, [state?.id]);
 
-  // const fetchLiveData = useCallback(async () => {
-  //   try {
-  //     const response = await axios.get(`${baseUrls.matchSocket}/getExpertRateDetails/${state?.id}`, {
-  //       // headers: {
-  //       //   Authorization: `Bearer ${sessionStorage.getItem("jwtExpert")}`,
-  //       // },
-  //     });
-  //     updateMatchDetailToRedux(response.data);
-  //     // console.log("Live Data:", response.data);
-  //   } catch (error) {
-  //     console.error("Error fetching live data:", error);
-  //   }
-  // }, [state?.id]);
-
-  // const handleVisibilityChange = useCallback(() => {
-  //   if (document.visibilityState === "visible") {
-  //     if (!intervalRef.current) {
-  //       fetchLiveData();
-  //       intervalRef.current = setInterval(fetchLiveData, 500);
-  //     }
-  //   } else if (document.visibilityState === "hidden") {
-  //     if (intervalRef.current) {
-  //       clearInterval(intervalRef.current);
-  //       intervalRef.current = null;
-  //     }
-  //   }
-  // }, [intervalRef, fetchLiveData]);
-
-  // useEffect(() => {
-  //   document.addEventListener("visibilitychange", handleVisibilityChange);
-  //   handleVisibilityChange();
-
-  //   return () => {
-  //     if (intervalRef.current) {
-  //       clearInterval(intervalRef.current);
-  //     }
-  //     document.removeEventListener("visibilitychange", handleVisibilityChange);
-  //   };
-  // }, [handleVisibilityChange]);
-
   useEffect(() => {
     try {
       const handleVisibilityChange = () => {
         if (document.visibilityState === "visible") {
-          // if (!socket.connected || !matchSocket.connected) {
-          //   socketService.connect();
-          // }
           if (state?.id) {
-            // dispatch(getMatchDetail(state?.id));
             expertSocketService.match.joinMatchRoom(state?.id);
             expertSocketService.match.getMatchRates(state?.id, (event: any) => {
               updateMatchDetailToRedux(event);
@@ -393,103 +313,6 @@ const SessionBetlistDetail = () => {
     }
   }, [state?.id]);
 
-  // useEffect(() => {
-  //   try {
-  //     if (matchDetail?.id && matchSocket) {
-  //       let currRateInt = setInterval(() => {
-  //         expertSocketService.match.joinMatchRoom(matchDetail?.id, "expert");
-  //       }, 60000);
-  //       return () => {
-  //         clearInterval(currRateInt);
-  //       };
-  //     }
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // }, [matchDetail?.id, matchSocket]);
-
-  // useEffect(() => {
-  //   try {
-  //     if (state?.id) {
-  //       const currRateInt = handleRateInterval();
-
-  //       return () => {
-  //         if (currRateInt) {
-  //           clearInterval(currRateInt);
-  //           setRateInterval((prev: any) => ({ ...prev, intervalData: [] }));
-  //         }
-  //       };
-  //     }
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // }, [state?.id]);
-
-  // const handleRateInterval = useCallback(() => {
-  //   if (rateInterval?.intervalData?.length) {
-  //     for (let items of rateInterval?.intervalData) {
-  //       clearInterval(items);
-  //     }
-  //     setRateInterval((prev: any) => ({ ...prev, intervalData: [] }));
-  //   }
-  //   let rateIntervalData = setInterval(() => {
-  //     dispatch(getMatchRates(state?.id));
-  //   }, 500);
-
-  //   setRateInterval((prev: any) => ({
-  //     ...prev,
-  //     intervalData: [...prev.intervalData, rateIntervalData],
-  //   }));
-
-  //   return rateInterval;
-  // }, [rateInterval?.intervalData, state?.id]);
-
-  // const handleVisibilityChange = useCallback(() => {
-  //   if (document.visibilityState === "visible") {
-  //     if (!socket.connected || !matchSocket.connected) {
-  //       socketService.connect();
-  //     }
-  //     if (state?.id) {
-  //       // dispatch(getOtherGamesMatchDetail(state?.id));
-  //       // dispatch(getPlacedBetsMatch(state?.id));
-  //       expertSocketService.match.joinMatchRoom(state?.id, "expert");
-  //       // expertSocketService.match.getMatchRates(state?.id, (event: any) => {
-  //       //   updateMatchDetailToRedux(event);
-  //       // });
-  //       handleRateInterval();
-  //     }
-  //   } else if (document.visibilityState === "hidden") {
-  //     expertSocketService.match.leaveMatchRoom(state?.id);
-  //     if (rateInterval?.intervalData?.length) {
-  //       for (let items of rateInterval?.intervalData) {
-  //         clearInterval(items);
-  //       }
-  //       setRateInterval((prev: any) => ({ ...prev, intervalData: [] }));
-  //     }
-  //   }
-  // }, [
-  //   state?.id,
-  //   state.userId,
-  //   dispatch,
-  //   rateInterval,
-  //   setRateInterval,
-  //   socketService,
-  // ]);
-
-  // useEffect(() => {
-  //   document.addEventListener("visibilitychange", handleVisibilityChange);
-
-  //   return () => {
-  //     document.removeEventListener("visibilitychange", handleVisibilityChange);
-  //     if (rateInterval?.intervalData?.length) {
-  //       for (let items of rateInterval?.intervalData) {
-  //         clearInterval(items);
-  //       }
-  //       setRateInterval((prev: any) => ({ ...prev, intervalData: [] }));
-  //     }
-  //   };
-  // }, [handleVisibilityChange, rateInterval, setRateInterval]);
-
   return (
     <>
       <Stack
@@ -509,15 +332,13 @@ const SessionBetlistDetail = () => {
               ?.map(([name, item]: any) => {
                 return (
                   <Fragment key={name}>
-                    {item?.section
-                      // ?.filter((item: any) => !item?.isManual)
-                      ?.filter(
-                        (items: any) =>
-                          !items?.isComplete &&
-                          items?.activeStatus !== "unSave" &&
-                          ((items?.resultData && items?.resultData === null) ||
-                            items?.result === null)
-                      )?.length > 0 && (
+                    {item?.section?.filter(
+                      (items: any) =>
+                        !items?.isComplete &&
+                        items?.activeStatus !== "unSave" &&
+                        ((items?.resultData && items?.resultData === null) ||
+                          items?.result === null)
+                    )?.length > 0 && (
                       <SessionMarket2
                         title={`${name} Market`}
                         hideTotalBet={false}
@@ -546,15 +367,13 @@ const SessionBetlistDetail = () => {
               )
               ?.map(([name, item]: any) => (
                 <Fragment key={name}>
-                  {item?.section
-                    // ?.filter((item: any) => !item?.isManual)
-                    ?.filter(
-                      (items: any) =>
-                        !items?.isComplete &&
-                        items?.activeStatus !== "unSave" &&
-                        ((items?.resultData && items?.resultData === null) ||
-                          items?.result === null)
-                    )?.length > 0 && (
+                  {item?.section?.filter(
+                    (items: any) =>
+                      !items?.isComplete &&
+                      items?.activeStatus !== "unSave" &&
+                      ((items?.resultData && items?.resultData === null) ||
+                        items?.result === null)
+                  )?.length > 0 && (
                     <SessionMarket2
                       title={`${name} Market`}
                       hideTotalBet={false}

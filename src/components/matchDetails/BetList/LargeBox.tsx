@@ -23,7 +23,6 @@ const LargeBox = ({ item, k }: any) => {
         display: "flex",
         flexDirection: "column",
         width: item?.width ? item?.width : "150px",
-        // paddingTop: "5px"
       }}
     >
       <Typography
