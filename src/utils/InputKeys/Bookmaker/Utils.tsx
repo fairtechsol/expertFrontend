@@ -46,6 +46,53 @@ export const updateLocalQuickBookmaker = (
             rightLay: +lay,
           };
         }
+        return item;
+      }),
+    };
+    return newBody;
+  });
+
+  setLocalQuickBookmaker((prev: any) => {
+    if (
+      prev.teams?.find((item: any) => !item.suspended)
+    ) {
+      let data = {
+        matchId: match?.id,
+        id: Bid,
+        teams: prev.teams?.map((item: any) => ({
+          back: item.back,
+          lay: item.lay,
+          id: item.id,
+          status: "suspended",
+        })),
+      };
+      socketService.user.updateMatchBettingRate(data);
+    }
+    return prev;
+  });
+};
+
+export const updateNewLocalQuickBookmaker = (
+  match: any,
+  Bid: string,
+  teamKey: string,
+  back: number,
+  lay: number,
+  setLocalQuickBookmaker: any
+) => {
+  setLocalQuickBookmaker((prev: any) => {
+    const newBody = {
+      ...prev,
+      teams: prev?.teams?.map((item: any) => {
+        if (item?.id == teamKey) {
+          return {
+            ...item,
+            back: +back,
+            lay: +lay,
+            rightBack: +back,
+            rightLay: +lay,
+          };
+        }
         else {
           return {
             ...item,
