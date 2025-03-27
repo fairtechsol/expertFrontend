@@ -189,7 +189,6 @@ const ResultComponentTournamentMarket = ({
           <Box
             sx={{
               width: "100%",
-              // height: "60px",
               paddingY: "10px",
               justifyContent: "space-evenly",
               display: "flex",

@@ -129,7 +129,6 @@ const ManualMarket = ({ currentMatch, liveData, type, showResultBox }: any) => {
         >
           {showResultBox && (
             <Result
-              width={"80px"}
               onClick={() => {
                 setVisible(true);
               }}

@@ -7,28 +7,24 @@ const MatchOddsResultCustomButton = ({
   id,
   loading,
   onClick,
-  customStyle,
 }: any) => {
   return (
     <Button
       autoFocus={true}
       type="submit"
       onClick={onClick}
-      sx={[
-        {
-          width: "45%",
-          height: "30px",
-          borderRadius: "5px",
-          background: color,
-          cursor: "pointer",
-          justifyContent: "center",
-          alignItems: "center",
-          display: "flex",
-          textTransform: "none",
-          "&:hover": { backgroundColor: color },
-        },
-        customStyle,
-      ]}
+      sx={{
+        width: "45%",
+        height: "30px",
+        borderRadius: "5px",
+        background: color,
+        cursor: "pointer",
+        justifyContent: "center",
+        alignItems: "center",
+        display: "flex",
+        textTransform: "none",
+        "&:hover": { backgroundColor: color },
+      }}
     >
       <Typography
         sx={{

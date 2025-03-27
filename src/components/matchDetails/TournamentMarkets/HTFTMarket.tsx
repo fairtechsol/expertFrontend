@@ -123,7 +123,6 @@ const HTFTMarket = ({ currentMatch, liveData, title, firstKnownKey }: any) => {
             <>
               {(!currentMatch?.stopAt || firstKnownKey === undefined) && (
                 <Result
-                  width={"80px"}
                   onClick={() => {
                     setVisible(true);
                   }}

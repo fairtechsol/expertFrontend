@@ -10,7 +10,6 @@ const MaxLimitEditButton = ({ handleClickOpen }: any) => {
         borderRadius: "2px",
         backgroundColor: "#FF4D4D",
         cursor: "pointer",
-        // marginRight: "10px",
       }}
       onClick={handleClickOpen}
     >

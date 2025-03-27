@@ -276,16 +276,13 @@ const SessionMarketBox = ({
                   );
                 }}
                 textSize="8px"
-                // width={"80px"}
                 width={{ lg: "20px", xs: "20px", md: "20px" }}
                 color={newData?.activeStatus === "live" ? "#46e080" : "#FF4D4D"}
-                // title={"Live"}
                 height="20px"
               />
             )}
           {!hideResult && (
             <Result
-              width={7}
               onClick={() => {
                 setVisible(true);
               }}

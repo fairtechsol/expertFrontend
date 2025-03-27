@@ -395,7 +395,7 @@ const BetList = ({ tag, allBetRates, title, isMatchDeclare }: any) => {
             background: "#262626",
           }}
         >
-          <div className="slanted"></div>
+          <div className="slanted" />
         </Box>
         <Box
           sx={{
@@ -516,7 +516,7 @@ const BetList = ({ tag, allBetRates, title, isMatchDeclare }: any) => {
                         }}
                       >
                         <Box sx={{ flex: 1, display: "flex" }}>
-                          <Box sx={{ width: "34%", height: "30px" }}></Box>
+                          <Box sx={{ width: "34%", height: "30px" }} />
                           <Box
                             sx={{
                               width: "66%",
@@ -556,7 +556,7 @@ const BetList = ({ tag, allBetRates, title, isMatchDeclare }: any) => {
                             position: "absolute",
                             display: "flex",
                           }}
-                        ></Box>
+                        />
                       )}
                   </div>
                 );

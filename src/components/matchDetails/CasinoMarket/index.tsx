@@ -218,7 +218,6 @@ const CasinoMarket = ({ title, sessionData, profitLossData, section }: any) => {
           }}
         >
           <Result
-            width={7}
             onClick={() => {
               setShowResultModal(true);
             }}

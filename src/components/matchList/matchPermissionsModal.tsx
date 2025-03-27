@@ -11,13 +11,13 @@ import MatchListProfitLoss from "./profitLoss";
 
 const MatchPermissionsModal = (props: any) => {
   const {
-    data,
     showUserModal,
+    handleMatchProfitLossClick,
+    data,
     updateBettings,
     setUpdateBettings,
     updateMatchStatus,
     setUpdateMatchStatus,
-    handleMatchProfitLossClick,
     upcoming
   } = props;
 

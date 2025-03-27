@@ -127,32 +127,6 @@ const Row = ({ index, values }: any) => {
             {values?.domain?.replace(/https?:\/\//, "")}
           </Typography>
         </Box>
-        {/* <Box
-          sx={{
-            background: "#F8C851",
-            width: "20%",
-            borderLeft: "2px solid white",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            overflow: "hidden",
-            whiteSpace: "nowrap",
-            position: "relative",
-          }}
-        >
-          <Typography
-            sx={{
-              color: "black",
-              fontWeight: "600",
-              fontSize: { xs: "10px",md: "10px", lg: "10px" },
-              lineHeight: 1,
-              textAlign: "center",
-              overflowWrap: "anywhere",
-            }}
-          >
-            {values?.bettingName ?? values.marketType}
-          </Typography>
-        </Box> */}
         <Box
           sx={{
             background: "#F8C851",

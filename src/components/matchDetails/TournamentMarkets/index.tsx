@@ -158,16 +158,14 @@ const TournamentMarket = ({
           sx={{
             flex: 0.1,
             background: "#262626",
-            // '#262626'
           }}
         >
-          <div className="slanted"></div>
+          <div className="slanted" />
         </Box>
         <Box
           sx={{
             flex: 1,
             background: "#262626",
-            // '#262626' ,
             display: "flex",
             alignItems: "center",
             justifyContent: "flex-end",
@@ -177,7 +175,6 @@ const TournamentMarket = ({
             <>
               {(!currentMatch?.stopAt || firstKnownKey === undefined) && (
                 <Result
-                  width={"80px"}
                   onClick={() => {
                     setVisible(true);
                   }}
@@ -207,20 +204,6 @@ const TournamentMarket = ({
                     height="18px"
                   />
                   <MaxLimitEditButton handleClickOpen={handleClickOpen} />
-                  {/* {!liveData.isManual && (
-                    <Clone
-                      width={"80px"}
-                      onClick={() => {
-                        dispatch(
-                          marketClone({
-                            matchId: currentMatch?.id,
-                            betId: liveData?.id,
-                          })
-                        );
-                      }}
-                      invert={true}
-                    />
-                  )} */}
                 </>
               )}
             </>
@@ -244,26 +227,15 @@ const TournamentMarket = ({
         </Box>
       </Box>
       <Divider />
-      {/* <Box
-        sx={{
-          position: "absolute",
-          zIndex: 999,
-          top: "26%",
-          right: "1%",
-          width: { lg: "30vw", xs: "30vw" },
-        }}
-      > */}
       {visible && (
         <ResultComponentTournamentMarket
           currentMatch={currentMatch}
-          // stopAt={liveData?.stopAt}
           onClick={() => {
             setVisible(false);
           }}
           liveData={liveData}
         />
       )}
-      {/* </Box> */}
       {visibleImg && (
         <>
           <Box

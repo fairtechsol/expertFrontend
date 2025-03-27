@@ -1,15 +1,15 @@
 import { Box, Tab, Tabs, Typography, debounce, styled } from "@mui/material";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import SearchInput from "../../components/Common/SearchInput";
-import CustomButton from "../Common/CustomButton";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../../store/store";
 import {
   getMatchList,
   setSelectedTabForMatchList,
   updateMatchListCurrentPage,
 } from "../../store/actions/match/matchAction";
+import { AppDispatch, RootState } from "../../store/store";
 import { gameType } from "../../utils/Constants";
+import CustomButton from "../Common/CustomButton";
 
 const CustomTabs = styled(Tabs)({
   "& .MuiTab-root": {

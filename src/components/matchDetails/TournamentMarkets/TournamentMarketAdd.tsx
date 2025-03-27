@@ -82,14 +82,11 @@ const TournamentMarketAdd = ({
   const handleChange = (e: any) => {
     try {
       const { name, value } = e.target;
-      // Remove commas from the input value for raw numeric processing
       const rawValue = value.replace(/,/g, "");
-
-      // Update state only if it's a valid number
       if (/^\d*$/.test(rawValue)) {
         setSelected((prev: any) => ({
           ...prev,
-          [name]: rawValue, // Store the raw number
+          [name]: rawValue,
         }));
       }
     } catch (error) {
@@ -230,25 +227,6 @@ const TournamentMarketAdd = ({
                   onChange={handleChange}
                 />
               </Box>
-              {/* <Box
-                sx={{
-                  width: {
-                    xs: "100%",
-                    lg: "50%",
-                    md: "50%",
-                  },
-                }}
-              >
-                <MatchListInput
-                  label={"Bet Limit*"}
-                  type={"number"}
-                  placeholder="Enter Bet Limit..."
-                  name="betLimit"
-                  id="betLimit"
-                  onChange={handleChange}
-                  value={selected.betLimit}
-                />
-              </Box> */}
             </Box>
             {isManual && (
               <Box

@@ -34,8 +34,10 @@ const UpdateBookmaker = () => {
     try {
       if (state?.matchId === event?.jobData?.newBet?.matchId) {
         dispatch(updateTeamRatesOnManualTournamentMarket(event));
-        if (state?.betId === event?.jobData?.newBet?.betId||
-          state?.betId == event?.jobData?.newBet?.childBetId) {
+        if (
+          state?.betId === event?.jobData?.newBet?.betId ||
+          state?.betId == event?.jobData?.newBet?.childBetId
+        ) {
           dispatch(updateMatchBetsPlaced(event));
         }
       }
@@ -63,12 +65,6 @@ const UpdateBookmaker = () => {
         ) {
           dispatch(updateDeleteReason(event));
         }
-        // dispatch(
-        //   updateSessionProLoss({
-        //     id: event?.betId,
-        //     betPlaced: event?.profitLoss ? event?.profitLoss?.betPlaced : [],
-        //   })
-        // );
       }
     } catch (e) {
       console.log(e);

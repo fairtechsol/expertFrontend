@@ -33,7 +33,6 @@ const BetsList = ({ betData, name }: any) => {
     }
   }, []);
 
-
   return (
     <Box
       sx={{

@@ -10,7 +10,6 @@ const AddMarketButton = ({ handleClickOpen }: any) => {
         borderRadius: "2px",
         backgroundColor: "#46e080",
         cursor: "pointer",
-        // marginRight: "10px",
       }}
       onClick={handleClickOpen}
     >

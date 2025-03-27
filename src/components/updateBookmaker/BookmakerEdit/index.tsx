@@ -30,9 +30,7 @@ const BookmakerEditSection = ({
       sx={{
         flex: 1,
         background: "#0B4F26",
-        // borderRadius: "5px",
         position: "relative",
-        // py: "10px",
         px: "10px",
         pb: "6px",
         top: 0,
@@ -145,7 +143,6 @@ const BookmakerEditSection = ({
                   {visible1 && (
                     <ResultComponentTournamentMarket
                       currentMatch={match}
-                      // stopAt={liveData?.stopAt}
                       onClick={() => {
                         setVisible(false);
                       }}
@@ -155,8 +152,6 @@ const BookmakerEditSection = ({
                 </Box>
               </Box>
             ) : (
-              /* <Box sx={{ width: '2%' }} ></Box> */
-
               <Box
                 onClick={(e) => {
                   setVisible(true);
@@ -164,7 +159,6 @@ const BookmakerEditSection = ({
                   e.stopPropagation();
                 }}
                 sx={{
-                  // width: "30%",
                   position: "relative",
                   display: "flex",
                   background: "white",
@@ -195,7 +189,6 @@ const BookmakerEditSection = ({
                   {visible && (
                     <ResultComponentTournamentMarket
                       currentMatch={match}
-                      // stopAt={liveData?.stopAt}
                       onClick={() => {
                         setVisible(false);
                       }}

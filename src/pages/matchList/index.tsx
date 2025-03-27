@@ -1,22 +1,22 @@
 import { Box, Pagination } from "@mui/material";
 import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import MatchListHeader from "../../components/matchList/matchListHeader";
 import MatchListTable from "../../components/matchList/matchListTable";
 import MatchListTableHeader from "../../components/matchList/matchListTableHeader";
-import "./style.css";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../../store/store";
-import {
-  getMatchList,
-  matchListReset,
-  updateMatchListCurrentPage,
-} from "../../store/actions/match/matchAction";
 import {
   expertSocketService,
   socket,
   socketService,
 } from "../../socketManager";
+import {
+  getMatchList,
+  matchListReset,
+  updateMatchListCurrentPage,
+} from "../../store/actions/match/matchAction";
+import { AppDispatch, RootState } from "../../store/store";
 import { Constants, gameType } from "../../utils/Constants";
+import "./style.css";
 
 const MatchList = ({}) => {
   const dispatch: AppDispatch = useDispatch();
@@ -134,13 +134,13 @@ const MatchList = ({}) => {
             borderRadius: "0px 0px 10px 10px",
             color: "white",
             "& .MuiPaginationItem-page": {
-              color: "white", // Change the text color for other pages
+              color: "white",
             },
             "& .MuiPaginationItem-ellipsis": {
-              color: "white", // Change the text color for ellipsis (...) items
+              color: "white",
             },
             "& .MuiPaginationItem-next": {
-              color: "white", // Change the text color for the "Next" button
+              color: "white",
             },
           }}
           page={matchListCurrentPage}

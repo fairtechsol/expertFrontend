@@ -1,10 +1,9 @@
 import { Box, Typography, useMediaQuery, useTheme } from "@mui/material";
-import moment from "moment";
 import { useState } from "react";
 import { ArrowDownPL, ARROWUP, ARROWUPPL, DeleteIcon } from "../../assets";
-import { formatToINR, stripUrl } from "../../helpers";
+import { formatToINR } from "../../helpers";
 import StyledImage from "../Common/StyledImages";
-
+import RowComponent from "./RowComponent";
 
 const SessionBetSeperate = ({
   profit,
@@ -74,7 +73,6 @@ const SessionBetSeperate = ({
             sx={{
               flex: 0.1,
               background: "#262626",
-              // '#262626'
             }}
           >
             <div className="slanted"></div>
@@ -84,7 +82,6 @@ const SessionBetSeperate = ({
             sx={{
               flex: 1,
               background: "#262626",
-              // '#262626' ,
               display: "flex",
               alignItems: "center",
               justifyContent: "flex-end",
@@ -110,7 +107,6 @@ const SessionBetSeperate = ({
             <Box sx={{ display: "flex", flexDirection: "row", gap: "1px" }}>
               <Box
                 sx={{
-                  // margin: { xs: "1px", lg: "0.5px" },
                   height: "25px",
                   width: "30px",
                   display: "flex",
@@ -122,7 +118,7 @@ const SessionBetSeperate = ({
                 <Typography
                   sx={{ fontWeight: "400", fontSize: "10px", color: "white" }}
                 >
-                  {"No"}
+                  No
                 </Typography>
               </Box>
               <RowComponent
@@ -138,7 +134,6 @@ const SessionBetSeperate = ({
                     background: "#319E5B",
                     justifyContent: "center",
                     alignItems: "center",
-                    // margin: { xs: "1px", lg: "1px" },
                   }}
                 >
                   <Typography
@@ -179,7 +174,6 @@ const SessionBetSeperate = ({
                     <Box
                       sx={{
                         height: "40px",
-                        // margin: { xs: "1px", lg: "1px" },
                         marginBottom: { xs: "1px", lg: "1px" },
                         width: "30px",
                         display: "flex",
@@ -214,7 +208,7 @@ const SessionBetSeperate = ({
                           position: "absolute",
                         }}
                       >
-                        <Box sx={{ width: mark2 ? "35%" : "35%" }}></Box>
+                        <Box sx={{ width: mark2 ? "35%" : "35%" }} />
                       </Box>
                     )}
                     {i?.deleteReason && betHistory === undefined && (
@@ -232,7 +226,7 @@ const SessionBetSeperate = ({
                           position: "absolute",
                         }}
                       >
-                        <Box sx={{ width: mark2 ? "35%" : "35%" }}></Box>
+                        <Box sx={{ width: mark2 ? "35%" : "35%" }} />
                         <Box
                           sx={{
                             width: mark2 ? "65%" : "65%",
@@ -265,7 +259,6 @@ const SessionBetSeperate = ({
                         sx={{
                           height: "40px",
                           width: "30%",
-                          // margin: { xs: "1px", lg: "1px", my: 0 },
                           background: i.totalLoss > 0 ? "#10DC61" : "#E32A2A",
                         }}
                       >
@@ -350,7 +343,6 @@ const SessionBetSeperate = ({
                           width: "30%",
                           margin: { xs: "1px", lg: "1px" },
                           display: "flex",
-                          // background: "black",
                           justifyContent: "center",
                           alignItems: "center",
                           paddingX: "2px",
@@ -392,269 +384,5 @@ const SessionBetSeperate = ({
     </>
   );
 };
-// value2 = { formatNumber(newData?.rate_percent?.split("-")[0])}
-const RowComponent = ({ header, data }: any) => {
-  // const getTime = (date: any) => {
-  //   const now = new Date(date);
-  //   const timeString = now.toLocaleTimeString("en-US", {
-  //     hour: "numeric",
-  //     minute: "numeric",
-  //     hour12: true,
-  //   });
-  //   return timeString;
-  // };
-  const getTime = (date: any) => {
-    const timeString = moment
-      .utc(date)
-      .utcOffset("+05:30")
-      .format("hh:mm:ss A");
-    return timeString;
-  };
-  const getColor = () => {
-    if (header) {
-      return "black";
-    } else if (data?.betType === "BACK" || data?.betType == "YES") {
-      // return "#00C0F9";
-      return "#CEEBFF";
-    } else if (data?.betType === "LAY" || data?.betType == "NO") {
-      // return "#FF9292";
-      return "#F2CBCB";
-    }
-  };
 
-  return (
-    <Box
-      sx={{
-        width: "100%",
-        height: header ? "25px" : "40px",
-        background: "white",
-        justifyContent: "space-between",
-        alignItems: "center",
-        display: "flex",
-        gap: "1px",
-        // marginTop: "1px"
-        marginBottom: { xs: "1px", lg: "1px" },
-      }}
-    >
-      {!header && (
-        <>
-          <SingleBox
-            color={getColor}
-            data={data?.teamName}
-            first={true}
-            header={header}
-            time={getTime(data.createdAt)}
-          />
-          <SingleBox
-            color={getColor()}
-            data={data?.username || data?.userName || data?.user?.userName}
-            isPercent={true}
-            header={header}
-            domain={data?.domain}
-          />
-          <SingleBox
-            color={getColor()}
-            data={data?.odds}
-            header={header}
-            isPercent={true}
-            rate={data?.rate}
-          />
-          <SingleBox color={getColor()} data={data?.betType} header={header} />
-          <SingleBox
-            color={getColor()}
-            data={formatToINR(data?.stack || data?.stake || data?.amount)}
-            header={header}
-          />
-        </>
-      )}
-      {header && (
-        <>
-          <SingleBox
-            color={getColor}
-            data={data[0]}
-            first={true}
-            header={header}
-          />
-          <SingleBox color={getColor()} data={data[1]} header={header} />
-          <SingleBox color={getColor()} data={data[2]} header={header} />
-          <SingleBox color={getColor()} data={data[3]} header={header} />
-          <SingleBox color={getColor()} data={data[4]} header={header} />
-        </>
-      )}
-    </Box>
-  );
-};
-const SingleBox = ({
-  data,
-  header,
-  color,
-  up,
-  first,
-  time,
-  isPercent,
-  rate,
-  domain,
-}: any) => {
-  return !header ? (
-    first ? (
-      <Box
-        sx={{
-          width: "140%",
-          height: "40px",
-          flexDirection: "column",
-          background: "#F8C851",
-          display: { xs: "initial", lg: "flex" },
-          justifyContent: { lg: "center", xs: "initial" },
-        }}
-      >
-        <Typography
-          sx={{
-            fontWeight: "700",
-            fontSize: { xs: "9px", lg: "0.6vw" },
-            color: "black",
-            textAlign: "center",
-          }}
-        >
-          {time}
-        </Typography>
-        {/* <Typography
-          sx={{
-            maxHeight: "2em",
-            // overflowY: "scroll",
-            lineHeight: 1,
-            fontWeight: "600",
-            fontSize: { lg: "0.6vw", xs: "10px" },
-            color: "black",
-            textAlign: "center",
-          }}
-        >
-          {data}
-        </Typography> */}
-      </Box>
-    ) : up ? (
-      <Box
-        sx={{
-          width: "100%",
-          height: "40px",
-          flexDirection: "column",
-          background: color,
-          marginX: { xs: "1px", lg: "1px" },
-          display: "flex",
-          justifyContent: "center",
-        }}
-      >
-        <Typography
-          sx={{
-            fontWeight: "600",
-            fontSize: "8px",
-            color: "black",
-            textAlign: "end",
-            marginRight: "3px",
-          }}
-        >
-          {data.time}
-        </Typography>
-        <Box sx={{ height: ".4vh" }}></Box>
-        <Typography
-          sx={{
-            fontWeight: "600",
-            fontSize: "12px",
-            color: "black",
-            textAlign: "start",
-            marginLeft: "3px",
-          }}
-        >
-          {data.country}
-        </Typography>
-      </Box>
-    ) : (
-      <Box
-        sx={{
-          width: "100%",
-          height: "40px",
-          background: color,
-          // marginX: { xs: "1px", lg: "1px" },
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          flexDirection: "column",
-        }}
-      >
-        <Typography
-          sx={{
-            fontWeight: "700",
-            fontSize: {
-              xs: "11px",
-              lg: "13px",
-              textTransform: "capitalize",
-            },
-            color: "black",
-          }}
-        >
-          {data}
-        </Typography>
-        {isPercent && (
-          <Typography
-            sx={{
-              fontSize: "9px",
-              marginTop: -0.4,
-              color: color == "white" ? "white" : "black",
-              textAlign: "center",
-              fontWeight: "bold",
-            }}
-          >
-            {rate || stripUrl(domain)}
-          </Typography>
-        )}
-      </Box>
-    )
-  ) : header && first ? (
-    <Box
-      sx={{
-        width: "140%",
-        height: "25px",
-        background: "#319E5B",
-        // marginX: { xs: "1px", lg: "1px" },
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <Typography
-        sx={{
-          fontWeight: "400",
-          fontSize: "11px",
-          color: "white",
-          wordWrap: "break-word",
-          lineHeight: "0.9",
-        }}
-      >
-        {data}
-      </Typography>
-    </Box>
-  ) : (
-    <Box
-      sx={{
-        width: "100%",
-        height: "25px",
-        background: "#319E5B",
-        marginX: { xs: "0px", lg: "0px" },
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <Typography
-        sx={{
-          fontWeight: "400",
-          fontSize: { lg: ".7vw", xs: "10px" },
-          color: "white",
-          flexWrap: "wrap",
-        }}
-      >
-        {data}
-      </Typography>
-    </Box>
-  );
-};
 export default SessionBetSeperate;

@@ -22,7 +22,6 @@ const MatchListInput = (props: any) => {
     width: "100%",
     color: "#202020",
     fontSize: { xs: "12px", lg: "12px" },
-    // fontWeight: "600",
     marginLeft: "0px",
   };
 
@@ -31,11 +30,6 @@ const MatchListInput = (props: any) => {
     fontSize: { xs: "14px", lg: "14px" },
     textTransform: "capitalize",
   };
-  // const inputContainerStyle = {
-  //   width: "100%",
-  //   borderRadius: "5px",
-  //   border: "1px solid #DEDEDE",
-  // };
 
   return (
     <>
@@ -73,7 +67,6 @@ const MatchListInput = (props: any) => {
           type={type}
           value={value}
           onKeyDown={(e) => {
-            // Check string not start with symbols
             if (/^[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]*$/.test(e.key)) {
               e.preventDefault();
             }

@@ -5,13 +5,10 @@ const Result = ({ invert, onClick, height }: any) => {
     <Box onClick={onClick} sx={{ zIndex: 2 }}>
       <Box
         sx={{
-          // width: { lg: "38px", xs: "25px" },
           display: "flex",
           marginRight: "2px",
           marginLeft: "2px",
-          // marginRight: { lg: "5px", xs: "0" },
           justifyContent: "center",
-          // paddingX: 0.5,
           alignItems: "center",
           height: height ? height : "18px",
           background: invert ? "white" : "#0B4F26",
@@ -26,7 +23,7 @@ const Result = ({ invert, onClick, height }: any) => {
             color: invert ? "0B4F26" : "white",
           }}
         >
-          {"Result"}
+          Result
         </Typography>
       </Box>
     </Box>

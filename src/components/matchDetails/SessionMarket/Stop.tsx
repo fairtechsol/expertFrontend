@@ -7,7 +7,7 @@ import {
 } from "@mui/material";
 import { BroadCast_ } from "../../../assets";
 
-const Stop = ({ color, onClick, height, title, isCommissionActive }: any) => {
+const Stop = ({ onClick, height, title, isCommissionActive }: any) => {
   const theme = useTheme();
   const matchesMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const matchesMiddle = useMediaQuery(theme.breakpoints.down("md"));
@@ -33,7 +33,7 @@ const Stop = ({ color, onClick, height, title, isCommissionActive }: any) => {
       <Box
         onClick={onClick}
         sx={{
-          maxWidth: { lg: "100%", xs: "100%" },
+          maxWidth: "100%",
           display: "flex",
           paddingLeft: "2px",
           paddingRight: "2px",
@@ -49,7 +49,7 @@ const Stop = ({ color, onClick, height, title, isCommissionActive }: any) => {
             sx={{
               fontSize: { lg: "8px", xs: "8px" },
               fontWeight: "600",
-              color: color ? "white" : "white",
+              color: "white",
               lineHeight: 1,
               display: "flex",
               alignItems: "center",
