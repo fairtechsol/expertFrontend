@@ -33,15 +33,6 @@ import {
   editSuccessReset,
 } from "../../store/actions/match/matchAction";
 import { AppDispatch, RootState } from "../../store/store";
-// import { addMatchValidation } from "../../utils/Validations/login";
-
-// const useStyles = makeStyles(() => ({
-//   dateTimePicker: {
-//     "& .MuiFormControl-root": {
-//       height: "30px",
-//     },
-//   },
-// }));
 
 const gameTypes = [
   { label: "horse racing", value: "horseRacing" },
@@ -138,11 +129,6 @@ const AddRace = () => {
         };
 
         if (manualMatchToggle) {
-          // const newPayload = {
-          //   ...addMatchpayload,
-          //   isManualMatch: true,
-          // };
-          // dispatch(addMatchExpert(newPayload));
         } else {
           dispatch(addRaceExpert(addMatchpayload));
         }
@@ -228,30 +214,6 @@ const AddRace = () => {
     }
   }, [selected.gameType]);
 
-  // useEffect(() => {
-  //   if (!state?.id) {
-  //     setSelected((prev: any) => {
-  //       return {
-  //         ...prev,
-  //         teamA: "",
-  //         teamB: "",
-  //         teamC: "",
-  //         title: "",
-  //         manualBookmaker: 0,
-  //         matchName: "",
-  //         competitionName: "",
-  //         eventId: "",
-  //         marketId: "",
-  //         startAt: new Date(),
-  //       };
-  //     });
-  //   }
-
-  //   if (!state?.id) {
-  //     dispatch(eventListReset());
-  //   }
-  // }, [selected.tournamentId]);
-
   useEffect(() => {
     if (selected.title !== "") {
       setError((prev: any) => {
@@ -336,7 +298,6 @@ const AddRace = () => {
         >
           <LabelValueComponent
             title={state?.id ? "Edit Race" : "Add Race"}
-            notShowSub={true}
             titleSize={"20px"}
             headColor={"#000000"}
           />
@@ -353,7 +314,6 @@ const AddRace = () => {
             background: "#F8C851",
             marginTop: "20px",
             borderRadius: "5px",
-
             p: "10px",
             py: "20px",
           }}
@@ -381,10 +341,8 @@ const AddRace = () => {
                   filter: "invert(.9) sepia(1) saturate(5) hue-rotate(175deg);",
                 }}
                 disable={state?.id ? true : false}
-                valueStyle={{ ...inputStyle, color: "white" }}
                 title={"Game *"}
-                id={"gameType"}
-                value={values.gameType}
+                value={values.gameType} //
                 valueContainerStyle={{
                   height: "45px",
                   marginX: "0px",
@@ -409,17 +367,10 @@ const AddRace = () => {
                 selected={selected}
                 setSelected={setSelected}
                 dropDownTextStyle={inputStyle}
-                place={1}
                 isOpen={openDropDown === "gameType"}
                 onOpen={handleDropDownOpen}
               />
             </Box>
-            {/* {touched.gameType && errors.gameType && (
-              <p style={{ color: "#fa1e1e" }}>
-                {errors.gameType as string}
-              </p>
-            )} */}
-
             <Box
               sx={{
                 position: "relative",
@@ -435,7 +386,7 @@ const AddRace = () => {
                       "invert(.9) sepia(1) saturate(5) hue-rotate(175deg);",
                   }}
                   disable={state?.id ? true : false}
-                  valueStyle={{ ...inputStyle, color: "white" }}
+                  valueStyle={{ ...inputStyle, color: "white" }} //
                   title={"Race Name*"}
                   valueContainerStyle={{
                     height: "45px",
@@ -445,11 +396,7 @@ const AddRace = () => {
                     borderRadius: "5px",
                     cursor: state?.id ? "not-allowed" : "pointer",
                   }}
-                  // touched={touched.competitionName}
                   gameType={selected.gameType}
-                  // onBlur={formik.handleBlur}
-                  // error={touched.competitionName}
-                  value={values.competitionName}
                   containerStyle={{
                     width: "100%",
                     position: "relative",
@@ -478,8 +425,6 @@ const AddRace = () => {
                   dropDownTextStyle={inputStyle}
                   selected={selected}
                   setSelected={setSelected}
-                  place={5}
-                  isOpen={openDropDown === "matchName"}
                   onOpen={handleDropDownOpen}
                 />
               ) : (
@@ -498,7 +443,6 @@ const AddRace = () => {
                 <span style={{ color: "red" }}>{"Field is Required"}</span>
               )}
             </Box>
-
             <Box
               sx={{
                 width: { xs: "100%", lg: "18%", md: "24%" },
@@ -506,7 +450,6 @@ const AddRace = () => {
               }}
             >
               <LocalizationProvider dateAdapter={AdapterDayjs}>
-                {" "}
                 <DemoContainer components={["DateTimePicker"]}>
                   <DemoItem>
                     <Typography sx={{ fontSize: "12px" }}>
@@ -515,7 +458,6 @@ const AddRace = () => {
                     <DateTimePicker
                       disabled={state?.id || !manualMatchToggle}
                       sx={{
-                        // height: "40px",
                         background: "#fff",
                         overflow: "hidden",
                         borderRadius: "5px",
@@ -527,13 +469,10 @@ const AddRace = () => {
                         },
                         "& .css-nxo287-MuiInputBase-input-MuiOutlinedInput-input":
                           {
-                            // cursor: "not-allowed",
                             paddingBottom: "8px",
                             paddingTop: "8px",
                           },
                       }}
-                      // className={classes.dateTimePicker}
-                      // label="Basic date picker"
                       value={dayjs(selected?.startAt)}
                       onChange={handleDateChange}
                     />
@@ -593,7 +532,6 @@ const AddRace = () => {
                       color: "#575757",
                       fontSize: "12px",
                       fontWeight: "600",
-                      // ...labelStyle,
                     }}
                   >
                     Runner {index + 1}
@@ -606,7 +544,6 @@ const AddRace = () => {
                       px: "10px",
                       py: "4px",
                       display: "flex",
-                      // alignItems: "center",
                       justifyContent: "flex-start",
                       background: "white",
                       backgroundColor: " ",
@@ -624,45 +561,6 @@ const AddRace = () => {
                 </Box>
               );
             })}
-
-            {/* {!manualMatchToggle &&
-              eventWiseMatchData[selected.gameType]?.market
-                ?.filter(
-                  (item: any) =>
-                    extraMarketList[item.marketIdKey]?.marketId !== null &&
-                    extraMarketList[item.marketIdKey]?.marketId !== undefined
-                )
-                ?.map((item: any) => {
-                  return (
-                    <Box sx={{ width: { xs: "100%", lg: "18%", md: "24%" } }}>
-                      <MatchListInput
-                        required={true}
-                        containerStyle={{ flex: 1, width: "100%" }}
-                        label={`${item?.label}*`}
-                        {...formik.getFieldProps(`${item?.matchType}.maxBet`)}
-                        onChange={(e: any) => {
-                          formik.setValues({
-                            ...values,
-                            [item.matchType]: {
-                              ...values[item.matchType],
-                              maxBet: e.target.value,
-                            },
-                          });
-                        }}
-                        type={"Number"}
-                        touched={(touched?.[item?.matchType] as any)?.maxBet}
-                        value={values?.[item?.matchType]?.maxBet}
-                        placeholder={`Enter ${item?.name} Max Bet...`}
-                        place={15}
-                        onBlur={formik.handleBlur}
-                      />
-                      <CustomErrorMessage
-                        touched={(touched?.[item?.matchType] as any)?.maxBet}
-                        errors={(errors?.[item?.matchType] as any)?.maxBet}
-                      />
-                    </Box>
-                  );
-                })} */}
           </Box>
         </Box>
         <Box

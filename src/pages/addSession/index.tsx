@@ -16,7 +16,6 @@ import {
 } from "../../store/actions/addSession";
 import { getMatchListSessionProfitLoss } from "../../store/actions/match/matchAction";
 import { AppDispatch, RootState } from "../../store/store";
-// import { socketService } from "../../socketManager";
 
 const AddSession = () => {
   const { state } = useLocation();
@@ -83,7 +82,7 @@ const AddSession = () => {
       if (getSessionSuccess) {
         if (!sessionById?.result) {
           dispatch(getSessionProfitLoss(id));
-          dispatch(getPlacedBets({betId:id}));
+          dispatch(getPlacedBets({ betId: id }));
         }
         dispatch(sessionSuccessReset());
       }
@@ -135,23 +134,10 @@ const AddSession = () => {
   return (
     <Box>
       <Grid container>
-
-      {/* <Grid
-  item
-  xs={12}
-  md={6}
-  lg={6}
-  sx={{
-    width: { xs: "100%", md: "700px" }, // Full width below 700px, 700px width on md+
-    maxWidth: "100%", // Ensures it doesn't overflow
-  }}
-> */}
-
-        <Grid item xs={12} sm={6} md={6} lg={6}  >
+        <Grid item xs={12} sm={6} md={6} lg={6}>
           <Paper style={{ margin: "4px" }}>
             <SessionInputFields
               createSession={state?.createSession}
-              sessionEvent={state?.sessionEvent}
               match={state?.match}
               setMode={setMode}
             />
@@ -167,12 +153,10 @@ const AddSession = () => {
         </Grid>
         <Grid item xs={12} sm={6} md={6} lg={6}>
           <Paper style={{ margin: "4px" }}>
-            {true && (
-              <BetsList
-                sessionEvent={sessionById && sessionById}
-                betData={placedBets && placedBets.length > 0 ? placedBets : []}
-              />
-            )}
+            <BetsList
+              sessionEvent={sessionById && sessionById}
+              betData={placedBets && placedBets.length > 0 ? placedBets : []}
+            />
           </Paper>
         </Grid>
       </Grid>

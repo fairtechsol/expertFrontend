@@ -10,8 +10,11 @@ import {
 import { AppDispatch, RootState } from "../../../store/store";
 import { formatToINR } from "../../helper";
 
-const SessionMarketMaxBetAmountEdit = (props: any) => {
-  const { newData, visible, onClickCancel } = props;
+const SessionMarketMaxBetAmountEdit = ({
+  newData,
+  visible,
+  onClickCancel,
+}: any) => {
   const dispatch: AppDispatch = useDispatch();
   const { loading, multiMaxLimitUpdateSuccess } = useSelector(
     (state: RootState) => state.addSession
@@ -56,24 +59,17 @@ const SessionMarketMaxBetAmountEdit = (props: any) => {
     scrollToBottom();
   }, [visible]);
 
-  // useEffect(() => {
-  //   setValue(newData?.maxBet);
-  //   setValue1(newData?.minBet);
-  // }, [newData?.minBet, newData?.maxBet]);
-
   const handleNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const rawValue = e.target.value.replace(/,/g, ""); 
+    const rawValue = e.target.value.replace(/,/g, "");
     if (/^\d*\.?\d*$/.test(rawValue)) {
       setValue(rawValue);
     }
   };
-  
 
   return (
     <Box
       sx={{
         width: { lg: "30%", xs: "60%", md: "40%" },
-        // height: "180px",
         padding: 0.2,
         borderRadius: 2,
         boxShadow: "0px 5px 10px #1A568414",
@@ -137,15 +133,12 @@ const SessionMarketMaxBetAmountEdit = (props: any) => {
       <Box
         sx={{
           width: "100%",
-          //   flexWrap: "wrap",
           padding: "8px",
           display: "flex",
           flexDirection: "column",
-          // alignSelf: "flex-start",
           alignItems: "center",
           gap: 1,
           justifyContent: "space-between",
-          //   backgroundColor:'red'
         }}
         ref={myDivRef}
       >
@@ -155,15 +148,12 @@ const SessionMarketMaxBetAmountEdit = (props: any) => {
           placeholder="API Session Min Bet"
           variant="standard"
           type="text"
-          // value={selected}
           value={value1}
           id="minBet"
           name="minBet"
           onChange={(e) => {
             setValue1(e?.target.value);
           }}
-          // touched={touched.score}
-          // error={Boolean(errors.score)}
           InputProps={{
             disableUnderline: true,
             sx: {
@@ -186,13 +176,10 @@ const SessionMarketMaxBetAmountEdit = (props: any) => {
           placeholder="API Session Max Bet"
           variant="standard"
           type="text"
-          // value={selected}
           value={value ? formatToINR(value) : ""}
           id="maxBet"
           name="maxBet"
-           onChange={handleNumberChange} 
-          // touched={touched.score}
-          // error={Boolean(errors.score)}
+          onChange={handleNumberChange}
           InputProps={{
             disableUnderline: true,
             sx: {
@@ -211,7 +198,6 @@ const SessionMarketMaxBetAmountEdit = (props: any) => {
           placeholder="API Session Exposure Limit"
           variant="standard"
           type="text"
-          // value={selected}
           value={exposureLimit ? formatToINR(exposureLimit) : ""}
           inputProps={{
             inputMode: "numeric",
@@ -220,9 +206,9 @@ const SessionMarketMaxBetAmountEdit = (props: any) => {
           id="exposure"
           name="exposure"
           onChange={(e) => {
-            const inputValue = e.target.value.replace(/,/g, ""); // Remove commas for raw value
+            const inputValue = e.target.value.replace(/,/g, "");
             if (/^\d*$/.test(inputValue)) {
-              setExposureLimit(inputValue); // Store raw value without commas
+              setExposureLimit(inputValue);
             }
           }}
           InputProps={{
@@ -249,7 +235,6 @@ const SessionMarketMaxBetAmountEdit = (props: any) => {
             width: "100%",
             gap: 1,
             marginTop: 3,
-            // marginBottom: 2,
           }}
         >
           <SessionResultCustomButton
@@ -258,23 +243,9 @@ const SessionMarketMaxBetAmountEdit = (props: any) => {
             title={"submit"}
             loading={loading}
             onClick={(e: any) => handleSubmit(e)}
-            // onClick={() => {
-            //   if (loading?.value) {
-            //     return false;
-            //   }
-            //   if (selected !== "" && /^\d+$/.test(selected)) {
-            //     declareResult();
-            //   } else if (selected === "") {
-            //     setError("Please enter score");
-            //   } else {
-            //     // toast.warn("Please enter score");
-            //     setError("Input field should contain numbers only");
-            //   }
-            // }}
           />
         </Box>
       </Box>
-      {/* </form> */}
     </Box>
   );
 };

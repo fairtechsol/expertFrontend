@@ -1,18 +1,17 @@
 import { Box, Typography } from "@mui/material";
-import { updateRaceRunners } from "../../../store/actions/addMatch/addMatchAction";
 import { useDispatch } from "react-redux";
+import { updateRaceRunners } from "../../../store/actions/addMatch/addMatchAction";
 import { AppDispatch } from "../../../store/store";
-const raceDropDownItem = (props: any) => {
-  const {
-    item,
-    EventId,
-    CompetitionName,
-    setOpen,
-    dropDownTextStyle,
-    setSelected,
-    name,
-  } = props;
 
+const raceDropDownItem = ({
+  item,
+  EventId,
+  CompetitionName,
+  setOpen,
+  dropDownTextStyle,
+  setSelected,
+  name,
+}: any) => {
   const dispatch: AppDispatch = useDispatch();
 
   return (
@@ -25,18 +24,17 @@ const raceDropDownItem = (props: any) => {
             title: CompetitionName,
             eventId: EventId,
             marketId: item?.marketId,
-            competitionName:item?.event?.name,
-            competitionId:EventId,
-            countryCode:item?.event?.countryCode,
-            startAt:item?.marketStartTime ,
-            venue:item?.event?.venue ,
-            raceType:item?.description?.raceType ,
+            competitionName: item?.event?.name,
+            competitionId: EventId,
+            countryCode: item?.event?.countryCode,
+            startAt: item?.marketStartTime,
+            venue: item?.event?.venue,
+            raceType: item?.description?.raceType,
           };
         });
-        dispatch(updateRaceRunners(item?.runners))
+        dispatch(updateRaceRunners(item?.runners));
         setOpen(false);
-      }
-      }
+      }}
       sx={[
         {
           paddingY: "4px",
@@ -52,8 +50,11 @@ const raceDropDownItem = (props: any) => {
         dropDownTextStyle,
       ]}
     >
-      <Typography>{CompetitionName?`${item?.event?.countryCode}>${item?.event?.venue}/${CompetitionName}`:item?.EventName}</Typography>
-      {/* <Typography sx={{ fontSize: "12px" }}>{CompetitionName}</Typography> */}
+      <Typography>
+        {CompetitionName
+          ? `${item?.event?.countryCode}>${item?.event?.venue}/${CompetitionName}`
+          : item?.EventName}
+      </Typography>
     </Box>
   );
 };

@@ -52,7 +52,6 @@ const ManualMarket = ({ currentMatch, liveData, type, showResultBox }: any) => {
         flexDirection: "column",
         width: { lg: "49%", md: "49%", xs: "100%" },
         marginTop: ".3vh",
-        // marginX: "0",
         alignSelf: {
           xs: "center",
           md: "flex-start",
@@ -112,7 +111,6 @@ const ManualMarket = ({ currentMatch, liveData, type, showResultBox }: any) => {
           sx={{
             flex: 0.1,
             background: "#262626",
-            // '#262626'
           }}
         >
           <div className="slanted"></div>
@@ -121,7 +119,6 @@ const ManualMarket = ({ currentMatch, liveData, type, showResultBox }: any) => {
           sx={{
             flex: 1,
             background: "#262626",
-            // '#262626' ,
             display: "flex",
             alignItems: "center",
             justifyContent: "flex-end",
@@ -191,7 +188,6 @@ const ManualMarket = ({ currentMatch, liveData, type, showResultBox }: any) => {
           liveData={liveData}
         />
       )}
-      {/* </Box> */}
       <Divider />
       {visibleImg && (
         <>
@@ -403,7 +399,7 @@ const ManualMarket = ({ currentMatch, liveData, type, showResultBox }: any) => {
                   bottom: 0,
                   background: "rgba(0,0,0,0.5)",
                 }}
-              ></Box>
+              />
             )}
             {typeof currentMatch?.resultStatus === "string" &&
             liveData?.id &&

@@ -1,26 +1,12 @@
 import { Box, Typography } from "@mui/material";
-import ShowComponent from "./ShowComponent";
 
-const LabelValueComponent = (props: any) => {
-  const {
-    title,
-    value,
-    icon,
-    containerStyle,
-    valueStyle,
-    valueContainerStyle,
-    InputValType,
-    place,
-    DetailError,
-    type,
-    required,
-    notShowSub,
-    titleSize,
-    headColor,
-    disable,
-  } = props;
+const LabelValueComponent = ({
+  title,
+  titleSize,
+  headColor,
+}: any) => {
   return (
-    <Box className="beFairMatch" sx={[containerStyle]}>
+    <Box className="beFairMatch">
       <Typography
         sx={{
           fontSize: titleSize ? titleSize : "12px",
@@ -30,21 +16,6 @@ const LabelValueComponent = (props: any) => {
       >
         {title}
       </Typography>
-      {!notShowSub && (
-        <ShowComponent
-          disable={disable}
-          title={title}
-          required={required}
-          InputValType={InputValType}
-          value={value}
-          valueContainerStyle={valueContainerStyle}
-          valueStyle={valueStyle}
-          icon={icon}
-          place={place}
-          DetailError={DetailError}
-          type={type}
-        />
-      )}
     </Box>
   );
 };

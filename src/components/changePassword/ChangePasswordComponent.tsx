@@ -1,17 +1,17 @@
 import { Box, Button, CircularProgress, Typography } from "@mui/material";
-import Input from "../login/Input";
-import { eye, eyeLock } from "../../assets";
 import { useFormik } from "formik";
-import { changePasswordValidation } from "../../utils/Validations/login";
-import { changePassword } from "../../store/actions/user/userAction";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../../store/store";
-import { useEffect, useState, useMemo } from "react";
-import CustomModal from "../Common/CustomModal";
-import CustomErrorMessage from "../Common/CustomErrorMessage";
-import { checkOldPass } from "../../store/actions/auth/authAction";
 import { debounce } from "lodash";
+import { useEffect, useMemo, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { eye, eyeLock } from "../../assets";
 import { ChangePasswordInterface } from "../../interface/authInterface";
+import { checkOldPass } from "../../store/actions/auth/authAction";
+import { changePassword } from "../../store/actions/user/userAction";
+import { AppDispatch, RootState } from "../../store/store";
+import { changePasswordValidation } from "../../utils/Validations/login";
+import CustomErrorMessage from "../Common/CustomErrorMessage";
+import CustomModal from "../Common/CustomModal";
+import Input from "../login/Input";
 
 const initialValues: ChangePasswordInterface = {
   oldPassword: "",
@@ -215,7 +215,6 @@ export const ChangePasswordComponent = () => {
         <CustomModal
           message={transactionPassword}
           setShowModal={setShowModal}
-          showModal={showModal}
           buttonMessage="Navigate To Login"
         />
       )}

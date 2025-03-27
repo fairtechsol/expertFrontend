@@ -10,7 +10,6 @@ import Divider from "../../Common/Divider";
 import SessionMarketBox from "./SessionMarketBox";
 import SessionMarketMaxBetAmountEdit from "./SessionMarketMaxBetAmountEdit";
 import Stop from "./Stop";
-// import { formatToINR } from "../../helper";
 
 const SessionMarket = ({
   currentMatch,
@@ -45,7 +44,6 @@ const SessionMarket = ({
             lg: "flex-start",
             boxShadow: "0px 5px 10px #0000001A",
           },
-          // marginBottom: "1rem",
         }}
       >
         <Box
@@ -109,7 +107,6 @@ const SessionMarket = ({
             sx={{
               flex: 0.1,
               background: "#262626",
-              // '#262626'
             }}
           >
             <div className="slanted"></div>
@@ -156,20 +153,16 @@ const SessionMarket = ({
                   flexDirection: "column",
                   width: "100%",
                   position: "relative",
-                  // maxHeight: { lg: maxHeight ? maxHeight : "30vh", xs: "40vh" },
                   overflowY: "auto",
                   "::-webkit-scrollbar": {
                     display: "none",
                   },
-                  // maxHeight: "300px",
-                  // overflowY: "scroll",
                 },
                 cstmStyle,
               ]}
             >
               {sessionData?.section?.length > 0 &&
                 sessionData?.section
-                  // ?.filter((item: any) => !item?.isManual)
                   ?.filter((item: any) =>
                     section === "market"
                       ? !item?.isComplete &&

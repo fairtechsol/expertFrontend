@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { Box, Typography } from "@mui/material";
-// import Divider from "../../Common/Divider";
 import SeparateBox from "../SeparateBox";
 import { formatNumber } from "../../helper";
 
@@ -58,7 +57,9 @@ const CasinoMarketBoxLive = ({ newData, index }: any) => {
           </Typography>
         </Box>
 
-        {!["ACTIVE", "", undefined, null, "active", "open"].includes(newData?.gstatus?.toLowerCase()) ? (
+        {!["ACTIVE", "", undefined, null, "active", "open"].includes(
+          newData?.gstatus?.toLowerCase()
+        ) ? (
           <Box
             sx={{
               margin: "1px",
@@ -107,7 +108,6 @@ const CasinoMarketBoxLive = ({ newData, index }: any) => {
           </Box>
         )}
       </Box>
-      {/* <Divider /> */}
     </div>
   );
 };

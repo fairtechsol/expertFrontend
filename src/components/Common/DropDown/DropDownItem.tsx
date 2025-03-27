@@ -1,25 +1,23 @@
 import { Box, Typography } from "@mui/material";
-import { getExtraMarketList } from "../../../store/actions/addMatch/addMatchAction";
 import { useDispatch } from "react-redux";
+import { getExtraMarketList } from "../../../store/actions/addMatch/addMatchAction";
 import { AppDispatch } from "../../../store/store";
-const DropDownItem = (props: any) => {
-  const {
-    i,
-    mId,
-    EventId,
-    matchesSelect,
-    eventDetail,
-    CompetitionName,
-    disable,
-    setValue,
-    setOpen,
-    dropDownTextStyle,
-    setSelected,
-    name,
-    gameType,
-    onOpen,
-  } = props;
-
+const DropDownItem = ({
+  i,
+  mId,
+  EventId,
+  matchesSelect,
+  eventDetail,
+  CompetitionName,
+  disable,
+  setValue,
+  setOpen,
+  dropDownTextStyle,
+  setSelected,
+  name,
+  gameType,
+  onOpen,
+}: any) => {
   const dispatch: AppDispatch = useDispatch();
 
   return (

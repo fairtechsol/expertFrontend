@@ -1,11 +1,11 @@
-import { useState } from "react";
 import { Box, Typography } from "@mui/material";
-import SessionResultOvers from "./SessionResultOvers";
-import SessionResultModal from "./SessionResultModal";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { resetPlacedBets } from "../../../store/actions/addSession";
-import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../../store/store";
+import SessionResultModal from "./SessionResultModal";
+import SessionResultOvers from "./SessionResultOvers";
 
 const SessionResult = ({ sessionProLoss, matchId, mode, setMode }: any) => {
   const navigate = useNavigate();
@@ -111,14 +111,7 @@ const SessionResult = ({ sessionProLoss, matchId, mode, setMode }: any) => {
                       left: 0,
                     }}
                   >
-                    {false && sessionData.length > 0 && (
-                      <SessionResultModal
-                        undeclare={true}
-                        onClick={() => {
-                          //   setVisible1(false);
-                        }}
-                      />
-                    )}
+                    {false && sessionData.length > 0 && <SessionResultModal />}
                   </Box>
                 </Box>
               </Box>

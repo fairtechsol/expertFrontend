@@ -1,18 +1,16 @@
 import { Box, Input, Typography } from "@mui/material";
 import { numberInputOnWheelPreventChange } from "../../helpers";
 
-const MatchListInput = (props: any) => {
-  const {
-    value,
-    required,
-    label,
-    labelStyle,
-    type,
-    disable,
-    placeholder,
-    ...prop
-  } = props;
-
+const MatchListInput = ({
+  value,
+  required,
+  label,
+  labelStyle,
+  type,
+  disable,
+  placeholder,
+  ...prop
+}: any) => {
   const containerStyles: any = {
     width: "100%",
     flex: 1,

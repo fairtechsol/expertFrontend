@@ -71,13 +71,11 @@ const SessionMarketBox = ({
             ? "#E15151"
             : index % 2 === 0
             ? "#FFE094"
-            : "#ECECEC", // Change color based on selected state and index
-
+            : "#ECECEC",
           height: "30px",
           width: "100%",
           boxShadow: visible ? 3 : 0,
         }}
-        // className="example-2"
       >
         <Box
           sx={{
@@ -88,16 +86,13 @@ const SessionMarketBox = ({
               ? "#E15151"
               : index % 2 === 0
               ? "#FFE094"
-              : "#ECECEC", // Change color based on selected state and index
-
+              : "#ECECEC",
             height: "30px",
             width: "40%",
             alignItems: "center",
             boxShadow: visible ? 3 : 0,
-            // backgroundColor:'#E15151'
             justifyContent: "space-between",
           }}
-          // className="example-2"
         >
           {!hideEditMaxButton && (
             <img
@@ -234,7 +229,6 @@ const SessionMarketBox = ({
                 }
                 e.preventDefault();
                 setLoading(true);
-                // setLive(false);
                 dispatch(
                   sessionBetLiveStatus({
                     status: "save",
@@ -333,7 +327,6 @@ const SessionMarketBox = ({
                 textAlign: "center",
                 lineHeight: "11px",
                 color: "#FFF",
-                // color={newData?.resultStatus === "PENDING" ? "red" : "#FFF"}
                 fontWeight: "400",
                 overflowWrap: "anywhere",
               }}
@@ -360,7 +353,6 @@ const SessionMarketBox = ({
               display: "flex",
             }}
           >
-            {/* <img src={BallStart} style={{ width: '113px', height: "32px" }} /> */}
             <h6
               style={{
                 textTransform: "uppercase",
@@ -383,7 +375,6 @@ const SessionMarketBox = ({
               display: "flex",
               position: "relative",
               right: { lg: "-22.5%", xs: "-15%", md: "-24%" },
-              // background: "white",
               height: "30px",
               width: { lg: "18.6%", xs: "28%", md: "20%" },
               justifyContent: "end",
@@ -436,7 +427,6 @@ const SessionMarketBox = ({
           />
         )}
       </Box>
-      {/* <Divider /> */}
       {Array.from(
         {
           length:
@@ -505,16 +495,15 @@ const SessionMarketBox = ({
                     textAlign: "center",
                     lineHeight: "11px",
                     color: "#FFF",
-                    // color={newData?.resultStatus === "PENDING" ? "red" : "#FFF"}
                     fontWeight: "400",
                     overflowWrap: "anywhere",
                     marginTop:
-                    Math.max(
-                      newData?.ex?.availableToLay?.length ?? 0,
-                      newData?.ex?.availableToBack?.length ?? 0
-                    ) === 2
-                      ? "-5px"
-                      : "0",
+                      Math.max(
+                        newData?.ex?.availableToLay?.length ?? 0,
+                        newData?.ex?.availableToBack?.length ?? 0
+                      ) === 2
+                        ? "-5px"
+                        : "0",
                   }}
                 >
                   {item === 1 && newData?.resultStatus}
@@ -536,7 +525,6 @@ const SessionMarketBox = ({
                   display: "flex",
                 }}
               >
-                {/* <img src={BallStart} style={{ width: '113px', height: "32px" }} /> */}
                 <h6
                   style={{
                     textTransform: "uppercase",

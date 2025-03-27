@@ -1,31 +1,28 @@
-import { useEffect, useState } from "react";
 import { Box, Typography } from "@mui/material";
-import StyledImage from "../../Common/StyledImages";
+import { useEffect, useState } from "react";
 import { ARROWDROPDOWN } from "../../../assets";
+import StyledImage from "../../Common/StyledImages";
 import DropDownItem from "./DropDownItem";
 
-const RaceDropDown = (props: any) => {
-  const {
-    title,
-    data,
-    containerStyle,
-    titleStyle,
-    valueContainerStyle,
-    dropStyle,
-    dropDownStyle,
-    dropDownTextStyle,
-    type,
-    matchesSelect,
-    disable,
-    selected,
-    setSelected,
-    name,
-    valued,
-    gameType,
-    onOpen,
-    // isOpen,
-  } = props;
-
+const RaceDropDown = ({
+  title,
+  data,
+  containerStyle,
+  titleStyle,
+  valueContainerStyle,
+  dropStyle,
+  dropDownStyle,
+  dropDownTextStyle,
+  type,
+  matchesSelect,
+  disable,
+  selected,
+  setSelected,
+  name,
+  valued,
+  gameType,
+  onOpen,
+}: any) => {
   const [value, setValue] = useState(valued);
   const [open, setOpen] = useState(false);
 
@@ -41,9 +38,7 @@ const RaceDropDown = (props: any) => {
   useEffect(() => {
     setValue(valued);
   }, [selected]);
-  // useEffect(() => {
-  //   setOpen(isOpen);
-  // }, [isOpen]);
+  
   return (
     <Box sx={[{ width: "19%" }, containerStyle]}>
       <Typography
@@ -145,7 +140,6 @@ const RaceDropDown = (props: any) => {
                 CompetitionName={item?.marketName}
                 eventDetail={item?.EventDetail}
                 type={type}
-                // disable={disable}
                 setValue={setValue}
                 setSelected={setSelected}
                 setOpen={setOpen}

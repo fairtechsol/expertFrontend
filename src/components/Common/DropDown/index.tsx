@@ -1,31 +1,29 @@
-import { useEffect, useState } from "react";
 import { Box, Typography } from "@mui/material";
-import StyledImage from "../StyledImages";
+import { useEffect, useState } from "react";
 import { ARROWDROPDOWN } from "../../../assets";
+import StyledImage from "../StyledImages";
 import DropDownItem from "./DropDownItem";
 
-const DropDown = (props: any) => {
-  const {
-    title,
-    data,
-    containerStyle,
-    titleStyle,
-    valueContainerStyle,
-    dropStyle,
-    dropDownStyle,
-    dropDownTextStyle,
-    type,
-    matchesSelect,
-    disable,
-    selected,
-    setSelected,
-    name,
-    valued,
-    gameType,
-    onOpen,
-    isOpen,
-  } = props;
-
+const DropDown = ({
+  title,
+  data,
+  containerStyle,
+  titleStyle,
+  valueContainerStyle,
+  dropStyle,
+  dropDownStyle,
+  dropDownTextStyle,
+  type,
+  matchesSelect,
+  disable,
+  selected,
+  setSelected,
+  name,
+  valued,
+  gameType,
+  onOpen,
+  isOpen,
+}: any) => {
   const [value, setValue] = useState(valued);
   const [open, setOpen] = useState(false);
 
@@ -147,8 +145,7 @@ const DropDown = (props: any) => {
                     matchesSelect={matchesSelect}
                     CompetitionName={i?.EventDate ?? i?.CompetitionName}
                     eventDetail={i}
-                    type={type}
-                    // disable={disable}
+                    type={type} //
                     setValue={setValue}
                     setSelected={setSelected}
                     setOpen={setOpen}

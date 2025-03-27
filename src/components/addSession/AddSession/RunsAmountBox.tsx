@@ -1,6 +1,6 @@
-import { useRef, useEffect } from "react";
-import StyledImage from "../../Common/StyledImages";
 import { Box, Typography } from "@mui/material";
+import { useEffect, useRef } from "react";
+import StyledImage from "../../Common/StyledImages";
 import { formatToINR } from "../../helper";
 
 const RunsAmountBox = ({ currentOdds, betId, proLoss }: any) => {
@@ -151,7 +151,7 @@ const RunsAmountBox = ({ currentOdds, betId, proLoss }: any) => {
                       <Typography
                         sx={{
                           fontWeight: "500",
-                          fontSize: {lg:"16px", xs:"10px", md: "12px"},
+                          fontSize: { lg: "16px", xs: "10px", md: "12px" },
                           color: "white",
                           width: "40px",
                         }}

@@ -1,10 +1,8 @@
-import { memo, useState } from "react";
-import { useEffect } from "react";
 import { Box, Typography } from "@mui/material";
-// import Divider from "../../Common/Divider";
+import { memo, useEffect, useState } from "react";
 import { ARROWUP } from "../../../assets";
-import SessionMarketBoxLive from "./SessionMarketBoxLive";
 import { formatToINR } from "../../helper";
+import SessionMarketBoxLive from "./SessionMarketBoxLive";
 
 const SessionMarketLive = ({ title, sessionData, currentMatch, type }: any) => {
   const [matchSessionData, setMatchSessionData] = useState(sessionData);
@@ -49,7 +47,6 @@ const SessionMarketLive = ({ title, sessionData, currentMatch, type }: any) => {
             alignItems: "center",
             display: "flex",
             justifyContent: "space-between",
-            // height: "40px",
           }}
         >
           <Typography
@@ -76,7 +73,6 @@ const SessionMarketLive = ({ title, sessionData, currentMatch, type }: any) => {
           sx={{
             flex: 0.1,
             background: "#262626",
-            // '#262626'
           }}
         >
           <div className="slanted"></div>
@@ -85,13 +81,11 @@ const SessionMarketLive = ({ title, sessionData, currentMatch, type }: any) => {
           sx={{
             flex: 0.5,
             background: "#262626",
-            // '#262626' ,
             display: "flex",
             alignItems: "center",
             justifyContent: "flex-end",
           }}
         >
-          {/* <SmallBoxSeason /> */}
           <img
             onClick={() => {
               setVisible(!visible);
@@ -123,8 +117,6 @@ const SessionMarketLive = ({ title, sessionData, currentMatch, type }: any) => {
               flexDirection: "column",
               width: "100%",
               position: "relative",
-              // maxHeight: { lg: "85vh", xs: "40vh" },
-              // overflowY: "auto",
               "::-webkit-scrollbar": {
                 display: "none",
               },
@@ -142,7 +134,6 @@ const SessionMarketLive = ({ title, sessionData, currentMatch, type }: any) => {
                         gtype={sessionData?.gtype}
                         type={type}
                       />
-                      {/* <Divider /> */}
                     </Box>
                   );
                 }

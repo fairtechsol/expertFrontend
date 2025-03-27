@@ -1,6 +1,10 @@
-import { Box, Button, Typography } from "@mui/material";
-// import { makeStyles } from "@mui/styles";
-import { Checkbox, FormControlLabel } from "@mui/material";
+import {
+  Box,
+  Button,
+  Checkbox,
+  FormControlLabel,
+  Typography,
+} from "@mui/material";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
@@ -28,7 +32,7 @@ import {
   getAllLiveTournaments,
   getMatchDetail,
   matchDetailSuccessReset,
-  tournamentListReset
+  tournamentListReset,
 } from "../../store/actions/addMatch/addMatchAction";
 import {
   editMatch,
@@ -37,7 +41,6 @@ import {
 } from "../../store/actions/match/matchAction";
 import { AppDispatch, RootState } from "../../store/store";
 import { eventWiseMatchData } from "../../utils/Constants";
-
 
 const initialFormikValues = {
   minBet: "",
@@ -102,7 +105,6 @@ const AddMatch = () => {
         return;
       }
       if (state?.id) {
-
         let payload: any;
 
         if (selected?.teamB) {
@@ -113,7 +115,6 @@ const AddMatch = () => {
             startAt: selected.startAt,
             rateThan100: value.rateThan100,
           };
-
         } else {
           payload = {
             id: state?.id,
@@ -122,22 +123,10 @@ const AddMatch = () => {
             startAt: selected.startAt,
           };
         }
-
-        // if (!manualMatchToggle) {
-        //   eventWiseMatchData[selected.gameType]?.market?.forEach((item) => {
-        //     if (value?.[item?.matchType]?.maxBet) {
-        //       payload.marketData.push({
-        //         maxBet: value?.[item?.matchType]?.maxBet,
-        //         type: item?.matchType,
-        //       });
-        //     }
-        //   });
-        // }
         dispatch(editMatch(payload));
       } else {
-
         let addMatchpayload: any;
-       
+
         if (selected.title === "") {
           setError((prev: any) => {
             return {
@@ -169,8 +158,6 @@ const AddMatch = () => {
             competitionName: selected?.competitionName,
             competitionId: selected?.competitionId,
           };
-
-          
         } else {
           addMatchpayload = {
             matchType: selected.gameType,
@@ -194,17 +181,6 @@ const AddMatch = () => {
                 : value.minBet + 1,
           };
         }
-        // if (!manualMatchToggle) {
-        //   eventWiseMatchData[selected.gameType]?.market?.forEach((item) => {
-        //     if (extraMarketList?.[item?.marketIdKey]?.marketId) {
-        //       addMatchpayload.marketData.push({
-        //         maxBet: value?.[item?.matchType]?.maxBet,
-        //         type: item?.matchType,
-        //         marketId: extraMarketList?.[item?.marketIdKey]?.marketId,
-        //       });
-        //     }
-        //   });
-        // }
         if (manualMatchToggle) {
           const newPayload = {
             ...addMatchpayload,
@@ -355,7 +331,6 @@ const AddMatch = () => {
     try {
       if (matchDetail && state?.id) {
         if (success) {
-        
           const formikValues = {
             ...values,
             minBet: matchDetail?.betFairSessionMinBet ?? "",
@@ -446,7 +421,6 @@ const AddMatch = () => {
         >
           <LabelValueComponent
             title={state?.id ? "Edit Match" : "Add Match"}
-            notShowSub={true}
             titleSize={"20px"}
             headColor={"#000000"}
           />
@@ -491,9 +465,7 @@ const AddMatch = () => {
                   filter: "invert(.9) sepia(1) saturate(5) hue-rotate(175deg);",
                 }}
                 disable={state?.id ? true : false}
-                valueStyle={{ ...inputStyle, color: "white" }}
                 title={"Game *"}
-                id={"gameType"}
                 value={values.gameType}
                 valueContainerStyle={{
                   height: "45px",
@@ -506,7 +478,6 @@ const AddMatch = () => {
                 containerStyle={{
                   width: "100%",
                   position: "relative",
-                  // marginTop: "5px",
                 }}
                 titleStyle={{ marginLeft: "0px", color: "#575757" }}
                 data={Constants.matchType}
@@ -519,148 +490,10 @@ const AddMatch = () => {
                 selected={selected}
                 setSelected={setSelected}
                 dropDownTextStyle={inputStyle}
-                place={1}
                 isOpen={openDropDown === "gameType"}
                 onOpen={handleDropDownOpen}
               />
             </Box>
-            {/* {touched.gameType && errors.gameType && (
-              <p style={{ color: "#fa1e1e" }}>
-                {errors.gameType as string}
-              </p>
-            )} */}
-
-            {/* <Box
-              sx={{
-                position: "relative",
-                width: { xs: "100%", lg: "18%", md: "24%" },
-                marginTop:"5px"
-              }}
-            >
-              <Typography
-        sx={[
-          {
-            fontSize: "12px",
-            fontWeight: "600",
-            marginBottom: ".3vh",
-            color: "#202020",
-          },
-          // titleStyle,
-        ]}
-      >
-        {"Match Name*"}
-      </Typography>
-              <FormControl
-                variant="filled"
-                sx={{
-                  minWidth: "100%",
-                  backgroundColor: "#0b4f26",
-                  borderRadius: "5px",
-                  height: "44px",
-                  border: "1px #fff solid",
-                }}
-              >
-                <Select
-                  labelId="demo-simple-select-filled-label"
-                  id="demo-simple-select-filled"
-                  value={10}
-                  onChange={handleChange}
-                  IconComponent={CustomIcon}
-                  sx={{
-                    height: "30px",
-                    padding: "5px",
-                    color: "#fff",
-                    // paddingBottom:"15px"
-                  }}
-                >
-                  <MenuItem value="">
-                    <em>None</em>
-                  </MenuItem>
-                  <MenuItem value={10}>Ten</MenuItem>
-                  <MenuItem value={20}>Twenty</MenuItem>
-                  <MenuItem value={30}>Thirty</MenuItem>
-                </Select>
-              </FormControl>
-            </Box> */}
-            {/* <Box
-              sx={{
-                position: "relative",
-                width: { xs: "100%", lg: "18%", md: "24%" },
-              }}
-            >
-              {!manualMatchToggle ? (
-                <DropDown
-                  name="matchName"
-                  valued="Select match"
-                  dropStyle={{
-                    filter:
-                      "invert(.9) sepia(1) saturate(5) hue-rotate(175deg);",
-                  }}
-                  disable={state?.id ? true : false}
-                  valueStyle={{ ...inputStyle, color: "white" }}
-                  title="Match Name*"
-                  valueContainerStyle={{
-                    height: "45px",
-                    marginX: "0px",
-                    background: "#0B4F26",
-                    border: "1px solid #DEDEDE",
-                    borderRadius: "5px",
-                    cursor: state?.id ? "not-allowed" : "pointer",
-                  }}
-                  // touched={touched.competitionName}
-                  gameType={selected.gameType}
-                  // onBlur={formik.handleBlur}
-                  // error={touched.competitionName}
-                  value={values.competitionName}
-                  containerStyle={{
-                    width: "100%",
-                    position: "relative",
-                    marginTop: "5px",
-                  }}
-                  type="cricket"
-                  titleStyle={{ marginLeft: "0px", color: "#575757" }}
-                  data={eventsList}
-                  matchesSelect={true}
-                  dropDownStyle={{
-                    width: "100%",
-                    marginLeft: "0px",
-                    marginTop: "0px",
-                    position: "absolute",
-                    maxHeight: "500px",
-                    overflow: "auto",
-                    // padding: "4px 7px 4px 7px"
-                  }}
-                  onChange={(e: any) => {
-                    setSelected((prev) => {
-                      return {
-                        ...prev,
-                        competitionName: e.target?.value,
-                      };
-                    });
-                  }}
-                  dropDownTextStyle={inputStyle}
-                  selected={selected}
-                  setSelected={setSelected}
-                  place={5}
-                  isOpen={openDropDown === "matchName"}
-                  onOpen={handleDropDownOpen}
-                />
-              ) : (
-                <MatchListInput
-                  // required={true}
-                  label={"Match Name*"}
-                  type={"text"}
-                  onChange={handleInputChange}
-                  placeholder="Enter your Match Name"
-                  place={3}
-                  id="title"
-                  name="title"
-                />
-              )} */}
-            {/* {error.competitionName && (
-                <span style={{ color: "red" }}>{"Field is Required"}</span>
-              )} */}
-            {/* </Box> */}
             <Box
               sx={{
                 position: "relative",
@@ -680,7 +513,6 @@ const AddMatch = () => {
                 />
               ) : (
                 <MatchListInput
-                  // required={true}
                   label={"Match Name*"}
                   type={"text"}
                   onChange={handleInputChange}
@@ -729,12 +561,10 @@ const AddMatch = () => {
               />
             </Box>
             <Box sx={{ width: { xs: "100%", lg: "18%", md: "24%" } }}>
-              {" "}
               <MatchListInput
                 label="Team C *"
                 placeholder="Enter Name of Team C"
                 type="text"
-                // required={true}
                 onChange={(e: any) => {
                   setSelected((prev) => {
                     return {
@@ -755,7 +585,6 @@ const AddMatch = () => {
               }}
             >
               <LocalizationProvider dateAdapter={AdapterDayjs}>
-                {" "}
                 <DemoContainer components={["DateTimePicker"]}>
                   <DemoItem>
                     <Typography sx={{ fontSize: "12px" }}>
@@ -766,7 +595,6 @@ const AddMatch = () => {
                         state?.id ? false : manualMatchToggle ? false : true
                       }
                       sx={{
-                        // height: "40px",
                         background: "#fff",
                         overflow: "hidden",
                         borderRadius: "5px",
@@ -778,13 +606,10 @@ const AddMatch = () => {
                         },
                         "& .css-nxo287-MuiInputBase-input-MuiOutlinedInput-input":
                           {
-                            // cursor: "not-allowed",
                             paddingBottom: "8px",
                             paddingTop: "8px",
                           },
                       }}
-                      // className={classes.dateTimePicker}
-                      // label="Basic date picker"
                       value={dayjs(selected?.startAt)}
                       onChange={handleDateChange}
                     />
@@ -792,39 +617,6 @@ const AddMatch = () => {
                 </DemoContainer>
               </LocalizationProvider>
             </Box>
-            {/* <Box sx={{ width: { xs: "100%", lg: "18%", md: "24%" } }}>
-              <LabelValueComponent
-                icon={Upload}
-                title={"Image (Optional)"}
-                value="No File Selected..."
-                place={6}
-                DetailError={{
-                  type: "String",
-                }}
-              />
-            </Box>
-            <Box sx={{ width: { xs: "100%", lg: "18%", md: "24%" } }}>
-              <LabelValueComponent
-                icon={Upload}
-                title={"Team A Image (Optional)"}
-                value="No File Selected..."
-                place={10}
-                DetailError={{
-                  type: "String",
-                }}
-              />
-            </Box>
-            <Box sx={{ width: { xs: "100%", lg: "18%", md: "24%" } }}>
-              <LabelValueComponent
-                icon={Upload}
-                title={"Team B Image (Optional)"}
-                value="No File Selected..."
-                place={14}
-                DetailError={{
-                  type: "String",
-                }}
-              />
-            </Box> */}
             <Box
               sx={{
                 width: { xs: "100%", lg: "18%", md: "24%" },
@@ -932,7 +724,7 @@ const AddMatch = () => {
                     sx={{
                       color: "#0B4F26",
                       background: "#F8C851",
-                      fontWeight: "500", // This sets the fontWeight for the label text
+                      fontWeight: "500",
                       border: "1px solid #F8C851",
                       borderRadius: "5px",
                       height: "45px",
@@ -944,17 +736,17 @@ const AddMatch = () => {
                       display: "flex",
                       alignItems: "center",
                       "& .MuiTypography-root": {
-                        fontWeight: "500", // Adjust fontWeight specifically for the label
+                        fontWeight: "500",
                       },
                       "& .MuiTypography-body1": {
-                        fontWeight: "500", // Ensures body1 variant also has the correct fontWeight
+                        fontWeight: "500",
                       },
                       "&.MuiFormControlLabel-root": {
                         display: "flex",
                         justifyContent: "center",
                       },
                       "& .MuiFormControlLabel-label": {
-                        fontWeight: "600", // Adjusts the fontWeight for the label text
+                        fontWeight: "600",
                       },
                     }}
                   />

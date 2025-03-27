@@ -263,7 +263,6 @@ const SessionMarketDetail = () => {
         expertSocketService.match.getMatchRates(state?.id, (event: any) => {
           updateMatchDetailToRedux(event);
         });
-        // socketService.user.matchBettingStatusChange(updateBettingStatus);
         socketService.user.matchResultDeclared(resultDeclared);
         socketService.user.matchResultUnDeclared(resultUnDeclared);
         socketService.user.sessionDeleteBet(matchDeleteBet);
@@ -273,7 +272,6 @@ const SessionMarketDetail = () => {
         socketService.user.updateInResultDeclare(updateSessionResultStatus);
         socketService.user.updateDeleteReason(updateDeleteBetReason);
         socketService.user.multiSessionUpdated(handleMultiSessionMaxMin);
-        // expertSocketService.match.connectError(handleSocketError);
         expertSocketService.match.onConnect(handleSocketConnection);
       }
     } catch (e) {
@@ -286,9 +284,7 @@ const SessionMarketDetail = () => {
       if (state?.id) {
         return () => {
           matchSocketService.leaveAllRooms();
-          // expertSocketService.match.leaveMatchRoom(state?.id);
           expertSocketService.match.getMatchRatesOff(state?.id);
-          // socketService.user.matchBettingStatusChangeOff();
           socketService.user.matchResultDeclaredOff();
           socketService.user.matchResultUnDeclaredOff();
           socketService.user.sessionDeleteBetOff();
@@ -298,7 +294,6 @@ const SessionMarketDetail = () => {
           socketService.user.updateInResultDeclareOff();
           socketService.user.updateDeleteReasonOff();
           socketService.user.multiSessionUpdatedOff();
-          // expertSocketService.match.connectErrorOff();
           expertSocketService.match.onConnectOff();
         };
       }
@@ -350,24 +345,21 @@ const SessionMarketDetail = () => {
               ?.filter(
                 ([name]: any) => name === "session" || name === "oddEven"
               )
-              ?.map(([name, item]: any) => {
-                return (
-                  <>
-                    {item?.section?.filter(
-                      (items: any) =>
-                        !items?.activeStatus || items?.activeStatus === "unSave"
-                    )?.length > 0 && (
-                      <SessionMarketLive
-                        key={name}
-                        title={item?.mname || name}
-                        sessionData={item}
-                        type={name}
-                        currentMatch={matchDetail}
-                      />
-                    )}
-                  </>
-                );
-              })}
+              ?.map(
+                ([name, item]: any) =>
+                  item?.section?.filter(
+                    (items: any) =>
+                      !items?.activeStatus || items?.activeStatus === "unSave"
+                  )?.length > 0 && (
+                    <SessionMarketLive
+                      key={name}
+                      title={item?.mname || name}
+                      sessionData={item}
+                      type={name}
+                      currentMatch={matchDetail}
+                    />
+                  )
+              )}
         </Box>
         <Box sx={{ width: { lg: "70%" } }}>
           {matchDetail?.apiSession &&
@@ -421,178 +413,157 @@ const SessionMarketDetail = () => {
             Object.entries(matchDetail?.updatedSesssionBettings)
               ?.sort(customSortBySessionMarketName)
               ?.filter(([name]: any) => name !== "cricketCasino")
-              ?.map(([name, item]: any) => {
-                return (
-                  <Fragment key={name}>
-                    {item?.section?.filter(
-                      (items: any) =>
-                        items?.isComplete &&
-                        items?.activeStatus !== "unSave" &&
-                        ((items?.resultData && items?.resultData === null) ||
-                          items?.result === null)
-                    )?.length > 0 && (
-                      <SessionMarket
-                        title={`${name} Completed`}
-                        hideTotalBet={false}
-                        stopAllHide={true}
-                        profitLossData={matchDetail?.sessionProfitLoss}
-                        sessionData={item}
-                        hideResult={false}
-                        currentMatch={matchDetail}
-                        hideEditMaxButton={true}
-                        cstmStyle={{
-                          maxHeight: { sm: "40vh" },
-                        }}
-                        section="completed"
-                      />
-                    )}
-                  </Fragment>
-                );
-              })}
+              ?.map(
+                ([name, item]: any) =>
+                  item?.section?.filter(
+                    (items: any) =>
+                      items?.isComplete &&
+                      items?.activeStatus !== "unSave" &&
+                      ((items?.resultData && items?.resultData === null) ||
+                        items?.result === null)
+                  )?.length > 0 && (
+                    <SessionMarket
+                      key={name}
+                      title={`${name} Completed`}
+                      hideTotalBet={false}
+                      stopAllHide={true}
+                      profitLossData={matchDetail?.sessionProfitLoss}
+                      sessionData={item}
+                      hideResult={false}
+                      currentMatch={matchDetail}
+                      hideEditMaxButton={true}
+                      cstmStyle={{
+                        maxHeight: { sm: "40vh" },
+                      }}
+                      section="completed"
+                    />
+                  )
+              )}
           {matchDetail?.updatedSesssionBettings &&
             Object.entries(matchDetail?.updatedSesssionBettings)
               ?.sort(customSortBySessionMarketName)
               ?.filter(([name]: any) => name === "cricketCasino")
-              ?.map(([name, item]: any) => {
-                return (
-                  <>
-                    {item?.section
-                      ?.filter(
-                        (i: any) =>
-                          i?.activeStatus !== "unSave" &&
-                          (i?.isComplete || i?.activeStatus === "save") &&
-                          i?.activeStatus !== "result"
-                      )
-                      ?.map((items: any) => (
-                        <CasinoMarket
-                          key={items?.SelectionId}
-                          title={items?.RunnerName || items?.name}
-                          sessionData={items}
-                          gtype={items?.gtype}
-                          type={name}
-                          profitLossData={matchDetail?.sessionProfitLoss}
-                          section=" COMPLETED"
-                        />
-                      ))}
-                  </>
-                );
-              })}
+              ?.map(([name, item]: any) =>
+                item?.section
+                  ?.filter(
+                    (i: any) =>
+                      i?.activeStatus !== "unSave" &&
+                      (i?.isComplete || i?.activeStatus === "save") &&
+                      i?.activeStatus !== "result"
+                  )
+                  ?.map((items: any) => (
+                    <CasinoMarket
+                      key={items?.SelectionId}
+                      title={items?.RunnerName || items?.name}
+                      sessionData={items}
+                      gtype={items?.gtype}
+                      type={name}
+                      profitLossData={matchDetail?.sessionProfitLoss}
+                      section=" COMPLETED"
+                    />
+                  ))
+              )}
           {matchDetail?.updatedSesssionBettings &&
             Object.entries(matchDetail?.updatedSesssionBettings)
               ?.sort(customSortBySessionMarketName)
               ?.filter(([name]: any) => name !== "cricketCasino")
-              ?.map(([name, item]: any) => {
-                return (
-                  <Fragment key={name}>
-                    {item?.section
-                      // ?.filter((i: any) => !i?.isManual)
-                      ?.filter(
-                        (items: any) =>
-                          !items?.isComplete &&
-                          items?.activeStatus !== "unSave" &&
-                          ((items?.resultData && items?.resultData === null) ||
-                            items?.result === null)
-                      )?.length > 0 && (
-                      <SessionMarket
-                        title={`${name} Market`}
-                        hideTotalBet={false}
-                        stopAllHide={false}
-                        profitLossData={matchDetail?.sessionProfitLoss}
-                        sessionData={item}
-                        hideResult={true}
-                        currentMatch={matchDetail}
-                        hideEditMaxButton={false}
-                        section="market"
-                        name={name}
-                      />
-                    )}
-                  </Fragment>
-                );
-              })}
+              ?.map(
+                ([name, item]: any) =>
+                  item?.section?.filter(
+                    (items: any) =>
+                      !items?.isComplete &&
+                      items?.activeStatus !== "unSave" &&
+                      ((items?.resultData && items?.resultData === null) ||
+                        items?.result === null)
+                  )?.length > 0 && (
+                    <SessionMarket
+                      key={name}
+                      title={`${name} Market`}
+                      hideTotalBet={false}
+                      stopAllHide={false}
+                      profitLossData={matchDetail?.sessionProfitLoss}
+                      sessionData={item}
+                      hideResult={true}
+                      currentMatch={matchDetail}
+                      hideEditMaxButton={false}
+                      section="market"
+                      name={name}
+                    />
+                  )
+              )}
           {matchDetail?.updatedSesssionBettings &&
             Object.entries(matchDetail?.updatedSesssionBettings)
               ?.sort(customSortBySessionMarketName)
               ?.filter(([name]: any) => name === "cricketCasino")
-              ?.map(([name, item]: any) => {
-                return (
-                  <Fragment key={name}>
-                    {item?.section
-                      ?.filter(
-                        (i: any) =>
-                          i?.activeStatus !== "unSave" && !i?.isComplete
-                      )
-                      ?.map((items: any) => (
-                        <CasinoMarket
-                          key={items?.SelectionId}
-                          title={items?.RunnerName || items?.name}
-                          sessionData={items}
-                          gtype={items?.gtype}
-                          type={name}
-                          profitLossData={matchDetail?.sessionProfitLoss}
-                          section=""
-                        />
-                      ))}
-                  </Fragment>
-                );
-              })}
+              ?.map(([name, item]: any) =>
+                item?.section
+                  ?.filter(
+                    (i: any) => i?.activeStatus !== "unSave" && !i?.isComplete
+                  )
+                  ?.map((items: any) => (
+                    <CasinoMarket
+                      key={items?.SelectionId}
+                      title={items?.RunnerName || items?.name}
+                      sessionData={items}
+                      gtype={items?.gtype}
+                      type={name}
+                      profitLossData={matchDetail?.sessionProfitLoss}
+                      section=""
+                    />
+                  ))
+              )}
           {matchDetail?.updatedSesssionBettings &&
             Object.entries(matchDetail?.updatedSesssionBettings)
               ?.sort(customSortBySessionMarketName)
               ?.filter(([name]: any) => name !== "cricketCasino")
-              ?.map(([name, item]: any) => {
-                return (
-                  <Fragment key={name}>
-                    {item?.section?.filter(
-                      (items: any) =>
-                        (items?.resultData && items?.resultData !== null) ||
-                        items?.result !== null
-                    )?.length > 0 && (
-                      <SessionMarket
-                        title={`${name} Declared`}
-                        hideTotalBet={false}
-                        stopAllHide={true}
-                        profitLossData={matchDetail?.sessionProfitLoss}
-                        sessionData={item}
-                        hideResult={false}
-                        currentMatch={matchDetail}
-                        hideEditMaxButton={true}
-                        cstmStyle={{
-                          maxHeight: { sm: "40vh" },
-                        }}
-                        section="declared"
-                      />
-                    )}
-                  </Fragment>
-                );
-              })}
+              ?.map(
+                ([name, item]: any) =>
+                  item?.section?.filter(
+                    (items: any) =>
+                      (items?.resultData && items?.resultData !== null) ||
+                      items?.result !== null
+                  )?.length > 0 && (
+                    <SessionMarket
+                      key={name}
+                      title={`${name} Declared`}
+                      hideTotalBet={false}
+                      stopAllHide={true}
+                      profitLossData={matchDetail?.sessionProfitLoss}
+                      sessionData={item}
+                      hideResult={false}
+                      currentMatch={matchDetail}
+                      hideEditMaxButton={true}
+                      cstmStyle={{
+                        maxHeight: { sm: "40vh" },
+                      }}
+                      section="declared"
+                    />
+                  )
+              )}
           {matchDetail?.updatedSesssionBettings &&
             Object.entries(matchDetail?.updatedSesssionBettings)
               ?.sort(customSortBySessionMarketName)
               ?.filter(([name]: any) => name === "cricketCasino")
-              ?.map(([name, item]: any) => {
-                return (
-                  <>
-                    {item?.section
-                      ?.filter(
-                        (i: any) =>
-                          i?.activeStatus !== "unSave" &&
-                          i?.isComplete &&
-                          i?.activeStatus === "result"
-                      )
-                      ?.map((items: any) => (
-                        <CasinoMarket
-                          key={items?.SelectionId}
-                          title={items?.RunnerName || items?.name}
-                          sessionData={items}
-                          gtype={items?.gtype}
-                          type={name}
-                          profitLossData={matchDetail?.sessionProfitLoss}
-                          section=" DECLARED"
-                        />
-                      ))}
-                  </>
-                );
-              })}
+              ?.map(([name, item]: any) =>
+                item?.section
+                  ?.filter(
+                    (i: any) =>
+                      i?.activeStatus !== "unSave" &&
+                      i?.isComplete &&
+                      i?.activeStatus === "result"
+                  )
+                  ?.map((items: any) => (
+                    <CasinoMarket
+                      key={items?.SelectionId}
+                      title={items?.RunnerName || items?.name}
+                      sessionData={items}
+                      gtype={items?.gtype}
+                      type={name}
+                      profitLossData={matchDetail?.sessionProfitLoss}
+                      section=" DECLARED"
+                    />
+                  ))
+              )}
         </Box>
       </Stack>
       {sessionProLoss?.length > 0 && (

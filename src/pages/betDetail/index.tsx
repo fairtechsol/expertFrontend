@@ -5,38 +5,37 @@ import { useLocation, useNavigate } from "react-router-dom";
 import Loader from "../../components/Loader";
 import BetList from "../../components/matchDetails/BetList/ViewBet";
 import {
-    expertSocketService,
-    matchService,
-    matchSocket,
-    socket,
-    socketService,
+  expertSocketService,
+  matchService,
+  matchSocket,
+  socket,
+  socketService,
 } from "../../socketManager";
 import { matchSocketService } from "../../socketManager/matchSocket";
 import {
-    getMatchDetail,
-    removeSessionProLoss,
-    updateMatchRates,
-    updateRates,
-    updateSessionProLoss,
+  getMatchDetail,
+  removeSessionProLoss,
+  updateMatchRates,
+  updateRates,
+  updateSessionProLoss,
 } from "../../store/actions/addMatch/addMatchAction";
 import {
-    resetPlacedBetsMatch,
-    setCurrentOdd,
-    updateApiSessionById,
+  resetPlacedBetsMatch,
+  setCurrentOdd,
+  updateApiSessionById,
 } from "../../store/actions/addSession";
 import {
-    addStatusBetByBetId,
-    getPlacedBetsMatch,
-    getSessionProfitLossMatchDetailReset,
-    // updateBetVerify,
-    updateDeletedBetReasonOnEdit,
-    updateMatchBetsPlace,
-    updateMatchBetsReason,
-    updateMaxLoss,
-    updateResultStatusOfMatch,
-    updateResultStatusOfSession,
-    updateSessionBetsPlace,
-    updateTeamRates,
+  addStatusBetByBetId,
+  getPlacedBetsMatch,
+  getSessionProfitLossMatchDetailReset,
+  updateDeletedBetReasonOnEdit,
+  updateMatchBetsPlace,
+  updateMatchBetsReason,
+  updateMaxLoss,
+  updateResultStatusOfMatch,
+  updateResultStatusOfSession,
+  updateSessionBetsPlace,
+  updateTeamRates,
 } from "../../store/actions/match/matchAction";
 import { AppDispatch, RootState } from "../../store/store";
 
@@ -236,7 +235,6 @@ const MatchMarketDetail = () => {
     try {
       if (success && socket) {
         expertSocketService.match.getMatchRatesOff(state?.id);
-        // socketService.user.betVerifyOff();
         socketService.user.matchResultDeclaredOff();
         socketService.user.matchResultUnDeclaredOff();
         socketService.user.matchDeleteBetOff();
@@ -275,9 +273,7 @@ const MatchMarketDetail = () => {
       if (state?.id) {
         return () => {
           matchSocketService.leaveAllRooms();
-          // expertSocketService.match.leaveMatchRoom(state?.id);
           expertSocketService.match.getMatchRatesOff(state?.id);
-          // socketService.user.betVerifyOff();
           socketService.user.matchResultDeclaredOff();
           socketService.user.matchResultUnDeclaredOff();
           socketService.user.matchDeleteBetOff();
@@ -289,7 +285,6 @@ const MatchMarketDetail = () => {
           socketService.user.updateInResultDeclareOff();
           socketService.user.updateDeleteReasonOff();
           socketService.user.matchResultDeclareAllUserOff();
-          // expertSocketService.match.connectErrorOff();
           expertSocketService.match.onConnectOff();
           dispatch(resetPlacedBetsMatch());
         };
@@ -303,11 +298,7 @@ const MatchMarketDetail = () => {
     try {
       const handleVisibilityChange = () => {
         if (document.visibilityState === "visible") {
-          // if (!socket.connected||!matchSocket.connected) {
-          //   socketService.connect();
-          // }
           if (state?.id) {
-            // dispatch(getMatchDetail(state?.id));
             dispatch(getPlacedBetsMatch(state?.id));
             expertSocketService.match.joinMatchRoom(state?.id);
             expertSocketService.match.getMatchRates(state?.id, (event: any) => {
@@ -316,9 +307,7 @@ const MatchMarketDetail = () => {
           }
         } else if (document.visibilityState === "hidden") {
           if (state?.id) {
-            // expertSocketService.match.leaveMatchRoom(state?.id);
             expertSocketService.match.getMatchRatesOff(state?.id);
-            // socketService.disconnect();
           }
         }
       };
