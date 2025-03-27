@@ -13,7 +13,7 @@ import {
 import { AppDispatch, RootState } from "../../../store/store";
 import theme from "../../../theme";
 import { handleKeysMatchEvents } from "../../../utils/InputKeys/Bookmaker/NewBookmakerSessionKeys";
-import { updateLocalQuickBookmaker } from "../../../utils/InputKeys/Bookmaker/Utils";
+import { updateNewLocalQuickBookmaker } from "../../../utils/InputKeys/Bookmaker/Utils";
 import BookButton from "./BookButton";
 // import MaxLimitEditButtonBook from "../../Common/MaxLimitEditButtonBzook";
 import { betLiveStatus } from "../../../store/actions/match/matchAction";
@@ -105,7 +105,7 @@ const NewEditBookmaker = (props: any) => {
 
             // if (regex.test(value)) {
             if ((!match?.rateThan100) || match?.rateThan100) {
-                updateLocalQuickBookmaker(
+                updateNewLocalQuickBookmaker(
                     match,
                     matchBetting.id,
                     name,
