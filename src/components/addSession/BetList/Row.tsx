@@ -100,9 +100,7 @@ const Row = ({ index, values }: any) => {
             <Typography
               sx={{
                 color: "white",
-                // fontWeight: "600",
                 lineHeight: 1.1,
-                // fontSize: "12px"
                 fontSize: { lg: "12px", xs: "9px", sm: "10px", md: "12px" },
               }}
             >
@@ -111,7 +109,6 @@ const Row = ({ index, values }: any) => {
           </Box>
           <Typography
             sx={{
-              // fontWeight: "600",
               fontSize: "8px",
               color: "white",
               lineHeight: 1.1,
@@ -143,8 +140,7 @@ const Row = ({ index, values }: any) => {
               marginRight: "2px",
             }}
           >
-            {" "}
-            {values?.odds}{" "}
+            {values?.odds}
           </Typography>
           <Typography
             sx={{
@@ -250,44 +246,6 @@ const Row = ({ index, values }: any) => {
           </Typography>
         </Box>
       </Box>
-      {values?.deleteReason && (
-        <Box
-          sx={{
-            background: "rgba(0,0,0,0.5)",
-            width: "100%",
-            height: "40px",
-            position: "absolute",
-            display: "flex",
-          }}
-        >
-          <Box sx={{ flex: 1, display: "flex" }}>
-            <Box sx={{ width: "34%", height: "30px" }}></Box>
-            <Box
-              sx={{
-                width: "66%",
-                height: "30px",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "flex-end",
-              }}
-            >
-              {
-                <Typography
-                  sx={{
-                    fontSize: "10px",
-                    fontWeight: "700",
-                    color: "white",
-                    textTransform: "uppercase",
-                  }}
-                >
-                  Bet <span style={{ color: "#e41b23" }}>deleted</span> due to{" "}
-                  {values?.deleteReason}
-                </Typography>
-              }
-            </Box>
-          </Box>
-        </Box>
-      )}
     </div>
   );
 };
