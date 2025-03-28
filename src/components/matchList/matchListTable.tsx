@@ -294,24 +294,18 @@ const MatchListTable = ({ data, index, currentPage }: any) => {
             >
               {(profileDetail?.allPrivilege ||
                 profileDetail?.betFairMatchPrivilege) && (
-                <CustomButton
-                  containerStyle={{
-                    margin: { xs: "2px", sm: "2px", md: "5px", lg: "5px" },
-                  }}
-                  onClick={() => {
-                    if (["cricket", "politics"].includes(data?.matchType)) {
+                  <CustomButton
+                    containerStyle={{
+                      margin: { xs: "2px", sm: "2px", md: "5px", lg: "5px" },
+                    }}
+                    onClick={() => {
                       navigate(`/expert/betDetail`, {
                         state: { id: data?.id, marketId: data?.marketId },
                       });
-                    } else {
-                      navigate(`/expert/betOdds/otherGames`, {
-                        state: { id: data?.id, marketId: data?.marketId },
-                      });
-                    }
-                  }}
-                  title={"View Bet"}
-                />
-              )}
+                    }}
+                    title={"View Bet"}
+                  />
+                )}
               {["cricket", "politics"].includes(data?.matchType) &&
                 (profileDetail?.allPrivilege ||
                   profileDetail?.sessionMatchPrivilege) && (
