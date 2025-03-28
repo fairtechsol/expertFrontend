@@ -18,7 +18,7 @@ const MatchPermissionsModal = (props: any) => {
     setUpdateBettings,
     updateMatchStatus,
     setUpdateMatchStatus,
-    upcoming
+    upcoming,
   } = props;
 
   const { profileDetail } = useSelector(
@@ -27,20 +27,6 @@ const MatchPermissionsModal = (props: any) => {
   const navigate = useNavigate();
   const matchesMobile = useMediaQuery(theme.breakpoints.down("lg"));
 
-  const uniqueNames: any = [];
-  let overUnderIncluded = false;
-
-  const filteredData = data?.matchBettings.filter((item: any) => {
-    if (item.name.includes("over_under")) {
-      if (!overUnderIncluded) {
-        overUnderIncluded = true;
-        uniqueNames.push(item.name);
-        return true;
-      }
-      return false;
-    }
-    return true;
-  });
   return (
     <Box
       sx={{
@@ -53,43 +39,15 @@ const MatchPermissionsModal = (props: any) => {
           : "#a6d482",
         justifyContent: { xs: "end" },
         minHeight: { xs: "auto", md: "auto", lg: "7rem" },
-        // paddingRight:{xs:"5%"}
       }}
     >
       <Box
         sx={{
           display: "flex",
-          // width: "85%",
           flexWrap: "wrap",
-          // flex: 3,
           alignItems: "center",
-          // p: 3,
-          // borderLeft:{xs:"2px solid #fff"}
         }}
       >
-        {!data?.eventId.includes("manual") &&
-          filteredData
-            .slice()
-            .sort(handleSorting)
-            ?.map((betting: any) => {
-              return (
-                <BoxButtonWithBettings
-                  key={betting?.id}
-                  title={betting?.name}
-                  matchId={data?.id}
-                  matchBettingType={"match"}
-                  disable={
-                    profileDetail?.allPrivilege ||
-                    profileDetail?.addMatchPrivilege
-                      ? false
-                      : true
-                  }
-                  updateBettings={updateBettings}
-                  setUpdateBettings={setUpdateBettings}
-                  bettingId={betting.id}
-                />
-              );
-            })}
         {data?.eventId.includes("manual") &&
           data?.matchBettings
             .slice()
