@@ -538,7 +538,6 @@ const SessionMarketDetail = () => {
     //     }
     //   };
     // }, [handleVisibilityChange, rateInterval, setRateInterval]);
-console.log(matchDetail?.updatedSesssionBettings);
 
   return (
     <>
