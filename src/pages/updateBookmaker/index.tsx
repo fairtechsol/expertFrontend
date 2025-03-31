@@ -34,7 +34,7 @@ const UpdateBookmaker = () => {
     try {
       if (state?.matchId === event?.jobData?.newBet?.matchId) {
         dispatch(updateTeamRatesOnManualTournamentMarket(event));
-        if (state?.betId === event?.jobData?.newBet?.betId||
+        if (state?.betId === event?.jobData?.newBet?.betId ||
           state?.betId == event?.jobData?.newBet?.childBetId) {
           dispatch(updateMatchBetsPlaced(event));
         }
@@ -59,7 +59,7 @@ const UpdateBookmaker = () => {
         dispatch(updateRatesBook(event));
         if (
           event?.betId === state?.betId ||
-          state?.betId == tournament?.parentBetId
+          event?.betId == tournament?.matchBetting?.parentBetId
         ) {
           dispatch(updateDeleteReason(event));
         }

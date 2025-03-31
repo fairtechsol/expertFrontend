@@ -14,15 +14,16 @@ import TournamentMarket from "../../components/matchDetails/TournamentMarkets";
 import HTFTMarket from "../../components/matchDetails/TournamentMarkets/HTFTMarket";
 import {
   expertSocketService,
+  matchService,
   matchSocket,
   socket,
   socketService,
-  matchService,
 } from "../../socketManager";
 import { matchSocketService } from "../../socketManager/matchSocket";
 import {
+  getMatchDetail,
   updateMatchRates,
-  updateRates
+  updateRates,
 } from "../../store/actions/addMatch/addMatchAction";
 import { resetPlacedBetsMatch } from "../../store/actions/addSession";
 import {
@@ -36,15 +37,14 @@ import {
   updateResultStatusOfMatch,
   updateTeamRates,
 } from "../../store/actions/match/matchAction";
-import { getOtherGamesMatchDetail } from "../../store/actions/otherGamesAction/matchDetailActions";
 import { AppDispatch, RootState } from "../../store/store";
 import { marketArray } from "../../utils/Constants";
 import ManualMarket from "../manualMarket";
 
 const OtherMatchDetails = () => {
   // const intervalRef = useRef<NodeJS.Timeout | null>(null);
-    // const [rateInterval, setRateInterval] = useState<any>({ intervalData: [] });
-  
+  // const [rateInterval, setRateInterval] = useState<any>({ intervalData: [] });
+
   const { state } = useLocation();
   const navigate = useNavigate();
   const theme = useTheme();
@@ -62,7 +62,7 @@ const OtherMatchDetails = () => {
       matchService.connect([state?.id]);
     }
     return () => {
-      matchService.disconnect(); 
+      matchService.disconnect();
     };
   }, [state]);
 
@@ -109,12 +109,12 @@ const OtherMatchDetails = () => {
     try {
       if (event?.matchId === state?.id) {
         // if (event?.betType === "quickbookmaker1") {
-          dispatch(getOtherGamesMatchDetail(state?.id));
-          dispatch(getPlacedBetsMatch(state?.id));
+        dispatch(getMatchDetail(`${state?.id}?isSessionAllowed=false`));
+        dispatch(getPlacedBetsMatch(state?.id));
         // } else {
-          // dispatch(getPlacedBetsMatch(state?.id));
-          // dispatch(handleBetResultStatus(event));
-          // dispatch(updateMatchRatesOnMarketUndeclare(event));
+        // dispatch(getPlacedBetsMatch(state?.id));
+        // dispatch(handleBetResultStatus(event));
+        // dispatch(updateMatchRatesOnMarketUndeclare(event));
         // }
       }
     } catch (e) {
@@ -205,7 +205,7 @@ const OtherMatchDetails = () => {
     try {
       if (state?.id) {
         dispatch(getSessionProfitLossMatchDetailReset());
-        dispatch(getOtherGamesMatchDetail(state?.id));
+        dispatch(getMatchDetail(`${state?.id}?isSessionAllowed=false`));
         dispatch(getPlacedBetsMatch(state?.id));
       }
     } catch (e) {
@@ -613,12 +613,11 @@ const OtherMatchDetails = () => {
   //   }
   // }, [matchDetail?.id, matchSocket]);
 
-  
   //   useEffect(() => {
   //     try {
   //       if (state?.id) {
   //         const currRateInt = handleRateInterval();
-  
+
   //         return () => {
   //           if (currRateInt) {
   //             clearInterval(currRateInt);
@@ -630,7 +629,7 @@ const OtherMatchDetails = () => {
   //       console.log(error);
   //     }
   //   }, [state?.id]);
-  
+
   //   const handleRateInterval = useCallback(() => {
   //     if (rateInterval?.intervalData?.length) {
   //       for(let items of rateInterval?.intervalData){
@@ -641,15 +640,15 @@ const OtherMatchDetails = () => {
   //     let rateIntervalData = setInterval(() => {
   //       dispatch(getMatchRates(state?.id));
   //     }, 500);
-  
+
   //     setRateInterval((prev: any) => ({
   //       ...prev,
   //       intervalData: [...prev.intervalData, rateIntervalData],
   //     }));
-  
+
   //     return rateInterval;
   //   }, [rateInterval?.intervalData, state?.id]);
-  
+
   //   const handleVisibilityChange = useCallback(() => {
   //     if (document.visibilityState === "visible") {
   //       if (!socket.connected || !matchSocket.connected) {
@@ -664,7 +663,7 @@ const OtherMatchDetails = () => {
   //         // });
   //         handleRateInterval();
   //       }
-        
+
   //     } else if (document.visibilityState === "hidden") {
   //       expertSocketService.match.leaveMatchRoom(state?.id);
   //       if (rateInterval?.intervalData?.length) {
@@ -682,10 +681,10 @@ const OtherMatchDetails = () => {
   //     setRateInterval,
   //     socketService,
   //   ]);
-  
+
   //   useEffect(() => {
   //     document.addEventListener("visibilitychange", handleVisibilityChange);
-  
+
   //     return () => {
   //       document.removeEventListener("visibilitychange", handleVisibilityChange);
   //       if (rateInterval?.intervalData?.length) {
@@ -792,7 +791,11 @@ const OtherMatchDetails = () => {
               }}
             >
               {matchDetail?.id && (
-                <BetList allBetRates={ Array.from(new Set(placedBetsMatch))} tag={true} isMatchDeclare={true}/>
+                <BetList
+                  allBetRates={Array.from(new Set(placedBetsMatch))}
+                  tag={true}
+                  isMatchDeclare={true}
+                />
               )}
             </Box>
           </>
