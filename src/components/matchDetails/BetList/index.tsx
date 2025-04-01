@@ -626,7 +626,7 @@ import { formatToINR } from "../../helper";
 
 const ROW_HEIGHT = 30;
 
-const BetList = ({ tag, allBetRates, title }: any) => {
+const BetList = ({ tag, allBetRates, title, isMatchDeclare }: any) => {
   const dispatch: AppDispatch = useDispatch();
   const listRef = useRef<any>(null);
   const [visibleImg, setVisibleImg] = useState(true);
@@ -638,8 +638,9 @@ const BetList = ({ tag, allBetRates, title }: any) => {
     (state: RootState) => state.addMatch.addMatch
   );
 
-  const handleClose = () => setAnchorEl(null);
 
+  const handleClose = () => setAnchorEl(null);
+  const handleOpen = (event: any) => setAnchorEl(event.currentTarget);
   const handleConfirm = () => {
     if (matchDetail?.stopAt) {
       dispatch(unDeclareFinalMatchResult({ matchId: matchDetail?.id }));
@@ -1012,7 +1013,32 @@ const BetList = ({ tag, allBetRates, title }: any) => {
           <Typography sx={{ fontSize: "9px", fontWeight: "bold", marginLeft: "7px", lineHeight: 1 }}>
             {`All Bets${title ? ` (${title})` : ""}`}
           </Typography>
-
+          {isMatchDeclare && (
+            <Box onClick={handleOpen} sx={{ zIndex: 2, cursor: "pointer" }}>
+              <Box
+                sx={{
+                  display: "flex",
+                  marginX: "2px",
+                  justifyContent: "center",
+                  paddingX: 0.5,
+                  alignItems: "center",
+                  height: "18px",
+                  background: matchDetail?.stopAt ? "red" : "white",
+                  borderRadius: "2px",
+                }}
+              >
+                <Typography
+                  sx={{
+                    fontSize: { lg: "8px", xs: "6px" },
+                    fontWeight: "600",
+                    color: matchDetail?.stopAt ? "white" : "#0B4F26",
+                  }}
+                >
+                  {matchDetail?.stopAt ? "Final Result Un Declare" : "Final Result Declare"}
+                </Typography>
+              </Box>
+            </Box>
+          )}
           <Popover
             open={Boolean(anchorEl)}
             anchorEl={anchorEl}
