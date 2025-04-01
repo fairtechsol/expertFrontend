@@ -519,7 +519,7 @@ const NewEditBookmaker = (props: any) => {
                                         key={item.id}
                                     >
                                         <Typography
-                                            sx={{ fontSize: "14px", fontWeight: "600", width: "50%" }}
+                                            sx={{ fontSize: "14px", fontWeight: "600", width: "50%", lineHeight: 1 }}
                                         >
                                             {item.runnerName}
                                         </Typography>
