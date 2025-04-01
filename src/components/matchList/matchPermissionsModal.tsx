@@ -49,8 +49,8 @@ const MatchPermissionsModal = (props: any) => {
         background: data?.stopAt
           ? "#f78f65"
           : !upcoming
-          ? "#FFE094"
-          : "#a6d482",
+            ? "#FFE094"
+            : "#a6d482",
         justifyContent: { xs: "end" },
         minHeight: { xs: "auto", md: "auto", lg: "7rem" },
         // paddingRight:{xs:"5%"}
@@ -80,7 +80,7 @@ const MatchPermissionsModal = (props: any) => {
                   matchBettingType={"match"}
                   disable={
                     profileDetail?.allPrivilege ||
-                    profileDetail?.addMatchPrivilege
+                      profileDetail?.addMatchPrivilege
                       ? false
                       : true
                   }
@@ -106,7 +106,7 @@ const MatchPermissionsModal = (props: any) => {
                     matchBettingType={"match"}
                     disable={
                       profileDetail?.allPrivilege ||
-                      profileDetail?.addMatchPrivilege
+                        profileDetail?.addMatchPrivilege
                         ? false
                         : true
                     }
@@ -224,6 +224,20 @@ const MatchPermissionsModal = (props: any) => {
               marginLeft: "10px",
             }}
           >
+            {(profileDetail?.allPrivilege ||
+              profileDetail?.sessionMatchPrivilege) && (
+                <CustomButton
+                  containerStyle={{
+                    margin: "5px",
+                  }}
+                  onClick={() => {
+                    navigate(`/expert/betDetail`, {
+                      state: { id: data?.id, marketId: data?.marketId },
+                    });
+                  }}
+                  title={"View Bet"}
+                />
+              )}
             {["cricket", "politics"].includes(data?.matchType) &&
               (profileDetail?.allPrivilege ||
                 profileDetail?.sessionMatchPrivilege) && (
@@ -256,38 +270,38 @@ const MatchPermissionsModal = (props: any) => {
               )}
             {(profileDetail?.allPrivilege ||
               profileDetail?.betFairMatchPrivilege) && (
-              <CustomButton
-                containerStyle={{
-                  margin: "5px",
-                }}
-                title={"View Match"}
-                onClick={() => {
-                  if (["cricket", "politics"].includes(data?.matchType)) {
-                    navigate(`/expert/market`, {
-                      state: { id: data?.id, marketId: data?.marketId },
-                    });
-                  } else {
-                    navigate(`/expert/betOdds/otherGames`, {
-                      state: { id: data?.id, marketId: data?.marketId },
-                    });
-                  }
-                }}
-              />
-            )}
+                <CustomButton
+                  containerStyle={{
+                    margin: "5px",
+                  }}
+                  title={"View Match"}
+                  onClick={() => {
+                    if (["cricket", "politics"].includes(data?.matchType)) {
+                      navigate(`/expert/market`, {
+                        state: { id: data?.id, marketId: data?.marketId },
+                      });
+                    } else {
+                      navigate(`/expert/betOdds/otherGames`, {
+                        state: { id: data?.id, marketId: data?.marketId },
+                      });
+                    }
+                  }}
+                />
+              )}
             {(profileDetail?.allPrivilege ||
               profileDetail?.addMatchPrivilege) && (
-              <CustomButton
-                containerStyle={{
-                  margin: "5px",
-                }}
-                onClick={() => {
-                  navigate(`/expert/edit_match`, {
-                    state: { id: data?.id },
-                  });
-                }}
-                title={"Edit"}
-              />
-            )}
+                <CustomButton
+                  containerStyle={{
+                    margin: "5px",
+                  }}
+                  onClick={() => {
+                    navigate(`/expert/edit_match`, {
+                      state: { id: data?.id },
+                    });
+                  }}
+                  title={"Edit"}
+                />
+              )}
           </Box>
         </Box>
       )}
