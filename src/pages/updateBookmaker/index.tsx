@@ -61,7 +61,7 @@ const UpdateBookmaker = () => {
         dispatch(updateRatesBook(event));
         if (
           event?.betId === state?.betId ||
-          state?.betId == tournament?.parentBetId
+          event?.betId == tournament?.matchBetting?.parentBetId
         ) {
           dispatch(updateDeleteReason(event));
         }
