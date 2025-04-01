@@ -1,13 +1,6 @@
 import axios from "axios";
 import { toast } from "react-toastify";
 import { serviceUrl } from "./utils/Constants";
-// import {
-//   decryptAESKeyWithRSA,
-//   decryptWithAES,
-//   encryptAESKeyWithRSA,
-//   encryptWithAES,
-//   generateRandomBytes,
-// } from "./utils/encryptDecrypt";
 
 const toastOptions = {
   autoClose: 3000,
@@ -15,8 +8,6 @@ const toastOptions = {
   closeOnClick: true,
   pauseOnHover: true,
 };
-
-// const aesKey = generateRandomBytes(32);
 
 const service = axios.create({
   baseURL: serviceUrl,
@@ -43,29 +34,6 @@ service.interceptors.request.use(
     config.cancelToken = source.token;
     cancelTokenSources[requestUrl!] = source;
 
-    // if (config.data) {
-    //   const encryptedData = encryptWithAES(config.data, aesKey);
-    //   const encryptedKey = encryptAESKeyWithRSA(aesKey);
-    //   config.data = { encryptedData, encryptedKey };
-    // }
-
-    // let [url, query]: any = config?.url?.split("?");
-    // // Encrypt query parameters if exists
-    // if (query) {
-    //   const params = query.split("&")?.reduce((prev: any, curr: any) => {
-    //     const [key, val] = curr.split("=");
-    //     prev[key] = val;
-    //     return prev;
-    //   }, {});
-    //   const encryptedData = encryptWithAES(params, aesKey);
-    //   const encryptedKey = encryptAESKeyWithRSA(aesKey);
-    //   config.params = {
-    //     encryptedData: encryptedData,
-    //     encryptedKey: encryptedKey,
-    //   };
-    //   config.url = url;
-    // }
-
     config.headers["Content-Type"] = "application/json";
 
     const authToken = sessionStorage.getItem("jwtExpert");
@@ -79,10 +47,6 @@ service.interceptors.request.use(
 
 service.interceptors.response.use(
   (response) => {
-    // if (response.data?.encryptedData && response.data?.encryptedKey) {
-    //   const aesKey = decryptAESKeyWithRSA(response.data.encryptedKey);
-    //   response.data = decryptWithAES(response.data.encryptedData, aesKey);
-    // }
 
     const isGetRequest = response.config.method === "get";
 
@@ -105,8 +69,6 @@ service.interceptors.response.use(
     }
 
     let { status, data } = error.response || {};
-    // const aesKey = decryptAESKeyWithRSA(data.encryptedKey);
-    // data = decryptWithAES(data.encryptedData, aesKey);
 
     if (status === 500) {
       toast.error(data?.message, toastOptions);
