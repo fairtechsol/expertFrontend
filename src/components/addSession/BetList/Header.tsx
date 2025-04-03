@@ -17,7 +17,7 @@ const Header = () => {
           sx={{
             color: "white",
             fontWeight: "600",
-            fontSize: { lg: "12px", xs: "9px", sm: "12px", md: "12px" },
+            fontSize: { lg: "12px", xs: "9px", sm: "10px", md: "12px" },
           }}
         >
           No.
@@ -37,7 +37,7 @@ const Header = () => {
           sx={{
             color: "white",
             fontWeight: "600",
-            fontSize: { lg: "12px", xs: "9px", sm: "12px", md: "12px" },
+            fontSize: { lg: "12px", xs: "9px", sm: "10px", md: "12px" },
           }}
         >
           User
@@ -57,7 +57,7 @@ const Header = () => {
           sx={{
             fontWeight: "600",
             color: "white",
-            fontSize: { lg: "12px", xs: "9px", sm: "12px", md: "12px" },
+            fontSize: { lg: "12px", xs: "9px", sm: "10px", md: "12px" },
           }}
         >
           Odds
@@ -76,7 +76,7 @@ const Header = () => {
         <Typography
           sx={{
             fontWeight: "600",
-            fontSize: { lg: "12px", xs: "9px", sm: "12px", md: "12px" },
+            fontSize: { lg: "12px", xs: "9px", sm: "10px", md: "12px" },
             color: "white",
           }}
         >
@@ -96,7 +96,7 @@ const Header = () => {
         <Typography
           sx={{
             fontWeight: "600",
-            fontSize: { lg: "12px", xs: "9px", sm: "12px", md: "12px" },
+            fontSize: { lg: "12px", xs: "9px", sm: "10px", md: "12px" },
             color: "white",
           }}
         >
@@ -116,7 +116,7 @@ const Header = () => {
         <Typography
           sx={{
             fontWeight: "600",
-            fontSize: { lg: "12px", xs: "9px", sm: "12px", md: "12px" },
+            fontSize: { lg: "12px", xs: "9px", sm: "10px", md: "12px" },
             color: "white",
           }}
         >
@@ -136,7 +136,7 @@ const Header = () => {
         <Typography
           sx={{
             fontWeight: "600",
-            fontSize: { lg: "12px", xs: "9px", sm: "12px", md: "12px" },
+            fontSize: { lg: "12px", xs: "9px", sm: "10px", md: "12px" },
             color: "white",
           }}
         >

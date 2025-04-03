@@ -1,15 +1,16 @@
 import { matchSocket, socket } from ".";
 
 export const matchSocketService = {
-  joinMatchRoom: (matchId: any, roleName: any) => {
+  joinMatchRoom: (matchId: any) => {
     socket?.emit("matchRoom", {
       id: matchId,
     });
 
-    matchSocket?.emit("initCricketData", {
-      matchId: matchId,
-      roleName: roleName,
-    });
+   
+    // matchSocket.emit("initCricketData", {
+    //   matchId: matchId,
+    //   roleName: roleName,
+    // });
   },
   leaveMatchRoom: (matchId: any) => {
     matchSocket?.emit("disconnectCricketData", {

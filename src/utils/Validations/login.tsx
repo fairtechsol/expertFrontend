@@ -112,3 +112,34 @@ export const addMatchValidation = (isManual: boolean, gameType: any, matchTypeLi
   });
 };
 
+export const addManualMatchBettingValidation = () =>
+  Yup.object().shape({
+    name: Yup.string().required("Name is required"),
+    minBet: Yup.number()
+      .min(0, "Minimum bet must be greater than or equal to 0")
+      .required("Minimum bet is required"),
+    maxBet: Yup.number()
+      .min(Yup.ref("minBet"), "Maximum bet must be greater than or equal to minimum bet")
+      .required("Maximum bet is required"),
+    betLimit: Yup.number()
+      .min(0, "Bet limit must be greater than or equal to 0")
+      .required(),
+    exposureLimit: Yup.number()
+      .min(0, "Exposure limit must be greater than or equal to 0")
+      .required(),
+    isCommissionActive: Yup.boolean().required("Commission status is required"),
+    runners: Yup.array()
+      .of(
+        Yup.object().shape({
+          matchId: Yup.mixed().required("Match ID is required"),
+          metadata: Yup.object().notRequired(),
+          runnerName: Yup.string().required("Runner name is required"),
+          selectionId: Yup.string().required("Selection ID is required"),
+          sortPriority: Yup.number()
+            .integer("Sort priority must be an integer")
+            .min(0, "Sort priority must be greater than or equal to 0")
+            .required("Sort priority is required"),
+        })
+      )
+      .min(1, "At least one runner is required")
+  });

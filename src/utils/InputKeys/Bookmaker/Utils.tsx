@@ -1,4 +1,6 @@
 import { socketService } from "../../../socketManager";
+import { rates } from "./Rates";
+
 export const handleSuspend = (
   back: number,
   lay: number,
@@ -26,7 +28,6 @@ export const handleSuspend = (
 export const updateLocalQuickBookmaker = (
   match: any,
   Bid: string,
-  type: any,
   teamKey: string,
   back: number,
   lay: number,
@@ -35,38 +36,91 @@ export const updateLocalQuickBookmaker = (
   setLocalQuickBookmaker((prev: any) => {
     const newBody = {
       ...prev,
-      teamA: { ...prev?.teamA, back: 0, lay: 0, suspended: true },
-      teamB: { ...prev?.teamB, back: 0, lay: 0, suspended: true },
-      teamC: { ...prev?.teamC, back: 0, lay: 0, suspended: true },
-      [teamKey]: {
-        ...prev?.[teamKey],
-        back: +back,
-        lay: +lay,
-        rightBack: +back,
-        rightLay: +lay,
-      },
+      teams: prev?.teams?.map((item: any) => {
+        if (item?.id == teamKey) {
+          return {
+            ...item,
+            back: +back,
+            lay: +lay,
+            rightBack: +back,
+            rightLay: +lay,
+          };
+        }
+        return item;
+      }),
     };
     return newBody;
   });
+
   setLocalQuickBookmaker((prev: any) => {
     if (
-      !prev.teamA.suspended ||
-      !prev.teamB.suspended ||
-      !prev.teamC.suspended
+      prev.teams?.find((item: any) => !item.suspended)
     ) {
       let data = {
         matchId: match?.id,
         id: Bid,
-        type: type,
-        backTeamA: prev.teamA.back,
-        backTeamB: prev.teamB.back,
-        backTeamC: prev.teamC.back,
-        layTeamA: prev.teamA.lay,
-        layTeamB: prev.teamB.lay,
-        layTeamC: prev.teamC.lay,
-        statusTeamA: "suspended",
-        statusTeamB: "suspended",
-        statusTeamC: "suspended",
+        teams: prev.teams?.map((item: any) => ({
+          back: item.back,
+          lay: item.lay,
+          id: item.id,
+          status: "suspended",
+        })),
+      };
+      socketService.user.updateMatchBettingRate(data);
+    }
+    return prev;
+  });
+};
+
+export const updateNewLocalQuickBookmaker = (
+  match: any,
+  Bid: string,
+  teamKey: string,
+  back: number,
+  lay: number,
+  setLocalQuickBookmaker: any
+) => {
+  setLocalQuickBookmaker((prev: any) => {
+    const newBody = {
+      ...prev,
+      teams: prev?.teams?.map((item: any) => {
+        if (item?.id == teamKey) {
+          return {
+            ...item,
+            back: +back,
+            lay: +lay,
+            rightBack: +back,
+            rightLay: +lay,
+          };
+        }
+        else {
+          return {
+            ...item,
+            back: Number(rates[lay] ?? 0),
+            lay: Number(rates[back] ?? 0),
+            rightBack: Number(rates[lay] ?? 0),
+            rightLay: Number(rates[back] ?? 0),
+          };
+        }
+        // return item;
+      }),
+    };
+    return newBody;
+  });
+
+  setLocalQuickBookmaker((prev: any) => {
+    if (
+      prev.teams?.find((item: any) => !item.suspended)
+    ) {
+      let data = {
+        matchId: match?.id,
+        id: Bid,
+        teams: prev.teams?.map((item: any) => ({
+          back: item.back,
+          lay: item.lay,
+          id: item.id,
+          status: "suspended",
+        })),
       };
       socketService.user.updateMatchBettingRate(data);
     }

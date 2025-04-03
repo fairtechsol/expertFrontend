@@ -5,11 +5,14 @@ export const ApiConstants = {
   LOGOUT: "auth/logout",
   OLD_PASSWORD: "/user/check/oldPassword",
   MATCH: {
+    RATES: "/getExpertRateDetails/",
     ADD: "match/add",
     ADD_RACE: "match/racingAdd",
     EDIT: "match/update",
     EDIT_RACE: "match/racingUpdate",
     LIST: "match/list",
+    SESSION_PL: "session/profitLoss/userWise",
+    SESSION_PL_BETS: "session/profitLoss/userWiseBets",
     LIST_SESSION_PRO_LOSS: "session/result",
     DROPDOWNLIST: "/match/listWithManualBetting",
     GETDETAIL: "match",
@@ -17,6 +20,7 @@ export const ApiConstants = {
     UPDATEACTIVESTATUS: "match/updateActiveStatus",
     UPDATEMULTIPLEACTIVESTATUS: "match/updateActiveStatus/multiple",
     DECLARE: "bet/declare/result/match",
+    FINAL_DECLARE: "bet/declare/result/final/match",
     OTHER_DECLARE: "bet/declare/result/other/match",
     RACE_DECLARE: "bet/declare/result/race/match",
     OTHER_MARKET_DECLARE: "bet/declare/result/other/market",
@@ -26,11 +30,16 @@ export const ApiConstants = {
     UNDECLARE: "bet/unDeclare/result/match",
     OTHER_UNDECLARE: "bet/unDeclare/result/other/match",
     RACE_UNDECLARE: "bet/unDeclare/result/race/match",
+    FINAL_UNDECLARE: "bet/unDeclare/result/final/match",
     GET_BETS: "/bet",
     GET_DATES: "match/dateWiseList",
     GET_COUNTRY_CODE: "match/countryWiseList",
     GET_RACE_LIST: "match/racing/list",
     GET_RACE_MATCH: "match/racing",
+    GET_TOURNAMENT: "matchBeting/tournament/",
+    GET_RATE: "getExpertRateDetails/",
+    BET_VERIFY: "bet/verify",
+    MARKET_CLONE: "matchBeting/clone",
   },
   USER: {
     CHANGEPASSWORD: "user/password",
@@ -95,12 +104,14 @@ export const Constants = {
     live: "live",
     live_update: "live/:id",
     addBookMaker: "add_book_maker",
+    addManualMarket: "addManualMarket",
     // betOdds: "betOdds",
     betOddsOtherGames: "betOdds/otherGames",
     betOddsRace: "betOdds/race",
     session: "session",
     sessionBetList: "sessionBetList",
     market: "market",
+    betDetail: "betDetail",
     changePassword: "change-password",
   },
   WEBSOCKET: "websocket",
@@ -399,18 +410,19 @@ export const gameTypeMatchBetting = {
 
 export const betListColorConstants: any = {
   session: { background: "#319E5B", textColor: "#fff" },
-  matchOdd: { background: "#fff", textColor: "#000" },
+  match_odds: { background: "#fff", textColor: "#000" },
   bookmaker: { background: "#F6C550", textColor: "#000" },
+  bookmakermatch: { background: "#F6C550", textColor: "#000" },
   bookmaker2: { background: "#F6C550", textColor: "#000" },
   quickbookmaker1: { background: "#5c1d04", textColor: "#fff" },
   quickbookmaker2: { background: "#5c1d04", textColor: "#fff" },
   quickbookmaker3: { background: "#5c1d04", textColor: "#fff" },
-  completeMatch: { background: "#0549F5", textColor: "#fff" },
-  completeMatch1: { background: "#0549F5", textColor: "#fff" },
+  completed_match: { background: "#0549F5", textColor: "#fff" },
+  completedmatch: { background: "#0549F5", textColor: "#fff" },
   completeManual: { background: "#3F345C", textColor: "#fff" },
-  tiedMatch1: { background: "#fcf11b", textColor: "#000" },
+  tied_match: { background: "#fcf11b", textColor: "#000" },
   tiedMatch2: { background: "#EE82EE", textColor: "#000" },
-  tiedMatch3: { background: "#452245", textColor: "#fff" },
+  tiedmatch: { background: "#452245", textColor: "#fff" },
   cricketCasino: { background: "#FF1111", textColor: "#fff" },
   oddEven: { background: "#7c46e6", textColor: "#fff" },
   fancy1: { background: "#FF8633", textColor: "#000" },
@@ -440,52 +452,11 @@ export const marketArray = [
 
 export const gameType = ["cricket", "football", "tennis", "politics"];
 
-export const addMatchThirdParty =
-  process.env.NODE_ENV === Constants.PRODUCTION
-    ? Constants.thirdParty
-    : Constants.localPathThird;
+export const addMatchThirdParty = import.meta.env.VITE_THIRD_PARTY_BASE_URL;
 
-export const serviceUrl =
-  process.env.NODE_ENV === Constants.PRODUCTION
-    ? Constants.expertSocketBasePath
-    : Constants.localPathExpert;
+export const serviceUrl = import.meta.env.VITE_BASE_URL;
 
 export const baseUrls = {
-  socket:
-    process.env.NODE_ENV === Constants.PRODUCTION
-      ? Constants.apiBasePath
-      : Constants.localPath,
-  expertSocket:
-    process.env.NODE_ENV === Constants.PRODUCTION
-      ? Constants.expertSocketBasePath
-      : Constants.localPathExpert,
-  matchSocket:
-    process.env.NODE_ENV === Constants.PRODUCTION
-      ? Constants.thirdParty
-      : Constants.localPathThird,
+  matchSocket: import.meta.env.VITE_THIRD_PARTY_BASE_URL,
+  expertSocket: import.meta.env.VITE_BASE_URL,
 };
-
-// export const addMatchThirdParty =
-//   process.env.NODE_ENV === Constants.PRODUCTION
-//     ? Constants.thirdPartyLive
-//     : Constants.localPathThird;
-
-// export const serviceUrl =
-//   process.env.NODE_ENV === Constants.PRODUCTION
-//     ? Constants.expertSocketBasePathLive
-//     : Constants.localPathExpert;
-
-// export const baseUrls = {
-//   socket:
-//     process.env.NODE_ENV === Constants.PRODUCTION
-//       ? Constants.apiBasePathLive
-//       : Constants.localPath,
-//   expertSocket:
-//     process.env.NODE_ENV === Constants.PRODUCTION
-//       ? Constants.expertSocketBasePathLive
-//       : Constants.localPathExpert,
-//   matchSocket:
-//     process.env.NODE_ENV === Constants.PRODUCTION
-//       ? Constants.thirdPartyLive
-//       : Constants.localPathThird,
-// };

@@ -5,18 +5,18 @@ import {
   useMediaQuery,
   useTheme,
 } from "@mui/material";
-import { useNavigate } from "react-router-dom";
-import StyledImage from "../../../components/Common/StyledImages";
-import { ArrowLeft } from "../../../assets";
 import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../../../store/store";
+import { useNavigate } from "react-router-dom";
+import { ArrowLeft } from "../../../assets";
+import StyledImage from "../../../components/Common/StyledImages";
+import { IconConstants } from "../../../components/helper/gameConstants";
+import { matchDetailReset } from "../../../store/actions/addMatch/addMatchAction";
 import {
   addsuccessReset,
   resetPlacedBets,
   sessionByIdReset,
 } from "../../../store/actions/addSession";
-import { matchDetailReset } from "../../../store/actions/addMatch/addMatchAction";
-import { IconConstants } from "../../../components/helper/gameConstants";
+import { AppDispatch, RootState } from "../../../store/store";
 
 const MenutItemsComponent = ({
   x,
@@ -28,7 +28,9 @@ const MenutItemsComponent = ({
   const theme = useTheme();
   const dispatch: AppDispatch = useDispatch();
   const matchesMobile = useMediaQuery(theme.breakpoints.down("lg"));
-  const { profileDetail } = useSelector((state: RootState) => state.user.profile);
+  const { profileDetail } = useSelector(
+    (state: RootState) => state.user.profile
+  );
 
   const { matchListDropdown } = useSelector(
     (state: RootState) => state.matchList
@@ -178,25 +180,51 @@ const MenutItemsComponent = ({
           )}
 
           {(profileDetail?.allPrivilege ||
-            profileDetail?.bookmakerMatchPrivilege) && (
-            <Box
-              sx={{ marginTop: "5px", display: "flex", alignItems: "center" }}
-            >
-              <Typography sx={{ fontSize: "12px", fontWeight: "600" }}>
-                Bookmakers
-              </Typography>
-              <StyledImage
-                src={ArrowLeft}
-                sx={{ width: "15px", height: "10px", marginLeft: "10px" }}
-              />
-            </Box>
-          )}
-          {(profileDetail?.allPrivilege || profileDetail?.bookmakerMatchPrivilege) &&
+            profileDetail?.bookmakerMatchPrivilege) &&
             matchListDropdown?.map((event: any, index: number) => {
               if (event?.id === x?.id) {
                 return (
                   <div key={index}>
-                    {event?.bookmakers?.map((element: any) => {
+                    <Box
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        navigate("/expert/addManualMarket", {
+                          state: {
+                            match: x,
+                          },
+                        });
+                        handleClose();
+                      }}
+                      sx={{
+                        marginTop: "5px",
+                        display: "flex",
+                        alignItems: "center",
+                        cursor:"pointer"
+                      }}
+                    >
+                      <Typography sx={{ fontSize: "12px", fontWeight: "600" }}>
+                        Add Bookmakers
+                      </Typography>
+                      <StyledImage
+                        src={ArrowLeft}
+                        sx={{
+                          width: "15px",
+                          height: "10px",
+                          marginLeft: "10px",
+                        }}
+                      />
+                    </Box>
+                  </div>
+                );
+              } else return null;
+            })}
+          {(profileDetail?.allPrivilege ||
+            profileDetail?.bookmakerMatchPrivilege) &&
+            matchListDropdown?.map((event: any, index: number) => {
+              if (event?.id === x?.id) {
+                return (
+                  <div key={index}>
+                    {event?.tournaments?.map((element: any) => {
                       return (
                         <Box
                           key={element.id}
@@ -204,9 +232,8 @@ const MenutItemsComponent = ({
                             e.stopPropagation();
                             navigate("/expert/add_book_maker", {
                               state: {
-                                id: element.id,
-                                match: x,
-                                type: element?.type,
+                                betId: element.id,
+                                matchId: x.id,
                               },
                             });
                             handleClose();

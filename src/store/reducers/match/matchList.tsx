@@ -2,7 +2,9 @@ import { createSlice } from "@reduxjs/toolkit";
 import { updateRaceRates } from "../../actions/addMatch/addMatchAction";
 import { resetPlacedBetsMatch } from "../../actions/addSession";
 import {
+  addStatusBetByBetId,
   betLiveStatus,
+  betVerifyStatus,
   editMatch,
   editRace,
   editSuccessReset,
@@ -14,6 +16,8 @@ import {
   getPlacedBetsMatch,
   getRaceList,
   getRaceMatch,
+  getSessionProfitLossAfterDeclare,
+  getSessionProfitLossBets,
   getTabList,
   matchListReset,
   noResultDeclare,
@@ -30,6 +34,7 @@ import {
   sessionResultSuccessReset,
   setSelectedTabForMatchList,
   undeclareResult,
+  updateBetVerify,
   updateDeletedBetReasonOnEdit,
   updateMatchActiveStatus,
   updateMatchActiveStatusReset,
@@ -62,6 +67,8 @@ interface InitialState {
   raceList: any;
   raceDetail: any;
   selectedTab: number;
+  sessionPL:any;
+  sessionPLBets:any;
 }
 
 const initialState: InitialState = {
@@ -84,6 +91,8 @@ const initialState: InitialState = {
   raceList: [],
   raceDetail: null,
   selectedTab: 0,
+  sessionPL:null,
+  sessionPLBets:null
 };
 
 const matchList = createSlice({
@@ -250,6 +259,24 @@ const matchList = createSlice({
           (items: any) => items?.betId != action?.payload
         );
       })
+      .addCase(addStatusBetByBetId.fulfilled, (state, action) => {
+        state.loading = false;
+        state.success = true;
+        state.placedBetsMatch = state.placedBetsMatch?.map((item: any) =>
+          item.betId === action?.payload ? { ...item, result: "WIN" } : item
+        );
+      })
+      .addCase(betVerifyStatus.fulfilled, (state) => {
+        state.loading = false;
+        state.success = true;
+      })
+      .addCase(updateBetVerify.fulfilled, (state, action) => {
+        state.placedBetsMatch = state.placedBetsMatch?.map((item: any) =>
+          item.id === action?.payload.id
+            ? { ...item, isVerified: action.payload.isVerified, verifyBy: action.payload.verifyBy }
+            : item
+        );
+      })
       .addCase(getPlacedBetsForSessionDetail.pending, (state) => {
         state.loading = true;
         state.success = false;
@@ -261,6 +288,32 @@ const matchList = createSlice({
         state.placedBetsMatch = action?.payload;
       })
       .addCase(getPlacedBetsForSessionDetail.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action?.error?.message;
+      })
+      .addCase(getSessionProfitLossAfterDeclare.pending, (state) => {
+        state.loading = true;
+        state.sessionPL = null;
+        state.error = null;
+      })
+      .addCase(getSessionProfitLossAfterDeclare.fulfilled, (state, action) => {
+        state.loading = false;
+        state.sessionPL = action?.payload;
+      })
+      .addCase(getSessionProfitLossAfterDeclare.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action?.error?.message;
+      })
+      .addCase(getSessionProfitLossBets.pending, (state) => {
+        state.loading = true;
+        state.sessionPLBets = null;
+        state.error = null;
+      })
+      .addCase(getSessionProfitLossBets.fulfilled, (state, action) => {
+        state.loading = false;
+        state.sessionPLBets = action?.payload;
+      })
+      .addCase(getSessionProfitLossBets.rejected, (state, action) => {
         state.loading = false;
         state.error = action?.error?.message;
       })
@@ -327,8 +380,12 @@ const matchList = createSlice({
       .addCase(updateMatchBetsPlace.fulfilled, (state, action) => {
         const { jobData } = action?.payload;
         state.placedBetsMatch = state?.placedBetsMatch || [];
+        const betId = jobData?.newBet?.betId;
 
-        if (jobData && jobData?.newBet) {
+        const isBetAlreadyPlaced = state.placedBetsMatch?.some(
+          (item: any) => item?.id === betId
+        );
+        if (jobData && jobData?.newBet && !isBetAlreadyPlaced) {
           let obj = jobData?.newBet;
           obj.user = {
             userName: jobData?.userName,
@@ -341,8 +398,12 @@ const matchList = createSlice({
       .addCase(updateSessionBetsPlace.fulfilled, (state, action) => {
         const { jobData } = action?.payload;
         state.placedBetsMatch = state?.placedBetsMatch || [];
+        const betId = jobData?.newBet?.betId;
 
-        if (jobData && jobData?.placedBet) {
+        const isBetAlreadyPlaced = state.placedBetsMatch?.some(
+          (item: any) => item?.id === betId
+        );
+        if (jobData && jobData?.placedBet && !isBetAlreadyPlaced) {
           let obj = jobData?.placedBet;
           const partnership = JSON.parse(jobData?.partnership);
           obj.user = {

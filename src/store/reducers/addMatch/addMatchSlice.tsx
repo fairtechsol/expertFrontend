@@ -1,5 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {
+  convertData,
+  updateSessionBettingsItem,
+} from "../../../helpers/sessionsHelpers";
+import { profitLossDataForMatchConstants } from "../../../utils/Constants";
+import {
   addMatchExpert,
   addMatchReset,
   addRaceExpert,
@@ -9,6 +14,8 @@ import {
   getAllLiveTournaments,
   getExtraMarketList,
   getMatchDetail,
+  getMatchRates,
+  geTournamentBetting,
   getRaceMatches,
   handleBetResultStatus,
   matchDetailReset,
@@ -25,8 +32,12 @@ import {
   updateRaceRunners,
   updateRates,
   updateSessionAdded,
+  updateTeamRatesOnManualTournamentMarket,
 } from "../../actions/addMatch/addMatchAction";
-import { updateApiSessionById } from "../../actions/addSession";
+import {
+  updateApiSessionById,
+  updateResultStatusOfQuickBookmaker,
+} from "../../actions/addSession";
 import {
   updateMaxLoss,
   updateResultBoxStatus,
@@ -35,11 +46,6 @@ import {
   updateTeamRates,
 } from "../../actions/match/matchAction";
 import { getOtherGamesMatchDetail } from "../../actions/otherGamesAction/matchDetailActions";
-import { profitLossDataForMatchConstants } from "../../../utils/Constants";
-import {
-  convertData,
-  updateSessionBettingsItem,
-} from "../../../helpers/sessionsHelpers";
 
 interface InitialState {
   tournamentList: any;
@@ -57,6 +63,8 @@ interface InitialState {
   quickBookmaker1: any;
   maxLimitLoading: boolean;
   maxLimitSuccess: boolean;
+  tournament: any;
+  addedBettingId: any;
 }
 
 const initialState: InitialState = {
@@ -83,6 +91,8 @@ const initialState: InitialState = {
   quickBookmaker1: [],
   maxLimitLoading: false,
   maxLimitSuccess: false,
+  tournament: {},
+  addedBettingId: null,
 };
 
 const addMatch = createSlice({
@@ -155,6 +165,27 @@ const addMatch = createSlice({
         state.loading = false;
         state.error = action?.error?.message;
       })
+      .addCase(geTournamentBetting.pending, (state) => {
+        state.loading = true;
+        state.tournament = {};
+        state.error = null;
+      })
+      .addCase(geTournamentBetting.fulfilled, (state, action) => {
+        state.tournament = action?.payload;
+        state.loading = false;
+      })
+      .addCase(geTournamentBetting.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action?.error?.message;
+      })
+      .addCase(
+        updateResultStatusOfQuickBookmaker.fulfilled,
+        (state, action) => {
+          state.tournament.matchBetting["resultStatus"] =
+            action?.payload?.status;
+        }
+      )
+
       .addCase(addMatchExpert.pending, (state) => {
         state.loading = true;
         state.success = false;
@@ -217,7 +248,7 @@ const addMatch = createSlice({
         state.success = false;
         state.matchDetail = null;
       })
-      .addCase(updateMatchRates.fulfilled, (state, action) => {
+      .addCase(getMatchRates.fulfilled,(state, action) => {
         const {
           apiSession,
           apiTiedMatch,
@@ -272,7 +303,132 @@ const addMatch = createSlice({
           quickBookmaker: quickbookmaker,
           updatedSesssionBettings: updatedSessionBettings || {},
           other,
-          tournament: tournament,
+          tournament: tournament?.sort((a: any, b: any) => {
+            // Primary sort by sno (ascending)
+            if (a.sno !== b.sno) {
+              return a.sno - b.sno;
+            }
+            // If sno values are equal, sort so that null parentId comes first
+            if (a.parentBetId === null && b.parentBetId !== null) return -1;
+            if (a.parentBetId !== null && b.parentBetId === null) return 1;
+            return 0;
+          }),
+          // sessionBettings: state.matchDetail?.sessionBettings?.map(
+          //   (item: any) => {
+          //     const parsedItem = JSON.parse(item);
+          //     let id = parsedItem?.id;
+
+          //     const matchingApiSession = apiSession?.find(
+          //       (sessionItem: any) => sessionItem?.id === id
+          //     );
+
+          //     if (matchingApiSession) {
+          //       return JSON.stringify({
+          //         ...parsedItem,
+          //         noRate: matchingApiSession?.LayPrice1 ?? 0,
+          //         noPercent: matchingApiSession?.LaySize1 ?? 0,
+          //         yesRate: matchingApiSession?.BackPrice1 ?? 0,
+          //         yesPercent: matchingApiSession?.BackSize1 ?? 0,
+          //         activeStatus: matchingApiSession?.activeStatus,
+          //         maxBet: matchingApiSession?.max,
+          //         minBet: matchingApiSession?.min,
+          //         status: matchingApiSession?.GameStatus,
+          //         updatedAt: matchingApiSession?.updatedAt,
+          //         isComplete:
+          //           (!matchingApiSession?.LayPrice1 &&
+          //             !matchingApiSession?.LaySize1 &&
+          //             !matchingApiSession?.BackPrice1 &&
+          //             !matchingApiSession?.BackSize1) ||
+          //           matchingApiSession?.activeStatus !== "live"
+          //             ? true
+          //             : false,
+          //         showSessions: true,
+          //       });
+          //     } else {
+          //       return JSON.stringify({
+          //         ...parsedItem,
+          //         noRate: 0,
+          //         yesRate: 0,
+          //         yesPercent: 0,
+          //         noPercent: 0,
+          //         activeStatus:
+          //           parsedItem.activeStatus === "live"
+          //             ? "save"
+          //             : parsedItem.activeStatus,
+          //         isComplete: true,
+          //         showSessions: true,
+          //       });
+          //     }
+          //   }
+          // ),
+        };
+      })
+      .addCase(updateMatchRates.fulfilled, (state, action) => {
+        const {
+          apiSession,
+          apiTiedMatch,
+          apiTiedMatch2,
+          bookmaker,
+          bookmaker2,
+          marketCompleteMatch,
+          matchOdd,
+          firstHalfGoal,
+          overUnder,
+          halfTime,
+          setWinner,
+          manualTideMatch,
+          completeManual,
+          quickbookmaker,
+          other,
+          marketCompleteMatch1,
+          tournament,
+        } = action.payload;
+
+        let parsedSessionBettings = state?.matchDetail?.sessionBettings?.map(
+          (item: any) => {
+            let parsedItem = JSON.parse(item);
+            if(parsedItem?.isManual){
+              parsedItem.type="manualSession"
+            }
+            return parsedItem;
+          }
+        );
+        let updatedFormat = convertData(parsedSessionBettings);
+        let updatedSessionBettings = updateSessionBettingsItem(
+          updatedFormat,
+          apiSession
+        );
+
+        state.matchDetail = {
+          ...state.matchDetail,
+          apiSessionActive: apiSession ? true : false,
+          apiSession: apiSession,
+          firstHalfGoal,
+          overUnder,
+          halfTime,
+          apiTideMatch: apiTiedMatch,
+          apiTideMatch2: apiTiedMatch2,
+          bookmaker,
+          marketBookmaker2: bookmaker2,
+          marketCompleteMatch,
+          marketCompleteMatch1: marketCompleteMatch1,
+          matchOdd,
+          setWinner,
+          manualTiedMatch: manualTideMatch,
+          manualCompleteMatch: completeManual,
+          quickBookmaker: quickbookmaker,
+          updatedSesssionBettings: updatedSessionBettings || {},
+          other,
+          tournament: tournament?.sort((a: any, b: any) => {
+            // Primary sort by sno (ascending)
+            if (a.sno !== b.sno) {
+              return a.sno - b.sno;
+            }
+            // If sno values are equal, sort so that null parentId comes first
+            if (a.parentBetId === null && b.parentBetId !== null) return -1;
+            if (a.parentBetId !== null && b.parentBetId === null) return 1;
+            return 0;
+          }),
           // sessionBettings: state.matchDetail?.sessionBettings?.map(
           //   (item: any) => {
           //     const parsedItem = JSON.parse(item);
@@ -423,6 +579,13 @@ const addMatch = createSlice({
       .addCase(addMatchReset, (state) => {
         state.matchAdded = false;
       })
+      .addCase(
+        updateTeamRatesOnManualTournamentMarket.fulfilled,
+        (state, action) => {
+          const { userRedisObj } = action?.payload;
+          state.tournament.teamRates = userRedisObj;
+        }
+      )
       .addCase(updateMaxLoss.fulfilled, (state, action) => {
         const { id, maxLoss, totalBet, profitLoss } = action?.payload;
         state.matchDetail = {
@@ -534,8 +697,11 @@ const addMatch = createSlice({
         } else if (matchBetType === "tournament") {
           state.matchDetail.teamRates = {
             ...state.matchDetail.teamRates,
-            [betId + "_" + "profitLoss" + "_" + state.matchDetail?.id]:
-              JSON.stringify(teamRate),
+            [betId +
+            "_" +
+            "profitLoss" +
+            "_" +
+            state.matchDetail?.id]: JSON.stringify(teamRate),
           };
         } else
           state.matchDetail.teamRates = {
@@ -728,16 +894,20 @@ const addMatch = createSlice({
       })
       .addCase(updateMarketRates.pending, (state) => {
         state.maxLimitLoading = true;
+        state.addedBettingId = null;
       })
-      .addCase(updateMarketRates.fulfilled, (state) => {
+      .addCase(updateMarketRates.fulfilled, (state, action) => {
         state.maxLimitLoading = false;
         state.maxLimitSuccess = true;
+        state.addedBettingId = action.payload?.id;
       })
       .addCase(updateMarketRates.rejected, (state) => {
         state.maxLimitLoading = false;
+        state.addedBettingId = null;
       })
       .addCase(resetMarketListMinMax, (state) => {
         state.maxLimitSuccess = false;
+        state.addedBettingId = null;
       });
   },
 });

@@ -2,19 +2,25 @@ import { Box, Typography } from "@mui/material";
 import { Fragment, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ARROWUP } from "../../../assets";
-import { betLiveStatus } from "../../../store/actions/match/matchAction";
+import {
+  betLiveStatus,
+  marketClone,
+  updateMatchActiveStatus,
+} from "../../../store/actions/match/matchAction";
+import { declareMatchStatusReset } from "../../../store/actions/match/matchDeclareActions";
 import { AppDispatch, RootState } from "../../../store/store";
+import AddMarketButton from "../../Common/AddMarketButton";
 import Divider from "../../Common/Divider";
+import MaxLimitEditButton from "../../Common/MaxLimitEditButton";
 import { formatNumber } from "../../helper";
+import Clone from "../Clone";
+import DisableClone from "../DisableClone";
 import BoxComponent from "../MatchOdds/BoxComponent";
+import Result from "../Result";
 import Stop from "../SessionMarket/Stop";
 import SmallBox from "../SmallBox";
-import Result from "../Result";
-import TournamentMarketAdd from "./TournamentMarketAdd";
 import ResultComponentTournamentMarket from "./ResultComponentTournamentMarket";
-import AddMarketButton from "../../Common/AddMarketButton";
-import MaxLimitEditButton from "../../Common/MaxLimitEditButton";
-import { declareMatchStatusReset } from "../../../store/actions/match/matchDeclareActions";
+import TournamentMarketAdd from "./TournamentMarketAdd";
 
 const TournamentMarket = ({
   currentMatch,
@@ -49,7 +55,6 @@ const TournamentMarket = ({
       setVisible(false);
     }
   }, [success]);
-
   return (
     <Box
       sx={{
@@ -57,7 +62,7 @@ const TournamentMarket = ({
         display: "flex",
         backgroundColor: "white",
         flexDirection: "column",
-        width: { lg: "49%", md: "49%", xs: "100%" },
+        width: { lg: "100%", md: "100%", xs: "100%" },
         marginTop: ".3vh",
         marginX: "0",
         alignSelf: {
@@ -102,17 +107,50 @@ const TournamentMarket = ({
             <Stop
               onClick={() => {
                 dispatch(
-                  betLiveStatus({
-                    isStop: true,
-                    betId: liveData?.id,
-                    isManual: false,
-                    isTournament: true,
+                  updateMatchActiveStatus({
+                    matchId: currentMatch?.id,
+                    bettingId: liveData?.id,
+                    type: "tournament",
+                    isActive: !liveData?.isActive,
                   })
                 );
-                setLive(false);
               }}
               height="18px"
               title={title}
+              isCommissionActive={liveData?.isCommissionActive}
+            />
+          )}
+          {!liveData.isManual &&
+            liveData?.activeStatus !== "result" &&
+            liveData?.id && (
+              <Clone
+                width={"80px"}
+                onClick={(e: any) => {
+                  e.preventDefault();
+                  dispatch(
+                    marketClone({
+                      matchId: currentMatch?.id,
+                      betId: liveData?.id,
+                    })
+                  );
+                }}
+                invert={true}
+              />
+            )}
+          {liveData.isManual && liveData?.parentBetId && (
+            <DisableClone
+              width={"80px"}
+              onClick={(e: any) => {
+                e.preventDefault();
+                dispatch(
+                  marketClone({
+                    matchId: currentMatch?.id,
+                    betId: liveData?.parentBetId,
+                    disabled: true,
+                  })
+                );
+              }}
+              invert={true}
             />
           )}
         </Box>
@@ -169,6 +207,20 @@ const TournamentMarket = ({
                     height="18px"
                   />
                   <MaxLimitEditButton handleClickOpen={handleClickOpen} />
+                  {/* {!liveData.isManual && (
+                    <Clone
+                      width={"80px"}
+                      onClick={() => {
+                        dispatch(
+                          marketClone({
+                            matchId: currentMatch?.id,
+                            betId: liveData?.id,
+                          })
+                        );
+                      }}
+                      invert={true}
+                    />
+                  )} */}
                 </>
               )}
             </>
@@ -306,7 +358,7 @@ const TournamentMarket = ({
                     liveData?.activeStatus === "result"
                       ? 0
                       : currentMatch?.teamRates?.[
-                          liveData?.id +
+                          (liveData?.parentBetId || liveData?.id) +
                             "_" +
                             "profitLoss" +
                             "_" +
@@ -314,13 +366,13 @@ const TournamentMarket = ({
                         ]
                       ? JSON.parse(
                           currentMatch?.teamRates?.[
-                            liveData?.id +
+                            (liveData?.parentBetId || liveData?.id) +
                               "_" +
                               "profitLoss" +
                               "_" +
                               currentMatch?.id
                           ]
-                        )?.[item?.id] ?? 0
+                        )?.[item?.parentRunnerId || item?.id] ?? 0
                       : 0
                   }
                   livestatus={
@@ -339,19 +391,42 @@ const TournamentMarket = ({
                 <Divider />
               </Fragment>
             ))}
-            {!live && (
+            {(!live ||
+              !liveData?.isActive ||
+              (!["ACTIVE", "OPEN", ""].includes(liveData?.status) &&
+                liveData?.gtype == "match")) && (
               <Box
                 sx={{
                   width: "100%",
                   position: "absolute",
                   height: "100%",
                   bottom: 0,
-                  background: "rgba(0,0,0,0.5)",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  background: "rgba(0,0,0,0.71)",
                 }}
-              ></Box>
+              >
+                <Typography
+                  sx={{
+                    fontSize: { xs: "12px", lg: "22px" },
+                    textTransform: "uppercase",
+                    width: "100%",
+                    textAlign: "center",
+                    color: "white",
+                    fontWeight: "400",
+                  }}
+                >
+                  {!["ACTIVE", "OPEN", ""].includes(liveData?.status) &&
+                  liveData?.gtype == "match"
+                    ? liveData?.status
+                    : ""}
+                </Typography>
+              </Box>
             )}
             {currentMatch?.resultStatus &&
-              currentMatch?.resultStatus[liveData?.id]?.status && (
+              currentMatch?.resultStatus[liveData?.parentBetId || liveData?.id]
+                ?.status && (
                 <Box
                   sx={{
                     display: "flex",
@@ -366,11 +441,18 @@ const TournamentMarket = ({
                   }}
                 >
                   <Typography sx={{ color: "#fff", textAlign: "center" }}>
-                    RESULT {currentMatch?.resultStatus[liveData?.id]?.status}
+                    RESULT{" "}
+                    {
+                      currentMatch?.resultStatus[
+                        liveData?.parentBetId || liveData?.id
+                      ]?.status
+                    }
                   </Typography>
                 </Box>
               )}
-            {currentMatch?.otherBettings?.[liveData?.id] && (
+            {currentMatch?.otherBettings?.[
+              liveData?.parentBetId || liveData?.id
+            ] && (
               <Box
                 sx={{
                   display: "flex",
@@ -388,7 +470,9 @@ const TournamentMarket = ({
                   RESULT{" "}
                   {liveData?.activeStatus === "result"
                     ? "DECLARED"
-                    : currentMatch?.otherBettings?.[liveData?.id]}
+                    : currentMatch?.otherBettings?.[
+                        liveData?.parentBetId || liveData?.id
+                      ]}
                 </Typography>
               </Box>
             )}
@@ -402,6 +486,8 @@ const TournamentMarket = ({
         currentMatch={currentMatch}
         title={`${title} Max Bet`}
         exposureLimit={liveData?.exposureLimit}
+        isManual={liveData.isManual}
+        isCommissionActive={liveData.isCommissionActive}
       />
     </Box>
   );

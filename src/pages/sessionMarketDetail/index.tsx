@@ -10,6 +10,8 @@ import SessionMarketLive from "../../components/matchDetails/SessionMarketLive";
 import { customSortBySessionMarketName } from "../../helpers";
 import {
   expertSocketService,
+  matchService,
+  matchSocket,
   socket,
   socketService,
 } from "../../socketManager";
@@ -21,7 +23,7 @@ import {
   updateMultiSessionMinMax,
   updateRates,
   updateSessionAdded,
-  updateSessionProLoss,
+  updateSessionProLoss
 } from "../../store/actions/addMatch/addMatchAction";
 import {
   setCurrentOdd,
@@ -40,6 +42,9 @@ import {
 import { AppDispatch, RootState } from "../../store/store";
 
 const SessionMarketDetail = () => {
+  // const intervalRef = useRef<NodeJS.Timeout | null>(null);
+        // const [rateInterval, setRateInterval] = useState<any>({ intervalData: [] });
+  
   const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
   const { state } = useLocation();
@@ -49,6 +54,15 @@ const SessionMarketDetail = () => {
   );
   const { sessionProLoss } = useSelector((state: RootState) => state.match);
   const { currentOdd } = useSelector((state: RootState) => state.addSession);
+
+  useEffect(() => {
+    if (state?.marketId) {
+      matchService.connect([state?.id]);
+    }
+    return () => {
+      matchService.disconnect(); 
+    };
+  }, [state]);
 
   const updateMatchDetailToRedux = (event: any) => {
     try {
@@ -222,7 +236,7 @@ const SessionMarketDetail = () => {
 
   const handleSocketConnection = () => {
     if (state?.id) {
-      expertSocketService.match.joinMatchRoom(state?.id, "expert");
+      expertSocketService.match.joinMatchRoom(state?.id);
     }
   };
   // const handleSocketError = () => {
@@ -262,7 +276,7 @@ const SessionMarketDetail = () => {
         socketService.user.updateInResultDeclareOff();
         socketService.user.updateDeleteReasonOff();
         socketService.user.multiSessionUpdatedOff();
-        expertSocketService.match.joinMatchRoom(state?.id, "expert");
+        expertSocketService.match.joinMatchRoom(state?.id);
         expertSocketService.match.getMatchRates(state?.id, (event: any) => {
           updateMatchDetailToRedux(event);
         });
@@ -282,14 +296,14 @@ const SessionMarketDetail = () => {
     } catch (e) {
       console.log(e);
     }
-  }, [success, socket]);
+  }, [success, socket, matchSocket]);
 
   useEffect(() => {
     try {
       if (state?.id) {
         return () => {
           matchSocketService.leaveAllRooms();
-          expertSocketService.match.leaveMatchRoom(state?.id);
+          // expertSocketService.match.leaveMatchRoom(state?.id);
           expertSocketService.match.getMatchRatesOff(state?.id);
           // socketService.user.matchBettingStatusChangeOff();
           socketService.user.matchResultDeclaredOff();
@@ -310,20 +324,64 @@ const SessionMarketDetail = () => {
     }
   }, [state?.id]);
 
+  // const fetchLiveData = useCallback(async () => {
+  //   try {
+  //     const response = await axios.get(`${baseUrls.matchSocket}/getExpertRateDetails/${state?.id}`, {
+  //       // headers: {
+  //       //   Authorization: `Bearer ${sessionStorage.getItem("jwtExpert")}`,
+  //       // },
+  //     });
+  //     updateMatchDetailToRedux(response.data);
+  //     // console.log("Live Data:", response.data);
+  //   } catch (error) {
+  //     console.error("Error fetching live data:", error);
+  //   }
+  // }, [state?.id]);
+
+  // const handleVisibilityChange = useCallback(() => {
+  //   if (document.visibilityState === "visible") {
+  //     if (!intervalRef.current) {
+  //       fetchLiveData();
+  //       intervalRef.current = setInterval(fetchLiveData, 500);
+  //     }
+  //   } else if (document.visibilityState === "hidden") {
+  //     if (intervalRef.current) {
+  //       clearInterval(intervalRef.current);
+  //       intervalRef.current = null;
+  //     }
+  //   }
+  // }, [intervalRef, fetchLiveData]);
+
+  // useEffect(() => {
+  //   document.addEventListener("visibilitychange", handleVisibilityChange);
+  //   handleVisibilityChange();
+
+  //   return () => {
+  //     if (intervalRef.current) {
+  //       clearInterval(intervalRef.current);
+  //     }
+  //     document.removeEventListener("visibilitychange", handleVisibilityChange);
+  //   };
+  // }, [handleVisibilityChange]);
+
+
   useEffect(() => {
     try {
       const handleVisibilityChange = () => {
         if (document.visibilityState === "visible") {
+          // if (!socket.connected || !matchSocket.connected) {
+          //   socketService.connect();
+          // }
           if (state?.id) {
             // dispatch(getMatchDetail(state?.id));
-            expertSocketService.match.joinMatchRoom(state?.id, "expert");
+            expertSocketService.match.joinMatchRoom(state?.id);
             expertSocketService.match.getMatchRates(state?.id, (event: any) => {
               updateMatchDetailToRedux(event);
             });
           }
         } else if (document.visibilityState === "hidden") {
           if (state?.id) {
-            expertSocketService.match.leaveMatchRoom(state?.id);
+            // expertSocketService.match.leaveMatchRoom(state?.id);
             expertSocketService.match.getMatchRatesOff(state?.id);
           }
         }
@@ -340,6 +398,146 @@ const SessionMarketDetail = () => {
       console.error(error);
     }
   }, [state?.id]);
+
+
+//   useEffect(() => {
+//     let interval: NodeJS.Timeout | null = null;
+  
+//     const fetchLiveData = async () => {
+//       try {
+//         const response = await axios.get(`${baseUrls.matchSocket}/getExpertRateDetails/${state?.id}`, {
+//         // headers: {
+//         //   Authorization: `Bearer ${sessionStorage.getItem("jwtExpert")}`, // If needed
+//         // },
+//       });
+//       console.log("Live Data:", response.data);
+//       // Update your state or store with response.data
+//     } catch (error) {
+//       console.error("Error fetching live data:", error);
+//     }
+//   };
+
+//   const handleVisibilityChange = () => {
+//     if (document.visibilityState === "visible") {
+//       if (!interval) {
+//         fetchLiveData();
+//         interval = setInterval(fetchLiveData, 500); 
+//       }
+//     } else if (document.visibilityState === "hidden") {
+//       if (interval) {
+//         clearInterval(interval);
+//         interval = null; 
+//       }
+//     }
+//   };
+//   handleVisibilityChange();
+
+//   document.addEventListener("visibilitychange", handleVisibilityChange);
+
+//   return () => {
+//     if (interval) {
+//       clearInterval(interval);
+//     }
+//     document.removeEventListener("visibilitychange", handleVisibilityChange);
+//   };
+// }, [state?.id]);
+
+  // useEffect(() => {
+  //   try {
+  //     if (matchDetail?.id && matchSocket) {
+  //       let currRateInt = setInterval(() => {
+  //         expertSocketService.match.joinMatchRoom(matchDetail?.id, "expert");
+  //       }, 60000);
+  //       return () => {
+  //         clearInterval(currRateInt);
+  //       };
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // }, [matchDetail?.id, matchSocket]);
+
+    // useEffect(() => {
+    //   try {
+    //     if (state?.id) {
+    //       const currRateInt = handleRateInterval();
+  
+    //       return () => {
+    //         if (currRateInt) {
+    //           clearInterval(currRateInt);
+    //           setRateInterval((prev: any) => ({ ...prev, intervalData: [] }));
+    //         }
+    //       };
+    //     }
+    //   } catch (error) {
+    //     console.log(error);
+    //   }
+    // }, [state?.id]);
+  
+    // const handleRateInterval = useCallback(() => {
+    //   if (rateInterval?.intervalData?.length) {
+    //     for (let items of rateInterval?.intervalData) {
+    //       clearInterval(items);
+    //     }
+    //     setRateInterval((prev: any) => ({ ...prev, intervalData: [] }));
+    //   }
+    //   let rateIntervalData = setInterval(() => {
+    //     dispatch(getMatchRates(state?.id));
+    //   }, 500);
+  
+    //   setRateInterval((prev: any) => ({
+    //     ...prev,
+    //     intervalData: [...prev.intervalData, rateIntervalData],
+    //   }));
+  
+    //   return rateInterval;
+    // }, [rateInterval?.intervalData, state?.id]);
+  
+    // const handleVisibilityChange = useCallback(() => {
+    //   if (document.visibilityState === "visible") {
+    //     if (!socket.connected || !matchSocket.connected) {
+    //       socketService.connect();
+    //     }
+    //     if (state?.id) {
+    //       // dispatch(getOtherGamesMatchDetail(state?.id));
+    //       // dispatch(getPlacedBetsMatch(state?.id));
+    //       expertSocketService.match.joinMatchRoom(state?.id, "expert");
+    //       // expertSocketService.match.getMatchRates(state?.id, (event: any) => {
+    //       //   updateMatchDetailToRedux(event);
+    //       // });
+    //       handleRateInterval();
+    //     }
+    //   } else if (document.visibilityState === "hidden") {
+    //     expertSocketService.match.leaveMatchRoom(state?.id);
+    //     if (rateInterval?.intervalData?.length) {
+    //       for (let items of rateInterval?.intervalData) {
+    //         clearInterval(items);
+    //       }
+    //       setRateInterval((prev: any) => ({ ...prev, intervalData: [] }));
+    //     }
+    //   }
+    // }, [
+    //   state?.id,
+    //   state.userId,
+    //   dispatch,
+    //   rateInterval,
+    //   setRateInterval,
+    //   socketService,
+    // ]);
+  
+    // useEffect(() => {
+    //   document.addEventListener("visibilitychange", handleVisibilityChange);
+  
+    //   return () => {
+    //     document.removeEventListener("visibilitychange", handleVisibilityChange);
+    //     if (rateInterval?.intervalData?.length) {
+    //       for (let items of rateInterval?.intervalData) {
+    //         clearInterval(items);
+    //       }
+    //       setRateInterval((prev: any) => ({ ...prev, intervalData: [] }));
+    //     }
+    //   };
+    // }, [handleVisibilityChange, rateInterval, setRateInterval]);
 
   return (
     <>
@@ -359,7 +557,7 @@ const SessionMarketDetail = () => {
                 return (
                   <>
                     {item?.section
-                      ?.filter((i: any) => !i?.isManual)
+                      // ?.filter((i: any) => !i?.isManual)
                       ?.filter(
                         (items: any) =>
                           !items?.activeStatus ||
@@ -408,7 +606,7 @@ const SessionMarketDetail = () => {
                   return (
                     <Fragment key={name}>
                       {item?.section
-                        ?.filter((i: any) => !i?.isManual)
+                        // ?.filter((i: any) => !i?.isManual)
                         ?.filter(
                           (items: any) =>
                             !items?.activeStatus ||
@@ -435,7 +633,7 @@ const SessionMarketDetail = () => {
                 return (
                   <Fragment key={name}>
                     {item?.section
-                      ?.filter((i: any) => !i?.isManual)
+                      // ?.filter((i: any) => !i?.isManual)
                       ?.filter(
                         (items: any) =>
                           items?.isComplete &&
@@ -498,7 +696,7 @@ const SessionMarketDetail = () => {
                 return (
                   <Fragment key={name}>
                     {item?.section
-                      ?.filter((i: any) => !i?.isManual)
+                      // ?.filter((i: any) => !i?.isManual)
                       ?.filter(
                         (items: any) =>
                           !items?.isComplete &&
@@ -557,7 +755,7 @@ const SessionMarketDetail = () => {
                 return (
                   <Fragment key={name}>
                     {item?.section
-                      ?.filter((i: any) => !i?.isManual)
+                      // ?.filter((i: any) => !i?.isManual)
                       ?.filter(
                         (items: any) =>
                           (items?.resultData && items?.resultData !== null) ||

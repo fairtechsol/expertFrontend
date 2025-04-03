@@ -1,8 +1,18 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {
+  removeSessionProLoss,
+  updateSessionProLoss,
+} from "../../actions/addMatch/addMatchAction";
+import {
+  getSessionProfitLossMatchDetail,
+  getSessionProfitLossMatchDetailFilter,
+  getSessionProfitLossMatchDetailReset,
+} from "../../actions/match/matchAction";
+import {
   UnDeclareOtherMarketCricketResult,
   UnDeclareRaceResult,
   UnDeclareTournamentMarketCricketResult,
+  declareFinalMatchResult,
   declareMatchResult,
   declareMatchStatusReset,
   declareOtherMarketCricketResult,
@@ -10,17 +20,9 @@ import {
   declareTournamentMarketCricketResult,
   otherDeclareMatchResult,
   otherUnDeclareMatchResult,
+  unDeclareFinalMatchResult,
   unDeclareMatchResult,
 } from "../../actions/match/matchDeclareActions";
-import {
-  getSessionProfitLossMatchDetail,
-  getSessionProfitLossMatchDetailFilter,
-  getSessionProfitLossMatchDetailReset,
-} from "../../actions/match/matchAction";
-import {
-  removeSessionProLoss,
-  updateSessionProLoss,
-} from "../../actions/addMatch/addMatchAction";
 
 interface InitialState {
   sessionProLoss: any;
@@ -59,6 +61,19 @@ const matchDeclare = createSlice({
         state.loading = false;
         state.error = action?.error?.message;
       })
+      .addCase(declareFinalMatchResult.pending, (state) => {
+        state.loading = true;
+        state.success = false;
+        state.error = null;
+      })
+      .addCase(declareFinalMatchResult.fulfilled, (state) => {
+        state.success = true;
+        state.loading = false;
+      })
+      .addCase(declareFinalMatchResult.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action?.error?.message;
+      })
       .addCase(otherDeclareMatchResult.pending, (state) => {
         state.loading = true;
         state.success = false;
@@ -82,6 +97,19 @@ const matchDeclare = createSlice({
         state.loading = false;
       })
       .addCase(unDeclareMatchResult.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action?.error?.message;
+      })
+      .addCase(unDeclareFinalMatchResult.pending, (state) => {
+        state.loading = true;
+        state.success = false;
+        state.error = null;
+      })
+      .addCase(unDeclareFinalMatchResult.fulfilled, (state) => {
+        state.success = true;
+        state.loading = false;
+      })
+      .addCase(unDeclareFinalMatchResult.rejected, (state, action) => {
         state.loading = false;
         state.error = action?.error?.message;
       })

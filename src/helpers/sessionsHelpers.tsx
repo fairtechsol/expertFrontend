@@ -3,6 +3,7 @@ export const convertData = (items: any) => {
     const result: any = {};
 
     items?.forEach((item: any) => {
+
       if (!result[item?.type]) {
         result[item?.type] = {
           mname: item?.type,
@@ -17,7 +18,6 @@ export const convertData = (items: any) => {
       };
       result[item?.type]?.section?.push(sectionItem);
     });
-
     return result;
   } catch (error) {
     console.log(error);
@@ -71,7 +71,7 @@ export const updateSessionBettingsItem = (
                             ?.availableToBack?.length > 0 &&
                           apiSections[matchDetailSectionIndex]?.ex
                             ?.availableToLay?.length > 0
-                          ? (["", "OPEN", "open"].includes(
+                          ? (["", "OPEN", "open","active","ACTIVE"].includes(
                               apiSections[matchDetailSectionIndex]?.GameStatus
                             ) &&
                               !apiSections[matchDetailSectionIndex]?.ex

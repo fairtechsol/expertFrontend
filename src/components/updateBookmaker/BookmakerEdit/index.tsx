@@ -1,23 +1,30 @@
 import { Box, Typography, useMediaQuery } from "@mui/material";
-import EditBookmaker from "./EditBookmaker";
-import ResultComponent from "./ResultComponent";
-import theme from "../../../theme";
-import { useSelector } from "react-redux";
-import { RootState } from "../../../store/store";
 import { useState } from "react";
+import theme from "../../../theme";
+import CommissionDot from "../../Common/CommissionDot";
+import ResultComponentTournamentMarket from "../../matchDetails/TournamentMarkets/ResultComponentTournamentMarket";
+import EditBookmaker from "./EditBookmaker";
+import NewEditBookmaker from "./NewEditBookmaker";
 interface Props {
   add: boolean;
   match: any;
   bookmakerId: string;
-  type: string;
+  runners: any;
+  matchBetting: any;
+  teamRates: any;
 }
 
-const BookmakerEditSection = ({ add, match, bookmakerId, type }: Props) => {
+const BookmakerEditSection = ({
+  add,
+  match,
+  bookmakerId,
+  runners,
+  matchBetting,
+  teamRates,
+}: Props) => {
   const [visible, setVisible] = useState(false);
   const [visible1, setVisible1] = useState(false);
-  const { bookmakerById } = useSelector((state: RootState) => state.addSession);
   const matchesMobile = useMediaQuery(theme.breakpoints.down("lg"));
-
   return (
     <Box
       sx={{
@@ -45,17 +52,20 @@ const BookmakerEditSection = ({ add, match, bookmakerId, type }: Props) => {
         ></Box>
       )}
       {!matchesMobile && (
-        <Typography
-          sx={{
-            color: "white",
-            fontSize: { lg: "25px", xs: "1rem", md: "20px" },
-            fontWeight: "600",
-            zIndex: 2,
-            position: "relative",
-          }}
-        >
-          {match?.title}
-        </Typography>
+        <Box sx={{ display: "flex", gap: 1, alignItems: "center" }}>
+          {matchBetting?.isCommissionActive && <CommissionDot />}
+          <Typography
+            sx={{
+              color: "white",
+              fontSize: { lg: "25px", xs: "1rem", md: "20px" },
+              fontWeight: "600",
+              zIndex: 2,
+              position: "relative",
+            }}
+          >
+            {match?.title}
+          </Typography>
+        </Box>
       )}
       {matchesMobile && (
         <Box
@@ -70,6 +80,7 @@ const BookmakerEditSection = ({ add, match, bookmakerId, type }: Props) => {
             alignSelf: "center",
           }}
         >
+          <Box>{matchBetting?.isCommissionActive && <CommissionDot />}</Box>
           <Typography
             sx={{
               width: "100%",
@@ -97,7 +108,7 @@ const BookmakerEditSection = ({ add, match, bookmakerId, type }: Props) => {
             }}
           >
             <Box sx={{ width: "2%" }}></Box>
-            {bookmakerById?.stopAt ? (
+            {matchBetting?.stopAt ? (
               <Box
                 onClick={(e) => {
                   setVisible1(true);
@@ -132,22 +143,13 @@ const BookmakerEditSection = ({ add, match, bookmakerId, type }: Props) => {
                   }}
                 >
                   {visible1 && (
-                    <ResultComponent
-                      onClick={() => {
-                        setVisible1(false);
-                      }}
+                    <ResultComponentTournamentMarket
                       currentMatch={match}
-                      teamA={match?.teamA}
-                      teamB={match?.teamB}
-                      tie={match?.matchType === "cricket" ? "Tie" : ""}
-                      draw={
-                        match?.teamC &&
-                        !["tiedMatch2", "completeManual"].includes(type)
-                          ? match?.teamC
-                          : ""
-                      }
-                      stopAt={match?.stopAt}
-                      // betStatus={localSelectedBookmaker?.betStatus}
+                      // stopAt={liveData?.stopAt}
+                      onClick={() => {
+                        setVisible(false);
+                      }}
+                      liveData={{ ...matchBetting, runners: runners }}
                     />
                   )}
                 </Box>
@@ -191,22 +193,13 @@ const BookmakerEditSection = ({ add, match, bookmakerId, type }: Props) => {
                   }}
                 >
                   {visible && (
-                    <ResultComponent
+                    <ResultComponentTournamentMarket
+                      currentMatch={match}
+                      // stopAt={liveData?.stopAt}
                       onClick={() => {
                         setVisible(false);
                       }}
-                      currentMatch={match}
-                      stopAt={match?.stopAt}
-                      teamA={match?.teamA}
-                      teamB={match?.teamB}
-                      tie={match?.matchType === "cricket" ? "Tie" : ""}
-                      draw={
-                        match?.teamC &&
-                        !["tiedMatch2", "completeManual"].includes(type)
-                          ? match?.teamC
-                          : ""
-                      }
-                      // betStatus={localSelectedBookmaker?.betStatus}
+                      liveData={{ ...matchBetting, runners: runners }}
                     />
                   )}
                 </Box>
@@ -225,12 +218,27 @@ const BookmakerEditSection = ({ add, match, bookmakerId, type }: Props) => {
             flexDirection: "column",
           }}
         >
-          <EditBookmaker
-            add={add}
-            match={match}
-            Bid={bookmakerId}
-            type={type}
-          />
+          {runners?.length > 2 ? (
+            <EditBookmaker
+              add={add}
+              match={match}
+              Bid={bookmakerId}
+              matchBetting={matchBetting}
+              runners={runners}
+              exposureLimit={matchBetting?.exposureLimit}
+              teamRates={teamRates}
+            />
+          ) : (
+            <NewEditBookmaker
+              add={add}
+              match={match}
+              Bid={bookmakerId}
+              matchBetting={matchBetting}
+              runners={runners}
+              exposureLimit={matchBetting?.exposureLimit}
+              teamRates={teamRates}
+            />
+          )}
         </Box>
       </Box>
     </Box>

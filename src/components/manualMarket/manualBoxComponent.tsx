@@ -136,11 +136,7 @@ const ManualBoxComponent = ({
           <Box
             sx={{
               background: "#000",
-              height: isTeamC
-                ? name === "No" || name === "Yes"
-                  ? "82px"
-                  : "125px"
-                : "82px",
+              height: "100%",
               position: "absolute",
               right: 0,
               top: 0,

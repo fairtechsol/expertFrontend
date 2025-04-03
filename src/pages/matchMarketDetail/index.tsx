@@ -1,4 +1,4 @@
-import { Box, useMediaQuery, useTheme } from "@mui/material";
+import { Box, useMediaQuery } from "@mui/material";
 import { Fragment, memo, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -10,6 +10,8 @@ import MatchOdds from "../../components/matchDetails/MatchOdds";
 import TiedMatchMarket from "../../components/matchDetails/TiedMatchMarket";
 import {
   expertSocketService,
+  matchService,
+  matchSocket,
   socket,
   socketService,
 } from "../../socketManager";
@@ -19,7 +21,7 @@ import {
   removeSessionProLoss,
   updateMatchRates,
   updateRates,
-  updateSessionProLoss,
+  updateSessionProLoss
 } from "../../store/actions/addMatch/addMatchAction";
 import {
   resetPlacedBetsMatch,
@@ -27,8 +29,10 @@ import {
   updateApiSessionById,
 } from "../../store/actions/addSession";
 import {
+  addStatusBetByBetId,
   getPlacedBetsMatch,
   getSessionProfitLossMatchDetailReset,
+  // updateBetVerify,
   updateDeletedBetReasonOnEdit,
   updateMatchBetsPlace,
   updateMatchBetsReason,
@@ -42,22 +46,34 @@ import { AppDispatch, RootState } from "../../store/store";
 import ManualMarket from "../manualMarket";
 // import Scoreboard from "../../components/matchDetails/Scoreboard";
 // import service from "../../service";
-import Masonry from "@mui/lab/Masonry";
-import DelayedChild from "../../components/Common/DelayedChild";
 import { handleMarketSorting } from "../../components/helper";
 import OtherMatchMarket from "../../components/matchDetails/OtherMatchMarket";
 import TournamentMarket from "../../components/matchDetails/TournamentMarkets";
+import theme from "../../theme";
 import { marketArray } from "../../utils/Constants";
 
 const MatchMarketDetail = () => {
+  // const intervalRef = useRef<NodeJS.Timeout | null>(null);
   const { state } = useLocation();
   const navigate = useNavigate();
   const dispatch: AppDispatch = useDispatch();
-  const theme = useTheme();
-  const matchesMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  // const theme = useTheme();
+  // const matchesMobile = useMediaQuery(theme.breakpoints.down("sm"));
   // const [socketConnected, setSocketConnected] = useState(true);
   // const [liveScoreBoardData, setLiveScoreBoardData] = useState(null);
   // const [errorCount, setErrorCount] = useState<number>(0);
+  // const [rateInterval, setRateInterval] = useState<any>({ intervalData: [] });
+
+
+  useEffect(() => {
+    if (state?.marketId) {
+      matchService.connect([state?.id]);
+    }
+    return () => {
+      matchService.disconnect();
+    };
+  }, [state]);
+
   const { matchDetail, loading, success } = useSelector(
     (state: RootState) => state.addMatch.addMatch
   );
@@ -140,11 +156,25 @@ const MatchMarketDetail = () => {
     }
   };
 
+  // const updateVerifyBet = (event: any) => {
+  //   try {
+  //     console.log("event :", event)
+  //     if (event?.matchId === state?.id) {
+  //       dispatch(updateBetVerify(event));
+  //     }
+  //   } catch (e) {
+  //     console.log(e);
+  //   }
+  // };
+
   const updateSessionResultDeclared = (event: any) => {
     try {
       if (state?.id === event?.matchId) {
         dispatch(updateApiSessionById(event));
-        dispatch(getPlacedBetsMatch(state?.id));
+        // dispatch(getPlacedBetsMatch(state?.id));
+        // dispatch(removeBetByBetId(event?.betId));
+        dispatch(addStatusBetByBetId(event?.betId));
+
         if (event?.activeStatus === "result") {
           dispatch(
             removeSessionProLoss({
@@ -229,7 +259,7 @@ const MatchMarketDetail = () => {
 
   const handleSocketConnection = () => {
     if (state?.id) {
-      expertSocketService.match.joinMatchRoom(state?.id, "expert");
+      expertSocketService.match.joinMatchRoom(state?.id);
     }
     // setSocketConnected(true);
   };
@@ -284,6 +314,7 @@ const MatchMarketDetail = () => {
     try {
       if (success && socket) {
         expertSocketService.match.getMatchRatesOff(state?.id);
+        // socketService.user.betVerifyOff();
         socketService.user.matchResultDeclaredOff();
         socketService.user.matchResultUnDeclaredOff();
         socketService.user.matchDeleteBetOff();
@@ -295,10 +326,17 @@ const MatchMarketDetail = () => {
         socketService.user.updateInResultDeclareOff();
         socketService.user.updateDeleteReasonOff();
         socketService.user.matchResultDeclareAllUserOff();
-        expertSocketService.match.joinMatchRoom(state?.id, "expert");
+        expertSocketService.match.joinMatchRoom(state?.id);
         expertSocketService.match.getMatchRates(state?.id, (event: any) => {
           updateMatchDetailToRedux(event);
         });
+
+        // socketService.user.betVerify(updateVerifyBet);
+        //  expertSocketService.match.betVerify((event: any) => {
+        //   console.log("event :", event)
+        //   // updateMatchDetailToRedux(event);
+        // });
+
         socketService.user.matchResultDeclared(resultDeclared);
         socketService.user.matchResultDeclareAllUser(resultDeclared);
         socketService.user.matchResultUnDeclared(resultUnDeclared);
@@ -315,15 +353,16 @@ const MatchMarketDetail = () => {
     } catch (e) {
       console.log(e);
     }
-  }, [success, socket]);
+  }, [success, socket, matchSocket]);
 
   useEffect(() => {
     try {
       if (state?.id) {
         return () => {
           matchSocketService.leaveAllRooms();
-          expertSocketService.match.leaveMatchRoom(state?.id);
+          // expertSocketService.match.leaveMatchRoom(state?.id);
           expertSocketService.match.getMatchRatesOff(state?.id);
+          // socketService.user.betVerifyOff();
           socketService.user.matchResultDeclaredOff();
           socketService.user.matchResultUnDeclaredOff();
           socketService.user.matchDeleteBetOff();
@@ -345,6 +384,131 @@ const MatchMarketDetail = () => {
     }
   }, [state?.id]);
 
+
+  // useEffect(() => {
+  //   try {
+  //     if (state?.id) {
+  //       const currRateInt = handleRateInterval();
+
+  //       return () => {
+  //         if (currRateInt) {
+  //           clearInterval(currRateInt);
+  //           setRateInterval((prev: any) => ({ ...prev, intervalData: [] }));
+  //         }
+  //       };
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // }, [state?.id]);
+
+  // const handleRateInterval = useCallback(() => {
+  //   if (rateInterval?.intervalData?.length) {
+  //     for(let items of rateInterval?.intervalData){
+  //       clearInterval(items);
+  //     }
+  //     setRateInterval((prev: any) => ({ ...prev, intervalData: [] }));
+  //   }
+  //   let rateIntervalData = setInterval(() => {
+  //     dispatch(getMatchRates(state?.id));
+  //   }, 500);
+
+  //   setRateInterval((prev: any) => ({
+  //     ...prev,
+  //     intervalData: [...prev.intervalData, rateIntervalData],
+  //   }));
+
+  //   return rateInterval;
+  // }, [rateInterval?.intervalData, state?.id]);
+
+  // const handleVisibilityChange = useCallback(() => {
+  //   if (document.visibilityState === "visible") {
+  //       if (!socket.connected || !matchSocket.connected) {
+  //         socketService.connect();
+  //       }
+  //       if (state?.id) {
+  //         // dispatch(getMatchDetail(state?.id));
+  //         dispatch(getPlacedBetsMatch(state?.id));
+  //         expertSocketService.match.joinMatchRoom(state?.id, "expert");
+  //         // expertSocketService.match.getMatchRates(state?.id, (event: any) => {
+  //         //   updateMatchDetailToRedux(event);
+  //         // });
+  //       }
+  //       handleRateInterval();
+
+  //   } else if (document.visibilityState === "hidden") {
+  //     expertSocketService.match.leaveMatchRoom(state?.id);
+  //     if (rateInterval?.intervalData?.length) {
+  //       for(let items of rateInterval?.intervalData){
+  //         clearInterval(items);
+  //       }
+  //       setRateInterval((prev: any) => ({ ...prev, intervalData: [] }));
+  //     }
+  //   }
+  // }, [
+  //   state?.id,
+  //   state.userId,
+  //   dispatch,
+  //   rateInterval,
+  //   setRateInterval,
+  //   socketService,
+  // ]);
+
+  // useEffect(() => {
+  //   document.addEventListener("visibilitychange", handleVisibilityChange);
+
+  //   return () => {
+  //     document.removeEventListener("visibilitychange", handleVisibilityChange);
+  //     if (rateInterval?.intervalData?.length) {
+  //       for(let items of rateInterval?.intervalData){
+  //         clearInterval(items);
+  //       }
+  //       setRateInterval((prev: any) => ({ ...prev, intervalData: [] }));
+  //     }
+  //   };
+  // }, [handleVisibilityChange, rateInterval, setRateInterval]);
+
+
+  // const fetchLiveData = useCallback(async () => {
+  //   try {
+  //     const response = await axios.get(`${baseUrls.matchSocket}/getExpertRateDetails/${state?.id}`, {
+  //       headers: {
+  //         Connection: "keep-alive",
+  //         // Authorization: `Bearer ${sessionStorage.getItem("jwtExpert")}`,
+  //       },
+  //     });
+  //     updateMatchDetailToRedux(response.data);
+  //   } catch (error) {
+  //     console.error("Error fetching live data:", error);
+  //   }
+  // }, [state?.id]);
+
+  // const handleVisibilityChange = useCallback(() => {
+  //   if (document.visibilityState === "visible") {
+  //     if (!intervalRef.current) {
+  //       fetchLiveData();
+  //       intervalRef.current = setInterval(fetchLiveData, 500);
+  //     }
+  //   } else if (document.visibilityState === "hidden") {
+  //     if (intervalRef.current) {
+  //       clearInterval(intervalRef.current);
+  //       intervalRef.current = null;
+  //     }
+  //   }
+  // }, [intervalRef, fetchLiveData]);
+
+  // useEffect(() => {
+  //   document.addEventListener("visibilitychange", handleVisibilityChange);
+  //   handleVisibilityChange();
+
+  //   return () => {
+  //     if (intervalRef.current) {
+  //       clearInterval(intervalRef.current);
+  //     }
+  //     document.removeEventListener("visibilitychange", handleVisibilityChange);
+  //   };
+  // }, [handleVisibilityChange]);
+
   // useEffect(() => {
   //   if (matchDetail?.marketId) {
   //     let intervalTime = 500;
@@ -365,18 +529,22 @@ const MatchMarketDetail = () => {
     try {
       const handleVisibilityChange = () => {
         if (document.visibilityState === "visible") {
+          // if (!socket.connected||!matchSocket.connected) {
+          //   socketService.connect();
+          // }
           if (state?.id) {
             // dispatch(getMatchDetail(state?.id));
             dispatch(getPlacedBetsMatch(state?.id));
-            expertSocketService.match.joinMatchRoom(state?.id, "expert");
+            expertSocketService.match.joinMatchRoom(state?.id);
             expertSocketService.match.getMatchRates(state?.id, (event: any) => {
               updateMatchDetailToRedux(event);
             });
           }
         } else if (document.visibilityState === "hidden") {
           if (state?.id) {
-            expertSocketService.match.leaveMatchRoom(state?.id);
+            // expertSocketService.match.leaveMatchRoom(state?.id);
             expertSocketService.match.getMatchRatesOff(state?.id);
+            // socketService.disconnect();
           }
         }
       };
@@ -410,8 +578,8 @@ const MatchMarketDetail = () => {
           ? matchDetail?.stopAt
             ? "declared"
             : matchDetail?.resultStatus
-            ? "pending"
-            : ""
+              ? "pending"
+              : ""
           : "",
     },
     {
@@ -429,8 +597,8 @@ const MatchMarketDetail = () => {
           ? matchDetail?.resultStatus
             ? "pending"
             : matchDetail?.stopAt
-            ? "declared"
-            : ""
+              ? "declared"
+              : ""
           : "",
     },
     {
@@ -448,8 +616,8 @@ const MatchMarketDetail = () => {
           ? matchDetail?.resultStatus
             ? "pending"
             : matchDetail?.stopAt
-            ? "declared"
-            : ""
+              ? "declared"
+              : ""
           : "",
     },
     ...(matchDetail?.quickBookmaker
@@ -462,7 +630,7 @@ const MatchMarketDetail = () => {
             liveData={bookmaker}
             showResultBox={
               firstKnownKey === "quickBookmaker" &&
-              bookmaker?.type === "quickbookmaker1"
+                bookmaker?.type === "quickbookmaker1"
                 ? true
                 : false
             }
@@ -470,15 +638,15 @@ const MatchMarketDetail = () => {
         ),
         result:
           firstKnownKey === "quickBookmaker" &&
-          bookmaker?.type === "quickbookmaker1"
+            bookmaker?.type === "quickbookmaker1"
             ? true
             : false
-            ? matchDetail?.resultStatus
-              ? "pending"
-              : matchDetail?.stopAt
-              ? "declared"
-              : ""
-            : "",
+              ? matchDetail?.resultStatus
+                ? "pending"
+                : matchDetail?.stopAt
+                  ? "declared"
+                  : ""
+              : "",
       })) || []),
     ...(matchDetail?.other?.map((market: any) => ({
       component: (
@@ -533,8 +701,8 @@ const MatchMarketDetail = () => {
           ? matchDetail?.resultStatus
             ? "pending"
             : matchDetail?.stopAt
-            ? "declared"
-            : ""
+              ? "declared"
+              : ""
           : "",
     },
     {
@@ -552,8 +720,8 @@ const MatchMarketDetail = () => {
           ? matchDetail?.resultStatus
             ? "pending"
             : matchDetail?.stopAt
-            ? "declared"
-            : ""
+              ? "declared"
+              : ""
           : "",
     },
     {
@@ -571,8 +739,8 @@ const MatchMarketDetail = () => {
           ? matchDetail?.resultStatus
             ? "pending"
             : matchDetail?.stopAt
-            ? "declared"
-            : ""
+              ? "declared"
+              : ""
           : "",
     },
     {
@@ -589,12 +757,12 @@ const MatchMarketDetail = () => {
         ),
       result:
         matchDetail?.marketCompleteMatch &&
-        firstKnownKey === "marketCompleteMatch"
+          firstKnownKey === "marketCompleteMatch"
           ? matchDetail?.resultStatus
             ? "pending"
             : matchDetail?.stopAt
-            ? "declared"
-            : ""
+              ? "declared"
+              : ""
           : "",
     },
     {
@@ -611,12 +779,12 @@ const MatchMarketDetail = () => {
         ),
       result:
         matchDetail?.marketCompleteMatch1 &&
-        firstKnownKey === "marketCompleteMatch1"
+          firstKnownKey === "marketCompleteMatch1"
           ? matchDetail?.resultStatus
             ? "pending"
             : matchDetail?.stopAt
-            ? "declared"
-            : ""
+              ? "declared"
+              : ""
           : "",
     },
     {
@@ -633,16 +801,32 @@ const MatchMarketDetail = () => {
         ),
       result:
         matchDetail?.manualCompleteMatch &&
-        firstKnownKey === "manualCompleteMatch"
+          firstKnownKey === "manualCompleteMatch"
           ? matchDetail?.resultStatus
             ? "pending"
             : matchDetail?.stopAt
-            ? "declared"
-            : ""
+              ? "declared"
+              : ""
           : "",
     },
   ];
 
+  // useEffect(() => {
+  //   try {
+  //     if (matchDetail?.id && matchSocket) {
+  //       let currRateInt = setInterval(() => {
+  //         expertSocketService.match.joinMatchRoom(matchDetail?.id, "expert");
+  //       }, 60000);
+  //       return () => {
+  //         clearInterval(currRateInt);
+  //       };
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // }, [matchDetail?.id, matchSocket]);
+
+  const desktop = useMediaQuery(theme.breakpoints.up("sm"));
   return (
     <Box
       sx={{
@@ -655,170 +839,86 @@ const MatchMarketDetail = () => {
           xs: loading ? "80vh" : "100%",
           lg: loading ? "90vh" : "100%",
         },
+        gap: "5px",
       }}
     >
       {loading ? (
         <Loader text="" />
       ) : (
         <>
-          <Box
-            sx={{
-              width: { lg: "45%", xs: "100%", md: "45%" },
-              marginTop: { xs: "10px", lg: "0" },
-            }}
-          >
-            <DelayedChild>
+          {!desktop ? (
+            <Box
+              sx={{
+                width: { lg: "100%", xs: "100%", md: "100%" },
+                marginTop: { xs: "10px", lg: "0" },
+                display: "flex",
+                flexDirection: "column",
+                gap: "5px",
+              }}
+            >
+              {/* <DelayedChild>
               <Masonry
                 columns={matchesMobile ? 1 : 2}
                 spacing={matchesMobile ? 0 : 1}
+              > */}
+              {component
+                ?.sort(handleMarketSorting)
+                ?.map((item: any, index: number) => {
+                  return <Fragment key={index}>{item?.component}</Fragment>;
+                })}
+              {/* </Masonry>
+            </DelayedChild> */}
+            </Box>
+          ) : (
+            <>
+              <Box
+                sx={{
+                  width: { lg: "22.5%", xs: "100%", md: "22.5%" },
+                  marginTop: { xs: "10px", lg: "0" },
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "5px",
+                }}
               >
+                {/* <DelayedChild>
+              <Masonry
+                columns={matchesMobile ? 1 : 2}
+                spacing={matchesMobile ? 0 : 1}
+              > */}
                 {component
-                  ?.slice()
                   ?.sort(handleMarketSorting)
+                  ?.filter((_: any, index: any) => index % 2 != 0)
                   ?.map((item: any, index: number) => {
                     return <Fragment key={index}>{item?.component}</Fragment>;
                   })}
-                {/* {matchDetail?.matchOdd &&
-                  (matchDetail?.matchOdd?.isActive === false
-                    ? false
-                    : true) && (
-                    <MatchOdds
-                      showHeader={true}
-                      currentMatch={matchDetail}
-                      matchOddsLive={matchDetail?.matchOdd}
-                      showResultBox={firstKnownKey === "matchOdd"}
-                    />
-                  )}
-                {matchDetail?.bookmaker &&
-                  (matchDetail?.bookmaker?.isActive === false
-                    ? false
-                    : true) && (
-                    <BookMarket
-                      currentMatch={matchDetail}
-                      liveData={matchDetail?.bookmaker}
-                      title={matchDetail?.bookmaker?.name}
-                      showResultBox={firstKnownKey === "bookmaker"}
-                    />
-                  )}
-                {matchDetail?.marketBookmaker2 &&
-                  (matchDetail?.marketBookmaker2?.isActive === false
-                    ? false
-                    : true) && (
-                    <BookMarket
-                      currentMatch={matchDetail}
-                      liveData={matchDetail?.marketBookmaker2}
-                      title={matchDetail?.marketBookmaker2?.name}
-                      showResultBox={firstKnownKey === "marketBookmaker2"}
-                    />
-                  )}
-                {matchDetail?.quickBookmaker
-                  ?.filter((item: any) => item?.isActive)
-                  ?.map((bookmaker: any) => (
-                    <ManualMarket
-                      key={bookmaker?.id}
-                      currentMatch={matchDetail}
-                      liveData={bookmaker}
-                      showResultBox={
-                        firstKnownKey === "quickBookmaker" &&
-                        bookmaker?.type === "quickbookmaker1"
-                          ? true
-                          : false
-                      }
-                    />
-                  ))}
-                {matchDetail?.other &&
-                  matchDetail?.other?.map((market: any) => (
-                    <OtherMatchMarket
-                      key={market?.id}
-                      currentMatch={matchDetail}
-                      liveData={{
-                        ...market,
-                        type: "other",
-                        marketId: market?.mid ? market?.mid?.toString() : "",
-                      }}
-                      title={market?.name}
-                      firstKnownKey={firstKnownKey}
-                    />
-                  ))}
-                {matchDetail?.tournament &&
-                  matchDetail?.tournament?.map((market: any, index: number) => (
-                    <TournamentMarket
-                      key={index}
-                      liveData={market}
-                      currentMatch={matchDetail}
-                      title={market?.name}
-                      firstKnownKey={firstKnownKey}
-                    />
-                  ))}
-                {matchDetail?.apiTideMatch &&
-                  (matchDetail?.apiTideMatch?.isActive === false
-                    ? false
-                    : true) && (
-                    <TiedMatchMarket
-                      currentMatch={matchDetail}
-                      liveData={matchDetail?.apiTideMatch}
-                      title={matchDetail?.apiTideMatch?.name}
-                      showResultBox={firstKnownKey === "apiTideMatch"}
-                    />
-                  )}
-                {matchDetail?.apiTideMatch2 &&
-                  (matchDetail?.apiTideMatch2?.isActive === false
-                    ? false
-                    : true) && (
-                    <TiedMatchMarket
-                      currentMatch={matchDetail}
-                      liveData={matchDetail?.apiTideMatch2}
-                      title={matchDetail?.apiTideMatch2?.name}
-                      showResultBox={firstKnownKey === "apiTiedMatch2"}
-                    />
-                  )}
-                {matchDetail?.manualTiedMatch &&
-                  (matchDetail?.manualTiedMatch?.isActive === false
-                    ? false
-                    : true) && (
-                    <ManualMarket
-                      currentMatch={matchDetail}
-                      liveData={matchDetail?.manualTiedMatch}
-                      type="manualTiedMatch"
-                      showResultBox={firstKnownKey === "manualTiedMatch"}
-                    />
-                  )}
-                {matchDetail?.marketCompleteMatch &&
-                  (matchDetail?.marketCompleteMatch?.isActive === false
-                    ? false
-                    : true) && (
-                    <CompleteMatchMarket
-                      currentMatch={matchDetail}
-                      liveData={matchDetail?.marketCompleteMatch}
-                      title={matchDetail?.marketCompleteMatch?.name}
-                      showResultBox={firstKnownKey === "marketCompleteMatch"}
-                    />
-                  )}
-                {matchDetail?.marketCompleteMatch1 &&
-                  (matchDetail?.marketCompleteMatch1?.isActive === false
-                    ? false
-                    : true) && (
-                    <CompleteMatchMarket
-                      currentMatch={matchDetail}
-                      liveData={matchDetail?.marketCompleteMatch1}
-                      title={matchDetail?.marketCompleteMatch1?.name}
-                      showResultBox={firstKnownKey === "marketCompleteMatch1"}
-                    />
-                  )}
-                {matchDetail?.manualCompleteMatch &&
-                  (matchDetail?.manualCompleteMatch?.isActive === false
-                    ? false
-                    : true) && (
-                    <ManualMarket
-                      currentMatch={matchDetail}
-                      liveData={matchDetail?.manualCompleteMatch}
-                      type="manualTiedMatch"
-                      showResultBox={firstKnownKey === "manualCompleteMatch"}
-                    />
-                  )} */}
-              </Masonry>
-            </DelayedChild>
-          </Box>
+                {/* </Masonry>
+            </DelayedChild> */}
+              </Box>
+              <Box
+                sx={{
+                  width: { lg: "22.5%", xs: "100%", md: "22.5%" },
+                  marginTop: { xs: "10px", lg: "0" },
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "5px",
+                }}
+              >
+                {/* <DelayedChild>
+              <Masonry
+                columns={matchesMobile ? 1 : 2}
+                spacing={matchesMobile ? 0 : 1}
+              > */}
+                {component
+                  ?.sort(handleMarketSorting)
+                  ?.filter((_: any, index: any) => index % 2 == 0)
+                  ?.map((item: any, index: number) => {
+                    return <Fragment key={index}>{item?.component}</Fragment>;
+                  })}
+                {/* </Masonry>
+            </DelayedChild> */}
+              </Box>
+            </>
+          )}
           <Box
             sx={{
               width: { lg: "55%", xs: "100%", md: "55%" },
@@ -828,7 +928,7 @@ const MatchMarketDetail = () => {
             }}
           >
             {matchDetail?.id && (
-              <BetList allBetRates={placedBetsMatch} tag={true} />
+              <BetList allBetRates={Array.from(new Set(placedBetsMatch))} tag={true} isMatchDeclare={true} />
             )}
           </Box>
         </>

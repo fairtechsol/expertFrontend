@@ -79,7 +79,7 @@ const Row = ({ index, values }: any) => {
               fontSize: { xs: "8px", lg: "12px" },
             }}
           >
-            {index < 100 ? "0" + index : +index}
+            {index < 10 ? "0" + index : +index}
           </Typography>
         </Box>
         <Box
@@ -94,15 +94,27 @@ const Row = ({ index, values }: any) => {
             flexDirection: "column",
           }}
         >
-          <Typography
-            sx={{
-              fontWeight: "600",
-              fontSize: { xs: "10px", md: "10px", lg: "12px" },
-              color: "white",
-            }}
-          >
-            {values?.user?.userName || values?.userName}
-          </Typography>
+          <Box sx={{ display: "flex", alignItems: "center", gap: "2px" }}>
+            {values?.isCommissionActive && (
+              <Box
+                sx={{
+                  width: 10,
+                  height: 10,
+                  borderRadius: "50%",
+                  backgroundColor: "#74ee15",
+                }}
+              />
+            )}
+            <Typography
+              sx={{
+                fontWeight: "600",
+                fontSize: { xs: "10px", md: "10px", lg: "12px" },
+                color: "white",
+              }}
+            >
+              {values?.user?.userName || values?.userName}
+            </Typography>
+          </Box>
           <Typography
             sx={{
               fontWeight: "600",
@@ -112,7 +124,7 @@ const Row = ({ index, values }: any) => {
               maxWidth: "100%",
             }}
           >
-            {values?.domain?.replace(/https?:\/\//, '')}
+            {values?.domain?.replace(/https?:\/\//, "")}
           </Typography>
         </Box>
         {/* <Box
@@ -158,7 +170,7 @@ const Row = ({ index, values }: any) => {
               fontSize: { xs: "10px", md: "10px", lg: "12px" },
               lineHeight: 1,
               textAlign: "center",
-              overflowWrap: "anywhere"
+              overflowWrap: "anywhere",
             }}
           >
             {values.teamName}
@@ -310,7 +322,7 @@ const Row = ({ index, values }: any) => {
                   }}
                 >
                   Bet <span style={{ color: "#e41b23" }}>deleted</span> due to{" "}
-                  {values?.deleted_reason}
+                  {values?.deleteReason}
                 </Typography>
               }
             </Box>

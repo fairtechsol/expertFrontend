@@ -9,8 +9,8 @@ const MatchListTableHeader = () => {
           height: { lg: "35px", xs: "25px" },
           background: "#262626",
           alignItems: "center",
-          borderTop: "2px solid white",
-          borderBottom: "2px solid white",
+          // borderTop: "2px solid white",
+          // borderBottom: "2px solid white",
         }}
       >
         <Box

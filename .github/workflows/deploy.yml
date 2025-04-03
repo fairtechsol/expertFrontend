@@ -18,7 +18,7 @@ jobs:
     - name: Install Frontend Dependencies
       run: npm install --legacy-peer-deps --force
     - name: Build React App
-      run: npm run build
+      run: npm run build:staging
     - name: Clean target directory
       uses: appleboy/ssh-action@master
       with:
