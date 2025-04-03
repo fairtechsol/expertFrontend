@@ -370,6 +370,9 @@ const ViewBetList = ({ tag, allBetRates, title }: any) => {
         );
     };
 
+
+    const cHeight = allBetRates.length * 32 > window.innerHeight * 0.9 ? window.innerHeight * 0.9 : allBetRates.length * 32;
+
     return (
         <Box sx={{ width: "100%", margin: "0", marginTop: ".25vh", background: "white" }}>
             <Box sx={{ display: "flex", height: 20, flexDirection: "row", width: "100%", alignSelf: "center" }}>
@@ -457,12 +460,12 @@ const ViewBetList = ({ tag, allBetRates, title }: any) => {
             <Box sx={{ width: "100%" }}>
                 {visibleImg && (
                     <Box sx={{
-                        maxHeight: "90vh",
+                        // maxHeight: "90vh",
                         width: { xs: "auto", lg: "auto", md: "auto" },
                     }}>
                         <List
                             ref={listRef}
-                            height={window.innerHeight * 0.9}
+                            height={cHeight}
                             itemCount={allBetRates.length}
                             itemSize={ROW_HEIGHT}
                             width="100%"
