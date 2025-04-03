@@ -671,7 +671,7 @@ const MatchMarketDetail = () => {
     ...(matchDetail?.tournament
       ?.filter((item: any) => item?.name !== "HT/FT")
       ?.map((market: any, index: number) => ({
-        component: (
+        component: market?.activeStatus !== "close" ? (
           <TournamentMarket
             key={index}
             liveData={market}
@@ -679,7 +679,7 @@ const MatchMarketDetail = () => {
             title={market?.name}
             firstKnownKey={firstKnownKey}
           />
-        ),
+        ) : null,
         result: matchDetail?.otherBettings?.[market?.id]
           ? market?.activeStatus === "result"
             ? "declared"
