@@ -41,16 +41,11 @@ export const ChangePasswordComponent = () => {
 
   const { handleSubmit, touched, errors } = formik;
 
-  useEffect(() => {
-    if (success) {
-      setShowModal(true);
-    }
-  }, [loading]);
-
   const debouncedInputValue = useMemo(() => {
-    return debounce((value) => {
+    const debouncedFn = debounce((value) => {
       dispatch(checkOldPass({ oldPassword: value }));
     }, 500);
+    return debouncedFn;
   }, []);
 
   const handleOldPass = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -58,6 +53,25 @@ export const ChangePasswordComponent = () => {
     formik.handleChange(e);
     debouncedInputValue(query);
   };
+
+  useEffect(() => {
+    if (success) {
+      setShowModal(true);
+    }
+  }, [success]);
+
+  useEffect(() => {
+    return () => {
+      debouncedInputValue.cancel();
+    };
+  }, []);
+
+  useEffect(() => {
+    if (formik.values.oldPassword) {
+      formik.validateForm();
+    }
+  }, [oldPasswordMatched]);
+
   return (
     <>
       <form onSubmit={handleSubmit}>
