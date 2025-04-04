@@ -1,11 +1,7 @@
 import { createAction, createAsyncThunk } from "@reduxjs/toolkit";
 import axios, { AxiosError } from "axios";
 import service from "../../../service";
-import {
-  ApiConstants,
-  addMatchThirdParty,
-  baseUrls,
-} from "../../../utils/Constants";
+import { ApiConstants, addMatchThirdParty } from "../../../utils/Constants";
 
 export const getAllLiveTournaments = createAsyncThunk<any, string>(
   "addMatch/getAllLiveTournaments",
@@ -169,12 +165,14 @@ export const getMatchDetail = createAsyncThunk<any, any>(
   "getMatchDetail",
   async (requestData, thunkApi) => {
     try {
-      const resp = await service.get(
+      const { data } = await service.get(
         `${ApiConstants.MATCH.GETDETAIL}/${requestData}`
       );
-      if (resp) {
-        let sessionBetting = resp?.data?.sessionBettings;
-        const updatedData = sessionBetting?.map((item: any) => {
+
+      if (!data) return null;
+
+      const processSessionBetting = (sessionBettings: any[]) => {
+        return sessionBettings?.map((item) => {
           const parsedItem = JSON.parse(item);
 
           if (
@@ -182,17 +180,21 @@ export const getMatchDetail = createAsyncThunk<any, any>(
             parsedItem.yesPercent === 0 &&
             parsedItem.noPercent === 0
           ) {
-            parsedItem.yesRate = 0;
-            parsedItem.noRate = 0;
+            return JSON.stringify({
+              ...parsedItem,
+              yesRate: 0,
+              noRate: 0,
+            });
           }
 
-          return JSON.stringify(parsedItem);
+          return item;
         });
-        return {
-          ...resp?.data,
-          sessionBettings: updatedData,
-        };
-      }
+      };
+
+      return {
+        ...data,
+        sessionBettings: processSessionBetting(data.sessionBettings),
+      };
     } catch (error) {
       const err = error as AxiosError;
       return thunkApi.rejectWithValue(err.response?.status);
@@ -204,23 +206,6 @@ export const updateMatchRates = createAsyncThunk<any, any>(
   "/match/rates",
   async (matchDetails) => {
     return matchDetails;
-  }
-);
-
-export const getMatchRates = createAsyncThunk<any, any>(
-  "/third/match/rates",
-  async (matchId, thunkApi) => {
-    try {
-      const resp = await axios.get(
-        `${baseUrls.matchSocket}${ApiConstants.MATCH.RATES}${matchId}`
-      );
-      if (resp) {
-        return resp?.data;
-      }
-    } catch (error: any) {
-      const err = error as AxiosError;
-      return thunkApi.rejectWithValue(err.response?.status);
-    }
   }
 );
 
@@ -246,18 +231,6 @@ export const updateRates = createAsyncThunk<any, any>(
   "/match/ratesUpdate",
   async (rates) => {
     return rates;
-  }
-);
-export const handleBetResultStatus = createAsyncThunk<any, any>(
-  "/match/betResultStatus",
-  async (data) => {
-    return data;
-  }
-);
-export const updateMatchRatesOnMarketUndeclare = createAsyncThunk<any, any>(
-  "/match/updateOnUndeclare",
-  async (data) => {
-    return data;
   }
 );
 

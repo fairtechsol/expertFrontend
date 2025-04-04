@@ -13,9 +13,7 @@ import {
   getPlacedBets,
   updateDeleteReason,
   updateDeleteReasonOnEdit,
-  updateMarketMinMaxLimitOnQuickMaker,
-  updateMatchBetsPlaced,
-  updateRatesBook,
+  updateMatchBetsPlaced
 } from "../../store/actions/addSession";
 import { AppDispatch, RootState } from "../../store/store";
 
@@ -58,7 +56,6 @@ const UpdateBookmaker = () => {
   const matchDeleteBet = (event: any) => {
     try {
       if (event?.matchId === state?.matchId) {
-        dispatch(updateRatesBook(event));
         if (
           event?.betId === state?.betId ||
           event?.betId == tournament?.matchBetting?.parentBetId
@@ -78,16 +75,6 @@ const UpdateBookmaker = () => {
       }
     } catch (e) {
       console.log(e);
-    }
-  };
-
-  const handleMinMaxLimitChange = (event: any) => {
-    if (event?.matchId === state?.matchId) {
-      dispatch(updateMarketMinMaxLimitOnQuickMaker(event));
-    }
-    try {
-    } catch (error) {
-      console.log(error);
     }
   };
 
@@ -117,7 +104,6 @@ const UpdateBookmaker = () => {
       socketService.user.matchResultDeclared(resultDeclared);
       socketService.user.matchDeleteBet(matchDeleteBet);
       socketService.user.updateDeleteReason(updateDeleteBetReason);
-      socketService.user.matchBettingMinMaxChange(handleMinMaxLimitChange);
       return () => {
         socketService.user.userMatchBetPlacedOff();
         socketService.user.matchResultDeclaredOff();

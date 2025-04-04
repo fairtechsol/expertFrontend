@@ -4,7 +4,6 @@ import { resetPlacedBetsMatch } from "../../actions/addSession";
 import {
   addStatusBetByBetId,
   betLiveStatus,
-  betVerifyStatus,
   editMatch,
   editRace,
   editSuccessReset,
@@ -21,9 +20,7 @@ import {
   getTabList,
   matchListReset,
   noResultDeclare,
-  raceListReset,
   raceLiveStatus,
-  removeBetByBetId,
   resetContryCodeList,
   resetMatchListDropdown,
   resetMatchListSessionProLoss,
@@ -34,10 +31,8 @@ import {
   sessionResultSuccessReset,
   setSelectedTabForMatchList,
   undeclareResult,
-  updateBetVerify,
   updateDeletedBetReasonOnEdit,
   updateMatchActiveStatus,
-  updateMatchActiveStatusReset,
   updateMatchBetsPlace,
   updateMatchBetsReason,
   updateMatchListCurrentPage,
@@ -55,7 +50,6 @@ interface InitialState {
   success: boolean;
   editSuccess: boolean;
   editRaceSuccess: boolean;
-  statusSuccess: boolean;
   placedBetsMatch: any;
   loading: boolean;
   error: any;
@@ -81,7 +75,6 @@ const initialState: InitialState = {
   dropDownLoading: false,
   editSuccess: false,
   editRaceSuccess: false,
-  statusSuccess: false,
   statusBetLive: false,
   error: null,
   declareLoading: false,
@@ -149,11 +142,9 @@ const matchList = createSlice({
       })
       .addCase(updateMatchActiveStatus.pending, (state) => {
         state.loading = true;
-        state.statusSuccess = false;
         state.error = null;
       })
       .addCase(updateMatchActiveStatus.fulfilled, (state) => {
-        state.statusSuccess = true;
         state.loading = false;
       })
       .addCase(updateMatchActiveStatus.rejected, (state, action) => {
@@ -252,33 +243,11 @@ const matchList = createSlice({
         state.loading = false;
         state.error = action?.error?.message;
       })
-      .addCase(removeBetByBetId.fulfilled, (state, action) => {
-        state.loading = false;
-        state.success = true;
-        state.placedBetsMatch = state.placedBetsMatch?.filter(
-          (items: any) => items?.betId != action?.payload
-        );
-      })
       .addCase(addStatusBetByBetId.fulfilled, (state, action) => {
         state.loading = false;
         state.success = true;
         state.placedBetsMatch = state.placedBetsMatch?.map((item: any) =>
           item.betId === action?.payload ? { ...item, result: "WIN" } : item
-        );
-      })
-      .addCase(betVerifyStatus.fulfilled, (state) => {
-        state.loading = false;
-        state.success = true;
-      })
-      .addCase(updateBetVerify.fulfilled, (state, action) => {
-        state.placedBetsMatch = state.placedBetsMatch?.map((item: any) =>
-          item.id === action?.payload.id
-            ? {
-                ...item,
-                isVerified: action.payload.isVerified,
-                verifyBy: action.payload.verifyBy,
-              }
-            : item
         );
       })
       .addCase(getPlacedBetsForSessionDetail.pending, (state) => {
@@ -423,9 +392,6 @@ const matchList = createSlice({
       .addCase(matchListReset, (state) => {
         state.success = false;
       })
-      .addCase(updateMatchActiveStatusReset, (state) => {
-        state.statusSuccess = false;
-      })
       .addCase(resetMatchListSessionProLoss, (state) => {
         state.success = false;
         state.sessionProLoss = [];
@@ -455,10 +421,6 @@ const matchList = createSlice({
       .addCase(getRaceList.rejected, (state, action) => {
         state.loading = false;
         state.error = action?.error?.message;
-      })
-      .addCase(raceListReset, (state) => {
-        state.success = false;
-        state.raceList = [];
       })
       .addCase(getRaceMatch.pending, (state) => {
         state.loading = true;

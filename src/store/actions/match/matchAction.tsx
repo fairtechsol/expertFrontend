@@ -181,14 +181,6 @@ export const getPlacedBetsMatch = createAsyncThunk<any, any>(
   "placedBets/match",
   async (requestData, thunkApi) => {
     try {
-      // const response = await service.get(
-      //   `${
-      //     ApiConstants.MATCH.GET_BETS
-      //   }?betPlaced.matchId=${requestData}&result=inArr${JSON.stringify([
-      //     "PENDING",
-      //     "UNDECLARE",
-      //   ])}&sort=betPlaced.createdAt:DESC`
-      // );
       const response = await service.get(
         `${ApiConstants.MATCH.GET_BETS}?betPlaced.matchId=${requestData}&sort=betPlaced.createdAt:DESC`
       );
@@ -202,43 +194,10 @@ export const getPlacedBetsMatch = createAsyncThunk<any, any>(
   }
 );
 
-export const removeBetByBetId = createAsyncThunk<any, any>(
-  "removePlacedBets/match",
-  async (betId) => {
-    return betId;
-  }
-);
-
 export const addStatusBetByBetId = createAsyncThunk<any, any>(
   "addStatusPlacedBets/match",
   async (betId) => {
     return betId;
-  }
-);
-
-export const betVerifyStatus = createAsyncThunk<any, any>(
-  "bet/verify",
-  async (requestData, thunkApi) => {
-    try {
-      const { betId, ...data } = requestData;
-      const response = await service.post(
-        `${ApiConstants.MATCH.BET_VERIFY}`,
-        data
-      );
-      if (response) {
-        return response?.data;
-      }
-    } catch (error) {
-      const err = error as AxiosError;
-      return thunkApi.rejectWithValue(err.response?.status);
-    }
-  }
-);
-
-export const updateBetVerify = createAsyncThunk<any, SessionById>(
-  "update/bet/verify",
-  async (requestData) => {
-    return requestData;
   }
 );
 
@@ -261,23 +220,6 @@ export const getPlacedBetsForSessionDetail = createAsyncThunk<any, any>(
 
 export const updateMatchActiveStatus = createAsyncThunk<any, any>(
   "/match/updateActiveStatus",
-  async (requestData, thunkApi) => {
-    try {
-      const response = await service.post(
-        `${ApiConstants.MATCH.UPDATEACTIVESTATUS}`,
-        requestData
-      );
-      if (response?.status === 200) {
-        return response?.data;
-      }
-    } catch (error) {
-      const err = error as AxiosError;
-      return thunkApi.rejectWithValue(err.response?.status);
-    }
-  }
-);
-export const betSession = createAsyncThunk<any, any>(
-  "/bet/session",
   async (requestData, thunkApi) => {
     try {
       const response = await service.post(
@@ -605,12 +547,8 @@ export const updateMatchListCurrentPage = createAsyncThunk<any, any>(
 );
 
 export const matchListReset = createAction("matchList/reset");
-export const raceListReset = createAction("raceList/reset");
 export const editSuccessReset = createAction("editSuccess/reset");
 export const sessionResultSuccessReset = createAction("sessionResult/reset");
-export const updateMatchActiveStatusReset = createAction(
-  "updateMatchActiveStatusReset/reset"
-);
 export const resetMatchListSessionProLoss = createAction(
   "matchListSessionProLoss/reset"
 );

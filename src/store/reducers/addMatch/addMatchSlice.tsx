@@ -13,10 +13,8 @@ import {
   getAllEventsList,
   getAllLiveTournaments,
   getMatchDetail,
-  getMatchRates,
   geTournamentBetting,
   getRaceMatches,
-  handleBetResultStatus,
   matchDetailReset,
   matchDetailSuccessReset,
   resetMarketListMinMax,
@@ -24,12 +22,11 @@ import {
   tournamentListReset,
   updateMarketRates,
   updateMatchRates,
-  updateMatchRatesOnMarketUndeclare,
   updateMultiSessionMinMax,
   updateRaceRunners,
   updateRates,
   updateSessionAdded,
-  updateTeamRatesOnManualTournamentMarket
+  updateTeamRatesOnManualTournamentMarket,
 } from "../../actions/addMatch/addMatchAction";
 import {
   updateApiSessionById,
@@ -42,7 +39,6 @@ import {
   updateResultStatusOfSession,
   updateTeamRates,
 } from "../../actions/match/matchAction";
-import { getOtherGamesMatchDetail } from "../../actions/otherGamesAction/matchDetailActions";
 
 interface InitialState {
   tournamentList: any;
@@ -162,7 +158,7 @@ const addMatch = createSlice({
         state.loading = false;
         state.error = action?.error?.message;
       })
-     
+
       .addCase(geTournamentBetting.pending, (state) => {
         state.loading = true;
         state.tournament = {};
@@ -220,67 +216,9 @@ const addMatch = createSlice({
         state.loading = false;
         state.error = action?.error?.message;
       })
-      .addCase(getOtherGamesMatchDetail.pending, (state) => {
-        state.loading = true;
-        state.success = false;
-        state.error = null;
-        state.matchDetail = null;
-      })
-      .addCase(getOtherGamesMatchDetail.fulfilled, (state, action) => {
-        state.loading = false;
-        state.success = true;
-        state.matchDetail = action.payload;
-        state.quickBookmaker1 = action?.payload?.quickBookmaker;
-        action.payload?.sessionBettings?.forEach((item: any) => {
-          item = JSON.parse(item);
-          if (item.selectionId) {
-            state.selectionIds[item.selectionId] = 1;
-          }
-        });
-      })
-      .addCase(getOtherGamesMatchDetail.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action?.error?.message;
-      })
       .addCase(editMatchReset, (state) => {
         state.success = false;
         state.matchDetail = null;
-      })
-      .addCase(getMatchRates.fulfilled, (state, action) => {
-        const { apiSession, tournament } = action.payload;
-
-        if (!state.matchDetail) return;
-
-        const parsedSessionBettings =
-          state.matchDetail.sessionBettings?.map((item: any) =>
-            JSON.parse(item)
-          ) || [];
-
-        const updatedFormat = convertData(parsedSessionBettings);
-        const updatedSessionBettings = updateSessionBettingsItem(
-          updatedFormat,
-          apiSession
-        );
-
-        const sortedTournament = tournament
-          ?.slice()
-          .sort(
-            (a: any, b: any) =>
-              a.sno - b.sno ||
-              (a.parentBetId === null && b.parentBetId !== null
-                ? -1
-                : a.parentBetId !== null && b.parentBetId === null
-                ? 1
-                : 0)
-          );
-
-        state.matchDetail = {
-          ...state.matchDetail,
-          apiSessionActive: !!apiSession,
-          apiSession,
-          updatedSesssionBettings: updatedSessionBettings || {},
-          tournament: sortedTournament,
-        };
       })
       .addCase(updateMatchRates.fulfilled, (state, action) => {
         const { apiSession, tournament } = action.payload;
@@ -477,25 +415,6 @@ const addMatch = createSlice({
           };
         }
       })
-      .addCase(updateMatchRatesOnMarketUndeclare.fulfilled, (state, action) => {
-        const {
-          profitLossData,
-          betType,
-          teamArateRedisKey,
-          teamBrateRedisKey,
-          teamCrateRedisKey,
-        } = action?.payload;
-
-        state.matchDetail.teamRates = {
-          ...state.matchDetail.teamRates,
-          [profitLossDataForMatchConstants[betType].A]:
-            profitLossData[teamArateRedisKey],
-          [profitLossDataForMatchConstants[betType].B]:
-            profitLossData[teamBrateRedisKey],
-          [profitLossDataForMatchConstants[betType].C]:
-            profitLossData[teamCrateRedisKey],
-        };
-      })
       .addCase(updateRates.fulfilled, (state, action) => {
         const {
           redisObject,
@@ -615,17 +534,6 @@ const addMatch = createSlice({
               },
             };
           }
-        }
-      })
-      .addCase(handleBetResultStatus.fulfilled, (state, action) => {
-        const { betId } = action.payload;
-        const resultStatusObj = state.matchDetail?.resultStatus;
-        const resultStatusObj2 = state.matchDetail?.otherBettings;
-        if (resultStatusObj && resultStatusObj.hasOwnProperty(betId)) {
-          delete resultStatusObj[betId];
-        }
-        if (resultStatusObj2 && resultStatusObj2.hasOwnProperty(betId)) {
-          delete resultStatusObj2[betId];
         }
       })
       .addCase(getRaceMatches.pending, (state) => {

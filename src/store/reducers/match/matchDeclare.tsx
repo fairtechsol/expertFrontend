@@ -9,13 +9,11 @@ import {
   getSessionProfitLossMatchDetailReset,
 } from "../../actions/match/matchAction";
 import {
-  UnDeclareOtherMarketCricketResult,
   UnDeclareRaceResult,
   UnDeclareTournamentMarketCricketResult,
   declareFinalMatchResult,
   declareMatchResult,
   declareMatchStatusReset,
-  declareOtherMarketCricketResult,
   declareRaceResult,
   declareTournamentMarketCricketResult,
   otherDeclareMatchResult,
@@ -26,8 +24,6 @@ import {
 
 interface InitialState {
   sessionProLoss: any;
-  loadingProLoss: boolean;
-  successProLoss: boolean;
   success: boolean;
   loading: boolean;
   error: any;
@@ -35,8 +31,6 @@ interface InitialState {
 
 const initialState: InitialState = {
   sessionProLoss: [],
-  loadingProLoss: false,
-  successProLoss: false,
   loading: false,
   success: false,
   error: null,
@@ -127,13 +121,9 @@ const matchDeclare = createSlice({
         state.error = action?.error?.message;
       })
       .addCase(getSessionProfitLossMatchDetail.pending, (state) => {
-        state.loadingProLoss = true;
-        state.successProLoss = false;
         state.error = null;
       })
       .addCase(getSessionProfitLossMatchDetail.fulfilled, (state, action) => {
-        state.successProLoss = true;
-        state.loadingProLoss = false;
         const idToAdd = action?.payload?.id;
 
         if (
@@ -144,7 +134,6 @@ const matchDeclare = createSlice({
         }
       })
       .addCase(getSessionProfitLossMatchDetail.rejected, (state, action) => {
-        state.loadingProLoss = false;
         state.error = action?.error?.message;
       })
       .addCase(
@@ -196,19 +185,6 @@ const matchDeclare = createSlice({
         state.loading = false;
         state.error = action?.error?.message;
       })
-      .addCase(UnDeclareOtherMarketCricketResult.pending, (state) => {
-        state.loading = true;
-        state.success = false;
-        state.error = null;
-      })
-      .addCase(UnDeclareOtherMarketCricketResult.fulfilled, (state) => {
-        state.success = true;
-        state.loading = false;
-      })
-      .addCase(UnDeclareOtherMarketCricketResult.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action?.error?.message;
-      })
       .addCase(UnDeclareTournamentMarketCricketResult.pending, (state) => {
         state.loading = true;
         state.success = false;
@@ -225,19 +201,6 @@ const matchDeclare = createSlice({
           state.error = action?.error?.message;
         }
       )
-      .addCase(declareOtherMarketCricketResult.pending, (state) => {
-        state.loading = true;
-        state.success = false;
-        state.error = null;
-      })
-      .addCase(declareOtherMarketCricketResult.fulfilled, (state) => {
-        state.success = true;
-        state.loading = false;
-      })
-      .addCase(declareOtherMarketCricketResult.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action?.error?.message;
-      })
       .addCase(declareTournamentMarketCricketResult.pending, (state) => {
         state.loading = true;
         state.success = false;
