@@ -12,7 +12,6 @@ import {
   eventListReset,
   getAllEventsList,
   getAllLiveTournaments,
-  getExtraMarketList,
   getMatchDetail,
   getMatchRates,
   geTournamentBetting,
@@ -23,7 +22,6 @@ import {
   resetMarketListMinMax,
   runnerDetailReset,
   tournamentListReset,
-  updateExtraMarketListOnEdit,
   updateMarketRates,
   updateMatchRates,
   updateMatchRatesOnMarketUndeclare,
@@ -31,7 +29,7 @@ import {
   updateRaceRunners,
   updateRates,
   updateSessionAdded,
-  updateTeamRatesOnManualTournamentMarket,
+  updateTeamRatesOnManualTournamentMarket
 } from "../../actions/addMatch/addMatchAction";
 import {
   updateApiSessionById,
@@ -49,8 +47,6 @@ import { getOtherGamesMatchDetail } from "../../actions/otherGamesAction/matchDe
 interface InitialState {
   tournamentList: any;
   eventsList: any;
-  extraMarketList: any;
-  extraMarketListFootball: any;
   matchDetail: any;
   selectionIds: any;
   success: boolean;
@@ -78,8 +74,6 @@ const initialState: InitialState = {
     },
   ],
   raceRunners: [],
-  extraMarketList: [],
-  extraMarketListFootball: [],
   selectionIds: {},
   matchDetail: null,
   loading: false,
@@ -168,20 +162,7 @@ const addMatch = createSlice({
         state.loading = false;
         state.error = action?.error?.message;
       })
-      .addCase(getExtraMarketList.pending, (state) => {
-        state.loading = true;
-        state.success = false;
-        state.error = null;
-      })
-      .addCase(getExtraMarketList.fulfilled, (state, action) => {
-        state.extraMarketList = action?.payload;
-        state.loading = false;
-        state.success = true;
-      })
-      .addCase(getExtraMarketList.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action?.error?.message;
-      })
+     
       .addCase(geTournamentBetting.pending, (state) => {
         state.loading = true;
         state.tournament = {};
@@ -417,7 +398,6 @@ const addMatch = createSlice({
             EventName: "No Matches Available",
           },
         ];
-        state.extraMarketList = [];
       })
       .addCase(matchDetailReset, (state) => {
         state.matchDetail = null;
@@ -565,9 +545,6 @@ const addMatch = createSlice({
             "_" +
             state.matchDetail?.id]: redisObject[teamCrateRedisKey],
           };
-      })
-      .addCase(updateExtraMarketListOnEdit.fulfilled, (state, action) => {
-        state.extraMarketList = action.payload;
       })
       .addCase(updateResultStatusOfSession.fulfilled, (state, action) => {
         const updatedSessionBetting = state.matchDetail?.sessionBettings?.map(

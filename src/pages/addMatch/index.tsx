@@ -184,6 +184,7 @@ const AddMatch = () => {
           const newPayload = {
             ...addMatchpayload,
             isManualMatch: true,
+            competitionName: "manual",
           };
           dispatch(addMatchExpert(newPayload));
         } else {

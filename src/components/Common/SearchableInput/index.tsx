@@ -1,7 +1,4 @@
 import { Autocomplete, Box, TextField, Typography } from "@mui/material";
-import { useDispatch } from "react-redux";
-import { getExtraMarketList } from "../../../store/actions/addMatch/addMatchAction";
-import { AppDispatch } from "../../../store/store";
 
 const SearchableInput = ({
   eventsList,
@@ -9,22 +6,15 @@ const SearchableInput = ({
   setSelected,
   matchesSelect,
   name,
-  gameType,
   disabled,
   selected,
 }: any) => {
-  const dispatch: AppDispatch = useDispatch();
 
   const handleOnChange = (_: any, eventDetail: any) => {
     if (eventDetail) {
       function setDetailWithRunners() {
-        let data = {
-          id: eventDetail?.EventId,
-          eventType: gameType,
-          matchOddId: eventDetail?.MarketId,
-        };
+      
 
-        dispatch(getExtraMarketList(data));
 
         let allrunners: any = [];
         eventDetail.runners.map((runner: any) => {
