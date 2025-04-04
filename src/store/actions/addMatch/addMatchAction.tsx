@@ -79,32 +79,22 @@ export const getAllEventsList = createAsyncThunk<any, string>(
       const { data } = await axios.get(
         `${addMatchThirdParty}/eventList/${requestData}`
       );
-      if (data) {
-        let matchesList: any = [
-          {
-            EventName: "No Matches Available",
-          },
-        ];
-        if (data && data.length > 0) {
-          let matchesList1: any = [];
-          data.forEach((match: any) => {
-            matchesList1.push({
-              EventName: match?.event?.name,
-              EventId: match?.event?.id,
-              MarketId: match?.marketId,
-              CompetitionId: match?.competition?.id,
-              CompetitionName: match?.competition?.name,
-              EventDetail: {
-                EventDate: match?.event?.openDate,
-                Runners: match?.runners,
-                // Runnercount: match?.runners,
-              },
-            });
-          });
-          matchesList = matchesList1;
-        }
-        return matchesList;
+
+      if (!data?.length) {
+        return [{ EventName: "No Matches Available" }];
       }
+
+      return data.map((match: any) => ({
+        EventName: match?.event?.name,
+        EventId: match?.event?.id,
+        MarketId: match?.marketId,
+        CompetitionId: match?.competition?.id,
+        CompetitionName: match?.competition?.name,
+        EventDetail: {
+          EventDate: match?.event?.openDate,
+          Runners: match?.runners,
+        },
+      }));
     } catch (error) {
       const err = error as AxiosError;
       return thunkApi.rejectWithValue(err.response?.status);
