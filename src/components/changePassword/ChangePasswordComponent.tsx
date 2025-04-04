@@ -58,7 +58,7 @@ export const ChangePasswordComponent = () => {
     if (success) {
       setShowModal(true);
     }
-  }, [success]);
+  }, [loading]);
 
   useEffect(() => {
     return () => {
