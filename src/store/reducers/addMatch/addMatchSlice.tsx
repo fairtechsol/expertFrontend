@@ -25,7 +25,6 @@ import {
   tournamentListReset,
   updateExtraMarketListOnEdit,
   updateMarketRates,
-  updateMatchBettingStatus,
   updateMatchRates,
   updateMatchRatesOnMarketUndeclare,
   updateMultiSessionMinMax,
@@ -108,28 +107,46 @@ const addMatch = createSlice({
         state.error = null;
       })
       .addCase(getAllLiveTournaments.fulfilled, (state, action) => {
-        const { matchesList1, matchesList2 } = action?.payload;
-        matchesList1.forEach((item1: any) => {
-          const matchingItem = matchesList2.find(
-            (item2: any) => item2.marketId === item1.MarketId
-          );
-          if (matchingItem) {
-            item1.runners = matchingItem.runners;
-            item1.competitionName = matchingItem.competition?.name;
-            item1.competitionId = matchingItem.competition?.id;
-          } else {
-            let teams = item1?.EventName.split(" v ");
-            let runners: any = [
-              { runnerName: item1?.section?.[0]?.nat || teams[0] },
-              { runnerName: item1?.section?.[1]?.nat || teams[1] },
-              { runnerName: item1?.section?.[2]?.nat || teams[2] },
-            ];
-            item1.runners = runners;
-            item1.competitionName = null;
-            item1.competitionId = null;
+        const { matchesList1, matchesList2 } = action.payload ?? {};
+        if (!matchesList1 || !matchesList2) return;
+
+        const marketMap = new Map<string, any>();
+        matchesList2.forEach((item: any) => {
+          if (item.marketId) {
+            marketMap.set(item.marketId, item);
           }
         });
-        state.eventsList = matchesList1;
+
+        const processedList = matchesList1.map((item1: any) => {
+          const matchingItem = item1.MarketId
+            ? marketMap.get(item1.MarketId)
+            : undefined;
+
+          if (matchingItem) {
+            return {
+              ...item1,
+              runners: matchingItem.runners,
+              competitionName: matchingItem.competition?.name ?? null,
+              competitionId: matchingItem.competition?.id ?? null,
+            };
+          }
+
+          const teams = item1.EventName?.split(" v ") ?? [];
+          const runners = [0, 1, 2]
+            .map((index) => ({
+              runnerName: item1.section?.[index]?.nat ?? teams[index] ?? "",
+            }))
+            .filter((runner) => runner.runnerName);
+
+          return {
+            ...item1,
+            runners,
+            competitionName: null,
+            competitionId: null,
+          };
+        });
+
+        state.eventsList = processedList;
         state.loading = false;
         state.success = true;
       })
@@ -251,126 +268,127 @@ const addMatch = createSlice({
       .addCase(getMatchRates.fulfilled, (state, action) => {
         const { apiSession, tournament } = action.payload;
 
-        let parsedSessionBettings = state?.matchDetail?.sessionBettings?.map(
-          (item: any) => {
-            let parsedItem = JSON.parse(item);
-            return parsedItem;
-          }
-        );
+        if (!state.matchDetail) return;
 
-        let updatedFormat = convertData(parsedSessionBettings);
+        const parsedSessionBettings =
+          state.matchDetail.sessionBettings?.map((item: any) =>
+            JSON.parse(item)
+          ) || [];
 
-        let updatedSessionBettings = updateSessionBettingsItem(
+        const updatedFormat = convertData(parsedSessionBettings);
+        const updatedSessionBettings = updateSessionBettingsItem(
           updatedFormat,
           apiSession
         );
 
+        const sortedTournament = tournament
+          ?.slice()
+          .sort(
+            (a: any, b: any) =>
+              a.sno - b.sno ||
+              (a.parentBetId === null && b.parentBetId !== null
+                ? -1
+                : a.parentBetId !== null && b.parentBetId === null
+                ? 1
+                : 0)
+          );
+
         state.matchDetail = {
           ...state.matchDetail,
-          apiSessionActive: apiSession ? true : false,
-          apiSession: apiSession,
+          apiSessionActive: !!apiSession,
+          apiSession,
           updatedSesssionBettings: updatedSessionBettings || {},
-          tournament: tournament?.sort((a: any, b: any) => {
-            if (a.sno !== b.sno) {
-              return a.sno - b.sno;
-            }
-            if (a.parentBetId === null && b.parentBetId !== null) return -1;
-            if (a.parentBetId !== null && b.parentBetId === null) return 1;
-            return 0;
-          }),
+          tournament: sortedTournament,
         };
       })
       .addCase(updateMatchRates.fulfilled, (state, action) => {
         const { apiSession, tournament } = action.payload;
 
-        let parsedSessionBettings = state?.matchDetail?.sessionBettings?.map(
-          (item: any) => {
-            let parsedItem = JSON.parse(item);
+        const parsedSessionBettings =
+          state.matchDetail?.sessionBettings?.map((item: string) => {
+            const parsedItem = JSON.parse(item);
             if (parsedItem?.isManual) {
-              parsedItem.type = "manualSession";
+              return { ...parsedItem, type: "manualSession" };
             }
             return parsedItem;
-          }
-        );
-        let updatedFormat = convertData(parsedSessionBettings);
-        let updatedSessionBettings = updateSessionBettingsItem(
-          updatedFormat,
-          apiSession
+          }) ?? [];
+
+        const updatedFormat = convertData(parsedSessionBettings);
+        const updatedSessionBettings =
+          updateSessionBettingsItem(updatedFormat, apiSession) ?? {};
+
+        const sortedTournament = [...(tournament || [])].sort(
+          (a, b) =>
+            a.sno - b.sno ||
+            (a.parentBetId === null && b.parentBetId !== null
+              ? -1
+              : a.parentBetId !== null && b.parentBetId === null
+              ? 1
+              : 0)
         );
 
         state.matchDetail = {
           ...state.matchDetail,
-          apiSessionActive: apiSession ? true : false,
-          apiSession: apiSession,
-          updatedSesssionBettings: updatedSessionBettings || {},
-          tournament: tournament?.sort((a: any, b: any) => {
-            if (a.sno !== b.sno) {
-              return a.sno - b.sno;
-            }
-            if (a.parentBetId === null && b.parentBetId !== null) return -1;
-            if (a.parentBetId !== null && b.parentBetId === null) return 1;
-            return 0;
-          }),
+          apiSessionActive: !!apiSession,
+          apiSession,
+          updatedSesssionBettings: updatedSessionBettings,
+          tournament: sortedTournament,
         };
       })
       .addCase(updateApiSessionById.fulfilled, (state, action) => {
-        try {
-          const { betId, score, profitLoss } = action.payload;
-          state.matchDetail = {
-            ...state.matchDetail,
-            sessionBettings: state.matchDetail?.sessionBettings?.map(
-              (item: any) => {
-                const parsedItem = JSON.parse(item);
-                if (parsedItem?.id === betId) {
-                  return JSON.stringify({
-                    ...parsedItem,
-                    activeStatus: score ? "result" : "save",
-                    result: score ? score : null,
-                    resultStatus: null,
-                    resultData: score
-                      ? {
-                          result: score,
-                          profitLoss: profitLoss,
-                        }
-                      : null,
-                    isComplete: true,
-                  });
-                } else return item;
-              }
-            ),
-          };
-        } catch (e) {
-          console.log(e);
-        }
+        const { betId, score, profitLoss } = action.payload;
+
+        if (!state.matchDetail) return;
+
+        state.matchDetail.sessionBettings =
+          state.matchDetail.sessionBettings?.map((item: any) => {
+            try {
+              const parsedItem = JSON.parse(item);
+              if (parsedItem?.id !== betId) return item;
+
+              const updatedItem = {
+                ...parsedItem,
+                activeStatus: score ? "result" : "save",
+                result: score || null,
+                resultStatus: null,
+                isComplete: true,
+                ...(score && {
+                  resultData: {
+                    result: score,
+                    profitLoss,
+                  },
+                }),
+              };
+
+              return JSON.stringify(updatedItem);
+            } catch (error) {
+              console.error("Error parsing session betting item:", error);
+              return item; // Return original item if parsing fails
+            }
+          });
       })
       .addCase(updateSessionAdded.fulfilled, (state, action) => {
-        const newSessionBetting = JSON.stringify(action?.payload);
+        if (!action.payload || !state.matchDetail) return;
 
-        if (state.matchDetail?.sessionBettings?.length === 0) {
-          state.matchDetail?.sessionBettings?.push(newSessionBetting);
-        }
+        const newSessionBetting = JSON.stringify(action.payload);
+        const sessionBettings = (state.matchDetail.sessionBettings ??= []); // Initialize if undefined
 
-        const existingIds = state.matchDetail?.sessionBettings?.map(
-          (existingSession: any) => {
-            return JSON.parse(existingSession)?.id;
-          }
+        const existingIds = new Set(
+          sessionBettings
+            .map((item: any) => {
+              try {
+                return JSON.parse(item)?.id;
+              } catch {
+                return undefined;
+              }
+            })
+            .filter(Boolean)
         );
 
         const newId = JSON.parse(newSessionBetting)?.id;
 
-        if (!existingIds?.includes(newId)) {
-          state.matchDetail?.sessionBettings?.unshift(newSessionBetting);
-        }
-      })
-      .addCase(updateMatchBettingStatus.fulfilled, (state, action) => {
-        let matchingObjectKey = Object.keys(state?.matchDetail).find(
-          (key) => state?.matchDetail[key].type === action.payload.type
-        );
-        if (matchingObjectKey) {
-          state.matchDetail[matchingObjectKey] = {
-            ...state.matchDetail[matchingObjectKey],
-            activeStatus: action.payload.activeStatus,
-          };
+        if (newId && !existingIds.has(newId)) {
+          sessionBettings.unshift(newSessionBetting);
         }
       })
       .addCase(tournamentListReset, (state) => {

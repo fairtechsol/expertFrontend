@@ -14,61 +14,58 @@ export const getAllLiveTournaments = createAsyncThunk<any, string>(
       const { data } = await axios.get(
         `${addMatchThirdParty}/sportsList?type=${requestData}`
       );
-      let resp: any;
+
+      if (!data?.length) {
+        return [{ EventName: "No Matches Available" }];
+      }
+
+      let directMatches = [];
       if (requestData === "cricket") {
         try {
-          resp = await axios.get(
+          const resp = await axios.get(
             `${addMatchThirdParty}/getDirectMatchList?type=${requestData}`,
             { timeout: 2000 }
           );
+          directMatches = resp?.data || [];
         } catch (error) {
-          console.log(error);
+          console.error("Failed to fetch direct matches:", error);
         }
       }
-      if (data) {
-        let matchesList: any = [
-          {
-            EventName: "No Matches Available",
-          },
-        ];
-        if (data && data.length > 0) {
-          let matchesList1: any = [];
-          let matchesList2: any = resp?.data || [];
-          if (requestData === "cricket") {
-            data.forEach((match: any) => {
-              let matchList = match?.eventName.split(" / ");
-              matchesList1.push({
-                EventName: matchList[0],
-                EventId: match?.gameId,
-                MarketId: match?.marketId,
-                EventDate: matchList[1],
-                f: match?.f === "True" ? true : false,
-                tv: match?.tv === "True" ? true : false,
-                m1: match?.m1 === "True" ? true : false,
-                section: match?.section,
-              });
-            });
-          } else {
-            data.forEach((match: any) => {
-              let matchList = match?.ename;
-              matchesList1.push({
-                EventName: matchList,
-                EventId: JSON.stringify(match?.gmid),
-                MarketId: JSON.stringify(match?.mid),
-                EventDate: match?.stime,
-                f: match?.f === "True" ? true : false,
-                tv: match?.tv === "True" ? true : false,
-                m1: match?.m1 === "True" ? true : false,
-                section: match?.section,
-              });
-            });
-          }
 
-          matchesList = { matchesList1, matchesList2 };
+      const processedMatches = data.map((match: any) => {
+        const commonFields = {
+          EventId:
+            requestData === "cricket"
+              ? match?.gameId
+              : JSON.stringify(match?.gmid),
+          MarketId:
+            requestData === "cricket"
+              ? match?.marketId
+              : JSON.stringify(match?.mid),
+          f: match?.f === "True",
+          tv: match?.tv === "True",
+          m1: match?.m1 === "True",
+          section: match?.section,
+        };
+
+        if (requestData === "cricket") {
+          const [EventName, EventDate] = match.eventName.split(" / ");
+          return { EventName, EventDate, ...commonFields };
         }
-        return matchesList;
-      }
+
+        return {
+          EventName: match.ename,
+          EventDate: match.stime,
+          ...commonFields,
+        };
+      });
+
+      return {
+        matchesList1: processedMatches,
+        matchesList2: directMatches,
+      };
     } catch (error) {
+      console.error("Error in getAllLiveTournaments:", error);
       const err = error as AxiosError;
       return thunkApi.rejectWithValue(err.response?.status);
     }
@@ -356,13 +353,6 @@ export const removeSessionProLoss = createAsyncThunk<any, any>(
   "/removesessionProLoss/update",
   async (matchDetails) => {
     return matchDetails;
-  }
-);
-
-export const updateMatchBettingStatus = createAsyncThunk<any, any>(
-  "/match/bettingtatus",
-  async (betting) => {
-    return betting;
   }
 );
 export const updateRates = createAsyncThunk<any, any>(
