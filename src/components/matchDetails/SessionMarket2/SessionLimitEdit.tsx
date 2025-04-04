@@ -2,9 +2,13 @@ import { Box, TextField, Typography } from "@mui/material";
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { CancelDark } from "../../../assets";
+import {
+  resetSessionMaxLimitSuccess,
+  updateSession,
+} from "../../../store/actions/addSession";
+import { AppDispatch, RootState } from "../../../store/store";
 import SessionResultCustomButton from "../../addSession/AddSession/SessionResultCustomButton";
-import { resetSessionMaxLimitSuccess,updateSession } from "../../../store/actions/addSession";
-import { AppDispatch,RootState } from "../../../store/store";
+
 const SessionLimitEdit = (props: any) => {
   const { newData, visible, onClickCancel } = props;
   const dispatch: AppDispatch = useDispatch();
@@ -56,8 +60,6 @@ const SessionLimitEdit = (props: any) => {
     <Box
       sx={{
         width: { lg: "30%", xs: "60%", md: "40%" },
-        // height: "180px",
-
         padding: 0.2,
         borderRadius: 2,
         boxShadow: "0px 5px 10px #1A568414",
@@ -122,15 +124,12 @@ const SessionLimitEdit = (props: any) => {
       <Box
         sx={{
           width: "100%",
-          //   flexWrap: "wrap",
           padding: "8px",
           display: "flex",
           flexDirection: "column",
-          // alignSelf: "flex-start",
           alignItems: "center",
           gap: 1,
           justifyContent: "space-between",
-          //   backgroundColor:'red'
         }}
         ref={myDivRef}
       >
@@ -139,7 +138,6 @@ const SessionLimitEdit = (props: any) => {
           placeholder="API Session Max Bet"
           variant="standard"
           type="number"
-          // value={selected}
           value={value}
           id="score"
           name="score"
@@ -147,8 +145,6 @@ const SessionLimitEdit = (props: any) => {
             setValue(e?.target.value);
             setError(false);
           }}
-          // touched={touched.score}
-          // error={Boolean(errors.score)}
           InputProps={{
             disableUnderline: true,
             sx: {
@@ -184,7 +180,6 @@ const SessionLimitEdit = (props: any) => {
             width: "100%",
             gap: 1,
             marginTop: 3,
-            // marginBottom: 2,
           }}
         >
           <SessionResultCustomButton
@@ -193,19 +188,6 @@ const SessionLimitEdit = (props: any) => {
             title={"submit"}
             loading={loading}
             onClick={(e: any) => handleSubmit(e)}
-            // onClick={() => {
-            //   if (loading?.value) {
-            //     return false;
-            //   }
-            //   if (selected !== "" && /^\d+$/.test(selected)) {
-            //     declareResult();
-            //   } else if (selected === "") {
-            //     setError("Please enter score");
-            //   } else {
-            //     // toast.warn("Please enter score");
-            //     setError("Input field should contain numbers only");
-            //   }
-            // }}
           />
         </Box>
       </Box>

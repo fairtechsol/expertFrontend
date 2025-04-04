@@ -248,26 +248,8 @@ const addMatch = createSlice({
         state.success = false;
         state.matchDetail = null;
       })
-      .addCase(getMatchRates.fulfilled,(state, action) => {
-        const {
-          apiSession,
-          apiTiedMatch,
-          apiTiedMatch2,
-          bookmaker,
-          bookmaker2,
-          marketCompleteMatch,
-          matchOdd,
-          firstHalfGoal,
-          overUnder,
-          halfTime,
-          setWinner,
-          manualTideMatch,
-          completeManual,
-          quickbookmaker,
-          other,
-          marketCompleteMatch1,
-          tournament,
-        } = action.payload;
+      .addCase(getMatchRates.fulfilled, (state, action) => {
+        const { apiSession, tournament } = action.payload;
 
         let parsedSessionBettings = state?.matchDetail?.sessionBettings?.map(
           (item: any) => {
@@ -287,108 +269,25 @@ const addMatch = createSlice({
           ...state.matchDetail,
           apiSessionActive: apiSession ? true : false,
           apiSession: apiSession,
-          firstHalfGoal,
-          overUnder,
-          halfTime,
-          apiTideMatch: apiTiedMatch,
-          apiTideMatch2: apiTiedMatch2,
-          bookmaker,
-          marketBookmaker2: bookmaker2,
-          marketCompleteMatch,
-          marketCompleteMatch1: marketCompleteMatch1,
-          matchOdd,
-          setWinner,
-          manualTiedMatch: manualTideMatch,
-          manualCompleteMatch: completeManual,
-          quickBookmaker: quickbookmaker,
           updatedSesssionBettings: updatedSessionBettings || {},
-          other,
           tournament: tournament?.sort((a: any, b: any) => {
-            // Primary sort by sno (ascending)
             if (a.sno !== b.sno) {
               return a.sno - b.sno;
             }
-            // If sno values are equal, sort so that null parentId comes first
             if (a.parentBetId === null && b.parentBetId !== null) return -1;
             if (a.parentBetId !== null && b.parentBetId === null) return 1;
             return 0;
           }),
-          // sessionBettings: state.matchDetail?.sessionBettings?.map(
-          //   (item: any) => {
-          //     const parsedItem = JSON.parse(item);
-          //     let id = parsedItem?.id;
-
-          //     const matchingApiSession = apiSession?.find(
-          //       (sessionItem: any) => sessionItem?.id === id
-          //     );
-
-          //     if (matchingApiSession) {
-          //       return JSON.stringify({
-          //         ...parsedItem,
-          //         noRate: matchingApiSession?.LayPrice1 ?? 0,
-          //         noPercent: matchingApiSession?.LaySize1 ?? 0,
-          //         yesRate: matchingApiSession?.BackPrice1 ?? 0,
-          //         yesPercent: matchingApiSession?.BackSize1 ?? 0,
-          //         activeStatus: matchingApiSession?.activeStatus,
-          //         maxBet: matchingApiSession?.max,
-          //         minBet: matchingApiSession?.min,
-          //         status: matchingApiSession?.GameStatus,
-          //         updatedAt: matchingApiSession?.updatedAt,
-          //         isComplete:
-          //           (!matchingApiSession?.LayPrice1 &&
-          //             !matchingApiSession?.LaySize1 &&
-          //             !matchingApiSession?.BackPrice1 &&
-          //             !matchingApiSession?.BackSize1) ||
-          //           matchingApiSession?.activeStatus !== "live"
-          //             ? true
-          //             : false,
-          //         showSessions: true,
-          //       });
-          //     } else {
-          //       return JSON.stringify({
-          //         ...parsedItem,
-          //         noRate: 0,
-          //         yesRate: 0,
-          //         yesPercent: 0,
-          //         noPercent: 0,
-          //         activeStatus:
-          //           parsedItem.activeStatus === "live"
-          //             ? "save"
-          //             : parsedItem.activeStatus,
-          //         isComplete: true,
-          //         showSessions: true,
-          //       });
-          //     }
-          //   }
-          // ),
         };
       })
       .addCase(updateMatchRates.fulfilled, (state, action) => {
-        const {
-          apiSession,
-          apiTiedMatch,
-          apiTiedMatch2,
-          bookmaker,
-          bookmaker2,
-          marketCompleteMatch,
-          matchOdd,
-          firstHalfGoal,
-          overUnder,
-          halfTime,
-          setWinner,
-          manualTideMatch,
-          completeManual,
-          quickbookmaker,
-          other,
-          marketCompleteMatch1,
-          tournament,
-        } = action.payload;
+        const { apiSession, tournament } = action.payload;
 
         let parsedSessionBettings = state?.matchDetail?.sessionBettings?.map(
           (item: any) => {
             let parsedItem = JSON.parse(item);
-            if(parsedItem?.isManual){
-              parsedItem.type="manualSession"
+            if (parsedItem?.isManual) {
+              parsedItem.type = "manualSession";
             }
             return parsedItem;
           }
@@ -403,80 +302,15 @@ const addMatch = createSlice({
           ...state.matchDetail,
           apiSessionActive: apiSession ? true : false,
           apiSession: apiSession,
-          firstHalfGoal,
-          overUnder,
-          halfTime,
-          apiTideMatch: apiTiedMatch,
-          apiTideMatch2: apiTiedMatch2,
-          bookmaker,
-          marketBookmaker2: bookmaker2,
-          marketCompleteMatch,
-          marketCompleteMatch1: marketCompleteMatch1,
-          matchOdd,
-          setWinner,
-          manualTiedMatch: manualTideMatch,
-          manualCompleteMatch: completeManual,
-          quickBookmaker: quickbookmaker,
           updatedSesssionBettings: updatedSessionBettings || {},
-          other,
           tournament: tournament?.sort((a: any, b: any) => {
-            // Primary sort by sno (ascending)
             if (a.sno !== b.sno) {
               return a.sno - b.sno;
             }
-            // If sno values are equal, sort so that null parentId comes first
             if (a.parentBetId === null && b.parentBetId !== null) return -1;
             if (a.parentBetId !== null && b.parentBetId === null) return 1;
             return 0;
           }),
-          // sessionBettings: state.matchDetail?.sessionBettings?.map(
-          //   (item: any) => {
-          //     const parsedItem = JSON.parse(item);
-          //     let id = parsedItem?.id;
-
-          //     const matchingApiSession = apiSession?.find(
-          //       (sessionItem: any) => sessionItem?.id === id
-          //     );
-
-          //     if (matchingApiSession) {
-          //       return JSON.stringify({
-          //         ...parsedItem,
-          //         noRate: matchingApiSession?.LayPrice1 ?? 0,
-          //         noPercent: matchingApiSession?.LaySize1 ?? 0,
-          //         yesRate: matchingApiSession?.BackPrice1 ?? 0,
-          //         yesPercent: matchingApiSession?.BackSize1 ?? 0,
-          //         activeStatus: matchingApiSession?.activeStatus,
-          //         maxBet: matchingApiSession?.max,
-          //         minBet: matchingApiSession?.min,
-          //         status: matchingApiSession?.GameStatus,
-          //         updatedAt: matchingApiSession?.updatedAt,
-          //         isComplete:
-          //           (!matchingApiSession?.LayPrice1 &&
-          //             !matchingApiSession?.LaySize1 &&
-          //             !matchingApiSession?.BackPrice1 &&
-          //             !matchingApiSession?.BackSize1) ||
-          //           matchingApiSession?.activeStatus !== "live"
-          //             ? true
-          //             : false,
-          //         showSessions: true,
-          //       });
-          //     } else {
-          //       return JSON.stringify({
-          //         ...parsedItem,
-          //         noRate: 0,
-          //         yesRate: 0,
-          //         yesPercent: 0,
-          //         noPercent: 0,
-          //         activeStatus:
-          //           parsedItem.activeStatus === "live"
-          //             ? "save"
-          //             : parsedItem.activeStatus,
-          //         isComplete: true,
-          //         showSessions: true,
-          //       });
-          //     }
-          //   }
-          // ),
         };
       })
       .addCase(updateApiSessionById.fulfilled, (state, action) => {
@@ -697,11 +531,8 @@ const addMatch = createSlice({
         } else if (matchBetType === "tournament") {
           state.matchDetail.teamRates = {
             ...state.matchDetail.teamRates,
-            [betId +
-            "_" +
-            "profitLoss" +
-            "_" +
-            state.matchDetail?.id]: JSON.stringify(teamRate),
+            [betId + "_" + "profitLoss" + "_" + state.matchDetail?.id]:
+              JSON.stringify(teamRate),
           };
         } else
           state.matchDetail.teamRates = {
@@ -790,50 +621,7 @@ const addMatch = createSlice({
             };
           }
         }
-        // const { status, betId } = action?.payload;
-        // const index = state.matchDetail?.quickBookmaker?.findIndex(
-        //   (item: any) => item.type === "quickbookmaker1"
-        // );
-        // if (index !== -1) {
-        //   if (state.matchDetail?.matchType === "cricket") {
-        //     if (betId === state.matchDetail?.quickBookmaker[index]?.id) {
-        //       state.matchDetail = {
-        //         ...state.matchDetail,
-        //         resultStatus: status ? status : null,
-        //       };
-        //     }
-        //   } else {
-        //     if (state.matchDetail?.matchType !== "cricket") {
-        //       state.matchDetail = {
-        //         ...state.matchDetail,
-        //         resultStatus: {
-        //           ...state.matchDetail?.resultStatus,
-        //           [betId]: {
-        //             ...state.matchDetail?.resultStatus?.[betId],
-        //             betId: betId,
-        //             status: status,
-        //           },
-        //         },
-        //       };
-        //     }
-        //   }
-        // } else {
-        //   if (state.matchDetail?.matchType !== "cricket") {
-        //     state.matchDetail = {
-        //       ...state.matchDetail,
-        //       resultStatus: {
-        //         ...state.matchDetail?.resultStatus,
-        //         [betId]: {
-        //           ...state.matchDetail?.resultStatus?.[betId],
-        //           betId: betId,
-        //           status: status,
-        //         },
-        //       },
-        //     };
-        //   }
-        // }
       })
-
       .addCase(handleBetResultStatus.fulfilled, (state, action) => {
         const { betId } = action.payload;
         const resultStatusObj = state.matchDetail?.resultStatus;

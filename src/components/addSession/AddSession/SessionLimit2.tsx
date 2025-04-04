@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-//import { updateMarketRates } from "../../../store/actions/addMatch/addMatchAction";
 import { Box, Typography } from "@mui/material";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -178,7 +177,7 @@ const SessionLimit2 = ({
                 color: "#fff",
                 borderRadius: "8px",
                 padding: "1px 5px",
-                width:"fit-content"
+                width: "fit-content",
               }}
             >
               <Typography

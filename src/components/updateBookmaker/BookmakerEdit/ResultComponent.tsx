@@ -5,7 +5,6 @@ import { CancelDark } from "../../../assets";
 import {
   declareMatchResult,
   declareMatchStatusReset,
-  // declareMatchStatusReset,
   otherDeclareMatchResult,
   otherUnDeclareMatchResult,
   unDeclareMatchResult,
@@ -90,8 +89,6 @@ const ResultComponent = ({
       sx={{
         position: "absolute",
         width: { lg: "20vw", xs: "40vw", md: "20vw", sm: "20vw" },
-        // marginRight: { md: "6em", xs: "4em" },
-        // height: "300px",
         borderRadius: 2,
         boxShadow: "0px 5px 10px #1A568414",
         background: "white",
@@ -188,11 +185,9 @@ const ResultComponent = ({
               })}
             </Box>
           )}
-
           <Box
             sx={{
               width: "100%",
-              // height: "60px",
               paddingY: "10px",
               justifyContent: "space-evenly",
               display: "flex",
@@ -203,10 +198,10 @@ const ResultComponent = ({
           >
             {stopAt ? (
               <MatchOddsResultCustomButton
-                color={"#FF4D4D"}
+                color="#FF4D4D"
                 loading={loading}
                 id="UD"
-                title={"Un Declare"}
+                title="Un Declare"
                 onClick={() => {
                   try {
                     if (loading?.value) {
@@ -247,9 +242,9 @@ const ResultComponent = ({
               <>
                 <MatchOddsResultCustomButton
                   id="DR"
-                  color={"#0B4F26"}
+                  color="#0B4F26"
                   loading={loading}
-                  title={"Declare"}
+                  title="Declare"
                   onClick={() => {
                     try {
                       if (loading?.value) {
@@ -291,9 +286,9 @@ const ResultComponent = ({
                 />
                 <MatchOddsResultCustomButton
                   id="DNR"
-                  color={"#0B4F26"}
+                  color="#0B4F26"
                   loading={loading}
-                  title={"No Result"}
+                  title="No Result"
                   onClick={() => {
                     try {
                       if (loading?.value) {

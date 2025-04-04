@@ -13,7 +13,6 @@ import CustomButton from "../Common/CustomButton";
 
 const CustomTabs = styled(Tabs)({
   "& .MuiTab-root": {
-    // maxWidth: "0.5rem",
     flex: 1,
   },
   "& .Mui-selected": {

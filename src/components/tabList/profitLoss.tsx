@@ -1,15 +1,13 @@
 import { Box, Typography } from "@mui/material";
 import { formatToINR } from "../helper";
 
-const MatchListProfitLoss = (Props: any) => {
-  const {
-    updateMatchStatus,
-    updateMatchStatusLabel,
-    onClick,
-    showUserModal,
-    cursor,
-  } = Props;
-
+const MatchListProfitLoss = ({
+  updateMatchStatus,
+  updateMatchStatusLabel,
+  onClick,
+  showUserModal,
+  cursor,
+}: any) => {
   const [integerPart, decimalPart] = parseFloat(updateMatchStatus || 0.0)
     .toFixed(2)
     .split(".");
@@ -21,7 +19,6 @@ const MatchListProfitLoss = (Props: any) => {
         sx={{
           cursor: cursor,
           height: { xs: "35px", lg: "35px" },
-          // minWidth: { xs: "10%", md: "18%", lg: "12%" },
           marginLeft: { xs: "2px" },
           marginBottom: { xs: "2px" },
           borderRadius: "5px",
@@ -43,7 +40,6 @@ const MatchListProfitLoss = (Props: any) => {
             lineHeight: "1.2",
             color: "#575757",
             marginLeft: "1vw",
-            // overflow: "hidden",
             display: "-webkit-box",
             WebkitLineClamp: 2,
             WebkitBoxOrient: "vertical",

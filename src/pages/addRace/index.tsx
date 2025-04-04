@@ -1,5 +1,4 @@
 import { Box, Button, Typography } from "@mui/material";
-// import { makeStyles } from "@mui/styles";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
@@ -85,7 +84,6 @@ const AddRace = () => {
 
   const { editSuccess } = useSelector((state: RootState) => state.matchList);
   const formik = useFormik({
-    // validationSchema: addMatchValidation(manualMatchToggle, selected.gameType,extraMarketList),
     initialValues: initialFormikValues,
     onSubmit: (value: any) => {
       if (!selected.gameType) {

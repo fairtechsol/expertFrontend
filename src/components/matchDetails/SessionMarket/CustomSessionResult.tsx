@@ -1,14 +1,14 @@
-import { useEffect, useState } from "react";
-import { CancelDark } from "../../../assets";
 import { Box, Button, TextField, Typography } from "@mui/material";
-import SessionResultCustomButton from "../../addSession/AddSession/SessionResultCustomButton";
-import { AppDispatch, RootState } from "../../../store/store";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { CancelDark } from "../../../assets";
 import {
   noResultDeclare,
   resultDeclare,
   undeclareResult,
 } from "../../../store/actions/match/matchAction";
+import { AppDispatch, RootState } from "../../../store/store";
+import SessionResultCustomButton from "../../addSession/AddSession/SessionResultCustomButton";
 
 const CustomSessionResult = ({ onClick, newData }: any) => {
   const dispatch: AppDispatch = useDispatch();

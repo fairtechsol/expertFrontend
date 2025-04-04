@@ -1,21 +1,21 @@
 import { Box, Pagination } from "@mui/material";
 import { useEffect, useState } from "react";
-import "./style.css";
 import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../../store/store";
-import {
-  getMatchList,
-  getTabList,
-  matchListReset,
-} from "../../store/actions/match/matchAction";
+import TabListTableHeader from "../../components/matchList/tabListTableHeader";
+import TabListHeader from "../../components/tabList/tabListHeader";
+import TabListTable from "../../components/tabList/tabListTable";
 import {
   expertSocketService,
   socket,
   socketService,
 } from "../../socketManager";
-import TabListHeader from "../../components/tabList/tabListHeader";
-import TabListTable from "../../components/tabList/tabListTable";
-import TabListTableHeader from "../../components/matchList/tabListTableHeader";
+import {
+  getMatchList,
+  getTabList,
+  matchListReset,
+} from "../../store/actions/match/matchAction";
+import { AppDispatch, RootState } from "../../store/store";
+import "./style.css";
 
 const TabList = ({}) => {
   const dispatch: AppDispatch = useDispatch();
@@ -110,13 +110,13 @@ const TabList = ({}) => {
             borderRadius: "0px 0px 10px 10px",
             color: "white",
             "& .MuiPaginationItem-page": {
-              color: "white", // Change the text color for other pages
+              color: "white",
             },
             "& .MuiPaginationItem-ellipsis": {
-              color: "white", // Change the text color for ellipsis (...) items
+              color: "white",
             },
             "& .MuiPaginationItem-next": {
-              color: "white", // Change the text color for the "Next" button
+              color: "white",
             },
           }}
           page={currentPage}

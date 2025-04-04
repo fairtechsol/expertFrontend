@@ -91,7 +91,6 @@ const AddMatch = () => {
 
   const { editSuccess } = useSelector((state: RootState) => state.matchList);
   const formik = useFormik({
-    // validationSchema: addMatchValidation(manualMatchToggle, selected.gameType,extraMarketList),
     initialValues: initialFormikValues,
     onSubmit: (value: any) => {
       if (!eventWiseMatchData[selected.gameType]) {

@@ -1,22 +1,21 @@
-import { Box, Tab, Tabs, Typography, styled } from "@mui/material";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../../store/store";
+import { Badge, Box, Tab, Tabs, Typography, styled } from "@mui/material";
+import {
+  DatePicker,
+  LocalizationProvider,
+  PickersDay,
+} from "@mui/x-date-pickers";
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+import moment from "moment";
 import { useEffect, useState } from "react";
+import { GoDotFill } from "react-icons/go";
+import { useDispatch, useSelector } from "react-redux";
 import {
   getCountryCode,
   getRaceList,
   resetContryCodeList,
   resetRaceList,
 } from "../../store/actions/match/matchAction";
-import moment from "moment";
-import {
-  LocalizationProvider,
-  PickersDay,
-  DatePicker,
-} from "@mui/x-date-pickers";
-import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
-import { Badge } from "@mui/material";
-import { GoDotFill } from "react-icons/go";
+import { AppDispatch, RootState } from "../../store/store";
 
 interface MatchListHeader {
   value: string | any;
@@ -295,47 +294,6 @@ const MatchListHeader = ({ value }: MatchListHeader) => {
             }}
           />
         </LocalizationProvider>
-        {/* <Box
-          sx={{
-            display: "flex",
-            gap: "10px",
-            flexDirection: "row",
-            alignItems: "center",
-          }}
-        >
-          <Select
-            value={dated}
-            onChange={handleChangeDate}
-            inputProps={{ "aria-label": "Without label" }}
-            sx={{ backgroundColor: "#fff", height: "40px" }}
-            MenuProps={{
-              PaperProps: {
-                style: {
-                  maxHeight: 200,
-                  overflowY: "auto",
-                },
-                sx: {
-                  "&::-webkit-scrollbar": {
-                    width: "0",
-                  },
-                  "&::-webkit-scrollbar-track": {
-                    background: "transparent",
-                  },
-                  "&::-webkit-scrollbar-thumb": {
-                    backgroundColor: "transparent",
-                  },
-                },
-              },
-            }}
-          >
-            {dateList &&
-              dateList.map((item: any, index: any) => (
-                <MenuItem key={index} value={item?.date}>
-                  {moment(item?.date).format("DD/MM/YYYY")}
-                </MenuItem>
-              ))}
-          </Select>
-        </Box> */}
       </Box>
     </>
   );

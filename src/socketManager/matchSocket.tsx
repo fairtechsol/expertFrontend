@@ -5,12 +5,6 @@ export const matchSocketService = {
     socket?.emit("matchRoom", {
       id: matchId,
     });
-
-   
-    // matchSocket.emit("initCricketData", {
-    //   matchId: matchId,
-    //   roleName: roleName,
-    // });
   },
   leaveMatchRoom: (matchId: any) => {
     matchSocket?.emit("disconnectCricketData", {

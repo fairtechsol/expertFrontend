@@ -1,10 +1,9 @@
 import { Box, Typography } from "@mui/material";
 import StyledImage from "../../../components/Common/StyledImages";
-// import ArrowDown from "../../../assets/arrowDownBlack.svg";
-import { ArrowDown } from "../../../assets/index";
 import { useEffect, useState } from "react";
-import HeaderDropdown from "./HeaderDropdown";
 import { useNavigate } from "react-router-dom";
+import { ArrowDown } from "../../../assets/index";
+import HeaderDropdown from "./HeaderDropdown";
 
 const BoxProfile = (props: any) => {
   const { image, value, containerStyle, value1 } = props;
@@ -71,7 +70,12 @@ const BoxProfile = (props: any) => {
           </Box>
           <StyledImage
             src={ArrowDown}
-            sx={{ height: "6px", width: "10px", marginRight: "5px", marginLeft: "6px" }}
+            sx={{
+              height: "6px",
+              width: "10px",
+              marginRight: "5px",
+              marginLeft: "6px",
+            }}
           />
         </Box>
       </Box>

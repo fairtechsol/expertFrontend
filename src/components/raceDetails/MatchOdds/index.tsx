@@ -1,17 +1,17 @@
-import { useEffect, useState } from "react";
 import { Box, Typography } from "@mui/material";
-import Result from "../Result";
-import SmallBox from "../SmallBox";
+import ModalMUI from "@mui/material/Modal";
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import { ARROWUP, edit } from "../../../assets";
-import ResultComponent from "../ResultComponent";
-import Divider from "../../Common/Divider";
-import BoxComponent from "./BoxComponent";
 import { raceLiveStatus } from "../../../store/actions/match/matchAction";
 import { AppDispatch } from "../../../store/store";
-import { useDispatch } from "react-redux";
+import Divider from "../../Common/Divider";
 import { formatToINR } from "../../helper";
-import ModalMUI from "@mui/material/Modal";
 import MaxBetEdit from "../MaxBetEditBox";
+import Result from "../Result";
+import ResultComponent from "../ResultComponent";
+import SmallBox from "../SmallBox";
+import BoxComponent from "./BoxComponent";
 
 const MatchOdds = ({ currentMatch, matchOddsLive }: any) => {
   const [visible, setVisible] = useState(false);
@@ -117,12 +117,11 @@ const MatchOdds = ({ currentMatch, matchOddsLive }: any) => {
                       );
                       setLive(!live);
                     }}
-                    // width={{lg: "80px", xs: "40px"}}
                     title={live ? "Live" : "Go Live"}
                     color={live ? "#46e080" : "#FF4D4D"}
                     customStyle={{
                       justifyContent: "center",
-                      textAlign: "center"
+                      textAlign: "center",
                     }}
                   />
                 </>
@@ -148,8 +147,8 @@ const MatchOdds = ({ currentMatch, matchOddsLive }: any) => {
           sx={{
             position: "absolute",
             zIndex: 999,
-            top: { lg:currentMatch?.stopAt?"10%":"6%", xs: "6%" },
-            right: { lg:currentMatch?.stopAt?"-20%": "60px", xs: "10px" },
+            top: { lg: currentMatch?.stopAt ? "10%" : "6%", xs: "6%" },
+            right: { lg: currentMatch?.stopAt ? "-20%" : "60px", xs: "10px" },
             width: { lg: "50vh", xs: "30vh" },
           }}
         >
@@ -170,48 +169,11 @@ const MatchOdds = ({ currentMatch, matchOddsLive }: any) => {
           sx={{
             flex: 1,
             background: "#262626",
-            // '#262626' ,
             display: "flex",
             alignItems: "center",
             justifyContent: "flex-end",
           }}
-        >
-          {/* {!currentMatch?.bookMakerRateLive ? (
-            <>
-              <SmallBox
-                onClick={() => {
-                dispatch(betLiveStatus({
-                isStop: live,
-                betId: currentMatch?.matchOdd?.id
-                }));
-                setLive(!live)
-              }}
-                width={"80px"}
-                title={live ? "Live" : "Go Live"}
-                color={live ? "#46e080" : "#FF4D4D"}
-                customStyle={{
-                  justifyContent: "center",
-                }}
-              />
-            </>
-          ) : (
-            <SmallBox
-              onClick={() => {
-              socket.emit("bookMakerRateLive", {
-              matchId: currentMatch?.id,
-              bookMakerLive: false,
-              });
-              // setLive(false);
-              }}
-              width={"80px"}
-              title={"Live"}
-              customStyle={{
-                justifyContent: "center",
-              }}
-            />
-          )} */}
-        </Box>
-
+        />
         {visibleImg && (
           <>
             <Box
@@ -306,7 +268,7 @@ const MatchOdds = ({ currentMatch, matchOddsLive }: any) => {
                 </Box>
               </Box>
             </Box>
-            
+
             <Box
               sx={{
                 width: "100%",

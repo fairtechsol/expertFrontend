@@ -1,28 +1,19 @@
 import { Box, Typography } from "@mui/material";
-import { useState, memo } from "react";
+import { memo, useState } from "react";
 import { ARROWUP } from "../../../assets";
-import Divider from "../../Common/Divider";
-// import Stop from "./Stop";
-import SessionMarketBox from "./SessionMarketBox";
-// import { sessionBetLiveStatus } from "../../../store/actions/match/matchAction";
-// import { AppDispatch } from "../../../store/store";
-// import { useDispatch } from "react-redux";
 import { customSortUpdated } from "../../../helpers";
-// import { formatToINR } from "../../helper";
+import Divider from "../../Common/Divider";
+import SessionMarketBox from "./SessionMarketBox";
 
 const SessionMarket2 = ({
-  // currentMatch,
   hideResult,
-  // stopAllHide,
   title,
   hideTotalBet,
   sessionData,
   profitLossData,
   hideEditMaxButton,
   cstmStyle,
-}: // maxHeight,
-any) => {
-  // const dispatch: AppDispatch = useDispatch();
+}: any) => {
   const [visible, setVisible] = useState(true);
   return (
     <Box
@@ -70,28 +61,14 @@ any) => {
           >
             {title}
           </Typography>
-          {/* {!stopAllHide && (
-            <Stop
-              onClick={() => {
-                dispatch(
-                  sessionBetLiveStatus({
-                    status: "save",
-                    matchId: currentMatch?.id,
-                    stopAllSessions: true,
-                  })
-                );
-              }}
-            />
-          )} */}
         </Box>
         <Box
           sx={{
             flex: 0.1,
             background: "#262626",
-            // '#262626'
           }}
         >
-          <div className="slanted"></div>
+          <div className="slanted" />
         </Box>
         <Box
           sx={{
@@ -135,13 +112,9 @@ any) => {
                 flexDirection: "column",
                 width: "100%",
                 position: "relative",
-                // maxHeight: { lg: maxHeight ? maxHeight : "30vh", xs: "40vh" },
-                // overflowY: "auto",
                 "::-webkit-scrollbar": {
                   display: "none",
                 },
-                // maxHeight: "300px",
-                // overflowY: "scroll",
               },
               cstmStyle,
             ]}

@@ -5,7 +5,6 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import SessionInputFields from "../../components/addSession/AddSession/SessionAddComponent";
 import BetsList from "../../components/addSession/BetList";
 import SessionResult from "../../components/addSession/SessionResult/SessionResult";
-import DailogModal from "../../components/helper/DailogModal";
 import { socket, socketService } from "../../socketManager";
 import { getMatchDetail } from "../../store/actions/addMatch/addMatchAction";
 import {
@@ -160,7 +159,6 @@ const AddSession = () => {
           </Paper>
         </Grid>
       </Grid>
-      <DailogModal />
     </Box>
   );
 };

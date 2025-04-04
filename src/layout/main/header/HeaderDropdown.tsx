@@ -1,4 +1,3 @@
-import { useState } from "react";
 import {
   Box,
   CircularProgress,
@@ -6,14 +5,12 @@ import {
   MenuItem,
   Typography,
 } from "@mui/material";
-import { logout } from "../../../store/actions/auth/authAction";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { logout } from "../../../store/actions/auth/authAction";
 import { AppDispatch, RootState } from "../../../store/store";
 
 const menutItems = [
-  // { title: "Bet Odds", navigateTo: "betodds" },
-  // { title: "Market", navigateTo: "add_book_maker" },
-  // { title: "Add Book Maker", navigateTo: "add_book_maker" },
   {
     id: 1,
     title: "Add Match",

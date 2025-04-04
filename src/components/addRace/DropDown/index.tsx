@@ -38,7 +38,7 @@ const RaceDropDown = ({
   useEffect(() => {
     setValue(valued);
   }, [selected]);
-  
+
   return (
     <Box sx={[{ width: "19%" }, containerStyle]}>
       <Typography

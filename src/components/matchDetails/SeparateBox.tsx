@@ -21,7 +21,7 @@ const SeparateBox = ({
       <Popover
         isOpen={isPopoverOpen}
         align={matchesMobile ? "end" : "center"}
-        positions={["bottom"]} // preferred positions by priority
+        positions={["bottom"]}
         onClickOutside={() => setIsPopoverOpen(false)}
         content={<div></div>}
       >
@@ -31,7 +31,6 @@ const SeparateBox = ({
               return null;
             }
             setIsPopoverOpen(!isPopoverOpen);
-            // dispatch(setColorValue(color));
           }}
           sx={{
             background:
@@ -40,7 +39,6 @@ const SeparateBox = ({
                 : color,
             border:
               color != "white" ? "1px solid #2626264D" : "0px solid white",
-            // width: { xs: mWidth ? mWidth : "25%", lg: width ? width : "45%" },
             width: {
               xs: mWidth ? mWidth : "45.5%",
               lg: width ? width : "45.5%",
@@ -76,7 +74,9 @@ const SeparateBox = ({
                 >
                   {value2}
                 </Typography>
-              ):""}
+              ) : (
+                ""
+              )}
             </Box>
           )}
           {[0, "0", undefined, null].includes(value) && (

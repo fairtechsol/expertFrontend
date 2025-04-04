@@ -38,7 +38,9 @@ const CasinoMarketBox = ({ newData, index }: any) => {
           </Typography>
         </Box>
 
-        {!["ACTIVE", "", undefined, null, "active", "open"].includes(newData?.gstatus?.toLowerCase()) ? (
+        {!["ACTIVE", "", undefined, null, "active", "open"].includes(
+          newData?.gstatus?.toLowerCase()
+        ) ? (
           <Box
             sx={{
               margin: "1px",
@@ -88,23 +90,6 @@ const CasinoMarketBox = ({ newData, index }: any) => {
               lock={newData?.gstatus === "Suspended"}
               color="#B3E0FF"
             />
-
-            {/* {
-              <PlaceBetComponent
-                width={7}
-                profitLossData={
-                  matchDetail?.sessionProfitLoss &&
-                  matchDetail?.sessionProfitLoss[
-                    matchDetail?.updatedSesssionBettings?.cricketCasino
-                      ?.section?.[0]?.id
-                  ]
-                }
-                newData={
-                  matchDetail?.updatedSesssionBettings?.cricketCasino
-                    ?.section?.[0]?.id
-                }
-              />
-            } */}
           </Box>
         )}
       </Box>

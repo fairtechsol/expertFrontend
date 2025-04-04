@@ -8,16 +8,13 @@ export const customSort = (a: any, b: any) => {
   if (statusComparison !== 0) {
     return statusComparison;
   } else {
-    // If activeStatus is the same, compare by updatedAt
     const aUpdatedAt = JSON.parse(a)?.updatedAt;
     const bUpdatedAt = JSON.parse(b)?.updatedAt;
 
-    // Convert string dates to actual Date objects for comparison
     const aDate = new Date(aUpdatedAt);
     const bDate = new Date(bUpdatedAt);
 
-    // Compare updatedAt values
-    return bDate.getTime() - aDate.getTime(); // Sort in descending order of updatedAt
+    return bDate.getTime() - aDate.getTime();
   }
 };
 
@@ -47,16 +44,13 @@ export const customSortUpdated = (a: any, b: any) => {
 };
 
 export const customBetSort = (a: any, b: any) => {
-  // If activeStatus is the same, compare by updatedAt
   const aUpdatedAt = a?.createdAt;
   const bUpdatedAt = b?.createdAt;
 
-  // Convert string dates to actual Date objects for comparison
   const aDate = new Date(aUpdatedAt);
   const bDate = new Date(bUpdatedAt);
 
-  // Compare updatedAt values
-  return bDate.getTime() - aDate.getTime(); // Sort in descending order of updatedAt
+  return bDate.getTime() - aDate.getTime();
 };
 
 export const formatToINR = (amount: any) => {
@@ -194,7 +188,7 @@ export const stripUrl = (url: any) => {
 
   const parts = url?.split(".");
 
-  url = parts?.[parts.length-2]
+  url = parts?.[parts.length - 2];
   // if (parts?.length > 2) {
   //   parts?.pop();
   //   url = parts?.join(".");

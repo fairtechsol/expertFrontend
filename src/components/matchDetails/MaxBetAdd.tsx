@@ -62,14 +62,11 @@ const MaxBetAdd = ({
   const handleChange = (e: any) => {
     try {
       const { name, value } = e.target;
-      // Remove commas from the input value for raw numeric processing
       const rawValue = value.replace(/,/g, "");
-
-      // Update state only if it's a valid number
       if (/^\d*$/.test(rawValue)) {
         setSelected((prev: any) => ({
           ...prev,
-          [name]: rawValue, // Store the raw number
+          [name]: rawValue,
         }));
       }
     } catch (error) {

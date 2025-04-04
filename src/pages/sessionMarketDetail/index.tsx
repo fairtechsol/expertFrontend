@@ -129,7 +129,6 @@ const SessionMarketDetail = () => {
     try {
       if (state?.id === event?.matchId) {
         dispatch(updateApiSessionById(event));
-        // dispatch(getPlacedBetsForSessionDetail(state?.id));
         if (event?.activeStatus === "result") {
           dispatch(
             removeSessionProLoss({

@@ -7,7 +7,7 @@ const Result = ({ invert, onClick }: any) => {
         sx={{
           width: { lg: "36px", xs: "80%" },
           display: "flex",
-          marginRight: {lg:"5px", xs: "0"},
+          marginRight: { lg: "5px", xs: "0" },
           justifyContent: "center",
           paddingX: 1,
           alignItems: "center",

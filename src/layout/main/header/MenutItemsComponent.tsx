@@ -199,7 +199,7 @@ const MenutItemsComponent = ({
                         marginTop: "5px",
                         display: "flex",
                         alignItems: "center",
-                        cursor:"pointer"
+                        cursor: "pointer",
                       }}
                     >
                       <Typography sx={{ fontSize: "12px", fontWeight: "600" }}>

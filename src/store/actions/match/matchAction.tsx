@@ -37,8 +37,6 @@ export const getMatchList = createAsyncThunk<any, any>(
   }
 );
 
-
-
 export const getSessionProfitLossAfterDeclare = createAsyncThunk<any, any>(
   "/session/profitLoss/declare",
   async (requestData, thunkApi) => {
@@ -72,7 +70,6 @@ export const getSessionProfitLossBets = createAsyncThunk<any, any>(
     }
   }
 );
-
 
 export const getTabList = createAsyncThunk<any, any>(
   "/tab/list",
@@ -193,9 +190,7 @@ export const getPlacedBetsMatch = createAsyncThunk<any, any>(
       //   ])}&sort=betPlaced.createdAt:DESC`
       // );
       const response = await service.get(
-        `${
-          ApiConstants.MATCH.GET_BETS
-        }?betPlaced.matchId=${requestData}&sort=betPlaced.createdAt:DESC`
+        `${ApiConstants.MATCH.GET_BETS}?betPlaced.matchId=${requestData}&sort=betPlaced.createdAt:DESC`
       );
       if (response?.data) {
         return response?.data;
@@ -209,14 +204,14 @@ export const getPlacedBetsMatch = createAsyncThunk<any, any>(
 
 export const removeBetByBetId = createAsyncThunk<any, any>(
   "removePlacedBets/match",
-  async (betId ) => {
+  async (betId) => {
     return betId;
   }
 );
 
 export const addStatusBetByBetId = createAsyncThunk<any, any>(
   "addStatusPlacedBets/match",
-  async (betId ) => {
+  async (betId) => {
     return betId;
   }
 );
@@ -252,9 +247,7 @@ export const getPlacedBetsForSessionDetail = createAsyncThunk<any, any>(
   async (requestData, thunkApi) => {
     try {
       const response = await service.get(
-        `${
-          ApiConstants.MATCH.GET_BETS
-        }?betPlaced.matchId=${requestData}&marketBetType=eqSESSION`
+        `${ApiConstants.MATCH.GET_BETS}?betPlaced.matchId=${requestData}&marketBetType=eqSESSION`
       );
       if (response?.data) {
         return response?.data;

@@ -1,15 +1,13 @@
 import { Box, Typography } from "@mui/material";
 import { formatToINR } from "../helper";
 
-const MatchListProfitLoss = (Props: any) => {
-  const {
-    updateMatchStatus,
-    updateMatchStatusLabel,
-    onClick,
-    showUserModal,
-    cursor,
-  } = Props;
-
+const MatchListProfitLoss = ({
+  updateMatchStatus,
+  updateMatchStatusLabel,
+  onClick,
+  showUserModal,
+  cursor,
+}: any) => {
   const [integerPart, decimalPart] = parseFloat(updateMatchStatus || 0.0)
     .toFixed(2)
     .split(".");

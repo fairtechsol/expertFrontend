@@ -1,6 +1,6 @@
 import { Box } from "@mui/material";
-import SmallBox from "./SmallBox";
 import LargeBox from "./LargeBox";
+import SmallBox from "./SmallBox";
 
 const Row = ({ values }: any) => {
   return (

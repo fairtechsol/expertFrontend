@@ -8,8 +8,12 @@ import { AppDispatch } from "../../store/store";
 import StyledImage from "../Common/StyledImages";
 import { formatToINR } from "../helper";
 
-const SessionResultComponent = (props: any) => {
-  const { setShowPopup, sessionResults, setShowSessionPopup, setBetId } = props;
+const SessionResultComponent = ({
+  setShowPopup,
+  sessionResults,
+  setShowSessionPopup,
+  setBetId,
+}: any) => {
   const dispatch: AppDispatch = useDispatch();
 
   return (
@@ -113,22 +117,6 @@ const SessionResultComponent = (props: any) => {
                 RESULT
               </Typography>
             </Box>
-            {/* <Box
-                sx={{
-                  background: "#303030",
-                  width: "20%",
-                  borderLeft: "2px solid white",
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
-                <Typography
-                  sx={{ color: "white", fontWeight: "600", fontSize: "12px" }}
-                >
-                  COMMISSION
-                </Typography>
-              </Box> */}
             <Box
               sx={{
                 background: "#303030",
@@ -199,21 +187,6 @@ const SessionResultComponent = (props: any) => {
                       {item?.result}
                     </Typography>
                   </Box>
-                  {/* <Box
-                      sx={{
-                        background: "#ECECEC",
-                        width: "20%",
-                        display: "flex",
-                        height: "30px",
-                        borderLeft: "2px solid white",
-                        justifyContent: "center",
-                        alignItems: "center",
-                      }}
-                    >
-                      <Typography sx={{ fontWeight: "600", fontSize: "14px" }}>
-                        {item?.commission ?? "NaN"}
-                      </Typography>
-                    </Box> */}
                   <Box
                     sx={{
                       background: +profitLoss > 0 ? "#10DC61" : "#FF4D4D",

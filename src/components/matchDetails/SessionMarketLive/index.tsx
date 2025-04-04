@@ -5,6 +5,7 @@ import { formatToINR } from "../../helper";
 import SessionMarketBoxLive from "./SessionMarketBoxLive";
 
 const SessionMarketLive = ({ title, sessionData, currentMatch, type }: any) => {
+  
   const [matchSessionData, setMatchSessionData] = useState(sessionData);
   useEffect(() => {
     setMatchSessionData(

@@ -53,9 +53,7 @@ export const updateLocalQuickBookmaker = (
   });
 
   setLocalQuickBookmaker((prev: any) => {
-    if (
-      prev.teams?.find((item: any) => !item.suspended)
-    ) {
+    if (prev.teams?.find((item: any) => !item.suspended)) {
       let data = {
         matchId: match?.id,
         id: Bid,
@@ -92,8 +90,7 @@ export const updateNewLocalQuickBookmaker = (
             rightBack: +back,
             rightLay: +lay,
           };
-        }
-        else {
+        } else {
           return {
             ...item,
             back: Number(rates[lay] ?? 0),
@@ -109,9 +106,7 @@ export const updateNewLocalQuickBookmaker = (
   });
 
   setLocalQuickBookmaker((prev: any) => {
-    if (
-      prev.teams?.find((item: any) => !item.suspended)
-    ) {
+    if (prev.teams?.find((item: any) => !item.suspended)) {
       let data = {
         matchId: match?.id,
         id: Bid,

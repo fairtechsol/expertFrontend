@@ -1,4 +1,8 @@
-import { Box, Typography } from "@mui/material";
+import { Box, TextField, Typography } from "@mui/material";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogTitle from "@mui/material/DialogTitle";
 import moment from "moment";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -12,11 +16,6 @@ import { AppDispatch, RootState } from "../../store/store";
 import CustomButton from "../Common/CustomButton";
 import StyledImage from "../Common/StyledImages";
 import { IconConstants } from "../helper/gameConstants";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogTitle from "@mui/material/DialogTitle";
-import { TextField } from "@mui/material";
 const TabListTable = (props: any) => {
   const { data, index, currentPage } = props;
   const dispatch: AppDispatch = useDispatch();
@@ -148,7 +147,6 @@ const TabListTable = (props: any) => {
                 lg: "row",
               },
               order: { xs: "1", sm: "2", md: "3" },
-              // py: { xs: 1, sm: 0 },
               alignItems: "center",
             }}
           >
@@ -239,10 +237,6 @@ const TabListTable = (props: any) => {
               onChange={(e: any) => {
                 setSelected(e.target.value);
               }}
-              // style={{
-              //   width: "80%",
-              //   height: "50px",
-              // }}
             />
           </div>
         </DialogContent>
@@ -253,7 +247,6 @@ const TabListTable = (props: any) => {
         >
           <button
             style={{
-              // width: "25%",
               height: "40px",
               color: "#fff",
               backgroundColor: "#004A25",
@@ -269,10 +262,8 @@ const TabListTable = (props: any) => {
           >
             Submit
           </button>
-
           <button
             style={{
-              // width: "25%",
               height: "40px",
               color: "#fff",
               backgroundColor: "#004A25",

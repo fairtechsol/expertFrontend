@@ -1,6 +1,5 @@
 import {
   Box,
-  // CircularProgress,
   Typography,
   useMediaQuery,
   useTheme,
@@ -22,7 +21,6 @@ interface Props {
 const CustomButton = ({
   title,
   onClick,
-  // loading,
   bgColor,
   style,
   containerStyle,
@@ -41,7 +39,7 @@ const CustomButton = ({
     const [integerPart, decimalPart] = formattedValue.split(".");
     const formattedDecimalPart = decimalPart
       ? decimalPart.padEnd(2, "0").slice(0, 2)
-      : "00"; // Ensure exactly 2 digits after the decimal point
+      : "00";
     return { integerPart, decimalPart: formattedDecimalPart };
   };
   const { integerPart, decimalPart } = formatValue(profitLoss);
@@ -53,10 +51,8 @@ const CustomButton = ({
         {
           cursor: "pointer",
           height: "35px",
-          //minWidth: "80px",
           minWidth: { lg: "90px", md: "80px", sm: 0, xs: 0 },
           padding: { xs: "6px", sm: "6px", md: 0, lg: 0 },
-          // marginLeft: "10px",
           borderRadius: "5px",
           background: bgColor ? bgColor : "#0B4F26",
           display: "flex",

@@ -5,7 +5,6 @@ const BookButton = ({ rate }: any) => {
     <Box
       sx={{
         width: { lg: "40%", xs: "50px", md: "40%" },
-        // position: "absolute",
         marginRight: "5px",
         flexDirection: "column",
         paddingX: "5px",

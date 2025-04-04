@@ -1,11 +1,11 @@
 import { createAction, createAsyncThunk } from "@reduxjs/toolkit";
 import { AxiosError } from "axios";
-import service from "../../../service";
-import { ApiConstants } from "../../../utils/Constants";
 import {
   CheckOldPasswordInterface,
   LoginInterface,
 } from "../../../interface/authInterface";
+import service from "../../../service";
+import { ApiConstants } from "../../../utils/Constants";
 
 export const login = createAsyncThunk<any, LoginInterface>(
   "auth/login",

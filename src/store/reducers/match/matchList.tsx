@@ -67,8 +67,8 @@ interface InitialState {
   raceList: any;
   raceDetail: any;
   selectedTab: number;
-  sessionPL:any;
-  sessionPLBets:any;
+  sessionPL: any;
+  sessionPLBets: any;
 }
 
 const initialState: InitialState = {
@@ -91,8 +91,8 @@ const initialState: InitialState = {
   raceList: [],
   raceDetail: null,
   selectedTab: 0,
-  sessionPL:null,
-  sessionPLBets:null
+  sessionPL: null,
+  sessionPLBets: null,
 };
 
 const matchList = createSlice({
@@ -273,7 +273,11 @@ const matchList = createSlice({
       .addCase(updateBetVerify.fulfilled, (state, action) => {
         state.placedBetsMatch = state.placedBetsMatch?.map((item: any) =>
           item.id === action?.payload.id
-            ? { ...item, isVerified: action.payload.isVerified, verifyBy: action.payload.verifyBy }
+            ? {
+                ...item,
+                isVerified: action.payload.isVerified,
+                verifyBy: action.payload.verifyBy,
+              }
             : item
         );
       })
@@ -318,11 +322,8 @@ const matchList = createSlice({
         state.error = action?.error?.message;
       })
       .addCase(updateMatchBetsReason.fulfilled, (state, action) => {
-        const {
-          betPlacedId,
-          deleteReason,
-          isPermanentDelete,
-        } = action?.payload;
+        const { betPlacedId, deleteReason, isPermanentDelete } =
+          action?.payload;
         const updateDeleteReason = (bet: any) => {
           if (betPlacedId?.includes(bet?.id)) {
             bet.deleteReason = deleteReason;
@@ -335,15 +336,13 @@ const matchList = createSlice({
           );
           state.placedBetsMatch = Array.from(new Set(updatedBetPlaced));
         } else {
-          const updatedBetPlaced = state?.placedBetsMatch?.map(
-            updateDeleteReason
-          );
+          const updatedBetPlaced =
+            state?.placedBetsMatch?.map(updateDeleteReason);
 
           state.placedBetsMatch = Array.from(new Set(updatedBetPlaced));
         }
-        const updatedBetPlaced = state?.placedBetsMatch?.map(
-          updateDeleteReason
-        );
+        const updatedBetPlaced =
+          state?.placedBetsMatch?.map(updateDeleteReason);
 
         state.placedBetsMatch = Array.from(new Set(updatedBetPlaced));
       })
@@ -357,9 +356,8 @@ const matchList = createSlice({
           return bet;
         };
 
-        const updatedBetPlaced = state?.placedBetsMatch?.map(
-          updateDeleteReason
-        );
+        const updatedBetPlaced =
+          state?.placedBetsMatch?.map(updateDeleteReason);
 
         state.placedBetsMatch = Array.from(new Set(updatedBetPlaced));
       })

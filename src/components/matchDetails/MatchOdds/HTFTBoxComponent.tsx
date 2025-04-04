@@ -1,7 +1,7 @@
 import { Box, Typography } from "@mui/material";
 import { memo } from "react";
-import SeparateBox from "../SeparateBox";
 import { formatNumber } from "../../helper";
+import SeparateBox from "../SeparateBox";
 import MoneyBox from "./MoneyBox";
 
 const BoxComponent = ({

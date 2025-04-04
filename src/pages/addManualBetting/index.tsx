@@ -477,7 +477,8 @@ const AddManualMarket = () => {
                                 ...values.runners,
                                 {
                                   ...matchBettingRunner,
-                                  selectionId: values.runners?.length?.toString(),
+                                  selectionId:
+                                    values.runners?.length?.toString(),
                                   sortPriority: values.runners?.length,
                                 },
                               ],

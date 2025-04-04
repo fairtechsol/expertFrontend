@@ -1,11 +1,8 @@
 import { Box, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
-// import { useDispatch } from "react-redux";
-// import { updateMatchActiveStatus } from "../../store/actions/match/matchAction";
-// import { AppDispatch } from "../../store/store";
-import { MaterialUISwitch } from "../matchList/materialUiSwitch";
 import service from "../../service";
 import { ApiConstants } from "../../utils/Constants";
+import { MaterialUISwitch } from "../matchList/materialUiSwitch";
 
 const BoxButtonWithSwitch = (props: any) => {
   const {
@@ -20,7 +17,6 @@ const BoxButtonWithSwitch = (props: any) => {
     isManualBet,
     matchBettingType,
   } = props;
-  // const dispatch: AppDispatch = useDispatch();
   const [background, setBackground] = useState<string>("#0B4F26");
   const value = updateMatchStatus[place]?.val;
   const [checked, setChecked] = useState<boolean>(value || false);
@@ -33,10 +29,6 @@ const BoxButtonWithSwitch = (props: any) => {
     }
   }, [checked]);
 
-  // useEffect(() => {
-  // setChecked(value);
-  // }, [value]);
-
   return (
     <Box
       sx={[
@@ -48,7 +40,6 @@ const BoxButtonWithSwitch = (props: any) => {
           marginLeft: "10px",
           borderRadius: "5px",
           margin: "10px",
-          border: undefined,
           background: background,
           display: "flex",
           justifyContent: "space-between",
@@ -89,7 +80,6 @@ const BoxButtonWithSwitch = (props: any) => {
                   isActive: !checked,
                   isManualBet: isManualBet,
                 };
-                // dispatch(updateMatchActiveStatus(payload));
                 const resp: any = await service.post(
                   ApiConstants.MATCH.UPDATEACTIVESTATUS,
                   payload

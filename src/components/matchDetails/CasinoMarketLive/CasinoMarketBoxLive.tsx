@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
 import { Box, Typography } from "@mui/material";
-import SeparateBox from "../SeparateBox";
+import { useEffect, useState } from "react";
 import { formatNumber } from "../../helper";
+import SeparateBox from "../SeparateBox";
 
 const CasinoMarketBoxLive = ({ newData, index }: any) => {
   const [live, setLive] = useState<any>(newData?.ActiveStatus ? true : false);

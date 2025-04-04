@@ -47,7 +47,6 @@ service.interceptors.request.use(
 
 service.interceptors.response.use(
   (response) => {
-
     const isGetRequest = response.config.method === "get";
 
     const requestUrl = response.config.url;

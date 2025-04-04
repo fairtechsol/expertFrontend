@@ -8,8 +8,8 @@ import {
   updateSession,
 } from "../../../store/actions/addSession";
 import { AppDispatch, RootState } from "../../../store/store";
-import { MaterialUISwitch } from "../../tabList/materialUiSwitch";
 import { formatToINR } from "../../helper";
+import { MaterialUISwitch } from "../../tabList/materialUiSwitch";
 
 const SessionLimitEdit = (props: any) => {
   const { newData, visible, onClickCancel } = props;
@@ -202,7 +202,6 @@ const SessionLimitEdit = (props: any) => {
           placeholder="API Session Exposure Limit"
           variant="standard"
           type="text"
-          // value={selected}
           value={exposureLimit ? formatToINR(exposureLimit) : ""}
           id="exposure"
           name="exposure"
@@ -211,13 +210,11 @@ const SessionLimitEdit = (props: any) => {
             pattern: "[0-9]*",
           }}
           onChange={(e) => {
-            const inputValue = e.target.value.replace(/,/g, ""); // Remove commas for raw value
+            const inputValue = e.target.value.replace(/,/g, "");
             if (/^\d*$/.test(inputValue)) {
-              setExposureLimit(inputValue); // Store raw value without commas
+              setExposureLimit(inputValue); 
             }
           }}
-          // touched={touched.score}
-          // error={Boolean(errors.score)}
           InputProps={{
             disableUnderline: true,
             sx: {
@@ -278,23 +275,9 @@ const SessionLimitEdit = (props: any) => {
             title={"submit"}
             loading={loading}
             onClick={(e: any) => handleSubmit(e)}
-            // onClick={() => {
-            //   if (loading?.value) {
-            //     return false;
-            //   }
-            //   if (selected !== "" && /^\d+$/.test(selected)) {
-            //     declareResult();
-            //   } else if (selected === "") {
-            //     setError("Please enter score");
-            //   } else {
-            //     // toast.warn("Please enter score");
-            //     setError("Input field should contain numbers only");
-            //   }
-            // }}
           />
         </Box>
       </Box>
-      {/* </form> */}
     </Box>
   );
 };

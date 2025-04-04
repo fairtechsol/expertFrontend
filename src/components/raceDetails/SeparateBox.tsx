@@ -12,7 +12,7 @@ const SeparateBox = ({ color, empty, value, width, value2, lock }: any) => {
       <Popover
         isOpen={isPopoverOpen}
         align={matchesMobile ? "end" : "center"}
-        positions={["bottom"]} // preferred positions by priority
+        positions={["bottom"]}
         onClickOutside={() => setIsPopoverOpen(false)}
         content={<div></div>}
       >
@@ -22,7 +22,6 @@ const SeparateBox = ({ color, empty, value, width, value2, lock }: any) => {
               return null;
             }
             setIsPopoverOpen(!isPopoverOpen);
-            // dispatch(setColorValue(color));
           }}
           sx={{
             background: lock || [0, "0"].includes(value) ? "#FDF21A" : color,

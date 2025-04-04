@@ -2,7 +2,6 @@ import { Box, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import StyledImage from "../../../components/Common/StyledImages";
 import HeaderDropdown from "./HeaderDropdown";
-// import { ArrowDown } from "../../../assets";
 
 const ActiveUsers = (props: any) => {
   const { image, value, containerStyle } = props;
@@ -72,10 +71,6 @@ const ActiveUsers = (props: any) => {
               {value}
             </Typography>
           </Box>
-          {/* <StyledImage
-            src={ArrowDown}
-            sx={{ height: "6px", width: "10px", marginRight: "5px" }}
-          /> */}
         </Box>
       </Box>
       <HeaderDropdown

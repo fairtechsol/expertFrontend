@@ -1,24 +1,21 @@
 import { AppBar, Box, useMediaQuery, useTheme } from "@mui/material";
 import ModalMUI from "@mui/material/Modal";
 import { useEffect, useState } from "react";
+import { GiTatteredBanner } from "react-icons/gi";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";
 import { FgLogo, NotiBadge, Users } from "../../../assets";
 import StyledImage from "../../../components/Common/StyledImages";
 import Loader from "../../../components/Loader";
+import BannerUploadModal from "../../../components/header/BannerUploadModal";
 import ButtonHead from "../../../components/header/ButtonHead";
 import NotificationModal from "../../../components/header/NotificationModal";
+import { socket, socketService } from "../../../socketManager";
+import { getLoggedUserCount } from "../../../store/actions/user/userAction";
 import { AppDispatch, RootState } from "../../../store/store";
 import ActiveUsers from "./ActiveUsers";
 import BoxProfile from "./BoxProfile";
-// import DropDownMenu from "./DropDownMenu";
-// import { getMatchListDropdown } from "../../../store/actions/match/matchAction";
-import { socket, socketService } from "../../../socketManager";
-import { getLoggedUserCount } from "../../../store/actions/user/userAction";
 import GameTypeDropdown from "./GameTypeDropdown";
-// import { setSelectedTabForMatchList } from "../../../store/actions/match/matchAction";
-import { GiTatteredBanner } from "react-icons/gi";
-import BannerUploadModal from "../../../components/header/BannerUploadModal";
 
 const Header1 = () => {
   const theme = useTheme();
@@ -134,16 +131,6 @@ const Header1 = () => {
                     marginRight: "12px",
                   }}
                 >
-                  {/* <StyledImage
-                    onClick={() => {
-                      //   setMobileOpen(!mobileOpen);
-                    }}
-                    src={Draw}
-                    sx={{
-                      height: { lg: "16px", xs: "20px", md: "16px" },
-                      width: "auto",
-                    }}
-                  /> */}
                   <StyledImage
                     src={FgLogo}
                     onClick={(e: any) => {
@@ -194,7 +181,6 @@ const Header1 = () => {
                     <ButtonHead
                       onClick={() => {
                         setSelected(4);
-                        // dispatch(setSelectedTabForMatchList(0));
                       }}
                       title={"MATCH LIST"}
                       boxStyle={{
@@ -300,7 +286,6 @@ const Header1 = () => {
                       justifyContent: "center",
                       alignItems: "center",
                       background: "white",
-                      // marginTop: { xs: "10px" },
                       marginLeft: "10px",
                     }}
                   >
@@ -318,7 +303,6 @@ const Header1 = () => {
                       justifyContent: "center",
                       alignItems: "center",
                       background: "white",
-                      // marginTop: { xs: "10px" },
                       marginLeft: "10px",
                     }}
                   >
@@ -350,17 +334,6 @@ const Header1 = () => {
                   </Box>
                 </Box>
               </Box>
-              {/* {matchListDropdown?.length > 0 && (
-                <DropDownMenu
-                  sx={{ alignItems: "center" }}
-                  anchorEl={anchor}
-                  open={Boolean(anchor)}
-                  allMatch={matchListDropdown}
-                  handleClose={() => {
-                    setAnchor(null);
-                  }}
-                />
-              )} */}
             </Box>
           </AppBar>
           <Box sx={{ minHeight: { lg: 44, md: 35, xs: 80, sm: 35 } }} />
@@ -416,16 +389,6 @@ const Header1 = () => {
                     marginRight: "12px",
                   }}
                 >
-                  {/* <StyledImage
-                    onClick={() => {
-                      //   setMobileOpen(!mobileOpen);
-                    }}
-                    src={Draw}
-                    sx={{
-                      height: { lg: "24px", xs: "10px" },
-                      width: "auto",
-                    }}
-                  /> */}
                   <StyledImage
                     src={FgLogo}
                     onClick={(e: any) => {
@@ -477,7 +440,6 @@ const Header1 = () => {
                       justifyContent: "center",
                       alignItems: "center",
                       background: "white",
-                      // marginLeft: "4vh"
                     }}
                   >
                     <GiTatteredBanner color="black" />
@@ -494,7 +456,6 @@ const Header1 = () => {
                       justifyContent: "center",
                       alignItems: "center",
                       background: "white",
-                      // marginLeft: "4vh"
                     }}
                   >
                     <StyledImage
@@ -528,7 +489,6 @@ const Header1 = () => {
                             currentSelected == 1 && (gameType || anchor)
                               ? "white"
                               : "transparent",
-                          // py: "5px",
                           borderRadius: "5px",
                           marginLeft: { lg: "15px", xs: "15px" },
                           cursor: "pointer",
@@ -549,9 +509,8 @@ const Header1 = () => {
                       <ButtonHead
                         onClick={() => {
                           setSelected(4);
-                          // dispatch(setSelectedTabForMatchList(0));
                         }}
-                        title={"MATCH LIST"}
+                        title="MATCH LIST"
                         boxStyle={{
                           backgroundColor:
                             currentSelected !== 1 &&
@@ -578,10 +537,8 @@ const Header1 = () => {
                       style={{ textDecoration: "none" }}
                     >
                       <ButtonHead
-                        onClick={() => {
-                          // setSelected(4);
-                        }}
-                        title={"RACE LIST"}
+                        onClick={() => {}}
+                        title="RACE LIST"
                         boxStyle={{
                           backgroundColor:
                             currentSelected !== 1 &&
@@ -602,15 +559,12 @@ const Header1 = () => {
                         }}
                       />
                     </NavLink>
-
                     <NavLink
                       to={"/expert/tab"}
                       style={{ textDecoration: "none" }}
                     >
                       <ButtonHead
-                        onClick={() => {
-                          // setSelected(4);
-                        }}
+                        onClick={() => {}}
                         title={"TAB LIST"}
                         boxStyle={{
                           backgroundColor:
@@ -641,16 +595,6 @@ const Header1 = () => {
           <Box sx={{ minHeight: { lg: 66, sm: 60, md: 80, xs: 60 } }} />
         </>
       )}
-      {/* {matchListDropdown?.length > 0 && (
-        <DropDownMenu
-          anchorEl={anchor}
-          open={Boolean(anchor)}
-          allMatch={matchListDropdown}
-          handleClose={() => {
-            setAnchor(null);
-          }}
-        />
-      )} */}
       {gameType && (
         <GameTypeDropdown
           anchorEl={anchor1}

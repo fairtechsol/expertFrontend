@@ -1,13 +1,13 @@
 import { Box, TextField, Typography } from "@mui/material";
 import { useEffect, useRef, useState } from "react";
-import SessionResultCustomButton from "../AddSession/SessionResultCustomButton";
-import { CancelDark } from "../../../assets";
-import { AppDispatch, RootState } from "../../../store/store";
 import { useDispatch, useSelector } from "react-redux";
+import { CancelDark } from "../../../assets";
 import {
   resetSessionMaxLimitSuccess,
   updateSession,
 } from "../../../store/actions/addSession";
+import { AppDispatch, RootState } from "../../../store/store";
+import SessionResultCustomButton from "../AddSession/SessionResultCustomButton";
 
 const SessionLimit = (props: any) => {
   const { newData, visible, onClickCancel } = props;
@@ -176,19 +176,6 @@ const SessionLimit = (props: any) => {
             title={"submit"}
             loading={loading}
             onClick={(e: any) => handleSubmit(e)}
-            // onClick={() => {
-            //   if (loading?.value) {
-            //     return false;
-            //   }
-            //   if (selected !== "" && /^\d+$/.test(selected)) {
-            //     declareResult();
-            //   } else if (selected === "") {
-            //     setError("Please enter score");
-            //   } else {
-            //     // toast.warn("Please enter score");
-            //     setError("Input field should contain numbers only");
-            //   }
-            // }}
           />
         </Box>
       </Box>

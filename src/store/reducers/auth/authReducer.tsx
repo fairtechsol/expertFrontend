@@ -6,7 +6,7 @@ interface InitialState {
   loading: boolean;
   forceChangePassword: boolean;
   userRole: string;
-  oldPasswordMatched:boolean;
+  oldPasswordMatched: boolean;
 }
 
 const initialState: InitialState = {
@@ -14,7 +14,7 @@ const initialState: InitialState = {
   loading: false,
   forceChangePassword: false,
   userRole: "",
-  oldPasswordMatched:false,
+  oldPasswordMatched: false,
 };
 
 export const authReducer = createReducer(initialState, (builder) => {
@@ -42,7 +42,7 @@ export const authReducer = createReducer(initialState, (builder) => {
     })
     .addCase(checkOldPass.fulfilled, (state, action) => {
       state.loading = false;
-      state.oldPasswordMatched = action?.payload
+      state.oldPasswordMatched = action?.payload;
     })
     .addCase(checkOldPass.rejected, (state) => {
       state.loading = false;

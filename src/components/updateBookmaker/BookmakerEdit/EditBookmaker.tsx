@@ -10,29 +10,21 @@ import {
   successReset,
   updateResultStatusOfQuickBookmaker,
 } from "../../../store/actions/addSession";
+import { betLiveStatus } from "../../../store/actions/match/matchAction";
 import { AppDispatch, RootState } from "../../../store/store";
 import theme from "../../../theme";
 import { handleKeysMatchEvents } from "../../../utils/InputKeys/Bookmaker/BookmakerSessionKeys";
 import { updateLocalQuickBookmaker } from "../../../utils/InputKeys/Bookmaker/Utils";
-import BookButton from "./BookButton";
-// import MaxLimitEditButtonBook from "../../Common/MaxLimitEditButtonBzook";
-import { betLiveStatus } from "../../../store/actions/match/matchAction";
 import MaxLimitEditButtonBook from "../../Common/MaxLimitEditButtonBook";
 import SmallBox from "../../matchDetails/SmallBox";
 import ResultComponentTournamentMarket from "../../matchDetails/TournamentMarkets/ResultComponentTournamentMarket";
 import TournamentMarketAdd from "../../matchDetails/TournamentMarkets/TournamentMarketAdd";
+import BookButton from "./BookButton";
 
 const EditBookmaker = (props: any) => {
   const { state } = useLocation();
-  const {
-    add,
-    match,
-    type,
-    exposureLimit,
-    matchBetting,
-    runners,
-    teamRates,
-  } = props;
+  const { add, match, type, exposureLimit, matchBetting, runners, teamRates } =
+    props;
   const dispatch: AppDispatch = useDispatch();
   const matchesMobile = useMediaQuery(theme.breakpoints.down("lg"));
   const { success } = useSelector((state: RootState) => state.addSession);
@@ -170,15 +162,6 @@ const EditBookmaker = (props: any) => {
             ),
           };
         });
-        // if (
-        //   Number(bookmakerById?.backTeamA) &&
-        //   Number(bookmakerById?.backTeamB) &&
-        //   Number(bookmakerById?.backTeamC)
-        // ) {
-        //   setIsTab("tab");
-        // } else {
-        //   setIsTab("");
-        // }
         dispatch(successReset());
       }
     } catch (error) {
@@ -295,9 +278,6 @@ const EditBookmaker = (props: any) => {
               gap: "5px",
             }}
           >
-            {/* {matchBetting?.isCommissionActive && (
-              <CommissionDot/>
-            )} */}
             <Box>
               {matchBetting?.name}
               <span
@@ -307,8 +287,9 @@ const EditBookmaker = (props: any) => {
                   backgroundColor: "transparent",
                 }}
               >
-                {` (Min:${matchBetting?.minBet || 0} Max:${matchBetting?.maxBet || 0
-                  })`}
+                {` (Min:${matchBetting?.minBet || 0} Max:${
+                  matchBetting?.maxBet || 0
+                })`}
               </span>
             </Box>
           </Typography>
@@ -358,17 +339,17 @@ const EditBookmaker = (props: any) => {
           <BookButton
             rate={bookRatioA(
               +teamRates?.[runners?.[0]?.parentRunnerId || runners?.[0]?.id] ||
-              0,
+                0,
               +teamRates?.[runners?.[1]?.parentRunnerId || runners?.[1]?.id] ||
-              0
+                0
             )}
           />
           <BookButton
             rate={bookRatioB(
               +teamRates?.[runners?.[0]?.parentRunnerId || runners?.[0]?.id] ||
-              0,
+                0,
               +teamRates?.[runners?.[1]?.parentRunnerId || runners?.[1]?.id] ||
-              0
+                0
             )}
           />
         </Box>

@@ -4,16 +4,16 @@ import { useDispatch } from "react-redux";
 import { ARROWUP } from "../../../assets";
 import { betLiveStatus } from "../../../store/actions/match/matchAction";
 import { AppDispatch } from "../../../store/store";
+import AddMarketButton from "../../Common/AddMarketButton";
 import Divider from "../../Common/Divider";
+import MaxLimitEditButton from "../../Common/MaxLimitEditButton";
 import { formatToINR } from "../../helper";
+import HTFTBoxComponent from "../MatchOdds/HTFTBoxComponent";
+import Result from "../Result";
 import Stop from "../SessionMarket/Stop";
 import SmallBox from "../SmallBox";
-import Result from "../Result";
-import TournamentMarketAdd from "./TournamentMarketAdd";
 import ResultComponentTournamentMarket from "./ResultComponentTournamentMarket";
-import AddMarketButton from "../../Common/AddMarketButton";
-import MaxLimitEditButton from "../../Common/MaxLimitEditButton";
-import HTFTBoxComponent from "../MatchOdds/HTFTBoxComponent";
+import TournamentMarketAdd from "./TournamentMarketAdd";
 
 const HTFTMarket = ({ currentMatch, liveData, title, firstKnownKey }: any) => {
   const dispatch: AppDispatch = useDispatch();
@@ -179,7 +179,6 @@ const HTFTMarket = ({ currentMatch, liveData, title, firstKnownKey }: any) => {
         sx={{
           position: "absolute",
           zIndex: 999,
-          // top: "26%",
           right: "1%",
           width: { lg: "30vh", xs: "30vh" },
         }}
@@ -261,7 +260,6 @@ const HTFTMarket = ({ currentMatch, liveData, title, firstKnownKey }: any) => {
                     sx={{
                       position: "absolute",
                       height: "100%",
-                      // top: "18%",
                       width: "100%",
                       display: "flex",
                       zIndex: "999",

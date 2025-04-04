@@ -1,13 +1,11 @@
 import { Box, Button, Modal, TextField, Typography } from "@mui/material";
 import { useEffect } from "react";
 import { CancelDark } from "../../assets";
-// import { notificationvalidationSchema } from "../../utils/Validations/login";
 import { useFormik } from "formik";
 import { useDispatch } from "react-redux";
 import { headerAddNotification } from "../../store/actions/user/userAction";
 import { AppDispatch } from "../../store/store";
 import CustomErrorMessage from "../Common/CustomErrorMessage";
-// import { depositAmountValidations } from "../../../utils/Validations";
 
 const NotificationModal = ({
   visible,
@@ -15,7 +13,6 @@ const NotificationModal = ({
   title,
   loadingDeleteBet,
 }: any) => {
-  // const [value, setValue] = useState("");
   const dispatch: AppDispatch = useDispatch();
   const initialValues: any = {
     value: "",
@@ -59,7 +56,7 @@ const NotificationModal = ({
         <form onSubmit={handleSubmit}>
           <Box
             sx={{
-              width: {lg:"500px",xs: "100%"},
+              width: { lg: "500px", xs: "100%" },
               height: "270px",
               padding: 0.2,
               borderRadius: 2,

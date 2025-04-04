@@ -16,7 +16,7 @@ const SmallBox = ({ item }: any) => {
     >
       <Typography
         sx={{
-          fontSize:{lg:"11px", xs:"10px"},
+          fontSize: { lg: "11px", xs: "10px" },
           fontWeight: "600",
           color: item?.color,
           textTransform: "capitalize",
@@ -26,7 +26,11 @@ const SmallBox = ({ item }: any) => {
         {item?.name}
       </Typography>
       <Typography
-        sx={{ fontSize: {lg:"9px", xs:"6px"}, fontWeight: "600", color: item?.color }}
+        sx={{
+          fontSize: { lg: "9px", xs: "6px" },
+          fontWeight: "600",
+          color: item?.color,
+        }}
       >
         {item?.rate && item?.rate}
       </Typography>

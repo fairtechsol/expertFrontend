@@ -57,22 +57,6 @@ const BetListForSession = ({ tag, allBetRates }: any) => {
               deleteReason: v?.deleteReason,
               width: { lg: "17%", xs: "32%" },
             },
-            // {
-            //   name:
-            //     v?.marketType == "MANUAL BOOKMAKER"
-            //       ? "Quick Bookmaker"
-            //       : v?.bettingName ?? v?.marketType,
-            //   color: ["NO", "YES"].includes(v?.betType) ? "#FFF" : "black",
-            //   background: ["NO", "YES"].includes(v?.betType)
-            //     ? "#319E5B"
-            //     : v?.marketType === "completeMatch" ||
-            //       v?.marketType === "tiedMatch2" ||
-            //       v?.marketType === "tiedMatch1"
-            //     ? "#faf11b"
-            //     : "#F1C550",
-            //   deleteReason: v?.deleteReason,
-            //   width: { lg: "18%", xs: "65%" },
-            // },
             {
               name: v?.teamName,
               color: "black",

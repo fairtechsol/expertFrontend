@@ -9,18 +9,16 @@ import CustomButton from "../Common/CustomButton";
 import { handleSorting } from "../helper";
 import MatchListProfitLoss from "./profitLoss";
 
-const MatchPermissionsModal = (props: any) => {
-  const {
-    showUserModal,
-    handleMatchProfitLossClick,
-    data,
-    updateBettings,
-    setUpdateBettings,
-    updateMatchStatus,
-    setUpdateMatchStatus,
-    upcoming,
-  } = props;
-
+const MatchPermissionsModal = ({
+  showUserModal,
+  handleMatchProfitLossClick,
+  data,
+  updateBettings,
+  setUpdateBettings,
+  updateMatchStatus,
+  setUpdateMatchStatus,
+  upcoming,
+}: any) => {
   const { profileDetail } = useSelector(
     (state: RootState) => state.user.profile
   );
@@ -113,13 +111,10 @@ const MatchPermissionsModal = (props: any) => {
       {showUserModal && !matchesMobile && (
         <Box
           sx={{
-            // width: "20%",
             flex: 1,
             display: "flex",
             justifyContent: "flex-end",
-            // marginRight: "10px",
             alignItems: "end",
-            // marginBottom: "10px",
             flexDirection: "column",
           }}
         >
@@ -218,7 +213,7 @@ const MatchPermissionsModal = (props: any) => {
                 containerStyle={{
                   margin: "5px",
                 }}
-                title={"View Match"}
+                title="View Match"
                 onClick={() => {
                   if (["cricket", "politics"].includes(data?.matchType)) {
                     navigate(`/expert/market`, {
@@ -243,7 +238,7 @@ const MatchPermissionsModal = (props: any) => {
                     state: { id: data?.id },
                   });
                 }}
-                title={"Edit"}
+                title="Edit"
               />
             )}
           </Box>

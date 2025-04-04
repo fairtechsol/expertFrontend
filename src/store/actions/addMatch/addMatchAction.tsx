@@ -1,7 +1,11 @@
 import { createAction, createAsyncThunk } from "@reduxjs/toolkit";
 import axios, { AxiosError } from "axios";
 import service from "../../../service";
-import { ApiConstants, addMatchThirdParty, baseUrls } from "../../../utils/Constants";
+import {
+  ApiConstants,
+  addMatchThirdParty,
+  baseUrls,
+} from "../../../utils/Constants";
 
 export const getAllLiveTournaments = createAsyncThunk<any, string>(
   "addMatch/getAllLiveTournaments",
@@ -111,20 +115,18 @@ export const getAllEventsList = createAsyncThunk<any, string>(
   }
 );
 
-export const updateTeamRatesOnManualTournamentMarket = createAsyncThunk<any,any>(
-  "update/updateTeamRatesOnManualTournamentMarket",
-  async (requestData) => {
-    return requestData;
-  }
-);
+export const updateTeamRatesOnManualTournamentMarket = createAsyncThunk<
+  any,
+  any
+>("update/updateTeamRatesOnManualTournamentMarket", async (requestData) => {
+  return requestData;
+});
 
 export const getExtraMarketList = createAsyncThunk<any, any>(
   "addMatch/extraMarketList",
   async (requestData, thunkApi) => {
     try {
-      const {
-        data,
-      } = await axios.get(
+      const { data } = await axios.get(
         `${addMatchThirdParty}/extraMarketList/${requestData?.id}?eventType=${requestData?.eventType}`,
         { timeout: 2000 }
       );
@@ -207,66 +209,6 @@ export const getExtraMarketList = createAsyncThunk<any, any>(
             ),
           };
         }
-        // let extraMarketList: any = {
-        //   matchOdd: {
-        //     marketId: data?.find(
-        //       (match: any) => match?.description?.marketType === "MATCH_ODDS"
-        //     )?.marketId,
-        //   },
-        //   apiTideMatch: {
-        //     marketId: data?.find(
-        //       (match: any) => match?.description?.marketType === "TIED_MATCH"
-        //     )?.marketId,
-        //   },
-        //   marketCompleteMatch: {
-        //     marketId: data?.find(
-        //       (match: any) =>
-        //         match?.description?.marketType === "COMPLETED_MATCH"
-        //     )?.marketId,
-        //   },
-        //   ...Array.from({ length: 20 }, (_, index: any) => index).reduce(
-        //     (prev, curr) => {
-        //       prev[`setWinner${curr}`] = {
-        //         marketId: data?.find(
-        //           (match: any) =>
-        //             match?.description?.marketType === `SET_WINNER` && match?.marketName === `Set ${curr} Winner`
-        //         )?.marketId,
-        //       };
-        //       return prev;
-        //     },
-        //     {}
-        //   ),
-        //   ...Array.from({ length: 20 }, (_, index: any) => index).reduce(
-        //     (prev, curr) => {
-        //       prev[`overUnder${curr}.5`] = {
-        //         marketId: data?.find(
-        //           (match: any) =>
-        //             match?.description?.marketType === `OVER_UNDER_${curr}5`
-        //         )?.marketId,
-        //       };
-        //       return prev;
-        //     },
-        //     {}
-        //   ),
-        //   ...Array.from({ length: 20 }, (_, index: any) => index).reduce(
-        //     (prev, curr) => {
-        //       prev[`firstHalfGoal${curr}.5`] = {
-        //         marketId: data?.find(
-        //           (match: any) =>
-        //             match?.description?.marketType ===
-        //             `FIRST_HALF_GOALS_${curr}5`
-        //         )?.marketId,
-        //       };
-        //       return prev;
-        //     },
-        //     {}
-        //   ),
-        //   halfTime: {
-        //     marketId: data?.find(
-        //       (match: any) => match?.description?.marketType === "HALF_TIME"
-        //     )?.marketId,
-        //   },
-        // };
         return extraMarketList;
       }
     } catch (error) {
@@ -383,7 +325,7 @@ export const updateMatchRates = createAsyncThunk<any, any>(
 
 export const getMatchRates = createAsyncThunk<any, any>(
   "/third/match/rates",
-  async (matchId,thunkApi) => {
+  async (matchId, thunkApi) => {
     try {
       const resp = await axios.get(
         `${baseUrls.matchSocket}${ApiConstants.MATCH.RATES}${matchId}`

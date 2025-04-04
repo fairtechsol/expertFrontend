@@ -1,10 +1,6 @@
 import { Box, Typography } from "@mui/material";
 
-const LabelValueComponent = ({
-  title,
-  titleSize,
-  headColor,
-}: any) => {
+const LabelValueComponent = ({ title, titleSize, headColor }: any) => {
   return (
     <Box className="beFairMatch">
       <Typography

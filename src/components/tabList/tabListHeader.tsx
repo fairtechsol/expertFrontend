@@ -1,8 +1,8 @@
 import { Box, Typography, debounce } from "@mui/material";
-import SearchInput from "../Common/SearchInput";
 import { useDispatch } from "react-redux";
-import { AppDispatch } from "../../store/store";
 import { getMatchList } from "../../store/actions/match/matchAction";
+import { AppDispatch } from "../../store/store";
+import SearchInput from "../Common/SearchInput";
 
 const TabListHeader = () => {
   const dispatch: AppDispatch = useDispatch();

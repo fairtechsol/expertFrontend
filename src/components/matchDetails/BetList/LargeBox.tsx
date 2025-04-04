@@ -4,11 +4,8 @@ import CommissionDot from "../../Common/CommissionDot";
 const LargeBox = ({ item, k }: any) => {
   const handleDomain = (url: any) => {
     url = url?.replace(/^(?:https?:\/\/)/, "");
-
     const parts = url?.split(".");
-
     url = parts?.[parts.length - 2];
-
     return url || "";
   };
   return (

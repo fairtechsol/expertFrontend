@@ -1,12 +1,11 @@
 import { Box, Typography } from "@mui/material";
 import moment from "moment";
-import { useNavigate } from "react-router-dom";
-import CustomButton from "../Common/CustomButton";
-import { Constants } from "../../utils/Constants";
 import { memo } from "react";
+import { useNavigate } from "react-router-dom";
+import { Constants } from "../../utils/Constants";
+import CustomButton from "../Common/CustomButton";
 
-const MatchListTable = (props: any) => {
-  const { data, index, currentPage, race } = props;
+const MatchListTable = ({ data, index, currentPage, race }: any) => {
   const navigate = useNavigate();
 
   return (

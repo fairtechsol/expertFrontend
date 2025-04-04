@@ -7,30 +7,29 @@ import {
 } from "@mui/material";
 import React, { useState } from "react";
 
-const Input: React.FC<any> = (props) => {
-  const {
-    id,
-    title,
-    value,
-    containerStyle,
-    required,
-    placeholder,
-    titleStyle,
-    inputStyle,
-    inputContainerStyle,
-    inputProps,
-    type,
-    disabled,
-    autoFocus,
-    img,
-    img1,
-    imgstyle,
-    onChange,
-    name,
-    touched,
-    error,
-    onBlur
-  } = props;
+const Input: React.FC<any> = ({
+  id,
+  title,
+  value,
+  containerStyle,
+  required,
+  placeholder,
+  titleStyle,
+  inputStyle,
+  inputContainerStyle,
+  inputProps,
+  type,
+  disabled,
+  autoFocus,
+  img,
+  img1,
+  imgstyle,
+  onChange,
+  name,
+  touched,
+  error,
+  onBlur,
+}) => {
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.down("md"));
   const [showPass, setShowPass] = useState(false);
