@@ -341,7 +341,7 @@ const NewEditBookmaker = ({
             background: "#262626",
           }}
         >
-          <div className="slanted-b"></div>
+          <div className="slanted-b" />
         </Box>
         <Box
           sx={{
@@ -386,7 +386,6 @@ const NewEditBookmaker = ({
               alignItems: "center",
             }}
           >
-            {" "}
             <Typography
               sx={{
                 color: "#fff",
@@ -536,7 +535,6 @@ const NewEditBookmaker = ({
                         >{`.${decimalPart}`}</span>
                       </Typography>
                     </Box>
-
                     <Box
                       sx={{
                         display: "flex",
@@ -647,7 +645,6 @@ const NewEditBookmaker = ({
               );
             })}
           </Box>
-
           <Box sx={{ borderLeft: "2px solid white", width: "35%" }}>
             {localQuickBookmaker?.teamBall ? (
               <Box
@@ -673,60 +670,56 @@ const NewEditBookmaker = ({
                 {localQuickBookmaker?.teams?.map((item: any) => {
                   return (
                     <Box display={"flex"} sx={{ borderTop: "2px solid white" }}>
-                      {
-                        <Box
-                          sx={{
-                            background: item?.suspended ? "#FDF21A" : "#A7DCFF",
-                            width: "50%",
-                            display: "flex",
-                            height: "55px",
-                            justifyContent: "center",
-                            alignItems: "center",
-                          }}
-                        >
-                          {!item?.suspended && item?.rightBack > 0 ? (
-                            <Typography
-                              sx={{ fontWeight: "600", fontSize: "22px" }}
-                            >
-                              {item?.suspended ? "" : +item?.rightBack}
-                            </Typography>
-                          ) : (
-                            <img
-                              src={Lock}
-                              style={{ width: "10px", height: "15px" }}
-                            />
-                          )}
-                        </Box>
-                      }
-                      {
-                        <Box
-                          sx={{
-                            background:
-                              item?.suspended || item?.rightLay === 0
-                                ? "#FDF21A"
-                                : "#FFB5B5",
-                            width: "50%",
-                            borderLeft: "2px solid white",
-                            display: "flex",
-                            height: "55px",
-                            justifyContent: "center",
-                            alignItems: "center",
-                          }}
-                        >
-                          {!item?.suspended && item?.rightLay ? (
-                            <Typography
-                              sx={{ fontWeight: "600", fontSize: "22px" }}
-                            >
-                              {item?.suspended ? 0 : +item?.rightLay}
-                            </Typography>
-                          ) : (
-                            <img
-                              src={Lock}
-                              style={{ width: "10px", height: "15px" }}
-                            />
-                          )}
-                        </Box>
-                      }
+                      <Box
+                        sx={{
+                          background: item?.suspended ? "#FDF21A" : "#A7DCFF",
+                          width: "50%",
+                          display: "flex",
+                          height: "55px",
+                          justifyContent: "center",
+                          alignItems: "center",
+                        }}
+                      >
+                        {!item?.suspended && item?.rightBack > 0 ? (
+                          <Typography
+                            sx={{ fontWeight: "600", fontSize: "22px" }}
+                          >
+                            {item?.suspended ? "" : +item?.rightBack}
+                          </Typography>
+                        ) : (
+                          <img
+                            src={Lock}
+                            style={{ width: "10px", height: "15px" }}
+                          />
+                        )}
+                      </Box>
+                      <Box
+                        sx={{
+                          background:
+                            item?.suspended || item?.rightLay === 0
+                              ? "#FDF21A"
+                              : "#FFB5B5",
+                          width: "50%",
+                          borderLeft: "2px solid white",
+                          display: "flex",
+                          height: "55px",
+                          justifyContent: "center",
+                          alignItems: "center",
+                        }}
+                      >
+                        {!item?.suspended && item?.rightLay ? (
+                          <Typography
+                            sx={{ fontWeight: "600", fontSize: "22px" }}
+                          >
+                            {item?.suspended ? 0 : +item?.rightLay}
+                          </Typography>
+                        ) : (
+                          <img
+                            src={Lock}
+                            style={{ width: "10px", height: "15px" }}
+                          />
+                        )}
+                      </Box>
                     </Box>
                   );
                 })}
@@ -748,7 +741,7 @@ const NewEditBookmaker = ({
             alignSelf: "center",
           }}
         >
-          <Box sx={{ width: "2%" }}></Box>
+          <Box sx={{ width: "2%" }} />
           {match?.stopAt ? (
             <Box
               onClick={(e) => {

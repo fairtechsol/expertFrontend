@@ -177,6 +177,20 @@ const MatchPermissionsModal = ({
               marginLeft: "10px",
             }}
           >
+            {(profileDetail?.allPrivilege ||
+              profileDetail?.sessionMatchPrivilege) && (
+              <CustomButton
+                containerStyle={{
+                  margin: "5px",
+                }}
+                onClick={() => {
+                  navigate(`/expert/betDetail`, {
+                    state: { id: data?.id, marketId: data?.marketId },
+                  });
+                }}
+                title={"View Bet"}
+              />
+            )}
             {["cricket", "politics"].includes(data?.matchType) &&
               (profileDetail?.allPrivilege ||
                 profileDetail?.sessionMatchPrivilege) && (
