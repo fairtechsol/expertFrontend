@@ -13,7 +13,7 @@ import {
   getPlacedBets,
   updateDeleteReason,
   updateDeleteReasonOnEdit,
-  updateMatchBetsPlaced
+  updateMatchBetsPlaced,
 } from "../../store/actions/addSession";
 import { AppDispatch, RootState } from "../../store/store";
 

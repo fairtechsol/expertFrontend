@@ -21,10 +21,16 @@ import ResultComponentTournamentMarket from "../../matchDetails/TournamentMarket
 import TournamentMarketAdd from "../../matchDetails/TournamentMarkets/TournamentMarketAdd";
 import BookButton from "./BookButton";
 
-const EditBookmaker = (props: any) => {
+const EditBookmaker = ({
+  add,
+  match,
+  type,
+  exposureLimit,
+  matchBetting,
+  runners,
+  teamRates,
+}: any) => {
   const { state } = useLocation();
-  const { add, match, type, exposureLimit, matchBetting, runners, teamRates } =
-    props;
   const dispatch: AppDispatch = useDispatch();
   const matchesMobile = useMediaQuery(theme.breakpoints.down("lg"));
   const { success } = useSelector((state: RootState) => state.addSession);
@@ -130,7 +136,6 @@ const EditBookmaker = (props: any) => {
           };
         });
       }
-      // }
     } catch (error) {
       console.error(error);
     }
@@ -245,6 +250,7 @@ const EditBookmaker = (props: any) => {
       console.log(error);
     }
   }, [matchBetting, state?.betId]);
+
   return (
     <>
       <Box
@@ -325,7 +331,7 @@ const EditBookmaker = (props: any) => {
             background: "#262626",
           }}
         >
-          <div className="slanted-b"></div>
+          <div className="slanted-b" />
         </Box>
         <Box
           sx={{
@@ -370,7 +376,6 @@ const EditBookmaker = (props: any) => {
               alignItems: "center",
             }}
           >
-            {" "}
             <Typography
               sx={{
                 color: "#fff",
@@ -387,8 +392,6 @@ const EditBookmaker = (props: any) => {
           <Box
             sx={{
               position: "absolute",
-              // top: 80,
-              // right: 0,
               width: "100%",
               height: "100%",
               backgroundColor: "rgba(203 24 24 / 70%)",
@@ -494,8 +497,6 @@ const EditBookmaker = (props: any) => {
                     <Box
                       sx={{
                         width: { lg: "220px", xs: "120px" },
-                        // my: "5px",
-
                         marginRight: "10px",
                         border: "1px solid #2626264D",
                         justifyContent: "center",
@@ -585,7 +586,6 @@ const EditBookmaker = (props: any) => {
                           InputProps={{
                             disableUnderline: true,
                             sx: {
-                              // position: "relative",
                               height: "55px",
                               width: "90%",
                               background: "#F6F6F6",
@@ -735,7 +735,7 @@ const EditBookmaker = (props: any) => {
             alignSelf: "center",
           }}
         >
-          <Box sx={{ width: "2%" }}></Box>
+          <Box sx={{ width: "2%" }} />
           {match?.stopAt ? (
             <Box
               onClick={(e) => {
@@ -773,7 +773,6 @@ const EditBookmaker = (props: any) => {
                 {visible1 && (
                   <ResultComponentTournamentMarket
                     currentMatch={match}
-                    // stopAt={liveData?.stopAt}
                     onClick={() => {
                       setVisible(false);
                     }}
@@ -783,8 +782,6 @@ const EditBookmaker = (props: any) => {
               </Box>
             </Box>
           ) : (
-            /* <Box sx={{ width: '2%' }} ></Box> */
-
             <Box
               onClick={(e) => {
                 setVisible(true);
@@ -822,7 +819,6 @@ const EditBookmaker = (props: any) => {
                 {visible && (
                   <ResultComponentTournamentMarket
                     currentMatch={match}
-                    // stopAt={liveData?.stopAt}
                     onClick={() => {
                       setVisible(false);
                     }}
