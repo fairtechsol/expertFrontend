@@ -790,7 +790,7 @@ const BetList = ({ tag, allBetRates, title, isMatchDeclare }: any) => {
               fontSize: { lg: "10px", xs: "0.5rem", md: "9px" },
               fontWeight: "600",
               color: textColor,
-              wordWrap: "break-word",
+              wordWrap: "anywhere",
               textTransform: "capitalize",
               lineHeight: 1,
             }}>
