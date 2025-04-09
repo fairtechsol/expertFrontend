@@ -223,18 +223,20 @@ const addMatch = createSlice({
       .addCase(updateMatchRates.fulfilled, (state, action) => {
         const { apiSession, tournament } = action.payload;
 
-        const parsedSessionBettings =
-          state.matchDetail?.sessionBettings?.map((item: string) => {
-            const parsedItem = JSON.parse(item);
+        let parsedSessionBettings = state?.matchDetail?.sessionBettings?.map(
+          (item: any) => {
+            let parsedItem = JSON.parse(item);
             if (parsedItem?.isManual) {
-              return { ...parsedItem, type: "manualSession" };
+              parsedItem.type = "manualSession";
             }
             return parsedItem;
-          }) ?? [];
-
-        const updatedFormat = convertData(parsedSessionBettings);
-        const updatedSessionBettings =
-          updateSessionBettingsItem(updatedFormat, apiSession) ?? {};
+          }
+        );
+        let updatedFormat = convertData(parsedSessionBettings);
+        let updatedSessionBettings = updateSessionBettingsItem(
+          updatedFormat,
+          apiSession
+        );
 
         const sortedTournament = [...(tournament || [])].sort(
           (a, b) =>
