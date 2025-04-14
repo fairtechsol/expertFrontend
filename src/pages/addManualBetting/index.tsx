@@ -91,7 +91,6 @@ const AddManualMarket = () => {
     handleChange,
     isSubmitting,
   } = formik;
-  console.log(isSubmitting);
   const resultDeclared = (event: any) => {
     try {
       if (event?.matchId === state?.match?.id) {

@@ -226,7 +226,6 @@ export const betVerifyStatus = createAsyncThunk<any, any>(
   async (requestData, thunkApi) => {
     try {
       const { betId, ...data } = requestData;
-      console.log("payload :", data)
       const response = await service.post(
         `${ApiConstants.MATCH.BET_VERIFY}`,
         data
