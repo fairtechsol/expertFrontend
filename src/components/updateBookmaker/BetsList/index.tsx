@@ -366,7 +366,7 @@ const BetsList = ({ betData, name }: any) => {
             fontWeight: "600",
           }}
         >
-          {name ? name : "Bookmaker"} Bets
+          {name ? name : ""} Bets
         </Typography>
 
         {/* Scroll to Top Button */}
