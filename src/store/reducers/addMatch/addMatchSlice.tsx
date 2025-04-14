@@ -489,54 +489,15 @@ const addMatch = createSlice({
         };
       })
       .addCase(updateResultStatusOfMatch.fulfilled, (state, action) => {
-        const { status, betId, betType, activeStatus } = action?.payload;
-        const index = state.quickBookmaker1?.findIndex(
-          (item: any) => item?.id === betId
-        );
+        const { status, betId, activeStatus } = action?.payload;
 
-        // const isCricketMatch = state.matchDetail?.matchType === "cricket";
-
-        if (
-          index !== -1
-          // isCricketMatch &&
-          // betId === state.quickBookmaker1?.[index]?.id
-        ) {
-          state.matchDetail = {
-            ...state.matchDetail,
-            resultStatus: status ?? null,
-          };
-        } else {
-          if (state.matchDetail?.matchType !== "cricket") {
-            state.matchDetail = {
-              ...state.matchDetail,
-              resultStatus: {
-                ...state.matchDetail?.resultStatus,
-                [betId]: {
-                  ...state.matchDetail?.resultStatus?.[betId],
-                  betId,
-                  status,
-                },
-              },
-              otherBettings: {
-                ...state.matchDetail?.otherBettings,
-                [betId]:
-                  activeStatus === "result" ? "DECLARED" : status ?? null,
-              },
-            };
-          } else if (
-            state.matchDetail?.matchType === "cricket" &&
-            (betType === "other" || betType === "tournament")
-          ) {
-            state.matchDetail = {
-              ...state.matchDetail,
-              otherBettings: {
-                ...state.matchDetail?.otherBettings,
-                [betId]:
-                  activeStatus === "result" ? "DECLARED" : status ?? null,
-              },
-            };
-          }
-        }
+        state.matchDetail = {
+          ...state.matchDetail,
+          otherBettings: {
+            ...state.matchDetail?.otherBettings,
+            [betId]: activeStatus === "result" ? "DECLARED" : status ?? null,
+          },
+        };
       })
       .addCase(getRaceMatches.pending, (state) => {
         state.loading = true;
