@@ -327,7 +327,7 @@ const BetsList = ({ betData, name }: any) => {
   }), [betData]);
 
   const scrollToTop = useCallback(() => {
-    listRef.current?.scrollToItem(0, "smooth");
+    listRef.current?.scrollToItem(0, "start");
   }, []);
 
   const handleScroll = useCallback(({ scrollOffset }: { scrollOffset: number }) => {
