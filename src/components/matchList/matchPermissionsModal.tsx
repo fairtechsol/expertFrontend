@@ -30,7 +30,7 @@ const MatchPermissionsModal = (props: any) => {
   const uniqueNames: any = [];
   let overUnderIncluded = false;
 
-  const filteredData = data?.matchBettings.filter((item: any) => {
+  const filteredData = (data?.matchBettings ?? []).filter((item: any) => {
     if (item.name.includes("over_under")) {
       if (!overUnderIncluded) {
         overUnderIncluded = true;
