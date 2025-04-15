@@ -20,9 +20,9 @@ interface TournamentMarketAddProps {
   matchOddsLive: any;
   currentMatch: any;
   title: string;
-  exposureLimit: number;
-  isManual: boolean;
-  isCommissionActive: boolean;
+  exposureLimit?: number;
+  isManual?: boolean;
+  isCommissionActive?: boolean;
 }
 
 const TournamentMarketAdd = ({
@@ -116,7 +116,7 @@ const TournamentMarketAdd = ({
         ...(isManual ? { name: matchOddsLive?.name } : {}),
         runners: matchOddsLive?.runners,
       });
-      setCommission(isCommissionActive);
+      setCommission(isCommissionActive || false);
     } catch (error) {
       console.error(error);
     }
