@@ -257,36 +257,34 @@ const addMatch = createSlice({
         };
       })
       .addCase(updateApiSessionById.fulfilled, (state, action) => {
-        const { betId, score, profitLoss } = action.payload;
-
-        if (!state.matchDetail) return;
-
-        state.matchDetail.sessionBettings =
-          state.matchDetail.sessionBettings?.map((item: any) => {
-            try {
-              const parsedItem = JSON.parse(item);
-              if (parsedItem?.id !== betId) return item;
-
-              const updatedItem = {
-                ...parsedItem,
-                activeStatus: score ? "result" : "save",
-                result: score || null,
-                resultStatus: null,
-                isComplete: true,
-                ...(score && {
-                  resultData: {
-                    result: score,
-                    profitLoss,
-                  },
-                }),
-              };
-
-              return JSON.stringify(updatedItem);
-            } catch (error) {
-              console.error("Error parsing session betting item:", error);
-              return item; // Return original item if parsing fails
-            }
-          });
+        try {
+          const { betId, score, profitLoss } = action.payload;
+          state.matchDetail = {
+            ...state.matchDetail,
+            sessionBettings: state.matchDetail?.sessionBettings?.map(
+              (item: any) => {
+                const parsedItem = JSON.parse(item);
+                if (parsedItem?.id === betId) {
+                  return JSON.stringify({
+                    ...parsedItem,
+                    activeStatus: score ? "result" : "save",
+                    result: score ? score : null,
+                    resultStatus: null,
+                    resultData: score
+                      ? {
+                          result: score,
+                          profitLoss: profitLoss,
+                        }
+                      : null,
+                    isComplete: true,
+                  });
+                } else return item;
+              }
+            ),
+          };
+        } catch (e) {
+          console.log(e);
+        }
       })
       .addCase(updateSessionAdded.fulfilled, (state, action) => {
         if (!action.payload || !state.matchDetail) return;
