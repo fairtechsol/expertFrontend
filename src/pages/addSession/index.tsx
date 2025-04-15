@@ -1,4 +1,4 @@
-import { Box, Grid, Paper } from "@mui/material";
+import { Grid, Paper } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
@@ -131,35 +131,33 @@ const AddSession = () => {
   }, []);
 
   return (
-    <Box>
-      <Grid container>
-        <Grid item xs={12} sm={6} md={6} lg={6}>
-          <Paper style={{ margin: "4px" }}>
-            <SessionInputFields
-              createSession={state?.createSession}
-              match={state?.match}
-              setMode={setMode}
-            />
-          </Paper>
-          <Paper style={{ margin: "4px" }}>
-            <SessionResult
-              setMode={setMode}
-              mode={mode}
-              sessionProLoss={sessionProLoss}
-              matchId={state?.match}
-            />
-          </Paper>
-        </Grid>
-        <Grid item xs={12} sm={6} md={6} lg={6}>
-          <Paper style={{ margin: "4px" }}>
-            <BetsList
-              sessionEvent={sessionById && sessionById}
-              betData={placedBets && placedBets.length > 0 ? placedBets : []}
-            />
-          </Paper>
-        </Grid>
+    <Grid container>
+      <Grid item xs={12} sm={6} md={6} lg={6}>
+        <Paper style={{ margin: "4px" }}>
+          <SessionInputFields
+            createSession={state?.createSession}
+            match={state?.match}
+            setMode={setMode}
+          />
+        </Paper>
+        <Paper style={{ margin: "4px" }}>
+          <SessionResult
+            setMode={setMode}
+            mode={mode}
+            sessionProLoss={sessionProLoss}
+            matchId={state?.match}
+          />
+        </Paper>
       </Grid>
-    </Box>
+      <Grid item xs={12} sm={6} md={6} lg={6}>
+        <Paper style={{ margin: "4px" }}>
+          <BetsList
+            sessionEvent={sessionById && sessionById}
+            betData={placedBets && placedBets.length > 0 ? placedBets : []}
+          />
+        </Paper>
+      </Grid>
+    </Grid>
   );
 };
 

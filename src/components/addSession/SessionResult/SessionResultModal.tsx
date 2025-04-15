@@ -11,7 +11,17 @@ import {
 import { AppDispatch, RootState } from "../../../store/store";
 import SessionResultCustomButton from "../AddSession/SessionResultCustomButton";
 
-const SessionResultModal = ({ newData, visible, onClickCancel }: any) => {
+interface SessionResultModalProps {
+  newData?: any;
+  visible?: boolean;
+  onClickCancel: () => void;
+}
+
+const SessionResultModal = ({
+  newData,
+  visible,
+  onClickCancel,
+}: SessionResultModalProps) => {
   const dispatch: AppDispatch = useDispatch();
   const [selected, setSelected] = useState({ betId: "", matchId: "" });
   const { declareLoading } = useSelector((state: RootState) => state.matchList);
@@ -125,7 +135,7 @@ const SessionResultModal = ({ newData, visible, onClickCancel }: any) => {
         <img
           onClick={(e) => {
             e.stopPropagation();
-            onClickCancel();
+            onClickCancel?.();
           }}
           src={CancelDark}
           style={{ width: "25px", height: "25px", cursor: "pointer" }}
@@ -214,8 +224,8 @@ const SessionResultModal = ({ newData, visible, onClickCancel }: any) => {
           >
             {newData?.betStatus === 2 ? (
               <SessionResultCustomButton
-                color={"#FF4D4D"}
-                title={"Un Declare"}
+                color="#FF4D4D"
+                title="Un Declare"
                 loading={loading}
                 id="UD"
               />
@@ -223,9 +233,9 @@ const SessionResultModal = ({ newData, visible, onClickCancel }: any) => {
               <>
                 {newData?.betStatus !== 3 ? (
                   <SessionResultCustomButton
-                    color={"#0B4F26"}
+                    color="#0B4F26"
                     id="DR"
-                    title={"Declare"}
+                    title="Declare"
                     loading={loading}
                   />
                 ) : null}
@@ -234,7 +244,7 @@ const SessionResultModal = ({ newData, visible, onClickCancel }: any) => {
 
             {newData?.betStatus !== 2 && newData?.isNoResult && (
               <SessionResultCustomButton
-                color={"rgb(106 90 90)"}
+                color="rgb(106 90 90)"
                 title={newData?.betStatus !== 3 ? "No Result" : "Yes"}
                 loading={loading}
                 id="NR"

@@ -4,15 +4,25 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { resetPlacedBets } from "../../../store/actions/addSession";
 import { AppDispatch } from "../../../store/store";
-import SessionResultModal from "./SessionResultModal";
 import SessionResultOvers from "./SessionResultOvers";
 
-const SessionResult = ({ sessionProLoss, matchId, mode, setMode }: any) => {
+interface SessionResultProps {
+  sessionProLoss: any;
+  matchId: string;
+  mode: string;
+  setMode: (val: string) => void;
+}
+
+const SessionResult = ({
+  sessionProLoss,
+  matchId,
+  mode,
+  setMode,
+}: SessionResultProps) => {
   const navigate = useNavigate();
   const dispatch: AppDispatch = useDispatch();
 
   const [selected, setSelected] = useState<any>([]);
-  const [sessionData] = useState<any>([]);
 
   const changeSelected = (item: any) => {
     if (mode === "0") {
@@ -103,16 +113,6 @@ const SessionResult = ({ sessionProLoss, matchId, mode, setMode }: any) => {
                   >
                     Un Declare
                   </Typography>
-                  <Box
-                    sx={{
-                      position: "absolute",
-                      zIndex: 999,
-                      top: "40px",
-                      left: 0,
-                    }}
-                  >
-                    {false && sessionData.length > 0 && <SessionResultModal />}
-                  </Box>
                 </Box>
               </Box>
             </Box>

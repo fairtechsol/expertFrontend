@@ -3,8 +3,12 @@ import { useEffect, useRef, useState } from "react";
 import Header from "./Header";
 import Row from "./Row";
 
-const BetsList = (props: any) => {
-  const { sessionEvent, betData } = props;
+interface BetsListProps {
+  sessionEvent: any;
+  betData: any;
+}
+
+const BetsList = ({ sessionEvent, betData }: BetsListProps) => {
   const scrollRef = useRef<HTMLDivElement | null>(null);
   const [showButton, setShowButton] = useState(false);
 

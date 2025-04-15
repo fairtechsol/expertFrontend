@@ -1,9 +1,9 @@
-import { useEffect, useState } from "react";
 import { Box, Typography } from "@mui/material";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   resetSessionMaxLimitSuccess,
@@ -13,6 +13,15 @@ import { AppDispatch, RootState } from "../../../store/store";
 import MatchListInput from "../../addMatch/MatchListInput";
 import { MaterialUISwitch } from "../../tabList/materialUiSwitch";
 
+interface SessionLimit2Props {
+  open: boolean;
+  handleClose: () => void;
+  matchOddsLive: any;
+  title: string;
+  exposureLimit: string;
+  isCommissionActive: boolean;
+}
+
 const SessionLimit2 = ({
   open,
   handleClose,
@@ -20,7 +29,7 @@ const SessionLimit2 = ({
   title,
   exposureLimit,
   isCommissionActive,
-}: any) => {
+}: SessionLimit2Props) => {
   const [selected, setSelected] = useState<any>({
     maxLimit: 0,
     minLimit: 0,

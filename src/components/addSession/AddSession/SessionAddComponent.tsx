@@ -35,6 +35,12 @@ import { ButtonRatesQuickSessions } from "../../../utils/Constants";
 import CommissionDot from "../../Common/CommissionDot";
 import SessionLimit2 from "./SessionLimit2";
 
+interface SessionAddComponentProps {
+  createSession: boolean;
+  match: any;
+  setMode: (val: string) => void;
+}
+
 const stateDetail = {
   match_id: "",
   matchType: "",
@@ -52,7 +58,11 @@ const stateDetail = {
   status: "active",
 };
 
-const SessionAddComponent = ({ createSession, match, setMode }: any) => {
+const SessionAddComponent = ({
+  createSession,
+  match,
+  setMode,
+}: SessionAddComponentProps) => {
   const { id } = useParams();
   const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
@@ -136,6 +146,31 @@ const SessionAddComponent = ({ createSession, match, setMode }: any) => {
       socketService.user.updateSessionRate(data);
     } catch (error) {
       console.error(error);
+    }
+  };
+
+  const handleQuickRateSetButton = (e: any, item: any) => {
+    e.preventDefault();
+    if (
+      !isCreateSession &&
+      !sessionById?.result &&
+      sessionById?.activeStatus === "live" &&
+      !sessionById?.resultStatus
+    ) {
+      const [yesRatePercent, noRatePercent] = item?.value?.split("-");
+      setInputDetail((prev: any) => {
+        return {
+          ...prev,
+          leftYesRatePercent: parseInt(yesRatePercent),
+          leftNoRatePercent: parseInt(noRatePercent),
+          yesRatePercent: parseInt(yesRatePercent),
+          noRatePercent: parseInt(noRatePercent),
+        };
+      });
+      handleLiveChange(parseInt(yesRatePercent), parseInt(noRatePercent));
+      if (inputRef.current) {
+        inputRef.current.focus();
+      }
     }
   };
 
@@ -457,9 +492,6 @@ const SessionAddComponent = ({ createSession, match, setMode }: any) => {
               open={open}
               handleClose={() => setOpen(false)}
               matchOddsLive={sessionById}
-              currentMatch={{
-                id: match?.id,
-              }}
               title={`${sessionById?.name} Max/Min Bet Limit`}
               exposureLimit={sessionById?.exposureLimit}
               isCommissionActive={sessionById?.isCommissionActive}
@@ -506,34 +538,7 @@ const SessionAddComponent = ({ createSession, match, setMode }: any) => {
             >
               {ButtonRatesQuickSessions?.map((item, index) => (
                 <Box
-                  onClick={(e) => {
-                    e.preventDefault();
-                    if (
-                      !isCreateSession &&
-                      !sessionById?.result &&
-                      sessionById?.activeStatus === "live" &&
-                      !sessionById?.resultStatus
-                    ) {
-                      const [yesRatePercent, noRatePercent] =
-                        item?.value?.split("-");
-                      setInputDetail((prev: any) => {
-                        return {
-                          ...prev,
-                          leftYesRatePercent: parseInt(yesRatePercent),
-                          leftNoRatePercent: parseInt(noRatePercent),
-                          yesRatePercent: parseInt(yesRatePercent),
-                          noRatePercent: parseInt(noRatePercent),
-                        };
-                      });
-                      handleLiveChange(
-                        parseInt(yesRatePercent),
-                        parseInt(noRatePercent)
-                      );
-                      if (inputRef.current) {
-                        inputRef.current.focus();
-                      }
-                    }
-                  }}
+                  onClick={(e: any) => handleQuickRateSetButton(e, item)}
                   key={index}
                   sx={{
                     position: "relative",
