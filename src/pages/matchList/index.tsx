@@ -51,13 +51,13 @@ const MatchList = ({}) => {
 
   const getMatchListService = (event: any) => {
     dispatch(updateMatchListCurrentPage(1));
-    const index = gameType.indexOf(event?.gameType);
+    const index = gameType.indexOf(event?.gameType || event?.type);
     if (index === selectedTab) {
       setTimeout(() => {
         dispatch(
           getMatchList({
             currentPage: 1,
-            matchType: event?.gameType,
+            matchType: event?.gameType || event?.type,
           })
         );
       }, 500);
