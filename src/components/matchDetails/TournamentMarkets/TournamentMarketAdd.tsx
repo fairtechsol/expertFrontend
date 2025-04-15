@@ -14,6 +14,17 @@ import MatchListInput from "../../addMatch/MatchListInput";
 import { formatToINR } from "../../helper";
 import { MaterialUISwitch } from "../../tabList/materialUiSwitch";
 
+interface TournamentMarketAddProps {
+  open: boolean;
+  handleClose: (val?: any) => void;
+  matchOddsLive: any;
+  currentMatch: any;
+  title: string;
+  exposureLimit: number;
+  isManual: boolean;
+  isCommissionActive: boolean;
+}
+
 const TournamentMarketAdd = ({
   open,
   handleClose,
@@ -23,7 +34,7 @@ const TournamentMarketAdd = ({
   exposureLimit,
   isManual,
   isCommissionActive,
-}: any) => {
+}: TournamentMarketAddProps) => {
   const [selected, setSelected] = useState<any>({
     maxLimit: 0,
     minLimit: 0,

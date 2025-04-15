@@ -27,7 +27,7 @@ const Row = ({ index, values }: any) => {
           }}
         >
           <Box sx={{ flex: 1, display: "flex" }}>
-            <Box sx={{ width: "34%", height: "100%" }}></Box>
+            <Box sx={{ width: "34%", height: "100%" }} />
             <Box
               sx={{
                 width: "66%",
@@ -276,7 +276,7 @@ const Row = ({ index, values }: any) => {
           }}
         >
           <Box sx={{ flex: 1, display: "flex" }}>
-            <Box sx={{ width: "34%", height: "30px" }}></Box>
+            <Box sx={{ width: "34%", height: "30px" }} />
             <Box
               sx={{
                 width: "66%",

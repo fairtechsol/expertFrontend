@@ -546,7 +546,7 @@
 //                         }}
 //                       >
 //                         <Box sx={{ flex: 1, display: "flex" }}>
-//                           <Box sx={{ width: "34%", height: "30px" }}></Box>
+//                           <Box sx={{ width: "34%", height: "30px" }}/>
 //                           <Box
 //                             sx={{
 //                               width: "66%",
@@ -617,8 +617,8 @@ import AutoSizer from "react-virtualized-auto-sizer";
 import { FixedSizeList as List } from "react-window";
 import { ARROWUP } from "../../../assets";
 import {
-  declareFinalMatchResult,
-  unDeclareFinalMatchResult,
+    declareFinalMatchResult,
+    unDeclareFinalMatchResult,
 } from "../../../store/actions/match/matchDeclareActions";
 import { AppDispatch, RootState } from "../../../store/store";
 import { betListColorConstants } from "../../../utils/Constants";
@@ -949,7 +949,7 @@ const BetList = ({ tag, allBetRates, title, isMatchDeclare }: any) => {
               display: "flex",
             }}>
               <Box sx={{ flex: 1, display: "flex" }}>
-                <Box sx={{ width: "34%", height: "30px" }}></Box>
+                <Box sx={{ width: "34%", height: "30px" }}/>
                 <Box sx={{
                   width: "66%",
                   height: "30px",

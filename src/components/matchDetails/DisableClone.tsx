@@ -1,6 +1,11 @@
 import { Box, Typography } from "@mui/material";
 
-const DisableClone = ({ invert, onClick, height }: any) => {
+interface DisableCloneProps {
+  invert: boolean;
+  onClick: (val: any) => void;
+}
+
+const DisableClone = ({ invert, onClick }: DisableCloneProps) => {
   return (
     <Box onClick={onClick} sx={{ zIndex: 2 }}>
       <Box
@@ -10,7 +15,7 @@ const DisableClone = ({ invert, onClick, height }: any) => {
           marginLeft: "2px",
           justifyContent: "center",
           alignItems: "center",
-          height: height ? height : "18px",
+          height: "18px",
           background: invert ? "#e04646" : "#e04646",
           borderRadius: "2px",
           cursor: "pointer",

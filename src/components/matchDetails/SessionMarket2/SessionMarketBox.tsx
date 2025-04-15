@@ -28,7 +28,7 @@ const SessionMarketBox = ({ newData, index }: any) => {
             background: "rgba(0,0,0,0.4)",
             zIndex: 2,
           }}
-        ></Box>
+        />
       )}
       <Box
         sx={{
@@ -151,8 +151,6 @@ const SessionMarketBox = ({ newData, index }: any) => {
             }}
           >
             <SeparateBox
-              session={true}
-              back={true}
               value={formatNumber(
                 newData?.type === "oddEven"
                   ? newData?.ex?.availableToBack[0]?.price || 0
@@ -168,12 +166,9 @@ const SessionMarketBox = ({ newData, index }: any) => {
               width="50%"
             />
 
-            <Box
-              sx={{ width: ".45%", display: "flex", background: "pink" }}
-            ></Box>
+            <Box sx={{ width: ".45%", display: "flex", background: "pink" }} />
 
             <SeparateBox
-              session={true}
               value={formatNumber(
                 newData?.type === "oddEven"
                   ? newData?.ex?.availableToLay[0]?.price || 0
@@ -232,7 +227,7 @@ const SessionMarketBox = ({ newData, index }: any) => {
             >
               <Box
                 sx={{ paddingTop: "3px", width: { lg: "100%", xs: "100%" } }}
-              ></Box>
+              />
             </Box>
             {newData?.resultStatus ? (
               <Box
@@ -310,8 +305,6 @@ const SessionMarketBox = ({ newData, index }: any) => {
                 }}
               >
                 <SeparateBox
-                  session={true}
-                  back={true}
                   value={formatNumber(
                     newData?.type === "oddEven"
                       ? newData?.ex?.availableToBack[item]?.price || 0
@@ -329,10 +322,9 @@ const SessionMarketBox = ({ newData, index }: any) => {
 
                 <Box
                   sx={{ width: ".45%", display: "flex", background: "pink" }}
-                ></Box>
+                />
 
                 <SeparateBox
-                  session={true}
                   value={formatNumber(
                     newData?.type === "oddEven"
                       ? newData?.ex?.availableToLay[item]?.price || 0

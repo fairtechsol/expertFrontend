@@ -142,9 +142,7 @@ const BoxComponent = ({
                 color="#CEEBFF"
               />
             )}
-            <Box
-              sx={{ width: ".45%", display: "flex", background: "pink" }}
-            ></Box>
+            <Box sx={{ width: ".45%", display: "flex", background: "pink" }} />
             {!matchesMobile && (
               <SeparateBox
                 currentMatch={currentMatch}
@@ -163,9 +161,7 @@ const BoxComponent = ({
                 color="#C2E6FF"
               />
             )}
-            <Box
-              sx={{ width: ".45%", display: "flex", background: "pink" }}
-            ></Box>
+            <Box sx={{ width: ".45%", display: "flex", background: "pink" }} />
             <SeparateBox
               currentMatch={currentMatch}
               align={align}
@@ -182,9 +178,7 @@ const BoxComponent = ({
               )}
               color="#A7DCFF"
             />
-            <Box
-              sx={{ width: ".45%", display: "flex", background: "pink" }}
-            ></Box>
+            <Box sx={{ width: ".45%", display: "flex", background: "pink" }} />
             <SeparateBox
               currentMatch={currentMatch}
               align={align}
@@ -204,7 +198,7 @@ const BoxComponent = ({
             {!matchesMobile && (
               <Box
                 sx={{ width: ".45%", display: "flex", background: "pink" }}
-              ></Box>
+              />
             )}
             {!matchesMobile && (
               <SeparateBox
@@ -228,7 +222,7 @@ const BoxComponent = ({
             {!matchesMobile && (
               <Box
                 sx={{ width: ".45%", display: "flex", background: "pink" }}
-              ></Box>
+              />
             )}
             {!matchesMobile && (
               <SeparateBox

@@ -414,7 +414,7 @@ const EditBookmaker = ({
           </Box>
         )}
         <Box sx={{ display: "flex" }}>
-          <Box sx={{ background: "#319E5B", width: "75%", px: "5px" }}></Box>
+          <Box sx={{ background: "#319E5B", width: "75%", px: "5px" }} />
           <Box
             sx={{
               background: "#00C0F9",

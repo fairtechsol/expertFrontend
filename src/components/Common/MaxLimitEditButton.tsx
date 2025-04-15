@@ -1,4 +1,10 @@
-const MaxLimitEditButton = ({ handleClickOpen }: any) => {
+interface MaxLimitEditButtonInterface {
+  handleClickOpen: () => void;
+}
+
+const MaxLimitEditButton = ({
+  handleClickOpen,
+}: MaxLimitEditButtonInterface) => {
   return (
     <div
       style={{

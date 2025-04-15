@@ -4,16 +4,23 @@ import { formatNumber } from "../../helper";
 import SeparateBox from "../SeparateBox";
 import MoneyBox from "./MoneyBox";
 
+interface BoxComponentProps {
+  name: string;
+  data: any;
+  lock: boolean;
+  teamRates: number | string;
+  livestatus: boolean;
+  liveData: any;
+}
+
 const BoxComponent = ({
   name,
   data,
-  currentMatch,
-  align,
   lock,
   teamRates,
   livestatus,
   liveData,
-}: any) => {
+}: BoxComponentProps) => {
   const theme = useTheme();
   const matchesMobile = useMediaQuery(theme.breakpoints.down("lg"));
   const { ex, status } = data ?? {};
@@ -107,69 +114,59 @@ const BoxComponent = ({
           </Box>
         </Box>
       ) : (
-        <>
+        <Box
+          sx={{
+            display: "flex",
+            background: "white",
+            height: "30px",
+            width: { lg: "65%", xs: "78%" },
+            justifyContent: { xs: "flex-end", lg: "flex-end" },
+            alignItems: "center",
+          }}
+        >
           <Box
             sx={{
               display: "flex",
               background: "white",
               height: "30px",
-              width: { lg: "65%", xs: "78%" },
+              width: { lg: "36.5%", xs: "55%" },
               justifyContent: { xs: "flex-end", lg: "flex-end" },
               alignItems: "center",
             }}
           >
-            <Box
-              sx={{
-                display: "flex",
-                background: "white",
-                height: "30px",
-                width: { lg: "36.5%", xs: "55%" },
-                justifyContent: { xs: "flex-end", lg: "flex-end" },
-                alignItems: "center",
-              }}
-            >
-              <SeparateBox
-                currentMatch={currentMatch}
-                align={align}
-                value={
-                  ex?.availableToBack?.length > 0
-                    ? ex?.availableToBack[
-                        ex?.availableToBack?.length > 1 ? 2 : 0
-                      ]?.price ?? 0
-                    : 0
-                }
-                lock={lock}
-                value2={formatNumber(
-                  ex?.availableToBack?.length > 0
-                    ? ex?.availableToBack[
-                        ex?.availableToBack?.length > 1 ? 2 : 0
-                      ]?.size ?? 0
-                    : 0
-                )}
-                color={"#A7DCFF"}
-              />
-              <Box
-                sx={{ width: ".45%", display: "flex", background: "pink" }}
-              ></Box>
-              <SeparateBox
-                currentMatch={currentMatch}
-                align={align}
-                value={
-                  ex?.availableToLay?.length > 0
-                    ? ex?.availableToLay[0]?.price ?? 0
-                    : 0
-                }
-                lock={lock}
-                value2={formatNumber(
-                  ex?.availableToLay?.length > 0
-                    ? ex?.availableToLay[0]?.size ?? 0
-                    : 0
-                )}
-                color={"#FFB5B5"}
-              />
-            </Box>
+            <SeparateBox
+              value={
+                ex?.availableToBack?.length > 0
+                  ? ex?.availableToBack[ex?.availableToBack?.length > 1 ? 2 : 0]
+                      ?.price ?? 0
+                  : 0
+              }
+              lock={lock}
+              value2={formatNumber(
+                ex?.availableToBack?.length > 0
+                  ? ex?.availableToBack[ex?.availableToBack?.length > 1 ? 2 : 0]
+                      ?.size ?? 0
+                  : 0
+              )}
+              color="#A7DCFF"
+            />
+            <Box sx={{ width: ".45%", display: "flex", background: "pink" }} />
+            <SeparateBox
+              value={
+                ex?.availableToLay?.length > 0
+                  ? ex?.availableToLay[0]?.price ?? 0
+                  : 0
+              }
+              lock={lock}
+              value2={formatNumber(
+                ex?.availableToLay?.length > 0
+                  ? ex?.availableToLay[0]?.size ?? 0
+                  : 0
+              )}
+              color="#FFB5B5"
+            />
           </Box>
-        </>
+        </Box>
       )}
     </Box>
   );

@@ -16,8 +16,13 @@ import { AppDispatch, RootState } from "../../store/store";
 import CustomButton from "../Common/CustomButton";
 import StyledImage from "../Common/StyledImages";
 import { IconConstants } from "../helper/gameConstants";
-const TabListTable = (props: any) => {
-  const { data, index, currentPage } = props;
+
+interface TabListTableProps {
+  data: any;
+  index: number;
+  currentPage: number;
+}
+const TabListTable = ({ data, index, currentPage }: TabListTableProps) => {
   const dispatch: AppDispatch = useDispatch();
   const { tabList } = useSelector((state: RootState) => state.matchList);
   const idd = tabList.filter((tab: any) => tab.matchId === data.id);
@@ -69,14 +74,12 @@ const TabListTable = (props: any) => {
   return (
     <>
       <Box
-        sx={[
-          {
-            display: "flex",
-            background: "#FFE094",
-            alignItems: { xs: "stretch", md: "center" },
-            borderTop: "2px solid white",
-          },
-        ]}
+        sx={{
+          display: "flex",
+          background: "#FFE094",
+          alignItems: { xs: "stretch", md: "center" },
+          borderTop: "2px solid white",
+        }}
       >
         <Box
           sx={{
@@ -165,9 +168,9 @@ const TabListTable = (props: any) => {
                 marginTop: { sm: "5px", lg: "2.5px", md: 0 },
                 paddingRight: "5px",
               }}
-            ></Box>
+            />
             <Box
-              display={"flex"}
+              display="flex"
               sx={{
                 width: "100%",
                 display: "flex",
@@ -187,20 +190,20 @@ const TabListTable = (props: any) => {
                   <CustomButton
                     containerStyle={{ margin: "5px" }}
                     onClick={() => setShowPopup(true)}
-                    title={"Edit"}
+                    title="Edit"
                   />
                   <CustomButton
-                    bgColor={"#e74c3c"}
+                    bgColor="#e74c3c"
                     containerStyle={{ margin: "5px" }}
                     onClick={handleDelete}
-                    title={"Delete"}
+                    title="Delete"
                   />
                 </>
               ) : (
                 <CustomButton
                   containerStyle={{ margin: "5px" }}
                   onClick={() => setShowPopup(true)}
-                  title={"Add"}
+                  title="Add"
                 />
               )}
             </Box>
@@ -217,7 +220,7 @@ const TabListTable = (props: any) => {
             fontFamily: "Poppins, sans-serif",
           }}
         >
-          {"Position"}
+          Position
         </DialogTitle>
         <DialogContent sx={{ backgroundColor: "#fff" }}>
           <div

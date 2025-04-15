@@ -4,14 +4,7 @@ import { formatNumber } from "../../helper";
 import SeparateBox from "../SeparateBox";
 import MoneyBox from "./MoneyBox";
 
-const BoxComponent = ({
-  name,
-  data,
-  currentMatch,
-  align,
-  lock,
-  teamRates,
-}: any) => {
+const BoxComponent = ({ name, data, lock, teamRates }: any) => {
   const { ex } = data ?? {};
 
   return (
@@ -80,8 +73,6 @@ const BoxComponent = ({
             }}
           >
             <SeparateBox
-              currentMatch={currentMatch}
-              align={align}
               value={
                 ex?.availableToBack?.length > 0
                   ? ex?.availableToBack[ex?.availableToBack?.length > 1 ? 2 : 0]
@@ -95,7 +86,7 @@ const BoxComponent = ({
                       ?.size ?? 0
                   : 0
               )}
-              color={"#A7DCFF"}
+              color="#A7DCFF"
             />
           </Box>
         </Box>

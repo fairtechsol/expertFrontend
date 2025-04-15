@@ -76,59 +76,57 @@ const TabList = ({}) => {
     }
   }, [socket]);
   return (
-    <>
-      <Box
-        sx={[
-          {
-            marginX: "10px",
-            marginTop: "10px",
-            minHeight: "200px",
-            borderRadius: "10px",
-            border: "2px solid white",
-          },
-          (theme: any) => ({
-            backgroundImage: `${theme.palette.primary.headerGradient}`,
-          }),
-        ]}
-      >
-        <TabListHeader />
-        <TabListTableHeader />
+    <Box
+      sx={[
+        {
+          marginX: "10px",
+          marginTop: "10px",
+          minHeight: "200px",
+          borderRadius: "10px",
+          border: "2px solid white",
+        },
+        (theme: any) => ({
+          backgroundImage: `${theme.palette.primary.headerGradient}`,
+        }),
+      ]}
+    >
+      <TabListHeader />
+      <TabListTableHeader />
 
-        {matchList &&
-          matchList?.matches?.map((item: any, index: number) => (
-            <TabListTable
-              key={item?.id}
-              data={item}
-              index={index}
-              currentPage={currentPage}
-            />
-          ))}
-        <Pagination
-          sx={{
-            background: "#073c25",
-            overflow: "hidden",
-            borderRadius: "0px 0px 10px 10px",
+      {matchList &&
+        matchList?.matches?.map((item: any, index: number) => (
+          <TabListTable
+            key={item?.id}
+            data={item}
+            index={index}
+            currentPage={currentPage}
+          />
+        ))}
+      <Pagination
+        sx={{
+          background: "#073c25",
+          overflow: "hidden",
+          borderRadius: "0px 0px 10px 10px",
+          color: "white",
+          "& .MuiPaginationItem-page": {
             color: "white",
-            "& .MuiPaginationItem-page": {
-              color: "white",
-            },
-            "& .MuiPaginationItem-ellipsis": {
-              color: "white",
-            },
-            "& .MuiPaginationItem-next": {
-              color: "white",
-            },
-          }}
-          page={currentPage}
-          className="whiteTextPagination matchList-pagination d-flex justify-content-center"
-          count={Math.ceil(
-            parseInt(matchList?.count ? matchList?.count : 1) / 20
-          )}
-          color="primary"
-          onChange={callPage}
-        />
-      </Box>
-    </>
+          },
+          "& .MuiPaginationItem-ellipsis": {
+            color: "white",
+          },
+          "& .MuiPaginationItem-next": {
+            color: "white",
+          },
+        }}
+        page={currentPage}
+        className="whiteTextPagination matchList-pagination d-flex justify-content-center"
+        count={Math.ceil(
+          parseInt(matchList?.count ? matchList?.count : 1) / 20
+        )}
+        color="primary"
+        onChange={callPage}
+      />
+    </Box>
   );
 };
 

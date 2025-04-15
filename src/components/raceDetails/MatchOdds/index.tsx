@@ -248,8 +248,7 @@ const MatchOdds = ({ currentMatch, matchOddsLive }: any) => {
                     Back
                   </Typography>
                 </Box>
-                <Box sx={{ width: ".35%", display: "flex" }}></Box>
-
+                <Box sx={{ width: ".35%", display: "flex" }} />
                 <Box
                   sx={{
                     background: "#FF9292",
@@ -306,7 +305,7 @@ const MatchOdds = ({ currentMatch, matchOddsLive }: any) => {
                     bottom: 0,
                     background: "rgba(0,0,0,0.5)",
                   }}
-                ></Box>
+                />
               )}
               {currentMatch?.resultStatus && (
                 <Box

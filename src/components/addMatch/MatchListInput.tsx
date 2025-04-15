@@ -1,6 +1,17 @@
 import { Box, Input, Typography } from "@mui/material";
 import { numberInputOnWheelPreventChange } from "../../helpers";
 
+interface MatchListInputProps {
+  value?: string | number;
+  required?: boolean;
+  label: string;
+  labelStyle?: React.CSSProperties;
+  type: string;
+  disable?: boolean;
+  placeholder: string;
+  [key: string]: any;
+}
+
 const MatchListInput = ({
   value,
   required,
@@ -10,7 +21,7 @@ const MatchListInput = ({
   disable,
   placeholder,
   ...prop
-}: any) => {
+}: MatchListInputProps) => {
   const containerStyles: any = {
     width: "100%",
     flex: 1,

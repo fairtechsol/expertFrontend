@@ -3,7 +3,19 @@ import Divider from "../../Common/Divider";
 import { formatNumber } from "../../helper";
 import SeparateBox from "../SeparateBox";
 
-const CasinoMarketBox = ({ newData, index, profitLoss, sessionData }: any) => {
+interface CasinoMarketBoxProps {
+  newData: any;
+  index: number;
+  profitLoss: any;
+  sessionData: any;
+}
+
+const CasinoMarketBox = ({
+  newData,
+  index,
+  profitLoss,
+  sessionData,
+}: CasinoMarketBoxProps) => {
   return (
     <div>
       <Box

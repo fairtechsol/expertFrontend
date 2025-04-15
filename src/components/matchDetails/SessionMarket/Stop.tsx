@@ -7,7 +7,14 @@ import {
 } from "@mui/material";
 import { BroadCast_ } from "../../../assets";
 
-const Stop = ({ onClick, height, title, isCommissionActive }: any) => {
+interface StopProps {
+  onClick: () => void;
+  height: string;
+  title?: string;
+  isCommissionActive?: boolean;
+}
+
+const Stop = ({ onClick, height, title, isCommissionActive }: StopProps) => {
   const theme = useTheme();
   const matchesMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const matchesMiddle = useMediaQuery(theme.breakpoints.down("md"));

@@ -47,7 +47,7 @@ const BookmakerEditSection = ({
             top: 0,
             zIndex: 1,
           }}
-        ></Box>
+        />
       )}
       {!matchesMobile && (
         <Box sx={{ display: "flex", gap: 1, alignItems: "center" }}>
@@ -105,7 +105,7 @@ const BookmakerEditSection = ({
               alignSelf: "center",
             }}
           >
-            <Box sx={{ width: "2%" }}></Box>
+            <Box sx={{ width: "2%" }} />
             {matchBetting?.stopAt ? (
               <Box
                 onClick={(e) => {

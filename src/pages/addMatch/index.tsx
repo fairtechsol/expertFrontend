@@ -421,8 +421,8 @@ const AddMatch = () => {
         >
           <LabelValueComponent
             title={state?.id ? "Edit Match" : "Add Match"}
-            titleSize={"20px"}
-            headColor={"#000000"}
+            titleSize="20px"
+            headColor="#000000"
           />
           {!state?.id && (
             <BoxButtonManualMatch
@@ -465,7 +465,7 @@ const AddMatch = () => {
                   filter: "invert(.9) sepia(1) saturate(5) hue-rotate(175deg);",
                 }}
                 disable={state?.id ? true : false}
-                title={"Game *"}
+                title="Game *"
                 value={values.gameType}
                 valueContainerStyle={{
                   height: "45px",
@@ -513,8 +513,8 @@ const AddMatch = () => {
                 />
               ) : (
                 <MatchListInput
-                  label={"Match Name*"}
-                  type={"text"}
+                  label="Match Name*"
+                  type="text"
                   onChange={handleInputChange}
                   placeholder="Enter your Match Name"
                   place={3}
@@ -625,8 +625,8 @@ const AddMatch = () => {
               <MatchListInput
                 required={true}
                 disable={state?.id}
-                label={"Min Bet*"}
-                type={"Number"}
+                label="Min Bet*"
+                type="Number"
                 touched={touched.minBet}
                 errors={errors.minBet}
                 value={values.minBet}
@@ -648,8 +648,8 @@ const AddMatch = () => {
                 <MatchListInput
                   required={true}
                   containerStyle={{ flex: 1, width: "100%" }}
-                  label={"API Session Max Bet*"}
-                  type={"Number"}
+                  label="API Session Max Bet*"
+                  type="Number"
                   placeholder="API Session Max Bet..."
                   place={11}
                   name="betfairSessionMaxBet"

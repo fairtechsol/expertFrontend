@@ -198,7 +198,7 @@ const MaxBetEdit = (props: any) => {
             paddingLeft: "5px",
             width: "30%",
           }}
-        ></Box>
+        />
 
         <Button
           variant="contained"

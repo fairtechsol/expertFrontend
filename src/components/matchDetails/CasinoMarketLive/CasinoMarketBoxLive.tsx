@@ -25,7 +25,7 @@ const CasinoMarketBoxLive = ({ newData, index }: any) => {
             background: "rgba(0,0,0,0.4)",
             zIndex: 2,
           }}
-        ></Box>
+        />
       )}
       <Box
         sx={{

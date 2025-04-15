@@ -1,5 +1,5 @@
 import { Box, Typography } from "@mui/material";
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, memo, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ARROWUP } from "../../../assets";
 import {
@@ -22,12 +22,19 @@ import SmallBox from "../SmallBox";
 import ResultComponentTournamentMarket from "./ResultComponentTournamentMarket";
 import TournamentMarketAdd from "./TournamentMarketAdd";
 
+interface TournamentMarketProps {
+  currentMatch: any;
+  liveData: any;
+  title: string;
+  firstKnownKey: string | undefined;
+}
+
 const TournamentMarket = ({
   currentMatch,
   liveData,
   title,
   firstKnownKey,
-}: any) => {
+}: TournamentMarketProps) => {
   const dispatch: AppDispatch = useDispatch();
   const [visibleImg, setVisibleImg] = useState<boolean>(true);
   const [visible, setVisible] = useState<boolean>(false);
@@ -124,7 +131,6 @@ const TournamentMarket = ({
             liveData?.activeStatus !== "result" &&
             liveData?.id && (
               <Clone
-                width={"80px"}
                 onClick={(e: any) => {
                   e.preventDefault();
                   dispatch(
@@ -139,7 +145,6 @@ const TournamentMarket = ({
             )}
           {liveData.isManual && liveData?.parentBetId && (
             <DisableClone
-              width={"80px"}
               onClick={(e: any) => {
                 e.preventDefault();
                 dispatch(
@@ -302,7 +307,7 @@ const TournamentMarket = ({
                   Back
                 </Typography>
               </Box>
-              <Box sx={{ width: ".35%", display: "flex" }}></Box>
+              <Box sx={{ width: ".35%", display: "flex" }} />
               <Box
                 sx={{
                   background: "#FF9292",
@@ -465,4 +470,4 @@ const TournamentMarket = ({
   );
 };
 
-export default TournamentMarket;
+export default memo(TournamentMarket);

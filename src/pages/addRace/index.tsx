@@ -296,8 +296,8 @@ const AddRace = () => {
         >
           <LabelValueComponent
             title={state?.id ? "Edit Race" : "Add Race"}
-            titleSize={"20px"}
-            headColor={"#000000"}
+            titleSize="20px"
+            headColor="#000000"
           />
           {!state?.id && (
             <BoxButtonManualMatch
@@ -339,8 +339,8 @@ const AddRace = () => {
                   filter: "invert(.9) sepia(1) saturate(5) hue-rotate(175deg);",
                 }}
                 disable={state?.id ? true : false}
-                title={"Game *"}
-                value={values.gameType} //
+                title="Game *"
+                value={values.gameType}
                 valueContainerStyle={{
                   height: "45px",
                   marginX: "0px",
@@ -385,7 +385,7 @@ const AddRace = () => {
                   }}
                   disable={state?.id ? true : false}
                   valueStyle={{ ...inputStyle, color: "white" }} //
-                  title={"Race Name*"}
+                  title="Race Name*"
                   valueContainerStyle={{
                     height: "45px",
                     marginX: "0px",
@@ -428,8 +428,8 @@ const AddRace = () => {
               ) : (
                 <MatchListInput
                   required={true}
-                  label={"Race Name*"}
-                  type={"text"}
+                  label="Race Name*"
+                  type="text"
                   onChange={handleInputChange}
                   placeholder="Enter your Race Name"
                   place={3}
@@ -483,8 +483,8 @@ const AddRace = () => {
               <MatchListInput
                 required={true}
                 disable={state?.id}
-                label={"Min Bet*"}
-                type={"Number"}
+                label="Min Bet*"
+                type="Number"
                 touched={touched.minBet}
                 errors={errors.minBet}
                 value={values.minBet}
@@ -505,8 +505,8 @@ const AddRace = () => {
               <MatchListInput
                 required={true}
                 containerStyle={{ flex: 1, width: "100%" }}
-                label={"API Match Odd Max Bet*"}
-                type={"Number"}
+                label="API Match Odd Max Bet*"
+                type="Number"
                 placeholder="API Match Odd Max Bet..."
                 place={11}
                 name="maxBet"

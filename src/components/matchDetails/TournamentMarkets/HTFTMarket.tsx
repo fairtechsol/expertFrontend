@@ -322,7 +322,7 @@ const HTFTMarket = ({ currentMatch, liveData, title, firstKnownKey }: any) => {
                   bottom: 0,
                   background: "rgba(0,0,0,0.5)",
                 }}
-              ></Box>
+              />
             )}
             {currentMatch?.resultStatus &&
               currentMatch?.resultStatus[liveData?.id]?.status && (

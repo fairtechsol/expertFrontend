@@ -447,6 +447,7 @@ const CasinoMarket = ({ title, sessionData, profitLossData, section }: any) => {
             >
               {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]?.map((item: any) => (
                 <CasinoMarketBox
+                  key={item}
                   sessionData={sessionData}
                   newData={
                     sessionData?.section?.length > 0

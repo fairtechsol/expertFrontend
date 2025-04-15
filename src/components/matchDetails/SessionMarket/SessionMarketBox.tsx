@@ -60,7 +60,7 @@ const SessionMarketBox = ({
             background: "rgba(0,0,0,0.4)",
             zIndex: 2,
           }}
-        ></Box>
+        />
       )}
       <Box
         sx={{
@@ -382,8 +382,6 @@ const SessionMarketBox = ({
             }}
           >
             <SeparateBox
-              session={true}
-              back={true}
               value={formatNumber(
                 newData?.type === "oddEven"
                   ? newData?.ex?.availableToBack[0]?.price || 0
@@ -398,12 +396,9 @@ const SessionMarketBox = ({
               color={newData?.type === "oddEven" ? "#B3E0FF" : "#F6D0CB"}
             />
 
-            <Box
-              sx={{ width: ".45%", display: "flex", background: "pink" }}
-            ></Box>
+            <Box sx={{ width: ".45%", display: "flex", background: "pink" }} />
 
             <SeparateBox
-              session={true}
               value={formatNumber(
                 newData?.type === "oddEven"
                   ? newData?.ex?.availableToLay[0]?.price || 0
@@ -465,11 +460,10 @@ const SessionMarketBox = ({
                 width: "40%",
                 alignItems: "center",
                 boxShadow: visible ? 3 : 0,
-                // backgroundColor:'red'
               }}
             >
               <Box sx={{ paddingTop: "3px", width: { lg: "100%", xs: "70%" } }}>
-                <Box sx={{ display: "flex", flexDirection: "row" }}></Box>
+                <Box sx={{ display: "flex", flexDirection: "row" }} />
               </Box>
             </Box>
 
@@ -560,8 +554,6 @@ const SessionMarketBox = ({
                 }}
               >
                 <SeparateBox
-                  session={true}
-                  back={true}
                   value={formatNumber(
                     newData?.type === "oddEven"
                       ? newData?.ex?.availableToBack[item]?.price || 0
@@ -575,13 +567,10 @@ const SessionMarketBox = ({
                   lock={newData?.GameStatus === "SUSPENDED"}
                   color={newData?.type === "oddEven" ? "#B3E0FF" : "#F6D0CB"}
                 />
-
                 <Box
                   sx={{ width: ".45%", display: "flex", background: "pink" }}
-                ></Box>
-
+                />
                 <SeparateBox
-                  session={true}
                   value={formatNumber(
                     newData?.type === "oddEven"
                       ? newData?.ex?.availableToLay[item]?.price || 0
@@ -617,21 +606,19 @@ const SessionMarketBox = ({
           justifyContent: "center",
         }}
       >
-        <>
-          <SessionLimitEdit
-            newData={{
-              id: newData.id,
-              name: newData.name,
-              minBet: newData?.minBet,
-              maxBet: newData?.maxBet,
-              exposureLimit: newData?.exposureLimit,
-              isCommissionActive: newData?.isCommissionActive,
-            }}
-            onClickCancel={() => {
-              setShowMaxLimitModal(false);
-            }}
-          />
-        </>
+        <SessionLimitEdit
+          newData={{
+            id: newData.id,
+            name: newData.name,
+            minBet: newData?.minBet,
+            maxBet: newData?.maxBet,
+            exposureLimit: newData?.exposureLimit,
+            isCommissionActive: newData?.isCommissionActive,
+          }}
+          onClickCancel={() => {
+            setShowMaxLimitModal(false);
+          }}
+        />
       </ModalMUI>
     </div>
   );

@@ -1,9 +1,4 @@
-import {
-  Box,
-  Typography,
-  useMediaQuery,
-  useTheme,
-} from "@mui/material";
+import { Box, Typography, useMediaQuery, useTheme } from "@mui/material";
 import { formatToINR } from "../helper";
 
 interface Props {

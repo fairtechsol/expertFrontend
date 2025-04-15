@@ -53,7 +53,7 @@ const SessionMarketBoxLive = ({
             background: "rgba(0,0,0,0.4)",
             zIndex: 2,
           }}
-        ></Box>
+        />
       )}
       <Box
         sx={{
@@ -188,9 +188,7 @@ const SessionMarketBoxLive = ({
               color={type === "oddEven" ? "#B3E0FF" : "#F6D0CB"}
             />
 
-            <Box
-              sx={{ width: ".45%", display: "flex", background: "pink" }}
-            ></Box>
+            <Box sx={{ width: ".45%", display: "flex", background: "pink" }} />
 
             <SeparateBox
               width="30%"
@@ -238,7 +236,7 @@ const SessionMarketBoxLive = ({
                   width: "100%",
                   alignItems: "center",
                 }}
-              ></Box>
+              />
               {!["ACTIVE", "", undefined, null, "active", "open"].includes(
                 newData?.GameStatus?.toLowerCase()
               ) ? (
@@ -309,7 +307,7 @@ const SessionMarketBoxLive = ({
                       display: "flex",
                       background: "pink",
                     }}
-                  ></Box>
+                  />
 
                   <SeparateBox
                     width="30%"

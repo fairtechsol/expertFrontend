@@ -3,6 +3,16 @@ import React from "react";
 import { Popover } from "react-tiny-popover";
 import { Lock } from "../../assets";
 
+interface SeparateBoxInterface {
+  color: string;
+  empty?: boolean;
+  value: number | string;
+  width?: string;
+  value2: number | string;
+  lock: boolean;
+  mWidth?: string;
+}
+
 const SeparateBox = ({
   color,
   empty,
@@ -11,7 +21,7 @@ const SeparateBox = ({
   value2,
   lock,
   mWidth,
-}: any) => {
+}: SeparateBoxInterface) => {
   const theme = useTheme();
   const matchesMobile = useMediaQuery(theme.breakpoints.down("lg"));
   const [isPopoverOpen, setIsPopoverOpen] = React.useState(false);

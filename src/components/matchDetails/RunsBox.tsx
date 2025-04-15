@@ -224,16 +224,13 @@ const RunsBox = ({ item, currentOdd }: any) => {
             );
           })
         ) : (
-          <>
-            {" "}
-            <Box
-              sx={{
-                display: "flex",
-                height: "25px",
-                borderTop: "1px solid #306A47",
-              }}
-            ></Box>
-          </>
+          <Box
+            sx={{
+              display: "flex",
+              height: "25px",
+              borderTop: "1px solid #306A47",
+            }}
+          />
         )}
       </Box>
     </Box>

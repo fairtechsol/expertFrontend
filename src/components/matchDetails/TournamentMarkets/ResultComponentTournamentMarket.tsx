@@ -10,11 +10,17 @@ import {
 import { AppDispatch, RootState } from "../../../store/store";
 import MatchOddsResultCustomButton from "../../updateBookmaker/BookmakerEdit/MatchOddsResultCustomButton";
 
+interface ResultComponentTournamentMarketProps {
+  currentMatch: any;
+  onClick: () => void;
+  liveData: any;
+}
+
 const ResultComponentTournamentMarket = ({
   currentMatch,
   onClick,
   liveData,
-}: any) => {
+}: ResultComponentTournamentMarketProps) => {
   const dispatch: AppDispatch = useDispatch();
   const { success, error } = useSelector((state: RootState) => state.match);
   const [selected, setSelected] = useState("");
