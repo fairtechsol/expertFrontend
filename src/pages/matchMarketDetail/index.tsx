@@ -95,7 +95,11 @@ const MatchMarketDetail = () => {
   const resultUnDeclared = (event: any) => {
     try {
       if (event?.matchId === state?.id) {
-        dispatch(getMatchDetail(`${state?.id}?isSessionAllowed=false`));
+        if (event?.betType) {
+          dispatch(updateResultStatusOfMatch(event));
+        } else {
+          dispatch(getMatchDetail(`${state?.id}?isSessionAllowed=false`));
+        }
         dispatch(getPlacedBetsMatch(state?.id));
       }
     } catch (e) {
@@ -344,15 +348,16 @@ const MatchMarketDetail = () => {
     matchDetail?.tournament
       ?.filter((item: any) => item?.name !== "HT/FT")
       ?.map((market: any, index: number) => ({
-        component: market?.activeStatus !== "close" ? (
-          <TournamentMarket
-            key={index}
-            liveData={market}
-            currentMatch={matchDetail}
-            title={market?.name}
-            firstKnownKey={firstKnownKey}
-          />
-        ) : null,
+        component:
+          market?.activeStatus !== "close" ? (
+            <TournamentMarket
+              key={index}
+              liveData={market}
+              currentMatch={matchDetail}
+              title={market?.name}
+              firstKnownKey={firstKnownKey}
+            />
+          ) : null,
         result: matchDetail?.otherBettings?.[market?.id]
           ? market?.activeStatus === "result"
             ? "declared"

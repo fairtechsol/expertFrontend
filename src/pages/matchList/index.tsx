@@ -81,6 +81,11 @@ const MatchList = ({}) => {
   useEffect(() => {
     try {
       if (socket) {
+        expertSocketService.match.matchAddedOff();
+        socketService.user.matchResultUnDeclaredOff();
+        socketService.user.matchResultDeclaredOff();
+        socketService.user.matchResultDeclareAllUserOff();
+        socketService.user.matchResultDeclareAllUserOff();
         expertSocketService.match.matchAdded(getMatchListServiceAddMatch);
         socketService.user.matchResultDeclareAllUser(getMatchListService);
         socketService.user.matchResultDeclared(getMatchListService);
