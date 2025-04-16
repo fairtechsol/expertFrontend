@@ -1,6 +1,16 @@
 import { Button, CircularProgress, Typography } from "@mui/material";
 import { memo } from "react";
 
+interface SessionResultCustomButtonProps {
+  id: string;
+  title: string;
+  color: string;
+  loading: any;
+  onClick?: (val: any) => void;
+  session?: boolean;
+  disable?: boolean;
+}
+
 const SessionResultCustomButton = ({
   id,
   title,
@@ -9,7 +19,7 @@ const SessionResultCustomButton = ({
   onClick,
   session,
   disable,
-}: any) => {
+}: SessionResultCustomButtonProps) => {
   return (
     <Button
       type="submit"

@@ -1,5 +1,5 @@
 import { Box, Typography } from "@mui/material";
-import { useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../store/store";
 import { formatNumber } from "../../helper";
@@ -319,11 +319,9 @@ const SessionMarketBox = ({ newData, index }: any) => {
                   color={newData?.type === "oddEven" ? "#B3E0FF" : "#F6D0CB"}
                   width="50%"
                 />
-
                 <Box
                   sx={{ width: ".45%", display: "flex", background: "pink" }}
                 />
-
                 <SeparateBox
                   value={formatNumber(
                     newData?.type === "oddEven"
@@ -348,4 +346,4 @@ const SessionMarketBox = ({ newData, index }: any) => {
   );
 };
 
-export default SessionMarketBox;
+export default memo(SessionMarketBox);

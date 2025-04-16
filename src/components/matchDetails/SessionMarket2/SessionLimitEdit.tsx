@@ -183,9 +183,9 @@ const SessionLimitEdit = (props: any) => {
           }}
         >
           <SessionResultCustomButton
-            color={"#0B4F26"}
+            color="#0B4F26"
             id="DR"
-            title={"submit"}
+            title="submit"
             loading={loading}
             onClick={(e: any) => handleSubmit(e)}
           />

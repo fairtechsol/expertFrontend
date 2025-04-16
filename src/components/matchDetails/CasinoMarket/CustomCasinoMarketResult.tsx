@@ -113,8 +113,8 @@ const CustomCasinoMarketResult = ({ onClick, newData }: any) => {
             <>
               {newData?.activeStatus === "result" && newData?.result ? (
                 <SessionResultCustomButton
-                  color={"#FF4D4D"}
-                  title={"Un Declare"}
+                  color="#FF4D4D"
+                  title="Un Declare"
                   loading={loader}
                   id="UD"
                   session={true}
@@ -127,10 +127,10 @@ const CustomCasinoMarketResult = ({ onClick, newData }: any) => {
                 <>
                   {newData?.activeStatus !== "result" ? (
                     <SessionResultCustomButton
-                      color={"#0B4F26"}
+                      color="#0B4F26"
                       id="DR"
                       session={true}
-                      title={"Declare"}
+                      title="Declare"
                       loading={loader}
                       disable={loader?.value}
                       onClick={() => {
@@ -162,8 +162,8 @@ const CustomCasinoMarketResult = ({ onClick, newData }: any) => {
               </Typography>
               {newData?.activeStatus === "result" && (
                 <SessionResultCustomButton
-                  color={"rgb(106 90 90)"}
-                  title={"Yes"}
+                  color="rgb(106 90 90)"
+                  title="Yes"
                   loading={loader}
                   id="UD"
                   session={true}
@@ -183,8 +183,8 @@ const CustomCasinoMarketResult = ({ onClick, newData }: any) => {
 
           {newData?.activeStatus !== "result" && (
             <SessionResultCustomButton
-              color={"rgb(106 90 90)"}
-              title={"No Result"}
+              color="rgb(106 90 90)"
+              title="No Result"
               loading={loader}
               id="NR"
               session={true}
@@ -211,8 +211,8 @@ const CustomCasinoMarketResult = ({ onClick, newData }: any) => {
           </Typography>
           {newData?.activeStatus !== "result" && (
             <SessionResultCustomButton
-              color={"rgb(106 90 90)"}
-              title={"Yes"}
+              color="rgb(106 90 90)"
+              title="Yes"
               loading={loader}
               id="NR"
               session={true}

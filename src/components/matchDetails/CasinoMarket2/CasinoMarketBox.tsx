@@ -1,11 +1,12 @@
 import { Box, Typography } from "@mui/material";
+import { memo } from "react";
 import Divider from "../../Common/Divider";
 import { formatNumber } from "../../helper";
 import SeparateBox from "../SeparateBox";
 
 const CasinoMarketBox = ({ newData, index }: any) => {
   return (
-    <div>
+    <>
       <Box
         sx={{
           display: "flex",
@@ -94,8 +95,8 @@ const CasinoMarketBox = ({ newData, index }: any) => {
         )}
       </Box>
       <Divider />
-    </div>
+    </>
   );
 };
 
-export default CasinoMarketBox;
+export default memo(CasinoMarketBox);

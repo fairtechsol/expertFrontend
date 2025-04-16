@@ -310,7 +310,7 @@ const CasinoMarket = ({ title, sessionData, profitLossData, section }: any) => {
                           lineHeight: 1,
                         }}
                       >
-                        {`${totalBet}`}
+                        {totalBet}
                       </Typography>
                     );
                   }
@@ -473,19 +473,17 @@ const CasinoMarket = ({ title, sessionData, profitLossData, section }: any) => {
           justifyContent: "center",
         }}
       >
-        <>
-          <SessionLimitEdit
-            newData={{
-              id: sessionData?.id,
-              name: sessionData?.RunnerName,
-              minBet: sessionData?.minBet,
-              maxBet: sessionData?.maxBet,
-            }}
-            onClickCancel={() => {
-              setShowMaxLimitModal(false);
-            }}
-          />
-        </>
+        <SessionLimitEdit
+          newData={{
+            id: sessionData?.id,
+            name: sessionData?.RunnerName,
+            minBet: sessionData?.minBet,
+            maxBet: sessionData?.maxBet,
+          }}
+          onClickCancel={() => {
+            setShowMaxLimitModal(false);
+          }}
+        />
       </ModalMUI>
     </Box>
   );

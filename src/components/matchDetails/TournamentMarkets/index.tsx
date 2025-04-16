@@ -364,7 +364,6 @@ const TournamentMarket = ({
                   name={item?.nat ?? item?.runnerName}
                   liveData={liveData}
                 />
-
                 <Divider />
               </Fragment>
             ))}

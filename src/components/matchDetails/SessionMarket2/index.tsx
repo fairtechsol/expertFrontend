@@ -1,5 +1,5 @@
 import { Box, Typography } from "@mui/material";
-import { memo, useState } from "react";
+import { Fragment, memo, useState } from "react";
 import { ARROWUP } from "../../../assets";
 import { customSortUpdated } from "../../../helpers";
 import Divider from "../../Common/Divider";
@@ -133,7 +133,7 @@ const SessionMarket2 = ({
                 ?.map((match: any, index: number) => {
                   if (match.id) {
                     return (
-                      <Box key={match?.SelectionId}>
+                      <Fragment key={match?.SelectionId}>
                         <SessionMarketBox
                           hideResult={hideResult}
                           hideTotalBet={hideTotalBet}
@@ -143,7 +143,7 @@ const SessionMarket2 = ({
                           hideEditMaxButton={hideEditMaxButton}
                         />
                         <Divider />
-                      </Box>
+                      </Fragment>
                     );
                   } else {
                     return null;

@@ -121,181 +121,176 @@ const MatchListHeader = ({ value }: MatchListHeader) => {
   }, [countryCode]);
 
   return (
-    <>
+    <Box
+      display="flex"
+      flexDirection="row"
+      sx={{
+        justifyContent: "space-between",
+        px: "10px",
+        py: "10px",
+        gap: "20px",
+        alignItems: "center",
+      }}
+    >
       <Box
-        display="flex"
-        flexDirection="row"
         sx={{
-          justifyContent: "space-between",
-          px: "10px",
-          py: "10px",
-          gap: "20px",
-          alignItems: "center",
+          display: "flex",
+          gap: {
+            lg: "20px",
+            xl: "20px",
+            md: "15px",
+            sm: "30px",
+            xs: "30px",
+          },
+          marginTop: "4px",
         }}
       >
-        <Box
+        <Typography
           sx={{
+            fontSize: "16px",
+            color: "white",
+            fontWeight: "600",
             display: "flex",
-            gap: {
-              lg: "20px",
-              xl: "20px",
-              md: "15px",
-              sm: "30px",
-              xs: "30px",
-            },
-            marginTop: "4px",
+            justifyContent: "start",
+            alignItems: "center",
           }}
         >
-          <Typography
+          Race List
+        </Typography>
+        <Box
+          sx={{
+            maxWidth: { lg: "60vw", md: "60%", sm: "50%" },
+            display: "flex",
+            alignItems: "center",
+          }}
+        >
+          <CustomTabs
+            value={selectedTab}
+            onChange={handleTabChange}
+            variant="scrollable"
+            textColor="inherit"
+            aria-label="country tabs"
             sx={{
-              fontSize: "16px",
-              color: "white",
-              fontWeight: "600",
-              display: "flex",
-              justifyContent: "start",
-              alignItems: "center",
+              height: "30px",
+              "& .MuiTab-root": {
+                minWidth: "2.5rem",
+                minHeight: "1rem",
+                transition: "background-color 0.3s ease, color 0.3s ease",
+              },
             }}
           >
-            Race List
-          </Typography>
-
-          <Box
-            sx={{
-              maxWidth: { lg: "60vw", md: "60%", sm: "50%" },
-              display: "flex",
-              alignItems: "center",
-            }}
-          >
-            <CustomTabs
-              value={selectedTab}
-              onChange={handleTabChange}
-              variant="scrollable"
-              textColor="inherit"
-              aria-label="country tabs"
-              sx={{
-                height: "30px",
-                "& .MuiTab-root": {
-                  minWidth: "2.5rem",
-                  minHeight: "1rem",
-                  transition: "background-color 0.3s ease, color 0.3s ease",
-                },
-              }}
-            >
-              {countryCode &&
-                countryCode.map((item: any, index: any) => (
-                  <Tab
-                    sx={{
+            {countryCode &&
+              countryCode.map((item: any, index: any) => (
+                <Tab
+                  sx={{
+                    backgroundColor:
+                      selectedTab === index ? "#F8C851" : "#FFFFFF",
+                    color: "black",
+                    "&:hover": {
                       backgroundColor:
-                        selectedTab === index ? "#F8C851" : "#FFFFFF",
-                      color: "black",
-                      "&:hover": {
-                        backgroundColor:
-                          selectedTab === index ? "#E0B744" : "#F0F0F0",
-                      },
-                      height: "35px",
-                      marginTop: "4px",
-                      textAlign: "center",
-                      paddingTop: "15px",
-                    }}
-                    key={item?.countryCode}
-                    label={item?.countryCode}
-                  />
-                ))}
-            </CustomTabs>
-          </Box>
+                        selectedTab === index ? "#E0B744" : "#F0F0F0",
+                    },
+                    height: "35px",
+                    marginTop: "4px",
+                    textAlign: "center",
+                    paddingTop: "15px",
+                  }}
+                  key={item?.countryCode}
+                  label={item?.countryCode}
+                />
+              ))}
+          </CustomTabs>
         </Box>
-        <LocalizationProvider dateAdapter={AdapterDateFns}>
-          <DatePicker
-            orientation="portrait"
-            value={new Date(dated)}
-            disableFuture
-            onChange={handleDateChange}
-            sx={{
-              backgroundColor: "#0B4F26",
-              color: "white",
-              borderRadius: "5px",
-
-              marginRight: {
-                lg: "6px",
-                xl: "8px",
-                md: "8px",
-                sm: "10x",
-              },
-              width: {
-                xs: "47%",
-                sm: "30%",
-                md: "20%",
-                lg: "15%",
-                xl: "15%",
-              },
-
-              "& .MuiInputBase-input": {
-                color: "white",
-                marginLeft: {
-                  lg: "12px",
-                  xl: "12px",
-                  md: "20px",
-                  sm: "20px",
-                  xs: "10px",
-                },
-                marginTop: "9px",
-
-                height: "100%",
-              },
-              "& .MuiOutlinedInput-input": {
-                padding: "0px",
-                paddingBottom: "5px",
-                border: "none",
-                height: "100%",
-              },
-              "& .MuiOutlinedInput-notchedOutline": {
-                border: "none",
-              },
-              "& .MuiSvgIcon-root": {
-                color: "white",
-                paddingTop: "2px",
-                display: {
-                  lg: "block",
-                  xl: "block",
-                  md: "block",
-                  sm: "block",
-                  xs: "block",
-                },
-              },
-              height: "40px",
-            }}
-            slots={{
-              day: (props) => {
-                const currentDate = props.day;
-                const isSelected =
-                  !props.outsideCurrentMonth &&
-                  dateList?.some((highlightedDay: any) => {
-                    const highlightedDate = new Date(highlightedDay?.date);
-                    return (
-                      currentDate.getDate() === highlightedDate.getDate() &&
-                      currentDate.getMonth() === highlightedDate.getMonth() &&
-                      currentDate.getFullYear() ===
-                        highlightedDate.getFullYear()
-                    );
-                  });
-
-                return (
-                  <Badge
-                    key={props.day.toString()}
-                    overlap="circular"
-                    badgeContent={
-                      isSelected ? <GoDotFill color="red" /> : undefined
-                    }
-                  >
-                    <PickersDay {...props} disabled={!isSelected} />
-                  </Badge>
-                );
-              },
-            }}
-          />
-        </LocalizationProvider>
       </Box>
-    </>
+      <LocalizationProvider dateAdapter={AdapterDateFns}>
+        <DatePicker
+          orientation="portrait"
+          value={new Date(dated)}
+          disableFuture
+          onChange={handleDateChange}
+          sx={{
+            backgroundColor: "#0B4F26",
+            color: "white",
+            borderRadius: "5px",
+
+            marginRight: {
+              lg: "6px",
+              xl: "8px",
+              md: "8px",
+              sm: "10x",
+            },
+            width: {
+              xs: "47%",
+              sm: "30%",
+              md: "20%",
+              lg: "15%",
+              xl: "15%",
+            },
+
+            "& .MuiInputBase-input": {
+              color: "white",
+              marginLeft: {
+                lg: "12px",
+                xl: "12px",
+                md: "20px",
+                sm: "20px",
+                xs: "10px",
+              },
+              marginTop: "9px",
+
+              height: "100%",
+            },
+            "& .MuiOutlinedInput-input": {
+              padding: "0px",
+              paddingBottom: "5px",
+              border: "none",
+              height: "100%",
+            },
+            "& .MuiOutlinedInput-notchedOutline": {
+              border: "none",
+            },
+            "& .MuiSvgIcon-root": {
+              color: "white",
+              paddingTop: "2px",
+              display: {
+                lg: "block",
+                xl: "block",
+                md: "block",
+                sm: "block",
+                xs: "block",
+              },
+            },
+            height: "40px",
+          }}
+          slots={{
+            day: (props) => {
+              const currentDate = props.day;
+              const isSelected =
+                !props.outsideCurrentMonth &&
+                dateList?.some((highlightedDay: any) => {
+                  const highlightedDate = new Date(highlightedDay?.date);
+                  return (
+                    currentDate.getDate() === highlightedDate.getDate() &&
+                    currentDate.getMonth() === highlightedDate.getMonth() &&
+                    currentDate.getFullYear() === highlightedDate.getFullYear()
+                  );
+                });
+              return (
+                <Badge
+                  key={props.day.toString()}
+                  overlap="circular"
+                  badgeContent={
+                    isSelected ? <GoDotFill color="red" /> : undefined
+                  }
+                >
+                  <PickersDay {...props} disabled={!isSelected} />
+                </Badge>
+              );
+            },
+          }}
+        />
+      </LocalizationProvider>
+    </Box>
   );
 };
 

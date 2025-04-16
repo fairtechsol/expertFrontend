@@ -88,29 +88,46 @@ const CasinoMarket = ({ title, sessionData, profitLossData }: any) => {
       </Box>
 
       {visible && (
-        <>
-          <Box
-            sx={{
-              position: "relative",
-              width: "100%",
-              alignItems: "center",
-              display: "flex",
-              flexDirection: "column",
-            }}
-          >
-            {sessionData?.activeStatus !== "live" && (
-              <Box
-                sx={{
-                  margin: "1px",
-                  width: "100%",
-                  height: "100%",
-                  right: 0,
-                  position: "absolute",
-                  background: "rgba(0, 0, 0, 0.4)",
-                  zIndex: 2,
-                }}
-              >
-                {sessionData?.resultStatus ? (
+        <Box
+          sx={{
+            position: "relative",
+            width: "100%",
+            alignItems: "center",
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
+          {sessionData?.activeStatus !== "live" && (
+            <Box
+              sx={{
+                margin: "1px",
+                width: "100%",
+                height: "100%",
+                right: 0,
+                position: "absolute",
+                background: "rgba(0, 0, 0, 0.4)",
+                zIndex: 2,
+              }}
+            >
+              {sessionData?.resultStatus ? (
+                <Typography
+                  sx={{
+                    color: "#fff",
+                    height: "100%",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    fontWeight: "500",
+                    textTransform: "uppercase",
+                  }}
+                >
+                  Result {sessionData?.resultStatus}
+                </Typography>
+              ) : (
+                !["ACTIVE", "active", "", undefined, null, 0, "open"].includes(
+                  sessionData?.GameStatus?.toLowerCase()
+                ) ||
+                (sessionData?.result && (
                   <Typography
                     sx={{
                       color: "#fff",
@@ -122,65 +139,41 @@ const CasinoMarket = ({ title, sessionData, profitLossData }: any) => {
                       textTransform: "uppercase",
                     }}
                   >
-                    Result {sessionData?.resultStatus}
+                    {sessionData?.result
+                      ? `Declared (Score = ${sessionData?.result})`
+                      : sessionData?.GameStatus}
                   </Typography>
-                ) : (
-                  ![
-                    "ACTIVE",
-                    "active",
-                    "",
-                    undefined,
-                    null,
-                    0,
-                    "open",
-                  ].includes(sessionData?.GameStatus?.toLowerCase()) ||
-                  (sessionData?.result && (
-                    <Typography
-                      sx={{
-                        color: "#fff",
-                        height: "100%",
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        fontWeight: "500",
-                        textTransform: "uppercase",
-                      }}
-                    >
-                      {sessionData?.result
-                        ? `Declared (Score = ${sessionData?.result})`
-                        : sessionData?.GameStatus}
-                    </Typography>
-                  ))
-                )}
-              </Box>
-            )}
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                width: "100%",
-                position: "relative",
-                overflowY: "auto",
-                "::-webkit-scrollbar": {
-                  display: "none",
-                },
-              }}
-            >
-              {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]?.map((item: any) => (
-                <CasinoMarketBox
-                  newData={
-                    sessionData?.section?.length > 0
-                      ? sessionData?.section[item]
-                      : {}
-                  }
-                  profitLoss={profitLossData && profitLossData[sessionData?.id]}
-                  index={item}
-                />
-              ))}
-              <Divider />
+                ))
+              )}
             </Box>
+          )}
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              width: "100%",
+              position: "relative",
+              overflowY: "auto",
+              "::-webkit-scrollbar": {
+                display: "none",
+              },
+            }}
+          >
+            {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]?.map((item: number) => (
+              <CasinoMarketBox
+                key={item}
+                newData={
+                  sessionData?.section?.length > 0
+                    ? sessionData?.section[item]
+                    : {}
+                }
+                profitLoss={profitLossData && profitLossData[sessionData?.id]}
+                index={item}
+              />
+            ))}
+            <Divider />
           </Box>
-        </>
+        </Box>
       )}
     </Box>
   );

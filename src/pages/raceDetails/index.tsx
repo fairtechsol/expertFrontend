@@ -296,7 +296,6 @@ const RaceDetails = () => {
               matchOddsLive={raceDetail?.matchOdd}
             />
           </Box>
-
           <Box
             sx={{
               width: { lg: "50%", xs: "100%", md: "100%" },

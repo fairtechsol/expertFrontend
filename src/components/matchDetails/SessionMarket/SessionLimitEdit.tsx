@@ -1,5 +1,5 @@
 import { Box, TextField, Typography } from "@mui/material";
-import { useEffect, useRef, useState } from "react";
+import { memo, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { CancelDark } from "../../../assets";
 import SessionResultCustomButton from "../../../components/addSession/AddSession/SessionResultCustomButton";
@@ -11,8 +11,7 @@ import { AppDispatch, RootState } from "../../../store/store";
 import { formatToINR } from "../../helper";
 import { MaterialUISwitch } from "../../tabList/materialUiSwitch";
 
-const SessionLimitEdit = (props: any) => {
-  const { newData, visible, onClickCancel } = props;
+const SessionLimitEdit = ({ newData, visible, onClickCancel }: any) => {
   const dispatch: AppDispatch = useDispatch();
   const { loading, maxLimitUpdateSuccess } = useSelector(
     (state: RootState) => state.addSession
@@ -67,10 +66,10 @@ const SessionLimitEdit = (props: any) => {
   }, [visible]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const rawValue = e.target.value.replace(/,/g, ""); // Remove commas for processing
+    const rawValue = e.target.value.replace(/,/g, "");
     if (/^\d*$/.test(rawValue)) {
-      setValue(rawValue); // Set raw numeric value
-      setError(false); // Reset error state if any
+      setValue(rawValue);
+      setError(false);
     }
   };
 
@@ -79,7 +78,6 @@ const SessionLimitEdit = (props: any) => {
       sx={{
         width: { lg: "30%", xs: "60%", md: "40%" },
         // height: "180px",
-
         padding: 0.2,
         borderRadius: 2,
         boxShadow: "0px 5px 10px #1A568414",
@@ -139,20 +137,15 @@ const SessionLimitEdit = (props: any) => {
       >
         SESSION NAME: {newData?.name}
       </Typography>
-
-      {/* <form> */}
       <Box
         sx={{
           width: "100%",
-          //   flexWrap: "wrap",
           padding: "8px",
           display: "flex",
           flexDirection: "column",
-          // alignSelf: "flex-start",
           alignItems: "center",
           gap: 1,
           justifyContent: "space-between",
-          //   backgroundColor:'red'
         }}
         ref={myDivRef}
       >
@@ -162,13 +155,10 @@ const SessionLimitEdit = (props: any) => {
           placeholder="API Session Max Bet"
           variant="standard"
           type="text"
-          // value={selected}
           value={value ? formatToINR(value) : ""}
           id="score"
           name="score"
           onChange={handleChange}
-          // touched={touched.score}
-          // error={Boolean(errors.score)}
           InputProps={{
             disableUnderline: true,
             sx: {
@@ -212,7 +202,7 @@ const SessionLimitEdit = (props: any) => {
           onChange={(e) => {
             const inputValue = e.target.value.replace(/,/g, "");
             if (/^\d*$/.test(inputValue)) {
-              setExposureLimit(inputValue); 
+              setExposureLimit(inputValue);
             }
           }}
           InputProps={{
@@ -266,13 +256,12 @@ const SessionLimitEdit = (props: any) => {
             width: "100%",
             gap: 1,
             marginTop: 3,
-            // marginBottom: 2,
           }}
         >
           <SessionResultCustomButton
-            color={"#0B4F26"}
+            color="#0B4F26"
             id="DR"
-            title={"submit"}
+            title="submit"
             loading={loading}
             onClick={(e: any) => handleSubmit(e)}
           />
@@ -282,4 +271,4 @@ const SessionLimitEdit = (props: any) => {
   );
 };
 
-export default SessionLimitEdit;
+export default memo(SessionLimitEdit);
