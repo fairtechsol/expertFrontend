@@ -4,6 +4,7 @@ import { resetMatchListSessionProLoss } from "../../store/actions/match/matchAct
 import { AppDispatch } from "../../store/store";
 import StyledImage from "../Common/StyledImages";
 import { formatToINR } from "../helper";
+import { memo } from "react";
 
 const SessionResultComponent = ({ setShowPopup, sessionResults }: any) => {
   const dispatch: AppDispatch = useDispatch();
@@ -210,4 +211,4 @@ const SessionResultComponent = ({ setShowPopup, sessionResults }: any) => {
   );
 };
 
-export default SessionResultComponent;
+export default memo(SessionResultComponent);

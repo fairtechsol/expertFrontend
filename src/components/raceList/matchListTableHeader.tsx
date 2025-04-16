@@ -1,4 +1,5 @@
 import { Box, Typography } from "@mui/material";
+import { memo } from "react";
 
 const MatchListTableHeader = () => {
   return (
@@ -41,4 +42,4 @@ const MatchListTableHeader = () => {
   );
 };
 
-export default MatchListTableHeader;
+export default memo(MatchListTableHeader);

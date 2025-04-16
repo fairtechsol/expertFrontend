@@ -1,5 +1,5 @@
 import { Box, Typography } from "@mui/material";
-import { useEffect, useRef } from "react";
+import { memo, useEffect, useRef } from "react";
 import StyledImage from "../../Common/StyledImages";
 import { formatToINR } from "../../helper";
 
@@ -186,4 +186,4 @@ const RunsAmountBox = ({ currentOdds, betId, proLoss }: any) => {
   );
 };
 
-export default RunsAmountBox;
+export default memo(RunsAmountBox);

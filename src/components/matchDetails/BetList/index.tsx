@@ -611,7 +611,7 @@
 
 import { Box, Button, Popover, Typography } from "@mui/material";
 import moment from "moment";
-import { useCallback, useRef, useState } from "react";
+import { memo, useCallback, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import AutoSizer from "react-virtualized-auto-sizer";
 import { FixedSizeList as List } from "react-window";
@@ -1128,4 +1128,4 @@ const BetList = ({ tag, allBetRates, title, isMatchDeclare }: any) => {
   );
 };
 
-export default BetList;
+export default memo(BetList);

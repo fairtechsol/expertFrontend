@@ -2,6 +2,7 @@ import { Box, Typography } from "@mui/material";
 import Divider from "../../Common/Divider";
 import { formatNumber } from "../../helper";
 import SeparateBox from "../SeparateBox";
+import { memo } from "react";
 
 interface CasinoMarketBoxProps {
   newData: any;
@@ -148,4 +149,4 @@ const CasinoMarketBox = ({
   );
 };
 
-export default CasinoMarketBox;
+export default memo(CasinoMarketBox);

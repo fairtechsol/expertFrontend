@@ -1,5 +1,5 @@
 import { Box, Stack } from "@mui/material";
-import { Fragment, useEffect } from "react";
+import { Fragment, memo, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import BetList from "../../components/matchDetails/BetList";
@@ -456,4 +456,4 @@ const SessionBetlistDetail = () => {
   );
 };
 
-export default SessionBetlistDetail;
+export default memo(SessionBetlistDetail);

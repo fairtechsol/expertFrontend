@@ -1,5 +1,5 @@
 import { Box, Button, Typography } from "@mui/material";
-import { useEffect, useRef, useState } from "react";
+import { memo, useEffect, useRef, useState } from "react";
 import Header from "./Header";
 import Row from "./Row";
 
@@ -150,4 +150,4 @@ const BetsList = ({ sessionEvent, betData }: BetsListProps) => {
   );
 };
 
-export default BetsList;
+export default memo(BetsList);

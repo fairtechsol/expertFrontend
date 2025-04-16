@@ -1,5 +1,5 @@
 import { Box, Typography } from "@mui/material";
-import { useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import service from "../../service";
 import { ApiConstants } from "../../utils/Constants";
 import { MaterialUISwitch } from "../matchList/materialUiSwitch";
@@ -107,4 +107,4 @@ const BoxButtonWithSwitch = (props: any) => {
   );
 };
 
-export default BoxButtonWithSwitch;
+export default memo(BoxButtonWithSwitch);

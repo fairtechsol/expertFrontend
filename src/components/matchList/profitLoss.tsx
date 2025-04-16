@@ -1,5 +1,6 @@
 import { Box, Typography } from "@mui/material";
 import { formatToINR } from "../helper";
+import { memo } from "react";
 
 const MatchListProfitLoss = ({
   updateMatchStatus,
@@ -73,4 +74,4 @@ const MatchListProfitLoss = ({
   );
 };
 
-export default MatchListProfitLoss;
+export default memo(MatchListProfitLoss);

@@ -6,6 +6,7 @@ import { socketService } from "../../../socketManager";
 import { handleKeysMatchEvents } from "../../../utils/InputKeys/Session/SessionInputKeys";
 import CustomDisableInput from "../../Common/CustomDisableInput";
 import StyledImage from "../../Common/StyledImages";
+import { memo } from "react";
 
 const AddSessionInput = ({
   betId,
@@ -591,4 +592,4 @@ const AddSessionInput = ({
   );
 };
 
-export default AddSessionInput;
+export default memo(AddSessionInput);

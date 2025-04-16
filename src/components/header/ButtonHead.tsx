@@ -1,5 +1,6 @@
 import { Box, Typography } from "@mui/material";
 import { ARROWDROPDOWN } from "../../assets";
+import { memo } from "react";
 
 const ButtonHead = ({
   title,
@@ -47,4 +48,4 @@ const ButtonHead = ({
   );
 };
 
-export default ButtonHead;
+export default memo(ButtonHead);

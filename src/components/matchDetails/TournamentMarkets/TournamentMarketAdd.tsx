@@ -3,7 +3,7 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
-import { useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   resetMarketListMinMax,
@@ -393,4 +393,4 @@ const TournamentMarketAdd = ({
   );
 };
 
-export default TournamentMarketAdd;
+export default memo(TournamentMarketAdd);

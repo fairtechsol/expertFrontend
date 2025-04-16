@@ -1,7 +1,7 @@
 import { Box, Typography, useMediaQuery } from "@mui/material";
 import ModalMUI from "@mui/material/Modal";
 import moment from "moment";
-import { useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { DownGIcon } from "../../assets";
@@ -391,14 +391,12 @@ const MatchListTable = ({ data, index, currentPage }: any) => {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <>
-          <SessionResultComponent
-            setShowPopup={setShowPopup}
-            sessionResults={sessionProLoss}
-            setShowSessionPopup={setShowSessionPopup}
-            setBetId={setBetId}
-          />
-        </>
+        <SessionResultComponent
+          setShowPopup={setShowPopup}
+          sessionResults={sessionProLoss}
+          setShowSessionPopup={setShowSessionPopup}
+          setBetId={setBetId}
+        />
       </ModalMUI>
       <ModalMUI
         open={showSessionPopup}
@@ -415,4 +413,4 @@ const MatchListTable = ({ data, index, currentPage }: any) => {
   );
 };
 
-export default MatchListTable;
+export default memo(MatchListTable);

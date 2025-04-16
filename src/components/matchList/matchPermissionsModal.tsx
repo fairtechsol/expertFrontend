@@ -8,6 +8,7 @@ import BoxButtonWithSwitch from "../Common/BoxButtonWithSwitch";
 import CustomButton from "../Common/CustomButton";
 import { handleSorting } from "../helper";
 import MatchListProfitLoss from "./profitLoss";
+import { memo } from "react";
 
 const MatchPermissionsModal = ({
   showUserModal,
@@ -262,4 +263,4 @@ const MatchPermissionsModal = ({
   );
 };
 
-export default MatchPermissionsModal;
+export default memo(MatchPermissionsModal);

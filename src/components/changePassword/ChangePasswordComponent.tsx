@@ -1,7 +1,7 @@
 import { Box, Button, CircularProgress, Typography } from "@mui/material";
 import { useFormik } from "formik";
 import { debounce } from "lodash";
-import { useEffect, useMemo, useState } from "react";
+import { memo, useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { eye, eyeLock } from "../../assets";
 import { ChangePasswordInterface } from "../../interface/authInterface";
@@ -236,4 +236,4 @@ export const ChangePasswordComponent = () => {
   );
 };
 
-export default ChangePasswordComponent;
+export default memo(ChangePasswordComponent);

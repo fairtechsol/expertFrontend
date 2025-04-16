@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { getMatchList } from "../../store/actions/match/matchAction";
 import { AppDispatch } from "../../store/store";
 import SearchInput from "../Common/SearchInput";
+import { memo } from "react";
 
 const TabListHeader = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -48,4 +49,4 @@ const TabListHeader = () => {
   );
 };
 
-export default TabListHeader;
+export default memo(TabListHeader);

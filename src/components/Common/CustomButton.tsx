@@ -1,5 +1,6 @@
 import { Box, Typography, useMediaQuery, useTheme } from "@mui/material";
 import { formatToINR } from "../helper";
+import { memo } from "react";
 
 interface Props {
   type?: string;
@@ -93,4 +94,4 @@ const CustomButton = ({
   );
 };
 
-export default CustomButton;
+export default memo(CustomButton);

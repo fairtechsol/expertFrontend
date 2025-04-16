@@ -1,5 +1,5 @@
 import { Box, Typography } from "@mui/material";
-import { useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import { ARROWDROPDOWN } from "../../../assets";
 import StyledImage from "../../Common/StyledImages";
 import DropDownItem from "./DropDownItem";
@@ -155,4 +155,4 @@ const RaceDropDown = ({
   );
 };
 
-export default RaceDropDown;
+export default memo(RaceDropDown);

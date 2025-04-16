@@ -1,4 +1,5 @@
 import { Box, Typography } from "@mui/material";
+import { memo } from "react";
 
 const Pagination = ({ currentPage, pages, callPage }: any) => {
   return (
@@ -99,4 +100,4 @@ const Pagination = ({ currentPage, pages, callPage }: any) => {
   );
 };
 
-export default Pagination;
+export default memo(Pagination);

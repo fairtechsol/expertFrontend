@@ -1,5 +1,5 @@
 import { Box, Pagination } from "@mui/material";
-import { useEffect } from "react";
+import { memo, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import MatchListHeader from "../../components/matchList/matchListHeader";
 import MatchListTable from "../../components/matchList/matchListTable";
@@ -105,61 +105,59 @@ const MatchList = ({}) => {
   }, [socket, selectedTab]);
 
   return (
-    <>
-      <Box
-        sx={[
-          {
-            marginX: "10px",
-            marginTop: "10px",
-            minHeight: "200px",
-            borderRadius: "10px",
-            border: "2px solid white",
-          },
-          (theme: any) => ({
-            backgroundImage: `${theme.palette.primary.headerGradient}`,
-          }),
-        ]}
-      >
-        <MatchListHeader />
-        <MatchListTableHeader />
+    <Box
+      sx={[
+        {
+          marginX: "10px",
+          marginTop: "10px",
+          minHeight: "200px",
+          borderRadius: "10px",
+          border: "2px solid white",
+        },
+        (theme: any) => ({
+          backgroundImage: `${theme.palette.primary.headerGradient}`,
+        }),
+      ]}
+    >
+      <MatchListHeader />
+      <MatchListTableHeader />
 
-        {matchList &&
-          matchList?.matches?.map((item: any, index: number) => (
-            <MatchListTable
-              key={item?.id}
-              data={item}
-              index={index}
-              currentPage={matchListCurrentPage}
-            />
-          ))}
-        <Pagination
-          sx={{
-            background: "#073c25",
-            overflow: "hidden",
-            borderRadius: "0px 0px 10px 10px",
+      {matchList &&
+        matchList?.matches?.map((item: any, index: number) => (
+          <MatchListTable
+            key={item?.id}
+            data={item}
+            index={index}
+            currentPage={matchListCurrentPage}
+          />
+        ))}
+      <Pagination
+        sx={{
+          background: "#073c25",
+          overflow: "hidden",
+          borderRadius: "0px 0px 10px 10px",
+          color: "white",
+          "& .MuiPaginationItem-page": {
             color: "white",
-            "& .MuiPaginationItem-page": {
-              color: "white",
-            },
-            "& .MuiPaginationItem-ellipsis": {
-              color: "white",
-            },
-            "& .MuiPaginationItem-next": {
-              color: "white",
-            },
-          }}
-          page={matchListCurrentPage}
-          className="whiteTextPagination matchList-pagination d-flex justify-content-center"
-          count={Math.ceil(
-            parseInt(matchList?.count ? matchList?.count : 1) /
-              Constants.pageLimit
-          )}
-          color="primary"
-          onChange={callPage}
-        />
-      </Box>
-    </>
+          },
+          "& .MuiPaginationItem-ellipsis": {
+            color: "white",
+          },
+          "& .MuiPaginationItem-next": {
+            color: "white",
+          },
+        }}
+        page={matchListCurrentPage}
+        className="whiteTextPagination matchList-pagination d-flex justify-content-center"
+        count={Math.ceil(
+          parseInt(matchList?.count ? matchList?.count : 1) /
+            Constants.pageLimit
+        )}
+        color="primary"
+        onChange={callPage}
+      />
+    </Box>
   );
 };
 
-export default MatchList;
+export default memo(MatchList);

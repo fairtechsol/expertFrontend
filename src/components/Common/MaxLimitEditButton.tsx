@@ -1,3 +1,5 @@
+import { memo } from "react";
+
 interface MaxLimitEditButtonInterface {
   handleClickOpen: () => void;
 }
@@ -33,4 +35,4 @@ const MaxLimitEditButton = ({
   );
 };
 
-export default MaxLimitEditButton;
+export default memo(MaxLimitEditButton);

@@ -1,4 +1,5 @@
 import { Box, Typography } from "@mui/material";
+import { memo } from "react";
 
 const LabelValueComponent = ({ title, titleSize, headColor }: any) => {
   return (
@@ -16,4 +17,4 @@ const LabelValueComponent = ({ title, titleSize, headColor }: any) => {
   );
 };
 
-export default LabelValueComponent;
+export default memo(LabelValueComponent);

@@ -1,5 +1,5 @@
 import { Box, TextField, Typography } from "@mui/material";
-import { useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { CancelDark } from "../../../assets";
 import {
@@ -242,4 +242,4 @@ const CustomCasinoMarketResult = ({ onClick, newData }: any) => {
     </Box>
   );
 };
-export default CustomCasinoMarketResult;
+export default memo(CustomCasinoMarketResult);

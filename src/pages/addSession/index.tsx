@@ -1,5 +1,5 @@
 import { Grid, Paper } from "@mui/material";
-import { useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import SessionInputFields from "../../components/addSession/AddSession/SessionAddComponent";
@@ -161,4 +161,4 @@ const AddSession = () => {
   );
 };
 
-export default AddSession;
+export default memo(AddSession);

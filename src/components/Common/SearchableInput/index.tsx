@@ -1,4 +1,5 @@
 import { Autocomplete, Box, TextField, Typography } from "@mui/material";
+import { memo } from "react";
 
 const SearchableInput = ({
   eventsList,
@@ -9,13 +10,9 @@ const SearchableInput = ({
   disabled,
   selected,
 }: any) => {
-
   const handleOnChange = (_: any, eventDetail: any) => {
     if (eventDetail) {
       function setDetailWithRunners() {
-      
-
-
         let allrunners: any = [];
         eventDetail.runners.map((runner: any) => {
           allrunners.push(runner?.runnerName);
@@ -157,4 +154,4 @@ const SearchableInput = ({
   );
 };
 
-export default SearchableInput;
+export default memo(SearchableInput);

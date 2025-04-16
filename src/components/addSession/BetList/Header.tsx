@@ -1,4 +1,5 @@
 import { Box, Typography } from "@mui/material";
+import { memo } from "react";
 
 const columns = [
   { label: "No.", width: "6%" },
@@ -48,4 +49,4 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default memo(Header);

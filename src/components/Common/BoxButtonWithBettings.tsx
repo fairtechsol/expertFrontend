@@ -1,5 +1,5 @@
 import { Box, Tooltip, Typography } from "@mui/material";
-import { useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import service from "../../service";
 import { ApiConstants } from "../../utils/Constants";
 import { MaterialUISwitch } from "../matchList/materialUiSwitch";
@@ -104,4 +104,4 @@ const BoxButtonWithBettings = ({
   );
 };
 
-export default BoxButtonWithBettings;
+export default memo(BoxButtonWithBettings);

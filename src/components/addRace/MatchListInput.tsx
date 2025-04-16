@@ -1,5 +1,6 @@
 import { Box, Input, Typography } from "@mui/material";
 import { numberInputOnWheelPreventChange } from "../../helpers";
+import { memo } from "react";
 
 const MatchListInput = ({
   value,
@@ -83,4 +84,4 @@ const MatchListInput = ({
   );
 };
 
-export default MatchListInput;
+export default memo(MatchListInput);

@@ -1,4 +1,5 @@
 import { Box, Typography } from "@mui/material";
+import { memo } from "react";
 
 const BookButton = ({ rate }: any) => {
   return (
@@ -31,4 +32,4 @@ const BookButton = ({ rate }: any) => {
   );
 };
 
-export default BookButton;
+export default memo(BookButton);

@@ -1,5 +1,5 @@
 import { Box, Typography, useMediaQuery, useTheme } from "@mui/material";
-import { useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { ARROWUP } from "../../../assets";
 import { betLiveStatus } from "../../../store/actions/match/matchAction";
@@ -380,4 +380,4 @@ const HTFTMarket = ({ currentMatch, liveData, title, firstKnownKey }: any) => {
   );
 };
 
-export default HTFTMarket;
+export default memo(HTFTMarket);

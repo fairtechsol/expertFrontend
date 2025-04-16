@@ -12,7 +12,7 @@ import { DemoContainer, DemoItem } from "@mui/x-date-pickers/internals/demo";
 import dayjs from "dayjs";
 import { useFormik } from "formik";
 import moment from "moment";
-import { useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -809,4 +809,4 @@ const AddMatch = () => {
   );
 };
 
-export default AddMatch;
+export default memo(AddMatch);

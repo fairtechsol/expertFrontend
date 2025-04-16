@@ -1,5 +1,5 @@
 import { Box, Typography, useMediaQuery } from "@mui/material";
-import { useState } from "react";
+import { memo, useState } from "react";
 import theme from "../../../theme";
 import CommissionDot from "../../Common/CommissionDot";
 import ResultComponentTournamentMarket from "../../matchDetails/TournamentMarkets/ResultComponentTournamentMarket";
@@ -238,4 +238,4 @@ const BookmakerEditSection = ({
   );
 };
 
-export default BookmakerEditSection;
+export default memo(BookmakerEditSection);

@@ -1,6 +1,6 @@
 import { Box, Typography } from "@mui/material";
 import ModalMUI from "@mui/material/Modal";
-import { useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { ARROWUP, edit } from "../../../assets";
 import { raceLiveStatus } from "../../../store/actions/match/matchAction";
@@ -358,4 +358,4 @@ const MatchOdds = ({ currentMatch, matchOddsLive }: any) => {
   );
 };
 
-export default MatchOdds;
+export default memo(MatchOdds);

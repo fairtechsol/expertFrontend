@@ -1,5 +1,5 @@
 import { Box, Typography } from "@mui/material";
-import { useState } from "react";
+import { memo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ArrowDown, ArrowDownPL, ARROWUPPL } from "../../assets";
 import { handleNumber } from "../../helpers";
@@ -270,4 +270,4 @@ const SessionProLoss = ({ setShowSessionPopup, matchId, betId }: any) => {
   );
 };
 
-export default SessionProLoss;
+export default memo(SessionProLoss);

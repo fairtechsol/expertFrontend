@@ -1,3 +1,5 @@
+import { memo } from "react";
+
 const MaxLimitEditButtonBook = ({ handleClickOpen }: any) => {
   return (
     <div
@@ -27,4 +29,4 @@ const MaxLimitEditButtonBook = ({ handleClickOpen }: any) => {
   );
 };
 
-export default MaxLimitEditButtonBook;
+export default memo(MaxLimitEditButtonBook);

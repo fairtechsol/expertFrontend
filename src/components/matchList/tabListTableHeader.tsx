@@ -1,4 +1,5 @@
 import { Box, Typography } from "@mui/material";
+import { memo } from "react";
 
 const TabListTableHeader = () => {
   return (
@@ -41,4 +42,4 @@ const TabListTableHeader = () => {
   );
 };
 
-export default TabListTableHeader;
+export default memo(TabListTableHeader);

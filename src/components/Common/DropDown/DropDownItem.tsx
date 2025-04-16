@@ -1,4 +1,5 @@
 import { Box, Typography } from "@mui/material";
+import { memo } from "react";
 const DropDownItem = ({
   i,
   mId,
@@ -89,4 +90,4 @@ const DropDownItem = ({
   );
 };
 
-export default DropDownItem;
+export default memo(DropDownItem);

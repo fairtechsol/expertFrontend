@@ -1,5 +1,6 @@
 import { Box, Typography } from "@mui/material";
 import { MaterialUISwitch } from "../matchList/materialUiSwitch";
+import { memo } from "react";
 
 const BoxButtonManualMatch = ({
   title,
@@ -61,4 +62,4 @@ const BoxButtonManualMatch = ({
   );
 };
 
-export default BoxButtonManualMatch;
+export default memo(BoxButtonManualMatch);

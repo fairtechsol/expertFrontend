@@ -1,5 +1,5 @@
 import { Box, Grid, Paper } from "@mui/material";
-import { useEffect } from "react";
+import { memo, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import BetsList from "../../components/updateBookmaker/BetsList";
@@ -152,4 +152,4 @@ const UpdateBookmaker = () => {
   );
 };
 
-export default UpdateBookmaker;
+export default memo(UpdateBookmaker);

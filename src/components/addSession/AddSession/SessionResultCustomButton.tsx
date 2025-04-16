@@ -1,4 +1,5 @@
 import { Button, CircularProgress, Typography } from "@mui/material";
+import { memo } from "react";
 
 const SessionResultCustomButton = ({
   id,
@@ -53,4 +54,4 @@ const SessionResultCustomButton = ({
   );
 };
 
-export default SessionResultCustomButton;
+export default memo(SessionResultCustomButton);

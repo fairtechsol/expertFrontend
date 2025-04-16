@@ -1,4 +1,5 @@
 import { Box } from "@mui/material";
+import { memo } from "react";
 
 const CommissionDot = () => {
   return (
@@ -14,4 +15,4 @@ const CommissionDot = () => {
   );
 };
 
-export default CommissionDot;
+export default memo(CommissionDot);

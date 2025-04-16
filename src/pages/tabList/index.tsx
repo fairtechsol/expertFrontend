@@ -1,5 +1,5 @@
 import { Box, Pagination } from "@mui/material";
-import { useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import TabListTableHeader from "../../components/matchList/tabListTableHeader";
 import TabListHeader from "../../components/tabList/tabListHeader";
@@ -130,4 +130,4 @@ const TabList = ({}) => {
   );
 };
 
-export default TabList;
+export default memo(TabList);

@@ -1,5 +1,6 @@
 import { Box, Typography } from "@mui/material";
 import { stripUrl } from "../../helpers";
+import { memo } from "react";
 
 const SingleBox = ({
   data,
@@ -159,4 +160,4 @@ const SingleBox = ({
     </Box>
   );
 };
-export default SingleBox;
+export default memo(SingleBox);

@@ -1,6 +1,6 @@
 import { Box, Button, CircularProgress, useTheme } from "@mui/material";
 import { useFormik } from "formik";
-import { useEffect } from "react";
+import { memo, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { eye, eyeLock, mail } from "../../../assets";
@@ -129,4 +129,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default memo(Login);

@@ -1,5 +1,5 @@
 import { Box, Button, Modal, Typography } from "@mui/material";
-import { useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { CancelDark } from "../../assets";
 import { headerAddBanner } from "../../store/actions/user/userAction";
@@ -266,4 +266,4 @@ const BannerUploadModal = ({ visible, setVisible, title }: any) => {
     </Modal>
   );
 };
-export default BannerUploadModal;
+export default memo(BannerUploadModal);

@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { memo, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 
 const ScrollToTop = ({ children }: any) => {
@@ -16,4 +16,4 @@ const ScrollToTop = ({ children }: any) => {
   return children;
 };
 
-export default ScrollToTop;
+export default memo(ScrollToTop);

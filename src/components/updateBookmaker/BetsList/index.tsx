@@ -147,7 +147,7 @@
 // export default BetsList;
 
 import { Box, Button, Typography } from "@mui/material";
-import { useRef, useState } from "react";
+import { memo, useRef, useState } from "react";
 import { FixedSizeList as List } from "react-window";
 import Header from "./Header";
 import Row from "./Row";
@@ -193,16 +193,14 @@ const BetsList = ({ betData, name }: any) => {
       }}
     >
       <Box
-        sx={[
-          {
-            height: "42px",
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            padding: "10px",
-            backgroundColor: "#F8C851",
-          },
-        ]}
+        sx={{
+          height: "42px",
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          padding: "10px",
+          backgroundColor: "#F8C851",
+        }}
       >
         <Typography
           sx={{
@@ -294,4 +292,4 @@ const BetsList = ({ betData, name }: any) => {
   );
 };
 
-export default BetsList;
+export default memo(BetsList);

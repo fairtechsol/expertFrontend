@@ -5,7 +5,7 @@ import {
   useMediaQuery,
   useTheme,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { memo, useState } from "react";
 
 const Input: React.FC<any> = ({
   id,
@@ -115,4 +115,4 @@ const Input: React.FC<any> = ({
   );
 };
 
-export default Input;
+export default memo(Input);

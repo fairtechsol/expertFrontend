@@ -7,6 +7,7 @@ import {
 import { AppDispatch } from "../../store/store";
 import StyledImage from "../Common/StyledImages";
 import { formatToINR } from "../helper";
+import { memo } from "react";
 
 const SessionResultComponent = ({
   setShowPopup,
@@ -231,4 +232,4 @@ const SessionResultComponent = ({
   );
 };
 
-export default SessionResultComponent;
+export default memo(SessionResultComponent);

@@ -2,6 +2,7 @@ import { Box, TextField, useMediaQuery, useTheme } from "@mui/material";
 import { Search } from "../../assets";
 import { MatchListSearchInput } from "../../interface/headerInterface";
 import StyledImage from "./StyledImages";
+import { memo } from "react";
 
 const SearchInput = ({
   placeholder,
@@ -99,4 +100,4 @@ const SearchInput = ({
   );
 };
 
-export default SearchInput;
+export default memo(SearchInput);

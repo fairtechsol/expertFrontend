@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { changePasswordReset } from "../../../store/actions/user/userAction";
 import { AppDispatch } from "../../../store/store";
+import { memo } from "react";
 
 const CustomModal = ({ message, buttonMessage, setShowModal }: any) => {
   const navigate = useNavigate();
@@ -84,4 +85,4 @@ const CustomModal = ({ message, buttonMessage, setShowModal }: any) => {
   );
 };
 
-export default CustomModal;
+export default memo(CustomModal);

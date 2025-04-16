@@ -2,6 +2,7 @@ import { Box, Typography } from "@mui/material";
 import { useDispatch } from "react-redux";
 import { updateRaceRunners } from "../../../store/actions/addMatch/addMatchAction";
 import { AppDispatch } from "../../../store/store";
+import { memo } from "react";
 
 const raceDropDownItem = ({
   item,
@@ -59,4 +60,4 @@ const raceDropDownItem = ({
   );
 };
 
-export default raceDropDownItem;
+export default memo(raceDropDownItem);

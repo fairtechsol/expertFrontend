@@ -1,6 +1,7 @@
 import { Box, Typography } from "@mui/material";
 import StyledImage from "../../Common/StyledImages";
 import { formatToINR } from "../../helper";
+import { memo } from "react";
 
 const SessionResultOvers = ({
   sessionData,
@@ -180,4 +181,4 @@ const SessionResultOvers = ({
   );
 };
 
-export default SessionResultOvers;
+export default memo(SessionResultOvers);

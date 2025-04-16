@@ -1,4 +1,5 @@
 import { Box, Tab, Tabs, Typography, debounce, styled } from "@mui/material";
+import { memo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import SearchInput from "../../components/Common/SearchInput";
@@ -154,4 +155,4 @@ const MatchListHeader = () => {
   );
 };
 
-export default MatchListHeader;
+export default memo(MatchListHeader);

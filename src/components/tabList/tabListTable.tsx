@@ -4,7 +4,7 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import moment from "moment";
-import { useState } from "react";
+import { memo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   addBlinking,
@@ -286,4 +286,4 @@ const TabListTable = ({ data, index, currentPage }: TabListTableProps) => {
   );
 };
 
-export default TabListTable;
+export default memo(TabListTable);

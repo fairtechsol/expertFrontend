@@ -1,5 +1,5 @@
 import { Box } from "@mui/material";
-import { useRef } from "react";
+import { memo, useRef } from "react";
 import { LoginBg } from "../../assets";
 
 const AuthBackground = () => {
@@ -23,4 +23,4 @@ const AuthBackground = () => {
   );
 };
 
-export default AuthBackground;
+export default memo(AuthBackground);

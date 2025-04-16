@@ -342,24 +342,22 @@ const MatchMarketDetail = () => {
       {loading ? (
         <Loader text="" />
       ) : (
-        <>
-          <Box
-            sx={{
-              width: { lg: "100%", xs: "100%", md: "100%" },
-              flexDirection: "column",
-              display: "flex",
-              marginTop: { xs: "10px", lg: "0" },
-            }}
-          >
-            {matchDetail?.id && (
-              <BetList
-                allBetRates={Array.from(new Set(placedBetsMatch))}
-                tag={true}
-                isMatchDeclare={true}
-              />
-            )}
-          </Box>
-        </>
+        <Box
+          sx={{
+            width: { lg: "100%", xs: "100%", md: "100%" },
+            flexDirection: "column",
+            display: "flex",
+            marginTop: { xs: "10px", lg: "0" },
+          }}
+        >
+          {matchDetail?.id && (
+            <BetList
+              allBetRates={Array.from(new Set(placedBetsMatch))}
+              tag={true}
+              isMatchDeclare={true}
+            />
+          )}
+        </Box>
       )}
     </Box>
   );

@@ -1,5 +1,5 @@
 import { Box, Button, Modal, TextField, Typography } from "@mui/material";
-import { useEffect } from "react";
+import { memo, useEffect } from "react";
 import { CancelDark } from "../../assets";
 import { useFormik } from "formik";
 import { useDispatch } from "react-redux";
@@ -172,4 +172,4 @@ const NotificationModal = ({
     </Modal>
   );
 };
-export default NotificationModal;
+export default memo(NotificationModal);

@@ -1,5 +1,5 @@
 import { Box, Typography } from "@mui/material";
-import { useEffect, useRef, useState } from "react";
+import { memo, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../store/store";
 import SessionResultModal from "../SessionResult/SessionResultModal";
@@ -800,4 +800,4 @@ const SessionAddComponent = ({
     </Box>
   );
 };
-export default SessionAddComponent;
+export default memo(SessionAddComponent);

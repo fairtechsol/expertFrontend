@@ -1,6 +1,7 @@
 import { Box, Typography } from "@mui/material";
 import moment from "moment";
 import { formatToINR } from "../../helper";
+import { memo } from "react";
 const Row = ({ index, values }: any) => {
   const getTime = (date: any) => {
     const timeString = moment
@@ -250,4 +251,4 @@ const Row = ({ index, values }: any) => {
   );
 };
 
-export default Row;
+export default memo(Row);

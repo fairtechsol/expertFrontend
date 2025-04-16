@@ -1,5 +1,5 @@
 import { Box, Tab, Tabs } from "@mui/material";
-import { useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import CustomButton from "../../components/Common/CustomButton";
@@ -192,4 +192,4 @@ const RaceList = ({}) => {
   );
 };
 
-export default RaceList;
+export default memo(RaceList);

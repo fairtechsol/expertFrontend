@@ -1,3 +1,5 @@
+import { memo } from "react";
+
 const AddMarketButton = ({ handleClickOpen }: any) => {
   return (
     <div
@@ -27,4 +29,4 @@ const AddMarketButton = ({ handleClickOpen }: any) => {
   );
 };
 
-export default AddMarketButton;
+export default memo(AddMarketButton);

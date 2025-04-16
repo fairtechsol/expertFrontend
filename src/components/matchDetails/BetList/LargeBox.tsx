@@ -1,5 +1,6 @@
 import { Box, Typography } from "@mui/material";
 import CommissionDot from "../../Common/CommissionDot";
+import { memo } from "react";
 
 const LargeBox = ({ item, k }: any) => {
   const handleDomain = (url: any) => {
@@ -80,4 +81,4 @@ const LargeBox = ({ item, k }: any) => {
   );
 };
 
-export default LargeBox;
+export default memo(LargeBox);

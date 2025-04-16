@@ -1,6 +1,6 @@
 import { Box, Typography } from "@mui/material";
 import ModalMUI from "@mui/material/Modal";
-import { useState } from "react";
+import { memo, useState } from "react";
 import { useDispatch } from "react-redux";
 import { ARROWUP, edit } from "../../../assets";
 import { customSortUpdated } from "../../../helpers";
@@ -238,4 +238,4 @@ const SessionMarket = ({
   );
 };
 
-export default SessionMarket;
+export default memo(SessionMarket);

@@ -1,4 +1,5 @@
 import { Typography } from "@mui/material";
+import { memo } from "react";
 interface props {
   touched?: any;
   errors: any;
@@ -29,4 +30,4 @@ const CustomErrorMessage = ({ touched, errors, style }: props) => {
   );
 };
 
-export default CustomErrorMessage;
+export default memo(CustomErrorMessage);

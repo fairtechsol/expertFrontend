@@ -1,5 +1,5 @@
 import { Box, Typography } from "@mui/material";
-import { useState } from "react";
+import { memo, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { resetPlacedBets } from "../../../store/actions/addSession";
@@ -123,4 +123,4 @@ const SessionResult = ({
   );
 };
 
-export default SessionResult;
+export default memo(SessionResult);

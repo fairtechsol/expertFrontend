@@ -1,6 +1,6 @@
 import { Box, Button, Typography } from "@mui/material";
 import moment from "moment";
-import { useEffect, useRef, useState } from "react";
+import { memo, useEffect, useRef, useState } from "react";
 import { ARROWUP } from "../../../assets";
 import { formatToINR } from "../../helper";
 import HeaderRow from "./HeaderRow";
@@ -193,15 +193,13 @@ const BetList = ({ tag, allBetRates }: any) => {
           )}
         </Box>
         <Box
-          sx={[
-            {
-              flex: 1,
-              background: "#f1c550",
-              alignItems: "center",
-              display: "flex",
-              justifyContent: "space-between",
-            },
-          ]}
+          sx={{
+            flex: 1,
+            background: "#f1c550",
+            alignItems: "center",
+            display: "flex",
+            justifyContent: "space-between",
+          }}
         >
           <Typography
             sx={{
@@ -217,7 +215,6 @@ const BetList = ({ tag, allBetRates }: any) => {
           sx={{
             flex: 0.1,
             background: "#262626",
-            // '#262626'
           }}
         >
           <div className="slanted"></div>
@@ -227,7 +224,6 @@ const BetList = ({ tag, allBetRates }: any) => {
             width: "100px",
             flex: 1,
             background: "#262626",
-            // '#262626' ,
             display: "flex",
             alignItems: "center",
             justifyContent: "flex-end",
@@ -372,4 +368,4 @@ const BetList = ({ tag, allBetRates }: any) => {
   );
 };
 
-export default BetList;
+export default memo(BetList);

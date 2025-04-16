@@ -6,7 +6,7 @@ import {
 } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import moment from "moment";
-import { useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import { GoDotFill } from "react-icons/go";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -299,4 +299,4 @@ const MatchListHeader = ({ value }: MatchListHeader) => {
   );
 };
 
-export default MatchListHeader;
+export default memo(MatchListHeader);

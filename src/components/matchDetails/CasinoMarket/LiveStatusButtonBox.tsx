@@ -1,4 +1,5 @@
 import { Box, CircularProgress, Typography } from "@mui/material";
+import { memo } from "react";
 import { BroadCast } from "../../../assets";
 
 const LiveStatusButtonBox = ({
@@ -67,4 +68,4 @@ const LiveStatusButtonBox = ({
   );
 };
 
-export default LiveStatusButtonBox;
+export default memo(LiveStatusButtonBox);

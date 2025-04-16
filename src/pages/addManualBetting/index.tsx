@@ -14,7 +14,7 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import { useFormik } from "formik";
-import { useEffect } from "react";
+import { memo, useEffect } from "react";
 import { TiDelete } from "react-icons/ti";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -511,4 +511,4 @@ const AddManualMarket = () => {
   );
 };
 
-export default AddManualMarket;
+export default memo(AddManualMarket);
