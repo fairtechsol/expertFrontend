@@ -550,7 +550,7 @@ const ViewBetList = ({ tag, allBetRates, title }: any) => {
           </Popover>
         </Box>
         <Box sx={{ flex: 0.1, background: "#262626" }}>
-          <div className="slanted"></div>
+          <div className="slanted" />
         </Box>
         <Box
           sx={{

@@ -379,7 +379,7 @@
 //             background: "#262626",
 //           }}
 //         >
-//           <div className="slanted"></div>
+//           <div className="slanted" />
 //         </Box>
 //         <Box
 //           sx={{
@@ -617,8 +617,8 @@ import AutoSizer from "react-virtualized-auto-sizer";
 import { FixedSizeList as List } from "react-window";
 import { ARROWUP } from "../../../assets";
 import {
-    declareFinalMatchResult,
-    unDeclareFinalMatchResult,
+  declareFinalMatchResult,
+  unDeclareFinalMatchResult,
 } from "../../../store/actions/match/matchDeclareActions";
 import { AppDispatch, RootState } from "../../../store/store";
 import { betListColorConstants } from "../../../utils/Constants";
@@ -1060,7 +1060,7 @@ const BetList = ({ tag, allBetRates, title, isMatchDeclare }: any) => {
           </Popover>
         </Box>
         <Box sx={{ flex: 0.1, background: "#262626" }}>
-          <div className="slanted"></div>
+          <div className="slanted" />
         </Box>
         <Box sx={{ width: "100px", flex: 1, background: "#262626", display: "flex", alignItems: "center", justifyContent: "flex-end" }}>
           <Box sx={{

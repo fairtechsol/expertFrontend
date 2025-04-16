@@ -14,7 +14,7 @@ const SeparateBox = ({ color, empty, value, width, value2, lock }: any) => {
         align={matchesMobile ? "end" : "center"}
         positions={["bottom"]}
         onClickOutside={() => setIsPopoverOpen(false)}
-        content={<div></div>}
+        content={<div />}
       >
         <Box
           onClick={() => {

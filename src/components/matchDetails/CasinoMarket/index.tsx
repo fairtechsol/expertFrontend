@@ -205,7 +205,7 @@ const CasinoMarket = ({ title, sessionData, profitLossData, section }: any) => {
             background: "#262626",
           }}
         >
-          <div className="slanted"></div>
+          <div className="slanted" />
         </Box>
 
         <Box
