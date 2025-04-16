@@ -1,20 +1,18 @@
-import { Box, Typography } from "@mui/material";
+import { Box } from "@mui/material";
 import { memo } from "react";
 import "./styles.css";
 
 interface LoaderProps {
-  text: string;
   height?: string;
-  width?: string;
 }
 
-const Loader = ({ text, height, width }: LoaderProps) => {
+const Loader = ({ height }: LoaderProps) => {
   return (
     <Box
       style={{
         display: "flex",
         justifyContent: "center",
-        width: width ? width : "100%",
+        width: "100%",
         flex: 1,
         height: height ? height : "74%",
         alignItems: "center",
@@ -27,7 +25,7 @@ const Loader = ({ text, height, width }: LoaderProps) => {
           <div />
         </div>
       </div>
-      <Typography sx={{ marginTop: "-40px" }}>{text}</Typography>
+      {/* <Typography sx={{ marginTop: "-40px" }}>{text}</Typography> */}
     </Box>
   );
 };

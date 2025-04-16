@@ -293,7 +293,7 @@ const OtherMatchDetails = () => {
         }}
       >
         {loading ? (
-          <Loader text="" />
+          <Loader />
         ) : (
           <>
             <Box

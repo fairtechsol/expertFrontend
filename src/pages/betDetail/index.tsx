@@ -340,7 +340,7 @@ const MatchMarketDetail = () => {
       }}
     >
       {loading ? (
-        <Loader text="" />
+        <Loader />
       ) : (
         <Box
           sx={{

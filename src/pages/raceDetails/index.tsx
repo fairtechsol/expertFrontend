@@ -251,7 +251,7 @@ const RaceDetails = () => {
       }}
     >
       {loading ? (
-        <Loader text="" />
+        <Loader />
       ) : (
         <>
           <Box

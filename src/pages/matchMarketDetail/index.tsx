@@ -382,7 +382,7 @@ const MatchMarketDetail = () => {
       }}
     >
       {loading ? (
-        <Loader text="" />
+        <Loader />
       ) : (
         <>
           {!desktop ? (
