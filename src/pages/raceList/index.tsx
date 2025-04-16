@@ -94,26 +94,24 @@ const RaceList = ({}) => {
           gap: "20px",
         }}
       >
-        <Box>
-          <Tabs
-            value={value}
-            onChange={handleChange}
-            textColor="secondary"
-            indicatorColor="secondary"
-            aria-label="secondary tabs example"
-          >
-            <Tab
-              sx={{ color: "white" }}
-              value="horseRacing"
-              label="Horse Racing"
-            />
-            <Tab
-              sx={{ color: "white" }}
-              value="greyHound"
-              label="Greyhound Racing"
-            />
-          </Tabs>
-        </Box>
+        <Tabs
+          value={value}
+          onChange={handleChange}
+          textColor="secondary"
+          indicatorColor="secondary"
+          aria-label="secondary tabs example"
+        >
+          <Tab
+            sx={{ color: "white" }}
+            value="horseRacing"
+            label="Horse Racing"
+          />
+          <Tab
+            sx={{ color: "white" }}
+            value="greyHound"
+            label="Greyhound Racing"
+          />
+        </Tabs>
         <Box
           sx={{
             display: "flex",
@@ -128,8 +126,8 @@ const RaceList = ({}) => {
               onClick={() => {
                 navigate("/expert/add_race");
               }}
-              title={"Add Race"}
-              bgColor="#f1c40f"
+              title="Add Race"
+              bgColor="#F8C851"
               style={{ color: "#000" }}
             />
           )}

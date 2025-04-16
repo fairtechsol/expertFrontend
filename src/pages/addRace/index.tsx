@@ -465,11 +465,10 @@ const AddRace = () => {
                         "& .MuiOutlinedInput-notchedOutline": {
                           border: "none",
                         },
-                        "& .css-nxo287-MuiInputBase-input-MuiOutlinedInput-input":
-                          {
-                            paddingBottom: "8px",
-                            paddingTop: "8px",
-                          },
+                        "& .MuiOutlinedInput-input": {
+                          paddingBottom: "8px",
+                          paddingTop: "8px",
+                        },
                       }}
                       value={dayjs(selected?.startAt)}
                       onChange={handleDateChange}
