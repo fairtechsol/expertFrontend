@@ -1,6 +1,6 @@
 import { Box, Typography } from "@mui/material";
 import ModalMUI from "@mui/material/Modal";
-import { useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import { TiArrowLeftThick } from "react-icons/ti";
 import { useDispatch, useSelector } from "react-redux";
 import { edit } from "../../../assets";
@@ -624,4 +624,4 @@ const SessionMarketBox = ({
   );
 };
 
-export default SessionMarketBox;
+export default memo(SessionMarketBox);

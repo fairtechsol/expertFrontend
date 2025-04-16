@@ -1,5 +1,5 @@
 import { Box, Button, TextField, Typography } from "@mui/material";
-import { useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { CancelDark } from "../../../assets";
 import { AppDispatch, RootState } from "../../../store/store";
@@ -269,4 +269,4 @@ const CustomSessionResult = ({ onClick, newData }: any) => {
     </Box>
   );
 };
-export default CustomSessionResult;
+export default memo(CustomSessionResult);

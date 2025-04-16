@@ -1,4 +1,5 @@
 import { Box, Typography } from "@mui/material";
+import { memo } from "react";
 
 const HeaderRow = ({ tag }: any) => {
   return (
@@ -170,4 +171,4 @@ const HeaderRow = ({ tag }: any) => {
   );
 };
 
-export default HeaderRow;
+export default memo(HeaderRow);

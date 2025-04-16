@@ -1,4 +1,5 @@
 import { Box, Typography } from "@mui/material";
+import { memo } from "react";
 
 interface DisableCloneProps {
   invert: boolean;
@@ -35,4 +36,4 @@ const DisableClone = ({ invert, onClick }: DisableCloneProps) => {
   );
 };
 
-export default DisableClone;
+export default memo(DisableClone);

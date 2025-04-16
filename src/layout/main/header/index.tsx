@@ -1,6 +1,6 @@
 import { AppBar, Box, useMediaQuery, useTheme } from "@mui/material";
 import ModalMUI from "@mui/material/Modal";
-import { useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import { GiTatteredBanner } from "react-icons/gi";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";
@@ -316,10 +316,7 @@ const Header1 = () => {
                       // marginTop: { xs: "10px" },
                     }}
                   >
-                    <ActiveUsers
-                      image={Users}
-                      value={userCount}
-                    />
+                    <ActiveUsers image={Users} value={userCount} />
                     <BoxProfile
                       containerStyle={{
                         marginTop: { xs: "0px" },
@@ -461,10 +458,7 @@ const Header1 = () => {
                     />
                   </Box>
                   <Box sx={{ display: "flex" }}>
-                    <ActiveUsers
-                      image={Users}
-                      value={userCount}
-                    />
+                    <ActiveUsers image={Users} value={userCount} />
                   </Box>
                 </Box>
 
@@ -608,4 +602,4 @@ const Header1 = () => {
   );
 };
 
-export default Header1;
+export default memo(Header1);

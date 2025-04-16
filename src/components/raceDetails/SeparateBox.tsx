@@ -1,5 +1,5 @@
 import { Box, Typography, useMediaQuery, useTheme } from "@mui/material";
-import React from "react";
+import React, { memo } from "react";
 import { Popover } from "react-tiny-popover";
 import { Lock } from "../../assets";
 
@@ -69,4 +69,4 @@ const SeparateBox = ({ color, empty, value, width, value2, lock }: any) => {
   );
 };
 
-export default SeparateBox;
+export default memo(SeparateBox);

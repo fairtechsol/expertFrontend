@@ -1,4 +1,5 @@
 import { Box, Typography } from "@mui/material";
+import { memo } from "react";
 
 interface ResultProps {
   invert?: boolean;
@@ -36,4 +37,4 @@ const Result = ({ invert, onClick, height }: ResultProps) => {
   );
 };
 
-export default Result;
+export default memo(Result);

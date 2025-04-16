@@ -1,5 +1,5 @@
 import { Box, Typography } from "@mui/material";
-import { useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import StyledImage from "../../../components/Common/StyledImages";
 import HeaderDropdown from "./HeaderDropdown";
 
@@ -77,4 +77,4 @@ const ActiveUsers = ({ image, value }: any) => {
   );
 };
 
-export default ActiveUsers;
+export default memo(ActiveUsers);

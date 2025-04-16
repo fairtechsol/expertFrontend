@@ -1,4 +1,5 @@
 import { Box, Typography } from "@mui/material";
+import { memo } from "react";
 
 const SessionHeaderRow = ({ tag }: any) => {
   return (
@@ -155,4 +156,4 @@ const SessionHeaderRow = ({ tag }: any) => {
   );
 };
 
-export default SessionHeaderRow;
+export default memo(SessionHeaderRow);

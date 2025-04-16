@@ -1,5 +1,5 @@
 import { Box, Button, TextField, Typography } from "@mui/material";
-import { useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { CancelDark } from "../../assets";
@@ -217,4 +217,4 @@ const MaxBetEdit = ({ onClickCancel, matchOdd, id }: any) => {
   );
 };
 
-export default MaxBetEdit;
+export default memo(MaxBetEdit);

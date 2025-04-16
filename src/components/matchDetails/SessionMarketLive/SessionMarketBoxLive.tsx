@@ -1,5 +1,5 @@
 import { Box, Typography } from "@mui/material";
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, memo, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { addSession } from "../../../store/actions/addSession";
 import { sessionBetLiveStatus } from "../../../store/actions/match/matchAction";
@@ -334,4 +334,4 @@ const SessionMarketBoxLive = ({
   );
 };
 
-export default SessionMarketBoxLive;
+export default memo(SessionMarketBoxLive);

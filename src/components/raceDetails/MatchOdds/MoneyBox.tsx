@@ -1,4 +1,5 @@
 import { Box, Typography } from "@mui/material";
+import { memo } from "react";
 import { ArrowDownRed, ArrowUpGreen } from "../../../assets";
 import { formatToINR } from "../../helper";
 
@@ -67,4 +68,4 @@ const MoneyBox = ({ value }: any) => {
   );
 };
 
-export default MoneyBox;
+export default memo(MoneyBox);

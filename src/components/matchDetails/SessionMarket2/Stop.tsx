@@ -1,4 +1,5 @@
 import { Box, Typography } from "@mui/material";
+import { memo } from "react";
 import { BroadCast_ } from "../../../assets";
 const Stop = ({ color, onClick }: any) => {
   return (
@@ -33,4 +34,4 @@ const Stop = ({ color, onClick }: any) => {
     </Box>
   );
 };
-export default Stop;
+export default memo(Stop);

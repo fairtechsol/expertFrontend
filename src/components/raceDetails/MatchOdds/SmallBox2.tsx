@@ -1,4 +1,5 @@
 import { Box, Typography } from "@mui/material";
+import { memo } from "react";
 
 const SmallBox2 = ({ valueA, valueB }: any) => {
   return (
@@ -82,4 +83,4 @@ const SmallBox2 = ({ valueA, valueB }: any) => {
   );
 };
 
-export default SmallBox2;
+export default memo(SmallBox2);

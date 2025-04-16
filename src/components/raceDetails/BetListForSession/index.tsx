@@ -1,6 +1,6 @@
 import { Box, Button, Typography } from "@mui/material";
 import moment from "moment";
-import { useEffect, useRef, useState } from "react";
+import { memo, useEffect, useRef, useState } from "react";
 import { ARROWUP } from "../../../assets";
 import { formatToINR } from "../../helper";
 import SessionHeaderRow from "./SessionHeaderRow";
@@ -355,4 +355,4 @@ const BetListForSession = ({ tag, allBetRates }: any) => {
   );
 };
 
-export default BetListForSession;
+export default memo(BetListForSession);

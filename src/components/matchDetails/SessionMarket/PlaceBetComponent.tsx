@@ -1,4 +1,5 @@
 import { Box, Typography } from "@mui/material";
+import { memo } from "react";
 import { useDispatch } from "react-redux";
 import { UD } from "../../../assets";
 import { getSessionProfitLossMatchDetail } from "../../../store/actions/match/matchAction";
@@ -108,4 +109,4 @@ const PlaceBetComponent = ({ profitLossData, newData }: any) => {
   );
 };
 
-export default PlaceBetComponent;
+export default memo(PlaceBetComponent);

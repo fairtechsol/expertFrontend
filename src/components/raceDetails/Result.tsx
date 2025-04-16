@@ -1,4 +1,5 @@
 import { Box, Typography } from "@mui/material";
+import { memo } from "react";
 
 const Result = ({ invert, onClick }: any) => {
   return (
@@ -31,4 +32,4 @@ const Result = ({ invert, onClick }: any) => {
   );
 };
 
-export default Result;
+export default memo(Result);

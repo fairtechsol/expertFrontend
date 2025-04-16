@@ -5,7 +5,7 @@ import {
   MenuItem,
   Typography,
 } from "@mui/material";
-import { useState } from "react";
+import { memo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../../store/actions/auth/authAction";
 import { AppDispatch, RootState } from "../../../store/store";
@@ -158,4 +158,4 @@ const HeaderDropdown = ({ anchorEl, open, handleClose }: any) => {
   );
 };
 
-export default HeaderDropdown;
+export default memo(HeaderDropdown);

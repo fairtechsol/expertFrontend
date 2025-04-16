@@ -1,4 +1,5 @@
 import { Box, Typography, useMediaQuery, useTheme } from "@mui/material";
+import { memo } from "react";
 import { formatToINR } from "../../helper";
 
 const MoneyBox = ({ value }: any) => {
@@ -52,4 +53,4 @@ const MoneyBox = ({ value }: any) => {
   );
 };
 
-export default MoneyBox;
+export default memo(MoneyBox);

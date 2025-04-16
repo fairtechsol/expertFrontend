@@ -1,5 +1,5 @@
 import { Box, Menu, MenuItem, useMediaQuery, useTheme } from "@mui/material";
-import { useState } from "react";
+import { memo, useState } from "react";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../../store/store";
 
@@ -111,4 +111,4 @@ const GameTypeDropdown = ({
   );
 };
 
-export default GameTypeDropdown;
+export default memo(GameTypeDropdown);

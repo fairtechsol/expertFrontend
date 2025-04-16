@@ -1,5 +1,5 @@
 import { Box, TextField, Typography } from "@mui/material";
-import { useEffect, useRef, useState } from "react";
+import { memo, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { CancelDark } from "../../../assets";
 import SessionResultCustomButton from "../../../components/addSession/AddSession/SessionResultCustomButton";
@@ -250,4 +250,4 @@ const SessionMarketMaxBetAmountEdit = ({
   );
 };
 
-export default SessionMarketMaxBetAmountEdit;
+export default memo(SessionMarketMaxBetAmountEdit);

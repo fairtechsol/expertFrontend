@@ -1,5 +1,5 @@
 import { Box, TextField, Typography } from "@mui/material";
-import { useEffect, useRef, useState } from "react";
+import { memo, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { CancelDark } from "../../../assets";
 import {
@@ -196,4 +196,4 @@ const SessionLimitEdit = (props: any) => {
   );
 };
 
-export default SessionLimitEdit;
+export default memo(SessionLimitEdit);

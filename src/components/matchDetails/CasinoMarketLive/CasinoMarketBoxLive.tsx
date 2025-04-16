@@ -1,5 +1,5 @@
 import { Box, Typography } from "@mui/material";
-import { useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import { formatNumber } from "../../helper";
 import SeparateBox from "../SeparateBox";
 
@@ -112,4 +112,4 @@ const CasinoMarketBoxLive = ({ newData, index }: any) => {
   );
 };
 
-export default CasinoMarketBoxLive;
+export default memo(CasinoMarketBoxLive);

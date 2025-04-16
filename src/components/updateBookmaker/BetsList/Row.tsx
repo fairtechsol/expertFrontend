@@ -1,4 +1,5 @@
 import { Box, Typography } from "@mui/material";
+import { memo } from "react";
 import { formatToINR } from "../../helper";
 
 const Row = ({ index, values }: any) => {
@@ -307,4 +308,4 @@ const Row = ({ index, values }: any) => {
   );
 };
 
-export default Row;
+export default memo(Row);

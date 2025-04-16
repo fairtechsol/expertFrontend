@@ -17,6 +17,7 @@ import {
   sessionByIdReset,
 } from "../../../store/actions/addSession";
 import { AppDispatch, RootState } from "../../../store/store";
+import { memo } from "react";
 
 const MenutItemsComponent = ({
   x,
@@ -262,4 +263,4 @@ const MenutItemsComponent = ({
   );
 };
 
-export default MenutItemsComponent;
+export default memo(MenutItemsComponent);

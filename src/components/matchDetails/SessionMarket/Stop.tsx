@@ -1,9 +1,5 @@
-import {
-  Box,
-  Tooltip,
-  useMediaQuery,
-  useTheme
-} from "@mui/material";
+import { Box, Tooltip, useMediaQuery, useTheme } from "@mui/material";
+import { memo } from "react";
 import { BroadCast_ } from "../../../assets";
 
 interface StopProps {
@@ -84,4 +80,4 @@ const Stop = ({ onClick, height, title, isCommissionActive }: StopProps) => {
     </>
   );
 };
-export default Stop;
+export default memo(Stop);

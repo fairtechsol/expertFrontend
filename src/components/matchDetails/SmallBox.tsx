@@ -1,4 +1,5 @@
 import { Box, CircularProgress, Typography } from "@mui/material";
+import { memo } from "react";
 import { BroadCast } from "../../assets";
 
 const SmallBox = ({
@@ -66,4 +67,4 @@ const SmallBox = ({
   );
 };
 
-export default SmallBox;
+export default memo(SmallBox);

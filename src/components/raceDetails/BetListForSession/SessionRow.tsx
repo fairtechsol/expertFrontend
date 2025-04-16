@@ -1,4 +1,5 @@
 import { Box } from "@mui/material";
+import { memo } from "react";
 import SessionLargeBox from "./SessionLargeBox";
 import SessionSmallBox from "./SessionSmallBox";
 
@@ -16,4 +17,4 @@ const SessionRow = ({ values }: any) => {
   );
 };
 
-export default SessionRow;
+export default memo(SessionRow);

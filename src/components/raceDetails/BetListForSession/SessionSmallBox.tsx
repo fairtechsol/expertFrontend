@@ -1,4 +1,5 @@
 import { Box, Typography } from "@mui/material";
+import { memo } from "react";
 
 const SessionSmallBox = ({ item }: any) => {
   return (
@@ -34,4 +35,4 @@ const SessionSmallBox = ({ item }: any) => {
   );
 };
 
-export default SessionSmallBox;
+export default memo(SessionSmallBox);

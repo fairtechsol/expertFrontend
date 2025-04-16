@@ -1,5 +1,5 @@
 import { Box } from "@mui/material";
-import { useEffect } from "react";
+import { memo, useEffect } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import { FgLogo } from "../../assets";
 import StyledImage from "../../components/Common/StyledImages";
@@ -61,4 +61,4 @@ const AuthLayout = () => {
   );
 };
 
-export default AuthLayout;
+export default memo(AuthLayout);

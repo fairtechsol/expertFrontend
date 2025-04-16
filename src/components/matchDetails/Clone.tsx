@@ -1,4 +1,5 @@
 import { Box, Typography } from "@mui/material";
+import { memo } from "react";
 
 interface CloneProps {
   invert: boolean;
@@ -35,4 +36,4 @@ const Clone = ({ invert, onClick }: CloneProps) => {
   );
 };
 
-export default Clone;
+export default memo(Clone);
