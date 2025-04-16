@@ -1,7 +1,11 @@
 import { Box, Typography } from "@mui/material";
 import { memo } from "react";
 
-const BookButton = ({ rate }: any) => {
+interface BookButtonProps {
+  rate: number | string;
+}
+
+const BookButton = ({ rate }: BookButtonProps) => {
   return (
     <Box
       sx={{
@@ -23,7 +27,7 @@ const BookButton = ({ rate }: any) => {
         sx={{
           fontSize: "14px",
           fontWeight: "bold",
-          color: rate < 0 ? `#FF4D4D` : `#319E5B`,
+          color: +rate < 0 ? `#FF4D4D` : `#319E5B`,
         }}
       >
         {rate}

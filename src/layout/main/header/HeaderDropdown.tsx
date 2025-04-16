@@ -19,9 +19,7 @@ const menutItems = [
   { id: 2, title: "Add Race", navigateTo: "add_race" },
   { id: 3, title: "Change Password", navigateTo: "change-password" },
 ];
-const HeaderDropdown = (props: any) => {
-  const { anchorEl, open, handleClose } = props;
-
+const HeaderDropdown = ({ anchorEl, open, handleClose }: any) => {
   const { profileDetail } = useSelector(
     (state: RootState) => state.user.profile
   );

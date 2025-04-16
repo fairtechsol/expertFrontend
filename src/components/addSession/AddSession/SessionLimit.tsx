@@ -9,8 +9,7 @@ import {
 import { AppDispatch, RootState } from "../../../store/store";
 import SessionResultCustomButton from "../AddSession/SessionResultCustomButton";
 
-const SessionLimit = (props: any) => {
-  const { newData, visible, onClickCancel } = props;
+const SessionLimit = ({ newData, visible, onClickCancel }: any) => {
   const dispatch: AppDispatch = useDispatch();
   const { loading, maxLimitUpdateSuccess } = useSelector(
     (state: RootState) => state.addSession

@@ -1,6 +1,12 @@
 import { memo } from "react";
 
-const MaxLimitEditButtonBook = ({ handleClickOpen }: any) => {
+interface MaxLimitEditButtonBookProps {
+  handleClickOpen: () => void;
+}
+
+const MaxLimitEditButtonBook = ({
+  handleClickOpen,
+}: MaxLimitEditButtonBookProps) => {
   return (
     <div
       style={{

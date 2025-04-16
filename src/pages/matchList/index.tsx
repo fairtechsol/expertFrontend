@@ -18,7 +18,7 @@ import { AppDispatch, RootState } from "../../store/store";
 import { Constants, gameType } from "../../utils/Constants";
 import "./style.css";
 
-const MatchList = ({}) => {
+const MatchList = () => {
   const dispatch: AppDispatch = useDispatch();
   const { matchList, success, selectedTab, matchListCurrentPage } = useSelector(
     (state: RootState) => state.matchList

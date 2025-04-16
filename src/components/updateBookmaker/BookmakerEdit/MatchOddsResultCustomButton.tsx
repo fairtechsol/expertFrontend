@@ -1,13 +1,26 @@
 import { Button, CircularProgress, Typography } from "@mui/material";
 import { memo } from "react";
 
+interface Loading {
+  id: string;
+  value: boolean;
+}
+
+interface MatchOddsResultCustomButtonProps {
+  title: string;
+  color: string;
+  id: string;
+  loading: Loading;
+  onClick: () => void;
+}
+
 const MatchOddsResultCustomButton = ({
   title,
   color,
   id,
   loading,
   onClick,
-}: any) => {
+}: MatchOddsResultCustomButtonProps) => {
   return (
     <Button
       autoFocus={true}

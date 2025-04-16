@@ -17,7 +17,7 @@ import {
 import { AppDispatch, RootState } from "../../store/store";
 import "./style.css";
 
-const TabList = ({}) => {
+const TabList = () => {
   const dispatch: AppDispatch = useDispatch();
   const [currentPage, setCurrentPage] = useState(1);
   const { matchList, success } = useSelector(

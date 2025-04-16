@@ -1,4 +1,5 @@
 import { Box, TextField, Typography } from "@mui/material";
+import { memo } from "react";
 import KeyboardEventHandler from "react-keyboard-event-handler";
 import { BallStart, LiveOff, Lock } from "../../../assets";
 import { numberInputOnWheelPreventChange } from "../../../helpers";
@@ -6,7 +7,24 @@ import { socketService } from "../../../socketManager";
 import { handleKeysMatchEvents } from "../../../utils/InputKeys/Session/SessionInputKeys";
 import CustomDisableInput from "../../Common/CustomDisableInput";
 import StyledImage from "../../Common/StyledImages";
-import { memo } from "react";
+
+interface AddSessionInputProps {
+  betId: string | any;
+  inputDetail: any;
+  setInputDetail: (val: any) => void;
+  inputRef: any;
+  lock: any;
+  isBall: boolean;
+  isCreateSession: boolean;
+  live: boolean;
+  setLock: (val: any) => void;
+  incGap: number;
+  setIncGap: (val: number) => void;
+  isPercent: string;
+  setIsPercent: (val: any) => void;
+  setIsBall: (val: boolean) => void;
+  match: any;
+}
 
 const AddSessionInput = ({
   betId,
@@ -17,7 +35,6 @@ const AddSessionInput = ({
   isBall,
   isCreateSession,
   live,
-  isDisable,
   setLock,
   incGap,
   setIncGap,
@@ -25,7 +42,7 @@ const AddSessionInput = ({
   setIsPercent,
   setIsBall,
   match,
-}: any) => {
+}: AddSessionInputProps) => {
   const handleChange = (event: any) => {
     try {
       const { value } = event.target;
@@ -71,7 +88,6 @@ const AddSessionInput = ({
     } catch (error) {
       console.error(error);
     }
-    // handleSuspend();
   };
 
   return (
@@ -238,7 +254,6 @@ const AddSessionInput = ({
                     }
                   >
                     <TextField
-                      disabled={isDisable}
                       onChange={(e) => handleChange(e)}
                       onWheel={numberInputOnWheelPreventChange}
                       type="Number"
@@ -309,7 +324,7 @@ const AddSessionInput = ({
                 </Typography>
               </Box>
             </Box>
-            <Box display={"flex"} sx={{ borderTop: "2px solid white" }}>
+            <Box display="flex" sx={{ borderTop: "2px solid white" }}>
               <Box
                 sx={{
                   background: "#FFB5B5",

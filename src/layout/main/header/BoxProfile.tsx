@@ -1,12 +1,11 @@
 import { Box, Typography } from "@mui/material";
-import StyledImage from "../../../components/Common/StyledImages";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ArrowDown } from "../../../assets/index";
+import StyledImage from "../../../components/Common/StyledImages";
 import HeaderDropdown from "./HeaderDropdown";
 
-const BoxProfile = (props: any) => {
-  const { image, value, containerStyle, value1 } = props;
+const BoxProfile = ({ image, value, containerStyle, value1 }: any) => {
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = useState<HTMLElement | any>(null);
   const handleClick = (event: any) => {

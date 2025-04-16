@@ -1,10 +1,20 @@
 import { Box, Typography } from "@mui/material";
+import { memo } from "react";
 import { useDispatch } from "react-redux";
 import { updateRaceRunners } from "../../../store/actions/addMatch/addMatchAction";
 import { AppDispatch } from "../../../store/store";
-import { memo } from "react";
 
-const raceDropDownItem = ({
+interface RaceDropDownItemProps {
+  item: any;
+  EventId: string;
+  CompetitionName: string;
+  setOpen: (val: any) => void;
+  dropDownTextStyle: any;
+  setSelected: (val: any) => void;
+  name: string;
+}
+
+const RaceDropDownItem = ({
   item,
   EventId,
   CompetitionName,
@@ -12,7 +22,7 @@ const raceDropDownItem = ({
   dropDownTextStyle,
   setSelected,
   name,
-}: any) => {
+}: RaceDropDownItemProps) => {
   const dispatch: AppDispatch = useDispatch();
 
   return (
@@ -60,4 +70,4 @@ const raceDropDownItem = ({
   );
 };
 
-export default memo(raceDropDownItem);
+export default memo(RaceDropDownItem);

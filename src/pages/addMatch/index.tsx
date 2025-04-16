@@ -466,7 +466,6 @@ const AddMatch = () => {
                 }}
                 disable={state?.id ? true : false}
                 title="Game *"
-                value={values.gameType}
                 valueContainerStyle={{
                   height: "45px",
                   marginX: "0px",

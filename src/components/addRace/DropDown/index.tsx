@@ -4,6 +4,23 @@ import { ARROWDROPDOWN } from "../../../assets";
 import StyledImage from "../../Common/StyledImages";
 import DropDownItem from "./DropDownItem";
 
+interface RaceDropDownProps {
+  title: string;
+  name: string;
+  valued: string;
+  dropStyle: any;
+  disable: boolean;
+  valueContainerStyle: any;
+  containerStyle: any;
+  titleStyle: any;
+  data: any;
+  dropDownStyle: any;
+  dropDownTextStyle: any;
+  selected: any;
+  setSelected: (val: any) => void;
+  onOpen: (val: string) => void;
+}
+
 const RaceDropDown = ({
   title,
   data,
@@ -13,16 +30,13 @@ const RaceDropDown = ({
   dropStyle,
   dropDownStyle,
   dropDownTextStyle,
-  type,
-  matchesSelect,
   disable,
   selected,
   setSelected,
   name,
   valued,
-  gameType,
   onOpen,
-}: any) => {
+}: RaceDropDownProps) => {
   const [value, setValue] = useState(valued);
   const [open, setOpen] = useState(false);
 
@@ -134,18 +148,12 @@ const RaceDropDown = ({
               <DropDownItem
                 key={idx}
                 item={item}
-                mId={item?.MarketId}
                 EventId={item?.event?.id}
-                matchesSelect={matchesSelect}
                 CompetitionName={item?.marketName}
-                eventDetail={item?.EventDetail}
-                type={type}
-                setValue={setValue}
                 setSelected={setSelected}
                 setOpen={setOpen}
                 dropDownTextStyle={dropDownTextStyle}
                 name={name}
-                gameType={gameType}
               />
             );
           })}

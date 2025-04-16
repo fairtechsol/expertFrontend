@@ -205,10 +205,10 @@ const ResultComponentTournamentMarket = ({
           >
             {liveData?.activeStatus === "result" ? (
               <MatchOddsResultCustomButton
-                color={"#FF4D4D"}
+                color="#FF4D4D"
                 loading={loading}
                 id="UD"
-                title={"Un Declare"}
+                title="Un Declare"
                 onClick={() => {
                   try {
                     if (loading?.value) {
@@ -230,9 +230,9 @@ const ResultComponentTournamentMarket = ({
               <>
                 <MatchOddsResultCustomButton
                   id="DR"
-                  color={"#0B4F26"}
+                  color="#0B4F26"
                   loading={loading}
-                  title={"Declare"}
+                  title="Declare"
                   onClick={() => {
                     try {
                       if (loading?.value) {
@@ -253,9 +253,9 @@ const ResultComponentTournamentMarket = ({
                 />
                 <MatchOddsResultCustomButton
                   id="DNR"
-                  color={"#0B4F26"}
+                  color="#0B4F26"
                   loading={loading}
-                  title={"No Result"}
+                  title="No Result"
                   onClick={() => {
                     try {
                       if (loading?.value) {

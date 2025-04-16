@@ -4,6 +4,24 @@ import { ARROWDROPDOWN } from "../../../assets";
 import StyledImage from "../StyledImages";
 import DropDownItem from "./DropDownItem";
 
+interface DropDownProps {
+  title: string;
+  data: any;
+  containerStyle: any;
+  titleStyle: any;
+  valueContainerStyle: any;
+  dropStyle: any;
+  dropDownStyle: any;
+  dropDownTextStyle: any;
+  disable: boolean;
+  selected: any;
+  setSelected: (val: any) => void;
+  name: string;
+  valued: string;
+  onOpen: (val: any) => void;
+  isOpen: any;
+}
+
 const DropDown = ({
   title,
   data,
@@ -13,17 +31,14 @@ const DropDown = ({
   dropStyle,
   dropDownStyle,
   dropDownTextStyle,
-  type,
-  matchesSelect,
   disable,
   selected,
   setSelected,
   name,
   valued,
-  gameType,
   onOpen,
   isOpen,
-}: any) => {
+}: DropDownProps) => {
   const [value, setValue] = useState(valued);
   const [open, setOpen] = useState(false);
 
@@ -134,44 +149,21 @@ const DropDown = ({
             dropDownStyle,
           ]}
         >
-          {matchesSelect
-            ? data?.map((i: any, idx: any) => {
-                return (
-                  <DropDownItem
-                    key={idx}
-                    i={i?.EventName}
-                    mId={i?.MarketId}
-                    EventId={i?.EventId}
-                    matchesSelect={matchesSelect}
-                    CompetitionName={i?.EventDate ?? i?.CompetitionName}
-                    eventDetail={i}
-                    type={type} //
-                    setValue={setValue}
-                    setSelected={setSelected}
-                    setOpen={setOpen}
-                    dropDownTextStyle={dropDownTextStyle}
-                    name={name}
-                    gameType={gameType}
-                    onOpen={onOpen}
-                  />
-                );
-              })
-            : data?.map((i: any, idx: any) => {
-                return (
-                  <DropDownItem
-                    key={idx}
-                    i={i}
-                    disable={disable}
-                    setValue={setValue}
-                    setSelected={setSelected}
-                    setOpen={setOpen}
-                    dropDownTextStyle={dropDownTextStyle}
-                    name={name}
-                    gameType={gameType}
-                    onOpen={onOpen}
-                  />
-                );
-              })}
+          {data?.map((i: any, idx: any) => {
+            return (
+              <DropDownItem
+                key={idx}
+                i={i}
+                disable={disable}
+                setValue={setValue}
+                setSelected={setSelected}
+                setOpen={setOpen}
+                dropDownTextStyle={dropDownTextStyle}
+                name={name}
+                onOpen={onOpen}
+              />
+            );
+          })}
         </Box>
       )}
     </Box>

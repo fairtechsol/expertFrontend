@@ -30,7 +30,6 @@ import {
   updateApiSessionById,
 } from "../../store/actions/addSession";
 import {
-  // getPlacedBetsForSessionDetail,
   getSessionProfitLossMatchDetailReset,
   updateDeletedBetReasonOnEdit,
   updateMatchBetsReason,

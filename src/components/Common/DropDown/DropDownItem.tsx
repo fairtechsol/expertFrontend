@@ -1,12 +1,18 @@
 import { Box, Typography } from "@mui/material";
 import { memo } from "react";
+
+interface DropDownItemProps {
+  i: string;
+  disable: boolean;
+  setValue: (val: any) => void;
+  setOpen: (val: any) => void;
+  dropDownTextStyle?: any;
+  setSelected: (val: any) => void;
+  name: any;
+  onOpen: (val: any) => void;
+}
 const DropDownItem = ({
   i,
-  mId,
-  EventId,
-  matchesSelect,
-  eventDetail,
-  CompetitionName,
   disable,
   setValue,
   setOpen,
@@ -14,60 +20,20 @@ const DropDownItem = ({
   setSelected,
   name,
   onOpen,
-}: any) => {
+}: DropDownItemProps) => {
   return (
     <Box
       onClick={() => {
         if (!disable) {
           setValue(i);
-          if (eventDetail) {
-            function setDetailWithRunners() {
-              let allrunners: any = [];
-              eventDetail.runners.map((runner: any) => {
-                allrunners.push(runner?.runnerName);
-              });
-              setSelected((prev: any) => {
-                return {
-                  ...prev,
-                  teamA: allrunners[0],
-                  teamB: allrunners[1],
-                  teamC: allrunners[2] ? allrunners[2] : undefined,
-                  startAt: new Date(
-                    eventDetail?.EventDate.replace("AM", " AM")
-                      .replace("PM", " PM")
-                      .replace(" (IST)", "")
-                  ),
-                  eventId: EventId,
-                  marketId: mId,
-                  matchName: i,
-                  title: i,
-                  f: eventDetail?.f,
-                  tv: eventDetail?.tv,
-                  m1: eventDetail?.m1,
-                  competitionId: eventDetail?.competitionId,
-                  competitionName: eventDetail?.competitionName,
-                };
-              });
-            }
-            setDetailWithRunners();
-          } else if (matchesSelect) {
-            setSelected((prev: any) => {
-              return {
-                ...prev,
-                [name]: i,
-                tournamentId: EventId,
-              };
-            });
-          } else {
-            setSelected((prev: any) => {
-              return {
-                ...prev,
-                [name]: i,
-              };
-            });
-          }
+          setSelected((prev: any) => {
+            return {
+              ...prev,
+              [name]: i,
+            };
+          });
           setOpen(false);
-          onOpen(null);
+          onOpen?.(null);
         }
       }}
       sx={[
@@ -85,7 +51,6 @@ const DropDownItem = ({
       ]}
     >
       <Typography>{i === "0" ? "0.00" : i}</Typography>
-      <Typography sx={{ fontSize: "12px" }}>{CompetitionName}</Typography>
     </Box>
   );
 };

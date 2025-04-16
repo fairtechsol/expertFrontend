@@ -340,7 +340,6 @@ const AddRace = () => {
                 }}
                 disable={state?.id ? true : false}
                 title="Game *"
-                value={values.gameType}
                 valueContainerStyle={{
                   height: "45px",
                   marginX: "0px",
@@ -384,7 +383,6 @@ const AddRace = () => {
                       "invert(.9) sepia(1) saturate(5) hue-rotate(175deg);",
                   }}
                   disable={state?.id ? true : false}
-                  valueStyle={{ ...inputStyle, color: "white" }} //
                   title="Race Name*"
                   valueContainerStyle={{
                     height: "45px",
@@ -394,16 +392,13 @@ const AddRace = () => {
                     borderRadius: "5px",
                     cursor: state?.id ? "not-allowed" : "pointer",
                   }}
-                  gameType={selected.gameType}
                   containerStyle={{
                     width: "100%",
                     position: "relative",
                     marginTop: "5px",
                   }}
-                  type={""}
                   titleStyle={{ marginLeft: "0px", color: "#575757" }}
                   data={eventsList}
-                  matchesSelect={true}
                   dropDownStyle={{
                     width: "100%",
                     marginLeft: "0px",
@@ -411,14 +406,6 @@ const AddRace = () => {
                     position: "absolute",
                     maxHeight: "255px",
                     overflow: "auto",
-                  }}
-                  onChange={(e: any) => {
-                    setSelected((prev) => {
-                      return {
-                        ...prev,
-                        competitionName: e.target?.value,
-                      };
-                    });
                   }}
                   dropDownTextStyle={inputStyle}
                   selected={selected}

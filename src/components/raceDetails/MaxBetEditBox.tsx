@@ -6,8 +6,7 @@ import { CancelDark } from "../../assets";
 import { editRace, resetRaceEdit } from "../../store/actions/match/matchAction";
 import { AppDispatch, RootState } from "../../store/store";
 
-const MaxBetEdit = (props: any) => {
-  const { onClickCancel, matchOdd, id } = props;
+const MaxBetEdit = ({ onClickCancel, matchOdd, id }: any) => {
   const dispatch: AppDispatch = useDispatch();
   const { editRaceSuccess } = useSelector(
     (state: RootState) => state.matchList

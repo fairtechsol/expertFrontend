@@ -1,7 +1,17 @@
 import { Box, Typography } from "@mui/material";
 import { memo } from "react";
 
-const LabelValueComponent = ({ title, titleSize, headColor }: any) => {
+interface LabelValueComponentProps {
+  title: string;
+  titleSize: string;
+  headColor: string;
+}
+
+const LabelValueComponent = ({
+  title,
+  titleSize,
+  headColor,
+}: LabelValueComponentProps) => {
   return (
     <Box className="beFairMatch">
       <Typography

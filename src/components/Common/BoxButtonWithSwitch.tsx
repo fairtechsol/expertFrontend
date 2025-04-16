@@ -4,19 +4,18 @@ import service from "../../service";
 import { ApiConstants } from "../../utils/Constants";
 import { MaterialUISwitch } from "../matchList/materialUiSwitch";
 
-const BoxButtonWithSwitch = (props: any) => {
-  const {
-    title,
-    matchId,
-    containerStyle,
-    titleStyle,
-    updateMatchStatus,
-    setUpdateMatchStatus,
-    place,
-    disable,
-    isManualBet,
-    matchBettingType,
-  } = props;
+const BoxButtonWithSwitch = ({
+  title,
+  matchId,
+  containerStyle,
+  titleStyle,
+  updateMatchStatus,
+  setUpdateMatchStatus,
+  place,
+  disable,
+  isManualBet,
+  matchBettingType,
+}: any) => {
   const [background, setBackground] = useState<string>("#0B4F26");
   const value = updateMatchStatus[place]?.val;
   const [checked, setChecked] = useState<boolean>(value || false);

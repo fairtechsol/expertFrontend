@@ -1,12 +1,18 @@
 import { Box, Typography } from "@mui/material";
-import { MaterialUISwitch } from "../matchList/materialUiSwitch";
 import { memo } from "react";
+import { MaterialUISwitch } from "../matchList/materialUiSwitch";
+
+interface BoxButtonManualMatchProps {
+  title: string;
+  manualMatchToggle: boolean;
+  setManualMatchToggle: (val: any) => void;
+}
 
 const BoxButtonManualMatch = ({
   title,
   manualMatchToggle,
   setManualMatchToggle,
-}: any) => {
+}: BoxButtonManualMatchProps) => {
   return (
     <Box
       sx={{

@@ -317,7 +317,6 @@ const Header1 = () => {
                     }}
                   >
                     <ActiveUsers
-                      containerStyle={{}}
                       image={Users}
                       value={userCount}
                     />
@@ -463,7 +462,6 @@ const Header1 = () => {
                   </Box>
                   <Box sx={{ display: "flex" }}>
                     <ActiveUsers
-                      containerStyle={{}}
                       image={Users}
                       value={userCount}
                     />

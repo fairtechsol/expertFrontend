@@ -19,7 +19,7 @@ import {
 import { AppDispatch, RootState } from "../../store/store";
 import "./style.css";
 
-const RaceList = ({}) => {
+const RaceList = () => {
   const dispatch: AppDispatch = useDispatch();
   const [currentPage] = useState(1);
   const { raceType } = useParams();

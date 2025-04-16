@@ -3,8 +3,7 @@ import { useEffect, useState } from "react";
 import StyledImage from "../../../components/Common/StyledImages";
 import HeaderDropdown from "./HeaderDropdown";
 
-const ActiveUsers = (props: any) => {
-  const { image, value, containerStyle } = props;
+const ActiveUsers = ({ image, value }: any) => {
   const [anchorEl, setAnchorEl] = useState<any>(null);
   useEffect(() => {}, [anchorEl]);
   const handleClose = () => {
@@ -21,24 +20,20 @@ const ActiveUsers = (props: any) => {
         }}
       >
         <Box
-          onClick={() => {}}
-          sx={[
-            {
-              backgroundColor: "white",
-              minWidth: { lg: "110px" },
-              marginLeft: "1vw",
-              display: "flex",
-              alignItems: "center",
-              boxShadow: "0px 3px 10px #B7B7B726",
-              justifyContent: "space-between",
-              height: { lg: "35px", xs: "27px" },
-              overflow: "hidden",
-              paddingX: "2px",
-              borderRadius: "35px",
-              width: { xs: "80px", md: "100px" },
-            },
-            containerStyle,
-          ]}
+          sx={{
+            backgroundColor: "white",
+            minWidth: { lg: "110px" },
+            marginLeft: "1vw",
+            display: "flex",
+            alignItems: "center",
+            boxShadow: "0px 3px 10px #B7B7B726",
+            justifyContent: "space-between",
+            height: { lg: "35px", xs: "27px" },
+            overflow: "hidden",
+            paddingX: "2px",
+            borderRadius: "35px",
+            width: { xs: "80px", md: "100px" },
+          }}
         >
           <Box
             sx={{

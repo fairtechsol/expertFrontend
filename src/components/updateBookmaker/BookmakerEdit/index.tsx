@@ -5,7 +5,7 @@ import CommissionDot from "../../Common/CommissionDot";
 import ResultComponentTournamentMarket from "../../matchDetails/TournamentMarkets/ResultComponentTournamentMarket";
 import EditBookmaker from "./EditBookmaker";
 import NewEditBookmaker from "./NewEditBookmaker";
-interface Props {
+interface BookmakerEditSectionProps {
   add: boolean;
   match: any;
   bookmakerId: string;
@@ -21,7 +21,7 @@ const BookmakerEditSection = ({
   runners,
   matchBetting,
   teamRates,
-}: Props) => {
+}: BookmakerEditSectionProps) => {
   const [visible, setVisible] = useState(false);
   const [visible1, setVisible1] = useState(false);
   const matchesMobile = useMediaQuery(theme.breakpoints.down("lg"));
