@@ -81,9 +81,7 @@ const Header1 = () => {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <>
-          <Loader />
-        </>
+        <Loader />
       </ModalMUI>
       {/* <SessionTimeOut /> */}
       {!matchesMobile && (

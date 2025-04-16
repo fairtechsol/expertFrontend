@@ -28,7 +28,7 @@ const TabListTable = ({ data, index, currentPage }: TabListTableProps) => {
   const idd = tabList.filter((tab: any) => tab.matchId === data.id);
   const [showPopup, setShowPopup] = useState(false);
   const [selected, setSelected] = useState<any>(
-    idd?.length > 0 ? idd?.[0]?.order : null
+    idd?.length > 0 ? idd?.[0]?.order : ""
   );
 
   const handleAdd = () => {
@@ -60,7 +60,7 @@ const TabListTable = ({ data, index, currentPage }: TabListTableProps) => {
   };
 
   const handlclose = () => {
-    setSelected(idd?.length > 0 ? idd?.[0]?.order : null);
+    setSelected(idd?.length > 0 ? idd?.[0]?.order : "");
     setShowPopup(false);
   };
 

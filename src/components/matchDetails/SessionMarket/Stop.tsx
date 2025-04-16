@@ -1,9 +1,8 @@
 import {
   Box,
   Tooltip,
-  Typography,
   useMediaQuery,
-  useTheme,
+  useTheme
 } from "@mui/material";
 import { BroadCast_ } from "../../../assets";
 
@@ -52,7 +51,7 @@ const Stop = ({ onClick, height, title, isCommissionActive }: StopProps) => {
         }}
       >
         <Tooltip title={title} arrow>
-          <Typography
+          <Box
             sx={{
               fontSize: { lg: "8px", xs: "8px" },
               fontWeight: "600",
@@ -60,6 +59,7 @@ const Stop = ({ onClick, height, title, isCommissionActive }: StopProps) => {
               lineHeight: 1,
               display: "flex",
               alignItems: "center",
+              fontFamily: "Poppins, sans-serif",
             }}
           >
             {isCommissionActive && (
@@ -74,7 +74,7 @@ const Stop = ({ onClick, height, title, isCommissionActive }: StopProps) => {
               />
             )}
             {title && displayTitle}
-          </Typography>
+          </Box>
         </Tooltip>
         <img
           src={BroadCast_}

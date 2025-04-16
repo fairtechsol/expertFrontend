@@ -478,7 +478,6 @@ const AddRace = () => {
                 </DemoContainer>
               </LocalizationProvider>
             </Box>
-
             <Box sx={{ width: { xs: "100%", lg: "18%", md: "24%" } }}>
               <MatchListInput
                 required={true}
@@ -500,7 +499,6 @@ const AddRace = () => {
                 errors={errors.minBet}
               />
             </Box>
-
             <Box sx={{ width: { xs: "100%", lg: "18%", md: "24%" } }}>
               <MatchListInput
                 required={true}
@@ -521,7 +519,6 @@ const AddRace = () => {
                 errors={errors.maxBet}
               />
             </Box>
-
             {raceRunners?.map((item: any, index: number) => {
               return (
                 <Box sx={{ width: { xs: "100%", lg: "18%", md: "24%" } }}>
@@ -551,7 +548,6 @@ const AddRace = () => {
                     <Typography sx={{ fontSize: "16px" }}>
                       {item?.runnerName}
                     </Typography>
-
                     <Typography sx={{ fontSize: "11px" }}>
                       {item?.metadata?.TRAINER_NAME}
                     </Typography>

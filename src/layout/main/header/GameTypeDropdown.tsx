@@ -46,15 +46,13 @@ const GameTypeDropdown = ({
     >
       {allMatchg?.length > 0 &&
         allMatchg?.map((x: any, i: any) => (
-          <div>
+          <Box key={i}>
             <MenuItem
-              key={i}
               dense={true}
               sx={{
                 fontSize: matchesMobile ? "10px" : "12px",
                 fontWeight: "500",
                 marginX: "0px",
-                // width: { lg: "350px", xs: "240px" },
                 borderBottomWidth: 0,
                 borderColor: "#EAEFEC",
                 paddingY: "0px",
@@ -84,32 +82,30 @@ const GameTypeDropdown = ({
               {x.title}
             </MenuItem>
             {selected === i && (
-              <div>
-                <Box
-                  sx={{
-                    background: "#F8C851",
-                    width: "100%",
-                    marginLeft: "5%",
-                    borderRadius: "5px",
-                    paddingX: "5px",
-                    paddingY: "8px",
-                  }}
-                >
-                  {allMatch?.length > 0 &&
-                    allMatch?.map((x: any, i: any) => (
-                      <MenutItemsComponent
-                        key={i}
-                        handleClose={handleClose}
-                        setSelected={setSelectedMatch}
-                        index={i}
-                        selected={selectedMatch}
-                        x={x}
-                      />
-                    ))}
-                </Box>
-              </div>
+              <Box
+                sx={{
+                  background: "#F8C851",
+                  width: "100%",
+                  marginLeft: "5%",
+                  borderRadius: "5px",
+                  paddingX: "5px",
+                  paddingY: "8px",
+                }}
+              >
+                {allMatch?.length > 0 &&
+                  allMatch?.map((x: any, i: any) => (
+                    <MenutItemsComponent
+                      key={i}
+                      handleClose={handleClose}
+                      setSelected={setSelectedMatch}
+                      index={i}
+                      selected={selectedMatch}
+                      x={x}
+                    />
+                  ))}
+              </Box>
             )}
-          </div>
+          </Box>
         ))}
     </Menu>
   );

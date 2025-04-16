@@ -100,6 +100,7 @@ const BoxComponent = ({
               alignItems: "center",
               display: "flex",
               fontSize: { lg: "10px", sm: "8.5px", md: "10px", xs: "10px" },
+              fontFamily: "Poppins, sans-serif",
             }}
           >
             <h4
