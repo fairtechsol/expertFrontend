@@ -1,4 +1,5 @@
 import { Box, useMediaQuery } from "@mui/material";
+import { memo } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { RootState } from "../../store/store";
@@ -8,7 +9,6 @@ import BoxButtonWithSwitch from "../Common/BoxButtonWithSwitch";
 import CustomButton from "../Common/CustomButton";
 import { handleSorting } from "../helper";
 import MatchListProfitLoss from "./profitLoss";
-import { memo } from "react";
 
 const MatchPermissionsModal = ({
   showUserModal,
@@ -34,8 +34,8 @@ const MatchPermissionsModal = ({
         background: data?.stopAt
           ? "#f78f65"
           : !upcoming
-          ? "#FFE094"
-          : "#a6d482",
+            ? "#FFE094"
+            : "#a6d482",
         justifyContent: { xs: "end" },
         minHeight: { xs: "auto", md: "auto", lg: "7rem" },
       }}
@@ -63,7 +63,7 @@ const MatchPermissionsModal = ({
                     matchBettingType={"match"}
                     disable={
                       profileDetail?.allPrivilege ||
-                      profileDetail?.addMatchPrivilege
+                        profileDetail?.addMatchPrivilege
                         ? false
                         : true
                     }
@@ -180,18 +180,18 @@ const MatchPermissionsModal = ({
           >
             {(profileDetail?.allPrivilege ||
               profileDetail?.sessionMatchPrivilege) && (
-              <CustomButton
-                containerStyle={{
-                  margin: "5px",
-                }}
-                onClick={() => {
-                  navigate(`/expert/betDetail`, {
-                    state: { id: data?.id, marketId: data?.marketId },
-                  });
-                }}
-                title={"View Bet"}
-              />
-            )}
+                <CustomButton
+                  containerStyle={{
+                    margin: "5px",
+                  }}
+                  onClick={() => {
+                    navigate(`/expert/betDetail`, {
+                      state: { id: data?.id, marketId: data?.marketId },
+                    });
+                  }}
+                  title={"View Bet"}
+                />
+              )}
             {["cricket", "politics"].includes(data?.matchType) &&
               (profileDetail?.allPrivilege ||
                 profileDetail?.sessionMatchPrivilege) && (
@@ -224,38 +224,38 @@ const MatchPermissionsModal = ({
               )}
             {(profileDetail?.allPrivilege ||
               profileDetail?.betFairMatchPrivilege) && (
-              <CustomButton
-                containerStyle={{
-                  margin: "5px",
-                }}
-                title="View Match"
-                onClick={() => {
-                  if (["cricket", "politics"].includes(data?.matchType)) {
-                    navigate(`/expert/market`, {
-                      state: { id: data?.id, marketId: data?.marketId },
-                    });
-                  } else {
-                    navigate(`/expert/betOdds/otherGames`, {
-                      state: { id: data?.id, marketId: data?.marketId },
-                    });
-                  }
-                }}
-              />
-            )}
+                <CustomButton
+                  containerStyle={{
+                    margin: "5px",
+                  }}
+                  title="View Match"
+                  onClick={() => {
+                    if (["cricket", "politics"].includes(data?.matchType)) {
+                      navigate(`/expert/market`, {
+                        state: { id: data?.id, marketId: data?.marketId },
+                      });
+                    } else {
+                      navigate(`/expert/betOdds/otherGames`, {
+                        state: { id: data?.id, marketId: data?.marketId },
+                      });
+                    }
+                  }}
+                />
+              )}
             {(profileDetail?.allPrivilege ||
               profileDetail?.addMatchPrivilege) && (
-              <CustomButton
-                containerStyle={{
-                  margin: "5px",
-                }}
-                onClick={() => {
-                  navigate(`/expert/edit_match`, {
-                    state: { id: data?.id },
-                  });
-                }}
-                title="Edit"
-              />
-            )}
+                <CustomButton
+                  containerStyle={{
+                    margin: "5px",
+                  }}
+                  onClick={() => {
+                    navigate(`/expert/edit_match`, {
+                      state: { id: data?.id },
+                    });
+                  }}
+                  title="Edit"
+                />
+              )}
           </Box>
         </Box>
       )}
