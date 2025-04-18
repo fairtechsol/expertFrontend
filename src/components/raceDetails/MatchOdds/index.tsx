@@ -1,6 +1,6 @@
 import { Box, Typography } from "@mui/material";
 import ModalMUI from "@mui/material/Modal";
-import { memo, useEffect, useState } from "react";
+import { Fragment, memo, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { ARROWUP, edit } from "../../../assets";
 import { raceLiveStatus } from "../../../store/actions/match/matchAction";
@@ -277,7 +277,7 @@ const MatchOdds = ({ currentMatch, matchOddsLive }: any) => {
               {currentMatch?.matchOdd?.runners?.length > 0 &&
                 currentMatch?.matchOdd?.runners?.map((item: any) => {
                   return (
-                    <>
+                    <Fragment key={item?.id}>
                       <BoxComponent
                         data={item ? item : {}}
                         lock={item !== undefined ? false : true}
@@ -292,7 +292,7 @@ const MatchOdds = ({ currentMatch, matchOddsLive }: any) => {
                         }
                       />
                       <Divider />
-                    </>
+                    </Fragment>
                   );
                 })}
 

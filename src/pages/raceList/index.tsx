@@ -152,7 +152,7 @@ const RaceList = () => {
         {raceList &&
           Object?.keys(raceList)?.map((item: any, index: number) => (
             <MatchListTable
-              key={item?.[0]?.venue}
+              key={index}
               data={item}
               index={index}
               currentPage={currentPage}
