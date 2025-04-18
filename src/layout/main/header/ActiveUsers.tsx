@@ -46,7 +46,11 @@ const ActiveUsers = ({ image, value }: any) => {
               background: "#175731",
             }}
           >
-            <StyledImage src={image} sx={{ height: "15px", width: "15px" }} />
+            <StyledImage
+              src={image}
+              sx={{ height: "15px", width: "15px" }}
+              alt="image"
+            />
           </Box>
           <Box style={{ flex: 1, marginLeft: "5px" }}>
             <Typography
