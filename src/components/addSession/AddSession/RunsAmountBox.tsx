@@ -167,6 +167,7 @@ const RunsAmountBox = ({ currentOdds, betId, proLoss }: any) => {
                       </Typography>
                       <StyledImage
                         src={getSVG(parseFloat(v?.profitLoss))}
+                        alt="proloss"
                         sx={{
                           height: "15px",
                           marginLeft: "5px",

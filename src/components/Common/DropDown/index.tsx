@@ -121,6 +121,7 @@ const DropDown = ({
         </Box>
         <StyledImage
           src={ARROWDROPDOWN}
+          alt="arrow down"
           sx={[
             {
               width: "11px",

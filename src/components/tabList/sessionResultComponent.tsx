@@ -198,6 +198,7 @@ const SessionResultComponent = ({ setShowPopup, sessionResults }: any) => {
                             ? "https://fontawesomeicons.com/images/svg/trending-up-sharp.svg"
                             : "https://fontawesomeicons.com/images/svg/trending-down-sharp.svg"
                         }
+                        alt="updown icon"
                         sx={{
                           height: "15px",
                           marginLeft: "5px",

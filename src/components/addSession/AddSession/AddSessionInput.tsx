@@ -600,7 +600,11 @@ const AddSessionInput = ({
             "-webkit-backdrop-filter": "blur(1px)",
           }}
         >
-          <StyledImage src={LiveOff} sx={{ height: "4vw", width: "4vw" }} />
+          <StyledImage
+            src={LiveOff}
+            sx={{ height: "4vw", width: "4vw" }}
+            alt="stop"
+          />
         </Box>
       )}
     </Box>

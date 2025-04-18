@@ -294,6 +294,7 @@ const SessionBetSeperate = ({
                               height: { xs: "12px", lg: "15px" },
                             }}
                             src={i.myProfitLoss > 0 ? ARROWUPPL : ArrowDownPL}
+                            alt="updown icon"
                           />
                         )}
                       </Box>
@@ -320,6 +321,7 @@ const SessionBetSeperate = ({
                           marginRight: "5px",
                         }}
                         src={DeleteIcon}
+                        alt="delete"
                       />
                       <Typography
                         sx={{
@@ -358,6 +360,7 @@ const SessionBetSeperate = ({
                           marginRight: "5px",
                         }}
                         src={DeleteIcon}
+                        alt="delete"
                       />
                       <Typography
                         sx={{

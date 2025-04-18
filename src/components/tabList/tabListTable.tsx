@@ -122,6 +122,7 @@ const TabListTable = ({ data, index, currentPage }: TabListTableProps) => {
           >
             <StyledImage
               src={IconConstants[data?.matchType]}
+              alt={data?.matchType}
               sx={{ height: "20px", width: "20px", margin: "0.5rem" }}
             />
             <Typography

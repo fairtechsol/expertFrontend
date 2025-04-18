@@ -139,6 +139,7 @@ const SessionProLoss = ({ setShowSessionPopup, matchId, betId }: any) => {
                   </Typography>
                   <StyledImage
                     src={ArrowDown}
+                    alt="down"
                     sx={{
                       width: { lg: "20px", xs: "10px" },
                       transform:
@@ -190,6 +191,7 @@ const SessionProLoss = ({ setShowSessionPopup, matchId, betId }: any) => {
                           ? ARROWUPPL
                           : ArrowDownPL
                       }
+                      alt="updown icon"
                       sx={{
                         width: { lg: "25px", xs: "15px" },
                         height: { lg: "12px", xs: "8px" },
