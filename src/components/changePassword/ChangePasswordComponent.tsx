@@ -42,7 +42,7 @@ export const ChangePasswordComponent = () => {
   const { handleSubmit, touched, errors } = formik;
 
   const debouncedInputValue = useMemo(() => {
-    const debouncedFn = debounce((value) => {
+    const debouncedFn = debounce((value: string) => {
       dispatch(checkOldPass({ oldPassword: value }));
     }, 500);
     return debouncedFn;
