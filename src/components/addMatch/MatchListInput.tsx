@@ -1,6 +1,6 @@
 import { Box, Input, Typography } from "@mui/material";
-import { numberInputOnWheelPreventChange } from "../../helpers";
 import { memo } from "react";
+import { numberInputOnWheelPreventChange } from "../../helpers";
 
 interface MatchListInputProps {
   value?: string | number;

@@ -77,10 +77,6 @@ const AddMatch = () => {
   );
   const [selected, setSelected] = useState(initialValues);
   const [openDropDown, setOpenDropDown] = useState(null);
-  const [_, setError] = useState({
-    torunamentName: false,
-    competitionName: false,
-  });
   const [manualMatchToggle, setManualMatchToggle] = useState(false);
   const navigate = useNavigate();
 
@@ -126,15 +122,6 @@ const AddMatch = () => {
       } else {
         let addMatchpayload: any;
 
-        if (selected.title === "") {
-          setError((prev: any) => {
-            return {
-              ...prev,
-              title: true,
-            };
-          });
-          return;
-        }
         if (selected.teamB) {
           addMatchpayload = {
             matchType: selected.gameType,
@@ -292,17 +279,6 @@ const AddMatch = () => {
       dispatch(getAllEventsList(selected.tournamentId));
     }
   }, [selected.tournamentId]);
-
-  useEffect(() => {
-    if (selected.title !== "") {
-      setError((prev: any) => {
-        return {
-          ...prev,
-          title: false,
-        };
-      });
-    }
-  }, [selected.title]);
 
   useEffect(() => {
     if (state?.id) {
@@ -464,7 +440,7 @@ const AddMatch = () => {
                 dropStyle={{
                   filter: "invert(.9) sepia(1) saturate(5) hue-rotate(175deg);",
                 }}
-                disable={state?.id ? true : false}
+                disable={!!state?.id}
                 title="Game *"
                 valueContainerStyle={{
                   height: "45px",
@@ -622,7 +598,7 @@ const AddMatch = () => {
             >
               <MatchListInput
                 required={true}
-                disable={state?.id}
+                disable={!!state?.id}
                 label="Min Bet*"
                 type="Number"
                 touched={touched.minBet}
@@ -645,7 +621,6 @@ const AddMatch = () => {
               <Box sx={{ width: { xs: "100%", lg: "18%", md: "24%" } }}>
                 <MatchListInput
                   required={true}
-                  containerStyle={{ flex: 1, width: "100%" }}
                   label="API Session Max Bet*"
                   type="Number"
                   placeholder="API Session Max Bet..."
