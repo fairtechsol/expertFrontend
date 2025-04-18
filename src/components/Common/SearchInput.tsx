@@ -94,7 +94,11 @@ const SearchInput = ({
           },
         ]}
       >
-        <StyledImage src={Search} sx={{ height: "40%", width: "auto" }} />
+        <StyledImage
+          src={Search}
+          sx={{ height: "40%", width: "auto" }}
+          alt="search"
+        />
       </Box>
     </Box>
   );

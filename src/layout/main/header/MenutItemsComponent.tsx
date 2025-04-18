@@ -5,6 +5,7 @@ import {
   useMediaQuery,
   useTheme,
 } from "@mui/material";
+import { memo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { ArrowLeft } from "../../../assets";
@@ -17,7 +18,6 @@ import {
   sessionByIdReset,
 } from "../../../store/actions/addSession";
 import { AppDispatch, RootState } from "../../../store/store";
-import { memo } from "react";
 
 const MenutItemsComponent = ({
   x,
@@ -72,6 +72,7 @@ const MenutItemsComponent = ({
       >
         <StyledImage
           src={IconConstants[x?.matchType]}
+          alt={x?.matchType}
           sx={{ height: "12px", width: "12px", marginRight: "8px" }}
         />{" "}
         {x.title}
@@ -173,6 +174,7 @@ const MenutItemsComponent = ({
                   </Typography>
                   <StyledImage
                     src={ArrowLeft}
+                    alt="left"
                     sx={{ width: "15px", height: "10px", marginLeft: "10px" }}
                   />
                 </Box>
@@ -208,6 +210,7 @@ const MenutItemsComponent = ({
                       </Typography>
                       <StyledImage
                         src={ArrowLeft}
+                        alt="left"
                         sx={{
                           width: "15px",
                           height: "10px",

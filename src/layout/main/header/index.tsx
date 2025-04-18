@@ -131,6 +131,7 @@ const Header1 = () => {
                 >
                   <StyledImage
                     src={FgLogo}
+                    alt="fairgame logo"
                     onClick={(e: any) => {
                       e.stopPropagation();
                       navigate(`/expert/match`);
@@ -306,6 +307,7 @@ const Header1 = () => {
                   >
                     <StyledImage
                       src={NotiBadge}
+                      alt="badge"
                       sx={{ height: "15px", width: "15px" }}
                     />
                   </Box>
@@ -385,6 +387,7 @@ const Header1 = () => {
                 >
                   <StyledImage
                     src={FgLogo}
+                    alt="fairgame logo"
                     onClick={(e: any) => {
                       e.stopPropagation();
                       navigate(`/expert/match`);
@@ -454,6 +457,7 @@ const Header1 = () => {
                   >
                     <StyledImage
                       src={NotiBadge}
+                      alt="badge"
                       sx={{ height: "15px", width: "15px" }}
                     />
                   </Box>

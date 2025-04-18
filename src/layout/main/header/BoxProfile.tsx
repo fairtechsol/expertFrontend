@@ -49,6 +49,7 @@ const BoxProfile = ({ image, value, containerStyle, value1 }: any) => {
         >
           <StyledImage
             src={image}
+            alt="image"
             sx={{
               height: { lg: "30px", xs: "25px" },
               width: { lg: "30px", xs: "25px" },
@@ -69,6 +70,7 @@ const BoxProfile = ({ image, value, containerStyle, value1 }: any) => {
           </Box>
           <StyledImage
             src={ArrowDown}
+            alt="down"
             sx={{
               height: "6px",
               width: "10px",

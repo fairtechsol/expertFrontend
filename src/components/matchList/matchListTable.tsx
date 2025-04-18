@@ -178,6 +178,7 @@ const MatchListTable = ({ data, index, currentPage }: any) => {
           >
             <StyledImage
               src={IconConstants[data?.matchType]}
+              alt={data?.matchType}
               sx={{ height: "20px", width: "20px", margin: "1rem" }}
             />
             <Typography
@@ -200,6 +201,7 @@ const MatchListTable = ({ data, index, currentPage }: any) => {
                 setShowUserModal((prev) => !prev);
               }}
               src={showUserModal ? DownGIcon : DownGIcon}
+              alt="updown icon"
               style={{
                 transform: showUserModal ? "rotate(180deg)" : "rotate(0deg)",
                 transition: "0.5s",

@@ -128,6 +128,7 @@ const SessionResultOvers = ({
                     {formatToINR(profit_loss)}
                     <StyledImage
                       src="https://fontawesomeicons.com/images/svg/trending-up-sharp.svg"
+                      alt="up icon"
                       sx={{
                         height: "15px",
                         marginLeft: "5px",
@@ -163,6 +164,7 @@ const SessionResultOvers = ({
                     {formatToINR(profit_loss)}
                     <StyledImage
                       src="https://fontawesomeicons.com/images/svg/trending-down-sharp.svg"
+                      alt="down icon"
                       sx={{
                         height: "15px",
                         marginLeft: "5px",
