@@ -103,6 +103,7 @@ const SessionLimitEdit = (props: any) => {
             onClickCancel();
           }}
           src={CancelDark}
+          alt="cancel"
           style={{ width: "25px", height: "25px", cursor: "pointer" }}
         />
       </Box>

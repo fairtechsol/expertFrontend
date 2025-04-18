@@ -163,6 +163,7 @@ const HTFTMarket = ({ currentMatch, liveData, title, firstKnownKey }: any) => {
               setVisibleImg(!visibleImg);
             }}
             src={ARROWUP}
+            alt="arrow up"
             style={{
               transform: visibleImg ? "rotate(180deg)" : "rotate(0deg)",
               width: "12px",

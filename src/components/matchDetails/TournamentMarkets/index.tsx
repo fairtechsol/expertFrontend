@@ -220,6 +220,7 @@ const TournamentMarket = ({
               setVisibleImg(!visibleImg);
             }}
             src={ARROWUP}
+            alt="arrow up"
             style={{
               transform: visibleImg ? "rotate(180deg)" : "rotate(0deg)",
               width: "10px",

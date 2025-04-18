@@ -131,6 +131,7 @@ const MatchOdds = ({ currentMatch, matchOddsLive }: any) => {
                 setVisibleImg(!visibleImg);
               }}
               src={ARROWUP}
+              alt="arrow up"
               style={{
                 transform: visibleImg ? "rotate(180deg)" : "rotate(0deg)",
                 width: "15px",
@@ -219,7 +220,11 @@ const MatchOdds = ({ currentMatch, matchOddsLive }: any) => {
                   }}
                   onClick={() => setShowMaxLimitModal(true)}
                 >
-                  <img src={edit} style={{ width: "18px", height: "12px" }} />
+                  <img
+                    src={edit}
+                    style={{ width: "18px", height: "12px" }}
+                    alt="edit"
+                  />
                 </Box>
               </Box>
 

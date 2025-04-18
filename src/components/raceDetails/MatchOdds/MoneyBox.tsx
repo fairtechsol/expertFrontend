@@ -60,6 +60,7 @@ const MoneyBox = ({ value }: any) => {
         <img
           src={Number(value) > 0 ? ArrowUpGreen : ArrowDownRed}
           style={{ width: "12px", height: "10px" }}
+          alt="arrow"
         />
       ) : (
         ""

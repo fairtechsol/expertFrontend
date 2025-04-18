@@ -74,6 +74,7 @@ const Stop = ({ onClick, height, title, isCommissionActive }: StopProps) => {
         </Tooltip>
         <img
           src={BroadCast_}
+          alt="stop"
           style={{ height: "10px", width: "15px", backgroundSize: "contains" }}
         />
       </Box>
