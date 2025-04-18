@@ -45,7 +45,7 @@ export { default as MYACCOUNT } from "./images/my-account.webp";
 export { default as NotiBadge } from "./images/noti_badge.png";
 export { default as Pdf } from "./images/pdf.png";
 export { default as Play } from "./images/play.png";
-export { default as POLITICS } from "./images/politics.png";
+export { default as POLITICS } from "./images/politics.webp";
 export { default as SEARCH, default as Search } from "./images/search.png";
 export { default as TEAM } from "./images/team.webp";
 export { default as Tennis } from "./images/tennis.png";
