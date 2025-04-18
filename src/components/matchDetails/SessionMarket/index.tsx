@@ -78,6 +78,7 @@ const SessionMarket = ({
               <img
                 onClick={() => setSessionMaxBetAmountLimit(true)}
                 src={edit}
+                alt="edit"
                 style={{
                   width: "14px",
                   height: "12px",
@@ -125,7 +126,7 @@ const SessionMarket = ({
                 setVisible(!visible);
               }}
               src={ARROWUP}
-              alt={"Up Arrow"}
+              alt="Up Arrow"
               style={{
                 transform: visible ? "rotate(180deg)" : "rotate(0deg)",
                 width: "12px",

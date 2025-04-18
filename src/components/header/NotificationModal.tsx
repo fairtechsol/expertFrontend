@@ -89,6 +89,7 @@ const NotificationModal = ({
               <img
                 onClick={() => setVisible(false)}
                 src={CancelDark}
+                alt="cancel"
                 style={{ width: "25px", height: "25px", cursor: "pointer" }}
               />
             </Box>

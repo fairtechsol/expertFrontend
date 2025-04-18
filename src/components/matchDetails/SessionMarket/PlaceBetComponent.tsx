@@ -101,6 +101,7 @@ const PlaceBetComponent = ({ profitLossData, newData }: any) => {
           </Typography>
           <img
             src={UD}
+            alt="icon"
             style={{ width: "10px", height: "10px", marginLeft: "4px" }}
           />
         </Box>

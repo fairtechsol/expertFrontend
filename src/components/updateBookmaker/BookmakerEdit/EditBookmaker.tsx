@@ -462,6 +462,7 @@ const EditBookmaker = ({
               >
                 <img
                   src={BallStart}
+                  alt="ball start"
                   style={{
                     width: "80%",
                     height: "30%",
@@ -652,6 +653,7 @@ const EditBookmaker = ({
               >
                 <img
                   src={BallStart}
+                  alt="ball start"
                   style={{ width: "90px", height: "27px" }}
                 />
               </Box>
@@ -679,6 +681,7 @@ const EditBookmaker = ({
                         ) : (
                           <img
                             src={Lock}
+                            alt="lock"
                             style={{ width: "10px", height: "15px" }}
                           />
                         )}
@@ -706,6 +709,7 @@ const EditBookmaker = ({
                         ) : (
                           <img
                             src={Lock}
+                            alt="lock"
                             style={{ width: "10px", height: "15px" }}
                           />
                         )}

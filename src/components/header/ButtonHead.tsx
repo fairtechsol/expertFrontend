@@ -41,6 +41,7 @@ const ButtonHead = ({
       {selected && report && (
         <img
           src={ARROWDROPDOWN}
+          alt="arrow down"
           style={{ width: "10px", height: "6px", marginLeft: "4px" }}
         />
       )}

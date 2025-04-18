@@ -88,7 +88,11 @@ const SeparateBox = ({
           </Box>
         )}
         {[0, "0", undefined, null].includes(value) && (
-          <img src={Lock} style={{ width: "10px", height: "15px" }} />
+          <img
+            src={Lock}
+            style={{ width: "10px", height: "15px" }}
+            alt="lock"
+          />
         )}
       </Box>
     </Popover>

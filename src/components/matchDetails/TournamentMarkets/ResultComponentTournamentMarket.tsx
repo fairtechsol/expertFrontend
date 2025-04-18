@@ -125,6 +125,7 @@ const ResultComponentTournamentMarket = ({
             onClick();
           }}
           src={CancelDark}
+          alt="cancel"
           style={{ width: "15px", height: "15px", cursor: "pointer" }}
         />
       </Box>

@@ -61,7 +61,11 @@ const SmallBox = ({
         )}
       </Typography>
       {hide && !loading && (
-        <img src={BroadCast} style={{ height: "15px", width: "15px" }} />
+        <img
+          src={BroadCast}
+          style={{ height: "15px", width: "15px" }}
+          alt="stop"
+        />
       )}
     </Box>
   );

@@ -85,6 +85,7 @@ const CasinoMarket = ({ title, sessionData, profitLossData, section }: any) => {
             <img
               onClick={() => setShowMaxLimitModal(true)}
               src={edit}
+              alt="edit"
               style={{
                 width: "14px",
                 height: "12px",
@@ -346,6 +347,7 @@ const CasinoMarket = ({ title, sessionData, profitLossData, section }: any) => {
               </Typography>
               <img
                 src={UD}
+                alt="icon"
                 style={{ width: "10px", height: "10px", marginLeft: "4px" }}
               />
             </Box>
@@ -355,6 +357,7 @@ const CasinoMarket = ({ title, sessionData, profitLossData, section }: any) => {
               setVisible(!visible);
             }}
             src={ARROWUP}
+            alt="arrow up"
             style={{
               transform: visible ? "rotate(180deg)" : "rotate(0deg)",
               width: "12px",

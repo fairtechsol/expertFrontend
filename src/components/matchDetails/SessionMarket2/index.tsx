@@ -84,7 +84,7 @@ const SessionMarket2 = ({
               setVisible(!visible);
             }}
             src={ARROWUP}
-            alt={"Up Arrow"}
+            alt="Up Arrow"
             style={{
               transform: visible ? "rotate(180deg)" : "rotate(0deg)",
               width: "12px",

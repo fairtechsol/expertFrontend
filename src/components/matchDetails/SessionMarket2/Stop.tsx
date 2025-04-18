@@ -25,10 +25,11 @@ const Stop = ({ color, onClick }: any) => {
           color: color ? "white" : "white",
         }}
       >
-        {"Stop"}
+        Stop
       </Typography>
       <img
         src={BroadCast_}
+        alt="stop"
         style={{ height: "15px", width: "20px", backgroundSize: "contains" }}
       />
     </Box>

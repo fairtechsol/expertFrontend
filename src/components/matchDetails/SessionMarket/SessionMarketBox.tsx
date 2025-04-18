@@ -98,6 +98,7 @@ const SessionMarketBox = ({
             <img
               onClick={() => setShowMaxLimitModal(true)}
               src={edit}
+              alt="edit"
               style={{
                 width: "14px",
                 height: "12px",
