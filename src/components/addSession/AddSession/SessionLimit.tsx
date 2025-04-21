@@ -12,8 +12,8 @@ import SessionResultCustomButton from "../AddSession/SessionResultCustomButton";
 interface SessionLimitProps {
   newData?: {
     id?: string;
-    maxBet?: number | string;
-    minBet?: number | string;
+    maxBet?: any;
+    minBet?: any;
   };
   visible?: boolean;
   onClickCancel: () => void;
