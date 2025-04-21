@@ -3,22 +3,17 @@ import moment from "moment";
 import { memo } from "react";
 import { formatToINR } from "../../helper";
 
-interface User {
-  userName?: string;
-  fwPartnership?: number;
-}
-
 interface RowValues {
   deleteReason?: string;
   isCommissionActive?: boolean;
-  user?: User;
+  user?: any;
   domain?: string;
   betType?: "YES" | "NO";
-  odds?: number | string;
-  rate?: number | string;
+  odds?: any;
+  rate?: any;
   createdAt?: string | Date;
-  amount?: number | string;
-  myStake?: number | string;
+  amount?: any;
+  myStake?: any;
 }
 
 interface RowProps {
