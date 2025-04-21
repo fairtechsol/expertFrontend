@@ -1,11 +1,17 @@
 import { Box, Button, Typography } from "@mui/material";
+import { memo } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { changePasswordReset } from "../../../store/actions/user/userAction";
 import { AppDispatch } from "../../../store/store";
-import { memo } from "react";
 
-const CustomModal = ({ message, buttonMessage, setShowModal }: any) => {
+interface CustomModalProps {
+  message?: string;
+  buttonMessage: string;
+  setShowModal: (show: boolean) => void;
+}
+
+const CustomModal = ({ message, buttonMessage, setShowModal }: CustomModalProps) => {
   const navigate = useNavigate();
   const dispatch: AppDispatch = useDispatch();
 
