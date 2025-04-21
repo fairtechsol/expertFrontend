@@ -429,6 +429,7 @@ const AddManualMarket = () => {
                         {values.runners?.map((item: any, index: any) => {
                           return (
                             <Box
+                              key={index}
                               sx={{
                                 borderWidth: 0,
                                 justifyContent: "space-between",

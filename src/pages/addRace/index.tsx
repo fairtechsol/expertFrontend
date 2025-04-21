@@ -507,7 +507,7 @@ const AddRace = () => {
             </Box>
             {raceRunners?.map((item: any, index: number) => {
               return (
-                <Box sx={{ width: { xs: "100%", lg: "18%", md: "24%" } }}>
+                <Box sx={{ width: { xs: "100%", lg: "18%", md: "24%" } }} key={index}>
                   <Typography
                     style={{
                       color: "#575757",

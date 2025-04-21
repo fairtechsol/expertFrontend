@@ -1,5 +1,5 @@
 import { Box, Typography } from "@mui/material";
-import { memo, useState } from "react";
+import { Fragment, memo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ArrowDown, ArrowDownPL, ARROWUPPL } from "../../assets";
 import { handleNumber } from "../../helpers";
@@ -89,7 +89,7 @@ const SessionProLoss = ({ setShowSessionPopup, matchId, betId }: any) => {
           }}
         >
           {sessionPL?.map((item: any) => (
-            <>
+            <Fragment key={item?.userId}>
               <Box
                 onClick={() => {
                   if (!show || item?.userId != userId) {
@@ -107,7 +107,6 @@ const SessionProLoss = ({ setShowSessionPopup, matchId, betId }: any) => {
                     setShow(false);
                   }
                 }}
-                key={item?.userId}
                 sx={{
                   width: "100%",
                   height: { lg: "60px", xs: "50px" },
@@ -264,7 +263,7 @@ const SessionProLoss = ({ setShowSessionPopup, matchId, betId }: any) => {
                   />
                 </Box>
               )}
-            </>
+            </Fragment>
           ))}
         </Box>
       </Box>
