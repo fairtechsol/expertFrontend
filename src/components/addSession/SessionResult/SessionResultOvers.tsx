@@ -1,14 +1,30 @@
 import { Box, Typography } from "@mui/material";
+import { memo } from "react";
 import StyledImage from "../../Common/StyledImages";
 import { formatToINR } from "../../helper";
-import { memo } from "react";
+
+interface BetItem {
+  betId: {
+    id: string;
+    name: string;
+  };
+  profitLoss: string | number;
+  result: string;
+}
+
+interface SessionResultOversProps {
+  sessionData?: BetItem[];
+  mode?: string;
+  changeSelected: (item: BetItem) => void;
+  selected: string[];
+}
 
 const SessionResultOvers = ({
-  sessionData,
-  mode,
+  sessionData = [],
+  mode = "1",
   changeSelected,
-  selected,
-}: any) => {
+  selected = [],
+}: SessionResultOversProps) => {
   return (
     <Box sx={{ border: "2px solid #FFFFFF" }}>
       <Box sx={{ display: "flex" }}>

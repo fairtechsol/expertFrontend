@@ -1,8 +1,31 @@
 import { Box, Typography } from "@mui/material";
 import moment from "moment";
-import { formatToINR } from "../../helper";
 import { memo } from "react";
-const Row = ({ index, values }: any) => {
+import { formatToINR } from "../../helper";
+
+interface User {
+  userName?: string;
+  fwPartnership?: number;
+}
+
+interface RowValues {
+  deleteReason?: string;
+  isCommissionActive?: boolean;
+  user?: User;
+  domain?: string;
+  betType?: "YES" | "NO";
+  odds?: number | string;
+  rate?: number | string;
+  createdAt?: string | Date;
+  amount?: number | string;
+  myStake?: number | string;
+}
+
+interface RowProps {
+  index: number;
+  values: RowValues;
+}
+const Row = ({ index, values }: RowProps) => {
   const getTime = (date: any) => {
     const timeString = moment
       .utc(date)
@@ -10,6 +33,7 @@ const Row = ({ index, values }: any) => {
       .format("hh:mm:ss A");
     return timeString;
   };
+
 
   return (
     <div style={{ display: "flex", position: "relative" }}>
@@ -240,9 +264,9 @@ const Row = ({ index, values }: any) => {
               values?.myStake
                 ? values?.myStake
                 : (
-                    (values?.amount * values?.user?.fwPartnership) /
-                    100
-                  ).toFixed()
+                  (values?.amount * values?.user?.fwPartnership) /
+                  100
+                ).toFixed()
             )}
           </Typography>
         </Box>

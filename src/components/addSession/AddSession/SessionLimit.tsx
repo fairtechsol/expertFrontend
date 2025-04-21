@@ -9,7 +9,17 @@ import {
 import { AppDispatch, RootState } from "../../../store/store";
 import SessionResultCustomButton from "../AddSession/SessionResultCustomButton";
 
-const SessionLimit = ({ newData, visible, onClickCancel }: any) => {
+interface SessionLimitProps {
+  newData?: {
+    id?: string;
+    maxBet?: number | string;
+    minBet?: number | string;
+  };
+  visible?: boolean;
+  onClickCancel: () => void;
+}
+
+const SessionLimit = ({ newData, visible, onClickCancel }: SessionLimitProps) => {
   const dispatch: AppDispatch = useDispatch();
   const { loading, maxLimitUpdateSuccess } = useSelector(
     (state: RootState) => state.addSession
