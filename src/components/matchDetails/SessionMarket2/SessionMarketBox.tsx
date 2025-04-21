@@ -36,8 +36,8 @@ const SessionMarketBox = ({ newData, index }: any) => {
           background: visible
             ? "#FFAF45"
             : index % 2 === 0
-            ? "#FFE094"
-            : "#ECECEC",
+              ? "#FFE094"
+              : "#ECECEC",
           height: "30px",
           width: "100%",
           boxShadow: visible ? 3 : 0,
@@ -50,8 +50,8 @@ const SessionMarketBox = ({ newData, index }: any) => {
             background: visible
               ? "#FFAF45"
               : index % 2 === 0
-              ? "#FFE094"
-              : "#ECECEC",
+                ? "#FFE094"
+                : "#ECECEC",
             height: "30px",
             width: "50%",
             alignItems: "center",
@@ -109,8 +109,8 @@ const SessionMarketBox = ({ newData, index }: any) => {
             </h6>
           </Box>
         ) : !["ACTIVE", "active", "", undefined, null, 0, "open"].includes(
-            newData?.GameStatus?.toLowerCase()
-          ) || newData?.result ? (
+          newData?.GameStatus?.toLowerCase()
+        ) || newData?.result ? (
           <Box
             sx={{
               margin: "1px",
@@ -202,8 +202,8 @@ const SessionMarketBox = ({ newData, index }: any) => {
             background: visible
               ? "#FFAF45"
               : index % 2 === 0
-              ? "#FFE094"
-              : "#ECECEC",
+                ? "#FFE094"
+                : "#ECECEC",
             height: "30px",
             width: "100%",
             boxShadow: visible ? 3 : 0,
@@ -212,13 +212,14 @@ const SessionMarketBox = ({ newData, index }: any) => {
           key={item}
         >
           <Box
+            key={index}
             sx={{
               display: "flex",
               background: visible
                 ? "#FFAF45"
                 : index % 2 === 0
-                ? "#FFE094"
-                : "#ECECEC",
+                  ? "#FFE094"
+                  : "#ECECEC",
               height: "30px",
               width: "50%",
               alignItems: "center",
@@ -258,8 +259,8 @@ const SessionMarketBox = ({ newData, index }: any) => {
               </h6>
             </Box>
           ) : !["ACTIVE", "active", "", undefined, null, 0, "open"].includes(
-              newData?.GameStatus?.toLowerCase()
-            ) || newData?.result ? (
+            newData?.GameStatus?.toLowerCase()
+          ) || newData?.result ? (
             <Box
               sx={{
                 margin: "1px",
