@@ -329,29 +329,29 @@ const TournamentMarket = ({
           </Box>
 
           <Box sx={{ position: "relative" }}>
-            {liveData?.runners?.map((item: any) => (
-              <Fragment key={item?.id}>
+            {liveData?.runners?.map((item: any, index: number) => (
+              <Fragment key={index}>
                 <BoxComponent
                   teamRates={
                     liveData?.activeStatus === "result"
                       ? 0
                       : currentMatch?.teamRates?.[
-                          (liveData?.parentBetId || liveData?.id) +
-                            "_" +
-                            "profitLoss" +
-                            "_" +
-                            currentMatch?.id
-                        ]
-                      ? JSON.parse(
+                        (liveData?.parentBetId || liveData?.id) +
+                        "_" +
+                        "profitLoss" +
+                        "_" +
+                        currentMatch?.id
+                      ]
+                        ? JSON.parse(
                           currentMatch?.teamRates?.[
-                            (liveData?.parentBetId || liveData?.id) +
-                              "_" +
-                              "profitLoss" +
-                              "_" +
-                              currentMatch?.id
+                          (liveData?.parentBetId || liveData?.id) +
+                          "_" +
+                          "profitLoss" +
+                          "_" +
+                          currentMatch?.id
                           ]
                         )?.[item?.parentRunnerId || item?.id] ?? 0
-                      : 0
+                        : 0
                   }
                   livestatus={
                     !["ACTIVE", "OPEN", "", "active", "open"].includes(
@@ -372,35 +372,35 @@ const TournamentMarket = ({
               !liveData?.isActive ||
               (!["ACTIVE", "OPEN", ""].includes(liveData?.status) &&
                 liveData?.gtype == "match")) && (
-              <Box
-                sx={{
-                  width: "100%",
-                  position: "absolute",
-                  height: "100%",
-                  bottom: 0,
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  background: "rgba(0,0,0,0.71)",
-                }}
-              >
-                <Typography
+                <Box
                   sx={{
-                    fontSize: { xs: "12px", lg: "22px" },
-                    textTransform: "uppercase",
                     width: "100%",
-                    textAlign: "center",
-                    color: "white",
-                    fontWeight: "400",
+                    position: "absolute",
+                    height: "100%",
+                    bottom: 0,
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    background: "rgba(0,0,0,0.71)",
                   }}
                 >
-                  {!["ACTIVE", "OPEN", ""].includes(liveData?.status) &&
-                  liveData?.gtype == "match"
-                    ? liveData?.status
-                    : ""}
-                </Typography>
-              </Box>
-            )}
+                  <Typography
+                    sx={{
+                      fontSize: { xs: "12px", lg: "22px" },
+                      textTransform: "uppercase",
+                      width: "100%",
+                      textAlign: "center",
+                      color: "white",
+                      fontWeight: "400",
+                    }}
+                  >
+                    {!["ACTIVE", "OPEN", ""].includes(liveData?.status) &&
+                      liveData?.gtype == "match"
+                      ? liveData?.status
+                      : ""}
+                  </Typography>
+                </Box>
+              )}
             {currentMatch?.resultStatus &&
               currentMatch?.resultStatus[liveData?.parentBetId || liveData?.id]
                 ?.status && (
@@ -430,29 +430,29 @@ const TournamentMarket = ({
             {currentMatch?.otherBettings?.[
               liveData?.parentBetId || liveData?.id
             ] && (
-              <Box
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  width: "100%",
-                  position: "absolute",
-                  height: "100%",
-                  bottom: 0,
-                  color: "#fff",
-                  backgroundColor: "rgba(203 24 24 / 70%)",
-                }}
-              >
-                <Typography sx={{ color: "#fff", textAlign: "center" }}>
-                  RESULT{" "}
-                  {liveData?.activeStatus === "result"
-                    ? "DECLARED"
-                    : currentMatch?.otherBettings?.[
-                        liveData?.parentBetId || liveData?.id
+                <Box
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    width: "100%",
+                    position: "absolute",
+                    height: "100%",
+                    bottom: 0,
+                    color: "#fff",
+                    backgroundColor: "rgba(203 24 24 / 70%)",
+                  }}
+                >
+                  <Typography sx={{ color: "#fff", textAlign: "center" }}>
+                    RESULT{" "}
+                    {liveData?.activeStatus === "result"
+                      ? "DECLARED"
+                      : currentMatch?.otherBettings?.[
+                      liveData?.parentBetId || liveData?.id
                       ]}
-                </Typography>
-              </Box>
-            )}
+                  </Typography>
+                </Box>
+              )}
           </Box>
         </>
       )}
