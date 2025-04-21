@@ -104,7 +104,6 @@ const HTFTMarket = ({ currentMatch, liveData, title, firstKnownKey }: any) => {
           sx={{
             flex: 0.1,
             background: "#262626",
-            // '#262626'
           }}
         >
           <div className="slanted" />
@@ -113,7 +112,6 @@ const HTFTMarket = ({ currentMatch, liveData, title, firstKnownKey }: any) => {
           sx={{
             flex: 1,
             background: "#262626",
-            // '#262626' ,
             display: "flex",
             alignItems: "center",
             justifyContent: "flex-end",

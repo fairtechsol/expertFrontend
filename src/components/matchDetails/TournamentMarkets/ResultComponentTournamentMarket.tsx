@@ -32,6 +32,59 @@ const ResultComponentTournamentMarket = ({
     e.preventDefault();
   };
 
+  const handleNoResult = () => {
+    try {
+      if (loading?.value) {
+        return false;
+      }
+      setLoading({ id: "DNR", value: true });
+      dispatch(
+        declareTournamentMarketCricketResult({
+          matchId: currentMatch?.id,
+          result: "No Result",
+          betId: liveData?.parentBetId || liveData?.id,
+        })
+      );
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const handleDeclare = () => {
+    try {
+      if (loading?.value) {
+        return false;
+      }
+      setLoading({ id: "DR", value: true });
+      dispatch(
+        declareTournamentMarketCricketResult({
+          matchId: currentMatch?.id,
+          result: selected,
+          betId: liveData?.parentBetId || liveData?.id,
+        })
+      );
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const handleUndeclare = () => {
+    try {
+      if (loading?.value) {
+        return false;
+      }
+      setLoading({ id: "UD", value: true });
+      dispatch(
+        UnDeclareTournamentMarketCricketResult({
+          matchId: currentMatch?.id,
+          betId: liveData?.parentBetId || liveData?.id,
+        })
+      );
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   useEffect(() => {
     try {
       if (liveData?.runners?.length > 0) {
@@ -210,22 +263,7 @@ const ResultComponentTournamentMarket = ({
                 loading={loading}
                 id="UD"
                 title="Un Declare"
-                onClick={() => {
-                  try {
-                    if (loading?.value) {
-                      return false;
-                    }
-                    setLoading({ id: "UD", value: true });
-                    dispatch(
-                      UnDeclareTournamentMarketCricketResult({
-                        matchId: currentMatch?.id,
-                        betId: liveData?.parentBetId || liveData?.id,
-                      })
-                    );
-                  } catch (e) {
-                    console.log(e);
-                  }
-                }}
+                onClick={handleUndeclare}
               />
             ) : (
               <>
@@ -234,46 +272,14 @@ const ResultComponentTournamentMarket = ({
                   color="#0B4F26"
                   loading={loading}
                   title="Declare"
-                  onClick={() => {
-                    try {
-                      if (loading?.value) {
-                        return false;
-                      }
-                      setLoading({ id: "DR", value: true });
-                      dispatch(
-                        declareTournamentMarketCricketResult({
-                          matchId: currentMatch?.id,
-                          result: selected,
-                          betId: liveData?.parentBetId || liveData?.id,
-                        })
-                      );
-                    } catch (e) {
-                      console.log(e);
-                    }
-                  }}
+                  onClick={handleDeclare}
                 />
                 <MatchOddsResultCustomButton
                   id="DNR"
                   color="#0B4F26"
                   loading={loading}
                   title="No Result"
-                  onClick={() => {
-                    try {
-                      if (loading?.value) {
-                        return false;
-                      }
-                      setLoading({ id: "DNR", value: true });
-                      dispatch(
-                        declareTournamentMarketCricketResult({
-                          matchId: currentMatch?.id,
-                          result: "No Result",
-                          betId: liveData?.parentBetId || liveData?.id,
-                        })
-                      );
-                    } catch (e) {
-                      console.log(e);
-                    }
-                  }}
+                  onClick={handleNoResult}
                 />
               </>
             )}
