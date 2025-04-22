@@ -13,7 +13,7 @@ export const getProfile = createAsyncThunk<any>(
   "user/profile",
   async (_, thunkApi) => {
     try {
-      const resp = await service.get(`${ApiConstants.USER.PROFILE}`);
+      const resp = await service.get(ApiConstants.USER.PROFILE);
       if (resp) {
         if (resp?.data?.loginAt === null) {
           window.location.replace("/expert/login");
@@ -32,7 +32,7 @@ export const getLoggedUserCount = createAsyncThunk<any>(
   "logged/user",
   async (_, thunkApi) => {
     try {
-      const resp = await service.get(`${ApiConstants.USER.LOGGED_USER}`);
+      const resp = await service.get(ApiConstants.USER.LOGGED_USER);
       if (resp) {
         return resp?.data;
       }
@@ -48,7 +48,7 @@ export const changePassword = createAsyncThunk<any, ChangePassword>(
   async (requestData, thunkApi) => {
     try {
       const resp = await service.post(
-        `${ApiConstants.USER.CHANGEPASSWORD}`,
+        ApiConstants.USER.CHANGEPASSWORD,
         requestData
       );
       if (resp) {
@@ -68,7 +68,7 @@ export const headerAddNotification = createAsyncThunk<any, any>(
   async (requestData, thunkApi) => {
     try {
       const resp = await service.post(
-        `${ApiConstants.USER.MARQUEE_NOTIFICATION}`,
+        ApiConstants.USER.MARQUEE_NOTIFICATION,
         requestData
       );
       if (resp) {
@@ -87,10 +87,7 @@ export const headerAddBanner = createAsyncThunk<any, any>(
   "/general/banner/add",
   async (requestData, thunkApi) => {
     try {
-      const resp = await service.post(
-        `${ApiConstants.USER.BANNER}`,
-        requestData
-      );
+      const resp = await service.post(ApiConstants.USER.BANNER, requestData);
       if (resp) {
         if (resp?.data) {
           return resp?.data?.transactionPassword;
@@ -105,11 +102,13 @@ export const headerAddBanner = createAsyncThunk<any, any>(
 );
 export const getDateList = createAsyncThunk<any, any>(
   "match/dateList",
-  async (requestData, thunkApi) => {
+  async ({ matchType }, thunkApi) => {
     try {
-      const resp = await service.get(
-        `${ApiConstants.MATCH.GET_DATES}?matchType=${requestData.matchType}`
-      );
+      const resp = await service.get(ApiConstants.MATCH.GET_DATES, {
+        params: {
+          matchType,
+        },
+      });
       if (resp) {
         return resp?.data;
       }

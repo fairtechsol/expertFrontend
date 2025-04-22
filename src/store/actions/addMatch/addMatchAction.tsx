@@ -116,7 +116,7 @@ export const addMatchExpert = createAsyncThunk<any, any>(
   "addMatchExpert",
   async (requestData, thunkApi) => {
     try {
-      const resp = await service.post(`${ApiConstants.MATCH.ADD}`, requestData);
+      const resp = await service.post(ApiConstants.MATCH.ADD, requestData);
       if (resp) {
         return resp?.data;
       }
@@ -132,7 +132,13 @@ export const geTournamentBetting = createAsyncThunk<any, any>(
   async ({ matchId, betId }, thunkApi) => {
     try {
       const resp = await service.get(
-        `${ApiConstants.MATCH.GET_TOURNAMENT}${matchId}?id=${betId}&isRate=true`
+        `${ApiConstants.MATCH.GET_TOURNAMENT}${matchId}`,
+        {
+          params: {
+            id: betId,
+            isRate: true,
+          },
+        }
       );
       if (resp) {
         return resp?.data;
@@ -148,10 +154,7 @@ export const addRaceExpert = createAsyncThunk<any, any>(
   "addRaceExpert",
   async (requestData, thunkApi) => {
     try {
-      const resp = await service.post(
-        `${ApiConstants.MATCH.ADD_RACE}`,
-        requestData
-      );
+      const resp = await service.post(ApiConstants.MATCH.ADD_RACE, requestData);
       if (resp) {
         return resp?.data;
       }
@@ -239,7 +242,12 @@ export const getRaceMatches = createAsyncThunk<any, string>(
   async (requestData, thunkApi) => {
     try {
       const { data } = await axios.get(
-        `${addMatchThirdParty}/getDirectMatchList?type=${requestData}`
+        `${addMatchThirdParty}/getDirectMatchList`,
+        {
+          params: {
+            type: requestData,
+          },
+        }
       );
       if (data) {
         return data;
