@@ -3,6 +3,10 @@ export const convertData = (items: any) => {
     const result: any = {};
 
     items?.forEach((item: any) => {
+      item = JSON.parse(item);
+      if (item?.isManual) {
+        item.type = "manualSession";
+      }
       if (!result[item?.type]) {
         result[item?.type] = {
           mname: item?.type,
@@ -30,15 +34,28 @@ export const updateSessionBettingsItem = (
   try {
     if (!apiResponseBettings || Object.keys(apiResponseBettings).length === 0) {
       for (const key in matchDetailBettings) {
-        if (matchDetailBettings.hasOwnProperty(key)) {
-          const matchDetailSections = matchDetailBettings[key]?.section;
-          matchDetailSections?.forEach((section: any) => {
-            section.isComplete = true;
-          });
-        }
+        const matchDetailSections = matchDetailBettings[key]?.section;
+        matchDetailSections?.forEach((section: any) => {
+          section.isComplete = true;
+        });
       }
       return matchDetailBettings;
-    } else
+    } else {
+      let apiSessionIdWiseIndex = Object.keys(apiResponseBettings)?.reduce(
+        (prev: any, curr: any) => {
+          let ind = 0;
+          prev[curr] = apiResponseBettings[curr]?.section?.reduce(
+            (prevSec: any, currSec: any) => {
+              prevSec[currSec?.id] = ind;
+              ind++;
+              return prevSec;
+            },
+            {}
+          );
+          return prev;
+        },
+        {}
+      );
       for (const key in matchDetailBettings) {
         if (apiResponseBettings.hasOwnProperty(key)) {
           const apiSections = apiResponseBettings[key].section;
@@ -47,9 +64,8 @@ export const updateSessionBettingsItem = (
           if (matchDetailSections) {
             matchDetailSections.forEach(
               (matchDetailSection: any, index: number) => {
-                const matchDetailSectionIndex = apiSections?.findIndex(
-                  (section: any) => section?.id === matchDetailSection?.id
-                );
+                const matchDetailSectionIndex =
+                  apiSessionIdWiseIndex[key]?.[matchDetailSection?.id];
 
                 if (matchDetailSectionIndex !== -1) {
                   matchDetailSections[index] = {
@@ -110,6 +126,7 @@ export const updateSessionBettingsItem = (
           );
         }
       }
+    }
     return matchDetailBettings;
   } catch (error) {
     console.log(error);

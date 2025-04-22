@@ -223,16 +223,7 @@ const addMatch = createSlice({
       .addCase(updateMatchRates.fulfilled, (state, action) => {
         const { apiSession, tournament } = action.payload;
 
-        let parsedSessionBettings = state?.matchDetail?.sessionBettings?.map(
-          (item: any) => {
-            let parsedItem = JSON.parse(item);
-            if (parsedItem?.isManual) {
-              parsedItem.type = "manualSession";
-            }
-            return parsedItem;
-          }
-        );
-        let updatedFormat = convertData(parsedSessionBettings);
+        let updatedFormat = convertData(state?.matchDetail?.sessionBettings);
         let updatedSessionBettings = updateSessionBettingsItem(
           updatedFormat,
           apiSession
