@@ -7,7 +7,6 @@ export const convertData = (items: any) => {
       if (item?.isManual) {
         item.type = "manualSession";
       }
-
       if (!result[item?.type]) {
         result[item?.type] = {
           mname: item?.type,
@@ -17,13 +16,14 @@ export const convertData = (items: any) => {
           section: [],
         };
       }
-
-      result[item?.type]?.section?.push(...item);
+      const sectionItem = {
+        ...item,
+      };
+      result[item?.type]?.section?.push(sectionItem);
     });
     return result;
   } catch (error) {
     console.log(error);
-    return {};
   }
 };
 
@@ -33,101 +33,102 @@ export const updateSessionBettingsItem = (
 ) => {
   try {
     if (!apiResponseBettings || Object.keys(apiResponseBettings).length === 0) {
-      Object.values(matchDetailBettings).forEach((sessionData: any) => {
-        if (sessionData?.section) {
-          sessionData.section.forEach((section: any) => {
-            section.isComplete = true;
-          });
-        }
-      });
-      return matchDetailBettings;
-    }
-
-    const apiSessionIndex: any = {};
-    Object.entries(apiResponseBettings).forEach(
-      ([sessionKey, sessionData]: any) => {
-        if (!sessionData?.section) return;
-
-        apiSessionIndex[sessionKey] = {};
-        sessionData.section.forEach((section: any, index: number) => {
-          if (section?.id) {
-            apiSessionIndex[sessionKey][section.id] = index;
-          }
+      for (const key in matchDetailBettings) {
+        const matchDetailSections = matchDetailBettings[key]?.section;
+        matchDetailSections?.forEach((section: any) => {
+          section.isComplete = true;
         });
       }
-    );
+      return matchDetailBettings;
+    } else {
+      let apiSessionIdWiseIndex = Object.keys(apiResponseBettings)?.reduce(
+        (prev: any, curr: any) => {
+          let ind = 0;
+          prev[curr] = apiResponseBettings[curr]?.section?.reduce(
+            (prevSec: any, currSec: any) => {
+              prevSec[currSec?.id] = ind;
+              ind++;
+              return prevSec;
+            },
+            {}
+          );
+          return prev;
+        },
+        {}
+      );
+      for (const key in matchDetailBettings) {
+        if (apiResponseBettings.hasOwnProperty(key)) {
+          const apiSections = apiResponseBettings[key].section;
+          const matchDetailSections = matchDetailBettings[key]?.section;
 
-    Object.entries(matchDetailBettings).forEach(
-      ([sessionKey, sessionData]: any) => {
-        if (!sessionData?.section) return;
+          if (matchDetailSections) {
+            matchDetailSections.forEach(
+              (matchDetailSection: any, index: number) => {
+                const matchDetailSectionIndex =
+                  apiSessionIdWiseIndex[key]?.[matchDetailSection?.id];
 
-        const apiSections = apiResponseBettings[sessionKey]?.section;
-
-        sessionData.section.forEach(
-          (matchDetailSection: any, index: number) => {
-            if (!matchDetailSection?.id) {
-              matchDetailSection.isComplete = true;
-              return;
-            }
-
-            if (
-              apiSessionIndex[sessionKey] &&
-              apiSessionIndex[sessionKey][matchDetailSection.id] !== undefined
-            ) {
-              const apiSectionIndex =
-                apiSessionIndex[sessionKey][matchDetailSection.id];
-              const apiSection = apiSections[apiSectionIndex];
-
-              let isComplete = true;
-
-              if (sessionKey === "cricketCasino") {
-                isComplete = !(
-                  apiSection?.section && apiSection?.activeStatus === "live"
-                );
-              } else if (apiSection?.activeStatus === "unSave") {
-                isComplete = false;
-              } else if (apiSection?.ex) {
-                const backData = apiSection.ex?.availableToBack || [];
-                const layData = apiSection.ex?.availableToLay || [];
-                const hasMarketData = backData.length > 0 && layData.length > 0;
-
-                if (hasMarketData) {
-                  const gameStatusActive = [
-                    "",
-                    "OPEN",
-                    "open",
-                    "active",
-                    "ACTIVE",
-                  ].includes(apiSection?.GameStatus);
-                  const noValidPrices =
-                    !backData[0]?.price &&
-                    !backData[0]?.size &&
-                    !layData[0]?.price &&
-                    !layData[0]?.size;
-                  const notLive = apiSection?.activeStatus !== "live";
-
-                  isComplete = (gameStatusActive && noValidPrices) || notLive;
+                if (matchDetailSectionIndex !== -1) {
+                  matchDetailSections[index] = {
+                    ...matchDetailSection,
+                    ...apiSections[matchDetailSectionIndex],
+                    isComplete:
+                      key === "cricketCasino"
+                        ? apiSections[matchDetailSectionIndex]?.section &&
+                          apiSections[matchDetailSectionIndex]?.activeStatus ===
+                            "live"
+                          ? false
+                          : true
+                        : apiSections[matchDetailSectionIndex]?.activeStatus ===
+                          "unSave"
+                        ? false
+                        : apiSections[matchDetailSectionIndex]?.ex
+                        ? apiSections[matchDetailSectionIndex]?.ex
+                            ?.availableToBack?.length > 0 &&
+                          apiSections[matchDetailSectionIndex]?.ex
+                            ?.availableToLay?.length > 0
+                          ? (["", "OPEN", "open", "active", "ACTIVE"].includes(
+                              apiSections[matchDetailSectionIndex]?.GameStatus
+                            ) &&
+                              !apiSections[matchDetailSectionIndex]?.ex
+                                ?.availableToBack[0]?.price &&
+                              !apiSections[matchDetailSectionIndex]?.ex
+                                ?.availableToBack[0]?.size &&
+                              !apiSections[matchDetailSectionIndex]?.ex
+                                ?.availableToLay[0]?.price &&
+                              !apiSections[matchDetailSectionIndex]?.ex
+                                ?.availableToLay[0]?.size) ||
+                            apiSections[matchDetailSectionIndex]
+                              ?.activeStatus !== "live"
+                            ? true
+                            : false
+                          : true
+                        : true,
+                    minBet: apiSections[matchDetailSectionIndex]?.min,
+                    maxBet: apiSections[matchDetailSectionIndex]?.max,
+                  };
+                } else {
+                  matchDetailSections[index] = {
+                    ...matchDetailSection,
+                    isComplete: true,
+                  };
                 }
               }
-
-              sessionData.section[index] = {
-                ...matchDetailSection,
-                ...apiSection,
-                isComplete,
-                minBet: apiSection?.min,
-                maxBet: apiSection?.max,
-              };
-            } else {
-              matchDetailSection.isComplete = true;
-            }
+            );
           }
-        );
+        } else {
+          matchDetailBettings[key]?.section?.forEach(
+            (item: any, index: number) => {
+              matchDetailBettings[key].section[index] = {
+                ...item,
+                isComplete: true,
+              };
+            }
+          );
+        }
       }
-    );
-
+    }
     return matchDetailBettings;
   } catch (error) {
-    console.log("Error updating session betting items:", error);
-    return matchDetailBettings;
+    console.log(error);
   }
 };
