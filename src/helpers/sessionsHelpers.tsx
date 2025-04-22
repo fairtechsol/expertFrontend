@@ -16,10 +16,10 @@ export const convertData = (items: any) => {
           section: [],
         };
       }
-      const sectionItem = {
+
+      result[item?.type]?.section?.push({
         ...item,
-      };
-      result[item?.type]?.section?.push(sectionItem);
+      });
     });
     return result;
   } catch (error) {
