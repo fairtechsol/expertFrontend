@@ -37,6 +37,7 @@ import {
   updateResultStatusOfMatch,
   updateResultStatusOfSession,
   updateTeamRates,
+  updateTeamRatesOnUndeclare,
 } from "../../actions/match/matchAction";
 
 interface InitialState {
@@ -369,6 +370,14 @@ const addMatch = createSlice({
           "profitLoss" +
           "_" +
           state.matchDetail?.id]: JSON.stringify(userRedisObj),
+        };
+      })
+      .addCase(updateTeamRatesOnUndeclare.fulfilled, (state, action) => {
+        const { betId, profitLossData } = action.payload;
+        state.matchDetail.teamRates = {
+          ...state.matchDetail.teamRates,
+          [betId + "_" + "profitLoss" + "_" + state.matchDetail?.id]:
+            profitLossData,
         };
       })
       .addCase(updateRates.fulfilled, (state, action) => {
