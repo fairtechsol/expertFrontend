@@ -3,7 +3,6 @@ import {
   convertData,
   updateSessionBettingsItem,
 } from "../../../helpers/sessionsHelpers";
-import { profitLossDataForMatchConstants } from "../../../utils/Constants";
 import {
   addMatchExpert,
   addMatchReset,
@@ -281,7 +280,7 @@ const addMatch = createSlice({
         if (!action.payload || !state.matchDetail) return;
 
         const newSessionBetting = JSON.stringify(action.payload);
-        const sessionBettings = (state.matchDetail.sessionBettings ??= []); // Initialize if undefined
+        const sessionBettings = (state.matchDetail.sessionBettings ??= []);
 
         const existingIds = new Set(
           sessionBettings
@@ -363,98 +362,23 @@ const addMatch = createSlice({
       })
       .addCase(updateTeamRates.fulfilled, (state, action) => {
         const { userRedisObj, jobData } = action.payload;
-        if (jobData?.newBet?.marketType === "other") {
-          state.matchDetail.teamRates = {
-            ...state.matchDetail.teamRates,
-            [profitLossDataForMatchConstants[jobData?.newBet?.marketType].A +
-            "_" +
-            jobData?.newBet?.betId +
-            "_" +
-            state.matchDetail?.id]: userRedisObj[jobData?.teamArateRedisKey],
-            [profitLossDataForMatchConstants[jobData?.newBet?.marketType].B +
-            "_" +
-            jobData?.newBet?.betId +
-            "_" +
-            state.matchDetail?.id]: userRedisObj[jobData?.teamBrateRedisKey],
-            [profitLossDataForMatchConstants[jobData?.newBet?.marketType].C +
-            "_" +
-            jobData?.newBet?.betId +
-            "_" +
-            state.matchDetail?.id]: userRedisObj[jobData?.teamCrateRedisKey],
-          };
-        } else if (jobData?.newBet?.marketType === "tournament") {
-          state.matchDetail.teamRates = {
-            ...state.matchDetail.teamRates,
-            [jobData?.newBet?.betId +
-            "_" +
-            "profitLoss" +
-            "_" +
-            state.matchDetail?.id]: JSON.stringify(userRedisObj),
-          };
-        } else {
-          state.matchDetail.teamRates = {
-            ...state.matchDetail.teamRates,
-            [profitLossDataForMatchConstants[jobData?.newBet?.marketType].A +
-            "_" +
-            state.matchDetail?.id]: userRedisObj[jobData?.teamArateRedisKey],
-            [profitLossDataForMatchConstants[jobData?.newBet?.marketType].B +
-            "_" +
-            state.matchDetail?.id]: userRedisObj[jobData?.teamBrateRedisKey],
-            [profitLossDataForMatchConstants[jobData?.newBet?.marketType].C +
-            "_" +
-            state.matchDetail?.id]: userRedisObj[jobData?.teamCrateRedisKey],
-          };
-        }
+        state.matchDetail.teamRates = {
+          ...state.matchDetail.teamRates,
+          [jobData?.newBet?.betId +
+          "_" +
+          "profitLoss" +
+          "_" +
+          state.matchDetail?.id]: JSON.stringify(userRedisObj),
+        };
       })
       .addCase(updateRates.fulfilled, (state, action) => {
-        const {
-          redisObject,
-          betId,
-          teamRate,
-          matchBetType,
-          teamArateRedisKey,
-          teamBrateRedisKey,
-          teamCrateRedisKey,
-        } = action?.payload;
+        const { betId, teamRate } = action?.payload;
 
-        if (matchBetType === "other") {
-          state.matchDetail.teamRates = {
-            ...state.matchDetail.teamRates,
-            [profitLossDataForMatchConstants[matchBetType].A +
-            "_" +
-            betId +
-            "_" +
-            state.matchDetail?.id]: redisObject[teamArateRedisKey],
-            [profitLossDataForMatchConstants[matchBetType].B +
-            "_" +
-            betId +
-            "_" +
-            state.matchDetail?.id]: redisObject[teamBrateRedisKey],
-            [profitLossDataForMatchConstants[matchBetType].C +
-            "_" +
-            betId +
-            "_" +
-            state.matchDetail?.id]: redisObject[teamCrateRedisKey],
-          };
-        } else if (matchBetType === "tournament") {
-          state.matchDetail.teamRates = {
-            ...state.matchDetail.teamRates,
-            [betId + "_" + "profitLoss" + "_" + state.matchDetail?.id]:
-              JSON.stringify(teamRate),
-          };
-        } else
-          state.matchDetail.teamRates = {
-            ...state.matchDetail.teamRates,
-            [profitLossDataForMatchConstants[matchBetType].A +
-            "_" +
-            state.matchDetail?.id]: redisObject[teamArateRedisKey],
-            [profitLossDataForMatchConstants[matchBetType].B +
-            "_" +
-            state.matchDetail?.id]: redisObject[teamBrateRedisKey],
-            [profitLossDataForMatchConstants[matchBetType].C +
-            "_" +
-            state.matchDetail?.id]: redisObject[teamCrateRedisKey],
-          };
+        state.matchDetail.teamRates = {
+          ...state.matchDetail.teamRates,
+          [betId + "_" + "profitLoss" + "_" + state.matchDetail?.id]:
+            JSON.stringify(teamRate),
+        };
       })
       .addCase(updateResultStatusOfSession.fulfilled, (state, action) => {
         const updatedSessionBetting = state.matchDetail?.sessionBettings?.map(
