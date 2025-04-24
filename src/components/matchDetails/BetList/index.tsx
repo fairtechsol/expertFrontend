@@ -4,7 +4,6 @@ import { memo, useCallback, useMemo, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import AutoSizer from "react-virtualized-auto-sizer";
 import { FixedSizeList as List } from "react-window";
-import InfiniteLoader from "react-window-infinite-loader";
 import { ARROWUP } from "../../../assets";
 import {
   declareFinalMatchResult,
@@ -498,29 +497,17 @@ const BetList = ({ tag, allBetRates, title, isMatchDeclare }: any) => {
       {visibleImg && (
         <AutoSizer>
           {({ width }) => (
-            <InfiniteLoader
-              isItemLoaded={() => true} // Since you already fetched all
+            <List
+              ref={listRef}
+              height={cHeight}
               itemCount={allBetRates.length}
-              loadMoreItems={() => Promise.resolve()} // no-op
+              itemSize={ROW_HEIGHT}
+              width={width}
+              onScroll={handleScroll}
+              itemData={itemData} // Pass memoized data
             >
-              {({ onItemsRendered, ref }) => (
-                <List
-                  ref={(list) => {
-                    listRef.current = list;
-                    ref(list); // pass ref to InfiniteLoader
-                  }}
-                  height={cHeight}
-                  itemCount={allBetRates.length}
-                  itemSize={ROW_HEIGHT}
-                  width={width}
-                  onScroll={handleScroll}
-                  itemData={itemData} // Pass memoized data
-                  onItemsRendered={onItemsRendered}
-                >
-                  {MemoizedRow}
-                </List>
-              )}
-            </InfiniteLoader>
+              {MemoizedRow}
+            </List>
           )}
         </AutoSizer>
       )}
