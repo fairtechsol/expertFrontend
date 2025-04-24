@@ -382,9 +382,9 @@ const OtherMatchDetails = () => {
           {matchDetail?.tournament &&
             matchDetail?.tournament
               ?.filter((item: any) => item?.name === "HT/FT")
-              ?.map((market: any) => (
+              ?.map((market: any, index: number) => (
                 <HTFTMarket
-                  key={market?.mid}
+                  key={index}
                   liveData={market}
                   currentMatch={matchDetail}
                   title={market?.name}
