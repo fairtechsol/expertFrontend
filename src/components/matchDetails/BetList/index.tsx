@@ -4,6 +4,7 @@ import { memo, useCallback, useMemo, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import AutoSizer from "react-virtualized-auto-sizer";
 import { FixedSizeList as List } from "react-window";
+import InfiniteLoader from "react-window-infinite-loader";
 import { ARROWUP } from "../../../assets";
 import {
   declareFinalMatchResult,
@@ -381,7 +382,7 @@ const BetList = ({ tag, allBetRates, title, isMatchDeclare }: any) => {
     setShowButton(scrollOffset > 0);
   }, []);
 
-  const cHeight = Math.min(allBetRates.length * 32, window.innerHeight * 0.9);
+  const cHeight = Math.min(allBetRates.length * ROW_HEIGHT, window.innerHeight * 0.9);
 
   return (
     <Box sx={{ width: "100%", margin: "0", marginTop: ".25vh", background: "white" }}>
@@ -494,34 +495,35 @@ const BetList = ({ tag, allBetRates, title, isMatchDeclare }: any) => {
         </Box>
       </Box>
 
-      <Box sx={{ width: "100%" }}>
-        {visibleImg && (
-          <Box sx={{
-            height: cHeight,
-            overflow: "hidden",
-            "::-webkit-scrollbar": {
-              display: "none",
-            },
-            width: { xs: "auto", lg: "auto", md: "auto" },
-          }}>
-            <AutoSizer>
-              {({ height, width }) => (
+      {visibleImg && (
+        <AutoSizer>
+          {({ width }) => (
+            <InfiniteLoader
+              isItemLoaded={() => true} // Since you already fetched all
+              itemCount={allBetRates.length}
+              loadMoreItems={() => Promise.resolve()} // no-op
+            >
+              {({ onItemsRendered, ref }) => (
                 <List
-                  ref={listRef}
-                  height={height}
+                  ref={(list) => {
+                    listRef.current = list;
+                    ref(list); // pass ref to InfiniteLoader
+                  }}
+                  height={cHeight}
                   itemCount={allBetRates.length}
                   itemSize={ROW_HEIGHT}
                   width={width}
                   onScroll={handleScroll}
                   itemData={itemData} // Pass memoized data
+                  onItemsRendered={onItemsRendered}
                 >
                   {MemoizedRow}
                 </List>
               )}
-            </AutoSizer>
-          </Box>
-        )}
-      </Box>
+            </InfiniteLoader>
+          )}
+        </AutoSizer>
+      )}
     </Box>
   );
 };
