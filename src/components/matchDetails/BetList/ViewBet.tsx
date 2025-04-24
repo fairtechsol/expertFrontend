@@ -3,7 +3,6 @@ import moment from "moment";
 import { memo, useCallback, useMemo, useRef, useState } from "react";
 import AutoSizer from "react-virtualized-auto-sizer";
 import { FixedSizeList as List } from "react-window";
-import InfiniteLoader from "react-window-infinite-loader";
 import { ARROWUP } from "../../../assets";
 import { betListColorConstants } from "../../../utils/Constants";
 import { formatToINR } from "../../helper";
@@ -556,29 +555,17 @@ const ViewBetList = ({ tag, allBetRates, title }: any) => {
       {visibleImg && (
         <AutoSizer>
           {({ width }) => (
-            <InfiniteLoader
-              isItemLoaded={() => true} // Since you already fetched all
-              itemCount={allBetRates.length}
-              loadMoreItems={() => Promise.resolve()} // no-op
+            <List
+              ref={listRef}
+              height={cHeight}
+              itemCount={allBetRates?.length || 0}
+              itemSize={ROW_HEIGHT}
+              width={width}
+              onScroll={handleScroll}
+              itemData={itemData} // Pass memoized data
             >
-              {({ onItemsRendered, ref }) => (
-                <List
-                  ref={(list) => {
-                    listRef.current = list;
-                    ref(list); // pass ref to InfiniteLoader
-                  }}
-                  height={cHeight}
-                  itemCount={allBetRates?.length || 0}
-                  itemSize={ROW_HEIGHT}
-                  width={width}
-                  onScroll={handleScroll}
-                  onItemsRendered={onItemsRendered}
-                  itemData={itemData} // Pass memoized data
-                >
-                  {MemoizedRow}
-                </List>
-              )}
-            </InfiniteLoader>
+              {MemoizedRow}
+            </List>
           )}
         </AutoSizer>
       )}
