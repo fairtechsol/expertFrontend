@@ -53,7 +53,7 @@ const matchDeclare = createSlice({
       })
       .addCase(declareMatchResult.rejected, (state, action) => {
         state.loading = false;
-        state.error = action?.error?.message;
+        state.error = action.error?.message;
       })
       .addCase(declareFinalMatchResult.pending, (state) => {
         state.loading = true;
@@ -66,7 +66,7 @@ const matchDeclare = createSlice({
       })
       .addCase(declareFinalMatchResult.rejected, (state, action) => {
         state.loading = false;
-        state.error = action?.error?.message;
+        state.error = action.error?.message;
       })
       .addCase(otherDeclareMatchResult.pending, (state) => {
         state.loading = true;
@@ -79,7 +79,7 @@ const matchDeclare = createSlice({
       })
       .addCase(otherDeclareMatchResult.rejected, (state, action) => {
         state.loading = false;
-        state.error = action?.error?.message;
+        state.error = action.error?.message;
       })
       .addCase(unDeclareMatchResult.pending, (state) => {
         state.loading = true;
@@ -92,7 +92,7 @@ const matchDeclare = createSlice({
       })
       .addCase(unDeclareMatchResult.rejected, (state, action) => {
         state.loading = false;
-        state.error = action?.error?.message;
+        state.error = action.error?.message;
       })
       .addCase(unDeclareFinalMatchResult.pending, (state) => {
         state.loading = true;
@@ -105,7 +105,7 @@ const matchDeclare = createSlice({
       })
       .addCase(unDeclareFinalMatchResult.rejected, (state, action) => {
         state.loading = false;
-        state.error = action?.error?.message;
+        state.error = action.error?.message;
       })
       .addCase(otherUnDeclareMatchResult.pending, (state) => {
         state.loading = true;
@@ -118,49 +118,46 @@ const matchDeclare = createSlice({
       })
       .addCase(otherUnDeclareMatchResult.rejected, (state, action) => {
         state.loading = false;
-        state.error = action?.error?.message;
+        state.error = action.error?.message;
       })
       .addCase(getSessionProfitLossMatchDetail.pending, (state) => {
         state.error = null;
       })
       .addCase(getSessionProfitLossMatchDetail.fulfilled, (state, action) => {
-        const idToAdd = action?.payload?.id;
+        const { id } = action.payload;
 
-        if (
-          idToAdd &&
-          !state.sessionProLoss?.some((item: any) => item?.id === idToAdd)
-        ) {
-          state.sessionProLoss?.push(action?.payload);
+        if (id && !state.sessionProLoss?.some((item: any) => item?.id === id)) {
+          state.sessionProLoss?.push(action.payload);
         }
       })
       .addCase(getSessionProfitLossMatchDetail.rejected, (state, action) => {
-        state.error = action?.error?.message;
+        state.error = action.error?.message;
       })
       .addCase(
         getSessionProfitLossMatchDetailFilter.fulfilled,
         (state, action) => {
-          const idToRemove = action?.payload;
+          const idToRemove = action.payload;
           state.sessionProLoss = state?.sessionProLoss?.filter(
             (item: any) => item?.id !== idToRemove
           );
         }
       )
       .addCase(updateSessionProLoss.fulfilled, (state, action) => {
-        const idToFind = action?.payload?.id;
+        const { id } = action.payload;
 
         const foundItemIndex = state.sessionProLoss?.findIndex(
-          (item: any) => item?.id === idToFind
+          (item: any) => item?.id === id
         );
 
         if (foundItemIndex !== -1) {
           state.sessionProLoss[foundItemIndex].proLoss = {
             ...state.sessionProLoss[foundItemIndex].proLoss,
-            betPlaced: action?.payload?.betPlaced,
+            betPlaced: action.payload?.betPlaced,
           };
         }
       })
       .addCase(removeSessionProLoss.fulfilled, (state, action) => {
-        const idToRemove = action?.payload?.id;
+        const idToRemove = action.payload?.id;
 
         state.sessionProLoss = state.sessionProLoss?.filter(
           (item: any) => item?.id !== idToRemove
@@ -183,7 +180,7 @@ const matchDeclare = createSlice({
       })
       .addCase(UnDeclareRaceResult.rejected, (state, action) => {
         state.loading = false;
-        state.error = action?.error?.message;
+        state.error = action.error?.message;
       })
       .addCase(UnDeclareTournamentMarketCricketResult.pending, (state) => {
         state.loading = true;
@@ -198,7 +195,7 @@ const matchDeclare = createSlice({
         UnDeclareTournamentMarketCricketResult.rejected,
         (state, action) => {
           state.loading = false;
-          state.error = action?.error?.message;
+          state.error = action.error?.message;
         }
       )
       .addCase(declareTournamentMarketCricketResult.pending, (state) => {
@@ -214,7 +211,7 @@ const matchDeclare = createSlice({
         declareTournamentMarketCricketResult.rejected,
         (state, action) => {
           state.loading = false;
-          state.error = action?.error?.message;
+          state.error = action.error?.message;
         }
       )
       .addCase(declareRaceResult.pending, (state) => {
@@ -228,7 +225,7 @@ const matchDeclare = createSlice({
       })
       .addCase(declareRaceResult.rejected, (state, action) => {
         state.loading = false;
-        state.error = action?.error?.message;
+        state.error = action.error?.message;
       });
   },
 });
