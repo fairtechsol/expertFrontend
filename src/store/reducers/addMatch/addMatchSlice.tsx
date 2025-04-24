@@ -390,19 +390,16 @@ const addMatch = createSlice({
         };
       })
       .addCase(updateResultStatusOfSession.fulfilled, (state, action) => {
+        const { betId, status, userId, loggedUserId } = action.payload;
         const updatedSessionBetting = state.matchDetail?.sessionBettings?.map(
           (item: any) => {
             let parsedItem = JSON.parse(item);
-            if (parsedItem?.id === action?.payload?.betId) {
-              return JSON.stringify({
-                ...parsedItem,
-                resultStatus: action?.payload?.status,
-                selfDeclare:
-                  action?.payload?.status === ""
-                    ? false
-                    : action?.payload?.userId === action?.payload?.loggedUserId,
-              });
-            } else return item;
+            if (parsedItem?.id !== betId) return item;
+            return JSON.stringify({
+              ...parsedItem,
+              resultStatus: status,
+              selfDeclare: status === "" ? false : userId === loggedUserId,
+            });
           }
         );
         state.matchDetail = {
