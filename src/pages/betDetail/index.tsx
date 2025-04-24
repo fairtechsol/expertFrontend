@@ -6,7 +6,6 @@ import Loader from "../../components/Loader";
 import BetList from "../../components/matchDetails/BetList/ViewBet";
 import {
   expertSocketService,
-  matchService,
   matchSocket,
   socket,
   socketService,
@@ -43,15 +42,6 @@ const MatchMarketDetail = () => {
   const { state } = useLocation();
   const navigate = useNavigate();
   const dispatch: AppDispatch = useDispatch();
-
-  useEffect(() => {
-    if (state?.marketId) {
-      matchService.connect([state?.id]);
-    }
-    return () => {
-      matchService.disconnect();
-    };
-  }, [state]);
 
   const { matchDetail, loading, success } = useSelector(
     (state: RootState) => state.addMatch.addMatch

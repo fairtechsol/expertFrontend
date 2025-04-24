@@ -1,7 +1,9 @@
 
 import { Box, Button, Typography } from "@mui/material";
 import { memo, useCallback, useMemo, useRef, useState } from "react";
+import AutoSizer from "react-virtualized-auto-sizer";
 import { FixedSizeList as List } from "react-window";
+import InfiniteLoader from "react-window-infinite-loader";
 import Header from "./Header";
 import Row from "./Row";
 
@@ -19,7 +21,7 @@ const MemoizedRow = memo(({ data, index, style }: { data: any, index: number, st
 });
 
 const BetsList = ({ betData, name }: any) => {
-  const listRef = useRef<List>(null);
+  const listRef = useRef<any>(null);
   const [showButton, setShowButton] = useState(false);
 
   // Memoize the itemData to prevent unnecessary re-renders
@@ -126,25 +128,33 @@ const BetsList = ({ betData, name }: any) => {
         }}
       >
         <Header />
-        <Box
-          sx={{
-            maxHeight: "75vh",
-            overflow: "hidden",
-            "::-webkit-scrollbar": { display: "none" },
-          }}
-        >
-          <List
-            ref={listRef}
-            height={listHeight}
-            itemCount={betData?.length || 0}
-            itemSize={ROW_HEIGHT}
-            width="100%"
-            onScroll={handleScroll}
-            itemData={itemData} // Pass memoized data
-          >
-            {MemoizedRow}
-          </List>
-        </Box>
+        <AutoSizer>
+          {({ width }) => (
+            <InfiniteLoader
+              isItemLoaded={() => true} // Since you already fetched all
+              itemCount={betData.length}
+              loadMoreItems={() => Promise.resolve()} // no-op
+            >
+              {({ onItemsRendered, ref }) => (
+                <List
+                  ref={(list) => {
+                    listRef.current = list;
+                    ref(list); // pass ref to InfiniteLoader
+                  }}
+                  height={listHeight}
+                  itemCount={betData?.length || 0}
+                  itemSize={ROW_HEIGHT}
+                  width={width}
+                  onScroll={handleScroll}
+                  itemData={itemData} // Pass memoized data
+                  onItemsRendered={onItemsRendered}
+                >
+                  {MemoizedRow}
+                </List>
+              )}
+            </InfiniteLoader>
+          )}
+        </AutoSizer>
       </Box>
     </Box>
   );

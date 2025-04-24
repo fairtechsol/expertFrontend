@@ -1,15 +1,10 @@
-import { Box, Button, Popover, Typography } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import moment from "moment";
 import { memo, useCallback, useMemo, useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import AutoSizer from "react-virtualized-auto-sizer";
 import { FixedSizeList as List } from "react-window";
+import InfiniteLoader from "react-window-infinite-loader";
 import { ARROWUP } from "../../../assets";
-import {
-  declareFinalMatchResult,
-  unDeclareFinalMatchResult,
-} from "../../../store/actions/match/matchDeclareActions";
-import { AppDispatch, RootState } from "../../../store/store";
 import { betListColorConstants } from "../../../utils/Constants";
 import { formatToINR } from "../../helper";
 
@@ -420,16 +415,10 @@ const handleDomain = (url: any) => {
   const parts = url?.split(".");
   return parts?.[parts.length - 2] || "";
 };
-const ViewBetList = ({ tag, allBetRates, title, isMatchDeclare }: any) => {
-  const dispatch: AppDispatch = useDispatch();
+const ViewBetList = ({ tag, allBetRates, title }: any) => {
   const listRef = useRef<any>(null);
   const [visibleImg, setVisibleImg] = useState(true);
   const [showButton, setShowButton] = useState(false);
-  const [anchorEl, setAnchorEl] = useState(null);
-
-  const { matchDetail } = useSelector(
-    (state: RootState) => state.addMatch.addMatch
-  );
 
   // Memoize the itemData to prevent unnecessary re-renders
   const itemData = useMemo(
@@ -440,20 +429,6 @@ const ViewBetList = ({ tag, allBetRates, title, isMatchDeclare }: any) => {
     }),
     [allBetRates, tag]
   );
-
-  const handleClose = useCallback(() => setAnchorEl(null), []);
-  const handleOpen = useCallback(
-    (event: any) => setAnchorEl(event.currentTarget),
-    []
-  );
-
-  const handleConfirm = useCallback(() => {
-    if (matchDetail?.stopAt) {
-      dispatch(unDeclareFinalMatchResult({ matchId: matchDetail?.id }));
-    }
-    dispatch(declareFinalMatchResult({ matchId: matchDetail?.id }));
-    handleClose();
-  }, [dispatch, matchDetail, handleClose]);
 
   const scrollToTop = useCallback(() => {
     listRef.current?.scrollToItem(0, "smooth");
@@ -466,7 +441,7 @@ const ViewBetList = ({ tag, allBetRates, title, isMatchDeclare }: any) => {
     []
   );
 
-  const cHeight = Math.min(allBetRates.length * 32, window.innerHeight * 0.9);
+  const cHeight = Math.min(allBetRates.length * ROW_HEIGHT, window.innerHeight * 0.9);
 
   return (
     <Box
@@ -527,72 +502,6 @@ const ViewBetList = ({ tag, allBetRates, title, isMatchDeclare }: any) => {
           >
             {`All Bets${title ? ` (${title})` : ""}`}
           </Typography>
-          {isMatchDeclare && (
-            <Box onClick={handleOpen} sx={{ zIndex: 2, cursor: "pointer" }}>
-              <Box
-                sx={{
-                  display: "flex",
-                  marginX: "2px",
-                  justifyContent: "center",
-                  paddingX: 0.5,
-                  alignItems: "center",
-                  height: "18px",
-                  background: matchDetail?.stopAt ? "red" : "white",
-                  borderRadius: "2px",
-                }}
-              >
-                <Typography
-                  sx={{
-                    fontSize: { lg: "8px", xs: "6px" },
-                    fontWeight: "600",
-                    color: matchDetail?.stopAt ? "white" : "#0B4F26",
-                  }}
-                >
-                  {matchDetail?.stopAt
-                    ? "Final Result Un Declare"
-                    : "Final Result Declare"}
-                </Typography>
-              </Box>
-            </Box>
-          )}
-          <Popover
-            open={Boolean(anchorEl)}
-            anchorEl={anchorEl}
-            onClose={handleClose}
-            anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-            transformOrigin={{ vertical: "top", horizontal: "right" }}
-          >
-            <Box sx={{ padding: 2, textAlign: "center" }}>
-              <Typography>
-                {`Are you sure you want to ${matchDetail?.stopAt ? "Un Declare" : "Declare"
-                  } the final result?`}
-              </Typography>
-              <Box
-                sx={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  marginTop: 1,
-                }}
-              >
-                <Button
-                  onClick={handleClose}
-                  color="error"
-                  size="small"
-                  variant="contained"
-                >
-                  Cancel
-                </Button>
-                <Button
-                  onClick={handleConfirm}
-                  color="primary"
-                  variant="contained"
-                  size="small"
-                >
-                  {matchDetail?.stopAt ? "Un Declare" : "Declare"}
-                </Button>
-              </Box>
-            </Box>
-          </Popover>
         </Box>
         <Box sx={{ flex: 0.1, background: "#262626" }}>
           <div className="slanted"></div>
@@ -644,37 +553,35 @@ const ViewBetList = ({ tag, allBetRates, title, isMatchDeclare }: any) => {
           />
         </Box>
       </Box>
-
-      <Box sx={{ width: "100%" }}>
-        {visibleImg && (
-          <Box
-            sx={{
-              height: cHeight,
-              overflow: "hidden",
-              "::-webkit-scrollbar": {
-                display: "none",
-              },
-              width: { xs: "auto", lg: "auto", md: "auto" },
-            }}
-          >
-            <AutoSizer>
-              {({ height, width }) => (
+      {visibleImg && (
+        <AutoSizer>
+          {({ width }) => (
+            <InfiniteLoader
+              isItemLoaded={() => true} // Since you already fetched all
+              itemCount={allBetRates.length}
+              loadMoreItems={() => Promise.resolve()} // no-op
+            >
+              {({ onItemsRendered, ref }) => (
                 <List
-                  ref={listRef}
-                  height={height}
-                  itemCount={allBetRates.length}
+                  ref={(list) => {
+                    listRef.current = list;
+                    ref(list); // pass ref to InfiniteLoader
+                  }}
+                  height={cHeight}
+                  itemCount={allBetRates?.length || 0}
                   itemSize={ROW_HEIGHT}
                   width={width}
                   onScroll={handleScroll}
+                  onItemsRendered={onItemsRendered}
                   itemData={itemData} // Pass memoized data
                 >
                   {MemoizedRow}
                 </List>
               )}
-            </AutoSizer>
-          </Box>
-        )}
-      </Box>
+            </InfiniteLoader>
+          )}
+        </AutoSizer>
+      )}
     </Box>
   );
 };
