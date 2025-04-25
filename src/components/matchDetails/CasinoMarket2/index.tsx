@@ -4,7 +4,7 @@ import { ARROWUP } from "../../../assets";
 import Divider from "../../Common/Divider";
 import CasinoMarketBox from "./CasinoMarketBox";
 
-const CasinoMarket = ({ title, sessionData, profitLossData }: any) => {
+const CasinoMarket = ({ title, sessionData }: any) => {
   const [visible, setVisible] = useState(true);
   return (
     <Box
@@ -168,7 +168,6 @@ const CasinoMarket = ({ title, sessionData, profitLossData }: any) => {
                     ? sessionData?.section[item]
                     : {}
                 }
-                profitLoss={profitLossData && profitLossData[sessionData?.id]}
                 index={item}
               />
             ))}

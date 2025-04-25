@@ -146,7 +146,6 @@ const AddManualMarket = () => {
         <Box
           sx={{
             background: "white",
-            // borderRadius: "5px",
             borderRadius: "5px",
             margin: "10px",
           }}

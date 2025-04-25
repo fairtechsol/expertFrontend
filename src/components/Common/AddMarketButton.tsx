@@ -1,6 +1,10 @@
 import { memo } from "react";
 
-const AddMarketButton = ({ handleClickOpen }: any) => {
+interface AddMarketButtonProps {
+  handleClickOpen: () => void;
+}
+
+const AddMarketButton = ({ handleClickOpen }: AddMarketButtonProps) => {
   return (
     <div
       style={{

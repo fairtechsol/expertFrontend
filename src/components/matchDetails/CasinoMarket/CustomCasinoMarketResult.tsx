@@ -89,7 +89,6 @@ const CustomCasinoMarketResult = ({ onClick, newData }: any) => {
               placeholder="Score"
               variant="standard"
               value={selected}
-              // onChange={(e) => setSelected(e?.target.value)}
               onChange={(e: any) => {
                 const numericValue = e.target.value.replace(/[^0-9]/g, "");
                 setSelected(numericValue);

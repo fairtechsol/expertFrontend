@@ -413,7 +413,6 @@ const AddMatch = () => {
             background: "#F8C851",
             marginTop: "20px",
             borderRadius: "5px",
-
             p: "10px",
             py: "20px",
           }}
@@ -537,7 +536,7 @@ const AddMatch = () => {
             </Box>
             <Box sx={{ width: { xs: "100%", lg: "18%", md: "24%" } }}>
               <MatchListInput
-                label="Team C *"
+                label="Team C*"
                 placeholder="Enter Name of Team C"
                 type="text"
                 onChange={(e: any) => {

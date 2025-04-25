@@ -78,7 +78,6 @@ const CasinoMarket = ({ title, sessionData, profitLossData, section }: any) => {
             alignItems: "center",
             display: "flex",
             justifyContent: "space-between",
-            // height: "40px",
           }}
         >
           {!sessionData?.isComplete && (
@@ -121,7 +120,7 @@ const CasinoMarket = ({ title, sessionData, profitLossData, section }: any) => {
             }}
           >
             {!sessionData?.isComplete && (
-              <>max : {formatToINR(sessionData?.maxBet)} </>
+              <>max : {formatToINR(sessionData?.maxBet)}</>
             )}
           </Typography>
           <Box
@@ -138,7 +137,7 @@ const CasinoMarket = ({ title, sessionData, profitLossData, section }: any) => {
                 !sessionData?.result &&
                 !sessionData?.resultStatus && (
                   <TiArrowLeftThick
-                    cursor={"pointer"}
+                    cursor="pointer"
                     color="blue"
                     size={15}
                     style={{
@@ -256,7 +255,6 @@ const CasinoMarket = ({ title, sessionData, profitLossData, section }: any) => {
               height: "18px",
               right: "6px",
               marginRight: "2%",
-              // position: "absolute",
               cursor: "pointer",
             }}
           >
@@ -269,7 +267,6 @@ const CasinoMarket = ({ title, sessionData, profitLossData, section }: any) => {
                 alignItems: "center",
                 justifyContent: "center",
                 display: "flex",
-
                 flexDirection: "column",
                 marginLeft: "2px",
               }}
@@ -300,7 +297,6 @@ const CasinoMarket = ({ title, sessionData, profitLossData, section }: any) => {
                         ? matchDetail?.sessionProfitLoss?.[sectionItem?.id]
                             ?.totalBet || 0
                         : "";
-
                     return (
                       <Typography
                         key={index}
@@ -370,29 +366,46 @@ const CasinoMarket = ({ title, sessionData, profitLossData, section }: any) => {
         </Box>
       </Box>
       {visible && (
-        <>
-          <Box
-            sx={{
-              position: "relative",
-              width: "100%",
-              alignItems: "center",
-              display: "flex",
-              flexDirection: "column",
-            }}
-          >
-            {sessionData?.activeStatus !== "live" && (
-              <Box
-                sx={{
-                  margin: "1px",
-                  width: "100%",
-                  height: "100%",
-                  right: 0,
-                  position: "absolute",
-                  background: "rgba(0, 0, 0, 0.4)",
-                  zIndex: 2,
-                }}
-              >
-                {sessionData?.resultStatus ? (
+        <Box
+          sx={{
+            position: "relative",
+            width: "100%",
+            alignItems: "center",
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
+          {sessionData?.activeStatus !== "live" && (
+            <Box
+              sx={{
+                margin: "1px",
+                width: "100%",
+                height: "100%",
+                right: 0,
+                position: "absolute",
+                background: "rgba(0, 0, 0, 0.4)",
+                zIndex: 2,
+              }}
+            >
+              {sessionData?.resultStatus ? (
+                <Typography
+                  sx={{
+                    color: "#fff",
+                    height: "100%",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    fontWeight: "500",
+                    textTransform: "uppercase",
+                  }}
+                >
+                  Result {sessionData?.resultStatus}
+                </Typography>
+              ) : (
+                !["ACTIVE", "active", "", undefined, null, 0, "open"].includes(
+                  sessionData?.GameStatus?.toLowerCase()
+                ) ||
+                (sessionData?.result && (
                   <Typography
                     sx={{
                       color: "#fff",
@@ -404,67 +417,42 @@ const CasinoMarket = ({ title, sessionData, profitLossData, section }: any) => {
                       textTransform: "uppercase",
                     }}
                   >
-                    Result {sessionData?.resultStatus}
+                    {sessionData?.result
+                      ? `Declared (Score = ${sessionData?.result})`
+                      : sessionData?.GameStatus}
                   </Typography>
-                ) : (
-                  ![
-                    "ACTIVE",
-                    "active",
-                    "",
-                    undefined,
-                    null,
-                    0,
-                    "open",
-                  ].includes(sessionData?.GameStatus?.toLowerCase()) ||
-                  (sessionData?.result && (
-                    <Typography
-                      sx={{
-                        color: "#fff",
-                        height: "100%",
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        fontWeight: "500",
-                        textTransform: "uppercase",
-                      }}
-                    >
-                      {sessionData?.result
-                        ? `Declared (Score = ${sessionData?.result})`
-                        : sessionData?.GameStatus}
-                    </Typography>
-                  ))
-                )}
-              </Box>
-            )}
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                width: "100%",
-                position: "relative",
-                overflowY: "auto",
-                "::-webkit-scrollbar": {
-                  display: "none",
-                },
-              }}
-            >
-              {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]?.map((item: any) => (
-                <CasinoMarketBox
-                  key={item}
-                  sessionData={sessionData}
-                  newData={
-                    sessionData?.section?.length > 0
-                      ? sessionData?.section?.[item]
-                      : {}
-                  }
-                  profitLoss={profitLossData?.[sessionData?.id]}
-                  index={item}
-                />
-              ))}
-              <Divider />
+                ))
+              )}
             </Box>
+          )}
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              width: "100%",
+              position: "relative",
+              overflowY: "auto",
+              "::-webkit-scrollbar": {
+                display: "none",
+              },
+            }}
+          >
+            {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]?.map((item: any) => (
+              <CasinoMarketBox
+                key={item}
+                sessionData={sessionData}
+                newData={
+                  sessionData?.section?.length > 0
+                    ? sessionData?.section?.[item]
+                    : {}
+                }
+                profitLoss={profitLossData?.[sessionData?.id]}
+                index={item}
+              />
+            ))}
+            <Divider />
           </Box>
-        </>
+        </Box>
       )}
       <ModalMUI
         open={maxLimitModal}

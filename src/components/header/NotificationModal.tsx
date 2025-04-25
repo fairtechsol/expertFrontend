@@ -105,8 +105,8 @@ const NotificationModal = ({
               }}
             >
               <TextField
-                name={"value"}
-                id={"value"}
+                name="value"
+                id="value"
                 value={formik.values.value}
                 onChange={formik.handleChange}
                 variant="standard"
@@ -161,7 +161,6 @@ const NotificationModal = ({
                 style={{
                   backgroundColor: "#0B4F26",
                   color: "white",
-                  // "&:hover": { backgroundColor: "#0B4F26" },
                 }}
               >
                 {loadingDeleteBet ? "Loading..." : "Submit"}

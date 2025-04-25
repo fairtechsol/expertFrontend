@@ -1,8 +1,8 @@
 import { Box, TextField, useMediaQuery, useTheme } from "@mui/material";
+import { memo } from "react";
 import { Search } from "../../assets";
 import { MatchListSearchInput } from "../../interface/headerInterface";
 import StyledImage from "./StyledImages";
-import { memo } from "react";
 
 const SearchInput = ({
   placeholder,
@@ -24,32 +24,30 @@ const SearchInput = ({
 
   return (
     <Box
-      sx={[
-        {
-          backgroundColor: {
-            xs: show ? "white" : "transparent",
-            lg: "white",
-          },
-          minWidth: {
-            lg: "17vw",
-            xs: "10vw",
-          },
-          width: {
-            xs: width ? width : "36%",
-            lg: "17vw",
-            md: "17vw",
-          },
-          display: "flex",
-          justifyContent: "flex-end",
-          alignItems: "center",
-          boxShadow: "0px 3px 10px #B7B7B726",
-          height: { lg: "35px", xs: "35px" },
-          overflow: "hidden",
-          paddingX: "5px",
-          borderRadius: "35px",
-          marginRight: "10px",
+      sx={{
+        backgroundColor: {
+          xs: show ? "white" : "transparent",
+          lg: "white",
         },
-      ]}
+        minWidth: {
+          lg: "17vw",
+          xs: "10vw",
+        },
+        width: {
+          xs: width ? width : "36%",
+          lg: "17vw",
+          md: "17vw",
+        },
+        display: "flex",
+        justifyContent: "flex-end",
+        alignItems: "center",
+        boxShadow: "0px 3px 10px #B7B7B726",
+        height: { lg: "35px", xs: "35px" },
+        overflow: "hidden",
+        paddingX: "5px",
+        borderRadius: "35px",
+        marginRight: "10px",
+      }}
     >
       {(!matchesxs || show) && (
         <TextField
@@ -77,22 +75,19 @@ const SearchInput = ({
           }}
         />
       )}
-
       <Box
-        sx={[
-          {
-            height: "30px",
-            width: "30px",
-            borderRadius: "20px",
-            border: "1px solid white",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            backgroundColor: "primary.main",
-            marginRight: -0.3,
-            cursor: "pointer",
-          },
-        ]}
+        sx={{
+          height: "30px",
+          width: "30px",
+          borderRadius: "20px",
+          border: "1px solid white",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          backgroundColor: "primary.main",
+          marginRight: -0.3,
+          cursor: "pointer",
+        }}
       >
         <StyledImage
           src={Search}
