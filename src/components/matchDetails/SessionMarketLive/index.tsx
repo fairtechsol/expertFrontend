@@ -94,7 +94,7 @@ const SessionMarketLive = ({ title, sessionData, currentMatch, type }: any) => {
             src={ARROWUP}
             alt="arrow up"
             style={{
-              transform: visible ? "rotate(180deg)" : "rotate(0deg)",
+              transform: !visible ? "rotate(180deg)" : "rotate(0deg)",
               width: "12px",
               height: "12px",
               marginRight: "5px",

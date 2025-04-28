@@ -259,7 +259,7 @@ const BetList = ({ tag, allBetRates }: any) => {
             src={ARROWUP}
             alt="arrow up"
             style={{
-              transform: visibleImg ? "rotate(180deg)" : "rotate(0deg)",
+              transform: !visibleImg ? "rotate(180deg)" : "rotate(0deg)",
               width: "15px",
               height: "15px",
               marginRight: "5px",
