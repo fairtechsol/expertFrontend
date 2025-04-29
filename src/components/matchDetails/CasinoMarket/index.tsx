@@ -282,7 +282,7 @@ const CasinoMarket = ({ title, sessionData, profitLossData, section }: any) => {
               >
                 T Bet
               </Typography>
-              <Typography
+              <Box
                 sx={{
                   fontSize: { lg: ".6vw", xs: "1vw", md: "1vw" },
                   fontWeight: "bold",
@@ -312,7 +312,7 @@ const CasinoMarket = ({ title, sessionData, profitLossData, section }: any) => {
                     );
                   }
                 )}
-              </Typography>
+              </Box>
             </Box>
             <Box
               sx={{

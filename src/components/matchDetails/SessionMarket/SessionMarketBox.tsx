@@ -140,7 +140,6 @@ const SessionMarketBox = ({
         <Box
           sx={{
             position: "absolute",
-
             minWidth: { lg: "36%", xs: "45%", md: "25%" },
             justifyContent: "flex-end",
             left: { lg: "11vw", md: "31vw", xs: "11.5vw" },
@@ -186,7 +185,7 @@ const SessionMarketBox = ({
                 <>
                   {newData?.exposureLimit
                     ? `Exp: ${formatNumber(newData?.exposureLimit)}`
-                    : ""}{" "}
+                    : ""}
                 </>
               )}
             </Typography>
