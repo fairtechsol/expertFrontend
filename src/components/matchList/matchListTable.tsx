@@ -301,11 +301,9 @@ const MatchListTable = ({ data, index, currentPage }: any) => {
                     margin: { xs: "2px", sm: "2px", md: "5px", lg: "5px" },
                   }}
                   onClick={() => {
-                    navigate(`/expert/betDetail`, {
-                      state: { id: data?.id, marketId: data?.marketId },
-                    });
+                    navigate(`/expert/betDetail/${data?.id}`);
                   }}
-                  title={"View Bet"}
+                  title="View Bet"
                 />
               )}
               {["cricket", "politics"].includes(data?.matchType) &&
@@ -316,9 +314,9 @@ const MatchListTable = ({ data, index, currentPage }: any) => {
                       margin: { xs: "2px", sm: "2px", md: "5px", lg: "5px" },
                     }}
                     onClick={() => {
-                      navigate(`/expert/sessionBetList`, {
-                        state: { id: data?.id, marketId: data?.marketId },
-                      });
+                      navigate(
+                        `/expert/sessionBetList/${data?.id}/${data?.marketId}`
+                      );
                     }}
                     title="View Session"
                   />
@@ -331,11 +329,9 @@ const MatchListTable = ({ data, index, currentPage }: any) => {
                       margin: { xs: "2px", sm: "2px", md: "5px", lg: "5px" },
                     }}
                     onClick={() => {
-                      navigate(`/expert/session`, {
-                        state: { id: data?.id, marketId: data?.marketId },
-                      });
+                      navigate(`/expert/session/${data?.id}/${data?.marketId}`);
                     }}
-                    title={"Expert Session"}
+                    title="Expert Session"
                   />
                 )}
               {(profileDetail?.allPrivilege ||
@@ -346,16 +342,14 @@ const MatchListTable = ({ data, index, currentPage }: any) => {
                   }}
                   onClick={() => {
                     if (["cricket", "politics"].includes(data?.matchType)) {
-                      navigate(`/expert/market`, {
-                        state: { id: data?.id, marketId: data?.marketId },
-                      });
+                      navigate(`/expert/market/${data?.id}/${data?.marketId}`);
                     } else {
-                      navigate(`/expert/betOdds/otherGames`, {
-                        state: { id: data?.id, marketId: data?.marketId },
-                      });
+                      navigate(
+                        `/expert/betOdds/otherGames/${data?.id}/${data?.marketId}`
+                      );
                     }
                   }}
-                  title={"View Match"}
+                  title="View Match"
                 />
               )}
               {(profileDetail?.allPrivilege ||
@@ -365,11 +359,9 @@ const MatchListTable = ({ data, index, currentPage }: any) => {
                     margin: { xs: "2px", sm: "2px", md: "5px", lg: "5px" },
                   }}
                   onClick={() => {
-                    navigate(`/expert/edit_match`, {
-                      state: { id: data?.id },
-                    });
+                    navigate(`/expert/edit_match/${data?.id}`);
                   }}
-                  title={"Edit"}
+                  title="Edit"
                 />
               )}
             </Box>

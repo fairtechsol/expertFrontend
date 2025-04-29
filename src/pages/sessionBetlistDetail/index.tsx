@@ -1,7 +1,7 @@
 import { Box, Stack } from "@mui/material";
 import { Fragment, memo, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import BetList from "../../components/matchDetails/BetList";
 import CasinoMarket2 from "../../components/matchDetails/CasinoMarket2";
 import RunsBox from "../../components/matchDetails/RunsBox";
@@ -44,7 +44,7 @@ import { AppDispatch, RootState } from "../../store/store";
 const SessionBetlistDetail = () => {
   const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
-  const { state } = useLocation();
+  const state: any = useParams();
   const { matchDetail, success } = useSelector(
     (state: RootState) => state.addMatch.addMatch
   );
@@ -55,7 +55,7 @@ const SessionBetlistDetail = () => {
   );
 
   useEffect(() => {
-    if (state?.marketId) {
+    if (state?.mId) {
       matchService.connect([state?.id]);
     }
     return () => {

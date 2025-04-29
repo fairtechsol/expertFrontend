@@ -1,7 +1,7 @@
 import { Box, Stack } from "@mui/material";
 import React, { Fragment, memo, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import CasinoMarket from "../../components/matchDetails/CasinoMarket";
 import CasinoMarketLive from "../../components/matchDetails/CasinoMarketLive";
 import RunsBox from "../../components/matchDetails/RunsBox";
@@ -43,7 +43,7 @@ import { AppDispatch, RootState } from "../../store/store";
 const SessionMarketDetail = () => {
   const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
-  const { state } = useLocation();
+  const state: any = useParams();
 
   const { matchDetail, success } = useSelector(
     (state: RootState) => state.addMatch.addMatch
@@ -52,7 +52,7 @@ const SessionMarketDetail = () => {
   const { currentOdd } = useSelector((state: RootState) => state.addSession);
 
   useEffect(() => {
-    if (state?.marketId) {
+    if (state?.mId) {
       matchService.connect([state?.id]);
     }
     return () => {

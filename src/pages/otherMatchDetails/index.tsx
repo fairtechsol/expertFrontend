@@ -1,7 +1,7 @@
 import { Box, useMediaQuery, useTheme } from "@mui/material";
 import { Fragment, memo, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { handleMarketSorting } from "../../components/helper";
 import Loader from "../../components/Loader";
 import BetList from "../../components/matchDetails/BetList";
@@ -36,7 +36,7 @@ import { AppDispatch, RootState } from "../../store/store";
 import { marketArray } from "../../utils/Constants";
 
 const OtherMatchDetails = () => {
-  const { state } = useLocation();
+  const state: any = useParams();
   const navigate = useNavigate();
   const theme = useTheme();
   const matchesMobile = useMediaQuery(theme.breakpoints.down("sm"));
@@ -49,7 +49,7 @@ const OtherMatchDetails = () => {
   );
 
   useEffect(() => {
-    if (state?.marketId) {
+    if (state?.mId) {
       matchService.connect([state?.id]);
     }
     return () => {

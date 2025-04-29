@@ -1,7 +1,7 @@
 import { Box } from "@mui/material";
 import { memo, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Loader from "../../components/Loader";
 import BetList from "../../components/matchDetails/BetList/ViewBet";
 import {
@@ -13,16 +13,9 @@ import {
 import { matchSocketService } from "../../socketManager/matchSocket";
 import {
   getMatchDetail,
-  removeSessionProLoss,
   updateMatchRates,
-  updateRates,
-  updateSessionProLoss,
 } from "../../store/actions/addMatch/addMatchAction";
-import {
-  resetPlacedBetsMatch,
-  setCurrentOdd,
-  updateApiSessionById,
-} from "../../store/actions/addSession";
+import { resetPlacedBetsMatch } from "../../store/actions/addSession";
 import {
   addStatusBetByBetId,
   getPlacedBetsMatch,
@@ -30,16 +23,13 @@ import {
   updateDeletedBetReasonOnEdit,
   updateMatchBetsPlace,
   updateMatchBetsReason,
-  updateMaxLoss,
   updateResultStatusOfMatch,
-  updateResultStatusOfSession,
   updateSessionBetsPlace,
-  updateTeamRates,
 } from "../../store/actions/match/matchAction";
 import { AppDispatch, RootState } from "../../store/store";
 
 const MatchMarketDetail = () => {
-  const { state } = useLocation();
+  const state: any = useParams();
   const navigate = useNavigate();
   const dispatch: AppDispatch = useDispatch();
 
@@ -62,15 +52,9 @@ const MatchMarketDetail = () => {
 
   const resultDeclared = (event: any) => {
     try {
-      if (
-        (event?.matchId === state?.id && event?.isMatchDeclare) ||
-        (event?.matchId === state?.id && event?.betType === "quickbookmaker1")
-      ) {
+      if (event?.matchId === state?.id && event?.isMatchDeclare) {
         navigate("/expert/match");
-      } else if (
-        event?.matchId === state?.id &&
-        (event?.betType === "other" || event?.betType === "tournament")
-      ) {
+      } else if (event?.matchId === state?.id) {
         dispatch(updateResultStatusOfMatch(event));
         dispatch(getPlacedBetsMatch(state?.id));
       }
@@ -92,14 +76,7 @@ const MatchMarketDetail = () => {
   const matchDeleteBet = (event: any) => {
     try {
       if (event?.matchId === state?.id) {
-        dispatch(updateRates(event));
         dispatch(updateMatchBetsReason(event));
-        dispatch(
-          updateSessionProLoss({
-            id: event?.betId,
-            betPlaced: event?.profitLoss ? event?.profitLoss?.betPlaced : [],
-          })
-        );
       }
     } catch (e) {
       console.log(e);
@@ -118,34 +95,7 @@ const MatchMarketDetail = () => {
   const updateSessionResultDeclared = (event: any) => {
     try {
       if (state?.id === event?.matchId) {
-        dispatch(updateApiSessionById(event));
         dispatch(addStatusBetByBetId(event?.betId));
-
-        if (event?.activeStatus === "result") {
-          dispatch(
-            removeSessionProLoss({
-              id: event?.betId,
-            })
-          );
-        } else {
-          dispatch(
-            updateSessionProLoss({
-              id: event?.betId,
-              betPlaced: event?.profitLossObj
-                ? event?.profitLossObj?.betPlaced
-                : [],
-            })
-          );
-        }
-        dispatch(
-          updateMaxLoss({
-            id: event?.betId,
-            maxLoss: event?.profitLossObj
-              ? event?.profitLossObj?.maxLoss
-              : event?.profitLoss,
-            totalBet: event?.profitLossObj ? event?.profitLossObj?.totalBet : 0,
-          })
-        );
       }
     } catch (e) {
       console.log(e);
@@ -155,7 +105,6 @@ const MatchMarketDetail = () => {
   const updateMatchBetPlaced = (event: any) => {
     try {
       if (event?.jobData?.newBet?.matchId === state?.id) {
-        dispatch(updateTeamRates(event));
         dispatch(updateMatchBetsPlace(event));
       }
     } catch (e) {
@@ -166,40 +115,9 @@ const MatchMarketDetail = () => {
     try {
       if (event?.jobData?.placedBet?.matchId === state?.id) {
         dispatch(updateSessionBetsPlace(event));
-        dispatch(
-          updateSessionProLoss({
-            id: event?.jobData?.placedBet?.betId,
-            betPlaced: event?.redisData?.betPlaced,
-          })
-        );
-        dispatch(
-          updateMaxLoss({
-            id: event?.jobData?.placedBet?.betId,
-            maxLoss: event?.redisData?.maxLoss,
-            totalBet: event?.redisData?.totalBet,
-          })
-        );
-        dispatch(
-          setCurrentOdd({
-            matchId: event?.jobData?.placedBet?.matchId,
-            betId: event?.jobData?.placedBet?.betId,
-            odds: event?.jobData?.placedBet?.odds,
-          })
-        );
       }
     } catch (e) {
       console.log(e);
-    }
-  };
-
-  const updateSessionResultStatus = (event: any) => {
-    try {
-      if (event?.matchId === state?.id) {
-        dispatch(updateResultStatusOfSession(event));
-        dispatch(updateResultStatusOfMatch(event));
-      }
-    } catch (error) {
-      console.error(error);
     }
   };
 
@@ -233,7 +151,6 @@ const MatchMarketDetail = () => {
         socketService.user.userMatchBetPlacedOff();
         socketService.user.userSessionBetPlacedOff();
         socketService.user.sessionResultDeclaredOff();
-        socketService.user.updateInResultDeclareOff();
         socketService.user.updateDeleteReasonOff();
         socketService.user.matchResultDeclareAllUserOff();
         expertSocketService.match.joinMatchRoom(state?.id);
@@ -249,7 +166,6 @@ const MatchMarketDetail = () => {
         socketService.user.userMatchBetPlaced(updateMatchBetPlaced);
         socketService.user.userSessionBetPlaced(updateSessionBetPlaced);
         socketService.user.sessionResultDeclared(updateSessionResultDeclared);
-        socketService.user.updateInResultDeclare(updateSessionResultStatus);
         socketService.user.updateDeleteReason(updateDeleteBetReason);
         expertSocketService.match.onConnect(handleSocketConnection);
       }
@@ -272,7 +188,6 @@ const MatchMarketDetail = () => {
           socketService.user.userMatchBetPlacedOff();
           socketService.user.userSessionBetPlacedOff();
           socketService.user.sessionResultDeclaredOff();
-          socketService.user.updateInResultDeclareOff();
           socketService.user.updateDeleteReasonOff();
           socketService.user.matchResultDeclareAllUserOff();
           expertSocketService.match.onConnectOff();
