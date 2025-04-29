@@ -48,6 +48,7 @@ const MatchMarketDetail = () => {
   const state: any = useParams();
   const navigate = useNavigate();
   const dispatch: AppDispatch = useDispatch();
+  const desktop = useMediaQuery(theme.breakpoints.up("sm"));
 
   useEffect(() => {
     if (state?.mId) {
@@ -363,7 +364,6 @@ const MatchMarketDetail = () => {
           : "",
       })) || [];
 
-  const desktop = useMediaQuery(theme.breakpoints.up("sm"));
   return (
     <Box
       sx={{
