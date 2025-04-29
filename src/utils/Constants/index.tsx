@@ -106,7 +106,7 @@ export const Constants = {
     addManualMarket: "addManualMarket",
     // betOdds: "betOdds",
     betOddsOtherGames: "betOdds/otherGames/:id/:mId",
-    betOddsRace: "betOdds/race",
+    betOddsRace: "betOdds/race/:id/:mId",
     session: "session/:id/:mId",
     sessionBetList: "sessionBetList/:id/:mId",
     market: "market/:id/:mId",
