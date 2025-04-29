@@ -412,7 +412,7 @@ const SessionMarketDetail = () => {
               ?.sort(customSortBySessionMarketName)
               ?.filter(([name]: any) => name !== "cricketCasino")
               ?.map(
-                ([name, item]: any) =>
+                ([name, item]: any, index: number) =>
                   item?.section?.filter(
                     (items: any) =>
                       items?.isComplete &&
@@ -421,7 +421,7 @@ const SessionMarketDetail = () => {
                         items?.result === null)
                   )?.length > 0 && (
                     <SessionMarket
-                      key={name}
+                      key={index}
                       title={`${name} Completed`}
                       hideTotalBet={false}
                       stopAllHide={true}
