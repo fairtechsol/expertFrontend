@@ -326,7 +326,7 @@ const SessionMarketBoxLive = ({
                   />
                 </Box>
               )}
-            </Box>{" "}
+            </Box>
           </Fragment>
         );
       })}
