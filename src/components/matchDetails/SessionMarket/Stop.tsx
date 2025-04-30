@@ -31,54 +31,52 @@ const Stop = ({ onClick, height, title, isCommissionActive }: StopProps) => {
       : title;
 
   return (
-    <>
-      <Box
-        onClick={onClick}
-        sx={{
-          maxWidth: "100%",
-          display: "flex",
-          paddingLeft: "2px",
-          paddingRight: "2px",
-          alignItems: "center",
-          height: height ? height : "30px",
-          background: "#FF4D4D",
-          borderRadius: "3px",
-          cursor: "pointer",
-        }}
-      >
-        <Tooltip title={title} arrow>
-          <Box
-            sx={{
-              fontSize: { lg: "8px", xs: "8px" },
-              fontWeight: "600",
-              color: "white",
-              lineHeight: 1,
-              display: "flex",
-              alignItems: "center",
-              fontFamily: "Poppins, sans-serif",
-            }}
-          >
-            {isCommissionActive && (
-              <Box
-                sx={{
-                  width: 8,
-                  height: 8,
-                  borderRadius: "50%",
-                  backgroundColor: "#74ee15",
-                  margin: "2px",
-                }}
-              />
-            )}
-            {title && displayTitle}
-          </Box>
-        </Tooltip>
-        <img
-          src={BroadCast_}
-          alt="stop"
-          style={{ height: "10px", width: "15px", backgroundSize: "contains" }}
-        />
-      </Box>
-    </>
+    <Box
+      onClick={onClick}
+      sx={{
+        maxWidth: "100%",
+        display: "flex",
+        paddingLeft: "2px",
+        paddingRight: "2px",
+        alignItems: "center",
+        height: height ? height : "30px",
+        background: "#FF4D4D",
+        borderRadius: "3px",
+        cursor: "pointer",
+      }}
+    >
+      <Tooltip title={title} arrow>
+        <Box
+          sx={{
+            fontSize: { lg: "8px", xs: "8px" },
+            fontWeight: "600",
+            color: "white",
+            lineHeight: 1,
+            display: "flex",
+            alignItems: "center",
+            fontFamily: "Poppins, sans-serif",
+          }}
+        >
+          {isCommissionActive && (
+            <Box
+              sx={{
+                width: 8,
+                height: 8,
+                borderRadius: "50%",
+                backgroundColor: "#74ee15",
+                margin: "2px",
+              }}
+            />
+          )}
+          {title && displayTitle}
+        </Box>
+      </Tooltip>
+      <img
+        src={BroadCast_}
+        alt="stop"
+        style={{ height: "10px", width: "15px", backgroundSize: "contains" }}
+      />
+    </Box>
   );
 };
 export default memo(Stop);
