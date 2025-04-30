@@ -29,6 +29,20 @@ const SessionMarket = ({
   const [sessionMaxBetAmountLimit, setSessionMaxBetAmountLimit] =
     useState(false);
 
+  const handleFilter = (item: any) =>
+    section === "market"
+      ? !item?.isComplete &&
+        item?.activeStatus !== "unSave" &&
+        ((item?.resultData && item?.resultData === null) ||
+          item?.result === null)
+      : section === "completed"
+      ? item?.isComplete &&
+        item?.activeStatus !== "unSave" &&
+        ((item?.resultData && item?.resultData === null) ||
+          item?.result === null)
+      : (item?.resultData && item?.resultData !== null) ||
+        item?.result !== null;
+
   return (
     <>
       <Box
@@ -164,20 +178,7 @@ const SessionMarket = ({
             >
               {sessionData?.section?.length > 0 &&
                 sessionData?.section
-                  ?.filter((item: any) =>
-                    section === "market"
-                      ? !item?.isComplete &&
-                        item?.activeStatus !== "unSave" &&
-                        ((item?.resultData && item?.resultData === null) ||
-                          item?.result === null)
-                      : section === "completed"
-                      ? item?.isComplete &&
-                        item?.activeStatus !== "unSave" &&
-                        ((item?.resultData && item?.resultData === null) ||
-                          item?.result === null)
-                      : (item?.resultData && item?.resultData !== null) ||
-                        item?.result !== null
-                  )
+                  ?.filter(handleFilter)
                   ?.slice()
                   .sort(customSortUpdated)
                   ?.map((match: any, index: number) => {
