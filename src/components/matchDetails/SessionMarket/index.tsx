@@ -1,7 +1,9 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Typography, useTheme } from "@mui/material";
 import ModalMUI from "@mui/material/Modal";
+import { useMediaQuery } from "@mui/system";
 import { memo, useState } from "react";
 import { useDispatch } from "react-redux";
+import { FixedSizeList as List } from "react-window";
 import { ARROWUP, edit } from "../../../assets";
 import { customSortUpdated } from "../../../helpers";
 import { sessionBetLiveStatus } from "../../../store/actions/match/matchAction";
@@ -10,6 +12,39 @@ import Divider from "../../Common/Divider";
 import SessionMarketBox from "./SessionMarketBox";
 import SessionMarketMaxBetAmountEdit from "./SessionMarketMaxBetAmountEdit";
 import Stop from "./Stop";
+
+const Row = memo(
+  ({
+    index,
+    style,
+    data,
+  }: {
+    index: number;
+    style: React.CSSProperties;
+    data: any;
+  }) => {
+    const match = data.items[index];
+
+    if (!match?.id) return null;
+
+    return (
+      <div style={style}>
+        <Box key={match.SelectionId}>
+          <SessionMarketBox
+            hideResult={data.hideResult}
+            hideTotalBet={data.hideTotalBet}
+            newData={match}
+            profitLossData={data.profitLossData}
+            index={index}
+            hideEditMaxButton={data.hideEditMaxButton}
+            section={data.section}
+          />
+          <Divider />
+        </Box>
+      </div>
+    );
+  }
+);
 
 const SessionMarket = ({
   currentMatch,
@@ -24,6 +59,8 @@ const SessionMarket = ({
   section,
   name,
 }: any) => {
+  const theme = useTheme();
+  const matchesMobile = useMediaQuery(theme.breakpoints.down("md"));
   const dispatch: AppDispatch = useDispatch();
   const [visible, setVisible] = useState(true);
   const [sessionMaxBetAmountLimit, setSessionMaxBetAmountLimit] =
@@ -177,30 +214,48 @@ const SessionMarket = ({
               ]}
             >
               {sessionData?.section?.length > 0 &&
-                sessionData?.section
-                  ?.filter(handleFilter)
-                  ?.slice()
-                  .sort(customSortUpdated)
-                  ?.map((match: any, index: number) => {
-                    if (match.id) {
-                      return (
-                        <Box key={match?.SelectionId}>
-                          <SessionMarketBox
-                            hideResult={hideResult}
-                            hideTotalBet={hideTotalBet}
-                            newData={match}
-                            profitLossData={profitLossData}
-                            index={index}
-                            hideEditMaxButton={hideEditMaxButton}
-                            section={section}
-                          />
-                          <Divider />
-                        </Box>
-                      );
-                    } else {
-                      return null;
-                    }
-                  })}
+                (() => {
+                  const filteredData = sessionData.section
+                    .filter(handleFilter)
+                    .slice()
+                    .sort(customSortUpdated)
+                    .filter((match: any) => match?.id);
+
+                  if (!filteredData.length) return null;
+
+                  const dynamicHeight = matchesMobile
+                    ? Math.min(
+                        filteredData.length * 30,
+                        window.innerHeight * 0.4
+                      )
+                    : filteredData.length * 30;
+
+                  return (
+                    <div
+                      style={{
+                        width: "100%",
+                        height: `${dynamicHeight + 1}px`,
+                      }}
+                    >
+                      <List
+                        height={dynamicHeight + 1}
+                        width="100%"
+                        itemCount={filteredData.length}
+                        itemSize={30}
+                        itemData={{
+                          items: filteredData,
+                          hideResult,
+                          hideTotalBet,
+                          profitLossData,
+                          hideEditMaxButton,
+                          section,
+                        }}
+                      >
+                        {Row}
+                      </List>
+                    </div>
+                  );
+                })()}
             </Box>
           </Box>
         )}
