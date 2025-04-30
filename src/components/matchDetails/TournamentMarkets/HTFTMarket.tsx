@@ -252,33 +252,33 @@ const HTFTMarket = ({ currentMatch, liveData, title, firstKnownKey }: any) => {
                   "active",
                   "open",
                 ].includes(item?.status?.toLowerCase()) ||
-                item?.status?.toLowerCase() === "suspended"
+                  item?.status?.toLowerCase() === "suspended"
                   ? true
                   : false) && (
-                  <Box
-                    sx={{
-                      position: "absolute",
-                      height: "100%",
-                      width: "100%",
-                      display: "flex",
-                      zIndex: "999",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      background: "rgba(0, 0, 0, .6)",
-                    }}
-                  >
-                    <h4
-                      style={{
-                        textTransform: "uppercase",
-                        color: "#FFF",
-                        fontWeight: "400",
-                        fontSize: matchesMobile ? "12px" : "12px",
+                    <Box
+                      sx={{
+                        position: "absolute",
+                        height: "100%",
+                        width: "100%",
+                        display: "flex",
+                        zIndex: "999",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        background: "rgba(0, 0, 0, .6)",
                       }}
                     >
-                      {item?.status}
-                    </h4>
-                  </Box>
-                )}
+                      <h4
+                        style={{
+                          textTransform: "uppercase",
+                          color: "#FFF",
+                          fontWeight: "400",
+                          fontSize: matchesMobile ? "12px" : "12px",
+                        }}
+                      >
+                        {item?.status}
+                      </h4>
+                    </Box>
+                  )}
 
                 <HTFTBoxComponent
                   teamRates={
@@ -286,14 +286,14 @@ const HTFTMarket = ({ currentMatch, liveData, title, firstKnownKey }: any) => {
                       liveData?.id + "_" + "profitLoss" + "_" + currentMatch?.id
                     ]
                       ? JSON.parse(
-                          currentMatch?.teamRates?.[
-                            liveData?.id +
-                              "_" +
-                              "profitLoss" +
-                              "_" +
-                              currentMatch?.id
-                          ]
-                        )?.[item?.id] ?? 0
+                        currentMatch?.teamRates?.[
+                        liveData?.id +
+                        "_" +
+                        "profitLoss" +
+                        "_" +
+                        currentMatch?.id
+                        ]
+                      )?.[item?.id] ?? 0
                       : 0
                   }
                   livestatus={
@@ -374,6 +374,8 @@ const HTFTMarket = ({ currentMatch, liveData, title, firstKnownKey }: any) => {
         matchOddsLive={liveData}
         currentMatch={currentMatch}
         title={`${title} Max Bet`}
+        exposureLimit={liveData?.exposureLimit}
+        isCommissionActive={liveData.isCommissionActive}
       />
     </Box>
   );
