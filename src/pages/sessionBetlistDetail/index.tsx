@@ -338,18 +338,15 @@ const SessionBetlistDetail = () => {
                         ((items?.resultData && items?.resultData === null) ||
                           items?.result === null)
                     )?.length > 0 && (
-                      <SessionMarket2
-                        title={`${name} Market`}
-                        hideTotalBet={false}
-                        stopAllHide={false}
-                        profitLossData={matchDetail?.sessionProfitLoss}
-                        sessionData={item}
-                        hideResult={true}
-                        currentMatch={matchDetail}
-                        hideEditMaxButton={false}
-                        section="market"
-                      />
-                    )}
+                        <SessionMarket2
+                          title={`${name} Market`}
+                          hideTotalBet={false}
+                          profitLossData={matchDetail?.sessionProfitLoss}
+                          sessionData={item}
+                          hideResult={true}
+                          hideEditMaxButton={false}
+                        />
+                      )}
                   </Fragment>
                 );
               })}
@@ -373,18 +370,15 @@ const SessionBetlistDetail = () => {
                       ((items?.resultData && items?.resultData === null) ||
                         items?.result === null)
                   )?.length > 0 && (
-                    <SessionMarket2
-                      title={`${name} Market`}
-                      hideTotalBet={false}
-                      stopAllHide={false}
-                      profitLossData={matchDetail?.sessionProfitLoss}
-                      sessionData={item}
-                      hideResult={true}
-                      currentMatch={matchDetail}
-                      hideEditMaxButton={false}
-                      section="market"
-                    />
-                  )}
+                      <SessionMarket2
+                        title={`${name} Market`}
+                        hideTotalBet={false}
+                        profitLossData={matchDetail?.sessionProfitLoss}
+                        sessionData={item}
+                        hideResult={true}
+                        hideEditMaxButton={false}
+                      />
+                    )}
                 </Fragment>
               ))}
           {matchDetail?.updatedSesssionBettings &&
