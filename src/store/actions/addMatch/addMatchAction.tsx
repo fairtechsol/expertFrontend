@@ -1,5 +1,6 @@
 import { createAction, createAsyncThunk } from "@reduxjs/toolkit";
 import axios, { AxiosError } from "axios";
+import Worker from "../../../helpers/sessionsHelpers?worker"; // Vite-specific syntax for workers
 import service from "../../../service";
 import { ApiConstants, addMatchThirdParty } from "../../../utils/Constants";
 
@@ -207,8 +208,30 @@ export const getMatchDetail = createAsyncThunk<any, any>(
 
 export const updateMatchRates = createAsyncThunk<any, any>(
   "/match/rates",
-  async (matchDetails) => {
-    return matchDetails;
+  async (matchDetails, { getState }) => {
+    const state: any = getState();
+    const sessionBettings =
+      state.addMatch?.addMatch?.matchDetail?.sessionBettings;
+    const tournament = matchDetails?.tournament;
+    const apiSession = matchDetails?.apiSession;
+
+    return new Promise((resolve) => {
+      const worker = new Worker();
+
+      worker.postMessage({
+        sessionBettings,
+        apiSession,
+      });
+
+      worker.onmessage = (e) => {
+        resolve({
+          apiSession,
+          tournament: tournament,
+          updatedSessionBettings: e.data.updatedSessionBettings,
+        });
+        worker.terminate();
+      };
+    });
   }
 );
 

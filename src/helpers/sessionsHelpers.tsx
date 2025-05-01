@@ -131,3 +131,19 @@ export const updateSessionBettingsItem = (
     return matchDetailBettings;
   }
 };
+
+self.onmessage = function (e) {
+  const { sessionBettings, apiSession } = e.data;
+
+  let updatedFormat = convertData(sessionBettings);
+  let updatedSessionBettings = updateSessionBettingsItem(
+    updatedFormat,
+    apiSession
+  );
+
+  try {
+    self.postMessage({ updatedSessionBettings });
+  } catch (error) {
+    self.postMessage({ type: "CONVERT_DATA_ERROR", error });
+  }
+};
