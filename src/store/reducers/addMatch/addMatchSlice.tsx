@@ -1,5 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {
+  convertData,
+  updateSessionBettingsItem,
+} from "../../../helpers/sessionsHelpers";
+import {
   addMatchExpert,
   addMatchReset,
   addRaceExpert,
@@ -216,14 +220,13 @@ const addMatch = createSlice({
         state.matchDetail = null;
       })
       .addCase(updateMatchRates.fulfilled, (state, action) => {
-        const { apiSession, tournament, updatedSessionBettings } =
-          action.payload;
+        const { apiSession, tournament } = action.payload;
 
-        // let updatedFormat = convertData(state?.matchDetail?.sessionBettings);
-        // let updatedSessionBettings = updateSessionBettingsItem(
-        //   updatedFormat,
-        //   apiSession
-        // );
+        let updatedFormat = convertData(state?.matchDetail?.sessionBettings);
+        let updatedSessionBettings = updateSessionBettingsItem(
+          updatedFormat,
+          apiSession
+        );
 
         const sortedTournament = [...(tournament || [])].sort(
           (a, b) =>
