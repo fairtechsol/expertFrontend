@@ -1,6 +1,6 @@
 import { Box, Typography } from "@mui/material";
-import { formatToINR } from "../helper";
 import { memo } from "react";
+import { formatToINR } from "../helper";
 
 const MatchListProfitLoss = ({
   updateMatchStatus,
@@ -33,7 +33,7 @@ const MatchListProfitLoss = ({
         alignItems: "center",
         width: { md: "130px", lg: "160px" },
         marginTop: showUserModal ? { xs: "1%", sm: "5%", lg: "0%" } : "0",
-        flexDirection: { xs: "column", sm: "row", lg: "row" }, // mobile ui
+        flexDirection: { xs: "column", sm: "row", lg: "row" },
       }}
     >
       <Typography
@@ -42,11 +42,10 @@ const MatchListProfitLoss = ({
           fontFamily: "Poppins, sans-serif",
           fontWeight: "700",
           fontSize: { lg: "12px", md: "10px", xs: "9px" },
-          marginRight: { xs: "2px" }, // mobile ui
+          marginRight: { xs: "2px" },
           lineHeight: "1.2",
           color: "#575757",
           marginLeft: "1vw",
-          // overflow: "hidden",
           display: "-webkit-box",
           WebkitLineClamp: 2,
           WebkitBoxOrient: "vertical",

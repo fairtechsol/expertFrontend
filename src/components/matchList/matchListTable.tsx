@@ -117,27 +117,22 @@ const MatchListTable = ({ data, index, currentPage }: any) => {
   return (
     <>
       <Box
-        sx={[
-          {
-            display: "flex",
-            // height: { xs: "auto", md: "45px" },
-            background: data?.stopAt
-              ? "#f78f65"
-              : !upcoming
-              ? "#FFE094"
-              : "#a6d482",
-            alignItems: { xs: "stretch", md: "center" },
-            borderTop: "1px solid white",
-          },
-        ]}
+        sx={{
+          display: "flex",
+          background: data?.stopAt
+            ? "#f78f65"
+            : !upcoming
+            ? "#FFE094"
+            : "#a6d482",
+          alignItems: { xs: "stretch", md: "center" },
+          borderTop: "1px solid white",
+        }}
       >
         <Box
           sx={{
             display: "flex",
             width: { xs: "60px", sm: "100px", md: "100px", lg: "100px" },
-            // paddingLeft: "10px",
             alignItems: "center",
-            // height: "45px",
             borderRight: "2px solid white",
           }}
         >
@@ -160,20 +155,16 @@ const MatchListTable = ({ data, index, currentPage }: any) => {
           sx={{
             flex: 1,
             display: "flex",
-            // paddingX: "10px",
             alignItems: "center",
             justifyContent: "space-between",
             flexDirection: { xs: "column", sm: "column", lg: "row", md: "row" },
-            // height: "45px",
           }}
         >
-          {/* Switch button row =====*/}
           <Box
             display="flex"
             alignItems="center"
             sx={{
               order: { xs: "2", sm: "2" },
-              // marginY: { sm: 1 },
             }}
           >
             <StyledImage
@@ -183,16 +174,13 @@ const MatchListTable = ({ data, index, currentPage }: any) => {
             />
             <Typography
               variant="h5"
-              // color="primary.main"
-              sx={[
-                {
-                  color: "000",
-                  alignItems: "center",
-                  marginRight: { lg: "10px", xs: "6px" },
-                  justifyContent: "space-between",
-                  width: "200px",
-                },
-              ]}
+              sx={{
+                color: "000",
+                alignItems: "center",
+                marginRight: { lg: "10px", xs: "6px" },
+                justifyContent: "space-between",
+                width: "200px",
+              }}
             >
               {data?.title}
             </Typography>
