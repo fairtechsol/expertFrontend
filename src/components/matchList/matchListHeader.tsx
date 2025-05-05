@@ -1,5 +1,5 @@
 import { Box, Tab, Tabs, Typography, debounce, styled } from "@mui/material";
-import { memo } from "react";
+import { memo, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import SearchInput from "../../components/Common/SearchInput";
@@ -15,39 +15,61 @@ import CustomButton from "../Common/CustomButton";
 const CustomTabs = styled(Tabs)({
   "& .MuiTab-root": {
     flex: 1,
+    backgroundColor: "#FFFFFF",
+    color: "black",
+    "&:hover": {
+      backgroundColor: "#F0F0F0",
+    },
+    minWidth: "2.5rem",
+    minHeight: "1rem",
+    transition: "background-color 0.3s ease, color 0.3s ease",
+    height: "35px",
+    marginTop: "4px",
+    textAlign: "center",
+    fontWeight: "bold",
   },
   "& .Mui-selected": {
     backgroundColor: "#F8C851",
+    "&:hover": {
+      backgroundColor: "#E0B744",
+    },
   },
   "& .MuiTabs-indicator": {
     height: 0,
-    backgroundColor: "#F8C851",
   },
 });
 
 const MatchListHeader = () => {
   const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
-  const { selectedTab } = useSelector((state: RootState) => state.matchList);
-
-  const { profileDetail } = useSelector(
-    (state: RootState) => state.user.profile
+  const selectedTab = useSelector(
+    (state: RootState) => state.matchList.selectedTab
   );
 
-  const getMatchListOnchange = debounce((value: string) => {
-    dispatch(
-      getMatchList({ keyword: value, matchType: gameType[selectedTab] })
-    );
-  }, 500);
+  const allPrivilege = useSelector(
+    (state: RootState) => state.user.profile.profileDetail?.allPrivilege
+  );
+  const addMatchPrivilege = useSelector(
+    (state: RootState) => state.user.profile.profileDetail?.addMatchPrivilege
+  );
 
-  const handleTabChange = (_: any, newValue: any) => {
+  const getMatchListOnchange = useCallback(
+    debounce((value: string) => {
+      dispatch(
+        getMatchList({ keyword: value, matchType: gameType[selectedTab] })
+      );
+    }, 500),
+    [dispatch, selectedTab]
+  );
+
+  const handleTabChange = (_: unknown, newValue: number) => {
     dispatch(setSelectedTabForMatchList(newValue));
     dispatch(updateMatchListCurrentPage(1));
   };
 
   return (
     <Box
-      display={"flex"}
+      display="flex"
       sx={{
         justifyContent: "space-between",
         px: "10px",
@@ -58,13 +80,7 @@ const MatchListHeader = () => {
       <Box
         sx={{
           display: "flex",
-          gap: {
-            lg: "20px",
-            xl: "20px",
-            md: "15px",
-            sm: "30px",
-            xs: "30px",
-          },
+          gap: { lg: "20px", md: "15px", sm: "30px", xs: "30px" },
           marginTop: "4px",
           alignItems: "center",
         }}
@@ -78,48 +94,22 @@ const MatchListHeader = () => {
         >
           Match List
         </Typography>
-        <Box
-          sx={{
-            maxWidth: { lg: "100%", md: "70%", sm: "70%", xs: "70%" },
-            display: "flex",
-            alignItems: "center",
-          }}
-        >
+        <Box sx={{ maxWidth: { lg: "100%", md: "70%", sm: "70%", xs: "70%" } }}>
           <CustomTabs
             value={selectedTab}
             onChange={handleTabChange}
             variant="scrollable"
             textColor="inherit"
-            aria-label="country tabs"
-            scrollButtons
-            allowScrollButtonsMobile
-            sx={{
-              height: "30px",
-              "& .MuiTab-root": {
-                minWidth: "2.5rem",
-                minHeight: "1rem",
-                transition: "background-color 0.3s ease, color 0.3s ease",
-              },
-            }}
+            aria-label="Match type tabs"
+            scrollButtons="auto"
           >
-            {gameType.map((item: any, index: any) => (
+            {gameType.map((item) => (
               <Tab
-                sx={{
-                  backgroundColor:
-                    selectedTab === index ? "#F8C851" : "#FFFFFF",
-                  color: "black",
-                  "&:hover": {
-                    backgroundColor:
-                      selectedTab === index ? "#E0B744" : "#F0F0F0",
-                  },
-                  height: "35px",
-                  marginTop: "4px",
-                  textAlign: "center",
-                  fontSize: { xs: "7px", sm: "8px", lg: "10px" },
-                  fontWeight: "bold",
-                }}
                 key={item}
                 label={item}
+                sx={{
+                  fontSize: { xs: "7px", sm: "8px", lg: "10px" },
+                }}
               />
             ))}
           </CustomTabs>
@@ -139,12 +129,10 @@ const MatchListHeader = () => {
           placeholder="Search Match..."
           handleSearch={getMatchListOnchange}
         />
-        {(profileDetail?.allPrivilege || profileDetail?.addMatchPrivilege) && (
+        {(allPrivilege || addMatchPrivilege) && (
           <CustomButton
-            onClick={() => {
-              navigate("/expert/add_match");
-            }}
-            title={"Add Match"}
+            onClick={() => navigate("/expert/add_match")}
+            title="Add Match"
           />
         )}
       </Box>
