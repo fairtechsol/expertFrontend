@@ -1,6 +1,6 @@
 import { Box, useMediaQuery } from "@mui/material";
-import { memo } from "react";
-import { useSelector } from "react-redux";
+import { memo, useMemo } from "react";
+import { shallowEqual, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { RootState } from "../../store/store";
 import theme from "../../theme";
@@ -9,6 +9,21 @@ import BoxButtonWithSwitch from "../Common/BoxButtonWithSwitch";
 import CustomButton from "../Common/CustomButton";
 import { handleSorting } from "../helper";
 import MatchListProfitLoss from "./profitLoss";
+
+const containerStyles = {
+  width: "100%",
+  display: "flex",
+  background: (data: any, upcoming: boolean) =>
+    data?.stopAt ? "#f78f65" : !upcoming ? "#FFE094" : "#a6d482",
+  justifyContent: { xs: "end" },
+  minHeight: { xs: "auto", md: "auto", lg: "7rem" },
+};
+
+const buttonContainerStyles = {
+  display: "flex",
+  flexWrap: "wrap",
+  alignItems: "center",
+};
 
 const MatchPermissionsModal = ({
   showUserModal,
@@ -20,138 +35,79 @@ const MatchPermissionsModal = ({
   setUpdateMatchStatus,
   upcoming,
 }: any) => {
-  const { profileDetail } = useSelector(
-    (state: RootState) => state.user.profile
-  );
   const navigate = useNavigate();
   const matchesMobile = useMediaQuery(theme.breakpoints.down("lg"));
 
-  return (
-    <Box
-      sx={{
-        width: "100%",
-        display: "flex",
-        background: data?.stopAt
-          ? "#f78f65"
-          : !upcoming
-          ? "#FFE094"
-          : "#a6d482",
-        justifyContent: { xs: "end" },
-        minHeight: { xs: "auto", md: "auto", lg: "7rem" },
-      }}
-    >
+  const {
+    allPrivilege,
+    addMatchPrivilege,
+    sessionMatchPrivilege,
+    betFairMatchPrivilege,
+  } = useSelector(
+    (state: RootState) => ({
+      allPrivilege: state.user.profile.profileDetail?.allPrivilege,
+      addMatchPrivilege: state.user.profile.profileDetail?.addMatchPrivilege,
+      sessionMatchPrivilege:
+        state.user.profile.profileDetail?.sessionMatchPrivilege,
+      betFairMatchPrivilege:
+        state.user.profile.profileDetail?.betFairMatchPrivilege,
+    }),
+    shallowEqual
+  );
+
+  const canEdit = allPrivilege || addMatchPrivilege;
+  const canViewSession = allPrivilege || sessionMatchPrivilege;
+  const canViewBetFair = allPrivilege || betFairMatchPrivilege;
+
+  const sortedBettings = useMemo(() => {
+    if (!data?.matchBettings) return [];
+    return data.matchBettings
+      .slice()
+      .sort(handleSorting)
+      .filter((betting: any) => !betting?.marketId?.includes("manual"));
+  }, [data?.matchBettings]);
+
+  const isCricketOrPolitics = ["cricket", "politics"].includes(data?.matchType);
+  const isCricket = data?.matchType === "cricket";
+
+  const plData = useMemo(() => data?.pl?.[0], [data?.pl]);
+
+  const actionButtons = useMemo(() => {
+    if (!showUserModal || matchesMobile) return null;
+
+    return (
       <Box
         sx={{
           display: "flex",
-          flexWrap: "wrap",
-          alignItems: "center",
+          justifyContent: "flex-end",
+          alignItems: "end",
+          flexDirection: "column",
         }}
       >
-        {data?.eventId.includes("manual") &&
-          data?.matchBettings
-            .slice()
-            .sort(handleSorting)
-            ?.map((betting: any) => {
-              if (betting?.marketId && betting?.marketId.includes("manual")) {
-                return null;
-              } else {
-                return (
-                  <BoxButtonWithBettings
-                    key={betting?.id}
-                    title={betting?.name}
-                    matchId={data?.id}
-                    matchBettingType={"match"}
-                    disable={
-                      profileDetail?.allPrivilege ||
-                      profileDetail?.addMatchPrivilege
-                        ? false
-                        : true
-                    }
-                    updateBettings={updateBettings}
-                    setUpdateBettings={setUpdateBettings}
-                    bettingId={betting.id}
-                  />
-                );
-              }
-            })}
-        {(data?.matchType === "cricket" || data?.matchType === "politics") &&
-          !data?.eventId.includes("manual") && (
-            <BoxButtonWithSwitch
-              title="Session"
-              matchId={data?.id}
-              matchBettingType={"session"}
-              isManualBet={false}
-              disable={
-                profileDetail?.allPrivilege || profileDetail?.addMatchPrivilege
-                  ? false
-                  : true
-              }
-              updateMatchStatus={updateMatchStatus}
-              setUpdateMatchStatus={setUpdateMatchStatus}
-              place={1}
-            />
-          )}
-
-        {data?.matchType === "cricket" && (
-          <BoxButtonWithSwitch
-            title="Manual Session"
-            matchId={data?.id}
-            matchBettingType={"session"}
-            isManualBet={true}
-            disable={
-              profileDetail?.allPrivilege || profileDetail?.addMatchPrivilege
-                ? false
-                : true
-            }
-            updateMatchStatus={updateMatchStatus}
-            setUpdateMatchStatus={setUpdateMatchStatus}
-            place={2}
-          />
-        )}
-      </Box>
-      {showUserModal && !matchesMobile && (
         <Box
           sx={{
-            flex: 1,
             display: "flex",
-            justifyContent: "flex-end",
-            alignItems: "end",
+            alignItems: "center",
+            marginRight: "6px",
+            flexWrap: "wrap",
             flexDirection: "column",
           }}
         >
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              marginRight: "6px",
-              flexWrap: "wrap",
-              flexDirection: "column",
-            }}
-          >
-            {data?.stopAt && (
+          {data?.stopAt && (
+            <>
               <MatchListProfitLoss
                 updateMatchStatusLabel="Total Profit/Loss"
-                updateMatchStatus={
-                  data?.pl &&
-                  data?.pl?.length > 0 &&
-                  data?.pl[0]?.totalProfitLoss
-                }
+                updateMatchStatus={plData?.totalProfitLoss}
                 place="1"
                 cursor="default"
               />
-            )}
-            {data?.stopAt && (
               <MatchListProfitLoss
                 updateMatchStatusLabel="Commission"
-                updateMatchStatus={
-                  data?.pl && data?.pl?.length > 0 && data?.pl[0]?.commission
-                }
+                updateMatchStatus={plData?.commission}
                 place="1"
                 cursor="default"
               />
-            )}
-            {["cricket", "politics"].includes(data?.matchType) &&
-              data?.stopAt && (
+              {isCricketOrPolitics && (
                 <MatchListProfitLoss
                   containerStyle={{
                     minWidth: { xs: "4%", sm: "12px" },
@@ -160,97 +116,132 @@ const MatchPermissionsModal = ({
                   }}
                   onClick={() => handleMatchProfitLossClick(data?.id)}
                   updateMatchStatusLabel="Session Profit/Loss"
-                  updateMatchStatus={
-                    data?.pl &&
-                    data?.pl?.length > 0 &&
-                    data?.pl[0]?.sessionTotalProfitLoss
-                  }
+                  updateMatchStatus={plData?.sessionTotalProfitLoss}
                   place="1"
                   cursor="pointer"
                 />
               )}
-          </Box>
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "flex-end",
-              marginLeft: "10px",
-            }}
-          >
-            {(profileDetail?.allPrivilege ||
-              profileDetail?.sessionMatchPrivilege) && (
+            </>
+          )}
+        </Box>
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "flex-end",
+            marginLeft: "10px",
+          }}
+        >
+          {canViewSession && (
+            <>
               <CustomButton
-                containerStyle={{
-                  margin: "5px",
-                }}
-                onClick={() => {
-                  navigate(`/expert/betDetail/${data?.id}`);
-                }}
+                containerStyle={{ margin: "5px" }}
+                onClick={() => navigate(`/expert/betDetail/${data?.id}`)}
                 title="View Bet"
               />
-            )}
-            {["cricket", "politics"].includes(data?.matchType) &&
-              (profileDetail?.allPrivilege ||
-                profileDetail?.sessionMatchPrivilege) && (
-                <CustomButton
-                  containerStyle={{
-                    margin: "5px",
-                  }}
-                  onClick={() => {
-                    navigate(
-                      `/expert/sessionBetList/${data?.id}/${data?.marketId}`
-                    );
-                  }}
-                  title="View Session"
-                />
+              {isCricketOrPolitics && (
+                <>
+                  <CustomButton
+                    containerStyle={{ margin: "5px" }}
+                    onClick={() =>
+                      navigate(
+                        `/expert/sessionBetList/${data?.id}/${data?.marketId}`
+                      )
+                    }
+                    title="View Session"
+                  />
+                  <CustomButton
+                    containerStyle={{ margin: "5px" }}
+                    onClick={() =>
+                      navigate(`/expert/session/${data?.id}/${data?.marketId}`)
+                    }
+                    title="Expert Session"
+                  />
+                </>
               )}
-            {["cricket", "politics"].includes(data?.matchType) &&
-              (profileDetail?.allPrivilege ||
-                profileDetail?.sessionMatchPrivilege) && (
-                <CustomButton
-                  containerStyle={{
-                    margin: "5px",
-                  }}
-                  onClick={() => {
-                    navigate(`/expert/session/${data?.id}/${data?.marketId}`);
-                  }}
-                  title="Expert Session"
-                />
-              )}
-            {(profileDetail?.allPrivilege ||
-              profileDetail?.betFairMatchPrivilege) && (
-              <CustomButton
-                containerStyle={{
-                  margin: "5px",
-                }}
-                title="View Match"
-                onClick={() => {
-                  if (["cricket", "politics"].includes(data?.matchType)) {
-                    navigate(`/expert/market/${data?.id}/${data?.marketId}`);
-                  } else {
-                    navigate(
+            </>
+          )}
+          {canViewBetFair && (
+            <CustomButton
+              containerStyle={{ margin: "5px" }}
+              title="View Match"
+              onClick={() => {
+                isCricketOrPolitics
+                  ? navigate(`/expert/market/${data?.id}/${data?.marketId}`)
+                  : navigate(
                       `/expert/betOdds/otherGames/${data?.id}/${data?.marketId}`
                     );
-                  }
-                }}
-              />
-            )}
-            {(profileDetail?.allPrivilege ||
-              profileDetail?.addMatchPrivilege) && (
-              <CustomButton
-                containerStyle={{
-                  margin: "5px",
-                }}
-                onClick={() => {
-                  navigate(`/expert/edit_match/${data?.id}`);
-                }}
-                title="Edit"
-              />
-            )}
-          </Box>
+              }}
+            />
+          )}
+          {canEdit && (
+            <CustomButton
+              containerStyle={{ margin: "5px" }}
+              onClick={() => navigate(`/expert/edit_match/${data?.id}`)}
+              title="Edit"
+            />
+          )}
         </Box>
-      )}
+      </Box>
+    );
+  }, [
+    showUserModal,
+    matchesMobile,
+    data,
+    plData,
+    isCricketOrPolitics,
+    canViewSession,
+    canViewBetFair,
+    canEdit,
+  ]);
+
+  return (
+    <Box
+      sx={{
+        ...containerStyles,
+        background: containerStyles.background(data, upcoming),
+      }}
+    >
+      <Box sx={buttonContainerStyles}>
+        {data?.eventId?.includes("manual") &&
+          sortedBettings?.map((betting: any) => (
+            <BoxButtonWithBettings
+              key={betting.id}
+              title={betting.name}
+              matchId={data.id}
+              matchBettingType="match"
+              disable={!canEdit}
+              updateBettings={updateBettings}
+              setUpdateBettings={setUpdateBettings}
+              bettingId={betting.id}
+            />
+          ))}
+        {!data?.eventId?.includes("manual") && isCricketOrPolitics && (
+          <BoxButtonWithSwitch
+            title="Session"
+            matchId={data.id}
+            matchBettingType="session"
+            isManualBet={false}
+            disable={!canEdit}
+            updateMatchStatus={updateMatchStatus}
+            setUpdateMatchStatus={setUpdateMatchStatus}
+            place={1}
+          />
+        )}
+        {isCricket && (
+          <BoxButtonWithSwitch
+            title="Manual Session"
+            matchId={data.id}
+            matchBettingType="session"
+            isManualBet={true}
+            disable={!canEdit}
+            updateMatchStatus={updateMatchStatus}
+            setUpdateMatchStatus={setUpdateMatchStatus}
+            place={2}
+          />
+        )}
+      </Box>
+      {actionButtons}
     </Box>
   );
 };
