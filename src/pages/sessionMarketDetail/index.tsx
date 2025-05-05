@@ -339,10 +339,10 @@ const SessionMarketDetail = () => {
         <Box sx={{ width: { lg: "70%" } }}>
           {matchDetail?.apiSession &&
             Object.entries(matchDetail?.apiSession)
-              ?.sort(customSortBySessionMarketName)
               ?.filter(
                 ([name]: any) => name === "session" || name === "oddEven"
               )
+              ?.sort(customSortBySessionMarketName)
               ?.map(
                 ([name, item]: any) =>
                   item?.section?.filter(
@@ -409,8 +409,8 @@ const SessionMarketDetail = () => {
         <Box sx={{ width: { lg: "100%" } }}>
           {matchDetail?.updatedSesssionBettings &&
             Object.entries(matchDetail?.updatedSesssionBettings)
-              ?.sort(customSortBySessionMarketName)
               ?.filter(([name]: any) => name !== "cricketCasino")
+              ?.sort(customSortBySessionMarketName)
               ?.map(
                 ([name, item]: any, index: number) =>
                   item?.section?.filter(
@@ -439,8 +439,8 @@ const SessionMarketDetail = () => {
               )}
           {matchDetail?.updatedSesssionBettings &&
             Object.entries(matchDetail?.updatedSesssionBettings)
-              ?.sort(customSortBySessionMarketName)
               ?.filter(([name]: any) => name === "cricketCasino")
+              ?.sort(customSortBySessionMarketName)
               ?.map(([name, item]: any) =>
                 item?.section
                   ?.filter(
@@ -463,8 +463,8 @@ const SessionMarketDetail = () => {
               )}
           {matchDetail?.updatedSesssionBettings &&
             Object.entries(matchDetail?.updatedSesssionBettings)
-              ?.sort(customSortBySessionMarketName)
               ?.filter(([name]: any) => name !== "cricketCasino")
+              ?.sort(customSortBySessionMarketName)
               ?.map(
                 ([name, item]: any) =>
                   item?.section?.filter(
@@ -491,8 +491,8 @@ const SessionMarketDetail = () => {
               )}
           {matchDetail?.updatedSesssionBettings &&
             Object.entries(matchDetail?.updatedSesssionBettings)
-              ?.sort(customSortBySessionMarketName)
               ?.filter(([name]: any) => name === "cricketCasino")
+              ?.sort(customSortBySessionMarketName)
               ?.map(([name, item]: any) =>
                 item?.section
                   ?.filter(
@@ -512,8 +512,8 @@ const SessionMarketDetail = () => {
               )}
           {matchDetail?.updatedSesssionBettings &&
             Object.entries(matchDetail?.updatedSesssionBettings)
-              ?.sort(customSortBySessionMarketName)
               ?.filter(([name]: any) => name !== "cricketCasino")
+              ?.sort(customSortBySessionMarketName)
               ?.map(
                 ([name, item]: any) =>
                   item?.section?.filter(
@@ -540,8 +540,8 @@ const SessionMarketDetail = () => {
               )}
           {matchDetail?.updatedSesssionBettings &&
             Object.entries(matchDetail?.updatedSesssionBettings)
-              ?.sort(customSortBySessionMarketName)
               ?.filter(([name]: any) => name === "cricketCasino")
+              ?.sort(customSortBySessionMarketName)
               ?.map(([name, item]: any) =>
                 item?.section
                   ?.filter(
