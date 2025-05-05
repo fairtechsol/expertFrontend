@@ -34,11 +34,26 @@ const SessionMarketBoxLive = ({
     dispatch(addSession(payload));
   };
 
+  const handleToggle = (e: any) => {
+    e.preventDefault();
+    setLive(!live);
+    if (newData?.id) {
+      dispatch(
+        sessionBetLiveStatus({
+          status: "live",
+          betId: newData?.id,
+        })
+      );
+    } else {
+      handleLive();
+    }
+  };
+
   useEffect(() => {
     if (newData?.ActiveStatus) {
       setLive(true);
     } else setLive(false);
-  }, [newData]);
+  }, [newData?.ActiveStatus]);
 
   return (
     <div style={{ position: "relative" }}>
@@ -94,38 +109,14 @@ const SessionMarketBoxLive = ({
             zIndex: 100,
           }}
         >
-          {!live && (
-            <SmallBox
-              hide={true}
-              onClick={(e: any) => {
-                e.preventDefault();
-                setLive(!live);
-                if (newData?.id) {
-                  dispatch(
-                    sessionBetLiveStatus({
-                      status: "live",
-                      betId: newData?.id,
-                    })
-                  );
-                } else handleLive();
-              }}
-              textSize="8px"
-              width={{ lg: "20px", xs: "20px" }}
-              color="#FF4D4D"
-              height="20px"
-            />
-          )}
-          {live && (
-            <SmallBox
-              hide={true}
-              onClick={(e: any) => {
-                e.preventDefault();
-              }}
-              textSize="8px"
-              width={{ lg: "20px", xs: "20px" }}
-              height="20px"
-            />
-          )}
+          <SmallBox
+            hide={true}
+            onClick={live ? (e: any) => e.preventDefault() : handleToggle}
+            textSize="8px"
+            width={{ lg: "20px", xs: "20px" }}
+            height="20px"
+            color={live ? undefined : "#FF4D4D"}
+          />
         </Box>
 
         {!["ACTIVE", "", undefined, null, "active", "open"].includes(
@@ -139,7 +130,7 @@ const SessionMarketBoxLive = ({
               right: "0vh",
               position: "absolute",
               width: { lg: "27.6%", xs: "25.4%", md: "25.5%" },
-              justifyContent: { xs: "center", lg: "center" },
+              justifyContent: "center",
               alignItems: "center",
               display: "flex",
             }}
