@@ -53,7 +53,7 @@ const SessionMarketBoxLive = ({
     if (newData?.ActiveStatus) {
       setLive(true);
     } else setLive(false);
-  }, [newData?.ActiveStatus]);
+  }, [newData]);
 
   return (
     <div style={{ position: "relative" }}>
