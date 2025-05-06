@@ -1,11 +1,10 @@
 import { Box, Typography } from "@mui/material";
-import { memo, useEffect, useState } from "react";
+import { Fragment, memo, useEffect, useState } from "react";
 import { ARROWUP } from "../../../assets";
 import { formatToINR } from "../../helper";
 import SessionMarketBoxLive from "./SessionMarketBoxLive";
 
 const SessionMarketLive = ({ title, sessionData, currentMatch, type }: any) => {
-  
   const [matchSessionData, setMatchSessionData] = useState(sessionData);
   useEffect(() => {
     setMatchSessionData(
@@ -125,10 +124,13 @@ const SessionMarketLive = ({ title, sessionData, currentMatch, type }: any) => {
             }}
           >
             {matchSessionData?.length > 0 &&
-              matchSessionData?.map((match: any, index: any) => {
-                if (!match?.id || match?.activeStatus === "unSave") {
+              matchSessionData
+                ?.filter(
+                  (item: any) => !item?.id || item?.activeStatus === "unSave"
+                )
+                ?.map((match: any, index: any) => {
                   return (
-                    <Box key={index}>
+                    <Fragment key={match?.SelectionId}>
                       <SessionMarketBoxLive
                         currentMatch={currentMatch}
                         newData={match}
@@ -136,10 +138,9 @@ const SessionMarketLive = ({ title, sessionData, currentMatch, type }: any) => {
                         gtype={sessionData?.gtype}
                         type={type}
                       />
-                    </Box>
+                    </Fragment>
                   );
-                }
-              })}
+                })}
           </Box>
         </Box>
       )}

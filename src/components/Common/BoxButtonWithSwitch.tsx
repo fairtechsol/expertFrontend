@@ -35,7 +35,6 @@ const BoxButtonWithSwitch = ({
           height: "35px",
           minWidth: "250px",
           width: { xs: "100%", sm: "40%", md: "20%" },
-          marginTop: { xs: 1, md: 0 },
           marginLeft: "10px",
           borderRadius: "5px",
           margin: "10px",
