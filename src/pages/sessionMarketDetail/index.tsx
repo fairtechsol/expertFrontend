@@ -1,5 +1,5 @@
 import { Box, Stack } from "@mui/material";
-import { Fragment, memo, useEffect } from "react";
+import { Fragment, memo, useCallback, useEffect, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import CasinoMarket from "../../components/matchDetails/CasinoMarket";
@@ -40,6 +40,12 @@ import {
 } from "../../store/actions/match/matchAction";
 import { AppDispatch, RootState } from "../../store/store";
 
+
+const OptimizedCasinoMarketLive = memo(CasinoMarketLive);
+const OptimizedSessionMarketLive = memo(SessionMarketLive);
+const OptimizedSessionMarket = memo(SessionMarket);
+const OptimizedCasinoMarket = memo(CasinoMarket);
+
 const SessionMarketDetail = () => {
   const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
@@ -70,7 +76,7 @@ const SessionMarketDetail = () => {
     }
   };
 
-  const resultDeclared = (event: any) => {
+  const resultDeclared = useCallback((event: any) => {
     try {
       if (event?.matchId === state?.id && event?.isMatchDeclare) {
         navigate("/expert/match");
@@ -78,8 +84,9 @@ const SessionMarketDetail = () => {
     } catch (e) {
       console.log(e);
     }
-  };
-  const resultUnDeclared = (event: any) => {
+  }, [state?.id, navigate]);
+
+  const resultUnDeclared = useCallback((event: any) => {
     try {
       if (event?.matchId === state?.id) {
         dispatch(getMatchDetail(`${state?.id}?isMarketAllowed=false`));
@@ -87,7 +94,7 @@ const SessionMarketDetail = () => {
     } catch (e) {
       console.log(e);
     }
-  };
+  }, [state?.id]);
 
   const matchDeleteBet = (event: any) => {
     try {
@@ -329,6 +336,252 @@ const SessionMarketDetail = () => {
     }
   }, [state?.id]);
 
+  // Memoized render sections
+  const renderLiveSessionMarkets = useMemo(() => {
+    if (!matchDetail?.apiSession) return null;
+
+    return Object.entries(matchDetail.apiSession)
+      .filter(([name]) => name === "session" || name === "oddEven")
+      .sort(customSortBySessionMarketName)
+      .map(([name, item]: any) => {
+        const hasValidSections = item?.section?.some(
+          (section: any) => !section?.activeStatus || section?.activeStatus === "unSave"
+        );
+
+        return hasValidSections && (
+          <OptimizedSessionMarketLive
+            key={name}
+            title={item?.mname || name}
+            sessionData={item}
+            type={name}
+            currentMatch={matchDetail}
+          />
+        );
+      });
+  }, [matchDetail]);
+
+  const renderOtherMarkets = useMemo(() => {
+    if (!matchDetail?.apiSession) return null;
+
+    return Object.entries(matchDetail?.apiSession)
+      ?.filter(([name]) => !["session", "oddEven"].includes(name))
+      ?.sort(customSortBySessionMarketName)
+      ?.map(([name, item]: any) => {
+        const filteredSections = item?.section?.filter(
+          (i: any) => !i?.activeStatus || i?.activeStatus === "unSave"
+        ) || [];
+
+        if (!filteredSections.length) return null;
+        <SessionMarketLive
+          key={name}
+          title={item?.mname || name}
+          sessionData={item}
+          type={name}
+          currentMatch={matchDetail}
+        />
+        return name === "cricketCasino" ? (
+          <Fragment key={name}>
+            {filteredSections.map((items: any) => (
+              <OptimizedCasinoMarketLive
+                key={items?.SelectionId}
+                title={items?.RunnerName || items?.name}
+                sessionData={items}
+                currentMatch={matchDetail}
+                gtype={items?.gtype}
+                type={name}
+              />
+            ))}
+          </Fragment>
+        ) : (
+          <OptimizedSessionMarketLive
+            key={name}
+            title={item?.mname || name}
+            sessionData={item}
+            type={name}
+            currentMatch={matchDetail}
+          />
+        );
+      });
+  }, [matchDetail]);
+
+  const renderCompletedNonCasinoMarkets = useMemo(() => {
+    if (!matchDetail?.updatedSesssionBettings) return null;
+
+    return Object.entries(matchDetail.updatedSesssionBettings)
+      .filter(([name]) => name !== "cricketCasino")
+      .sort(customSortBySessionMarketName)
+      .map(([name, item]: any) => {
+        const hasCompletedSections = item?.section?.some(
+          (section: any) =>
+            section?.isComplete &&
+            section?.activeStatus !== "unSave" &&
+            ((section?.resultData && section?.resultData === null) ||
+              section?.result === null)
+        );
+
+        return hasCompletedSections && (
+          <OptimizedSessionMarket
+            key={`completed-${name}`}
+            title={`${name} Completed`}
+            hideTotalBet={false}
+            stopAllHide={true}
+            profitLossData={matchDetail?.sessionProfitLoss}
+            sessionData={item}
+            hideResult={false}
+            currentMatch={matchDetail}
+            hideEditMaxButton={true}
+            cstmStyle={{ maxHeight: { sm: "40vh" } }}
+            section="completed"
+          />
+        );
+      });
+  }, [matchDetail]);
+
+  const renderCompletedCasinoMarkets = useMemo(() => {
+    if (!matchDetail?.updatedSesssionBettings) return null;
+
+    return Object.entries(matchDetail.updatedSesssionBettings)
+      .filter(([name]) => name === "cricketCasino")
+      .sort(customSortBySessionMarketName)
+      .flatMap(([name, item]: any) =>
+        item?.section
+          ?.filter(
+            (i: any) =>
+              i?.activeStatus !== "unSave" &&
+              (i?.isComplete || i?.activeStatus === "save") &&
+              i?.activeStatus !== "result"
+          )
+          ?.map((items: any) => (
+            <OptimizedCasinoMarket
+              key={`completed-casino-${items?.SelectionId}`}
+              title={items?.RunnerName || items?.name}
+              sessionData={items}
+              gtype={items?.gtype}
+              type={name}
+              profitLossData={matchDetail?.sessionProfitLoss}
+              section=" COMPLETED"
+            />
+          ))
+      );
+  }, [matchDetail]);
+
+  const renderActiveNonCasinoMarkets = useMemo(() => {
+    if (!matchDetail?.updatedSesssionBettings) return null;
+
+    return Object.entries(matchDetail.updatedSesssionBettings)
+      .filter(([name]) => name !== "cricketCasino")
+      .sort(customSortBySessionMarketName)
+      .map(([name, item]: any) => {
+        const hasActiveMarket = item?.section?.some(
+          (s: any) =>
+            !s?.isComplete &&
+            s?.activeStatus !== "unSave" &&
+            ((s?.resultData && s?.resultData === null) ||
+              s?.result === null)
+        );
+
+        return hasActiveMarket && (
+          <OptimizedSessionMarket
+            key={`active-${name}`}
+            title={`${name} Market`}
+            hideTotalBet={false}
+            stopAllHide={false}
+            profitLossData={matchDetail?.sessionProfitLoss}
+            sessionData={item}
+            hideResult={true}
+            currentMatch={matchDetail}
+            hideEditMaxButton={false}
+            section="market"
+            name={name}
+          />
+        );
+      });
+  }, [matchDetail]);
+
+  const renderActiveCasinoMarkets = useMemo(() => {
+    if (!matchDetail?.updatedSesssionBettings) return null;
+
+    return Object.entries(matchDetail.updatedSesssionBettings)
+      .filter(([name]) => name === "cricketCasino")
+      .sort(customSortBySessionMarketName)
+      .flatMap(([name, item]: any) =>
+        item?.section
+          ?.filter(
+            (i: any) => i?.activeStatus !== "unSave" && !i?.isComplete
+          )
+          ?.map((items: any) => (
+            <OptimizedCasinoMarket
+              key={`active-casino-${items?.SelectionId}`}
+              title={items?.RunnerName || items?.name}
+              sessionData={items}
+              gtype={items?.gtype}
+              type={name}
+              profitLossData={matchDetail?.sessionProfitLoss}
+              section=""
+            />
+          ))
+      );
+  }, [matchDetail]);
+
+  const renderDeclaredNonCasinoMarkets = useMemo(() => {
+    if (!matchDetail?.updatedSesssionBettings) return null;
+
+    return Object.entries(matchDetail.updatedSesssionBettings)
+      .filter(([name]) => name !== "cricketCasino")
+      .sort(customSortBySessionMarketName)
+      .map(([name, item]: any) => {
+        const hasDeclaredSections = item?.section?.some(
+          (s: any) =>
+            (s?.resultData && s?.resultData !== null) ||
+            s?.result !== null
+        );
+
+        return hasDeclaredSections && (
+          <OptimizedSessionMarket
+            key={`declared-${name}`}
+            title={`${name} Declared`}
+            hideTotalBet={false}
+            stopAllHide={true}
+            profitLossData={matchDetail?.sessionProfitLoss}
+            sessionData={item}
+            hideResult={false}
+            currentMatch={matchDetail}
+            hideEditMaxButton={true}
+            cstmStyle={{ maxHeight: { sm: "40vh" } }}
+            section="declared"
+          />
+        );
+      });
+  }, [matchDetail]);
+
+  const renderDeclaredCasinoMarkets = useMemo(() => {
+    if (!matchDetail?.updatedSesssionBettings) return null;
+
+    return Object.entries(matchDetail.updatedSesssionBettings)
+      .filter(([name]) => name === "cricketCasino")
+      .sort(customSortBySessionMarketName)
+      .flatMap(([name, item]: any) =>
+        item?.section
+          ?.filter(
+            (i: any) =>
+              i?.activeStatus !== "unSave" &&
+              i?.isComplete &&
+              i?.activeStatus === "result"
+          )
+          ?.map((items: any) => (
+            <OptimizedCasinoMarket
+              key={`declared-casino-${items?.SelectionId}`}
+              title={items?.RunnerName || items?.name}
+              sessionData={items}
+              gtype={items?.gtype}
+              type={name}
+              profitLossData={matchDetail?.sessionProfitLoss}
+              section=" DECLARED"
+            />
+          ))
+      );
+  }, [matchDetail]);
+
   return (
     <>
       <Stack
@@ -337,229 +590,18 @@ const SessionMarketDetail = () => {
         sx={{ marginTop: { lg: 0, xs: "5px" } }}
       >
         <Box sx={{ width: { lg: "70%" } }}>
-          {matchDetail?.apiSession &&
-            Object.entries(matchDetail.apiSession)
-              .filter(([name]) => name === "session" || name === "oddEven")
-              .sort(customSortBySessionMarketName)
-              .map(([name, item]: any) => {
-                const hasValidSections = item?.section?.some(
-                  (section: any) =>
-                    !section?.activeStatus || section?.activeStatus === "unSave"
-                );
-
-                return (
-                  hasValidSections && (
-                    <SessionMarketLive
-                      key={name}
-                      title={item?.mname || name}
-                      sessionData={item}
-                      type={name}
-                      currentMatch={matchDetail}
-                    />
-                  )
-                );
-              })}
+          {renderLiveSessionMarkets}
         </Box>
         <Box sx={{ width: { lg: "70%" } }}>
-          {matchDetail?.apiSession &&
-            Object.entries(matchDetail?.apiSession)
-              ?.filter(([name]) => !["session", "oddEven"].includes(name))
-              ?.sort(customSortBySessionMarketName)
-              ?.map(([name, item]: any) => {
-                const filteredSections =
-                  item?.section?.filter(
-                    (i: any) => !i?.activeStatus || i?.activeStatus === "unSave"
-                  ) || [];
-
-                if (!filteredSections.length) return null;
-                return name === "cricketCasino" ? (
-                  <Fragment key={name}>
-                    {filteredSections.map((items: any) => (
-                      <CasinoMarketLive
-                        key={items?.SelectionId}
-                        title={items?.RunnerName || items?.name}
-                        sessionData={items}
-                        currentMatch={matchDetail}
-                        gtype={items?.gtype}
-                        type={name}
-                      />
-                    ))}
-                  </Fragment>
-                ) : (
-                  <SessionMarketLive
-                    key={name}
-                    title={item?.mname || name}
-                    sessionData={item}
-                    type={name}
-                    currentMatch={matchDetail}
-                  />
-                );
-              })}
+          {renderOtherMarkets}
         </Box>
         <Box sx={{ width: { lg: "100%" } }}>
-          {matchDetail?.updatedSesssionBettings &&
-            Object.entries(matchDetail.updatedSesssionBettings)
-              .filter(([name]) => name !== "cricketCasino")
-              .sort(customSortBySessionMarketName)
-              .map(([name, item]: any) => {
-                const hasCompletedSections = item?.section?.some(
-                  (section: any) =>
-                    section?.isComplete &&
-                    section?.activeStatus !== "unSave" &&
-                    ((section?.resultData && section?.resultData === null) ||
-                      section?.result === null)
-                );
-
-                if (!hasCompletedSections) return null;
-
-                return (
-                  <SessionMarket
-                    key={name}
-                    title={`${name} Completed`}
-                    hideTotalBet={false}
-                    stopAllHide={true}
-                    profitLossData={matchDetail?.sessionProfitLoss}
-                    sessionData={item}
-                    hideResult={false}
-                    currentMatch={matchDetail}
-                    hideEditMaxButton={true}
-                    cstmStyle={{ maxHeight: { sm: "40vh" } }}
-                    section="completed"
-                  />
-                );
-              })}
-
-          {matchDetail?.updatedSesssionBettings &&
-            Object.entries(matchDetail?.updatedSesssionBettings)
-              ?.filter(([name]: any) => name === "cricketCasino")
-              ?.sort(customSortBySessionMarketName)
-              ?.map(([name, item]: any) =>
-                item?.section
-                  ?.filter(
-                    (i: any) =>
-                      i?.activeStatus !== "unSave" &&
-                      (i?.isComplete || i?.activeStatus === "save") &&
-                      i?.activeStatus !== "result"
-                  )
-                  ?.map((items: any) => (
-                    <CasinoMarket
-                      key={items?.SelectionId}
-                      title={items?.RunnerName || items?.name}
-                      sessionData={items}
-                      gtype={items?.gtype}
-                      type={name}
-                      profitLossData={matchDetail?.sessionProfitLoss}
-                      section=" COMPLETED"
-                    />
-                  ))
-              )}
-          {matchDetail?.updatedSesssionBettings &&
-            Object.entries(matchDetail.updatedSesssionBettings)
-              .filter(([name]) => name !== "cricketCasino")
-              .sort(customSortBySessionMarketName)
-              .map(([name, item]: any) => {
-                const hasActiveMarket = item?.section?.some(
-                  (s: any) =>
-                    !s?.isComplete &&
-                    s?.activeStatus !== "unSave" &&
-                    ((s?.resultData && s?.resultData === null) ||
-                      s?.result === null)
-                );
-
-                if (!hasActiveMarket) return null;
-
-                return (
-                  <SessionMarket
-                    key={name}
-                    title={`${name} Market`}
-                    hideTotalBet={false}
-                    stopAllHide={false}
-                    profitLossData={matchDetail?.sessionProfitLoss}
-                    sessionData={item}
-                    hideResult={true}
-                    currentMatch={matchDetail}
-                    hideEditMaxButton={false}
-                    section="market"
-                    name={name}
-                  />
-                );
-              })}
-
-          {matchDetail?.updatedSesssionBettings &&
-            Object.entries(matchDetail?.updatedSesssionBettings)
-              ?.filter(([name]: any) => name === "cricketCasino")
-              ?.sort(customSortBySessionMarketName)
-              ?.map(([name, item]: any) =>
-                item?.section
-                  ?.filter(
-                    (i: any) => i?.activeStatus !== "unSave" && !i?.isComplete
-                  )
-                  ?.map((items: any) => (
-                    <CasinoMarket
-                      key={items?.SelectionId}
-                      title={items?.RunnerName || items?.name}
-                      sessionData={items}
-                      gtype={items?.gtype}
-                      type={name}
-                      profitLossData={matchDetail?.sessionProfitLoss}
-                      section=""
-                    />
-                  ))
-              )}
-          {matchDetail?.updatedSesssionBettings &&
-            Object.entries(matchDetail.updatedSesssionBettings)
-              .filter(([name]) => name !== "cricketCasino")
-              .sort(customSortBySessionMarketName)
-              .map(([name, item]: any) => {
-                const hasDeclaredSections = item?.section?.some(
-                  (s: any) =>
-                    (s?.resultData && s?.resultData !== null) ||
-                    s?.result !== null
-                );
-
-                if (!hasDeclaredSections) return null;
-
-                return (
-                  <SessionMarket
-                    key={name}
-                    title={`${name} Declared`}
-                    hideTotalBet={false}
-                    stopAllHide={true}
-                    profitLossData={matchDetail?.sessionProfitLoss}
-                    sessionData={item}
-                    hideResult={false}
-                    currentMatch={matchDetail}
-                    hideEditMaxButton={true}
-                    cstmStyle={{ maxHeight: { sm: "40vh" } }}
-                    section="declared"
-                  />
-                );
-              })}
-
-          {matchDetail?.updatedSesssionBettings &&
-            Object.entries(matchDetail?.updatedSesssionBettings)
-              ?.filter(([name]: any) => name === "cricketCasino")
-              ?.sort(customSortBySessionMarketName)
-              ?.map(([name, item]: any) =>
-                item?.section
-                  ?.filter(
-                    (i: any) =>
-                      i?.activeStatus !== "unSave" &&
-                      i?.isComplete &&
-                      i?.activeStatus === "result"
-                  )
-                  ?.map((items: any) => (
-                    <CasinoMarket
-                      key={items?.SelectionId}
-                      title={items?.RunnerName || items?.name}
-                      sessionData={items}
-                      gtype={items?.gtype}
-                      type={name}
-                      profitLossData={matchDetail?.sessionProfitLoss}
-                      section=" DECLARED"
-                    />
-                  ))
-              )}
+          {renderCompletedNonCasinoMarkets}
+          {renderCompletedCasinoMarkets}
+          {renderActiveNonCasinoMarkets}
+          {renderActiveCasinoMarkets}
+          {renderDeclaredNonCasinoMarkets}
+          {renderDeclaredCasinoMarkets}
         </Box>
       </Stack>
       {sessionProLoss?.length > 0 && (
@@ -594,3 +636,4 @@ const SessionMarketDetail = () => {
 };
 
 export default memo(SessionMarketDetail);
+
