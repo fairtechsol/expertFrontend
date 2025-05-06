@@ -1,4 +1,5 @@
 import { Box, Typography } from "@mui/material";
+import { memo } from "react";
 import { useDispatch } from "react-redux";
 import {
   getSessionProfitLossAfterDeclare,
@@ -7,7 +8,6 @@ import {
 import { AppDispatch } from "../../store/store";
 import StyledImage from "../Common/StyledImages";
 import { formatToINR } from "../helper";
-import { memo } from "react";
 
 const SessionResultComponent = ({
   setShowPopup,
@@ -149,6 +149,7 @@ const SessionResultComponent = ({
                   sx={{
                     borderTop: "2px solid white",
                     background: "#FFFFFF",
+                    cursor: "pointer",
                   }}
                   onClick={() => {
                     setBetId(item?.betId?.id);

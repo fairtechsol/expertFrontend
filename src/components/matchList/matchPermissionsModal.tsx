@@ -92,7 +92,7 @@ const MatchPermissionsModal = ({
               place="1"
               cursor="default"
             />
-            {isCricketOrPolitics && (
+            {isCricket && (
               <MatchListProfitLoss
                 containerStyle={{
                   minWidth: { xs: "4%", sm: "12px" },

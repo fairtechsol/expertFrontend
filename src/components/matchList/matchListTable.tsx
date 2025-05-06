@@ -1,8 +1,8 @@
 import { Box, Typography, useMediaQuery } from "@mui/material";
 import ModalMUI from "@mui/material/Modal";
 import moment from "moment";
-import { memo, useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { memo, useEffect, useMemo, useState } from "react";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { DownGIcon } from "../../assets";
 import { getMatchListSessionProfitLoss } from "../../store/actions/match/matchAction";
@@ -27,8 +27,21 @@ interface TimeLeft {
 const MatchListTable = ({ data, index, currentPage }: any) => {
   const navigate = useNavigate();
   const dispatch: AppDispatch = useDispatch();
-  const { profileDetail } = useSelector(
-    (state: RootState) => state.user.profile
+  const {
+    allPrivilege,
+    addMatchPrivilege,
+    sessionMatchPrivilege,
+    betFairMatchPrivilege,
+  } = useSelector(
+    (state: RootState) => ({
+      allPrivilege: state.user.profile.profileDetail?.allPrivilege,
+      addMatchPrivilege: state.user.profile.profileDetail?.addMatchPrivilege,
+      sessionMatchPrivilege:
+        state.user.profile.profileDetail?.sessionMatchPrivilege,
+      betFairMatchPrivilege:
+        state.user.profile.profileDetail?.betFairMatchPrivilege,
+    }),
+    shallowEqual
   );
   const { sessionProLoss } = useSelector((state: RootState) => state.matchList);
   const [showPopup, setShowPopup] = useState(false);
@@ -97,6 +110,15 @@ const MatchListTable = ({ data, index, currentPage }: any) => {
     Number(timeLeft.days) === 0 &&
     Number(timeLeft.hours) === 0 &&
     Number(timeLeft.minutes) <= 60;
+
+  const canEdit = allPrivilege || addMatchPrivilege;
+  const canViewSession = allPrivilege || sessionMatchPrivilege;
+  const canViewBetFair = allPrivilege || betFairMatchPrivilege;
+
+  const isCricketOrPolitics = ["cricket", "politics"].includes(data?.matchType);
+  const isCricket = data?.matchType === "cricket";
+
+  const plData = useMemo(() => data?.pl?.[0], [data?.pl]);
 
   useEffect(() => {
     if (data) {
@@ -215,60 +237,40 @@ const MatchListTable = ({ data, index, currentPage }: any) => {
               alignItems: "center",
             }}
           >
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: {
-                  xs: "row",
-                  md: "row",
-                  sm: "row",
-                  lg: "row",
-                },
-                justifyContent: "center",
-
-                alignItems: "center",
-                marginTop: { sm: "5px", lg: "2.5px", md: 0 },
-                paddingRight: "5px",
-                flexWrap: { xs: "wrap", sm: "nowrap" },
-              }}
-            >
-              {data?.stopAt && (
+            {data?.stopAt && (
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  marginTop: { sm: "5px", lg: "2.5px", md: 0 },
+                  paddingRight: "5px",
+                  flexWrap: { xs: "wrap", sm: "nowrap" },
+                }}
+              >
                 <MatchListProfitLoss
                   updateMatchStatusLabel="Total P/L"
-                  updateMatchStatus={
-                    data?.pl &&
-                    data?.pl?.length > 0 &&
-                    data?.pl[0]?.totalProfitLoss
-                  }
+                  updateMatchStatus={plData?.totalProfitLoss}
                 />
-              )}
-              {data?.stopAt && (
                 <MatchListProfitLoss
-                  // onClick={() => handleMatchProfitLossClick(data?.id)}
                   updateMatchStatusLabel={"Comm."}
-                  updateMatchStatus={
-                    data?.pl && data?.pl?.length > 0 && data?.pl[0]?.commission
-                  }
+                  updateMatchStatus={plData?.commission}
                 />
-              )}
-              {data?.matchType === "cricket" && data?.stopAt && (
-                <MatchListProfitLoss
-                  onClick={() => {
-                    setMatchId(data?.id);
-                    handleMatchProfitLossClick(data?.id);
-                  }}
-                  updateMatchStatusLabel="Session P/L"
-                  updateMatchStatus={
-                    data?.pl &&
-                    data?.pl?.length > 0 &&
-                    data?.pl[0]?.sessionTotalProfitLoss
-                  }
-                  cursor="pointer"
-                />
-              )}
-            </Box>
+                {isCricket && (
+                  <MatchListProfitLoss
+                    onClick={() => {
+                      setMatchId(data?.id);
+                      handleMatchProfitLossClick(data?.id);
+                    }}
+                    updateMatchStatusLabel="Session P/L"
+                    updateMatchStatus={plData?.sessionTotalProfitLoss}
+                    cursor="pointer"
+                  />
+                )}
+              </Box>
+            )}
             <Box
-              display={"flex"}
               sx={{
                 width: "100%",
                 display: "flex",
@@ -282,73 +284,74 @@ const MatchListTable = ({ data, index, currentPage }: any) => {
                 flexWrap: "wrap",
               }}
             >
-              {(profileDetail?.allPrivilege ||
-                profileDetail?.betFairMatchPrivilege) && (
-                <CustomButton
-                  containerStyle={{
-                    margin: { xs: "2px", sm: "2px", md: "5px", lg: "5px" },
-                  }}
-                  onClick={() => {
-                    navigate(`/expert/betDetail/${data?.id}`);
-                  }}
-                  title="View Bet"
-                />
+              {canViewSession && (
+                <>
+                  <CustomButton
+                    containerStyle={{
+                      margin: { xs: "2px", sm: "2px", md: "5px", lg: "5px" },
+                    }}
+                    onClick={() => navigate(`/expert/betDetail/${data?.id}`)}
+                    title="View Bet"
+                  />
+                  {isCricketOrPolitics && (
+                    <>
+                      <CustomButton
+                        containerStyle={{
+                          margin: {
+                            xs: "2px",
+                            sm: "2px",
+                            md: "5px",
+                            lg: "5px",
+                          },
+                        }}
+                        onClick={() =>
+                          navigate(
+                            `/expert/sessionBetList/${data?.id}/${data?.marketId}`
+                          )
+                        }
+                        title="View Session"
+                      />
+                      <CustomButton
+                        containerStyle={{
+                          margin: {
+                            xs: "2px",
+                            sm: "2px",
+                            md: "5px",
+                            lg: "5px",
+                          },
+                        }}
+                        onClick={() =>
+                          navigate(
+                            `/expert/session/${data?.id}/${data?.marketId}`
+                          )
+                        }
+                        title="Expert Session"
+                      />
+                    </>
+                  )}
+                </>
               )}
-              {["cricket", "politics"].includes(data?.matchType) &&
-                (profileDetail?.allPrivilege ||
-                  profileDetail?.sessionMatchPrivilege) && (
-                  <CustomButton
-                    containerStyle={{
-                      margin: { xs: "2px", sm: "2px", md: "5px", lg: "5px" },
-                    }}
-                    onClick={() => {
-                      navigate(
-                        `/expert/sessionBetList/${data?.id}/${data?.marketId}`
-                      );
-                    }}
-                    title="View Session"
-                  />
-                )}
-              {["cricket", "politics"].includes(data?.matchType) &&
-                (profileDetail?.allPrivilege ||
-                  profileDetail?.sessionMatchPrivilege) && (
-                  <CustomButton
-                    containerStyle={{
-                      margin: { xs: "2px", sm: "2px", md: "5px", lg: "5px" },
-                    }}
-                    onClick={() => {
-                      navigate(`/expert/session/${data?.id}/${data?.marketId}`);
-                    }}
-                    title="Expert Session"
-                  />
-                )}
-              {(profileDetail?.allPrivilege ||
-                profileDetail?.betFairMatchPrivilege) && (
+              {canViewBetFair && (
                 <CustomButton
                   containerStyle={{
                     margin: { xs: "2px", sm: "2px", md: "5px", lg: "5px" },
                   }}
-                  onClick={() => {
-                    if (["cricket", "politics"].includes(data?.matchType)) {
-                      navigate(`/expert/market/${data?.id}/${data?.marketId}`);
-                    } else {
-                      navigate(
-                        `/expert/betOdds/otherGames/${data?.id}/${data?.marketId}`
-                      );
-                    }
-                  }}
+                  onClick={() =>
+                    isCricketOrPolitics
+                      ? navigate(`/expert/market/${data?.id}/${data?.marketId}`)
+                      : navigate(
+                          `/expert/betOdds/otherGames/${data?.id}/${data?.marketId}`
+                        )
+                  }
                   title="View Match"
                 />
               )}
-              {(profileDetail?.allPrivilege ||
-                profileDetail?.addMatchPrivilege) && (
+              {canEdit && (
                 <CustomButton
                   containerStyle={{
                     margin: { xs: "2px", sm: "2px", md: "5px", lg: "5px" },
                   }}
-                  onClick={() => {
-                    navigate(`/expert/edit_match/${data?.id}`);
-                  }}
+                  onClick={() => navigate(`/expert/edit_match/${data?.id}`)}
                   title="Edit"
                 />
               )}
