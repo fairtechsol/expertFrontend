@@ -2,18 +2,6 @@ import { Box, CircularProgress, Typography } from "@mui/material";
 import { memo } from "react";
 import { BroadCast } from "../../assets";
 
-interface SmallBoxProps {
-  color: string | undefined;
-  title?: string;
-  width: any;
-  textSize: string;
-  onClick: (val: any) => void;
-  hide: boolean;
-  customStyle?: any;
-  loading?: boolean;
-  height: string;
-}
-
 const SmallBox = ({
   color,
   title,
@@ -24,7 +12,7 @@ const SmallBox = ({
   customStyle,
   loading,
   height,
-}: SmallBoxProps) => {
+}: any) => {
   return (
     <Box
       onClick={onClick}
