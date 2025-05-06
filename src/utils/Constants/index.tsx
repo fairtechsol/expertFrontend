@@ -72,7 +72,7 @@ export const ApiConstants = {
 };
 
 export const Constants = {
-  pageLimit: 30,
+  pageLimit: 20,
   apiBasePath: "https://devmaxbet9api.fairgame.club",
   expertSocketBasePath: "https://devexpertapi.fairgame.club",
   thirdParty: "https://devserviceapi.fairgame.club",
