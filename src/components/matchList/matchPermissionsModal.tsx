@@ -10,21 +10,6 @@ import CustomButton from "../Common/CustomButton";
 import { handleSorting } from "../helper";
 import MatchListProfitLoss from "./profitLoss";
 
-const containerStyles = {
-  width: "100%",
-  display: "flex",
-  background: (data: any, upcoming: boolean) =>
-    data?.stopAt ? "#f78f65" : !upcoming ? "#FFE094" : "#a6d482",
-  justifyContent: { xs: "end" },
-  minHeight: { xs: "auto", md: "auto", lg: "7rem" },
-};
-
-const buttonContainerStyles = {
-  display: "flex",
-  flexWrap: "wrap",
-  alignItems: "center",
-};
-
 const MatchPermissionsModal = ({
   showUserModal,
   handleMatchProfitLossClick,
@@ -78,52 +63,51 @@ const MatchPermissionsModal = ({
     return (
       <Box
         sx={{
+          flex: 1,
           display: "flex",
           justifyContent: "flex-end",
           alignItems: "end",
           flexDirection: "column",
         }}
       >
-        <Box
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            marginRight: "6px",
-            flexWrap: "wrap",
-            flexDirection: "column",
-          }}
-        >
-          {data?.stopAt && (
-            <>
+        {data?.stopAt && (
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              marginRight: "6px",
+              flexWrap: "wrap",
+              flexDirection: "column",
+            }}
+          >
+            <MatchListProfitLoss
+              updateMatchStatusLabel="Total Profit/Loss"
+              updateMatchStatus={plData?.totalProfitLoss}
+              place="1"
+              cursor="default"
+            />
+            <MatchListProfitLoss
+              updateMatchStatusLabel="Commission"
+              updateMatchStatus={plData?.commission}
+              place="1"
+              cursor="default"
+            />
+            {isCricketOrPolitics && (
               <MatchListProfitLoss
-                updateMatchStatusLabel="Total Profit/Loss"
-                updateMatchStatus={plData?.totalProfitLoss}
+                containerStyle={{
+                  minWidth: { xs: "4%", sm: "12px" },
+                  width: { xs: "9%", sm: "100px" },
+                  marginBottom: { xs: "1rem", sm: "1rem", md: 0 },
+                }}
+                onClick={() => handleMatchProfitLossClick(data?.id)}
+                updateMatchStatusLabel="Session Profit/Loss"
+                updateMatchStatus={plData?.sessionTotalProfitLoss}
                 place="1"
-                cursor="default"
+                cursor="pointer"
               />
-              <MatchListProfitLoss
-                updateMatchStatusLabel="Commission"
-                updateMatchStatus={plData?.commission}
-                place="1"
-                cursor="default"
-              />
-              {isCricketOrPolitics && (
-                <MatchListProfitLoss
-                  containerStyle={{
-                    minWidth: { xs: "4%", sm: "12px" },
-                    width: { xs: "9%", sm: "100px" },
-                    marginBottom: { xs: "1rem", sm: "1rem", md: 0 },
-                  }}
-                  onClick={() => handleMatchProfitLossClick(data?.id)}
-                  updateMatchStatusLabel="Session Profit/Loss"
-                  updateMatchStatus={plData?.sessionTotalProfitLoss}
-                  place="1"
-                  cursor="pointer"
-                />
-              )}
-            </>
-          )}
-        </Box>
+            )}
+          </Box>
+        )}
         <Box
           sx={{
             display: "flex",
@@ -135,14 +119,20 @@ const MatchPermissionsModal = ({
           {canViewSession && (
             <>
               <CustomButton
-                containerStyle={{ margin: "5px" }}
-                onClick={() => navigate(`/expert/betDetail/${data?.id}`)}
+                containerStyle={{
+                  margin: "5px",
+                }}
+                onClick={() => {
+                  navigate(`/expert/betDetail/${data?.id}`);
+                }}
                 title="View Bet"
               />
               {isCricketOrPolitics && (
                 <>
                   <CustomButton
-                    containerStyle={{ margin: "5px" }}
+                    containerStyle={{
+                      margin: "5px",
+                    }}
                     onClick={() =>
                       navigate(
                         `/expert/sessionBetList/${data?.id}/${data?.marketId}`
@@ -151,7 +141,9 @@ const MatchPermissionsModal = ({
                     title="View Session"
                   />
                   <CustomButton
-                    containerStyle={{ margin: "5px" }}
+                    containerStyle={{
+                      margin: "5px",
+                    }}
                     onClick={() =>
                       navigate(`/expert/session/${data?.id}/${data?.marketId}`)
                     }
@@ -163,7 +155,9 @@ const MatchPermissionsModal = ({
           )}
           {canViewBetFair && (
             <CustomButton
-              containerStyle={{ margin: "5px" }}
+              containerStyle={{
+                margin: "5px",
+              }}
               title="View Match"
               onClick={() => {
                 isCricketOrPolitics
@@ -176,7 +170,9 @@ const MatchPermissionsModal = ({
           )}
           {canEdit && (
             <CustomButton
-              containerStyle={{ margin: "5px" }}
+              containerStyle={{
+                margin: "5px",
+              }}
               onClick={() => navigate(`/expert/edit_match/${data?.id}`)}
               title="Edit"
             />
@@ -198,11 +194,24 @@ const MatchPermissionsModal = ({
   return (
     <Box
       sx={{
-        ...containerStyles,
-        background: containerStyles.background(data, upcoming),
+        width: "100%",
+        display: "flex",
+        background: data?.stopAt
+          ? "#f78f65"
+          : !upcoming
+          ? "#FFE094"
+          : "#a6d482",
+        justifyContent: { xs: "end" },
+        minHeight: "auto",
       }}
     >
-      <Box sx={buttonContainerStyles}>
+      <Box
+        sx={{
+          display: "flex",
+          flexWrap: "wrap",
+          alignItems: "center",
+        }}
+      >
         {data?.eventId?.includes("manual") &&
           sortedBettings?.map((betting: any) => (
             <BoxButtonWithBettings
