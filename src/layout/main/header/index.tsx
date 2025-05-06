@@ -2,7 +2,7 @@ import { AppBar, Box, useMediaQuery, useTheme } from "@mui/material";
 import ModalMUI from "@mui/material/Modal";
 import { memo, useEffect, useState } from "react";
 import { GiTatteredBanner } from "react-icons/gi";
-import { useDispatch, useSelector } from "react-redux";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";
 import { FgLogo, NotiBadge, Users } from "../../../assets";
 import StyledImage from "../../../components/Common/StyledImages";
@@ -22,8 +22,25 @@ const Header1 = () => {
   const matchesMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const navigate = useNavigate();
   const dispatch: AppDispatch = useDispatch();
-  const { profileDetail, loggedUserCount } = useSelector(
+  const { loggedUserCount } = useSelector(
     (state: RootState) => state.user.profile
+  );
+
+  const {
+    allPrivilege,
+    bookmakerMatchPrivilege,
+    sessionMatchPrivilege,
+    userName,
+  } = useSelector(
+    (state: RootState) => ({
+      allPrivilege: state.user.profile.profileDetail?.allPrivilege,
+      bookmakerMatchPrivilege:
+        state.user.profile.profileDetail?.bookmakerMatchPrivilege,
+      sessionMatchPrivilege:
+        state.user.profile.profileDetail?.sessionMatchPrivilege,
+      userName: state.user.profile.profileDetail?.userName,
+    }),
+    shallowEqual
   );
   const [visible, setVisible] = useState(false);
   const [visibleBanner, setVisibleBanner] = useState(false);
@@ -145,9 +162,9 @@ const Header1 = () => {
                   />
                 </Box>
                 <>
-                  {(profileDetail?.bookmakerMatchPrivilege ||
-                    profileDetail?.sessionMatchPrivilege ||
-                    profileDetail?.allPrivilege) && (
+                  {(bookmakerMatchPrivilege ||
+                    sessionMatchPrivilege ||
+                    allPrivilege) && (
                     <ButtonHead
                       onClick={(e: any) => {
                         setGameType(true);
@@ -325,7 +342,7 @@ const Header1 = () => {
                         alignItems: "center",
                       }}
                       image={"https://picsum.photos/200/300"}
-                      value1={profileDetail?.userName}
+                      value1={userName}
                     />
                   </Box>
                 </Box>
@@ -409,7 +426,7 @@ const Header1 = () => {
                     <BoxProfile
                       containerStyle={{ marginTop: "0" }}
                       image={"https://picsum.photos/200/300"}
-                      value1={profileDetail?.userName}
+                      value1={userName}
                     />
                   </Box>
                 </>
@@ -468,9 +485,9 @@ const Header1 = () => {
 
                 <Box>
                   <Box sx={{ display: "flex" }}>
-                    {(profileDetail?.bookmakerMatchPrivilege ||
-                      profileDetail?.sessionMatchPrivilege ||
-                      profileDetail?.allPrivilege) && (
+                    {(bookmakerMatchPrivilege ||
+                      sessionMatchPrivilege ||
+                      allPrivilege) && (
                       <ButtonHead
                         onClick={(e: any) => {
                           setGameType(true);

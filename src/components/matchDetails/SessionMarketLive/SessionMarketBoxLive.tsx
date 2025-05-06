@@ -1,12 +1,12 @@
 import { Box, Typography } from "@mui/material";
 import { Fragment, memo, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
+import { BroadCast } from "../../../assets";
 import { addSession } from "../../../store/actions/addSession";
 import { sessionBetLiveStatus } from "../../../store/actions/match/matchAction";
 import { AppDispatch } from "../../../store/store";
 import { formatNumber } from "../../helper";
-import SeparateBox from "../SeparateBox";
-import SmallBox from "../SmallBox";
+import SeparateBox from "./SeparateBox";
 
 const SessionMarketBoxLive = ({
   currentMatch,
@@ -109,14 +109,28 @@ const SessionMarketBoxLive = ({
             zIndex: 100,
           }}
         >
-          <SmallBox
-            hide={true}
+          <Box
             onClick={live ? (e: any) => e.preventDefault() : handleToggle}
-            textSize="8px"
-            width={{ lg: "20px", xs: "20px" }}
-            height="20px"
-            color={live ? undefined : "#FF4D4D"}
-          />
+            sx={{
+              width: "20px",
+              display: "flex",
+              marginRight: "2px",
+              justifyContent: "center",
+              paddingX: 1,
+              zIndex: 2,
+              alignItems: "center",
+              height: "20px",
+              background: live ? "#46e080" : "#FF4D4D",
+              borderRadius: "2px",
+              cursor: "pointer",
+            }}
+          >
+            <img
+              src={BroadCast}
+              style={{ height: "15px", width: "15px" }}
+              alt="stop"
+            />
+          </Box>
         </Box>
 
         {!["ACTIVE", "", undefined, null, "active", "open"].includes(

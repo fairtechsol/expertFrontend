@@ -270,26 +270,24 @@ const SessionMarket = ({
           justifyContent: "center",
         }}
       >
-        <>
-          <SessionMarketMaxBetAmountEdit
-            newData={{
-              matchId: currentMatch?.id,
-              name: title,
-              type: name,
-              minBet:
-                currentMatch?.sessionMaxBets?.[name + "_minBet"] ??
-                currentMatch?.betFairSessionMinBet,
-              maxBet:
-                currentMatch?.sessionMaxBets?.[name] ??
-                currentMatch?.betFairSessionMaxBet,
-              exposureLimit:
-                currentMatch?.sessionMaxBets?.[`${name}_exposureLimit`],
-            }}
-            onClickCancel={() => {
-              setSessionMaxBetAmountLimit(false);
-            }}
-          />
-        </>
+        <SessionMarketMaxBetAmountEdit
+          newData={{
+            matchId: currentMatch?.id,
+            name: title,
+            type: name,
+            minBet:
+              currentMatch?.sessionMaxBets?.[name + "_minBet"] ??
+              currentMatch?.betFairSessionMinBet,
+            maxBet:
+              currentMatch?.sessionMaxBets?.[name] ??
+              currentMatch?.betFairSessionMaxBet,
+            exposureLimit:
+              currentMatch?.sessionMaxBets?.[`${name}_exposureLimit`],
+          }}
+          onClickCancel={() => {
+            setSessionMaxBetAmountLimit(false);
+          }}
+        />
       </ModalMUI>
     </>
   );
