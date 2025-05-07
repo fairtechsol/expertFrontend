@@ -1,5 +1,5 @@
 import { Box, Stack } from "@mui/material";
-import { Fragment, memo, useCallback, useEffect, useMemo } from "react";
+import { Fragment, memo, useEffect, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import CasinoMarket from "../../components/matchDetails/CasinoMarket";
@@ -76,7 +76,7 @@ const SessionMarketDetail = () => {
     }
   };
 
-  const resultDeclared = useCallback((event: any) => {
+  const resultDeclared = (event: any) => {
     try {
       if (event?.matchId === state?.id && event?.isMatchDeclare) {
         navigate("/expert/match");
@@ -84,9 +84,9 @@ const SessionMarketDetail = () => {
     } catch (e) {
       console.log(e);
     }
-  }, [state?.id, navigate]);
+  };
 
-  const resultUnDeclared = useCallback((event: any) => {
+  const resultUnDeclared = (event: any) => {
     try {
       if (event?.matchId === state?.id) {
         dispatch(getMatchDetail(`${state?.id}?isMarketAllowed=false`));
@@ -94,7 +94,7 @@ const SessionMarketDetail = () => {
     } catch (e) {
       console.log(e);
     }
-  }, [state?.id]);
+  };
 
   const matchDeleteBet = (event: any) => {
     try {
