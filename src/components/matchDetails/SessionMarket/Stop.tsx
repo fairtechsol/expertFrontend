@@ -23,11 +23,11 @@ const Stop = ({ onClick, height, title, isCommissionActive }: StopProps) => {
 
   const displayTitle =
     limitToThreeWords(title).length >=
-    (matchesMobile ? 35 : matchesMiddle ? 13 : matchesLarge ? 20 : 25)
+      (matchesMobile ? 35 : matchesMiddle ? 13 : matchesLarge ? 20 : 25)
       ? `${limitToThreeWords(title).slice(
-          0,
-          matchesMobile ? 35 : matchesMiddle ? 13 : matchesLarge ? 20 : 25
-        )}...`
+        0,
+        matchesMobile ? 35 : matchesMiddle ? 13 : matchesLarge ? 20 : 25
+      )}...`
       : title;
 
   return (
@@ -74,7 +74,10 @@ const Stop = ({ onClick, height, title, isCommissionActive }: StopProps) => {
       <img
         src={BroadCast_}
         alt="stop"
-        style={{ height: "10px", width: "15px", backgroundSize: "contains" }}
+        width={15}
+        height={10}
+        style={{ backgroundSize: "contains", objectFit: "contain" }}
+
       />
     </Box>
   );

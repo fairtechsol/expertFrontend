@@ -63,8 +63,10 @@ const SmallBox = ({
       {hide && !loading && (
         <img
           src={BroadCast}
-          style={{ height: "15px", width: "15px" }}
+          height={15}
+          width={15}
           alt="stop"
+          style={{ objectFit: "contain" }}
         />
       )}
     </Box>

@@ -15,7 +15,7 @@ import {
 } from "@mui/material";
 import { useFormik } from "formik";
 import { memo, useEffect } from "react";
-import { TiDelete } from "react-icons/ti";
+import { TiDelete } from 'react-icons/ti';
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";

@@ -61,7 +61,9 @@ const LiveStatusButtonBox = ({
       {hide && !loading && (
         <img
           src={BroadCast}
-          style={{ height: "15px", width: "15px" }}
+          height={15}
+          width={15}
+          style={{ objectFit: "contain" }}
           alt="stop"
         />
       )}

@@ -222,8 +222,11 @@ const MatchOdds = ({ currentMatch, matchOddsLive }: any) => {
                 >
                   <img
                     src={edit}
-                    style={{ width: "18px", height: "12px" }}
+                    width={18}
+                    height={12}
+                    // style={{ width: "18px", height: "12px" }}
                     alt="edit"
+                    style={{ objectFit: "contain" }}
                   />
                 </Box>
               </Box>
@@ -329,7 +332,7 @@ const MatchOdds = ({ currentMatch, matchOddsLive }: any) => {
                   <Typography sx={{ color: "#fff", textAlign: "center" }}>
                     RESULT{" "}
                     {currentMatch?.stopAt ||
-                    currentMatch?.activeStatus === "result"
+                      currentMatch?.activeStatus === "result"
                       ? "DECLARED"
                       : currentMatch?.resultStatus}
                   </Typography>

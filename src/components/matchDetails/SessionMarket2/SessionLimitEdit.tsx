@@ -104,7 +104,9 @@ const SessionLimitEdit = (props: any) => {
           }}
           src={CancelDark}
           alt="cancel"
-          style={{ width: "25px", height: "25px", cursor: "pointer" }}
+          width={25}
+          height={25}
+          style={{ cursor: "pointer" }}
         />
       </Box>
 

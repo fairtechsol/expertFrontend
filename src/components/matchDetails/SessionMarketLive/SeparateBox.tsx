@@ -78,7 +78,7 @@ const SeparateBox = ({
           )}
         </Box>
       ) : (
-        <img src={Lock} style={{ width: "10px", height: "15px" }} alt="lock" />
+        <img src={Lock} width={10} height={15} alt="lock" />
       )}
     </Box>
   );

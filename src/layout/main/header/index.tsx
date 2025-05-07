@@ -158,6 +158,7 @@ const Header1 = () => {
                       height: { lg: "40px", xs: "30px", md: "40px" },
                       width: "auto",
                       marginLeft: { lg: "15px", xs: "5px" },
+
                     }}
                   />
                 </Box>
@@ -165,31 +166,31 @@ const Header1 = () => {
                   {(bookmakerMatchPrivilege ||
                     sessionMatchPrivilege ||
                     allPrivilege) && (
-                    <ButtonHead
-                      onClick={(e: any) => {
-                        setGameType(true);
-                        setSelected(1);
-                        setAnchor1(e?.currentTarget);
-                      }}
-                      title={!dropDownLoading ? "ALL MATCH" : "Loading..."}
-                      boxStyle={{
-                        backgroundColor:
-                          currentSelected == 1 && (gameType || anchor)
-                            ? "white"
-                            : "transparent",
-                        py: "5px",
-                        borderRadius: "5px",
-                        marginLeft: { lg: "15px", xs: "1px" },
-                        cursor: "pointer",
-                      }}
-                      titleStyle={{
-                        color:
-                          currentSelected == 1 && (gameType || anchor)
-                            ? "green"
-                            : "white",
-                      }}
-                    />
-                  )}
+                      <ButtonHead
+                        onClick={(e: any) => {
+                          setGameType(true);
+                          setSelected(1);
+                          setAnchor1(e?.currentTarget);
+                        }}
+                        title={!dropDownLoading ? "ALL MATCH" : "Loading..."}
+                        boxStyle={{
+                          backgroundColor:
+                            currentSelected == 1 && (gameType || anchor)
+                              ? "white"
+                              : "transparent",
+                          py: "5px",
+                          borderRadius: "5px",
+                          marginLeft: { lg: "15px", xs: "1px" },
+                          cursor: "pointer",
+                        }}
+                        titleStyle={{
+                          color:
+                            currentSelected == 1 && (gameType || anchor)
+                              ? "green"
+                              : "white",
+                        }}
+                      />
+                    )}
                   <NavLink
                     to={"/expert/match"}
                     style={{ textDecoration: "none" }}
@@ -202,7 +203,7 @@ const Header1 = () => {
                       boxStyle={{
                         backgroundColor:
                           currentSelected !== 1 &&
-                          window.location.pathname.split("/")[2] == "match"
+                            window.location.pathname.split("/")[2] == "match"
                             ? "white"
                             : "transparent",
                         py: "5px",
@@ -213,7 +214,7 @@ const Header1 = () => {
                       titleStyle={{
                         color:
                           currentSelected !== 1 &&
-                          window.location.pathname.split("/")[2] == "match"
+                            window.location.pathname.split("/")[2] == "match"
                             ? "green"
                             : "white",
                       }}
@@ -231,7 +232,7 @@ const Header1 = () => {
                       boxStyle={{
                         backgroundColor:
                           currentSelected !== 1 &&
-                          window.location.pathname.split("/")[2] == "race"
+                            window.location.pathname.split("/")[2] == "race"
                             ? "white"
                             : "transparent",
                         py: "5px",
@@ -242,7 +243,7 @@ const Header1 = () => {
                       titleStyle={{
                         color:
                           currentSelected !== 1 &&
-                          window.location.pathname.split("/")[2] == "race"
+                            window.location.pathname.split("/")[2] == "race"
                             ? "green"
                             : "white",
                       }}
@@ -261,7 +262,7 @@ const Header1 = () => {
                       boxStyle={{
                         backgroundColor:
                           currentSelected !== 1 &&
-                          window.location.pathname.split("/")[2] == "tab"
+                            window.location.pathname.split("/")[2] == "tab"
                             ? "white"
                             : "transparent",
                         py: "5px",
@@ -272,7 +273,7 @@ const Header1 = () => {
                       titleStyle={{
                         color:
                           currentSelected !== 1 &&
-                          window.location.pathname.split("/")[2] == "tab"
+                            window.location.pathname.split("/")[2] == "tab"
                             ? "green"
                             : "white",
                       }}
@@ -488,30 +489,30 @@ const Header1 = () => {
                     {(bookmakerMatchPrivilege ||
                       sessionMatchPrivilege ||
                       allPrivilege) && (
-                      <ButtonHead
-                        onClick={(e: any) => {
-                          setGameType(true);
-                          setSelected(1);
-                          setAnchor1(e?.currentTarget);
-                        }}
-                        title={!dropDownLoading ? "ALL MATCH" : "Loading..."}
-                        boxStyle={{
-                          backgroundColor:
-                            currentSelected == 1 && (gameType || anchor)
-                              ? "white"
-                              : "transparent",
-                          borderRadius: "5px",
-                          marginLeft: { lg: "15px", xs: "15px" },
-                          cursor: "pointer",
-                        }}
-                        titleStyle={{
-                          color:
-                            currentSelected == 1 && (gameType || anchor)
-                              ? "green"
-                              : "white",
-                        }}
-                      />
-                    )}
+                        <ButtonHead
+                          onClick={(e: any) => {
+                            setGameType(true);
+                            setSelected(1);
+                            setAnchor1(e?.currentTarget);
+                          }}
+                          title={!dropDownLoading ? "ALL MATCH" : "Loading..."}
+                          boxStyle={{
+                            backgroundColor:
+                              currentSelected == 1 && (gameType || anchor)
+                                ? "white"
+                                : "transparent",
+                            borderRadius: "5px",
+                            marginLeft: { lg: "15px", xs: "15px" },
+                            cursor: "pointer",
+                          }}
+                          titleStyle={{
+                            color:
+                              currentSelected == 1 && (gameType || anchor)
+                                ? "green"
+                                : "white",
+                          }}
+                        />
+                      )}
 
                     <NavLink
                       to={"/expert/match"}
@@ -525,7 +526,7 @@ const Header1 = () => {
                         boxStyle={{
                           backgroundColor:
                             currentSelected !== 1 &&
-                            window.location.pathname.split("/")[2] == "match"
+                              window.location.pathname.split("/")[2] == "match"
                               ? "white"
                               : "transparent",
                           py: "5px",
@@ -536,7 +537,7 @@ const Header1 = () => {
                         titleStyle={{
                           color:
                             currentSelected !== 1 &&
-                            window.location.pathname.split("/")[2] == "match"
+                              window.location.pathname.split("/")[2] == "match"
                               ? "green"
                               : "white",
                         }}
@@ -548,12 +549,12 @@ const Header1 = () => {
                       style={{ textDecoration: "none" }}
                     >
                       <ButtonHead
-                        onClick={() => {}}
+                        onClick={() => { }}
                         title="RACE LIST"
                         boxStyle={{
                           backgroundColor:
                             currentSelected !== 1 &&
-                            window.location.pathname.split("/")[2] == "race"
+                              window.location.pathname.split("/")[2] == "race"
                               ? "white"
                               : "transparent",
                           py: "5px",
@@ -564,7 +565,7 @@ const Header1 = () => {
                         titleStyle={{
                           color:
                             currentSelected !== 1 &&
-                            window.location.pathname.split("/")[2] == "race"
+                              window.location.pathname.split("/")[2] == "race"
                               ? "green"
                               : "white",
                         }}
@@ -575,12 +576,12 @@ const Header1 = () => {
                       style={{ textDecoration: "none" }}
                     >
                       <ButtonHead
-                        onClick={() => {}}
+                        onClick={() => { }}
                         title={"TAB LIST"}
                         boxStyle={{
                           backgroundColor:
                             currentSelected !== 1 &&
-                            window.location.pathname.split("/")[2] == "tab"
+                              window.location.pathname.split("/")[2] == "tab"
                               ? "white"
                               : "transparent",
                           py: "5px",
@@ -591,7 +592,7 @@ const Header1 = () => {
                         titleStyle={{
                           color:
                             currentSelected !== 1 &&
-                            window.location.pathname.split("/")[2] == "tab"
+                              window.location.pathname.split("/")[2] == "tab"
                               ? "green"
                               : "white",
                         }}

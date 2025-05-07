@@ -179,7 +179,9 @@ const ResultComponentTournamentMarket = ({
           }}
           src={CancelDark}
           alt="cancel"
-          style={{ width: "15px", height: "15px", cursor: "pointer" }}
+          width={15}
+          height={15}
+          style={{ cursor: "pointer" }}
         />
       </Box>
       <Box sx={{ padding: 0 }}>

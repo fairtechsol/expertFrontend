@@ -1,10 +1,10 @@
 import { Box, Typography } from "@mui/material";
+import { memo } from "react";
 import { useDispatch } from "react-redux";
 import { resetMatchListSessionProLoss } from "../../store/actions/match/matchAction";
 import { AppDispatch } from "../../store/store";
 import StyledImage from "../Common/StyledImages";
 import { formatToINR } from "../helper";
-import { memo } from "react";
 
 const SessionResultComponent = ({ setShowPopup, sessionResults }: any) => {
   const dispatch: AppDispatch = useDispatch();

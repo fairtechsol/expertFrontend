@@ -123,7 +123,7 @@ const TabListTable = ({ data, index, currentPage }: TabListTableProps) => {
             <StyledImage
               src={IconConstants[data?.matchType]}
               alt={data?.matchType}
-              sx={{ height: "20px", width: "20px", margin: "0.5rem" }}
+              sx={{ height: "20px", width: "20px", margin: "0.5rem", }}
             />
             <Typography
               variant="h5"
@@ -186,7 +186,7 @@ const TabListTable = ({ data, index, currentPage }: TabListTableProps) => {
               }}
             >
               {tabList?.length > 0 &&
-              tabList.some((tab: any) => tab.matchId === data.id) ? (
+                tabList.some((tab: any) => tab.matchId === data.id) ? (
                 <>
                   <CustomButton
                     containerStyle={{ margin: "5px" }}

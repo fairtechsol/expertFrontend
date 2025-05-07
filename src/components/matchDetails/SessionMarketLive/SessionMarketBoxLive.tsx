@@ -127,8 +127,10 @@ const SessionMarketBoxLive = ({
           >
             <img
               src={BroadCast}
-              style={{ height: "15px", width: "15px" }}
+              width={15}
+              height={15}
               alt="stop"
+              style={{ objectFit: "contain" }}
             />
           </Box>
         </Box>

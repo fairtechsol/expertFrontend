@@ -5,7 +5,7 @@ import HeaderDropdown from "./HeaderDropdown";
 
 const ActiveUsers = ({ image, value }: any) => {
   const [anchorEl, setAnchorEl] = useState<any>(null);
-  useEffect(() => {}, [anchorEl]);
+  useEffect(() => { }, [anchorEl]);
   const handleClose = () => {
     setAnchorEl(0);
   };
@@ -48,7 +48,7 @@ const ActiveUsers = ({ image, value }: any) => {
           >
             <StyledImage
               src={image}
-              sx={{ height: "15px", width: "15px" }}
+              sx={{ height: "15px", width: "15px", }}
               alt="image"
             />
           </Box>
