@@ -3,7 +3,7 @@ import ModalMUI from "@mui/material/Modal";
 import Typography from "@mui/material/Typography";
 import { useTheme } from "@mui/material/styles";
 import { useMediaQuery } from "@mui/system";
-import { memo, useState } from "react";
+import { Fragment, memo, useState } from "react";
 import { useDispatch } from "react-redux";
 import { FixedSizeList as List } from "react-window";
 import { ARROWUP, edit } from "../../../assets";
@@ -30,8 +30,8 @@ const Row = memo(
     if (!match?.id) return null;
 
     return (
-      <div style={style}>
-        <Box key={match.SelectionId}>
+      <Fragment key={match.SelectionId}>
+        <Box style={style}>
           <SessionMarketBox
             hideResult={data.hideResult}
             hideTotalBet={data.hideTotalBet}
@@ -41,9 +41,9 @@ const Row = memo(
             hideEditMaxButton={data.hideEditMaxButton}
             section={data.section}
           />
-          <Divider />
         </Box>
-      </div>
+        <Divider />
+      </Fragment>
     );
   }
 );
@@ -71,15 +71,15 @@ const SessionMarket = ({
   const handleFilter = (item: any) =>
     section === "market"
       ? !item?.isComplete &&
-      item?.activeStatus !== "unSave" &&
-      ((item?.resultData && item?.resultData === null) ||
-        item?.result === null)
-      : section === "completed"
-        ? item?.isComplete &&
         item?.activeStatus !== "unSave" &&
         ((item?.resultData && item?.resultData === null) ||
           item?.result === null)
-        : (item?.resultData && item?.resultData !== null) ||
+      : section === "completed"
+      ? item?.isComplete &&
+        item?.activeStatus !== "unSave" &&
+        ((item?.resultData && item?.resultData === null) ||
+          item?.result === null)
+      : (item?.resultData && item?.resultData !== null) ||
         item?.result !== null;
 
   return (
@@ -138,7 +138,7 @@ const SessionMarket = ({
                   marginLeft: "4px",
                   zIndex: "999",
                   cursor: "pointer",
-                  objectFit: "contain"
+                  objectFit: "contain",
                 }}
               />
             )}
@@ -228,9 +228,9 @@ const SessionMarket = ({
 
                   const dynamicHeight = matchesMobile
                     ? Math.min(
-                      filteredData.length * 30,
-                      window.innerHeight * 0.4
-                    )
+                        filteredData.length * 30,
+                        window.innerHeight * 0.4
+                      )
                     : filteredData.length * 30;
 
                   return (
