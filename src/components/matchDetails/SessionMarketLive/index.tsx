@@ -1,8 +1,37 @@
 import { Box, Typography } from "@mui/material";
-import { Fragment, memo, useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
+import { FixedSizeList as List } from "react-window";
 import { ARROWUP } from "../../../assets";
 import { formatToINR } from "../../helper";
 import SessionMarketBoxLive from "./SessionMarketBoxLive";
+
+const Row = memo(
+  ({
+    index,
+    style,
+    data,
+  }: {
+    index: number;
+    style: React.CSSProperties;
+    data: any;
+  }) => {
+    const match = data.items[index];
+
+    return (
+      <div style={style}>
+        <Box key={match.SelectionId}>
+          <SessionMarketBoxLive
+            currentMatch={data?.currentMatch}
+            newData={match}
+            index={index}
+            gtype={data?.gtype}
+            type={data?.type}
+          />
+        </Box>
+      </div>
+    );
+  }
+);
 
 const SessionMarketLive = ({ title, sessionData, currentMatch, type }: any) => {
   const [matchSessionData, setMatchSessionData] = useState(sessionData);
@@ -124,6 +153,40 @@ const SessionMarketLive = ({ title, sessionData, currentMatch, type }: any) => {
             }}
           >
             {matchSessionData?.length > 0 &&
+              (() => {
+                const filteredData = matchSessionData?.filter(
+                  (item: any) => !item?.id || item?.activeStatus === "unSave"
+                );
+
+                if (!filteredData.length) return null;
+
+                const dynamicHeight = filteredData.length * 25;
+
+                return (
+                  <div
+                    style={{
+                      width: "100%",
+                      height: `${dynamicHeight + 1}px`,
+                    }}
+                  >
+                    <List
+                      height={dynamicHeight + 1}
+                      width="100%"
+                      itemCount={filteredData.length}
+                      itemSize={25}
+                      itemData={{
+                        items: filteredData,
+                        gtype: sessionData?.gtype,
+                        type: type,
+                        currentMatch,
+                      }}
+                    >
+                      {Row}
+                    </List>
+                  </div>
+                );
+              })()}
+            {/* {matchSessionData?.length > 0 &&
               matchSessionData
                 ?.filter(
                   (item: any) => !item?.id || item?.activeStatus === "unSave"
@@ -140,7 +203,7 @@ const SessionMarketLive = ({ title, sessionData, currentMatch, type }: any) => {
                       />
                     </Fragment>
                   );
-                })}
+                })} */}
           </Box>
         </Box>
       )}
