@@ -186,24 +186,6 @@ const SessionMarketLive = ({ title, sessionData, currentMatch, type }: any) => {
                   </div>
                 );
               })()}
-            {/* {matchSessionData?.length > 0 &&
-              matchSessionData
-                ?.filter(
-                  (item: any) => !item?.id || item?.activeStatus === "unSave"
-                )
-                ?.map((match: any, index: any) => {
-                  return (
-                    <Fragment key={match?.SelectionId}>
-                      <SessionMarketBoxLive
-                        currentMatch={currentMatch}
-                        newData={match}
-                        index={index}
-                        gtype={sessionData?.gtype}
-                        type={type}
-                      />
-                    </Fragment>
-                  );
-                })} */}
           </Box>
         </Box>
       )}
