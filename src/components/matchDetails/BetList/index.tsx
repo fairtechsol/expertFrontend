@@ -622,7 +622,7 @@ const BetList = ({ tag, allBetRates, title, isMatchDeclare }: any) => {
             }}
           >
             <Typography
-              sx={{ fontSize: "8px", fontWeight: "700", color: "#B00000" }}
+              sx={{ fontSize: "8px", fontWeight: "700", color: "#FF1111" }}
             >
               Total Bet:&nbsp;
             </Typography>
