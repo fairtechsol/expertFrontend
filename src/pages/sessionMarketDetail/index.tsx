@@ -70,7 +70,7 @@ const SessionMarketDetail = () => {
     try {
       if (state?.id === event?.id) {
         dispatch(updateMatchRates(event));
-      } else return;
+      }
     } catch (e) {
       console.log(e);
     }
