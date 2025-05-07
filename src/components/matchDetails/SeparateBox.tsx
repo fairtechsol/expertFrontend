@@ -90,7 +90,8 @@ const SeparateBox = ({
         {[0, "0", undefined, null].includes(value) && (
           <img
             src={Lock}
-            style={{ width: "10px", height: "15px" }}
+            height={15}
+            width={10}
             alt="lock"
           />
         )}

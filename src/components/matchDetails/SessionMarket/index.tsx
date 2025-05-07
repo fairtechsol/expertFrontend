@@ -1,5 +1,7 @@
-import { Box, Typography, useTheme } from "@mui/material";
+import Box from "@mui/material/Box";
 import ModalMUI from "@mui/material/Modal";
+import Typography from "@mui/material/Typography";
+import { useTheme } from "@mui/material/styles";
 import { useMediaQuery } from "@mui/system";
 import { memo, useState } from "react";
 import { useDispatch } from "react-redux";
@@ -69,15 +71,15 @@ const SessionMarket = ({
   const handleFilter = (item: any) =>
     section === "market"
       ? !item?.isComplete &&
-        item?.activeStatus !== "unSave" &&
-        ((item?.resultData && item?.resultData === null) ||
-          item?.result === null)
+      item?.activeStatus !== "unSave" &&
+      ((item?.resultData && item?.resultData === null) ||
+        item?.result === null)
       : section === "completed"
-      ? item?.isComplete &&
+        ? item?.isComplete &&
         item?.activeStatus !== "unSave" &&
         ((item?.resultData && item?.resultData === null) ||
           item?.result === null)
-      : (item?.resultData && item?.resultData !== null) ||
+        : (item?.resultData && item?.resultData !== null) ||
         item?.result !== null;
 
   return (
@@ -136,6 +138,7 @@ const SessionMarket = ({
                   marginLeft: "4px",
                   zIndex: "999",
                   cursor: "pointer",
+                  objectFit: "contain"
                 }}
               />
             )}
@@ -225,9 +228,9 @@ const SessionMarket = ({
 
                   const dynamicHeight = matchesMobile
                     ? Math.min(
-                        filteredData.length * 30,
-                        window.innerHeight * 0.4
-                      )
+                      filteredData.length * 30,
+                      window.innerHeight * 0.4
+                    )
                     : filteredData.length * 30;
 
                   return (

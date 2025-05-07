@@ -264,7 +264,9 @@ const CustomSessionResult = ({ onClick, newData }: any) => {
         }}
         src={CancelDark}
         alt="Cancel"
-        style={{ width: "25px", height: "25px", cursor: "pointer" }}
+        height={25}
+        width={25}
+        style={{ cursor: "pointer" }}
       />
     </Box>
   );

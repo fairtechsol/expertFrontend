@@ -142,43 +142,43 @@ const MenutItemsComponent = ({
 
               {(profileDetail?.allPrivilege ||
                 profileDetail?.sessionMatchPrivilege) && (
-                <Box
-                  onClick={(e: any) => {
-                    e.stopPropagation();
-                    dispatch(matchDetailReset());
-                    dispatch(addsuccessReset());
-                    dispatch(sessionByIdReset());
-                    dispatch(resetPlacedBets());
-                    navigate("/expert/live", {
-                      state: {
-                        createSession: true,
-                        match: x,
-                      },
-                    });
-                    handleClose();
-                  }}
-                  sx={{
-                    marginTop: "5px",
-                    display: "flex",
-                    alignItems: "center",
-                  }}
-                >
-                  <Typography
+                  <Box
+                    onClick={(e: any) => {
+                      e.stopPropagation();
+                      dispatch(matchDetailReset());
+                      dispatch(addsuccessReset());
+                      dispatch(sessionByIdReset());
+                      dispatch(resetPlacedBets());
+                      navigate("/expert/live", {
+                        state: {
+                          createSession: true,
+                          match: x,
+                        },
+                      });
+                      handleClose();
+                    }}
                     sx={{
-                      fontSize: "12px",
-                      fontWeight: "600",
-                      cursor: "pointer",
+                      marginTop: "5px",
+                      display: "flex",
+                      alignItems: "center",
                     }}
                   >
-                    Create Session
-                  </Typography>
-                  <StyledImage
-                    src={ArrowLeft}
-                    alt="left"
-                    sx={{ width: "15px", height: "10px", marginLeft: "10px" }}
-                  />
-                </Box>
-              )}
+                    <Typography
+                      sx={{
+                        fontSize: "12px",
+                        fontWeight: "600",
+                        cursor: "pointer",
+                      }}
+                    >
+                      Create Session
+                    </Typography>
+                    <StyledImage
+                      src={ArrowLeft}
+                      alt="left"
+                      sx={{ width: "15px", height: "10px", marginLeft: "10px" }}
+                    />
+                  </Box>
+                )}
             </>
           )}
 

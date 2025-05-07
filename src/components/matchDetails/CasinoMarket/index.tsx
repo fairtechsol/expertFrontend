@@ -91,6 +91,7 @@ const CasinoMarket = ({ title, sessionData, profitLossData, section }: any) => {
                 marginLeft: "4px",
                 zIndex: "999",
                 cursor: "pointer",
+                objectFit: "contain"
               }}
             />
           )}
@@ -295,7 +296,7 @@ const CasinoMarket = ({ title, sessionData, profitLossData, section }: any) => {
                     totalBet =
                       sectionItem?.RunnerName == title
                         ? matchDetail?.sessionProfitLoss?.[sectionItem?.id]
-                            ?.totalBet || 0
+                          ?.totalBet || 0
                         : "";
                     return (
                       <Typography
@@ -338,13 +339,15 @@ const CasinoMarket = ({ title, sessionData, profitLossData, section }: any) => {
                 {sessionData?.result
                   ? sessionData?.resultData?.profitLoss ?? 0
                   : !profitLossData?.maxLoss
-                  ? "P/L"
-                  : profitLossData?.maxLoss ?? 0}
+                    ? "P/L"
+                    : profitLossData?.maxLoss ?? 0}
               </Typography>
               <img
                 src={UD}
                 alt="icon"
-                style={{ width: "10px", height: "10px", marginLeft: "4px" }}
+                height={10}
+                width={10}
+                style={{ marginLeft: "4px", objectFit: "contain" }}
               />
             </Box>
           </Box>

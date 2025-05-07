@@ -236,7 +236,9 @@ const CustomCasinoMarketResult = ({ onClick, newData }: any) => {
         }}
         src={CancelDark}
         alt="Cancel"
-        style={{ width: "25px", height: "25px", cursor: "pointer" }}
+        width={25}
+        height={25}
+        style={{ cursor: "pointer" }}
       />
     </Box>
   );
