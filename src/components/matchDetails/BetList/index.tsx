@@ -40,7 +40,7 @@ const MemoizedRow = memo(
     const betTypeDisplay =
       bet?.marketType === "oddEven"
         ? bet?.teamName?.match(/[-_](odd|even)$/i)?.[1]?.toUpperCase() ||
-          bet?.betType
+        bet?.betType
         : bet?.betType;
 
     return (
@@ -296,8 +296,8 @@ const MemoizedRow = memo(
               {bet.myStake
                 ? formatToINR(+bet.myStake)
                 : formatToINR(
-                    (+bet?.amount * +bet?.user?.fwPartnership || 0) / 100
-                  )}
+                  (+bet?.amount * +bet?.user?.fwPartnership || 0) / 100
+                )}
             </Typography>
           </Box>
 
@@ -567,9 +567,8 @@ const BetList = ({ tag, allBetRates, title, isMatchDeclare }: any) => {
           >
             <Box sx={{ padding: 2, textAlign: "center" }}>
               <Typography>
-                {`Are you sure you want to ${
-                  matchDetail?.stopAt ? "Un Declare" : "Declare"
-                } the final result?`}
+                {`Are you sure you want to ${matchDetail?.stopAt ? "Un Declare" : "Declare"
+                  } the final result?`}
               </Typography>
               <Box
                 sx={{
@@ -623,7 +622,7 @@ const BetList = ({ tag, allBetRates, title, isMatchDeclare }: any) => {
             }}
           >
             <Typography
-              sx={{ fontSize: "8px", fontWeight: "700", color: "#FF1111" }}
+              sx={{ fontSize: "8px", fontWeight: "700", color: "#B00000" }}
             >
               Total Bet:&nbsp;
             </Typography>
