@@ -1,5 +1,5 @@
 import { Box, Typography } from "@mui/material";
-import { Fragment, memo, useEffect, useState } from "react";
+import { Fragment, memo } from "react";
 import { useDispatch } from "react-redux";
 import { BroadCast } from "../../../assets";
 import { addSession } from "../../../store/actions/addSession";
@@ -16,8 +16,6 @@ const SessionMarketBoxLive = ({
   type,
 }: any) => {
   const dispatch: AppDispatch = useDispatch();
-
-  const [live, setLive] = useState<any>(newData?.ActiveStatus ? true : false);
 
   const handleLive = () => {
     const payload = {
@@ -36,7 +34,6 @@ const SessionMarketBoxLive = ({
 
   const handleToggle = (e: any) => {
     e.preventDefault();
-    setLive(!live);
     if (newData?.id) {
       dispatch(
         sessionBetLiveStatus({
@@ -49,27 +46,19 @@ const SessionMarketBoxLive = ({
     }
   };
 
-  useEffect(() => {
-    if (newData?.ActiveStatus) {
-      setLive(true);
-    } else setLive(false);
-  }, [newData]);
-
   return (
     <div style={{ position: "relative" }}>
-      {!live && (
-        <Box
-          sx={{
-            margin: "1px",
-            width: { lg: "100%", xs: "100%" },
-            height: "100%",
-            right: 0,
-            position: "absolute",
-            background: "rgba(0,0,0,0.4)",
-            zIndex: 2,
-          }}
-        />
-      )}
+      <Box
+        sx={{
+          margin: "1px",
+          width: { lg: "100%", xs: "100%" },
+          height: "100%",
+          right: 0,
+          position: "absolute",
+          background: "rgba(0,0,0,0.4)",
+          zIndex: 2,
+        }}
+      />
       <Box
         sx={{
           display: "flex",
@@ -110,7 +99,7 @@ const SessionMarketBoxLive = ({
           }}
         >
           <Box
-            onClick={live ? (e: any) => e.preventDefault() : handleToggle}
+            onClick={handleToggle}
             sx={{
               width: "20px",
               display: "flex",
@@ -120,7 +109,7 @@ const SessionMarketBoxLive = ({
               zIndex: 2,
               alignItems: "center",
               height: "20px",
-              background: live ? "#46e080" : "#FF4D4D",
+              background: "#FF4D4D",
               borderRadius: "2px",
               cursor: "pointer",
             }}
