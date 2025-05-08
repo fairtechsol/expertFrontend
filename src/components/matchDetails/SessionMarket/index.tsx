@@ -95,8 +95,8 @@ const SessionMarket = ({
             xs: "center",
             md: "center",
             lg: "flex-start",
-            boxShadow: "0px 5px 10px #0000001A",
           },
+          boxShadow: "0px 5px 10px #0000001A",
         }}
       >
         <Box

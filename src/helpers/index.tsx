@@ -131,41 +131,6 @@ export const customSortBySessionMarketName = ([nameA]: any, [nameB]: any) => {
   return orderA - orderB;
 };
 
-export const updateArray = (ab: any, cd: any) => {
-  const cdMap = new Map(cd.map((item: any) => [item?.id, item]));
-
-  ab = ab?.filter((obj: any) => {
-    if (cdMap.has(obj?.id)) {
-      const updatedObj: any = cdMap.get(obj?.id);
-      Object.assign(obj, { ...obj, ...updatedObj });
-      cdMap.delete(obj.id);
-      return true;
-    }
-    return false;
-  });
-
-  cdMap.forEach((value) => {
-    ab.push(value);
-  });
-
-  return ab;
-};
-
-export const sortByActiveStatusOfCricketCasino = (a: any, b: any) => {
-  const getPosition = (item: any) => {
-    if (item.isComplete && item.activeStatus === "result") {
-      return 3;
-    } else if (item.activeStatus === "live") {
-      return 2;
-    } else if (item.activeStatus === "save" || item.isComplete) {
-      return 1;
-    }
-    return 4;
-  };
-
-  return getPosition(a) - getPosition(b);
-};
-
 export const handleNumber = (num: any, color: any) => {
   let amount = parseFloat(num)?.toFixed(2);
   let value;
