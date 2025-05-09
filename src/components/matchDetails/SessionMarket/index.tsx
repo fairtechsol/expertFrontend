@@ -2,7 +2,7 @@ import { useMediaQuery, useTheme } from "@mui/material";
 import Box from "@mui/material/Box";
 import ModalMUI from "@mui/material/Modal";
 import Typography from "@mui/material/Typography";
-import { Fragment, memo, useCallback, useMemo, useState } from "react";
+import { memo, useCallback, useMemo, useState } from "react";
 import { useDispatch } from "react-redux";
 import { FixedSizeList as List } from "react-window";
 import { ARROWUP, edit } from "../../../assets";
@@ -43,20 +43,18 @@ const Row = memo(
     if (!match?.id) return null;
 
     return (
-      <Fragment>
-        <Box style={style}>
-          <SessionMarketBox
-            hideResult={data.hideResult}
-            hideTotalBet={data.hideTotalBet}
-            newData={match}
-            profitLossData={data.profitLossData}
-            index={index}
-            hideEditMaxButton={data.hideEditMaxButton}
-            section={data.section}
-          />
-        </Box>
+      <Box style={style}>
+        <SessionMarketBox
+          hideResult={data.hideResult}
+          hideTotalBet={data.hideTotalBet}
+          newData={match}
+          profitLossData={data.profitLossData}
+          index={index}
+          hideEditMaxButton={data.hideEditMaxButton}
+          section={data.section}
+        />
         <Divider />
-      </Fragment>
+      </Box>
     );
   }
 );
