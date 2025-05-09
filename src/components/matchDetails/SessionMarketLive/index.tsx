@@ -18,17 +18,15 @@ const Row = memo(
     const match = data.items[index];
 
     return (
-      <div style={style}>
-        <Box key={match.SelectionId}>
-          <SessionMarketBoxLive
-            currentMatch={data?.currentMatch}
-            newData={match}
-            index={index}
-            gtype={data?.gtype}
-            type={data?.type}
-          />
-        </Box>
-      </div>
+      <Box style={style}>
+        <SessionMarketBoxLive
+          currentMatch={data?.currentMatch}
+          newData={match}
+          index={index}
+          gtype={data?.gtype}
+          type={data?.type}
+        />
+      </Box>
     );
   }
 );
