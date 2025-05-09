@@ -249,7 +249,7 @@ const SessionMarketBox = ({
               hide={false}
               textSize={newData?.result === "No Result" ? "0.55em" : "10px"}
               width={{ lg: "35px", xs: "35px", md: "35px" }}
-              title={`${newData?.result || 0}`}
+              title={newData?.result || 0}
               color="#FFF"
               height="20px"
             />
