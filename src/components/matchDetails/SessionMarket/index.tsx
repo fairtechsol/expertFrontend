@@ -1,10 +1,8 @@
-import { useMediaQuery, useTheme } from "@mui/material";
 import Box from "@mui/material/Box";
 import ModalMUI from "@mui/material/Modal";
 import Typography from "@mui/material/Typography";
-import { Fragment, memo, useCallback, useState } from "react";
+import { memo, useCallback, useMemo, useState } from "react";
 import { useDispatch } from "react-redux";
-import { FixedSizeList as List } from "react-window";
 import { ARROWUP, edit } from "../../../assets";
 import { customSortUpdated } from "../../../helpers";
 import { sessionBetLiveStatus } from "../../../store/actions/match/matchAction";
@@ -14,41 +12,21 @@ import SessionMarketBox from "./SessionMarketBox";
 import SessionMarketMaxBetAmountEdit from "./SessionMarketMaxBetAmountEdit";
 import Stop from "./Stop";
 
-const Row = memo(
-  ({
-    index,
-    style,
-    data,
-  }: {
-    index: number;
-    style: React.CSSProperties;
-    data: any;
-  }) => {
-    const match = data.items[index];
+interface SessionMarketProps {
+  currentMatch: any;
+  hideResult: boolean;
+  stopAllHide: boolean;
+  title: string;
+  hideTotalBet: boolean;
+  sessionData: any;
+  profitLossData: any;
+  hideEditMaxButton: boolean;
+  cstmStyle?: any;
+  section: string;
+  name: string;
+}
 
-    if (!match?.id) return null;
-
-    return (
-      <Fragment key={match.SelectionId}>
-        <Box style={style}>
-          <SessionMarketBox
-            hideResult={data.hideResult}
-            hideTotalBet={data.hideTotalBet}
-            newData={match}
-            profitLossData={data.profitLossData}
-            index={index}
-            hideEditMaxButton={data.hideEditMaxButton}
-            section={data.section}
-          />
-        </Box>
-        <Divider />
-      </Fragment>
-    );
-  }
-);
-
-const SessionMarket = ({
-  currentMatch,
+const SessionMarket = ({ currentMatch,
   hideResult,
   stopAllHide,
   title,
@@ -58,32 +36,55 @@ const SessionMarket = ({
   hideEditMaxButton,
   cstmStyle,
   section,
-  name,
-}: any) => {
-  const theme = useTheme();
-  const matchesMobile = useMediaQuery(theme.breakpoints.down("md"));
+  name, }: SessionMarketProps) => {
 
   const dispatch: AppDispatch = useDispatch();
   const [visible, setVisible] = useState(true);
   const [sessionMaxBetAmountLimit, setSessionMaxBetAmountLimit] =
     useState(false);
 
-  const handleFilter = useCallback(
-    (item: any) =>
-      section === "market"
-        ? !item?.isComplete &&
-          item?.activeStatus !== "unSave" &&
-          ((item?.resultData && item?.resultData === null) ||
-            item?.result === null)
-        : section === "completed"
+  const handleFilter = (item: any) =>
+    section === "market"
+      ? !item?.isComplete &&
+      item?.activeStatus !== "unSave" &&
+      ((item?.resultData && item?.resultData === null) ||
+        item?.result === null)
+      : section === "completed"
         ? item?.isComplete &&
-          item?.activeStatus !== "unSave" &&
-          ((item?.resultData && item?.resultData === null) ||
-            item?.result === null)
+        item?.activeStatus !== "unSave" &&
+        ((item?.resultData && item?.resultData === null) ||
+          item?.result === null)
         : (item?.resultData && item?.resultData !== null) ||
-          item?.result !== null,
-    []
-  );
+        item?.result !== null;
+
+  const filteredMatches = useMemo(() => {
+    if (!sessionData?.section) return [];
+
+    return sessionData.section
+      .filter((match: any) => match?.id)
+      .filter(handleFilter)
+      .slice()
+      .sort(customSortUpdated);
+  }, [sessionData?.section]);
+
+  const toggleVisibility = useCallback(() => {
+    setVisible((prev) => !prev);
+  }, []);
+
+  const handleStopClick = useCallback(() => {
+    dispatch(
+      sessionBetLiveStatus({
+        status: "save",
+        matchId: currentMatch?.id,
+        stopAllSessions: true,
+        type: sessionData?.mname,
+      })
+    );
+  }, []);
+
+  const handleEditClick = useCallback(() => {
+    setSessionMaxBetAmountLimit(true);
+  }, []);
 
   return (
     <>
@@ -132,7 +133,7 @@ const SessionMarket = ({
             </Typography>
             {!hideEditMaxButton && (
               <img
-                onClick={() => setSessionMaxBetAmountLimit(true)}
+                onClick={handleEditClick}
                 src={edit}
                 alt="edit"
                 style={{
@@ -147,16 +148,7 @@ const SessionMarket = ({
             )}
             {!stopAllHide && (
               <Stop
-                onClick={() => {
-                  dispatch(
-                    sessionBetLiveStatus({
-                      status: "save",
-                      matchId: currentMatch?.id,
-                      stopAllSessions: true,
-                      type: sessionData?.mname,
-                    })
-                  );
-                }}
+                onClick={handleStopClick}
                 height="18px"
               />
             )}
@@ -179,13 +171,12 @@ const SessionMarket = ({
             }}
           >
             <img
-              onClick={() => {
-                setVisible(!visible);
-              }}
+              onClick={toggleVisibility}
               src={ARROWUP}
               alt="Up Arrow"
               style={{
                 transform: !visible ? "rotate(180deg)" : "rotate(0deg)",
+                transition: "transform 0.3s ease",
                 width: "12px",
                 height: "12px",
                 marginRight: "5px",
@@ -219,49 +210,20 @@ const SessionMarket = ({
                 cstmStyle,
               ]}
             >
-              {sessionData?.section?.length > 0 &&
-                (() => {
-                  const filteredData = sessionData.section
-                    .filter(handleFilter)
-                    .slice()
-                    .sort(customSortUpdated)
-                    .filter((match: any) => match?.id);
-
-                  if (!filteredData.length) return null;
-
-                  const dynamicHeight = matchesMobile
-                    ? Math.min(
-                        filteredData.length * 30,
-                        window.innerHeight * 0.4
-                      )
-                    : filteredData.length * 30;
-
-                  return (
-                    <div
-                      style={{
-                        width: "100%",
-                        height: `${dynamicHeight + 1}px`,
-                      }}
-                    >
-                      <List
-                        height={dynamicHeight + 1}
-                        width="100%"
-                        itemCount={filteredData.length}
-                        itemSize={30}
-                        itemData={{
-                          items: filteredData,
-                          hideResult,
-                          hideTotalBet,
-                          profitLossData,
-                          hideEditMaxButton,
-                          section,
-                        }}
-                      >
-                        {Row}
-                      </List>
-                    </div>
-                  );
-                })()}
+              {filteredMatches.map((match: any, index: number) => (
+                <Box key={`sessionMarketBox${match?.SelectionId}-${index}`}>
+                  <SessionMarketBox
+                    hideResult={hideResult}
+                    hideTotalBet={hideTotalBet}
+                    newData={match}
+                    profitLossData={profitLossData}
+                    index={index}
+                    hideEditMaxButton={hideEditMaxButton}
+                    section={section}
+                  />
+                  <Divider />
+                </Box>
+              ))}
             </Box>
           </Box>
         )}

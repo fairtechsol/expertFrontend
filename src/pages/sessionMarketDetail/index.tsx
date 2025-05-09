@@ -58,6 +58,35 @@ const SessionMarketDetail = () => {
   const { currentOdd } = useSelector((state: RootState) => state.addSession);
 
   useEffect(() => {
+    const observerLCP = new PerformanceObserver((list) => {
+      for (const entry of list.getEntries()) {
+        console.log("LCP entry:", entry);
+      }
+    });
+    observerLCP.observe({ type: "largest-contentful-paint", buffered: true });
+
+    const observerFID = new PerformanceObserver((list) => {
+      for (const entry of list.getEntries()) {
+        console.log("FID entry:", entry);
+      }
+    });
+    observerFID.observe({ type: "first-input", buffered: true });
+
+    const observerCLS = new PerformanceObserver((list) => {
+      for (const entry of list.getEntries()) {
+        console.log("CLS entry:", entry);
+      }
+    });
+    observerCLS.observe({ type: "layout-shift", buffered: true });
+
+    return () => {
+      observerLCP.disconnect();
+      observerFID.disconnect();
+      observerCLS.disconnect();
+    };
+  }, []);
+
+  useEffect(() => {
     if (state?.mId) {
       matchService.connect([state?.id]);
     }

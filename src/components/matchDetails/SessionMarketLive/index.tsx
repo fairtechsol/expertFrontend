@@ -1,5 +1,5 @@
 import { Box, Typography } from "@mui/material";
-import { memo, useEffect, useState } from "react";
+import { memo, useCallback, useEffect, useState } from "react";
 import { FixedSizeList as List } from "react-window";
 import { ARROWUP } from "../../../assets";
 import { formatToINR } from "../../helper";
@@ -43,6 +43,10 @@ const SessionMarketLive = ({ title, sessionData, currentMatch, type }: any) => {
     );
   }, [sessionData]);
   const [visible, setVisible] = useState(true);
+
+  const toggleVisibility = useCallback(() => {
+    setVisible((prev) => !prev);
+  }, []);
 
   return (
     <Box
@@ -116,13 +120,13 @@ const SessionMarketLive = ({ title, sessionData, currentMatch, type }: any) => {
           }}
         >
           <img
-            onClick={() => {
-              setVisible(!visible);
-            }}
+            onClick={toggleVisibility}
             src={ARROWUP}
             alt="arrow up"
+            className="arrow-icon"
             style={{
               transform: !visible ? "rotate(180deg)" : "rotate(0deg)",
+              transition: "transform 0.3s ease",
               width: "12px",
               height: "12px",
               marginRight: "5px",

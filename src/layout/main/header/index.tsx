@@ -156,7 +156,8 @@ const Header1 = () => {
                     sx={{
                       cursor: "pointer",
                       height: { lg: "40px", xs: "30px", md: "40px" },
-                      width: "auto",
+                      width: { lg: "120px", xs: "90px", md: "120px" },
+                      // width: "auto",
                       marginLeft: { lg: "15px", xs: "5px" },
 
                     }}
@@ -413,7 +414,8 @@ const Header1 = () => {
                     sx={{
                       cursor: "pointer",
                       height: { lg: "50px", xs: "25px" },
-                      width: "auto",
+                      // width: "auto",
+                      width: { lg: "150px", xs: "75px" },
                       marginLeft: { lg: "15px", xs: "5px" },
                     }}
                   />

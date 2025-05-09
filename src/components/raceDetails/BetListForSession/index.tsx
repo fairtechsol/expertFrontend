@@ -52,8 +52,8 @@ const BetListForSession = ({ tag, allBetRates }: any) => {
                   v?.marketType === "completeManual" ||
                   v?.marketType === "tiedMatch2" ||
                   v?.marketType === "tiedMatch1"
-                ? "#faf11b"
-                : "#F1C550",
+                  ? "#faf11b"
+                  : "#F1C550",
               deleteReason: v?.deleteReason,
               width: { lg: "17%", xs: "32%" },
             },
@@ -104,8 +104,8 @@ const BetListForSession = ({ tag, allBetRates }: any) => {
               name: +v.myStake
                 ? formatToINR(+v.myStake)
                 : formatToINR(
-                    (+v?.amount * +v?.user?.fwPartnership || 0) / 100
-                  ),
+                  (+v?.amount * +v?.user?.fwPartnership || 0) / 100
+                ),
               color: "white",
               background: "#0B4F26",
               deleteReason: v?.deleteReason,
@@ -244,6 +244,7 @@ const BetListForSession = ({ tag, allBetRates }: any) => {
             alt="arrow up"
             style={{
               transform: !visibleImg ? "rotate(180deg)" : "rotate(0deg)",
+              transition: "transform 0.3s ease",
               width: "15px",
               height: "15px",
               marginRight: "5px",
