@@ -164,6 +164,7 @@ const HTFTMarket = ({ currentMatch, liveData, title, firstKnownKey }: any) => {
             alt="arrow up"
             style={{
               transform: !visibleImg ? "rotate(180deg)" : "rotate(0deg)",
+              transition: "transform 0.3s ease",
               width: "12px",
               height: "12px",
               marginRight: "5px",
