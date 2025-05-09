@@ -23,10 +23,11 @@ interface SessionMarketProps {
   hideEditMaxButton: boolean;
   cstmStyle?: any;
   section: string;
-  name: string;
+  name?: string;
 }
 
-const SessionMarket = ({ currentMatch,
+const SessionMarket = ({
+  currentMatch,
   hideResult,
   stopAllHide,
   title,
@@ -36,8 +37,8 @@ const SessionMarket = ({ currentMatch,
   hideEditMaxButton,
   cstmStyle,
   section,
-  name, }: SessionMarketProps) => {
-
+  name,
+}: SessionMarketProps) => {
   const dispatch: AppDispatch = useDispatch();
   const [visible, setVisible] = useState(true);
   const [sessionMaxBetAmountLimit, setSessionMaxBetAmountLimit] =
@@ -46,15 +47,15 @@ const SessionMarket = ({ currentMatch,
   const handleFilter = (item: any) =>
     section === "market"
       ? !item?.isComplete &&
-      item?.activeStatus !== "unSave" &&
-      ((item?.resultData && item?.resultData === null) ||
-        item?.result === null)
-      : section === "completed"
-        ? item?.isComplete &&
         item?.activeStatus !== "unSave" &&
         ((item?.resultData && item?.resultData === null) ||
           item?.result === null)
-        : (item?.resultData && item?.resultData !== null) ||
+      : section === "completed"
+      ? item?.isComplete &&
+        item?.activeStatus !== "unSave" &&
+        ((item?.resultData && item?.resultData === null) ||
+          item?.result === null)
+      : (item?.resultData && item?.resultData !== null) ||
         item?.result !== null;
 
   const filteredMatches = useMemo(() => {
@@ -146,12 +147,7 @@ const SessionMarket = ({ currentMatch,
                 }}
               />
             )}
-            {!stopAllHide && (
-              <Stop
-                onClick={handleStopClick}
-                height="18px"
-              />
-            )}
+            {!stopAllHide && <Stop onClick={handleStopClick} height="18px" />}
           </Box>
           <Box
             sx={{
@@ -246,9 +242,9 @@ const SessionMarket = ({ currentMatch,
             minBet:
               currentMatch?.sessionMaxBets?.[name + "_minBet"] ??
               currentMatch?.betFairSessionMinBet,
-            maxBet:
-              currentMatch?.sessionMaxBets?.[name] ??
-              currentMatch?.betFairSessionMaxBet,
+            maxBet: name
+              ? currentMatch?.sessionMaxBets?.[name]
+              : currentMatch?.betFairSessionMaxBet,
             exposureLimit:
               currentMatch?.sessionMaxBets?.[`${name}_exposureLimit`],
           }}
