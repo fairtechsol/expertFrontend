@@ -1,7 +1,7 @@
 import Box from "@mui/material/Box";
 import ModalMUI from "@mui/material/Modal";
 import Typography from "@mui/material/Typography";
-import { memo, useState } from "react";
+import { Fragment, memo, useCallback, useState } from "react";
 import { useDispatch } from "react-redux";
 import { ARROWUP, edit } from "../../../assets";
 import { customSortUpdated } from "../../../helpers";
@@ -30,19 +30,22 @@ const SessionMarket = ({
   const [sessionMaxBetAmountLimit, setSessionMaxBetAmountLimit] =
     useState(false);
 
-  const handleFilter = (item: any) =>
-    section === "market"
-      ? !item?.isComplete &&
-        item?.activeStatus !== "unSave" &&
-        ((item?.resultData && item?.resultData === null) ||
-          item?.result === null)
-      : section === "completed"
-      ? item?.isComplete &&
-        item?.activeStatus !== "unSave" &&
-        ((item?.resultData && item?.resultData === null) ||
-          item?.result === null)
-      : (item?.resultData && item?.resultData !== null) ||
-        item?.result !== null;
+  const handleFilter = useCallback(
+    (item: any) =>
+      section === "market"
+        ? !item?.isComplete &&
+          item?.activeStatus !== "unSave" &&
+          ((item?.resultData && item?.resultData === null) ||
+            item?.result === null)
+        : section === "completed"
+        ? item?.isComplete &&
+          item?.activeStatus !== "unSave" &&
+          ((item?.resultData && item?.resultData === null) ||
+            item?.result === null)
+        : (item?.resultData && item?.resultData !== null) ||
+          item?.result !== null,
+    []
+  );
 
   return (
     <>
@@ -182,11 +185,10 @@ const SessionMarket = ({
                 sessionData?.section
                   ?.filter((match: any) => match?.id)
                   ?.filter(handleFilter)
-                  ?.slice()
                   .sort(customSortUpdated)
                   ?.map((match: any, index: number) => {
                     return (
-                      <Box key={match?.SelectionId}>
+                      <Fragment key={match?.id}>
                         <SessionMarketBox
                           hideResult={hideResult}
                           hideTotalBet={hideTotalBet}
@@ -197,7 +199,7 @@ const SessionMarket = ({
                           section={section}
                         />
                         <Divider />
-                      </Box>
+                      </Fragment>
                     );
                   })}
             </Box>

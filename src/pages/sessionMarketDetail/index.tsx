@@ -41,7 +41,6 @@ import {
 } from "../../store/actions/match/matchAction";
 import { AppDispatch, RootState } from "../../store/store";
 
-
 const OptimizedCasinoMarketLive = memo(CasinoMarketLive);
 const OptimizedSessionMarketLive = memo(SessionMarketLive);
 const OptimizedSessionMarket = memo(SessionMarket);
@@ -341,25 +340,28 @@ const SessionMarketDetail = () => {
   const renderLiveSessionMarkets = useMemo(() => {
     if (!matchDetail?.apiSession) return null;
 
-    return Object.entries(matchDetail.apiSession)
+    return Object.entries(matchDetail?.apiSession)
       .filter(([name]) => name === "session" || name === "oddEven")
       .sort(customSortBySessionMarketName)
       .map(([name, item]: any) => {
         const hasValidSections = item?.section?.some(
-          (section: any) => !section?.activeStatus || section?.activeStatus === "unSave"
+          (section: any) =>
+            !section?.activeStatus || section?.activeStatus === "unSave"
         );
 
-        return hasValidSections && (
-          <OptimizedSessionMarketLive
-            key={name}
-            title={item?.mname || name}
-            sessionData={item}
-            type={name}
-            currentMatch={matchDetail}
-          />
+        return (
+          hasValidSections && (
+            <OptimizedSessionMarketLive
+              key={name}
+              title={item?.mname || name}
+              sessionData={item}
+              type={name}
+              currentMatch={matchDetail}
+            />
+          )
         );
       });
-  }, [matchDetail]);
+  }, [matchDetail?.apiSession]);
 
   const renderOtherMarkets = useMemo(() => {
     if (!matchDetail?.apiSession) return null;
@@ -368,9 +370,10 @@ const SessionMarketDetail = () => {
       ?.filter(([name]) => !["session", "oddEven"].includes(name))
       ?.sort(customSortBySessionMarketName)
       ?.map(([name, item]: any) => {
-        const filteredSections = item?.section?.filter(
-          (i: any) => !i?.activeStatus || i?.activeStatus === "unSave"
-        ) || [];
+        const filteredSections =
+          item?.section?.filter(
+            (i: any) => !i?.activeStatus || i?.activeStatus === "unSave"
+          ) || [];
 
         if (!filteredSections.length) return null;
         <SessionMarketLive
@@ -379,7 +382,7 @@ const SessionMarketDetail = () => {
           sessionData={item}
           type={name}
           currentMatch={matchDetail}
-        />
+        />;
         return name === "cricketCasino" ? (
           <Fragment key={name}>
             {filteredSections.map((items: any) => (
@@ -403,7 +406,7 @@ const SessionMarketDetail = () => {
           />
         );
       });
-  }, [matchDetail]);
+  }, [matchDetail?.apiSession]);
 
   const renderCompletedNonCasinoMarkets = useMemo(() => {
     if (!matchDetail?.updatedSesssionBettings) return null;
@@ -420,28 +423,30 @@ const SessionMarketDetail = () => {
               section?.result === null)
         );
 
-        return hasCompletedSections && (
-          <OptimizedSessionMarket
-            key={`completed-${name}`}
-            title={`${name} Completed`}
-            hideTotalBet={false}
-            stopAllHide={true}
-            profitLossData={matchDetail?.sessionProfitLoss}
-            sessionData={item}
-            hideResult={false}
-            currentMatch={matchDetail}
-            hideEditMaxButton={true}
-            cstmStyle={{ maxHeight: { sm: "40vh" } }}
-            section="completed"
-          />
+        return (
+          hasCompletedSections && (
+            <OptimizedSessionMarket
+              key={`completed-${name}`}
+              title={`${name} Completed`}
+              hideTotalBet={false}
+              stopAllHide={true}
+              profitLossData={matchDetail?.sessionProfitLoss}
+              sessionData={item}
+              hideResult={false}
+              currentMatch={matchDetail}
+              hideEditMaxButton={true}
+              cstmStyle={{ maxHeight: { sm: "40vh" } }}
+              section="completed"
+            />
+          )
         );
       });
-  }, [matchDetail]);
+  }, [matchDetail?.updatedSesssionBettings, matchDetail?.sessionProfitLoss]);
 
   const renderCompletedCasinoMarkets = useMemo(() => {
     if (!matchDetail?.updatedSesssionBettings) return null;
 
-    return Object.entries(matchDetail.updatedSesssionBettings)
+    return Object.entries(matchDetail?.updatedSesssionBettings)
       .filter(([name]) => name === "cricketCasino")
       .sort(customSortBySessionMarketName)
       .flatMap(([name, item]: any) =>
@@ -464,12 +469,12 @@ const SessionMarketDetail = () => {
             />
           ))
       );
-  }, [matchDetail]);
+  }, [matchDetail?.updatedSesssionBettings, matchDetail?.sessionProfitLoss]);
 
   const renderActiveNonCasinoMarkets = useMemo(() => {
     if (!matchDetail?.updatedSesssionBettings) return null;
 
-    return Object.entries(matchDetail.updatedSesssionBettings)
+    return Object.entries(matchDetail?.updatedSesssionBettings)
       .filter(([name]) => name !== "cricketCasino")
       .sort(customSortBySessionMarketName)
       .map(([name, item]: any) => {
@@ -477,27 +482,28 @@ const SessionMarketDetail = () => {
           (s: any) =>
             !s?.isComplete &&
             s?.activeStatus !== "unSave" &&
-            ((s?.resultData && s?.resultData === null) ||
-              s?.result === null)
+            ((s?.resultData && s?.resultData === null) || s?.result === null)
         );
 
-        return hasActiveMarket && (
-          <OptimizedSessionMarket
-            key={`active-${name}`}
-            title={`${name} Market`}
-            hideTotalBet={false}
-            stopAllHide={false}
-            profitLossData={matchDetail?.sessionProfitLoss}
-            sessionData={item}
-            hideResult={true}
-            currentMatch={matchDetail}
-            hideEditMaxButton={false}
-            section="market"
-            name={name}
-          />
+        return (
+          hasActiveMarket && (
+            <OptimizedSessionMarket
+              key={`active-${name}`}
+              title={`${name} Market`}
+              hideTotalBet={false}
+              stopAllHide={false}
+              profitLossData={matchDetail?.sessionProfitLoss}
+              sessionData={item}
+              hideResult={true}
+              currentMatch={matchDetail}
+              hideEditMaxButton={false}
+              section="market"
+              name={name}
+            />
+          )
         );
       });
-  }, [matchDetail]);
+  }, [matchDetail?.updatedSesssionBettings, matchDetail?.sessionProfitLoss]);
 
   const renderActiveCasinoMarkets = useMemo(() => {
     if (!matchDetail?.updatedSesssionBettings) return null;
@@ -507,9 +513,7 @@ const SessionMarketDetail = () => {
       .sort(customSortBySessionMarketName)
       .flatMap(([name, item]: any) =>
         item?.section
-          ?.filter(
-            (i: any) => i?.activeStatus !== "unSave" && !i?.isComplete
-          )
+          ?.filter((i: any) => i?.activeStatus !== "unSave" && !i?.isComplete)
           ?.map((items: any) => (
             <OptimizedCasinoMarket
               key={`active-casino-${items?.SelectionId}`}
@@ -522,7 +526,7 @@ const SessionMarketDetail = () => {
             />
           ))
       );
-  }, [matchDetail]);
+  }, [matchDetail?.updatedSesssionBettings, matchDetail?.sessionProfitLoss]);
 
   const renderDeclaredNonCasinoMarkets = useMemo(() => {
     if (!matchDetail?.updatedSesssionBettings) return null;
@@ -533,27 +537,28 @@ const SessionMarketDetail = () => {
       .map(([name, item]: any) => {
         const hasDeclaredSections = item?.section?.some(
           (s: any) =>
-            (s?.resultData && s?.resultData !== null) ||
-            s?.result !== null
+            (s?.resultData && s?.resultData !== null) || s?.result !== null
         );
 
-        return hasDeclaredSections && (
-          <OptimizedSessionMarket
-            key={`declared-${name}`}
-            title={`${name} Declared`}
-            hideTotalBet={false}
-            stopAllHide={true}
-            profitLossData={matchDetail?.sessionProfitLoss}
-            sessionData={item}
-            hideResult={false}
-            currentMatch={matchDetail}
-            hideEditMaxButton={true}
-            cstmStyle={{ maxHeight: { sm: "40vh" } }}
-            section="declared"
-          />
+        return (
+          hasDeclaredSections && (
+            <OptimizedSessionMarket
+              key={`declared-${name}`}
+              title={`${name} Declared`}
+              hideTotalBet={false}
+              stopAllHide={true}
+              profitLossData={matchDetail?.sessionProfitLoss}
+              sessionData={item}
+              hideResult={false}
+              currentMatch={matchDetail}
+              hideEditMaxButton={true}
+              cstmStyle={{ maxHeight: { sm: "40vh" } }}
+              section="declared"
+            />
+          )
         );
       });
-  }, [matchDetail]);
+  }, [matchDetail?.updatedSesssionBettings, matchDetail?.sessionProfitLoss]);
 
   const renderDeclaredCasinoMarkets = useMemo(() => {
     if (!matchDetail?.updatedSesssionBettings) return null;
@@ -581,7 +586,7 @@ const SessionMarketDetail = () => {
             />
           ))
       );
-  }, [matchDetail]);
+  }, [matchDetail?.updatedSesssionBettings, matchDetail?.sessionProfitLoss]);
 
   return (
     <>
@@ -590,12 +595,8 @@ const SessionMarketDetail = () => {
         direction={{ lg: "row", xs: "column" }}
         sx={{ marginTop: { lg: 0, xs: "5px" } }}
       >
-        <Box sx={{ width: { lg: "70%" } }}>
-          {renderLiveSessionMarkets}
-        </Box>
-        <Box sx={{ width: { lg: "70%" } }}>
-          {renderOtherMarkets}
-        </Box>
+        <Box sx={{ width: { lg: "70%" } }}>{renderLiveSessionMarkets}</Box>
+        <Box sx={{ width: { lg: "70%" } }}>{renderOtherMarkets}</Box>
         <Box sx={{ width: { lg: "100%" } }}>
           {renderCompletedNonCasinoMarkets}
           {renderCompletedCasinoMarkets}
@@ -637,4 +638,3 @@ const SessionMarketDetail = () => {
 };
 
 export default memo(SessionMarketDetail);
-
