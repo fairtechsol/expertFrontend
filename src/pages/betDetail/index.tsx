@@ -11,10 +11,6 @@ import {
   socketService,
 } from "../../socketManager";
 import { matchSocketService } from "../../socketManager/matchSocket";
-import {
-  getMatchDetail,
-  updateMatchRates,
-} from "../../store/actions/addMatch/addMatchAction";
 import { resetPlacedBetsMatch } from "../../store/actions/addSession";
 import {
   addStatusBetByBetId,
@@ -23,7 +19,6 @@ import {
   updateDeletedBetReasonOnEdit,
   updateMatchBetsPlace,
   updateMatchBetsReason,
-  updateResultStatusOfMatch,
   updateSessionBetsPlace,
 } from "../../store/actions/match/matchAction";
 import { AppDispatch, RootState } from "../../store/store";
@@ -33,29 +28,15 @@ const MatchMarketDetail = () => {
   const navigate = useNavigate();
   const dispatch: AppDispatch = useDispatch();
 
-  const { matchDetail, loading, success } = useSelector(
-    (state: RootState) => state.addMatch.addMatch
-  );
-  const { placedBetsMatch } = useSelector(
+  const { placedBetsMatch, loading, success } = useSelector(
     (state: RootState) => state.matchList
   );
-
-  const updateMatchDetailToRedux = (event: any) => {
-    try {
-      if (state?.id === event?.id) {
-        dispatch(updateMatchRates(event));
-      } else return;
-    } catch (e) {
-      console.log(e);
-    }
-  };
 
   const resultDeclared = (event: any) => {
     try {
       if (event?.matchId === state?.id && event?.isMatchDeclare) {
         navigate("/expert/match");
       } else if (event?.matchId === state?.id) {
-        dispatch(updateResultStatusOfMatch(event));
         dispatch(getPlacedBetsMatch(state?.id));
       }
     } catch (e) {
@@ -65,7 +46,6 @@ const MatchMarketDetail = () => {
   const resultUnDeclared = (event: any) => {
     try {
       if (event?.matchId === state?.id) {
-        dispatch(getMatchDetail(`${state?.id}?isSessionAllowed=false`));
         dispatch(getPlacedBetsMatch(state?.id));
       }
     } catch (e) {
@@ -95,7 +75,7 @@ const MatchMarketDetail = () => {
   const updateSessionResultDeclared = (event: any) => {
     try {
       if (state?.id === event?.matchId) {
-        dispatch(addStatusBetByBetId(event?.betId));
+        dispatch(addStatusBetByBetId(event));
       }
     } catch (e) {
       console.log(e);
@@ -131,7 +111,6 @@ const MatchMarketDetail = () => {
     try {
       if (state?.id) {
         dispatch(getSessionProfitLossMatchDetailReset());
-        dispatch(getMatchDetail(`${state?.id}?isSessionAllowed=false`));
         dispatch(getPlacedBetsMatch(state?.id));
       }
     } catch (e) {
@@ -153,11 +132,6 @@ const MatchMarketDetail = () => {
         socketService.user.sessionResultDeclaredOff();
         socketService.user.updateDeleteReasonOff();
         socketService.user.matchResultDeclareAllUserOff();
-        expertSocketService.match.joinMatchRoom(state?.id);
-        expertSocketService.match.getMatchRates(state?.id, (event: any) => {
-          updateMatchDetailToRedux(event);
-        });
-
         socketService.user.matchResultDeclared(resultDeclared);
         socketService.user.matchResultDeclareAllUser(resultDeclared);
         socketService.user.matchResultUnDeclared(resultUnDeclared);
@@ -179,7 +153,6 @@ const MatchMarketDetail = () => {
       if (state?.id) {
         return () => {
           matchSocketService.leaveAllRooms();
-          expertSocketService.match.getMatchRatesOff(state?.id);
           socketService.user.matchResultDeclaredOff();
           socketService.user.matchResultUnDeclaredOff();
           socketService.user.matchDeleteBetOff();
@@ -205,14 +178,6 @@ const MatchMarketDetail = () => {
         if (document.visibilityState === "visible") {
           if (state?.id) {
             dispatch(getPlacedBetsMatch(state?.id));
-            expertSocketService.match.joinMatchRoom(state?.id);
-            expertSocketService.match.getMatchRates(state?.id, (event: any) => {
-              updateMatchDetailToRedux(event);
-            });
-          }
-        } else if (document.visibilityState === "hidden") {
-          if (state?.id) {
-            expertSocketService.match.getMatchRatesOff(state?.id);
           }
         }
       };
@@ -255,13 +220,11 @@ const MatchMarketDetail = () => {
             marginTop: { xs: "10px", lg: "0" },
           }}
         >
-          {matchDetail?.id && (
-            <BetList
-              allBetRates={Array.from(new Set(placedBetsMatch))}
-              tag={true}
-              isMatchDeclare={true}
-            />
-          )}
+          <BetList
+            allBetRates={Array.from(new Set(placedBetsMatch))}
+            tag={true}
+            isMatchDeclare={true}
+          />
         </Box>
       )}
     </Box>

@@ -244,10 +244,13 @@ const matchList = createSlice({
         state.error = action.error?.message;
       })
       .addCase(addStatusBetByBetId.fulfilled, (state, action) => {
+        const { betId, activeStatus } = action.payload;
         state.loading = false;
         state.success = true;
         state.placedBetsMatch = state.placedBetsMatch?.map((item: any) =>
-          item.betId === action.payload ? { ...item, result: "WIN" } : item
+          item.betId === betId
+            ? { ...item, result: activeStatus === "result" ? "WIN" : "" }
+            : item
         );
       })
       .addCase(getPlacedBetsForSessionDetail.pending, (state) => {
