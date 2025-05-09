@@ -43,7 +43,7 @@ const Row = memo(
     if (!match?.id) return null;
 
     return (
-      <Fragment key={match.SelectionId}>
+      <Fragment>
         <Box style={style}>
           <SessionMarketBox
             hideResult={data.hideResult}
@@ -280,20 +280,6 @@ const SessionMarket = ({
                     </div>
                   );
                 })()}
-              {/* {filteredMatches.map((match: any, index: number) => (
-                <Box key={`sessionMarketBox${match?.SelectionId}-${index}`}>
-                  <SessionMarketBox
-                    hideResult={hideResult}
-                    hideTotalBet={hideTotalBet}
-                    newData={match}
-                    profitLossData={profitLossData}
-                    index={index}
-                    hideEditMaxButton={hideEditMaxButton} 
-                    section={section}
-                  />
-                  <Divider />
-                </Box>
-              ))} */}
             </Box>
           </Box>
         )}
