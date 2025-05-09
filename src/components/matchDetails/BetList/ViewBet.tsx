@@ -365,7 +365,17 @@ const MemoizedRow = memo(
               </Box>
             </Box>
           )}
-
+          {bet?.deleteReason && bet?.result && ["UNDECLARE"].includes(bet.result) && (
+            <Box
+              sx={{
+                background: "rgba(0,0,0,0.5)",
+                width: "100%",
+                height: "30px",
+                position: "absolute",
+                display: "flex",
+              }}
+            />
+          )}
           {bet?.result && ["LOSS", "WIN", "TIE"].includes(bet.result) && (
             <Box
               sx={{
