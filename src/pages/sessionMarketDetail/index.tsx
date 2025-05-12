@@ -27,6 +27,7 @@ import {
   updateSessionProLoss,
 } from "../../store/actions/addMatch/addMatchAction";
 import {
+  addsuccessReset,
   setCurrentOdd,
   updateApiSessionById,
 } from "../../store/actions/addSession";
@@ -54,8 +55,11 @@ const SessionMarketDetail = () => {
   const { matchDetail, success } = useSelector(
     (state: RootState) => state.addMatch.addMatch
   );
+
   const { sessionProLoss } = useSelector((state: RootState) => state.match);
-  const { currentOdd } = useSelector((state: RootState) => state.addSession);
+  const { currentOdd, addSuccess } = useSelector(
+    (state: RootState) => state.addSession
+  );
 
   useEffect(() => {
     const observerLCP = new PerformanceObserver((list) => {
@@ -364,6 +368,16 @@ const SessionMarketDetail = () => {
       console.error(error);
     }
   }, [state?.id]);
+
+  useEffect(() => {
+    try {
+      if (addSuccess) {
+        dispatch(addsuccessReset());
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  }, [addSuccess]);
 
   // Memoized render sections
   const renderLiveSessionMarkets = useMemo(() => {
