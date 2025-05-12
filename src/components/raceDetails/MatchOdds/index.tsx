@@ -1,6 +1,6 @@
 import { Box, Typography } from "@mui/material";
 import ModalMUI from "@mui/material/Modal";
-import { Fragment, memo, useEffect, useState } from "react";
+import { Fragment, memo, useCallback, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { ARROWUP, edit } from "../../../assets";
 import { raceLiveStatus } from "../../../store/actions/match/matchAction";
@@ -26,6 +26,9 @@ const MatchOdds = ({ currentMatch, matchOddsLive }: any) => {
     setLive(matchOddsLive?.activeStatus === "live" ? true : false);
   }, [matchOddsLive?.activeStatus]);
 
+  const toggleVisibility = useCallback(() => {
+    setVisibleImg((prev) => !prev);
+  }, []);
   return (
     <>
       <Box
@@ -127,9 +130,7 @@ const MatchOdds = ({ currentMatch, matchOddsLive }: any) => {
                 </>
               )}
             <img
-              onClick={() => {
-                setVisibleImg(!visibleImg);
-              }}
+              onClick={toggleVisibility}
               src={ARROWUP}
               alt="arrow up"
               style={{

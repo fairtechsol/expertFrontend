@@ -1,5 +1,5 @@
 import { Box, Typography } from "@mui/material";
-import { Fragment, memo, useEffect, useState } from "react";
+import { Fragment, memo, useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ARROWUP } from "../../../assets";
 import {
@@ -62,6 +62,11 @@ const TournamentMarket = ({
       setVisible(false);
     }
   }, [success]);
+
+  const toggleVisibility = useCallback(() => {
+    setVisibleImg((prev) => !prev);
+  }, []);
+
   return (
     <Box
       sx={{
@@ -216,9 +221,7 @@ const TournamentMarket = ({
             <AddMarketButton handleClickOpen={handleClickOpen} />
           )}
           <img
-            onClick={() => {
-              setVisibleImg(!visibleImg);
-            }}
+            onClick={toggleVisibility}
             src={ARROWUP}
             alt="arrow up"
             style={{

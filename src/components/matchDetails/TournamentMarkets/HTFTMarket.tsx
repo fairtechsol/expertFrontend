@@ -1,5 +1,5 @@
 import { Box, Typography, useMediaQuery, useTheme } from "@mui/material";
-import { memo, useEffect, useState } from "react";
+import { memo, useCallback, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { ARROWUP } from "../../../assets";
 import { betLiveStatus } from "../../../store/actions/match/matchAction";
@@ -38,6 +38,9 @@ const HTFTMarket = ({ currentMatch, liveData, title, firstKnownKey }: any) => {
     setOpen(data);
   };
 
+  const toggleVisibility = useCallback(() => {
+    setVisible((prev) => !prev);
+  }, []);
   return (
     <Box
       sx={{
@@ -186,9 +189,7 @@ const HTFTMarket = ({ currentMatch, liveData, title, firstKnownKey }: any) => {
         {visible && (
           <ResultComponentTournamentMarket
             currentMatch={currentMatch}
-            onClick={() => {
-              setVisible(false);
-            }}
+            onClick={toggleVisibility}
             liveData={liveData}
           />
         )}

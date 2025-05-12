@@ -41,7 +41,7 @@ const MemoizedRow = memo(
       <div style={style}>
         {/* Rest of your Row JSX remains exactly the same */}
         <div
-          style={{ display: "flex", position: "relative", height: ROW_HEIGHT }}
+          style={{ display: "flex", position: "relative", height: "90px !important" }}
         >
           {/* Row Number */}
           <Box
@@ -452,6 +452,11 @@ const ViewBetList = ({ tag, allBetRates, title }: any) => {
 
   const cHeight = Math.min(allBetRates.length * ROW_HEIGHT, window.innerHeight * 0.9);
 
+
+  const toggleVisibility = useCallback(() => {
+    setVisibleImg((prev) => !prev);
+  }, []);
+
   return (
     <Box
       sx={{
@@ -548,7 +553,7 @@ const ViewBetList = ({ tag, allBetRates, title }: any) => {
             </Typography>
           </Box>
           <img
-            onClick={() => setVisibleImg(!visibleImg)}
+            onClick={toggleVisibility}
             src={ARROWUP}
             alt="arrow up"
             style={{

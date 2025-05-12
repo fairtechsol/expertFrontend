@@ -1,6 +1,6 @@
 import { Box, Button, Typography } from "@mui/material";
 import moment from "moment";
-import { memo, useEffect, useRef, useState } from "react";
+import { memo, useCallback, useEffect, useRef, useState } from "react";
 import { ARROWUP } from "../../../assets";
 import { formatToINR } from "../../helper";
 import SessionHeaderRow from "./SessionHeaderRow";
@@ -131,6 +131,10 @@ const BetListForSession = ({ tag, allBetRates }: any) => {
     }
   }, [allBetRates]);
 
+  const toggleVisibility = useCallback(() => {
+    setVisibleImg((prev) => !prev);
+  }, []);
+
   return (
     <Box
       sx={{
@@ -237,9 +241,7 @@ const BetListForSession = ({ tag, allBetRates }: any) => {
             </Typography>
           </Box>
           <img
-            onClick={() => {
-              setVisibleImg(!visibleImg);
-            }}
+            onClick={toggleVisibility}
             src={ARROWUP}
             alt="arrow up"
             style={{
