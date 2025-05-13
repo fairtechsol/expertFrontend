@@ -75,7 +75,7 @@ const MatchListInput = ({
           required={required}
           onWheel={numberInputOnWheelPreventChange}
           type={type}
-          value={value}
+          value={value ?? ""}
           onKeyDown={(e) => {
             if (/^[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]*$/.test(e.key)) {
               e.preventDefault();

@@ -102,27 +102,31 @@ const SearchableInput = ({
         getOptionLabel={(option: any) => `${option?.label}`}
         disabled={disabled}
         onChange={handleOnChange}
-        renderOption={(props: any, option: any) => (
-          <Box
-            {...props}
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              cursor: "pointer",
-              textAlign: "left",
-              fontSize: "1rem",
-            }}
-          >
-            <Typography style={{ textAlign: "left", width: "100%" }}>
-              {option?.label}
-            </Typography>
-            <Typography
-              sx={{ fontSize: "12px", textAlign: "start", width: "100%" }}
+        renderOption={(props: any, option: any) => {
+          const { key, ...rest } = props;
+          return (
+            <Box
+              key={key}
+              {...rest}
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                cursor: "pointer",
+                textAlign: "left",
+                fontSize: "1rem",
+              }}
             >
-              {option?.EventDate}
-            </Typography>
-          </Box>
-        )}
+              <Typography style={{ textAlign: "left", width: "100%" }}>
+                {option?.label}
+              </Typography>
+              <Typography
+                sx={{ fontSize: "12px", textAlign: "start", width: "100%" }}
+              >
+                {option?.EventDate}
+              </Typography>
+            </Box>
+          );
+        }}
         renderInput={(params) => (
           <TextField
             placeholder="Select Match"
