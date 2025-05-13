@@ -1,20 +1,38 @@
-import { useEffect, useState } from "react";
-import { CancelDark } from "../../../assets";
 import { Box, Button, TextField, Typography } from "@mui/material";
-import SessionResultCustomButton from "../../addSession/AddSession/SessionResultCustomButton";
-import { AppDispatch, RootState } from "../../../store/store";
+import { memo, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { CancelDark } from "../../../assets";
+import { AppDispatch, RootState } from "../../../store/store";
+import SessionResultCustomButton from "../../addSession/AddSession/SessionResultCustomButton";
 
 import {
   noResultDeclare,
   resultDeclare,
   undeclareResult,
 } from "../../../store/actions/match/matchAction";
-const CustomSessionResult = ({ onClick, newData }: any) => {
+
+
+interface CustomSessionResultProps {
+  onClick: () => void;
+  newData: {
+    matchId: string;
+    id: string;
+    type?: string;
+    activeStatus?: string;
+    result?: any;
+  };
+}
+
+interface LoaderState {
+  id: string;
+  value: boolean;
+}
+
+const CustomSessionResult = ({ onClick, newData }: CustomSessionResultProps) => {
   const dispatch: AppDispatch = useDispatch();
   const { declareLoading } = useSelector((state: RootState) => state.matchList);
   const [selected, setSelected] = useState("");
-  const [loader, setLoading] = useState({ id: "", value: false });
+  const [loader, setLoading] = useState<LoaderState>({ id: "", value: false });
   const [confirmNoResult, setConfirmNoResults] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
   const [selectedFancyButton, setSelectedFancyButton] = useState("yes");
@@ -68,6 +86,10 @@ const CustomSessionResult = ({ onClick, newData }: any) => {
     });
   }, [declareLoading]);
 
+  const isResultDeclared = newData?.activeStatus === "result";
+  const isFancyType = newData?.type === "fancy1";
+  const shouldShowDeclareButton = !isResultDeclared && !showPopup && !confirmNoResult;
+
   return (
     <Box
       sx={{
@@ -84,8 +106,8 @@ const CustomSessionResult = ({ onClick, newData }: any) => {
     >
       {!confirmNoResult ? (
         <>
-          {newData?.activeStatus !== "result" &&
-            (newData?.type === "fancy1" ? (
+          {!isResultDeclared &&
+            (isFancyType ? (
               <>
                 <Button
                   sx={{
@@ -117,10 +139,7 @@ const CustomSessionResult = ({ onClick, newData }: any) => {
                 variant="standard"
                 value={selected}
                 // onChange={(e) => setSelected(e?.target.value)}
-                onChange={(e: any) => {
-                  const numericValue = e.target.value.replace(/[^0-9]/g, "");
-                  setSelected(numericValue);
-                }}
+                onChange={(e) => setSelected(e.target.value.replace(/[^0-9]/g, ""))}
                 onKeyDown={handleInputKeyPress}
                 InputProps={{
                   disableUnderline: true,
@@ -138,10 +157,10 @@ const CustomSessionResult = ({ onClick, newData }: any) => {
             ))}
           {!showPopup ? (
             <>
-              {newData?.activeStatus === "result" && newData?.result ? (
+              {isResultDeclared && newData?.result ? (
                 <SessionResultCustomButton
-                  color={"#FF4D4D"}
-                  title={"Un Declare"}
+                  color="#FF4D4D"
+                  title="Un Declare"
                   loading={loader}
                   id="UD"
                   session={true}
@@ -152,18 +171,16 @@ const CustomSessionResult = ({ onClick, newData }: any) => {
                 />
               ) : (
                 <>
-                  {newData?.activeStatus !== "result" ? (
+                  {shouldShowDeclareButton ? (
                     <SessionResultCustomButton
-                      color={"#0B4F26"}
+                      color="#0B4F26"
                       id="DR"
                       session={true}
-                      title={"Declare"}
+                      title="Declare"
                       loading={loader}
                       disable={loader?.value}
                       onClick={() => {
-                        if (loader?.value) {
-                          return false;
-                        } else {
+                        if (!loader.value) {
                           setLoading({ id: "DR", value: true });
                           handleDeclare();
                         }
@@ -189,16 +206,14 @@ const CustomSessionResult = ({ onClick, newData }: any) => {
               </Typography>
               {newData?.activeStatus === "result" && (
                 <SessionResultCustomButton
-                  color={"rgb(106 90 90)"}
-                  title={"Yes"}
+                  color="rgb(106 90 90)"
+                  title="Yes"
                   loading={loader}
                   id="UD"
                   session={true}
                   disable={loader?.value}
                   onClick={() => {
-                    if (loader?.value) {
-                      return false;
-                    } else {
+                    if (!loader.value) {
                       setLoading({ id: "UD", value: true });
                       handleUndeclareResult();
                     }
@@ -210,8 +225,8 @@ const CustomSessionResult = ({ onClick, newData }: any) => {
 
           {newData?.activeStatus !== "result" && (
             <SessionResultCustomButton
-              color={"rgb(106 90 90)"}
-              title={"No Result"}
+              color="rgb(106 90 90)"
+              title="No Result"
               loading={loader}
               id="NR"
               session={true}
@@ -238,16 +253,14 @@ const CustomSessionResult = ({ onClick, newData }: any) => {
           </Typography>
           {newData?.activeStatus !== "result" && (
             <SessionResultCustomButton
-              color={"rgb(106 90 90)"}
-              title={"Yes"}
+              color="rgb(106 90 90)"
+              title="Yes"
               loading={loader}
               id="NR"
               session={true}
               disable={loader?.value}
               onClick={() => {
-                if (loader?.value) {
-                  return false;
-                } else {
+                if (!loader.value) {
                   setLoading({ id: "NR", value: true });
                   handleNoResultDeclare();
                 }
@@ -264,9 +277,11 @@ const CustomSessionResult = ({ onClick, newData }: any) => {
         }}
         src={CancelDark}
         alt="Cancel"
-        style={{ width: "25px", height: "25px", cursor: "pointer" }}
+        width={25}
+        height={25}
+        style={{ cursor: "pointer" }}
       />
     </Box>
   );
 };
-export default CustomSessionResult;
+export default memo(CustomSessionResult);

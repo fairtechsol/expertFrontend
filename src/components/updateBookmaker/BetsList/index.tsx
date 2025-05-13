@@ -1,38 +1,44 @@
+
 import { Box, Button, Typography } from "@mui/material";
-import { useEffect, useRef, useState } from "react";
+import { memo, useCallback, useMemo, useRef, useState } from "react";
+import AutoSizer from "react-virtualized-auto-sizer";
+import { FixedSizeList as List } from "react-window";
 import Header from "./Header";
 import Row from "./Row";
 
+const ROW_HEIGHT = 40; // Define row height as constant
+
+// Memoized Row component to prevent unnecessary re-renders
+const MemoizedRow = memo(({ data, index, style }: { data: any, index: number, style: React.CSSProperties }) => {
+  const num = data.betData.length - index;
+  const item = data.betData[index];
+  return (
+    <div style={style}>
+      <Row index={num} values={item} />
+    </div>
+  );
+});
+
 const BetsList = ({ betData, name }: any) => {
-  const scrollRef = useRef<HTMLDivElement | null>(null);
+  const listRef = useRef<any>(null);
   const [showButton, setShowButton] = useState(false);
 
-  const scrollToTop = () => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollTo({
-        top: 0,
-        behavior: "smooth",
-      });
-    }
-  };
+  // Memoize the itemData to prevent unnecessary re-renders
+  const itemData = useMemo(() => ({
+    betData,
+    // Include other props that Row might need
+  }), [betData]);
 
-  const handleScroll = () => {
-    if (scrollRef.current) {
-      const { scrollTop } = scrollRef.current;
-      setShowButton(scrollTop > 0);
-    }
-  };
-
-  useEffect(() => {
-    const scrollElement = scrollRef.current;
-    if (scrollElement) {
-      scrollElement.addEventListener("scroll", handleScroll);
-      return () => {
-        scrollElement.removeEventListener("scroll", handleScroll);
-      };
-    }
+  const scrollToTop = useCallback(() => {
+    listRef.current?.scrollToItem(0, "start");
   }, []);
 
+  const handleScroll = useCallback(({ scrollOffset }: { scrollOffset: number }) => {
+    setShowButton(scrollOffset > 0);
+  }, []);
+
+  // Calculate dynamic height based on window size
+  const listHeight = useMemo(() => Math.min(window.innerHeight * 0.75, ROW_HEIGHT * betData.length), [betData.length]);
 
   return (
     <Box
@@ -45,17 +51,16 @@ const BetsList = ({ betData, name }: any) => {
         position: "relative",
       }}
     >
+      {/* Header Section */}
       <Box
-        sx={[
-          {
-            height: "42px",
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            padding: "10px",
-            backgroundColor: "#F8C851",
-          },
-        ]}
+        sx={{
+          height: "42px",
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          padding: "10px",
+          backgroundColor: "#F8C851",
+        }}
       >
         <Typography
           sx={{
@@ -64,8 +69,10 @@ const BetsList = ({ betData, name }: any) => {
             fontWeight: "600",
           }}
         >
-          {name ? name : "Bookmaker"} Bets
+          {name} Bets
         </Typography>
+
+        {/* Scroll to Top Button */}
         <Box>
           {showButton && (
             <Button
@@ -79,9 +86,7 @@ const BetsList = ({ betData, name }: any) => {
                 right: 20,
                 backgroundColor: "#F8C851",
                 color: "#000",
-                "&:hover": {
-                  backgroundColor: "#F8C851",
-                },
+                "&:hover": { backgroundColor: "#F8C851" },
                 zIndex: 1000,
               }}
             >
@@ -89,6 +94,8 @@ const BetsList = ({ betData, name }: any) => {
             </Button>
           )}
         </Box>
+
+        {/* Bet Count Display */}
         <Box
           sx={{
             height: "35px",
@@ -101,18 +108,16 @@ const BetsList = ({ betData, name }: any) => {
             alignItems: "center",
           }}
         >
-          <Typography
-            sx={{ color: "red", fontWeight: "700", fontSize: "14px" }}
-          >
+          <Typography sx={{ color: "red", fontWeight: "700", fontSize: "14px" }}>
             All Bets
           </Typography>
-          <Typography
-            sx={{ color: "#0B4F26", fontWeight: "700", marginTop: "-5px" }}
-          >
+          <Typography sx={{ color: "#0B4F26", fontWeight: "700", marginTop: "-5px" }}>
             {betData?.length}
           </Typography>
         </Box>
       </Box>
+
+      {/* List Content */}
       <Box
         sx={{
           flex: 1,
@@ -122,27 +127,24 @@ const BetsList = ({ betData, name }: any) => {
         }}
       >
         <Header />
-        <Box
-          className="myScroll"
-          ref={scrollRef}
-          sx={{
-            maxHeight: "75vh",
-            overflow: "hidden",
-            overflowY: "auto",
-            "::-webkit-scrollbar": {
-              display: "none",
-            },
-          }}
-        >
-          {betData?.length > 0 &&
-            betData?.map((i: any, k: any) => {
-              const num = betData?.length - k;
-              return <Row key={k} index={num} values={i} />;
-            })}
-        </Box>
+        <AutoSizer>
+          {({ width }) => (
+            <List
+              ref={listRef}
+              height={listHeight}
+              itemCount={betData?.length || 0}
+              itemSize={ROW_HEIGHT}
+              width={width}
+              onScroll={handleScroll}
+              itemData={itemData} // Pass memoized data
+            >
+              {MemoizedRow}
+            </List>
+          )}
+        </AutoSizer>
       </Box>
     </Box>
   );
 };
 
-export default BetsList;
+export default memo(BetsList);

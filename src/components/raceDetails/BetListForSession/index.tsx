@@ -1,6 +1,6 @@
 import { Box, Button, Typography } from "@mui/material";
 import moment from "moment";
-import { useEffect, useRef, useState } from "react";
+import { memo, useCallback, useEffect, useRef, useState } from "react";
 import { ARROWUP } from "../../../assets";
 import { formatToINR } from "../../helper";
 import SessionHeaderRow from "./SessionHeaderRow";
@@ -52,27 +52,11 @@ const BetListForSession = ({ tag, allBetRates }: any) => {
                   v?.marketType === "completeManual" ||
                   v?.marketType === "tiedMatch2" ||
                   v?.marketType === "tiedMatch1"
-                ? "#faf11b"
-                : "#F1C550",
+                  ? "#faf11b"
+                  : "#F1C550",
               deleteReason: v?.deleteReason,
               width: { lg: "17%", xs: "32%" },
             },
-            // {
-            //   name:
-            //     v?.marketType == "MANUAL BOOKMAKER"
-            //       ? "Quick Bookmaker"
-            //       : v?.bettingName ?? v?.marketType,
-            //   color: ["NO", "YES"].includes(v?.betType) ? "#FFF" : "black",
-            //   background: ["NO", "YES"].includes(v?.betType)
-            //     ? "#319E5B"
-            //     : v?.marketType === "completeMatch" ||
-            //       v?.marketType === "tiedMatch2" ||
-            //       v?.marketType === "tiedMatch1"
-            //     ? "#faf11b"
-            //     : "#F1C550",
-            //   deleteReason: v?.deleteReason,
-            //   width: { lg: "18%", xs: "65%" },
-            // },
             {
               name: v?.teamName,
               color: "black",
@@ -120,8 +104,8 @@ const BetListForSession = ({ tag, allBetRates }: any) => {
               name: +v.myStake
                 ? formatToINR(+v.myStake)
                 : formatToINR(
-                    (+v?.amount * +v?.user?.fwPartnership || 0) / 100
-                  ),
+                  (+v?.amount * +v?.user?.fwPartnership || 0) / 100
+                ),
               color: "white",
               background: "#0B4F26",
               deleteReason: v?.deleteReason,
@@ -146,6 +130,10 @@ const BetListForSession = ({ tag, allBetRates }: any) => {
       setNewBets(body);
     }
   }, [allBetRates]);
+
+  const toggleVisibility = useCallback(() => {
+    setVisibleImg((prev) => !prev);
+  }, []);
 
   return (
     <Box
@@ -216,7 +204,7 @@ const BetListForSession = ({ tag, allBetRates }: any) => {
             // '#262626'
           }}
         >
-          <div className="slanted"></div>
+          <div className="slanted" />
         </Box>
         <Box
           sx={{
@@ -253,12 +241,12 @@ const BetListForSession = ({ tag, allBetRates }: any) => {
             </Typography>
           </Box>
           <img
-            onClick={() => {
-              setVisibleImg(!visibleImg);
-            }}
+            onClick={toggleVisibility}
             src={ARROWUP}
+            alt="arrow up"
             style={{
-              transform: visibleImg ? "rotate(180deg)" : "rotate(0deg)",
+              transform: !visibleImg ? "rotate(180deg)" : "rotate(0deg)",
+              transition: "transform 0.3s ease",
               width: "15px",
               height: "15px",
               marginRight: "5px",
@@ -330,7 +318,7 @@ const BetListForSession = ({ tag, allBetRates }: any) => {
                           }}
                         >
                           <Box sx={{ flex: 1, display: "flex" }}>
-                            <Box sx={{ width: "34%", height: "30px" }}></Box>
+                            <Box sx={{ width: "34%", height: "30px" }} />
                             <Box
                               sx={{
                                 width: "66%",
@@ -371,4 +359,4 @@ const BetListForSession = ({ tag, allBetRates }: any) => {
   );
 };
 
-export default BetListForSession;
+export default memo(BetListForSession);

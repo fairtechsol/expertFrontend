@@ -1,4 +1,5 @@
 import { Box, Typography } from "@mui/material";
+import { memo } from "react";
 
 const Result = ({ invert, onClick }: any) => {
   return (
@@ -7,7 +8,7 @@ const Result = ({ invert, onClick }: any) => {
         sx={{
           width: { lg: "36px", xs: "80%" },
           display: "flex",
-          marginRight: {lg:"5px", xs: "0"},
+          marginRight: { lg: "5px", xs: "0" },
           justifyContent: "center",
           paddingX: 1,
           alignItems: "center",
@@ -31,4 +32,4 @@ const Result = ({ invert, onClick }: any) => {
   );
 };
 
-export default Result;
+export default memo(Result);

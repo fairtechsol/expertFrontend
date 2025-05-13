@@ -1,26 +1,21 @@
 import { Box, Typography } from "@mui/material";
-import { useEffect, useState } from "react";
-// import { useDispatch } from "react-redux";
-// import { updateMatchActiveStatus } from "../../store/actions/match/matchAction";
-// import { AppDispatch } from "../../store/store";
-import { MaterialUISwitch } from "../matchList/materialUiSwitch";
+import { memo, useEffect, useState } from "react";
 import service from "../../service";
 import { ApiConstants } from "../../utils/Constants";
+import { MaterialUISwitch } from "../matchList/materialUiSwitch";
 
-const BoxButtonWithSwitch = (props: any) => {
-  const {
-    title,
-    matchId,
-    containerStyle,
-    titleStyle,
-    updateMatchStatus,
-    setUpdateMatchStatus,
-    place,
-    disable,
-    isManualBet,
-    matchBettingType,
-  } = props;
-  // const dispatch: AppDispatch = useDispatch();
+const BoxButtonWithSwitch = ({
+  title,
+  matchId,
+  containerStyle,
+  titleStyle,
+  updateMatchStatus,
+  setUpdateMatchStatus,
+  place,
+  disable,
+  isManualBet,
+  matchBettingType,
+}: any) => {
   const [background, setBackground] = useState<string>("#0B4F26");
   const value = updateMatchStatus[place]?.val;
   const [checked, setChecked] = useState<boolean>(value || false);
@@ -33,10 +28,6 @@ const BoxButtonWithSwitch = (props: any) => {
     }
   }, [checked]);
 
-  // useEffect(() => {
-  // setChecked(value);
-  // }, [value]);
-
   return (
     <Box
       sx={[
@@ -44,11 +35,9 @@ const BoxButtonWithSwitch = (props: any) => {
           height: "35px",
           minWidth: "250px",
           width: { xs: "100%", sm: "40%", md: "20%" },
-          marginTop: { xs: 1, md: 0 },
           marginLeft: "10px",
           borderRadius: "5px",
           margin: "10px",
-          border: undefined,
           background: background,
           display: "flex",
           justifyContent: "space-between",
@@ -76,45 +65,42 @@ const BoxButtonWithSwitch = (props: any) => {
       >
         {title}
       </Typography>
-      {
-        <MaterialUISwitch
-          checked={checked}
-          disabled={disable}
-          onChange={async () => {
-            try {
-              if (!disable) {
-                let payload = {
-                  matchId: matchId,
-                  type: matchBettingType,
-                  isActive: !checked,
-                  isManualBet: isManualBet,
-                };
-                // dispatch(updateMatchActiveStatus(payload));
-                const resp: any = await service.post(
-                  ApiConstants.MATCH.UPDATEACTIVESTATUS,
-                  payload
-                );
-                if (resp?.statusCode === 200) {
-                  setChecked(!checked);
-                  setUpdateMatchStatus((prevStatus: any) => ({
-                    ...prevStatus,
-                    [place]: {
-                      ...prevStatus[place],
-                      val: !checked,
-                    },
-                  }));
-                }
-              } else {
-                alert("You don't have privilege to change status.");
+      <MaterialUISwitch
+        checked={checked}
+        disabled={disable}
+        onChange={async () => {
+          try {
+            if (!disable) {
+              let payload = {
+                matchId: matchId,
+                type: matchBettingType,
+                isActive: !checked,
+                isManualBet: isManualBet,
+              };
+              const resp: any = await service.post(
+                ApiConstants.MATCH.UPDATEACTIVESTATUS,
+                payload
+              );
+              if (resp?.statusCode === 200) {
+                setChecked(!checked);
+                setUpdateMatchStatus((prevStatus: any) => ({
+                  ...prevStatus,
+                  [place]: {
+                    ...prevStatus[place],
+                    val: !checked,
+                  },
+                }));
               }
-            } catch (e) {
-              console.log(e);
+            } else {
+              alert("You don't have privilege to change status.");
             }
-          }}
-        />
-      }
+          } catch (e) {
+            console.log(e);
+          }
+        }}
+      />
     </Box>
   );
 };
 
-export default BoxButtonWithSwitch;
+export default memo(BoxButtonWithSwitch);

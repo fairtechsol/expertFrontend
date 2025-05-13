@@ -14,8 +14,8 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import { useFormik } from "formik";
-import { useEffect } from "react";
-import { TiDelete } from "react-icons/ti";
+import { memo, useEffect } from "react";
+import { TiDelete } from 'react-icons/ti';
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -146,7 +146,6 @@ const AddManualMarket = () => {
         <Box
           sx={{
             background: "white",
-            // borderRadius: "5px",
             borderRadius: "5px",
             margin: "10px",
           }}
@@ -203,7 +202,7 @@ const AddManualMarket = () => {
                   alignSelf: "center",
                 }}
               >
-                <Box sx={{ width: "2%" }}></Box>
+                <Box sx={{ width: "2%" }} />
               </Box>
             </Box>
           )}
@@ -226,8 +225,8 @@ const AddManualMarket = () => {
                 <Grid item lg={12} sm={12}>
                   <MatchListInput
                     required={true}
-                    label={"Market name*"}
-                    type={"text"}
+                    label="Market name*"
+                    type="text"
                     touched={touched.name}
                     errors={errors.name}
                     value={values.name}
@@ -245,8 +244,8 @@ const AddManualMarket = () => {
                 <Grid item lg={6} sm={6}>
                   <MatchListInput
                     required={true}
-                    label={"Min. amount*"}
-                    type={"number"}
+                    label="Min. amount*"
+                    type="number"
                     touched={touched.minBet}
                     errors={errors.minBet}
                     value={values.minBet}
@@ -264,8 +263,8 @@ const AddManualMarket = () => {
                 <Grid item lg={6} sm={6}>
                   <MatchListInput
                     required={true}
-                    label={"Max. amount*"}
-                    type={"number"}
+                    label="Max. amount*"
+                    type="number"
                     touched={touched.maxBet}
                     errors={errors.maxBet}
                     value={values.maxBet}
@@ -283,8 +282,8 @@ const AddManualMarket = () => {
                 <Grid item lg={6} sm={6}>
                   <MatchListInput
                     required={true}
-                    label={"Bet Limit*"}
-                    type={"number"}
+                    label="Bet Limit*"
+                    type="number"
                     touched={touched.betLimit}
                     errors={errors.betLimit}
                     value={values.betLimit}
@@ -302,8 +301,8 @@ const AddManualMarket = () => {
                 <Grid item lg={6} sm={6}>
                   <MatchListInput
                     required={true}
-                    label={"Exposure Limit*"}
-                    type={"number"}
+                    label="Exposure Limit*"
+                    type="number"
                     touched={touched.exposureLimit}
                     errors={errors.exposureLimit}
                     value={values.exposureLimit}
@@ -429,6 +428,7 @@ const AddManualMarket = () => {
                         {values.runners?.map((item: any, index: any) => {
                           return (
                             <Box
+                              key={index}
                               sx={{
                                 borderWidth: 0,
                                 justifyContent: "space-between",
@@ -477,7 +477,8 @@ const AddManualMarket = () => {
                                 ...values.runners,
                                 {
                                   ...matchBettingRunner,
-                                  selectionId: values.runners?.length?.toString(),
+                                  selectionId:
+                                    values.runners?.length?.toString(),
                                   sortPriority: values.runners?.length,
                                 },
                               ],
@@ -510,4 +511,4 @@ const AddManualMarket = () => {
   );
 };
 
-export default AddManualMarket;
+export default memo(AddManualMarket);

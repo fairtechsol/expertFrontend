@@ -1,9 +1,30 @@
-import StyledImage from "../../Common/StyledImages";
 import { Box, Typography } from "@mui/material";
+import { memo } from "react";
+import StyledImage from "../../Common/StyledImages";
 import { formatToINR } from "../../helper";
 
-const SessionResultOvers = (props: any) => {
-  const { sessionData, mode, changeSelected, selected } = props;
+interface BetItem {
+  betId: {
+    id: string;
+    name: string;
+  };
+  profitLoss: string | number;
+  result: string;
+}
+
+interface SessionResultOversProps {
+  sessionData?: BetItem[];
+  mode?: string;
+  changeSelected: (item: BetItem) => void;
+  selected: string[];
+}
+
+const SessionResultOvers = ({
+  sessionData = [],
+  mode = "1",
+  changeSelected,
+  selected = [],
+}: SessionResultOversProps) => {
   return (
     <Box sx={{ border: "2px solid #FFFFFF" }}>
       <Box sx={{ display: "flex" }}>
@@ -25,7 +46,11 @@ const SessionResultOvers = (props: any) => {
           }}
         >
           <Typography
-            sx={{ color: "white", fontWeight: "600", fontSize: {lg:"12px", xs: "10px"}  }}
+            sx={{
+              color: "white",
+              fontWeight: "600",
+              fontSize: { lg: "12px", xs: "10px" },
+            }}
           >
             RESULT
           </Typography>
@@ -41,7 +66,11 @@ const SessionResultOvers = (props: any) => {
           }}
         >
           <Typography
-            sx={{ color: "white", fontWeight: "600", fontSize: {lg:"12px", xs: "8px"} }}
+            sx={{
+              color: "white",
+              fontWeight: "600",
+              fontSize: { lg: "12px", xs: "8px" },
+            }}
           >
             PROFIT/LOSS
           </Typography>
@@ -115,6 +144,7 @@ const SessionResultOvers = (props: any) => {
                     {formatToINR(profit_loss)}
                     <StyledImage
                       src="https://fontawesomeicons.com/images/svg/trending-up-sharp.svg"
+                      alt="up icon"
                       sx={{
                         height: "15px",
                         marginLeft: "5px",
@@ -150,6 +180,7 @@ const SessionResultOvers = (props: any) => {
                     {formatToINR(profit_loss)}
                     <StyledImage
                       src="https://fontawesomeicons.com/images/svg/trending-down-sharp.svg"
+                      alt="down icon"
                       sx={{
                         height: "15px",
                         marginLeft: "5px",
@@ -168,4 +199,4 @@ const SessionResultOvers = (props: any) => {
   );
 };
 
-export default SessionResultOvers;
+export default memo(SessionResultOvers);

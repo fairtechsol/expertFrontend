@@ -1,15 +1,17 @@
 import { Box, Typography } from "@mui/material";
+import moment from "moment";
 import { memo, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Loader from "../../components/Loader";
 import BetList from "../../components/raceDetails/BetList";
 import MatchOdds from "../../components/raceDetails/MatchOdds";
+import { getTimeLeft } from "../../helpers";
 import {
   expertSocketService,
+  matchService,
   socket,
   socketService,
-  matchService,
 } from "../../socketManager";
 import {
   updateRaceRates,
@@ -27,11 +29,9 @@ import {
   updateTeamRatesForHorseRacingOnDelete,
 } from "../../store/actions/match/matchAction";
 import { AppDispatch, RootState } from "../../store/store";
-import moment from "moment";
-import { getTimeLeft } from "../../helpers";
 
 const RaceDetails = () => {
-  const { state } = useLocation();
+  const state: any = useParams();
   const navigate = useNavigate();
   const dispatch: AppDispatch = useDispatch();
   const [timeLeft, setTimeLeft] = useState<any>({
@@ -50,11 +50,11 @@ const RaceDetails = () => {
   );
 
   useEffect(() => {
-    if (state?.marketId) {
+    if (state?.mId) {
       matchService.connect([state?.id]);
     }
     return () => {
-      matchService.disconnect(); 
+      matchService.disconnect();
     };
   }, [state]);
 
@@ -95,15 +95,6 @@ const RaceDetails = () => {
       console.log(e);
     }
   };
-  // const updateBettingStatus = (event: any) => {
-  //   try {
-  //     if (state?.id === event?.matchId) {
-  //       dispatch(updateMatchBettingStatus(event));
-  //     }
-  //   } catch (e) {
-  //     console.log(e);
-  //   }
-  // };
 
   const matchDeleteBet = (event: any) => {
     try {
@@ -194,9 +185,7 @@ const RaceDetails = () => {
   useEffect(() => {
     try {
       return () => {
-        // expertSocketService.match.leaveMatchRoom(state?.id);
         expertSocketService.match.getMatchRatesOff(state?.id);
-        // socketService.user.matchBettingStatusChangeOff();
         socketService.user.matchResultDeclaredOff();
         socketService.user.matchResultUnDeclaredOff();
         socketService.user.matchDeleteBetOff();
@@ -257,14 +246,12 @@ const RaceDetails = () => {
           xs: loading ? "80vh" : "100%",
           lg: loading ? "90vh" : "100%",
         },
-        // minHeight: "92vh",
-        // background: !loading ? "white" : "",
         padding: 1,
         gap: 1,
       }}
     >
       {loading ? (
-        <Loader text="" />
+        <Loader />
       ) : (
         <>
           <Box
@@ -309,7 +296,6 @@ const RaceDetails = () => {
               matchOddsLive={raceDetail?.matchOdd}
             />
           </Box>
-
           <Box
             sx={{
               width: { lg: "50%", xs: "100%", md: "100%" },

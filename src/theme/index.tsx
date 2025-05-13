@@ -36,7 +36,7 @@ let theme = createTheme({
       white: "#fff",
     } as CustomPaletteColorOptions,
     secondary: {
-      main: "#FDF21A",
+      main: "#F8C851",
       contrastText: "#000",
     },
     error: {

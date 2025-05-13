@@ -1,5 +1,5 @@
-import { useState } from "react";
 import { Menu } from "@mui/material";
+import { memo, useState } from "react";
 import MenutItemsComponent from "./MenutItemsComponent";
 
 const DropDownMenu = ({ anchorEl, open, handleClose, allMatch }: any) => {
@@ -17,7 +17,6 @@ const DropDownMenu = ({ anchorEl, open, handleClose, allMatch }: any) => {
       }}
       PaperProps={{
         sx: {
-          // width: "230px",
           padding: 0,
         },
       }}
@@ -37,4 +36,4 @@ const DropDownMenu = ({ anchorEl, open, handleClose, allMatch }: any) => {
   );
 };
 
-export default DropDownMenu;
+export default memo(DropDownMenu);

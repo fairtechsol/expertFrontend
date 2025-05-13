@@ -1,6 +1,6 @@
 import { Box, Typography } from "@mui/material";
 import ModalMUI from "@mui/material/Modal";
-import { useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import { TiArrowLeftThick } from "react-icons/ti";
 import { useDispatch, useSelector } from "react-redux";
 import { edit } from "../../../assets";
@@ -60,7 +60,7 @@ const SessionMarketBox = ({
             background: "rgba(0,0,0,0.4)",
             zIndex: 2,
           }}
-        ></Box>
+        />
       )}
       <Box
         sx={{
@@ -71,13 +71,11 @@ const SessionMarketBox = ({
             ? "#E15151"
             : index % 2 === 0
             ? "#FFE094"
-            : "#ECECEC", // Change color based on selected state and index
-
+            : "#ECECEC",
           height: "30px",
           width: "100%",
           boxShadow: visible ? 3 : 0,
         }}
-        // className="example-2"
       >
         <Box
           sx={{
@@ -88,27 +86,26 @@ const SessionMarketBox = ({
               ? "#E15151"
               : index % 2 === 0
               ? "#FFE094"
-              : "#ECECEC", // Change color based on selected state and index
-
+              : "#ECECEC",
             height: "30px",
             width: "40%",
             alignItems: "center",
             boxShadow: visible ? 3 : 0,
-            // backgroundColor:'#E15151'
             justifyContent: "space-between",
           }}
-          // className="example-2"
         >
           {!hideEditMaxButton && (
             <img
               onClick={() => setShowMaxLimitModal(true)}
               src={edit}
+              alt="edit"
               style={{
                 width: "14px",
                 height: "12px",
                 marginLeft: "4px",
                 zIndex: "999",
                 cursor: "pointer",
+                objectFit: "contain",
               }}
             />
           )}
@@ -144,7 +141,6 @@ const SessionMarketBox = ({
         <Box
           sx={{
             position: "absolute",
-
             minWidth: { lg: "36%", xs: "45%", md: "25%" },
             justifyContent: "flex-end",
             left: { lg: "11vw", md: "31vw", xs: "11.5vw" },
@@ -190,7 +186,7 @@ const SessionMarketBox = ({
                 <>
                   {newData?.exposureLimit
                     ? `Exp: ${formatNumber(newData?.exposureLimit)}`
-                    : ""}{" "}
+                    : ""}
                 </>
               )}
             </Typography>
@@ -234,7 +230,6 @@ const SessionMarketBox = ({
                 }
                 e.preventDefault();
                 setLoading(true);
-                // setLive(false);
                 dispatch(
                   sessionBetLiveStatus({
                     status: "save",
@@ -254,7 +249,7 @@ const SessionMarketBox = ({
               hide={false}
               textSize={newData?.result === "No Result" ? "0.55em" : "10px"}
               width={{ lg: "35px", xs: "35px", md: "35px" }}
-              title={`${newData?.result || 0}`}
+              title={newData?.result || 0}
               color="#FFF"
               height="20px"
             />
@@ -276,16 +271,13 @@ const SessionMarketBox = ({
                   );
                 }}
                 textSize="8px"
-                // width={"80px"}
                 width={{ lg: "20px", xs: "20px", md: "20px" }}
                 color={newData?.activeStatus === "live" ? "#46e080" : "#FF4D4D"}
-                // title={"Live"}
                 height="20px"
               />
             )}
           {!hideResult && (
             <Result
-              width={7}
               onClick={() => {
                 setVisible(true);
               }}
@@ -320,10 +312,10 @@ const SessionMarketBox = ({
               margin: "1px",
               background: "rgba(0,0,0,1)",
               height: "30px",
-              right: { lg: "18.6%", xs: "18.8%", md: "14.9%" },
+              right: { lg: "18.7%", xs: "16.8%", md: "15.8%" },
               position: "absolute",
-              width: { lg: "16.9%", xs: "20%" },
-              justifyContent: { xs: "center", lg: "center" },
+              width: { lg: "17.1%", xs: "25.7%", md: "18.4%" },
+              justifyContent: "center",
               alignItems: "center",
               display: "flex",
               backgroundColor: newData?.selfDeclare ? "#46e080" : "#FF4D4D",
@@ -336,7 +328,6 @@ const SessionMarketBox = ({
                 textAlign: "center",
                 lineHeight: "11px",
                 color: "#FFF",
-                // color={newData?.resultStatus === "PENDING" ? "red" : "#FFF"}
                 fontWeight: "400",
                 overflowWrap: "anywhere",
               }}
@@ -355,15 +346,14 @@ const SessionMarketBox = ({
               margin: "1px",
               background: "rgba(0,0,0,1)",
               height: "30px",
-              right: { lg: "18.6%", xs: "16.8%", md: "14.9%" },
+              right: { lg: "18.7%", xs: "16.8%", md: "15.8%" },
               position: "absolute",
-              width: { lg: "16.9%", xs: "26%", md: "19.9%" },
-              justifyContent: { xs: "center", lg: "center" },
+              width: { lg: "17.1%", xs: "25.7%", md: "18.4%" },
+              justifyContent: "center",
               alignItems: "center",
               display: "flex",
             }}
           >
-            {/* <img src={BallStart} style={{ width: '113px', height: "32px" }} /> */}
             <h6
               style={{
                 textTransform: "uppercase",
@@ -386,7 +376,6 @@ const SessionMarketBox = ({
               display: "flex",
               position: "relative",
               right: { lg: "-22.5%", xs: "-15%", md: "-24%" },
-              // background: "white",
               height: "30px",
               width: { lg: "18.6%", xs: "28%", md: "20%" },
               justifyContent: "end",
@@ -394,8 +383,6 @@ const SessionMarketBox = ({
             }}
           >
             <SeparateBox
-              session={true}
-              back={true}
               value={formatNumber(
                 newData?.type === "oddEven"
                   ? newData?.ex?.availableToBack[0]?.price || 0
@@ -410,12 +397,9 @@ const SessionMarketBox = ({
               color={newData?.type === "oddEven" ? "#B3E0FF" : "#F6D0CB"}
             />
 
-            <Box
-              sx={{ width: ".45%", display: "flex", background: "pink" }}
-            ></Box>
+            <Box sx={{ width: ".45%", display: "flex", background: "pink" }} />
 
             <SeparateBox
-              session={true}
               value={formatNumber(
                 newData?.type === "oddEven"
                   ? newData?.ex?.availableToLay[0]?.price || 0
@@ -439,7 +423,6 @@ const SessionMarketBox = ({
           />
         )}
       </Box>
-      {/* <Divider /> */}
       {Array.from(
         {
           length:
@@ -450,9 +433,21 @@ const SessionMarketBox = ({
         },
         (_, i) => i + 1
       )?.map((item: number) => (
-        <>
+        <Box
+          key={item}
+          sx={{
+            display: "flex",
+            background: visible
+              ? "#FFAF45"
+              : index % 2 === 0
+              ? "#FFE094"
+              : "#ECECEC",
+            height: "30px",
+            width: "100%",
+            boxShadow: visible ? 3 : 0,
+          }}
+        >
           <Box
-            key={item}
             sx={{
               display: "flex",
               background: visible
@@ -460,167 +455,130 @@ const SessionMarketBox = ({
                 : index % 2 === 0
                 ? "#FFE094"
                 : "#ECECEC",
+
               height: "30px",
-              width: "100%",
+              width: "40%",
+              alignItems: "center",
               boxShadow: visible ? 3 : 0,
             }}
           >
+            <Box sx={{ paddingTop: "3px", width: { lg: "100%", xs: "70%" } }}>
+              <Box sx={{ display: "flex", flexDirection: "row" }} />
+            </Box>
+          </Box>
+
+          {newData?.resultStatus ? (
+            <Box
+              sx={{
+                margin: "1px",
+                background: "rgba(0,0,0,1)",
+                height: "30px",
+                position: "absolute",
+                justifyContent: { xs: "center", lg: "center" },
+                alignItems: "center",
+                display: "flex",
+                backgroundColor: newData?.selfDeclare ? "#46e080" : "#FF4D4D",
+                right: { lg: "18.7%", xs: "16.8%", md: "15.8%" },
+                width: { lg: "17.1%", xs: "25.7%", md: "18.4%" },
+              }}
+            >
+              <h6
+                style={{
+                  textTransform: "uppercase",
+                  fontSize: "9px",
+                  textAlign: "center",
+                  lineHeight: "11px",
+                  color: "#FFF",
+                  fontWeight: "400",
+                  overflowWrap: "anywhere",
+                }}
+              >
+                {item === 1 && newData?.resultStatus}
+              </h6>
+            </Box>
+          ) : !["ACTIVE", "active", "", undefined, null, 0, "open"].includes(
+              newData?.GameStatus?.toLowerCase()
+            ) || newData?.result ? (
+            <Box
+              sx={{
+                margin: "1px",
+                background: "rgba(0,0,0,1)",
+                height: "30px",
+                right: { lg: "18.7%", xs: "16.8%", md: "15.8%" },
+                position: "absolute",
+                width: { lg: "17.1%", xs: "25.7%", md: "18.4%" },
+                justifyContent: "center",
+                alignItems: "center",
+                display: "flex",
+              }}
+            >
+              <h6
+                style={{
+                  textTransform: "uppercase",
+                  fontSize: "10px",
+                  textAlign: "center",
+                  lineHeight: "11px",
+                  color: "#FFF",
+                  fontWeight: "400",
+                }}
+              >
+                {item === 1 &&
+                  (newData?.result ? `Declared` : newData?.GameStatus)}
+              </h6>
+            </Box>
+          ) : (
             <Box
               sx={{
                 display: "flex",
-                background: visible
-                  ? "#FFAF45"
-                  : index % 2 === 0
-                  ? "#FFE094"
-                  : "#ECECEC",
-
+                position: "relative",
+                right: { lg: "-23.5%", xs: "-16%", md: "-25%" },
                 height: "30px",
-                width: "40%",
+                width: { lg: "18.6%", xs: "28%", md: "20%" },
+                justifyContent: "center",
                 alignItems: "center",
-                boxShadow: visible ? 3 : 0,
-                // backgroundColor:'red'
               }}
             >
-              <Box sx={{ paddingTop: "3px", width: { lg: "100%", xs: "70%" } }}>
-                <Box sx={{ display: "flex", flexDirection: "row" }}></Box>
-              </Box>
-            </Box>
-
-            {newData?.resultStatus ? (
-              <Box
-                sx={{
-                  margin: "1px",
-                  background: "rgba(0,0,0,1)",
-                  height: "30px",
-                  position: "absolute",
-                  justifyContent: { xs: "center", lg: "center" },
-                  alignItems: "center",
-                  display: "flex",
-                  backgroundColor: newData?.selfDeclare ? "#46e080" : "#FF4D4D",
-                  right: { lg: "18.6%", xs: "16.8%", md: "14.9%" },
-                  width: { lg: "16.9%", xs: "26%", md: "20%" },
-                }}
-              >
-                <h6
-                  style={{
-                    textTransform: "uppercase",
-                    fontSize: "9px",
-                    textAlign: "center",
-                    lineHeight: "11px",
-                    color: "#FFF",
-                    // color={newData?.resultStatus === "PENDING" ? "red" : "#FFF"}
-                    fontWeight: "400",
-                    overflowWrap: "anywhere",
-                    marginTop:
-                    Math.max(
-                      newData?.ex?.availableToLay?.length ?? 0,
-                      newData?.ex?.availableToBack?.length ?? 0
-                    ) === 2
-                      ? "-5px"
-                      : "0",
-                  }}
-                >
-                  {item === 1 && newData?.resultStatus}
-                </h6>
-              </Box>
-            ) : !["ACTIVE", "active", "", undefined, null, 0, "open"].includes(
-                newData?.GameStatus?.toLowerCase()
-              ) || newData?.result ? (
-              <Box
-                sx={{
-                  margin: "1px",
-                  background: "rgba(0,0,0,1)",
-                  height: "30px",
-                  right: { lg: "18.6%", xs: "16.8%", md: "14.9%" },
-                  position: "absolute",
-                  width: { lg: "16.9%", xs: "26%", md: "20%" },
-                  justifyContent: { xs: "center", lg: "center" },
-                  alignItems: "center",
-                  display: "flex",
-                }}
-              >
-                {/* <img src={BallStart} style={{ width: '113px', height: "32px" }} /> */}
-                <h6
-                  style={{
-                    textTransform: "uppercase",
-                    fontSize: "10px",
-                    textAlign: "center",
-                    lineHeight: "11px",
-                    color: "#FFF",
-                    fontWeight: "400",
-                    marginTop:
-                      Math.max(
-                        newData?.ex?.availableToLay?.length ?? 0,
-                        newData?.ex?.availableToBack?.length ?? 0
-                      ) === 2
-                        ? "-5px"
-                        : "0",
-                  }}
-                >
-                  {item === 1 &&
-                    (newData?.result ? `Declared` : newData?.GameStatus)}
-                </h6>
-              </Box>
-            ) : (
-              <Box
-                sx={{
-                  display: "flex",
-                  position: "relative",
-                  right: { lg: "-23.5%", xs: "-16%", md: "-25%" },
-                  // background: "white",
-                  height: "30px",
-                  width: { lg: "18.6%", xs: "28%", md: "20%" },
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
-                <SeparateBox
-                  session={true}
-                  back={true}
-                  value={formatNumber(
-                    newData?.type === "oddEven"
-                      ? newData?.ex?.availableToBack[item]?.price || 0
-                      : newData?.ex?.availableToLay[item]?.price || 0
-                  )}
-                  value2={formatNumber(
-                    newData?.type === "oddEven"
-                      ? newData?.ex?.availableToBack[item]?.size || 0
-                      : newData?.ex?.availableToLay[item]?.size || 0
-                  )}
-                  lock={newData?.GameStatus === "SUSPENDED"}
-                  color={newData?.type === "oddEven" ? "#B3E0FF" : "#F6D0CB"}
-                />
-
-                <Box
-                  sx={{ width: ".45%", display: "flex", background: "pink" }}
-                ></Box>
-
-                <SeparateBox
-                  session={true}
-                  value={formatNumber(
-                    newData?.type === "oddEven"
-                      ? newData?.ex?.availableToLay[item]?.price || 0
-                      : newData?.ex?.availableToBack[item]?.price || 0
-                  )}
-                  value2={formatNumber(
-                    newData?.type === "oddEven"
-                      ? newData?.ex?.availableToLay[item]?.size || 0
-                      : newData?.ex?.availableToBack[item]?.size || 0
-                  )}
-                  lock={newData?.GameStatus === "SUSPENDED"}
-                  color="#B3E0FF"
-                />
-              </Box>
-            )}
-            {!hideTotalBet && (
-              <PlaceBetComponent
-                width={7}
-                profitLossData={profitLossData && profitLossData[newData?.id]}
-                newData={newData}
+              <SeparateBox
+                value={formatNumber(
+                  newData?.type === "oddEven"
+                    ? newData?.ex?.availableToBack[item]?.price || 0
+                    : newData?.ex?.availableToLay[item]?.price || 0
+                )}
+                value2={formatNumber(
+                  newData?.type === "oddEven"
+                    ? newData?.ex?.availableToBack[item]?.size || 0
+                    : newData?.ex?.availableToLay[item]?.size || 0
+                )}
+                lock={newData?.GameStatus === "SUSPENDED"}
+                color={newData?.type === "oddEven" ? "#B3E0FF" : "#F6D0CB"}
               />
-            )}
-          </Box>
-        </>
+              <Box
+                sx={{ width: ".45%", display: "flex", background: "pink" }}
+              />
+              <SeparateBox
+                value={formatNumber(
+                  newData?.type === "oddEven"
+                    ? newData?.ex?.availableToLay[item]?.price || 0
+                    : newData?.ex?.availableToBack[item]?.price || 0
+                )}
+                value2={formatNumber(
+                  newData?.type === "oddEven"
+                    ? newData?.ex?.availableToLay[item]?.size || 0
+                    : newData?.ex?.availableToBack[item]?.size || 0
+                )}
+                lock={newData?.GameStatus === "SUSPENDED"}
+                color="#B3E0FF"
+              />
+            </Box>
+          )}
+          {!hideTotalBet && (
+            <PlaceBetComponent
+              width={7}
+              profitLossData={profitLossData && profitLossData[newData?.id]}
+              newData={newData}
+            />
+          )}
+        </Box>
       ))}
       <ModalMUI
         open={maxLimitModal}
@@ -632,24 +590,22 @@ const SessionMarketBox = ({
           justifyContent: "center",
         }}
       >
-        <>
-          <SessionLimitEdit
-            newData={{
-              id: newData.id,
-              name: newData.name,
-              minBet: newData?.minBet,
-              maxBet: newData?.maxBet,
-              exposureLimit: newData?.exposureLimit,
-              isCommissionActive: newData?.isCommissionActive,
-            }}
-            onClickCancel={() => {
-              setShowMaxLimitModal(false);
-            }}
-          />
-        </>
+        <SessionLimitEdit
+          newData={{
+            id: newData.id,
+            name: newData.name,
+            minBet: newData?.minBet,
+            maxBet: newData?.maxBet,
+            exposureLimit: newData?.exposureLimit,
+            isCommissionActive: newData?.isCommissionActive,
+          }}
+          onClickCancel={() => {
+            setShowMaxLimitModal(false);
+          }}
+        />
       </ModalMUI>
     </div>
   );
 };
 
-export default SessionMarketBox;
+export default memo(SessionMarketBox);

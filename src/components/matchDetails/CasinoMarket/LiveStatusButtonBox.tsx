@@ -1,4 +1,5 @@
 import { Box, CircularProgress, Typography } from "@mui/material";
+import { memo } from "react";
 import { BroadCast } from "../../../assets";
 
 const LiveStatusButtonBox = ({
@@ -13,58 +14,61 @@ const LiveStatusButtonBox = ({
   height,
 }: any) => {
   return (
-    <>
-      <Box
-        onClick={onClick}
-        sx={[
-          {
-            width: {
-              lg: width ? width.lg : "80px",
-              xs: width ? width.xs : "25%",
-            },
-            display: "flex",
-            // marginRight: "10px",
-            justifyContent: "center",
-            paddingX: 1,
-            alignItems: "center",
-            height: height ? height : "32px",
-            background: color ? color : "#46e080",
-            borderRadius: "3px",
-            cursor: "pointer",
+    <Box
+      onClick={onClick}
+      sx={[
+        {
+          width: {
+            lg: width ? width.lg : "80px",
+            xs: width ? width.xs : "25%",
           },
-          customStyle,
-        ]}
+          display: "flex",
+          justifyContent: "center",
+          paddingX: 1,
+          alignItems: "center",
+          height: height ? height : "32px",
+          background: color ? color : "#46e080",
+          borderRadius: "3px",
+          cursor: "pointer",
+        },
+        customStyle,
+      ]}
+    >
+      <Typography
+        sx={{
+          fontSize: {
+            lg: textSize ? textSize : "11px",
+            xs: textSize ? textSize : "10px",
+          },
+          fontWeight: "600",
+          color: color !== "#FFF" ? "white" : "",
+          lineHeight: 1,
+        }}
       >
-        <Typography
-          sx={{
-            fontSize: {
-              lg: textSize ? textSize : "11px",
-              xs: textSize ? textSize : "10px",
-            },
-            fontWeight: "600",
-            color: color !== "#FFF" ? "white" : "",
-            lineHeight: 1,
-          }}
-        >
-          {loading ? (
-            <CircularProgress
-              sx={{
-                color: "#FFF",
-              }}
-              size={14}
-              thickness={2}
-              value={60}
-            />
-          ) : (
-            title
-          )}
-        </Typography>
-        {hide && !loading && (
-          <img src={BroadCast} style={{ height: "15px", width: "15px" }} />
+        {loading ? (
+          <CircularProgress
+            sx={{
+              color: "#FFF",
+            }}
+            size={14}
+            thickness={2}
+            value={60}
+          />
+        ) : (
+          title
         )}
-      </Box>
-    </>
+      </Typography>
+      {hide && !loading && (
+        <img
+          src={BroadCast}
+          height={15}
+          width={15}
+          style={{ objectFit: "contain" }}
+          alt="stop"
+        />
+      )}
+    </Box>
   );
 };
 
-export default LiveStatusButtonBox;
+export default memo(LiveStatusButtonBox);

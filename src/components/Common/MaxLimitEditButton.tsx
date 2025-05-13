@@ -1,4 +1,12 @@
-const MaxLimitEditButton = ({ handleClickOpen }: any) => {
+import { memo } from "react";
+
+interface MaxLimitEditButtonInterface {
+  handleClickOpen: () => void;
+}
+
+const MaxLimitEditButton = ({
+  handleClickOpen,
+}: MaxLimitEditButtonInterface) => {
   return (
     <div
       style={{
@@ -10,7 +18,6 @@ const MaxLimitEditButton = ({ handleClickOpen }: any) => {
         borderRadius: "2px",
         backgroundColor: "#FF4D4D",
         cursor: "pointer",
-        // marginRight: "10px",
       }}
       onClick={handleClickOpen}
     >
@@ -28,4 +35,4 @@ const MaxLimitEditButton = ({ handleClickOpen }: any) => {
   );
 };
 
-export default MaxLimitEditButton;
+export default memo(MaxLimitEditButton);

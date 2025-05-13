@@ -1,15 +1,14 @@
 import { Box, Typography } from "@mui/material";
 import { formatToINR } from "../helper";
+import { memo } from "react";
 
-const MatchListProfitLoss = (Props: any) => {
-  const {
-    updateMatchStatus,
-    updateMatchStatusLabel,
-    onClick,
-    showUserModal,
-    cursor,
-  } = Props;
-
+const MatchListProfitLoss = ({
+  updateMatchStatus,
+  updateMatchStatusLabel,
+  onClick,
+  showUserModal,
+  cursor,
+}: any) => {
   const [integerPart, decimalPart] = parseFloat(updateMatchStatus || 0.0)
     .toFixed(2)
     .split(".");
@@ -72,4 +71,4 @@ const MatchListProfitLoss = (Props: any) => {
   );
 };
 
-export default MatchListProfitLoss;
+export default memo(MatchListProfitLoss);

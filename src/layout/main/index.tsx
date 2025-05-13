@@ -31,9 +31,9 @@ const MainLayout = () => {
         socketService.connect();
         socketService.auth.logout();
       }
-      return ()=>{
+      return () => {
         socketService.disconnect();
-      }
+      };
     } catch (e) {
       console.log(e);
     }

@@ -6,7 +6,7 @@ interface InitialState {
   loading: boolean;
   forceChangePassword: boolean;
   userRole: string;
-  oldPasswordMatched:boolean;
+  oldPasswordMatched: boolean;
 }
 
 const initialState: InitialState = {
@@ -14,7 +14,7 @@ const initialState: InitialState = {
   loading: false,
   forceChangePassword: false,
   userRole: "",
-  oldPasswordMatched:false,
+  oldPasswordMatched: false,
 };
 
 export const authReducer = createReducer(initialState, (builder) => {
@@ -23,16 +23,16 @@ export const authReducer = createReducer(initialState, (builder) => {
       state.loading = true;
     })
     .addCase(login.fulfilled, (state, action) => {
+      const { roleName, forceChangePassword } = action.payload;
       state.loading = false;
       state.success = true;
-      state.userRole = action?.payload?.roleName;
-      state.forceChangePassword = action?.payload?.forceChangePassword;
+      state.userRole = roleName;
+      state.forceChangePassword = forceChangePassword;
     })
     .addCase(login.rejected, (state) => {
       state.loading = false;
     })
     .addCase(authReset, (state) => {
-      // Reset the state to initial state
       state.success = false;
       state.forceChangePassword = false;
     })
@@ -42,7 +42,7 @@ export const authReducer = createReducer(initialState, (builder) => {
     })
     .addCase(checkOldPass.fulfilled, (state, action) => {
       state.loading = false;
-      state.oldPasswordMatched = action?.payload
+      state.oldPasswordMatched = action.payload;
     })
     .addCase(checkOldPass.rejected, (state) => {
       state.loading = false;

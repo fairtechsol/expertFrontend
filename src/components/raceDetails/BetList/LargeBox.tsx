@@ -1,4 +1,5 @@
 import { Box, Typography } from "@mui/material";
+import { memo } from "react";
 
 const LargeBox = ({ item, k }: any) => {
   return (
@@ -22,7 +23,7 @@ const LargeBox = ({ item, k }: any) => {
           color: item?.color,
           wordWrap: item?.overflowWrap ? item?.overflowWrap : "break-word",
           textTransform: "capitalize",
-          textAlign:  item?.textAlign ? item?.textAlign :"left",
+          textAlign: item?.textAlign ? item?.textAlign : "left",
           lineHeight: 1,
           px: "2px",
           overflow: "hidden",
@@ -41,7 +42,7 @@ const LargeBox = ({ item, k }: any) => {
             color: item?.color,
           }}
         >
-          {item?.domain?.replace(/https?:\/\//, '')}
+          {item?.domain?.replace(/https?:\/\//, "")}
         </Typography>
       )}
       {item?.time && (
@@ -59,4 +60,4 @@ const LargeBox = ({ item, k }: any) => {
   );
 };
 
-export default LargeBox;
+export default memo(LargeBox);

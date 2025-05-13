@@ -3,7 +3,7 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
-import { useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   resetMarketListMinMax,
@@ -62,14 +62,11 @@ const MaxBetAdd = ({
   const handleChange = (e: any) => {
     try {
       const { name, value } = e.target;
-      // Remove commas from the input value for raw numeric processing
       const rawValue = value.replace(/,/g, "");
-
-      // Update state only if it's a valid number
       if (/^\d*$/.test(rawValue)) {
         setSelected((prev: any) => ({
           ...prev,
-          [name]: rawValue, // Store the raw number
+          [name]: rawValue,
         }));
       }
     } catch (error) {
@@ -302,4 +299,4 @@ const MaxBetAdd = ({
   );
 };
 
-export default MaxBetAdd;
+export default memo(MaxBetAdd);

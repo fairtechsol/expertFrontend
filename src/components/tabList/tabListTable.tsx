@@ -1,6 +1,10 @@
-import { Box, Typography } from "@mui/material";
+import { Box, TextField, Typography } from "@mui/material";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogTitle from "@mui/material/DialogTitle";
 import moment from "moment";
-import { useState } from "react";
+import { memo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   addBlinking,
@@ -12,19 +16,19 @@ import { AppDispatch, RootState } from "../../store/store";
 import CustomButton from "../Common/CustomButton";
 import StyledImage from "../Common/StyledImages";
 import { IconConstants } from "../helper/gameConstants";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogTitle from "@mui/material/DialogTitle";
-import { TextField } from "@mui/material";
-const TabListTable = (props: any) => {
-  const { data, index, currentPage } = props;
+
+interface TabListTableProps {
+  data: any;
+  index: number;
+  currentPage: number;
+}
+const TabListTable = ({ data, index, currentPage }: TabListTableProps) => {
   const dispatch: AppDispatch = useDispatch();
   const { tabList } = useSelector((state: RootState) => state.matchList);
   const idd = tabList.filter((tab: any) => tab.matchId === data.id);
   const [showPopup, setShowPopup] = useState(false);
   const [selected, setSelected] = useState<any>(
-    idd?.length > 0 ? idd?.[0]?.order : null
+    idd?.length > 0 ? idd?.[0]?.order : ""
   );
 
   const handleAdd = () => {
@@ -56,7 +60,7 @@ const TabListTable = (props: any) => {
   };
 
   const handlclose = () => {
-    setSelected(idd?.length > 0 ? idd?.[0]?.order : null);
+    setSelected(idd?.length > 0 ? idd?.[0]?.order : "");
     setShowPopup(false);
   };
 
@@ -70,14 +74,12 @@ const TabListTable = (props: any) => {
   return (
     <>
       <Box
-        sx={[
-          {
-            display: "flex",
-            background: "#FFE094",
-            alignItems: { xs: "stretch", md: "center" },
-            borderTop: "2px solid white",
-          },
-        ]}
+        sx={{
+          display: "flex",
+          background: "#FFE094",
+          alignItems: { xs: "stretch", md: "center" },
+          borderTop: "2px solid white",
+        }}
       >
         <Box
           sx={{
@@ -120,7 +122,8 @@ const TabListTable = (props: any) => {
           >
             <StyledImage
               src={IconConstants[data?.matchType]}
-              sx={{ height: "20px", width: "20px", margin: "0.5rem" }}
+              alt={data?.matchType}
+              sx={{ height: "20px", width: "20px", margin: "0.5rem", }}
             />
             <Typography
               variant="h5"
@@ -148,7 +151,6 @@ const TabListTable = (props: any) => {
                 lg: "row",
               },
               order: { xs: "1", sm: "2", md: "3" },
-              // py: { xs: 1, sm: 0 },
               alignItems: "center",
             }}
           >
@@ -167,9 +169,9 @@ const TabListTable = (props: any) => {
                 marginTop: { sm: "5px", lg: "2.5px", md: 0 },
                 paddingRight: "5px",
               }}
-            ></Box>
+            />
             <Box
-              display={"flex"}
+              display="flex"
               sx={{
                 width: "100%",
                 display: "flex",
@@ -184,25 +186,25 @@ const TabListTable = (props: any) => {
               }}
             >
               {tabList?.length > 0 &&
-              tabList.some((tab: any) => tab.matchId === data.id) ? (
+                tabList.some((tab: any) => tab.matchId === data.id) ? (
                 <>
                   <CustomButton
                     containerStyle={{ margin: "5px" }}
                     onClick={() => setShowPopup(true)}
-                    title={"Edit"}
+                    title="Edit"
                   />
                   <CustomButton
-                    bgColor={"#e74c3c"}
+                    bgColor="#e74c3c"
                     containerStyle={{ margin: "5px" }}
                     onClick={handleDelete}
-                    title={"Delete"}
+                    title="Delete"
                   />
                 </>
               ) : (
                 <CustomButton
                   containerStyle={{ margin: "5px" }}
                   onClick={() => setShowPopup(true)}
-                  title={"Add"}
+                  title="Add"
                 />
               )}
             </Box>
@@ -219,7 +221,7 @@ const TabListTable = (props: any) => {
             fontFamily: "Poppins, sans-serif",
           }}
         >
-          {"Position"}
+          Position
         </DialogTitle>
         <DialogContent sx={{ backgroundColor: "#fff" }}>
           <div
@@ -239,10 +241,6 @@ const TabListTable = (props: any) => {
               onChange={(e: any) => {
                 setSelected(e.target.value);
               }}
-              // style={{
-              //   width: "80%",
-              //   height: "50px",
-              // }}
             />
           </div>
         </DialogContent>
@@ -253,7 +251,6 @@ const TabListTable = (props: any) => {
         >
           <button
             style={{
-              // width: "25%",
               height: "40px",
               color: "#fff",
               backgroundColor: "#004A25",
@@ -269,10 +266,8 @@ const TabListTable = (props: any) => {
           >
             Submit
           </button>
-
           <button
             style={{
-              // width: "25%",
               height: "40px",
               color: "#fff",
               backgroundColor: "#004A25",
@@ -292,4 +287,4 @@ const TabListTable = (props: any) => {
   );
 };
 
-export default TabListTable;
+export default memo(TabListTable);

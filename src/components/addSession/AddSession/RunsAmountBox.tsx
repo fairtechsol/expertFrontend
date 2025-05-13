@@ -1,9 +1,15 @@
-import { useRef, useEffect } from "react";
-import StyledImage from "../../Common/StyledImages";
 import { Box, Typography } from "@mui/material";
+import { memo, useEffect, useRef } from "react";
+import StyledImage from "../../Common/StyledImages";
 import { formatToINR } from "../../helper";
 
-const RunsAmountBox = ({ currentOdds, betId, proLoss }: any) => {
+interface RunsAmountBoxProps {
+  currentOdds?: any;
+  betId?: string;
+  proLoss?: any;
+}
+
+const RunsAmountBox = ({ currentOdds, betId, proLoss }: RunsAmountBoxProps) => {
   const containerRef = useRef(null);
 
   const scrollToElement = (id: any) => {
@@ -86,99 +92,100 @@ const RunsAmountBox = ({ currentOdds, betId, proLoss }: any) => {
         <Box ref={containerRef} sx={{ maxHeight: "42vh", overflowY: "auto" }}>
           {proLoss?.betPlaced?.length > 0
             ? proLoss?.betPlaced?.map((v: any) => {
-                const getColor = (value: any) => {
-                  if (value >= 1) {
-                    return "#10DC61";
-                  } else if (value === parseFloat(v?.profitLoss) && value > 1) {
-                    return "#F8C851";
-                  } else if (value === 0) {
-                    return "#F8C851";
-                  } else {
-                    return "#DC3545";
-                  }
-                };
-                const getSVG = (value: any) => {
-                  if (value > 1) {
-                    return "https://fontawesomeicons.com/images/svg/trending-up-sharp.svg";
-                  } else if (value === parseFloat(v?.profitLoss) && value > 1) {
-                    return "https://fontawesomeicons.com/images/svg/trending-up-sharp.svg";
-                  } else if (value === 0) {
-                    return "https://fontawesomeicons.com/images/svg/trending-up-sharp.svg";
-                  } else {
-                    return "https://fontawesomeicons.com/images/svg/trending-down-sharp.svg";
-                  }
-                };
-                return (
+              const getColor = (value: any) => {
+                if (value >= 1) {
+                  return "#10DC61";
+                } else if (value === parseFloat(v?.profitLoss) && value > 1) {
+                  return "#F8C851";
+                } else if (value === 0) {
+                  return "#F8C851";
+                } else {
+                  return "#DC3545";
+                }
+              };
+              const getSVG = (value: any) => {
+                if (value > 1) {
+                  return "https://fontawesomeicons.com/images/svg/trending-up-sharp.svg";
+                } else if (value === parseFloat(v?.profitLoss) && value > 1) {
+                  return "https://fontawesomeicons.com/images/svg/trending-up-sharp.svg";
+                } else if (value === 0) {
+                  return "https://fontawesomeicons.com/images/svg/trending-up-sharp.svg";
+                } else {
+                  return "https://fontawesomeicons.com/images/svg/trending-down-sharp.svg";
+                }
+              };
+              return (
+                <Box
+                  id={`${betId}_${v?.odds}`}
+                  key={v?.odds}
+                  sx={{
+                    display: "flex",
+                    width: "100%",
+                    height: "25px",
+                    borderTop: "1px solid #306A47",
+                  }}
+                >
                   <Box
-                    id={`${betId}_${v?.odds}`}
-                    key={v?.odds}
                     sx={{
+                      width: "35%",
                       display: "flex",
-                      width: "100%",
-                      height: "25px",
-                      borderTop: "1px solid #306A47",
+                      justifyContent: "center",
+                      alignItems: "center",
                     }}
                   >
-                    <Box
+                    <Typography
                       sx={{
-                        width: "35%",
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
+                        color: "#306A47",
+                        fontWeight: "bold",
+                        fontSize: "12px",
                       }}
                     >
-                      <Typography
-                        sx={{
-                          color: "#306A47",
-                          fontWeight: "bold",
-                          fontSize: "12px",
-                        }}
-                      >
-                        {v?.odds}
-                      </Typography>
-                    </Box>
-                    <Box
-                      sx={{
-                        width: "65%",
-                        display: "flex",
-                        borderLeft: `1px solid #306A47`,
-                        background: getColor(parseFloat(v?.profitLoss)),
-                        justifyContent: "space-between",
-                        alignItems: "center",
-                        paddingRight: "7px",
-                      }}
-                    >
-                      <Typography
-                        sx={{
-                          fontWeight: "500",
-                          fontSize: {lg:"16px", xs:"10px", md: "12px"},
-                          color: "white",
-                          width: "40px",
-                        }}
-                      >
-                        {Number(parseFloat(v?.profitLoss)) >= 0 ? (
-                          <>
-                            <span style={{ visibility: "hidden" }}>-</span>
-                            {formatToINR(v?.profitLoss)}
-                          </>
-                        ) : (
-                          formatToINR(v?.profitLoss)
-                        )}
-                      </Typography>
-                      <StyledImage
-                        src={getSVG(parseFloat(v?.profitLoss))}
-                        sx={{
-                          height: "15px",
-                          marginLeft: "5px",
-                          filter:
-                            "invert(.9) sepia(1) saturate(5) hue-rotate(175deg);",
-                          width: "15px",
-                        }}
-                      />
-                    </Box>
+                      {v?.odds}
+                    </Typography>
                   </Box>
-                );
-              })
+                  <Box
+                    sx={{
+                      width: "65%",
+                      display: "flex",
+                      borderLeft: `1px solid #306A47`,
+                      background: getColor(parseFloat(v?.profitLoss)),
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                      paddingRight: "7px",
+                    }}
+                  >
+                    <Typography
+                      sx={{
+                        fontWeight: "500",
+                        fontSize: { lg: "16px", xs: "10px", md: "12px" },
+                        color: "white",
+                        width: "40px",
+                      }}
+                    >
+                      {Number(parseFloat(v?.profitLoss)) >= 0 ? (
+                        <>
+                          <span style={{ visibility: "hidden" }}>-</span>
+                          {formatToINR(v?.profitLoss)}
+                        </>
+                      ) : (
+                        formatToINR(v?.profitLoss)
+                      )}
+                    </Typography>
+                    <StyledImage
+                      src={getSVG(parseFloat(v?.profitLoss))}
+                      alt="proloss"
+                      sx={{
+                        height: "15px",
+                        marginLeft: "5px",
+                        filter:
+                          "invert(.9) sepia(1) saturate(5) hue-rotate(175deg);",
+                        width: "15px",
+                      }}
+                    />
+                  </Box>
+                </Box>
+              );
+            })
             : null}
         </Box>
       </Box>
@@ -186,4 +193,4 @@ const RunsAmountBox = ({ currentOdds, betId, proLoss }: any) => {
   );
 };
 
-export default RunsAmountBox;
+export default memo(RunsAmountBox);

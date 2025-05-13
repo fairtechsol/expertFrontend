@@ -1,5 +1,5 @@
 import { Box, Typography, useMediaQuery, useTheme } from "@mui/material";
-// import { ArrowDownRed, ArrowUpGreen } from "../../../assets";
+import { memo } from "react";
 import { formatToINR } from "../../helper";
 
 const MoneyBox = ({ value }: any) => {
@@ -39,7 +39,6 @@ const MoneyBox = ({ value }: any) => {
             color: Number(value) > 0 ? "#319E5B" : "#FF4D4D",
           }}
         >
-          {/* {formatToINR(value === 0 ? "" : value)} */}
           {value !== 0 && (
             <>
               <span>{integerPart}</span>
@@ -49,17 +48,9 @@ const MoneyBox = ({ value }: any) => {
             </>
           )}
         </Typography>
-        {/* {value ? (
-          <img
-            src={Number(value) > 0 ? ArrowUpGreen : ArrowDownRed}
-            style={{ width: "12px", height: "10px" }}
-          />
-        ) : (
-          ""
-        )} */}
       </Box>
     </>
   );
 };
 
-export default MoneyBox;
+export default memo(MoneyBox);

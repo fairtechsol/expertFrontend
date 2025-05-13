@@ -1,11 +1,17 @@
 import { Box, Typography } from "@mui/material";
+import { memo } from "react";
 import Divider from "../../Common/Divider";
 import { formatNumber } from "../../helper";
 import SeparateBox from "../SeparateBox";
 
-const CasinoMarketBox = ({ newData, index }: any) => {
+interface CasinoMarketBoxProps {
+  newData: any;
+  index: number;
+}
+
+const CasinoMarketBox = ({ newData, index }: CasinoMarketBoxProps) => {
   return (
-    <div>
+    <>
       <Box
         sx={{
           display: "flex",
@@ -38,7 +44,9 @@ const CasinoMarketBox = ({ newData, index }: any) => {
           </Typography>
         </Box>
 
-        {!["ACTIVE", "", undefined, null, "active", "open"].includes(newData?.gstatus?.toLowerCase()) ? (
+        {!["ACTIVE", "", undefined, null, "active", "open"].includes(
+          newData?.gstatus?.toLowerCase()
+        ) ? (
           <Box
             sx={{
               margin: "1px",
@@ -88,29 +96,12 @@ const CasinoMarketBox = ({ newData, index }: any) => {
               lock={newData?.gstatus === "Suspended"}
               color="#B3E0FF"
             />
-
-            {/* {
-              <PlaceBetComponent
-                width={7}
-                profitLossData={
-                  matchDetail?.sessionProfitLoss &&
-                  matchDetail?.sessionProfitLoss[
-                    matchDetail?.updatedSesssionBettings?.cricketCasino
-                      ?.section?.[0]?.id
-                  ]
-                }
-                newData={
-                  matchDetail?.updatedSesssionBettings?.cricketCasino
-                    ?.section?.[0]?.id
-                }
-              />
-            } */}
           </Box>
         )}
       </Box>
       <Divider />
-    </div>
+    </>
   );
 };
 
-export default CasinoMarketBox;
+export default memo(CasinoMarketBox);

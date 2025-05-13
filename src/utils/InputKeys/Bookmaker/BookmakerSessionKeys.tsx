@@ -10,7 +10,7 @@ export const handleKeysMatchEvents = (
   incGap: number,
   setIncGap: any,
   isTab: string,
-  setIsTab: any,
+  setIsTab: any
 ) => {
   try {
     e.preventDefault();
@@ -584,7 +584,7 @@ export const handleKeysMatchEvents = (
           (item: any) => item.id == e.target.name
         );
         let teamARateDecimal = +currTeam?.back % 1;
-        let value=0;
+        let value = 0;
         if (teamARateDecimal >= 0.5) {
           value = Math.round(currTeam?.back) - 1;
         } else {

@@ -1,4 +1,3 @@
-import { useState } from "react";
 import {
   Box,
   CircularProgress,
@@ -6,14 +5,12 @@ import {
   MenuItem,
   Typography,
 } from "@mui/material";
-import { logout } from "../../../store/actions/auth/authAction";
+import { memo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { logout } from "../../../store/actions/auth/authAction";
 import { AppDispatch, RootState } from "../../../store/store";
 
 const menutItems = [
-  // { title: "Bet Odds", navigateTo: "betodds" },
-  // { title: "Market", navigateTo: "add_book_maker" },
-  // { title: "Add Book Maker", navigateTo: "add_book_maker" },
   {
     id: 1,
     title: "Add Match",
@@ -22,9 +19,7 @@ const menutItems = [
   { id: 2, title: "Add Race", navigateTo: "add_race" },
   { id: 3, title: "Change Password", navigateTo: "change-password" },
 ];
-const HeaderDropdown = (props: any) => {
-  const { anchorEl, open, handleClose } = props;
-
+const HeaderDropdown = ({ anchorEl, open, handleClose }: any) => {
   const { profileDetail } = useSelector(
     (state: RootState) => state.user.profile
   );
@@ -163,4 +158,4 @@ const HeaderDropdown = (props: any) => {
   );
 };
 
-export default HeaderDropdown;
+export default memo(HeaderDropdown);

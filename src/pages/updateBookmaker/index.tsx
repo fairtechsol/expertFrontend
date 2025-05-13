@@ -1,5 +1,5 @@
 import { Box, Grid, Paper } from "@mui/material";
-import { useEffect } from "react";
+import { memo, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import BetsList from "../../components/updateBookmaker/BetsList";
@@ -13,9 +13,7 @@ import {
   getPlacedBets,
   updateDeleteReason,
   updateDeleteReasonOnEdit,
-  updateMarketMinMaxLimitOnQuickMaker,
   updateMatchBetsPlaced,
-  updateRatesBook,
 } from "../../store/actions/addSession";
 import { AppDispatch, RootState } from "../../store/store";
 
@@ -33,9 +31,9 @@ const UpdateBookmaker = () => {
   const updateBetList = (event: any) => {
     try {
       if (state?.matchId === event?.jobData?.newBet?.matchId) {
-        dispatch(updateTeamRatesOnManualTournamentMarket(event));
         if (state?.betId === event?.jobData?.newBet?.betId ||
           state?.betId == event?.jobData?.newBet?.childBetId) {
+          dispatch(updateTeamRatesOnManualTournamentMarket(event));
           dispatch(updateMatchBetsPlaced(event));
         }
       }
@@ -56,19 +54,12 @@ const UpdateBookmaker = () => {
   const matchDeleteBet = (event: any) => {
     try {
       if (event?.matchId === state?.matchId) {
-        dispatch(updateRatesBook(event));
         if (
           event?.betId === state?.betId ||
           event?.betId == tournament?.matchBetting?.parentBetId
         ) {
           dispatch(updateDeleteReason(event));
         }
-        // dispatch(
-        //   updateSessionProLoss({
-        //     id: event?.betId,
-        //     betPlaced: event?.profitLoss ? event?.profitLoss?.betPlaced : [],
-        //   })
-        // );
       }
     } catch (e) {
       console.log(e);
@@ -82,16 +73,6 @@ const UpdateBookmaker = () => {
       }
     } catch (e) {
       console.log(e);
-    }
-  };
-
-  const handleMinMaxLimitChange = (event: any) => {
-    if (event?.matchId === state?.matchId) {
-      dispatch(updateMarketMinMaxLimitOnQuickMaker(event));
-    }
-    try {
-    } catch (error) {
-      console.log(error);
     }
   };
 
@@ -121,7 +102,6 @@ const UpdateBookmaker = () => {
       socketService.user.matchResultDeclared(resultDeclared);
       socketService.user.matchDeleteBet(matchDeleteBet);
       socketService.user.updateDeleteReason(updateDeleteBetReason);
-      socketService.user.matchBettingMinMaxChange(handleMinMaxLimitChange);
       return () => {
         socketService.user.userMatchBetPlacedOff();
         socketService.user.matchResultDeclaredOff();
@@ -172,4 +152,4 @@ const UpdateBookmaker = () => {
   );
 };
 
-export default UpdateBookmaker;
+export default memo(UpdateBookmaker);

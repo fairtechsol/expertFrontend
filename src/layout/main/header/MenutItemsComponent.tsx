@@ -5,6 +5,7 @@ import {
   useMediaQuery,
   useTheme,
 } from "@mui/material";
+import { memo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { ArrowLeft } from "../../../assets";
@@ -71,6 +72,7 @@ const MenutItemsComponent = ({
       >
         <StyledImage
           src={IconConstants[x?.matchType]}
+          alt={x?.matchType}
           sx={{ height: "12px", width: "12px", marginRight: "8px" }}
         />{" "}
         {x.title}
@@ -140,42 +142,43 @@ const MenutItemsComponent = ({
 
               {(profileDetail?.allPrivilege ||
                 profileDetail?.sessionMatchPrivilege) && (
-                <Box
-                  onClick={(e: any) => {
-                    e.stopPropagation();
-                    dispatch(matchDetailReset());
-                    dispatch(addsuccessReset());
-                    dispatch(sessionByIdReset());
-                    dispatch(resetPlacedBets());
-                    navigate("/expert/live", {
-                      state: {
-                        createSession: true,
-                        match: x,
-                      },
-                    });
-                    handleClose();
-                  }}
-                  sx={{
-                    marginTop: "5px",
-                    display: "flex",
-                    alignItems: "center",
-                  }}
-                >
-                  <Typography
+                  <Box
+                    onClick={(e: any) => {
+                      e.stopPropagation();
+                      dispatch(matchDetailReset());
+                      dispatch(addsuccessReset());
+                      dispatch(sessionByIdReset());
+                      dispatch(resetPlacedBets());
+                      navigate("/expert/live", {
+                        state: {
+                          createSession: true,
+                          match: x,
+                        },
+                      });
+                      handleClose();
+                    }}
                     sx={{
-                      fontSize: "12px",
-                      fontWeight: "600",
-                      cursor: "pointer",
+                      marginTop: "5px",
+                      display: "flex",
+                      alignItems: "center",
                     }}
                   >
-                    Create Session
-                  </Typography>
-                  <StyledImage
-                    src={ArrowLeft}
-                    sx={{ width: "15px", height: "10px", marginLeft: "10px" }}
-                  />
-                </Box>
-              )}
+                    <Typography
+                      sx={{
+                        fontSize: "12px",
+                        fontWeight: "600",
+                        cursor: "pointer",
+                      }}
+                    >
+                      Create Session
+                    </Typography>
+                    <StyledImage
+                      src={ArrowLeft}
+                      alt="left"
+                      sx={{ width: "15px", height: "10px", marginLeft: "10px" }}
+                    />
+                  </Box>
+                )}
             </>
           )}
 
@@ -199,7 +202,7 @@ const MenutItemsComponent = ({
                         marginTop: "5px",
                         display: "flex",
                         alignItems: "center",
-                        cursor:"pointer"
+                        cursor: "pointer",
                       }}
                     >
                       <Typography sx={{ fontSize: "12px", fontWeight: "600" }}>
@@ -207,6 +210,7 @@ const MenutItemsComponent = ({
                       </Typography>
                       <StyledImage
                         src={ArrowLeft}
+                        alt="left"
                         sx={{
                           width: "15px",
                           height: "10px",
@@ -262,4 +266,4 @@ const MenutItemsComponent = ({
   );
 };
 
-export default MenutItemsComponent;
+export default memo(MenutItemsComponent);

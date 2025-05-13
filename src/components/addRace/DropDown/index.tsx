@@ -1,31 +1,42 @@
-import { useEffect, useState } from "react";
 import { Box, Typography } from "@mui/material";
-import StyledImage from "../../Common/StyledImages";
+import { memo, useEffect, useState } from "react";
 import { ARROWDROPDOWN } from "../../../assets";
+import StyledImage from "../../Common/StyledImages";
 import DropDownItem from "./DropDownItem";
 
-const RaceDropDown = (props: any) => {
-  const {
-    title,
-    data,
-    containerStyle,
-    titleStyle,
-    valueContainerStyle,
-    dropStyle,
-    dropDownStyle,
-    dropDownTextStyle,
-    type,
-    matchesSelect,
-    disable,
-    selected,
-    setSelected,
-    name,
-    valued,
-    gameType,
-    onOpen,
-    // isOpen,
-  } = props;
+interface RaceDropDownProps {
+  title: string;
+  name: string;
+  valued: string;
+  dropStyle: any;
+  disable: boolean;
+  valueContainerStyle: any;
+  containerStyle: any;
+  titleStyle: any;
+  data: any;
+  dropDownStyle: any;
+  dropDownTextStyle: any;
+  selected: any;
+  setSelected: (val: any) => void;
+  onOpen: (val: string) => void;
+}
 
+const RaceDropDown = ({
+  title,
+  data,
+  containerStyle,
+  titleStyle,
+  valueContainerStyle,
+  dropStyle,
+  dropDownStyle,
+  dropDownTextStyle,
+  disable,
+  selected,
+  setSelected,
+  name,
+  valued,
+  onOpen,
+}: RaceDropDownProps) => {
   const [value, setValue] = useState(valued);
   const [open, setOpen] = useState(false);
 
@@ -41,9 +52,7 @@ const RaceDropDown = (props: any) => {
   useEffect(() => {
     setValue(valued);
   }, [selected]);
-  // useEffect(() => {
-  //   setOpen(isOpen);
-  // }, [isOpen]);
+
   return (
     <Box sx={[{ width: "19%" }, containerStyle]}>
       <Typography
@@ -106,6 +115,7 @@ const RaceDropDown = (props: any) => {
         </Box>
         <StyledImage
           src={ARROWDROPDOWN}
+          alt="arrow down"
           sx={[
             {
               width: "11px",
@@ -139,19 +149,12 @@ const RaceDropDown = (props: any) => {
               <DropDownItem
                 key={idx}
                 item={item}
-                mId={item?.MarketId}
                 EventId={item?.event?.id}
-                matchesSelect={matchesSelect}
                 CompetitionName={item?.marketName}
-                eventDetail={item?.EventDetail}
-                type={type}
-                // disable={disable}
-                setValue={setValue}
                 setSelected={setSelected}
                 setOpen={setOpen}
                 dropDownTextStyle={dropDownTextStyle}
                 name={name}
-                gameType={gameType}
               />
             );
           })}
@@ -161,4 +164,4 @@ const RaceDropDown = (props: any) => {
   );
 };
 
-export default RaceDropDown;
+export default memo(RaceDropDown);

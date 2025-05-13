@@ -12,21 +12,20 @@ export const getMatchList = createAsyncThunk<any, any>(
   "/match/list",
   async (requestData, thunkApi) => {
     try {
-      const response = await service.get(
-        `${ApiConstants.MATCH.LIST}?searchBy=title&keyword=${
-          requestData.keyword ? requestData.keyword : ""
-        }&page=${
-          requestData?.currentPage ? requestData?.currentPage : 1
-        }&limit=${
-          requestData?.pageLimit ? requestData?.pageLimit : Constants.pageLimit
-        }&sort=match.createdAt:DESC${
-          requestData?.stopAt ? "&stopAt=isNull" : ""
-        }${
-          requestData?.matchType
-            ? `&match.matchType=${requestData?.matchType}`
-            : ""
-        }`
-      );
+      let params: any = {
+        searchBy: "title",
+        keyword: requestData.keyword,
+        page: requestData?.currentPage || 1,
+        limit: requestData?.pageLimit || Constants.pageLimit,
+        sort: "match.createdAt:DESC",
+        "match.matchType": requestData?.matchType,
+      };
+      if (requestData?.stopAt) {
+        params.stopAt = "isNull";
+      }
+      const response = await service.get(ApiConstants.MATCH.LIST, {
+        params,
+      });
       if (response) {
         return response?.data;
       }
@@ -37,15 +36,15 @@ export const getMatchList = createAsyncThunk<any, any>(
   }
 );
 
-
-
 export const getSessionProfitLossAfterDeclare = createAsyncThunk<any, any>(
   "/session/profitLoss/declare",
   async (requestData, thunkApi) => {
     try {
-      const response = await service.get(
-        `${ApiConstants.MATCH.SESSION_PL}?betId=${requestData?.id}`
-      );
+      const response = await service.get(ApiConstants.MATCH.SESSION_PL, {
+        params: {
+          betId: requestData?.id,
+        },
+      });
       if (response) {
         return response?.data;
       }
@@ -58,11 +57,16 @@ export const getSessionProfitLossAfterDeclare = createAsyncThunk<any, any>(
 
 export const getSessionProfitLossBets = createAsyncThunk<any, any>(
   "/session/profitLoss/declare/bets",
-  async (requestData, thunkApi) => {
+  async ({ betId, matchId, url, userId }, thunkApi) => {
     try {
-      const response = await service.get(
-        `${ApiConstants.MATCH.SESSION_PL_BETS}?betId=${requestData?.betId}&matchId=${requestData?.matchId}&url=${requestData?.url}&userId=${requestData?.userId}`
-      );
+      const response = await service.get(ApiConstants.MATCH.SESSION_PL_BETS, {
+        params: {
+          betId,
+          matchId,
+          url,
+          userId,
+        },
+      });
       if (response) {
         return response?.data;
       }
@@ -73,18 +77,19 @@ export const getSessionProfitLossBets = createAsyncThunk<any, any>(
   }
 );
 
-
 export const getTabList = createAsyncThunk<any, any>(
   "/tab/list",
   async (requestData, thunkApi) => {
     try {
-      const response = await service.get(
-        `${ApiConstants.BLINK.GET_TAB}?searchBy=title&keyword=${
-          requestData.keyword ? requestData.keyword : ""
-        }&page=${
-          requestData?.currentPage ? requestData?.currentPage : 1
-        }&limit=${Constants.pageLimit}&sort=match.createdAt:DESC`
-      );
+      const response = await service.get(ApiConstants.BLINK.GET_TAB, {
+        params: {
+          searchBy: "title",
+          keyword: requestData.keyword,
+          page: requestData?.currentPage || 1,
+          limit: Constants.pageLimit,
+          sort: "match.createdAt:DESC",
+        },
+      });
       if (response) {
         return response?.data;
       }
@@ -114,9 +119,11 @@ export const getMatchListDropdown = createAsyncThunk<any, any>(
   "/match/listDropdown",
   async (requestData, thunkApi) => {
     try {
-      const response = await service.get(
-        `${ApiConstants.MATCH.DROPDOWNLIST}?matchType=${requestData}`
-      );
+      const response = await service.get(ApiConstants.MATCH.DROPDOWNLIST, {
+        params: {
+          matchType: requestData,
+        },
+      });
       if (response) {
         return response?.data?.matches;
       }
@@ -131,7 +138,7 @@ export const betLiveStatus = createAsyncThunk<any, any>(
   async (requestData, thunkApi) => {
     try {
       const response = await service.post(
-        `${ApiConstants.BOOKMAKER.BETTINGSTATUS}`,
+        ApiConstants.BOOKMAKER.BETTINGSTATUS,
         requestData
       );
       if (response) {
@@ -167,7 +174,7 @@ export const marketClone = createAsyncThunk<any, any>(
   async (requestData, thunkApi) => {
     try {
       const response = await service.post(
-        `${ApiConstants.MATCH.MARKET_CLONE}`,
+        ApiConstants.MATCH.MARKET_CLONE,
         requestData
       );
       if (response) {
@@ -184,19 +191,12 @@ export const getPlacedBetsMatch = createAsyncThunk<any, any>(
   "placedBets/match",
   async (requestData, thunkApi) => {
     try {
-      // const response = await service.get(
-      //   `${
-      //     ApiConstants.MATCH.GET_BETS
-      //   }?betPlaced.matchId=${requestData}&result=inArr${JSON.stringify([
-      //     "PENDING",
-      //     "UNDECLARE",
-      //   ])}&sort=betPlaced.createdAt:DESC`
-      // );
-      const response = await service.get(
-        `${
-          ApiConstants.MATCH.GET_BETS
-        }?betPlaced.matchId=${requestData}&sort=betPlaced.createdAt:DESC`
-      );
+      const response = await service.get(ApiConstants.MATCH.GET_BETS, {
+        params: {
+          "betPlaced.matchId": requestData,
+          sort: "betPlaced.createdAt:DESC",
+        },
+      });
       if (response?.data) {
         return response?.data;
       }
@@ -207,43 +207,10 @@ export const getPlacedBetsMatch = createAsyncThunk<any, any>(
   }
 );
 
-export const removeBetByBetId = createAsyncThunk<any, any>(
-  "removePlacedBets/match",
-  async (betId ) => {
-    return betId;
-  }
-);
-
 export const addStatusBetByBetId = createAsyncThunk<any, any>(
   "addStatusPlacedBets/match",
-  async (betId ) => {
+  async (betId) => {
     return betId;
-  }
-);
-
-export const betVerifyStatus = createAsyncThunk<any, any>(
-  "bet/verify",
-  async (requestData, thunkApi) => {
-    try {
-      const { betId, ...data } = requestData;
-      const response = await service.post(
-        `${ApiConstants.MATCH.BET_VERIFY}`,
-        data
-      );
-      if (response) {
-        return response?.data;
-      }
-    } catch (error) {
-      const err = error as AxiosError;
-      return thunkApi.rejectWithValue(err.response?.status);
-    }
-  }
-);
-
-export const updateBetVerify = createAsyncThunk<any, SessionById>(
-  "update/bet/verify",
-  async (requestData) => {
-    return requestData;
   }
 );
 
@@ -251,11 +218,12 @@ export const getPlacedBetsForSessionDetail = createAsyncThunk<any, any>(
   "placedBets/sessionDetail",
   async (requestData, thunkApi) => {
     try {
-      const response = await service.get(
-        `${
-          ApiConstants.MATCH.GET_BETS
-        }?betPlaced.matchId=${requestData}&marketBetType=eqSESSION`
-      );
+      const response = await service.get(ApiConstants.MATCH.GET_BETS, {
+        params: {
+          "betPlaced.matchId": requestData,
+          marketBetType: "eqSESSION",
+        },
+      });
       if (response?.data) {
         return response?.data;
       }
@@ -271,24 +239,7 @@ export const updateMatchActiveStatus = createAsyncThunk<any, any>(
   async (requestData, thunkApi) => {
     try {
       const response = await service.post(
-        `${ApiConstants.MATCH.UPDATEACTIVESTATUS}`,
-        requestData
-      );
-      if (response?.status === 200) {
-        return response?.data;
-      }
-    } catch (error) {
-      const err = error as AxiosError;
-      return thunkApi.rejectWithValue(err.response?.status);
-    }
-  }
-);
-export const betSession = createAsyncThunk<any, any>(
-  "/bet/session",
-  async (requestData, thunkApi) => {
-    try {
-      const response = await service.post(
-        `${ApiConstants.MATCH.UPDATEACTIVESTATUS}`,
+        ApiConstants.MATCH.UPDATEACTIVESTATUS,
         requestData
       );
       if (response?.status === 200) {
@@ -305,7 +256,7 @@ export const resultDeclare = createAsyncThunk<any, any>(
   async (requestData, thunkApi) => {
     try {
       const response = await service.post(
-        `${ApiConstants.SESSION.RESULTDECLARE}`,
+        ApiConstants.SESSION.RESULTDECLARE,
         requestData
       );
       if (response?.status === 200) {
@@ -323,7 +274,7 @@ export const undeclareResult = createAsyncThunk<any, any>(
   async (requestData, thunkApi) => {
     try {
       const response = await service.post(
-        `${ApiConstants.SESSION.UNDECLARE_RESULT}`,
+        ApiConstants.SESSION.UNDECLARE_RESULT,
         requestData
       );
       if (response?.status === 200) {
@@ -341,7 +292,7 @@ export const noResultDeclare = createAsyncThunk<any, any>(
   async (requestData, thunkApi) => {
     try {
       const response = await service.post(
-        `${ApiConstants.SESSION.NO_RESULT}`,
+        ApiConstants.SESSION.NO_RESULT,
         requestData
       );
       if (response?.status === 200) {
@@ -358,10 +309,7 @@ export const editMatch = createAsyncThunk<any, any>(
   "/match/edit",
   async (requestData, thunkApi) => {
     try {
-      const response = await service.post(
-        `${ApiConstants.MATCH.EDIT}`,
-        requestData
-      );
+      const response = await service.post(ApiConstants.MATCH.EDIT, requestData);
       if (response) {
         return response.data;
       }
@@ -376,7 +324,7 @@ export const editRace = createAsyncThunk<any, any>(
   async (requestData, thunkApi) => {
     try {
       const response = await service.post(
-        `${ApiConstants.MATCH.EDIT_RACE}`,
+        ApiConstants.MATCH.EDIT_RACE,
         requestData
       );
       if (response) {
@@ -417,11 +365,14 @@ export const getSessionProfitLossMatchDetail = createAsyncThunk<any, any>(
 
 export const getCountryCode = createAsyncThunk<any, any>(
   "/match/countryCode",
-  async (requestData, thunkApi) => {
+  async ({ date, matchType }, thunkApi) => {
     try {
-      const response = await service.get(
-        `${ApiConstants.MATCH.GET_COUNTRY_CODE}?date=${requestData.date}&matchType=${requestData.matchType}`
-      );
+      const response = await service.get(ApiConstants.MATCH.GET_COUNTRY_CODE, {
+        params: {
+          date,
+          matchType,
+        },
+      });
       if (response) {
         return response.data;
       }
@@ -435,9 +386,13 @@ export const getRaceList = createAsyncThunk<any, any>(
   "/match/raceList",
   async (requestData, thunkApi) => {
     try {
-      const response = await service.get(
-        `${ApiConstants.MATCH.GET_RACE_LIST}?countryCode=eq${requestData?.cc}&DATE(racingMatch.startAt)=${requestData?.date}&matchType=eq${requestData.matchType}`
-      );
+      const response = await service.get(ApiConstants.MATCH.GET_RACE_LIST, {
+        params: {
+          countryCode: `eq${requestData?.cc}`,
+          "DATE(racingMatch.startAt)": requestData?.date,
+          matchType: `eq${requestData.matchType}`,
+        },
+      });
       if (response) {
         return response.data;
       }
@@ -474,7 +429,7 @@ export const raceLiveStatus = createAsyncThunk<any, any>(
   async (requestData, thunkApi) => {
     try {
       const response = await service.post(
-        `${ApiConstants.BOOKMAKER.RACESTATUS}`,
+        ApiConstants.BOOKMAKER.RACESTATUS,
         requestData
       );
       if (response) {
@@ -490,10 +445,7 @@ export const addBlinking = createAsyncThunk<any, any>(
   "/add/blinking",
   async (requestData, thunkApi) => {
     try {
-      const response = await service.post(
-        `${ApiConstants.BLINK.ADD}`,
-        requestData
-      );
+      const response = await service.post(ApiConstants.BLINK.ADD, requestData);
       if (response?.status === 200) {
         return response?.data;
       }
@@ -574,6 +526,12 @@ export const updateResultStatusOfMatch = createAsyncThunk<any, SessionById>(
     return requestData;
   }
 );
+export const updateTeamRatesOnUndeclare = createAsyncThunk<any, SessionById>(
+  "update/teamRatesOnUndeclare",
+  async (requestData) => {
+    return requestData;
+  }
+);
 export const updateResultStatusOfrace = createAsyncThunk<any, SessionById>(
   "update/resultStatusMatch",
   async (requestData) => {
@@ -612,12 +570,8 @@ export const updateMatchListCurrentPage = createAsyncThunk<any, any>(
 );
 
 export const matchListReset = createAction("matchList/reset");
-export const raceListReset = createAction("raceList/reset");
 export const editSuccessReset = createAction("editSuccess/reset");
 export const sessionResultSuccessReset = createAction("sessionResult/reset");
-export const updateMatchActiveStatusReset = createAction(
-  "updateMatchActiveStatusReset/reset"
-);
 export const resetMatchListSessionProLoss = createAction(
   "matchListSessionProLoss/reset"
 );

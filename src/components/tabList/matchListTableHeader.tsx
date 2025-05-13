@@ -1,48 +1,45 @@
 import { Box, Typography } from "@mui/material";
+import { memo } from "react";
 
 const MatchListTableHeader = () => {
   return (
-    <Box>
+    <Box
+      sx={{
+        display: "flex",
+        height: "35px",
+        background: "#262626",
+        alignItems: "center",
+        borderTop: "2px solid white",
+        borderBottom: "2px solid white",
+      }}
+    >
       <Box
         sx={{
+          width: { xs: "60px", sm: "100px", md: "100px", lg: "100px" },
           display: "flex",
-          height: "35px",
-          background: "#262626",
+          paddingLeft: "10px",
           alignItems: "center",
-          borderTop: "2px solid white",
-          borderBottom: "2px solid white",
+          height: "35px",
+          borderRight: "2px solid white",
         }}
       >
-        <Box
-          sx={{
-            width: { xs: "60px",sm: "100px", md: "100px", lg: "100px"},
-            display: "flex",
-            paddingLeft: "10px",
-            alignItems: "center",
-            height: "35px",
-            borderRight: "2px solid white",
-          }}
-        >
-          <Typography sx={{ color: "white", fontSize: "12px" }}>
-            Sr No.
-          </Typography>
-        </Box>
-        <Box
-          sx={{
-            flex: 1,
-            display: "flex",
-            paddingLeft: "10px",
-            alignItems: "center",
-            height: "35px",
-          }}
-        >
-          <Typography sx={{ color: "white", fontSize: "12px" }}>
-            Title
-          </Typography>
-        </Box>
+        <Typography sx={{ color: "white", fontSize: "12px" }}>
+          Sr No.
+        </Typography>
+      </Box>
+      <Box
+        sx={{
+          flex: 1,
+          display: "flex",
+          paddingLeft: "10px",
+          alignItems: "center",
+          height: "35px",
+        }}
+      >
+        <Typography sx={{ color: "white", fontSize: "12px" }}>Title</Typography>
       </Box>
     </Box>
   );
 };
 
-export default MatchListTableHeader;
+export default memo(MatchListTableHeader);

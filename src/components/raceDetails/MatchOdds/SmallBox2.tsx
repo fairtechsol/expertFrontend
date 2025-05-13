@@ -1,4 +1,5 @@
 import { Box, Typography } from "@mui/material";
+import { memo } from "react";
 
 const SmallBox2 = ({ valueA, valueB }: any) => {
   return (
@@ -14,7 +15,6 @@ const SmallBox2 = ({ valueA, valueB }: any) => {
       <Box
         sx={{
           width: { lg: "70px", xs: "10vw" },
-          // position: "absolute",
           flexDirection: "column",
           paddingX: "5px",
           display: "flex",
@@ -48,7 +48,6 @@ const SmallBox2 = ({ valueA, valueB }: any) => {
       <Box
         sx={{
           width: { lg: "70px", xs: "10vw" },
-          // position: "absolute",
           paddingX: "5px",
           display: "flex",
           flexDirection: "column",
@@ -84,4 +83,4 @@ const SmallBox2 = ({ valueA, valueB }: any) => {
   );
 };
 
-export default SmallBox2;
+export default memo(SmallBox2);

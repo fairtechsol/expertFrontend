@@ -1,13 +1,11 @@
 import { Box, Button, Modal, TextField, Typography } from "@mui/material";
-import { useEffect } from "react";
-import { CancelDark } from "../../assets";
-// import { notificationvalidationSchema } from "../../utils/Validations/login";
 import { useFormik } from "formik";
+import { memo, useEffect } from "react";
 import { useDispatch } from "react-redux";
+import { CancelDark } from "../../assets";
 import { headerAddNotification } from "../../store/actions/user/userAction";
 import { AppDispatch } from "../../store/store";
 import CustomErrorMessage from "../Common/CustomErrorMessage";
-// import { depositAmountValidations } from "../../../utils/Validations";
 
 const NotificationModal = ({
   visible,
@@ -15,7 +13,6 @@ const NotificationModal = ({
   title,
   loadingDeleteBet,
 }: any) => {
-  // const [value, setValue] = useState("");
   const dispatch: AppDispatch = useDispatch();
   const initialValues: any = {
     value: "",
@@ -59,7 +56,7 @@ const NotificationModal = ({
         <form onSubmit={handleSubmit}>
           <Box
             sx={{
-              width: {lg:"500px",xs: "100%"},
+              width: { lg: "500px", xs: "100%" },
               height: "270px",
               padding: 0.2,
               borderRadius: 2,
@@ -92,7 +89,10 @@ const NotificationModal = ({
               <img
                 onClick={() => setVisible(false)}
                 src={CancelDark}
-                style={{ width: "25px", height: "25px", cursor: "pointer" }}
+                alt="cancel"
+                width={25}
+                height={25}
+                style={{ cursor: "pointer" }}
               />
             </Box>
             <Box
@@ -107,8 +107,8 @@ const NotificationModal = ({
               }}
             >
               <TextField
-                name={"value"}
-                id={"value"}
+                name="value"
+                id="value"
                 value={formik.values.value}
                 onChange={formik.handleChange}
                 variant="standard"
@@ -163,7 +163,6 @@ const NotificationModal = ({
                 style={{
                   backgroundColor: "#0B4F26",
                   color: "white",
-                  // "&:hover": { backgroundColor: "#0B4F26" },
                 }}
               >
                 {loadingDeleteBet ? "Loading..." : "Submit"}
@@ -175,4 +174,4 @@ const NotificationModal = ({
     </Modal>
   );
 };
-export default NotificationModal;
+export default memo(NotificationModal);

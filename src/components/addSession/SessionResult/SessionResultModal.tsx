@@ -1,18 +1,27 @@
 import { Box, TextField, Typography } from "@mui/material";
-import { useEffect, useRef, useState } from "react";
-import SessionResultCustomButton from "../AddSession/SessionResultCustomButton";
-import { CancelDark } from "../../../assets";
 import { useFormik } from "formik";
+import { memo, useEffect, useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { CancelDark } from "../../../assets";
 import {
   noResultDeclare,
   resultDeclare,
   undeclareResult,
 } from "../../../store/actions/match/matchAction";
 import { AppDispatch, RootState } from "../../../store/store";
-import { useDispatch, useSelector } from "react-redux";
+import SessionResultCustomButton from "../AddSession/SessionResultCustomButton";
 
-const SessionResultModal = (props: any) => {
-  const { newData, visible, onClickCancel } = props;
+interface SessionResultModalProps {
+  newData?: any;
+  visible?: boolean;
+  onClickCancel: () => void;
+}
+
+const SessionResultModal = ({
+  newData,
+  visible,
+  onClickCancel,
+}: SessionResultModalProps) => {
   const dispatch: AppDispatch = useDispatch();
   const [selected, setSelected] = useState({ betId: "", matchId: "" });
   const { declareLoading } = useSelector((state: RootState) => state.matchList);
@@ -35,14 +44,13 @@ const SessionResultModal = (props: any) => {
 
   const formik = useFormik({
     initialValues: initialValues,
-    // validationSchema: changePasswordSchema,
     onSubmit: (values: any) => {
       if (declareLoading) {
         return;
       }
       if (newData?.betStatus === 0) {
         setLoading({ id: "DR", value: true });
-        if (!values?.score && values?.score !==0) {
+        if (!values?.score && values?.score !== 0) {
           setLoading({ id: "NR", value: false });
           return;
         }
@@ -127,9 +135,10 @@ const SessionResultModal = (props: any) => {
         <img
           onClick={(e) => {
             e.stopPropagation();
-            onClickCancel();
+            onClickCancel?.();
           }}
           src={CancelDark}
+          alt="cancel"
           style={{ width: "25px", height: "25px", cursor: "pointer" }}
         />
       </Box>
@@ -167,18 +176,11 @@ const SessionResultModal = (props: any) => {
                 autoFocus
                 placeholder="Enter score"
                 variant="standard"
-                // value={selected}
                 value={formik.values.score}
                 type="number"
                 id="score"
                 name="score"
                 onChange={formik.handleChange}
-                // onChange={(e) => {
-                //   //   setError("");
-                //   setSelected(e?.target.value);
-                // }}
-                // touched={touched.score}
-                // error={Boolean(errors.score)}
                 InputProps={{
                   disableUnderline: true,
                   inputProps: { min: 0, step: 1 },
@@ -194,9 +196,7 @@ const SessionResultModal = (props: any) => {
               {errors && (
                 <Box
                   style={{ color: "red", marginTop: "8px", fontSize: "11px" }}
-                >
-                  {/* {error} */}
-                </Box>
+                />
               )}
             </>
           ) : (
@@ -225,38 +225,19 @@ const SessionResultModal = (props: any) => {
           >
             {newData?.betStatus === 2 ? (
               <SessionResultCustomButton
-                color={"#FF4D4D"}
-                title={"Un Declare"}
+                color="#FF4D4D"
+                title="Un Declare"
                 loading={loading}
                 id="UD"
-                // onClick={() => {
-                //   if (loading?.value) {
-                //     return false;
-                //   }
-                //   // undeclareResult();
-                // }}
               />
             ) : (
               <>
                 {newData?.betStatus !== 3 ? (
                   <SessionResultCustomButton
-                    color={"#0B4F26"}
+                    color="#0B4F26"
                     id="DR"
-                    title={"Declare"}
+                    title="Declare"
                     loading={loading}
-                    // onClick={() => {
-                    //   if (loading?.value) {
-                    //     return false;
-                    //   }
-                    //   if (selected !== "" && /^\d+$/.test(selected)) {
-                    //     declareResult();
-                    //   } else if (selected === "") {
-                    //     setError("Please enter score");
-                    //   } else {
-                    //     // toast.warn("Please enter score");
-                    //     setError("Input field should contain numbers only");
-                    //   }
-                    // }}
                   />
                 ) : null}
               </>
@@ -264,15 +245,10 @@ const SessionResultModal = (props: any) => {
 
             {newData?.betStatus !== 2 && newData?.isNoResult && (
               <SessionResultCustomButton
-                color={"rgb(106 90 90)"}
+                color="rgb(106 90 90)"
                 title={newData?.betStatus !== 3 ? "No Result" : "Yes"}
                 loading={loading}
                 id="NR"
-                // onClick={() => {
-                //   if (loading?.value) {
-                //     return false;
-                //   }
-                // }}
               />
             )}
           </Box>
@@ -282,4 +258,4 @@ const SessionResultModal = (props: any) => {
   );
 };
 
-export default SessionResultModal;
+export default memo(SessionResultModal);

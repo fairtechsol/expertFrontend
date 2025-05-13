@@ -3,7 +3,7 @@ import ChangePasswordComponent from "../../components/changePassword/ChangePassw
 
 const ChangePassword = () => {
   return (
-    <Box flex={1} sx={[{ flex: 1, display: "flex" }]}>
+    <Box sx={{ flex: 1, display: "flex" }}>
       <ChangePasswordComponent />
     </Box>
   );

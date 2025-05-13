@@ -1,11 +1,11 @@
 import { Box, Typography, useMediaQuery } from "@mui/material";
-import { useState } from "react";
+import { memo, useState } from "react";
 import theme from "../../../theme";
 import CommissionDot from "../../Common/CommissionDot";
 import ResultComponentTournamentMarket from "../../matchDetails/TournamentMarkets/ResultComponentTournamentMarket";
 import EditBookmaker from "./EditBookmaker";
 import NewEditBookmaker from "./NewEditBookmaker";
-interface Props {
+interface BookmakerEditSectionProps {
   add: boolean;
   match: any;
   bookmakerId: string;
@@ -21,7 +21,7 @@ const BookmakerEditSection = ({
   runners,
   matchBetting,
   teamRates,
-}: Props) => {
+}: BookmakerEditSectionProps) => {
   const [visible, setVisible] = useState(false);
   const [visible1, setVisible1] = useState(false);
   const matchesMobile = useMediaQuery(theme.breakpoints.down("lg"));
@@ -30,9 +30,7 @@ const BookmakerEditSection = ({
       sx={{
         flex: 1,
         background: "#0B4F26",
-        // borderRadius: "5px",
         position: "relative",
-        // py: "10px",
         px: "10px",
         pb: "6px",
         top: 0,
@@ -49,7 +47,7 @@ const BookmakerEditSection = ({
             top: 0,
             zIndex: 1,
           }}
-        ></Box>
+        />
       )}
       {!matchesMobile && (
         <Box sx={{ display: "flex", gap: 1, alignItems: "center" }}>
@@ -107,7 +105,7 @@ const BookmakerEditSection = ({
               alignSelf: "center",
             }}
           >
-            <Box sx={{ width: "2%" }}></Box>
+            <Box sx={{ width: "2%" }} />
             {matchBetting?.stopAt ? (
               <Box
                 onClick={(e) => {
@@ -145,7 +143,6 @@ const BookmakerEditSection = ({
                   {visible1 && (
                     <ResultComponentTournamentMarket
                       currentMatch={match}
-                      // stopAt={liveData?.stopAt}
                       onClick={() => {
                         setVisible(false);
                       }}
@@ -155,8 +152,6 @@ const BookmakerEditSection = ({
                 </Box>
               </Box>
             ) : (
-              /* <Box sx={{ width: '2%' }} ></Box> */
-
               <Box
                 onClick={(e) => {
                   setVisible(true);
@@ -164,7 +159,6 @@ const BookmakerEditSection = ({
                   e.stopPropagation();
                 }}
                 sx={{
-                  // width: "30%",
                   position: "relative",
                   display: "flex",
                   background: "white",
@@ -195,7 +189,6 @@ const BookmakerEditSection = ({
                   {visible && (
                     <ResultComponentTournamentMarket
                       currentMatch={match}
-                      // stopAt={liveData?.stopAt}
                       onClick={() => {
                         setVisible(false);
                       }}
@@ -245,4 +238,4 @@ const BookmakerEditSection = ({
   );
 };
 
-export default BookmakerEditSection;
+export default memo(BookmakerEditSection);

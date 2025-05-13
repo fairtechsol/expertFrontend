@@ -1,13 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {
-  changePassword,
-  changePasswordReset,
-  getDateList,
-  getLoggedUserCount,
-  getProfile,
-  headerAddBanner,
-  headerAddNotification,
-  resetDateList,
+    changePassword,
+    changePasswordReset,
+    getDateList,
+    getLoggedUserCount,
+    getProfile,
+    headerAddBanner,
+    headerAddNotification,
+    resetDateList,
 } from "../../actions/user/userAction";
 
 interface InitialState {
@@ -47,7 +47,7 @@ const profileSlice = createSlice({
       })
       .addCase(changePassword.rejected, (state, action) => {
         state.loading = false;
-        state.error = action?.error?.message;
+        state.error = action.error?.message;
       })
       .addCase(getProfile.pending, (state) => {
         state.loading = true;
@@ -56,12 +56,12 @@ const profileSlice = createSlice({
       })
       .addCase(getProfile.fulfilled, (state, action) => {
         state.loading = false;
-        state.profileDetail = action?.payload;
-        sessionStorage.setItem("pId", action?.payload?.id);
+        state.profileDetail = action.payload;
+        sessionStorage.setItem("pId", action.payload?.id);
       })
       .addCase(getProfile.rejected, (state, action) => {
         state.loading = false;
-        state.error = action?.error?.message;
+        state.error = action.error?.message;
       })
       .addCase(getLoggedUserCount.pending, (state) => {
         state.loading = true;
@@ -70,11 +70,11 @@ const profileSlice = createSlice({
       })
       .addCase(getLoggedUserCount.fulfilled, (state, action) => {
         state.loading = false;
-        state.loggedUserCount = action?.payload;
+        state.loggedUserCount = action.payload;
       })
       .addCase(getLoggedUserCount.rejected, (state, action) => {
         state.loading = false;
-        state.error = action?.error?.message;
+        state.error = action.error?.message;
       })
       .addCase(changePasswordReset, (state) => {
         state.success = false;
@@ -87,11 +87,11 @@ const profileSlice = createSlice({
       })
       .addCase(getDateList.fulfilled, (state, action) => {
         state.loading = false;
-        state.dateList = action?.payload;
+        state.dateList = action.payload;
       })
       .addCase(getDateList.rejected, (state, action) => {
         state.loading = false;
-        state.error = action?.error?.message;
+        state.error = action.error?.message;
       })
       .addCase(resetDateList, (state) => {
         state.dateList = [];
@@ -106,7 +106,7 @@ const profileSlice = createSlice({
       })
       .addCase(headerAddNotification.rejected, (state, action) => {
         state.loading = false;
-        state.error = action?.error?.message;
+        state.error = action.error?.message;
       })
       .addCase(headerAddBanner.pending, (state) => {
         state.loading = true;
@@ -118,7 +118,7 @@ const profileSlice = createSlice({
       })
       .addCase(headerAddBanner.rejected, (state, action) => {
         state.loading = false;
-        state.error = action?.error?.message;
+        state.error = action.error?.message;
       });
   },
 });

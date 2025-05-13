@@ -1,5 +1,6 @@
 import { Box, Typography } from "@mui/material";
 import { ARROWDROPDOWN } from "../../assets";
+import { memo } from "react";
 
 const ButtonHead = ({
   title,
@@ -40,6 +41,7 @@ const ButtonHead = ({
       {selected && report && (
         <img
           src={ARROWDROPDOWN}
+          alt="arrow down"
           style={{ width: "10px", height: "6px", marginLeft: "4px" }}
         />
       )}
@@ -47,4 +49,4 @@ const ButtonHead = ({
   );
 };
 
-export default ButtonHead;
+export default memo(ButtonHead);

@@ -1,5 +1,6 @@
 import { Box } from "@mui/material";
 import { Background } from "../../assets";
+import { memo } from "react";
 const BackgroundLayout = ({ children }: any) => {
   return (
     <Box
@@ -17,4 +18,4 @@ const BackgroundLayout = ({ children }: any) => {
   );
 };
 
-export default BackgroundLayout;
+export default memo(BackgroundLayout);

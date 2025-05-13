@@ -1,14 +1,13 @@
-import { memo, useState } from "react";
 import { Box, Typography } from "@mui/material";
-// import Divider from "../../Common/Divider";
-import { ARROWUP } from "../../../assets";
-import { formatToINR } from "../../helper";
-import CasinoMarketBoxLive from "./CasinoMarketBoxLive";
-import { AppDispatch } from "../../../store/store";
+import { memo, useState } from "react";
 import { useDispatch } from "react-redux";
+import { ARROWUP } from "../../../assets";
 import { addSession } from "../../../store/actions/addSession";
-import LiveStatusButtonBox from "../CasinoMarket/LiveStatusButtonBox";
 import { sessionBetLiveStatus } from "../../../store/actions/match/matchAction";
+import { AppDispatch } from "../../../store/store";
+import { formatToINR } from "../../helper";
+import LiveStatusButtonBox from "../CasinoMarket/LiveStatusButtonBox";
+import CasinoMarketBoxLive from "./CasinoMarketBoxLive";
 
 const CasinoMarketLive = ({
   title,
@@ -68,7 +67,6 @@ const CasinoMarketLive = ({
             alignItems: "center",
             display: "flex",
             justifyContent: "space-between",
-            // height: "40px",
           }}
         >
           <Typography
@@ -109,44 +107,33 @@ const CasinoMarketLive = ({
               height="20px"
             />
           )}
-          {/* {live && (
-            <LiveStatusButtonBox
-              hide={true}
-              onClick={(e: any) => {
-                e.preventDefault();
-              }}
-              textSize="8px"
-              width="33px"
-            />
-          )} */}
         </Box>
         <Box
           sx={{
             flex: 0.1,
             background: "#262626",
-            // '#262626'
           }}
         >
-          <div className="slanted"></div>
+          <div className="slanted" />
         </Box>
         <Box
           sx={{
             flex: 0.5,
             background: "#262626",
-            // '#262626' ,
             display: "flex",
             alignItems: "center",
             justifyContent: "flex-end",
           }}
         >
-          {/* <SmallBoxSeason /> */}
           <img
             onClick={() => {
               setVisible(!visible);
             }}
             src={ARROWUP}
+            alt="arrow up"
             style={{
-              transform: visible ? "rotate(180deg)" : "rotate(0deg)",
+              transform: !visible ? "rotate(180deg)" : "rotate(0deg)",
+              transition: "transform 0.3s ease",
               width: "12px",
               height: "12px",
               marginRight: "5px",
@@ -171,7 +158,6 @@ const CasinoMarketLive = ({
               flexDirection: "column",
               width: "100%",
               position: "relative",
-              // maxHeight: { lg: "85vh", xs: "40vh" },
               overflowY: "auto",
               "::-webkit-scrollbar": {
                 display: "none",
@@ -189,7 +175,6 @@ const CasinoMarketLive = ({
                     }
                     index={index}
                   />
-                  {/* <Divider /> */}
                 </Box>
               );
             })}

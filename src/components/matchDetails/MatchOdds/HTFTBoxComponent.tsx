@@ -1,17 +1,10 @@
 import { Box, Typography } from "@mui/material";
 import { memo } from "react";
-import SeparateBox from "../SeparateBox";
 import { formatNumber } from "../../helper";
+import SeparateBox from "../SeparateBox";
 import MoneyBox from "./MoneyBox";
 
-const BoxComponent = ({
-  name,
-  data,
-  currentMatch,
-  align,
-  lock,
-  teamRates,
-}: any) => {
+const BoxComponent = ({ name, data, lock, teamRates }: any) => {
   const { ex } = data ?? {};
 
   return (
@@ -65,7 +58,7 @@ const BoxComponent = ({
             background: "white",
             height: "30px",
             width: { lg: "65%", xs: "78%" },
-            justifyContent: { xs: "flex-end", lg: "flex-end" },
+            justifyContent: 'flex-end',
             alignItems: "center",
           }}
         >
@@ -75,27 +68,25 @@ const BoxComponent = ({
               background: "white",
               height: "30px",
               width: { lg: "50%", xs: "60%" },
-              justifyContent: { xs: "flex-end", lg: "flex-end" },
+              justifyContent: 'flex-end',
               alignItems: "center",
             }}
           >
             <SeparateBox
-              currentMatch={currentMatch}
-              align={align}
               value={
                 ex?.availableToBack?.length > 0
                   ? ex?.availableToBack[ex?.availableToBack?.length > 1 ? 2 : 0]
-                      ?.price ?? 0
+                    ?.price ?? 0
                   : 0
               }
               lock={lock}
               value2={formatNumber(
                 ex?.availableToBack?.length > 0
                   ? ex?.availableToBack[ex?.availableToBack?.length > 1 ? 2 : 0]
-                      ?.size ?? 0
+                    ?.size ?? 0
                   : 0
               )}
-              color={"#A7DCFF"}
+              color="#A7DCFF"
             />
           </Box>
         </Box>

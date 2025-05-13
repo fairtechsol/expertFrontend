@@ -1,4 +1,5 @@
 import { Box, Typography } from "@mui/material";
+import { memo } from "react";
 
 const SessionHeaderRow = ({ tag }: any) => {
   return (
@@ -58,23 +59,6 @@ const SessionHeaderRow = ({ tag }: any) => {
               Market
             </Typography>
           </Box>
-          {/* <Box
-            sx={{
-              width: { lg: "15%", xs: "47%" },
-              border: "1px solid white",
-              background: "rgba(0,0,0)",
-              height: "20px",
-              justifyContent: "center",
-              alignItems: "center",
-              display: "flex",
-            }}
-          >
-            <Typography
-              sx={{ fontSize: "10px", fontWeight: "500", color: "white" }}
-            >
-              Favourite
-            </Typography>
-          </Box> */}
           <Box
             sx={{
               width: { lg: "7%", xs: "33%" },
@@ -172,4 +156,4 @@ const SessionHeaderRow = ({ tag }: any) => {
   );
 };
 
-export default SessionHeaderRow;
+export default memo(SessionHeaderRow);

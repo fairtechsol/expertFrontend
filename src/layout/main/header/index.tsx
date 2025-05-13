@@ -1,32 +1,46 @@
 import { AppBar, Box, useMediaQuery, useTheme } from "@mui/material";
 import ModalMUI from "@mui/material/Modal";
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { memo, useEffect, useState } from "react";
+import { GiTatteredBanner } from "react-icons/gi";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";
 import { FgLogo, NotiBadge, Users } from "../../../assets";
 import StyledImage from "../../../components/Common/StyledImages";
 import Loader from "../../../components/Loader";
+import BannerUploadModal from "../../../components/header/BannerUploadModal";
 import ButtonHead from "../../../components/header/ButtonHead";
 import NotificationModal from "../../../components/header/NotificationModal";
+import { socket, socketService } from "../../../socketManager";
+import { getLoggedUserCount } from "../../../store/actions/user/userAction";
 import { AppDispatch, RootState } from "../../../store/store";
 import ActiveUsers from "./ActiveUsers";
 import BoxProfile from "./BoxProfile";
-// import DropDownMenu from "./DropDownMenu";
-// import { getMatchListDropdown } from "../../../store/actions/match/matchAction";
-import { socket, socketService } from "../../../socketManager";
-import { getLoggedUserCount } from "../../../store/actions/user/userAction";
 import GameTypeDropdown from "./GameTypeDropdown";
-// import { setSelectedTabForMatchList } from "../../../store/actions/match/matchAction";
-import { GiTatteredBanner } from "react-icons/gi";
-import BannerUploadModal from "../../../components/header/BannerUploadModal";
 
 const Header1 = () => {
   const theme = useTheme();
   const matchesMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const navigate = useNavigate();
   const dispatch: AppDispatch = useDispatch();
-  const { profileDetail, loggedUserCount } = useSelector(
+  const { loggedUserCount } = useSelector(
     (state: RootState) => state.user.profile
+  );
+
+  const {
+    allPrivilege,
+    bookmakerMatchPrivilege,
+    sessionMatchPrivilege,
+    userName,
+  } = useSelector(
+    (state: RootState) => ({
+      allPrivilege: state.user.profile.profileDetail?.allPrivilege,
+      bookmakerMatchPrivilege:
+        state.user.profile.profileDetail?.bookmakerMatchPrivilege,
+      sessionMatchPrivilege:
+        state.user.profile.profileDetail?.sessionMatchPrivilege,
+      userName: state.user.profile.profileDetail?.userName,
+    }),
+    shallowEqual
   );
   const [visible, setVisible] = useState(false);
   const [visibleBanner, setVisibleBanner] = useState(false);
@@ -84,9 +98,7 @@ const Header1 = () => {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <>
-          <Loader />
-        </>
+        <Loader />
       </ModalMUI>
       {/* <SessionTimeOut /> */}
       {!matchesMobile && (
@@ -134,18 +146,9 @@ const Header1 = () => {
                     marginRight: "12px",
                   }}
                 >
-                  {/* <StyledImage
-                    onClick={() => {
-                      //   setMobileOpen(!mobileOpen);
-                    }}
-                    src={Draw}
-                    sx={{
-                      height: { lg: "16px", xs: "20px", md: "16px" },
-                      width: "auto",
-                    }}
-                  /> */}
                   <StyledImage
                     src={FgLogo}
+                    alt="fairgame logo"
                     onClick={(e: any) => {
                       e.stopPropagation();
                       navigate(`/expert/match`);
@@ -153,40 +156,42 @@ const Header1 = () => {
                     sx={{
                       cursor: "pointer",
                       height: { lg: "40px", xs: "30px", md: "40px" },
-                      width: "auto",
+                      width: { lg: "120px", xs: "90px", md: "120px" },
+                      // width: "auto",
                       marginLeft: { lg: "15px", xs: "5px" },
+
                     }}
                   />
                 </Box>
                 <>
-                  {(profileDetail?.bookmakerMatchPrivilege ||
-                    profileDetail?.sessionMatchPrivilege ||
-                    profileDetail?.allPrivilege) && (
-                    <ButtonHead
-                      onClick={(e: any) => {
-                        setGameType(true);
-                        setSelected(1);
-                        setAnchor1(e?.currentTarget);
-                      }}
-                      title={!dropDownLoading ? "ALL MATCH" : "Loading..."}
-                      boxStyle={{
-                        backgroundColor:
-                          currentSelected == 1 && (gameType || anchor)
-                            ? "white"
-                            : "transparent",
-                        py: "5px",
-                        borderRadius: "5px",
-                        marginLeft: { lg: "15px", xs: "1px" },
-                        cursor: "pointer",
-                      }}
-                      titleStyle={{
-                        color:
-                          currentSelected == 1 && (gameType || anchor)
-                            ? "green"
-                            : "white",
-                      }}
-                    />
-                  )}
+                  {(bookmakerMatchPrivilege ||
+                    sessionMatchPrivilege ||
+                    allPrivilege) && (
+                      <ButtonHead
+                        onClick={(e: any) => {
+                          setGameType(true);
+                          setSelected(1);
+                          setAnchor1(e?.currentTarget);
+                        }}
+                        title={!dropDownLoading ? "ALL MATCH" : "Loading..."}
+                        boxStyle={{
+                          backgroundColor:
+                            currentSelected == 1 && (gameType || anchor)
+                              ? "white"
+                              : "transparent",
+                          py: "5px",
+                          borderRadius: "5px",
+                          marginLeft: { lg: "15px", xs: "1px" },
+                          cursor: "pointer",
+                        }}
+                        titleStyle={{
+                          color:
+                            currentSelected == 1 && (gameType || anchor)
+                              ? "green"
+                              : "white",
+                        }}
+                      />
+                    )}
                   <NavLink
                     to={"/expert/match"}
                     style={{ textDecoration: "none" }}
@@ -194,13 +199,12 @@ const Header1 = () => {
                     <ButtonHead
                       onClick={() => {
                         setSelected(4);
-                        // dispatch(setSelectedTabForMatchList(0));
                       }}
                       title={"MATCH LIST"}
                       boxStyle={{
                         backgroundColor:
                           currentSelected !== 1 &&
-                          window.location.pathname.split("/")[2] == "match"
+                            window.location.pathname.split("/")[2] == "match"
                             ? "white"
                             : "transparent",
                         py: "5px",
@@ -211,7 +215,7 @@ const Header1 = () => {
                       titleStyle={{
                         color:
                           currentSelected !== 1 &&
-                          window.location.pathname.split("/")[2] == "match"
+                            window.location.pathname.split("/")[2] == "match"
                             ? "green"
                             : "white",
                       }}
@@ -229,7 +233,7 @@ const Header1 = () => {
                       boxStyle={{
                         backgroundColor:
                           currentSelected !== 1 &&
-                          window.location.pathname.split("/")[2] == "race"
+                            window.location.pathname.split("/")[2] == "race"
                             ? "white"
                             : "transparent",
                         py: "5px",
@@ -240,7 +244,7 @@ const Header1 = () => {
                       titleStyle={{
                         color:
                           currentSelected !== 1 &&
-                          window.location.pathname.split("/")[2] == "race"
+                            window.location.pathname.split("/")[2] == "race"
                             ? "green"
                             : "white",
                       }}
@@ -259,7 +263,7 @@ const Header1 = () => {
                       boxStyle={{
                         backgroundColor:
                           currentSelected !== 1 &&
-                          window.location.pathname.split("/")[2] == "tab"
+                            window.location.pathname.split("/")[2] == "tab"
                             ? "white"
                             : "transparent",
                         py: "5px",
@@ -270,7 +274,7 @@ const Header1 = () => {
                       titleStyle={{
                         color:
                           currentSelected !== 1 &&
-                          window.location.pathname.split("/")[2] == "tab"
+                            window.location.pathname.split("/")[2] == "tab"
                             ? "green"
                             : "white",
                       }}
@@ -300,7 +304,6 @@ const Header1 = () => {
                       justifyContent: "center",
                       alignItems: "center",
                       background: "white",
-                      // marginTop: { xs: "10px" },
                       marginLeft: "10px",
                     }}
                   >
@@ -318,12 +321,12 @@ const Header1 = () => {
                       justifyContent: "center",
                       alignItems: "center",
                       background: "white",
-                      // marginTop: { xs: "10px" },
                       marginLeft: "10px",
                     }}
                   >
                     <StyledImage
                       src={NotiBadge}
+                      alt="badge"
                       sx={{ height: "15px", width: "15px" }}
                     />
                   </Box>
@@ -334,33 +337,18 @@ const Header1 = () => {
                       // marginTop: { xs: "10px" },
                     }}
                   >
-                    <ActiveUsers
-                      containerStyle={{}}
-                      image={Users}
-                      value={userCount}
-                    />
+                    <ActiveUsers image={Users} value={userCount} />
                     <BoxProfile
                       containerStyle={{
                         marginTop: { xs: "0px" },
                         alignItems: "center",
                       }}
                       image={"https://picsum.photos/200/300"}
-                      value1={profileDetail?.userName}
+                      value1={userName}
                     />
                   </Box>
                 </Box>
               </Box>
-              {/* {matchListDropdown?.length > 0 && (
-                <DropDownMenu
-                  sx={{ alignItems: "center" }}
-                  anchorEl={anchor}
-                  open={Boolean(anchor)}
-                  allMatch={matchListDropdown}
-                  handleClose={() => {
-                    setAnchor(null);
-                  }}
-                />
-              )} */}
             </Box>
           </AppBar>
           <Box sx={{ minHeight: { lg: 44, md: 35, xs: 80, sm: 35 } }} />
@@ -416,18 +404,9 @@ const Header1 = () => {
                     marginRight: "12px",
                   }}
                 >
-                  {/* <StyledImage
-                    onClick={() => {
-                      //   setMobileOpen(!mobileOpen);
-                    }}
-                    src={Draw}
-                    sx={{
-                      height: { lg: "24px", xs: "10px" },
-                      width: "auto",
-                    }}
-                  /> */}
                   <StyledImage
                     src={FgLogo}
+                    alt="fairgame logo"
                     onClick={(e: any) => {
                       e.stopPropagation();
                       navigate(`/expert/match`);
@@ -435,7 +414,8 @@ const Header1 = () => {
                     sx={{
                       cursor: "pointer",
                       height: { lg: "50px", xs: "25px" },
-                      width: "auto",
+                      // width: "auto",
+                      width: { lg: "150px", xs: "75px" },
                       marginLeft: { lg: "15px", xs: "5px" },
                     }}
                   />
@@ -449,7 +429,7 @@ const Header1 = () => {
                     <BoxProfile
                       containerStyle={{ marginTop: "0" }}
                       image={"https://picsum.photos/200/300"}
-                      value1={profileDetail?.userName}
+                      value1={userName}
                     />
                   </Box>
                 </>
@@ -477,7 +457,6 @@ const Header1 = () => {
                       justifyContent: "center",
                       alignItems: "center",
                       background: "white",
-                      // marginLeft: "4vh"
                     }}
                   >
                     <GiTatteredBanner color="black" />
@@ -494,53 +473,48 @@ const Header1 = () => {
                       justifyContent: "center",
                       alignItems: "center",
                       background: "white",
-                      // marginLeft: "4vh"
                     }}
                   >
                     <StyledImage
                       src={NotiBadge}
+                      alt="badge"
                       sx={{ height: "15px", width: "15px" }}
                     />
                   </Box>
                   <Box sx={{ display: "flex" }}>
-                    <ActiveUsers
-                      containerStyle={{}}
-                      image={Users}
-                      value={userCount}
-                    />
+                    <ActiveUsers image={Users} value={userCount} />
                   </Box>
                 </Box>
 
                 <Box>
                   <Box sx={{ display: "flex" }}>
-                    {(profileDetail?.bookmakerMatchPrivilege ||
-                      profileDetail?.sessionMatchPrivilege ||
-                      profileDetail?.allPrivilege) && (
-                      <ButtonHead
-                        onClick={(e: any) => {
-                          setGameType(true);
-                          setSelected(1);
-                          setAnchor1(e?.currentTarget);
-                        }}
-                        title={!dropDownLoading ? "ALL MATCH" : "Loading..."}
-                        boxStyle={{
-                          backgroundColor:
-                            currentSelected == 1 && (gameType || anchor)
-                              ? "white"
-                              : "transparent",
-                          // py: "5px",
-                          borderRadius: "5px",
-                          marginLeft: { lg: "15px", xs: "15px" },
-                          cursor: "pointer",
-                        }}
-                        titleStyle={{
-                          color:
-                            currentSelected == 1 && (gameType || anchor)
-                              ? "green"
-                              : "white",
-                        }}
-                      />
-                    )}
+                    {(bookmakerMatchPrivilege ||
+                      sessionMatchPrivilege ||
+                      allPrivilege) && (
+                        <ButtonHead
+                          onClick={(e: any) => {
+                            setGameType(true);
+                            setSelected(1);
+                            setAnchor1(e?.currentTarget);
+                          }}
+                          title={!dropDownLoading ? "ALL MATCH" : "Loading..."}
+                          boxStyle={{
+                            backgroundColor:
+                              currentSelected == 1 && (gameType || anchor)
+                                ? "white"
+                                : "transparent",
+                            borderRadius: "5px",
+                            marginLeft: { lg: "15px", xs: "15px" },
+                            cursor: "pointer",
+                          }}
+                          titleStyle={{
+                            color:
+                              currentSelected == 1 && (gameType || anchor)
+                                ? "green"
+                                : "white",
+                          }}
+                        />
+                      )}
 
                     <NavLink
                       to={"/expert/match"}
@@ -549,13 +523,12 @@ const Header1 = () => {
                       <ButtonHead
                         onClick={() => {
                           setSelected(4);
-                          // dispatch(setSelectedTabForMatchList(0));
                         }}
-                        title={"MATCH LIST"}
+                        title="MATCH LIST"
                         boxStyle={{
                           backgroundColor:
                             currentSelected !== 1 &&
-                            window.location.pathname.split("/")[2] == "match"
+                              window.location.pathname.split("/")[2] == "match"
                               ? "white"
                               : "transparent",
                           py: "5px",
@@ -566,7 +539,7 @@ const Header1 = () => {
                         titleStyle={{
                           color:
                             currentSelected !== 1 &&
-                            window.location.pathname.split("/")[2] == "match"
+                              window.location.pathname.split("/")[2] == "match"
                               ? "green"
                               : "white",
                         }}
@@ -578,14 +551,12 @@ const Header1 = () => {
                       style={{ textDecoration: "none" }}
                     >
                       <ButtonHead
-                        onClick={() => {
-                          // setSelected(4);
-                        }}
-                        title={"RACE LIST"}
+                        onClick={() => { }}
+                        title="RACE LIST"
                         boxStyle={{
                           backgroundColor:
                             currentSelected !== 1 &&
-                            window.location.pathname.split("/")[2] == "race"
+                              window.location.pathname.split("/")[2] == "race"
                               ? "white"
                               : "transparent",
                           py: "5px",
@@ -596,26 +567,23 @@ const Header1 = () => {
                         titleStyle={{
                           color:
                             currentSelected !== 1 &&
-                            window.location.pathname.split("/")[2] == "race"
+                              window.location.pathname.split("/")[2] == "race"
                               ? "green"
                               : "white",
                         }}
                       />
                     </NavLink>
-
                     <NavLink
                       to={"/expert/tab"}
                       style={{ textDecoration: "none" }}
                     >
                       <ButtonHead
-                        onClick={() => {
-                          // setSelected(4);
-                        }}
+                        onClick={() => { }}
                         title={"TAB LIST"}
                         boxStyle={{
                           backgroundColor:
                             currentSelected !== 1 &&
-                            window.location.pathname.split("/")[2] == "tab"
+                              window.location.pathname.split("/")[2] == "tab"
                               ? "white"
                               : "transparent",
                           py: "5px",
@@ -626,7 +594,7 @@ const Header1 = () => {
                         titleStyle={{
                           color:
                             currentSelected !== 1 &&
-                            window.location.pathname.split("/")[2] == "tab"
+                              window.location.pathname.split("/")[2] == "tab"
                               ? "green"
                               : "white",
                         }}
@@ -641,16 +609,6 @@ const Header1 = () => {
           <Box sx={{ minHeight: { lg: 66, sm: 60, md: 80, xs: 60 } }} />
         </>
       )}
-      {/* {matchListDropdown?.length > 0 && (
-        <DropDownMenu
-          anchorEl={anchor}
-          open={Boolean(anchor)}
-          allMatch={matchListDropdown}
-          handleClose={() => {
-            setAnchor(null);
-          }}
-        />
-      )} */}
       {gameType && (
         <GameTypeDropdown
           anchorEl={anchor1}
@@ -668,4 +626,4 @@ const Header1 = () => {
   );
 };
 
-export default Header1;
+export default memo(Header1);

@@ -1,15 +1,10 @@
 import { Box, useMediaQuery, useTheme } from "@mui/material";
 import { Fragment, memo, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { handleMarketSorting } from "../../components/helper";
 import Loader from "../../components/Loader";
 import BetList from "../../components/matchDetails/BetList";
-import BookMarket from "../../components/matchDetails/Bookmarket";
-import CompleteMatchMarket from "../../components/matchDetails/CompleteMatchMarket";
-import MatchOdds from "../../components/matchDetails/MatchOdds";
-import OtherMatchMarket from "../../components/matchDetails/OtherMatchMarket";
-import TiedMatchMarket from "../../components/matchDetails/TiedMatchMarket";
 import TournamentMarket from "../../components/matchDetails/TournamentMarkets";
 import HTFTMarket from "../../components/matchDetails/TournamentMarkets/HTFTMarket";
 import {
@@ -29,23 +24,19 @@ import { resetPlacedBetsMatch } from "../../store/actions/addSession";
 import {
   getPlacedBetsMatch,
   getSessionProfitLossMatchDetailReset,
-  // updateBetVerify,
   updateDeletedBetReasonOnEdit,
   updateMatchBetsPlace,
   updateMatchBetsReason,
   updateResultBoxStatus,
   updateResultStatusOfMatch,
   updateTeamRates,
+  updateTeamRatesOnUndeclare,
 } from "../../store/actions/match/matchAction";
 import { AppDispatch, RootState } from "../../store/store";
 import { marketArray } from "../../utils/Constants";
-import ManualMarket from "../manualMarket";
 
 const OtherMatchDetails = () => {
-  // const intervalRef = useRef<NodeJS.Timeout | null>(null);
-  // const [rateInterval, setRateInterval] = useState<any>({ intervalData: [] });
-
-  const { state } = useLocation();
+  const state: any = useParams();
   const navigate = useNavigate();
   const theme = useTheme();
   const matchesMobile = useMediaQuery(theme.breakpoints.down("sm"));
@@ -58,7 +49,7 @@ const OtherMatchDetails = () => {
   );
 
   useEffect(() => {
-    if (state?.marketId) {
+    if (state?.mId) {
       matchService.connect([state?.id]);
     }
     return () => {
@@ -78,10 +69,7 @@ const OtherMatchDetails = () => {
 
   const resultDeclared = (event: any) => {
     try {
-      if (
-        (event?.matchId === state?.id && event?.isMatchDeclare) ||
-        (event?.matchId === state?.id && event?.betType === "quickbookmaker1")
-      ) {
+      if (event?.matchId === state?.id && event?.isMatchDeclare) {
         navigate("/expert/match");
       } else {
         dispatch(getPlacedBetsMatch(state?.id));
@@ -95,54 +83,27 @@ const OtherMatchDetails = () => {
     }
   };
 
-  // const updateVerifyBet = (event: any) => {
-  //       try {
-  //         if (event?.matchId === state?.id) {
-  //           dispatch(updateBetVerify(event));
-  //         }
-  //       } catch (e) {
-  //         console.log(e);
-  //       }
-  //     };
-
   const resultUnDeclared = (event: any) => {
     try {
       if (event?.matchId === state?.id) {
-        // if (event?.betType === "quickbookmaker1") {
-        dispatch(getMatchDetail(`${state?.id}?isSessionAllowed=false`));
+        if (event?.betType) {
+          dispatch(updateResultStatusOfMatch(event));
+          dispatch(updateTeamRatesOnUndeclare(event));
+        } else {
+          dispatch(getMatchDetail(`${state?.id}?isSessionAllowed=false`));
+        }
         dispatch(getPlacedBetsMatch(state?.id));
-        // } else {
-        // dispatch(getPlacedBetsMatch(state?.id));
-        // dispatch(handleBetResultStatus(event));
-        // dispatch(updateMatchRatesOnMarketUndeclare(event));
-        // }
       }
     } catch (e) {
       console.log(e);
     }
   };
 
-  // const updateBettingStatus = (event: any) => {
-  //   try {
-  //     if (state?.id === event?.matchId) {
-  //       dispatch(updateMatchBettingStatus(event));
-  //     }
-  //   } catch (e) {
-  //     console.log(e);
-  //   }
-  // };
-
   const matchDeleteBet = (event: any) => {
     try {
       if (event?.matchId === state?.id) {
         dispatch(updateRates(event));
         dispatch(updateMatchBetsReason(event));
-        // dispatch(
-        //   updateSessionProLoss({
-        //     id: event?.betId,
-        //     betPlaced: event?.profitLoss ? event?.profitLoss?.betPlaced : [],
-        //   })
-        // );
       }
     } catch (e) {
       console.log(e);
@@ -217,7 +178,6 @@ const OtherMatchDetails = () => {
     try {
       if (success && socket) {
         expertSocketService.match.getMatchRatesOff(state?.id);
-        // socketService.user.betVerifyOff();
         socketService.user.matchResultDeclaredOff();
         socketService.user.matchResultUnDeclaredOff();
         socketService.user.matchDeleteBetOff();
@@ -231,7 +191,6 @@ const OtherMatchDetails = () => {
         expertSocketService.match.getMatchRates(state?.id, (event: any) => {
           updateMatchDetailToRedux(event);
         });
-        // socketService.user.betVerify(updateVerifyBet);
         socketService.user.matchResultDeclared(resultDeclared);
         socketService.user.matchResultDeclareAllUser(resultDeclared);
         socketService.user.matchResultUnDeclared(resultUnDeclared);
@@ -240,7 +199,6 @@ const OtherMatchDetails = () => {
         socketService.user.userMatchBetPlaced(updateMatchBetPlaced);
         socketService.user.updateInResultDeclare(updateSessionResultStatus);
         socketService.user.updateDeleteReason(updateDeleteBetReason);
-        // expertSocketService.match.connectError(handleSocketError);
         expertSocketService.match.onConnect(handleSocketConnection);
       }
     } catch (e) {
@@ -253,7 +211,6 @@ const OtherMatchDetails = () => {
       if (state?.id) {
         return () => {
           matchSocketService.leaveAllRooms();
-          // expertSocketService.match.leaveMatchRoom(state?.id);
           expertSocketService.match.getMatchRatesOff(state?.id);
           socketService.user.matchResultDeclaredOff();
           socketService.user.matchResultUnDeclaredOff();
@@ -261,8 +218,6 @@ const OtherMatchDetails = () => {
           socketService.user.userMatchBetPlacedOff();
           socketService.user.updateInResultDeclareOff();
           socketService.user.updateDeleteReasonOff();
-          // expertSocketService.match.connectErrorOff();
-          // socketService.user.betVerifyOff();
           expertSocketService.match.onConnectOff();
           socketService.user.matchResultDeclareAllUserOff();
           socketService.user.matchResultUnDeclareAllUserOff();
@@ -274,55 +229,11 @@ const OtherMatchDetails = () => {
     }
   }, [state?.id]);
 
-  // const fetchLiveData = useCallback(async () => {
-  //   try {
-  //     const response = await axios.get(`${baseUrls.matchSocket}/getExpertRateDetails/${state?.id}`, {
-  //       // headers: {
-  //       //   Authorization: `Bearer ${sessionStorage.getItem("jwtExpert")}`,
-  //       // },
-  //     });
-  //     updateMatchDetailToRedux(response.data);
-  //     // console.log("Live Data:", response.data);
-  //   } catch (error) {
-  //     console.error("Error fetching live data:", error);
-  //   }
-  // }, [state?.id]);
-
-  // const handleVisibilityChange = useCallback(() => {
-  //   if (document.visibilityState === "visible") {
-  //     if (!intervalRef.current) {
-  //       fetchLiveData();
-  //       intervalRef.current = setInterval(fetchLiveData, 500);
-  //     }
-  //   } else if (document.visibilityState === "hidden") {
-  //     if (intervalRef.current) {
-  //       clearInterval(intervalRef.current);
-  //       intervalRef.current = null;
-  //     }
-  //   }
-  // }, [intervalRef, fetchLiveData]);
-
-  // useEffect(() => {
-  //   document.addEventListener("visibilitychange", handleVisibilityChange);
-  //   handleVisibilityChange();
-
-  //   return () => {
-  //     if (intervalRef.current) {
-  //       clearInterval(intervalRef.current);
-  //     }
-  //     document.removeEventListener("visibilitychange", handleVisibilityChange);
-  //   };
-  // }, [handleVisibilityChange]);
-
   useEffect(() => {
     try {
       const handleVisibilityChange = () => {
         if (document.visibilityState === "visible") {
-          // if (!socket.connected || !matchSocket.connected) {
-          //   socketService.connect();
-          // }
           if (state?.id) {
-            // dispatch(getOtherGamesMatchDetail(state?.id));
             dispatch(getPlacedBetsMatch(state?.id));
             expertSocketService.match.joinMatchRoom(state?.id);
             expertSocketService.match.getMatchRates(state?.id, (event: any) => {
@@ -331,7 +242,6 @@ const OtherMatchDetails = () => {
           }
         } else if (document.visibilityState === "hidden") {
           if (state?.id) {
-            // expertSocketService.match.leaveMatchRoom(state?.id);
             expertSocketService.match.getMatchRatesOff(state?.id);
           }
         }
@@ -349,113 +259,8 @@ const OtherMatchDetails = () => {
     }
   }, [state?.id]);
 
-  const component = [
-    {
-      component: matchDetail?.matchOdd &&
-        (matchDetail?.matchOdd?.isActive === false ? false : true) && (
-          <MatchOdds
-            showHeader={true}
-            currentMatch={matchDetail}
-            matchOddsLive={matchDetail?.matchOdd}
-            showResultBox={firstKnownKey === "matchOdd"}
-          />
-        ),
-      result:
-        matchDetail?.matchOdd && firstKnownKey === "matchOdd"
-          ? matchDetail?.stopAt
-            ? "declared"
-            : matchDetail?.resultStatus
-            ? "pending"
-            : ""
-          : "",
-    },
-    {
-      component: matchDetail?.bookmaker &&
-        (matchDetail?.bookmaker?.isActive === false ? false : true) && (
-          <BookMarket
-            currentMatch={matchDetail}
-            liveData={matchDetail?.bookmaker}
-            title={matchDetail?.bookmaker?.name}
-            showResultBox={firstKnownKey === "bookmaker"}
-          />
-        ),
-      result:
-        matchDetail?.bookmaker && firstKnownKey === "bookmaker"
-          ? matchDetail?.resultStatus
-            ? "pending"
-            : matchDetail?.stopAt
-            ? "declared"
-            : ""
-          : "",
-    },
-    {
-      component: matchDetail?.marketBookmaker2 &&
-        (matchDetail?.marketBookmaker2?.isActive === false ? false : true) && (
-          <BookMarket
-            currentMatch={matchDetail}
-            liveData={matchDetail?.marketBookmaker2}
-            title={matchDetail?.marketBookmaker2?.name}
-            showResultBox={firstKnownKey === "marketBookmaker2"}
-          />
-        ),
-      result:
-        matchDetail?.marketBookmaker2 && firstKnownKey === "marketBookmaker2"
-          ? matchDetail?.resultStatus
-            ? "pending"
-            : matchDetail?.stopAt
-            ? "declared"
-            : ""
-          : "",
-    },
-    ...(matchDetail?.quickBookmaker
-      ?.filter((item: any) => item?.isActive)
-      ?.map((bookmaker: any) => ({
-        component: (
-          <ManualMarket
-            key={bookmaker?.id}
-            currentMatch={matchDetail}
-            liveData={bookmaker}
-            showResultBox={
-              firstKnownKey === "quickBookmaker" &&
-              bookmaker?.type === "quickbookmaker1"
-                ? true
-                : false
-            }
-          />
-        ),
-        result:
-          firstKnownKey === "quickBookmaker" &&
-          bookmaker?.type === "quickbookmaker1"
-            ? true
-            : false
-            ? matchDetail?.resultStatus
-              ? "pending"
-              : matchDetail?.stopAt
-              ? "declared"
-              : ""
-            : "",
-      })) || []),
-    ...(matchDetail?.other?.map((market: any) => ({
-      component: (
-        <OtherMatchMarket
-          key={market?.id}
-          currentMatch={matchDetail}
-          liveData={{
-            ...market,
-            type: "other",
-            marketId: market?.mid ? market?.mid.toString() : "",
-          }}
-          title={market?.name}
-          firstKnownKey={firstKnownKey}
-        />
-      ),
-      result: matchDetail?.otherBettings?.[market?.id]
-        ? market?.activeStatus === "result"
-          ? "declared"
-          : "pending"
-        : "",
-    })) || []),
-    ...(matchDetail?.tournament
+  const component =
+    matchDetail?.tournament
       ?.filter((item: any) => item?.name !== "HT/FT")
       ?.map((market: any, index: number) => ({
         component: (
@@ -472,229 +277,7 @@ const OtherMatchDetails = () => {
             ? "declared"
             : "pending"
           : "",
-      })) || []),
-    {
-      component: matchDetail?.apiTideMatch &&
-        (matchDetail?.apiTideMatch?.isActive === false ? false : true) && (
-          <TiedMatchMarket
-            currentMatch={matchDetail}
-            liveData={matchDetail?.apiTideMatch}
-            title={matchDetail?.apiTideMatch?.name}
-            showResultBox={firstKnownKey === "apiTideMatch"}
-          />
-        ),
-      result:
-        matchDetail?.apiTideMatch && firstKnownKey === "apiTideMatch"
-          ? matchDetail?.resultStatus
-            ? "pending"
-            : matchDetail?.stopAt
-            ? "declared"
-            : ""
-          : "",
-    },
-    {
-      component: matchDetail?.apiTideMatch2 &&
-        (matchDetail?.apiTideMatch2?.isActive === false ? false : true) && (
-          <TiedMatchMarket
-            currentMatch={matchDetail}
-            liveData={matchDetail?.apiTideMatch2}
-            title={matchDetail?.apiTideMatch2?.name}
-            showResultBox={firstKnownKey === "apiTiedMatch2"}
-          />
-        ),
-      result:
-        matchDetail?.apiTideMatch2 && firstKnownKey === "apiTiedMatch2"
-          ? matchDetail?.resultStatus
-            ? "pending"
-            : matchDetail?.stopAt
-            ? "declared"
-            : ""
-          : "",
-    },
-    {
-      component: matchDetail?.manualTiedMatch &&
-        (matchDetail?.manualTiedMatch?.isActive === false ? false : true) && (
-          <ManualMarket
-            currentMatch={matchDetail}
-            liveData={matchDetail?.manualTiedMatch}
-            type="manualTiedMatch"
-            showResultBox={firstKnownKey === "manualTiedMatch"}
-          />
-        ),
-      result:
-        matchDetail?.manualTiedMatch && firstKnownKey === "manualTiedMatch"
-          ? matchDetail?.resultStatus
-            ? "pending"
-            : matchDetail?.stopAt
-            ? "declared"
-            : ""
-          : "",
-    },
-    {
-      component: matchDetail?.marketCompleteMatch &&
-        (matchDetail?.marketCompleteMatch?.isActive === false
-          ? false
-          : true) && (
-          <CompleteMatchMarket
-            currentMatch={matchDetail}
-            liveData={matchDetail?.marketCompleteMatch}
-            title={matchDetail?.marketCompleteMatch?.name}
-            showResultBox={firstKnownKey === "marketCompleteMatch"}
-          />
-        ),
-      result:
-        matchDetail?.marketCompleteMatch &&
-        firstKnownKey === "marketCompleteMatch"
-          ? matchDetail?.resultStatus
-            ? "pending"
-            : matchDetail?.stopAt
-            ? "declared"
-            : ""
-          : "",
-    },
-    {
-      component: matchDetail?.marketCompleteMatch1 &&
-        (matchDetail?.marketCompleteMatch1?.isActive === false
-          ? false
-          : true) && (
-          <CompleteMatchMarket
-            currentMatch={matchDetail}
-            liveData={matchDetail?.marketCompleteMatch1}
-            title={matchDetail?.marketCompleteMatch1?.name}
-            showResultBox={firstKnownKey === "marketCompleteMatch1"}
-          />
-        ),
-      result:
-        matchDetail?.marketCompleteMatch1 &&
-        firstKnownKey === "marketCompleteMatch1"
-          ? matchDetail?.resultStatus
-            ? "pending"
-            : matchDetail?.stopAt
-            ? "declared"
-            : ""
-          : "",
-    },
-    {
-      component: matchDetail?.manualCompleteMatch &&
-        (matchDetail?.manualCompleteMatch?.isActive === false
-          ? false
-          : true) && (
-          <ManualMarket
-            currentMatch={matchDetail}
-            liveData={matchDetail?.manualCompleteMatch}
-            type="manualTiedMatch"
-            showResultBox={firstKnownKey === "manualCompleteMatch"}
-          />
-        ),
-      result:
-        matchDetail?.manualCompleteMatch &&
-        firstKnownKey === "manualCompleteMatch"
-          ? matchDetail?.resultStatus
-            ? "pending"
-            : matchDetail?.stopAt
-            ? "declared"
-            : ""
-          : "",
-    },
-  ];
-
-  // useEffect(() => {
-  //   try {
-  //     if (matchDetail?.id && matchSocket) {
-  //       let currRateInt = setInterval(() => {
-  //         expertSocketService.match.joinMatchRoom(matchDetail?.id, "expert");
-  //       }, 60000);
-  //       return () => {
-  //         clearInterval(currRateInt);
-  //       };
-  //     }
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // }, [matchDetail?.id, matchSocket]);
-
-  //   useEffect(() => {
-  //     try {
-  //       if (state?.id) {
-  //         const currRateInt = handleRateInterval();
-
-  //         return () => {
-  //           if (currRateInt) {
-  //             clearInterval(currRateInt);
-  //             setRateInterval((prev: any) => ({ ...prev, intervalData: [] }));
-  //           }
-  //         };
-  //       }
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   }, [state?.id]);
-
-  //   const handleRateInterval = useCallback(() => {
-  //     if (rateInterval?.intervalData?.length) {
-  //       for(let items of rateInterval?.intervalData){
-  //         clearInterval(items);
-  //       }
-  //       setRateInterval((prev: any) => ({ ...prev, intervalData: [] }));
-  //     }
-  //     let rateIntervalData = setInterval(() => {
-  //       dispatch(getMatchRates(state?.id));
-  //     }, 500);
-
-  //     setRateInterval((prev: any) => ({
-  //       ...prev,
-  //       intervalData: [...prev.intervalData, rateIntervalData],
-  //     }));
-
-  //     return rateInterval;
-  //   }, [rateInterval?.intervalData, state?.id]);
-
-  //   const handleVisibilityChange = useCallback(() => {
-  //     if (document.visibilityState === "visible") {
-  //       if (!socket.connected || !matchSocket.connected) {
-  //         socketService.connect();
-  //       }
-  //       if (state?.id) {
-  //         // dispatch(getOtherGamesMatchDetail(state?.id));
-  //         dispatch(getPlacedBetsMatch(state?.id));
-  //         expertSocketService.match.joinMatchRoom(state?.id, "expert");
-  //         // expertSocketService.match.getMatchRates(state?.id, (event: any) => {
-  //         //   updateMatchDetailToRedux(event);
-  //         // });
-  //         handleRateInterval();
-  //       }
-
-  //     } else if (document.visibilityState === "hidden") {
-  //       expertSocketService.match.leaveMatchRoom(state?.id);
-  //       if (rateInterval?.intervalData?.length) {
-  //         for(let items of rateInterval?.intervalData){
-  //           clearInterval(items);
-  //         }
-  //         setRateInterval((prev: any) => ({ ...prev, intervalData: [] }));
-  //       }
-  //     }
-  //   }, [
-  //     state?.id,
-  //     state.userId,
-  //     dispatch,
-  //     rateInterval,
-  //     setRateInterval,
-  //     socketService,
-  //   ]);
-
-  //   useEffect(() => {
-  //     document.addEventListener("visibilitychange", handleVisibilityChange);
-
-  //     return () => {
-  //       document.removeEventListener("visibilitychange", handleVisibilityChange);
-  //       if (rateInterval?.intervalData?.length) {
-  //         for(let items of rateInterval?.intervalData){
-  //           clearInterval(items);
-  //         }
-  //         setRateInterval((prev: any) => ({ ...prev, intervalData: [] }));
-  //       }
-  //     };
-  //   }, [handleVisibilityChange, rateInterval, setRateInterval]);
+      })) || [];
 
   return (
     <>
@@ -713,59 +296,46 @@ const OtherMatchDetails = () => {
         }}
       >
         {loading ? (
-          <Loader text="" />
+          <Loader />
         ) : (
           <>
             <Box
               sx={{
-                width: { lg: "22.5%", xs: "100%", md: "45%" },
+                width: { lg: "25%", xs: "100%", md: "30%", sm: "30%" },
                 marginTop: { xs: "10px", lg: "0" },
                 display: "flex",
                 flexDirection: "column",
                 gap: "5px",
               }}
             >
-              {/* <DelayedChild>
-              <Masonry
-                columns={matchesMobile ? 1 : 2}
-                spacing={matchesMobile ? 0 : 1}
-              > */}
-              {component
-                ?.sort(handleMarketSorting)
-                ?.filter((_: any, index: any) => index % 2 != 0)
-                ?.map((item: any, index: number) => {
-                  return <Fragment key={index}>{item?.component}</Fragment>;
-                })}
-              {/* </Masonry>
-            </DelayedChild> */}
-            </Box>
-            <Box
-              sx={{
-                width: { lg: "22.5%", xs: "100%", md: "45%" },
-                marginTop: { xs: "10px", lg: "0" },
-                display: "flex",
-                flexDirection: "column",
-                gap: "5px",
-              }}
-            >
-              {/* <DelayedChild>
-              <Masonry
-                columns={matchesMobile ? 1 : 2}
-                spacing={matchesMobile ? 0 : 1}
-              > */}
               {component
                 ?.sort(handleMarketSorting)
                 ?.filter((_: any, index: any) => index % 2 == 0)
                 ?.map((item: any, index: number) => {
                   return <Fragment key={index}>{item?.component}</Fragment>;
                 })}
-              {/* </Masonry>
-            </DelayedChild> */}
             </Box>
+            <Box
+              sx={{
+                width: { lg: "25%", xs: "100%", md: "30%", sm: "30%" },
+                marginTop: { xs: "10px", lg: "0" },
+                display: "flex",
+                flexDirection: "column",
+                gap: "5px",
+              }}
+            >
+              {component
+                ?.sort(handleMarketSorting)
+                ?.filter((_: any, index: any) => index % 2 != 0)
+                ?.map((item: any, index: number) => {
+                  return <Fragment key={index}>{item?.component}</Fragment>;
+                })}
+            </Box>
+
             {matchesMobile && (
               <Box
                 sx={{
-                  width: { lg: "50%", xs: "100%", md: "50%", sm: "50%" },
+                  width: { lg: "50%", xs: "100%", md: "60%", sm: "60%" },
                 }}
               >
                 {matchDetail?.tournament &&
@@ -784,7 +354,7 @@ const OtherMatchDetails = () => {
             )}
             <Box
               sx={{
-                width: { lg: "50%", xs: "100%", md: "50%", sm: "50%" },
+                width: { lg: "50%", xs: "100%", md: "40%", sm: "40%" },
                 flexDirection: "column",
                 display: "flex",
                 marginTop: { xs: "10px", lg: "0" },
@@ -804,7 +374,7 @@ const OtherMatchDetails = () => {
       {!matchesMobile && (
         <Box
           sx={{
-            width: { lg: "50%", xs: "100%", md: "50%", sm: "50%" },
+            width: { lg: "50%", xs: "100%", md: "60%", sm: "60%" },
             marginTop: { xs: "10px", lg: "0" },
             gap: 1,
           }}
@@ -812,9 +382,9 @@ const OtherMatchDetails = () => {
           {matchDetail?.tournament &&
             matchDetail?.tournament
               ?.filter((item: any) => item?.name === "HT/FT")
-              ?.map((market: any) => (
+              ?.map((market: any, index: number) => (
                 <HTFTMarket
-                  key={market?.mid}
+                  key={index}
                   liveData={market}
                   currentMatch={matchDetail}
                   title={market?.name}

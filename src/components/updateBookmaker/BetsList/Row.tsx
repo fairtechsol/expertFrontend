@@ -1,4 +1,5 @@
 import { Box, Typography } from "@mui/material";
+import { memo } from "react";
 import { formatToINR } from "../../helper";
 
 const Row = ({ index, values }: any) => {
@@ -27,7 +28,7 @@ const Row = ({ index, values }: any) => {
           }}
         >
           <Box sx={{ flex: 1, display: "flex" }}>
-            <Box sx={{ width: "34%", height: "100%" }}></Box>
+            <Box sx={{ width: "34%", height: "100%" }} />
             <Box
               sx={{
                 width: "66%",
@@ -127,32 +128,6 @@ const Row = ({ index, values }: any) => {
             {values?.domain?.replace(/https?:\/\//, "")}
           </Typography>
         </Box>
-        {/* <Box
-          sx={{
-            background: "#F8C851",
-            width: "20%",
-            borderLeft: "2px solid white",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            overflow: "hidden",
-            whiteSpace: "nowrap",
-            position: "relative",
-          }}
-        >
-          <Typography
-            sx={{
-              color: "black",
-              fontWeight: "600",
-              fontSize: { xs: "10px",md: "10px", lg: "10px" },
-              lineHeight: 1,
-              textAlign: "center",
-              overflowWrap: "anywhere",
-            }}
-          >
-            {values?.bettingName ?? values.marketType}
-          </Typography>
-        </Box> */}
         <Box
           sx={{
             background: "#F8C851",
@@ -302,7 +277,7 @@ const Row = ({ index, values }: any) => {
           }}
         >
           <Box sx={{ flex: 1, display: "flex" }}>
-            <Box sx={{ width: "34%", height: "30px" }}></Box>
+            <Box sx={{ width: "34%", height: "30px" }} />
             <Box
               sx={{
                 width: "66%",
@@ -333,4 +308,4 @@ const Row = ({ index, values }: any) => {
   );
 };
 
-export default Row;
+export default memo(Row);

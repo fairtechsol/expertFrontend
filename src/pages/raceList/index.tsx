@@ -1,25 +1,25 @@
 import { Box, Tab, Tabs } from "@mui/material";
-import { useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
+import { useNavigate, useParams } from "react-router-dom";
+import CustomButton from "../../components/Common/CustomButton";
 import MatchListHeader from "../../components/raceList/matchListHeader";
 import MatchListTable from "../../components/raceList/matchListTable";
 import MatchListTableHeader from "../../components/raceList/matchListTableHeader";
-import "./style.css";
-import { useDispatch, useSelector, shallowEqual } from "react-redux";
-import { AppDispatch, RootState } from "../../store/store";
-import { matchListReset } from "../../store/actions/match/matchAction";
 import {
   expertSocketService,
   socket,
   socketService,
 } from "../../socketManager";
-import CustomButton from "../../components/Common/CustomButton";
-import { useNavigate, useParams } from "react-router-dom";
+import { matchListReset } from "../../store/actions/match/matchAction";
 import {
   getDateList,
   resetDateList,
 } from "../../store/actions/user/userAction";
+import { AppDispatch, RootState } from "../../store/store";
+import "./style.css";
 
-const RaceList = ({}) => {
+const RaceList = () => {
   const dispatch: AppDispatch = useDispatch();
   const [currentPage] = useState(1);
   const { raceType } = useParams();
@@ -94,26 +94,24 @@ const RaceList = ({}) => {
           gap: "20px",
         }}
       >
-        <Box>
-          <Tabs
-            value={value}
-            onChange={handleChange}
-            textColor="secondary"
-            indicatorColor="secondary"
-            aria-label="secondary tabs example"
-          >
-            <Tab
-              sx={{ color: "white" }}
-              value="horseRacing"
-              label="Horse Racing"
-            />
-            <Tab
-              sx={{ color: "white" }}
-              value="greyHound"
-              label="Greyhound Racing"
-            />
-          </Tabs>
-        </Box>
+        <Tabs
+          value={value}
+          onChange={handleChange}
+          textColor="secondary"
+          indicatorColor="secondary"
+          aria-label="secondary tabs example"
+        >
+          <Tab
+            sx={{ color: "white" }}
+            value="horseRacing"
+            label="Horse Racing"
+          />
+          <Tab
+            sx={{ color: "white" }}
+            value="greyHound"
+            label="Greyhound Racing"
+          />
+        </Tabs>
         <Box
           sx={{
             display: "flex",
@@ -128,8 +126,8 @@ const RaceList = ({}) => {
               onClick={() => {
                 navigate("/expert/add_race");
               }}
-              title={"Add Race"}
-              bgColor="#f1c40f"
+              title="Add Race"
+              bgColor="#F8C851"
               style={{ color: "#000" }}
             />
           )}
@@ -154,7 +152,7 @@ const RaceList = ({}) => {
         {raceList &&
           Object?.keys(raceList)?.map((item: any, index: number) => (
             <MatchListTable
-              key={item?.[0]?.venue}
+              key={index}
               data={item}
               index={index}
               currentPage={currentPage}
@@ -192,4 +190,4 @@ const RaceList = ({}) => {
   );
 };
 
-export default RaceList;
+export default memo(RaceList);

@@ -1,5 +1,5 @@
 import { Box, Typography, useMediaQuery, useTheme } from "@mui/material";
-import React from "react";
+import React, { memo } from "react";
 import { Popover } from "react-tiny-popover";
 import { Lock } from "../../assets";
 
@@ -12,9 +12,9 @@ const SeparateBox = ({ color, empty, value, width, value2, lock }: any) => {
       <Popover
         isOpen={isPopoverOpen}
         align={matchesMobile ? "end" : "center"}
-        positions={["bottom"]} // preferred positions by priority
+        positions={["bottom"]}
         onClickOutside={() => setIsPopoverOpen(false)}
-        content={<div></div>}
+        content={<div />}
       >
         <Box
           onClick={() => {
@@ -22,7 +22,6 @@ const SeparateBox = ({ color, empty, value, width, value2, lock }: any) => {
               return null;
             }
             setIsPopoverOpen(!isPopoverOpen);
-            // dispatch(setColorValue(color));
           }}
           sx={{
             background: lock || [0, "0"].includes(value) ? "#FDF21A" : color,
@@ -62,7 +61,13 @@ const SeparateBox = ({ color, empty, value, width, value2, lock }: any) => {
             </Box>
           )}
           {[0, "0"].includes(value) && (
-            <img src={Lock} style={{ width: "10px", height: "15px" }} />
+            <img
+              src={Lock}
+              width={10}
+              height={15}
+              // style={{ width: "10px", height: "15px" }}
+              alt="lock"
+            />
           )}
         </Box>
       </Popover>
@@ -70,4 +75,4 @@ const SeparateBox = ({ color, empty, value, width, value2, lock }: any) => {
   );
 };
 
-export default SeparateBox;
+export default memo(SeparateBox);

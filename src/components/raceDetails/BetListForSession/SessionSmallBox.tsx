@@ -1,4 +1,5 @@
 import { Box, Typography } from "@mui/material";
+import { memo } from "react";
 
 const SessionSmallBox = ({ item }: any) => {
   return (
@@ -16,7 +17,7 @@ const SessionSmallBox = ({ item }: any) => {
     >
       <Typography
         sx={{
-          fontSize:{lg:"11px", xs:"12px"},
+          fontSize: { lg: "11px", xs: "12px" },
           fontWeight: "600",
           color: item?.color,
           textTransform: "capitalize",
@@ -34,4 +35,4 @@ const SessionSmallBox = ({ item }: any) => {
   );
 };
 
-export default SessionSmallBox;
+export default memo(SessionSmallBox);

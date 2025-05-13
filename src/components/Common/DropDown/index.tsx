@@ -1,31 +1,44 @@
-import { useEffect, useState } from "react";
 import { Box, Typography } from "@mui/material";
-import StyledImage from "../StyledImages";
+import { memo, useEffect, useState } from "react";
 import { ARROWDROPDOWN } from "../../../assets";
+import StyledImage from "../StyledImages";
 import DropDownItem from "./DropDownItem";
 
-const DropDown = (props: any) => {
-  const {
-    title,
-    data,
-    containerStyle,
-    titleStyle,
-    valueContainerStyle,
-    dropStyle,
-    dropDownStyle,
-    dropDownTextStyle,
-    type,
-    matchesSelect,
-    disable,
-    selected,
-    setSelected,
-    name,
-    valued,
-    gameType,
-    onOpen,
-    isOpen,
-  } = props;
+interface DropDownProps {
+  title: string;
+  data: any;
+  containerStyle: any;
+  titleStyle: any;
+  valueContainerStyle: any;
+  dropStyle: any;
+  dropDownStyle: any;
+  dropDownTextStyle: any;
+  disable: boolean;
+  selected: any;
+  setSelected: (val: any) => void;
+  name: string;
+  valued: string;
+  onOpen: (val: any) => void;
+  isOpen: any;
+}
 
+const DropDown = ({
+  title,
+  data,
+  containerStyle,
+  titleStyle,
+  valueContainerStyle,
+  dropStyle,
+  dropDownStyle,
+  dropDownTextStyle,
+  disable,
+  selected,
+  setSelected,
+  name,
+  valued,
+  onOpen,
+  isOpen,
+}: DropDownProps) => {
   const [value, setValue] = useState(valued);
   const [open, setOpen] = useState(false);
 
@@ -84,15 +97,13 @@ const DropDown = (props: any) => {
         ]}
       >
         <Box
-          sx={[
-            {
-              paddingY: "4px",
-              paddingLeft: "7px",
-              fontSize: "10px",
-              fontWeight: "500",
-              color: "white",
-            },
-          ]}
+          sx={{
+            paddingY: "4px",
+            paddingLeft: "7px",
+            fontSize: "10px",
+            fontWeight: "500",
+            color: "white",
+          }}
         >
           <Typography
             sx={{
@@ -108,6 +119,7 @@ const DropDown = (props: any) => {
         </Box>
         <StyledImage
           src={ARROWDROPDOWN}
+          alt="arrow down"
           sx={[
             {
               width: "11px",
@@ -136,49 +148,25 @@ const DropDown = (props: any) => {
             dropDownStyle,
           ]}
         >
-          {matchesSelect
-            ? data?.map((i: any, idx: any) => {
-                return (
-                  <DropDownItem
-                    key={idx}
-                    i={i?.EventName}
-                    mId={i?.MarketId}
-                    EventId={i?.EventId}
-                    matchesSelect={matchesSelect}
-                    CompetitionName={i?.EventDate ?? i?.CompetitionName}
-                    eventDetail={i}
-                    type={type}
-                    // disable={disable}
-                    setValue={setValue}
-                    setSelected={setSelected}
-                    setOpen={setOpen}
-                    dropDownTextStyle={dropDownTextStyle}
-                    name={name}
-                    gameType={gameType}
-                    onOpen={onOpen}
-                  />
-                );
-              })
-            : data?.map((i: any, idx: any) => {
-                return (
-                  <DropDownItem
-                    key={idx}
-                    i={i}
-                    disable={disable}
-                    setValue={setValue}
-                    setSelected={setSelected}
-                    setOpen={setOpen}
-                    dropDownTextStyle={dropDownTextStyle}
-                    name={name}
-                    gameType={gameType}
-                    onOpen={onOpen}
-                  />
-                );
-              })}
+          {data?.map((i: any, idx: any) => {
+            return (
+              <DropDownItem
+                key={idx}
+                i={i}
+                disable={disable}
+                setValue={setValue}
+                setSelected={setSelected}
+                setOpen={setOpen}
+                dropDownTextStyle={dropDownTextStyle}
+                name={name}
+                onOpen={onOpen}
+              />
+            );
+          })}
         </Box>
       )}
     </Box>
   );
 };
 
-export default DropDown;
+export default memo(DropDown);
