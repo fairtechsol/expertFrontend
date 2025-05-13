@@ -1,5 +1,5 @@
 import { Box, Typography } from "@mui/material";
-import { memo, useCallback, useEffect, useState } from "react";
+import { memo, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { VariableSizeList } from "react-window";
 import { ARROWUP } from "../../../assets";
 import { formatToINR } from "../../helper";
@@ -40,6 +40,10 @@ const Row = memo(
 
 const SessionMarketLive = ({ title, sessionData, currentMatch, type }: any) => {
   const [matchSessionData, setMatchSessionData] = useState(sessionData);
+  const listRef = useRef<VariableSizeList>(null);
+  const [visible, setVisible] = useState(true);
+
+
   useEffect(() => {
     setMatchSessionData(
       sessionData?.section?.filter(
@@ -47,14 +51,26 @@ const SessionMarketLive = ({ title, sessionData, currentMatch, type }: any) => {
       )
     );
   }, [sessionData]);
-  const [visible, setVisible] = useState(true);
 
   const toggleVisibility = useCallback(() => {
     setVisible((prev) => !prev);
   }, []);
 
+  const filteredData = useMemo(() => {
+    if (!Array.isArray(matchSessionData)) return [];
+    return matchSessionData.filter((item: any) => !item?.id || item?.activeStatus === "unSave");
+  }, [matchSessionData]);
+
+  // Reset list size cache on data change
+  useEffect(() => {
+    if (listRef.current) {
+      listRef.current.resetAfterIndex(0, true);
+    }
+  }, [filteredData]);
+
   const getItemSize = (index: number): number => {
-    const row = matchSessionData[index];
+    const row = filteredData[index];
+    console.log("row", row);
     let rowHeight = Math.max(
       row?.ex?.availableToLay?.length ?? 0,
       row?.ex?.availableToBack?.length ?? 0
@@ -200,41 +216,21 @@ const SessionMarketLive = ({ title, sessionData, currentMatch, type }: any) => {
                 const dynamicHeight = filteredData.length * 25;
 
                 return (
-                  <div
-                    style={{
-                      width: "100%",
-                      height: `${dynamicHeight + 1}px`,
+                  <VariableSizeList<ItemData>
+                    ref={listRef}
+                    height={dynamicHeight}
+                    width="100%"
+                    itemCount={filteredData.length}
+                    itemSize={getItemSize}
+                    itemData={{
+                      items: filteredData,
+                      gtype: sessionData?.gtype,
+                      type: type,
+                      currentMatch,
                     }}
                   >
-                    <VariableSizeList<ItemData>
-                      height={dynamicHeight}
-                      width="100%"
-                      itemCount={filteredData.length}
-                      itemSize={getItemSize}
-                      itemData={{
-                        items: filteredData,
-                        gtype: sessionData?.gtype,
-                        type: type,
-                        currentMatch,
-                      }}
-                    >
-                      {Row}
-                    </VariableSizeList>
-                    {/* <List
-                      height={dynamicHeight + 1}
-                      width="100%"
-                      itemCount={filteredData.length}
-                      itemSize={25}
-                      itemData={{
-                        items: filteredData,
-                        gtype: sessionData?.gtype,
-                        type: type,
-                        currentMatch,
-                      }}
-                    >
-                      {Row}
-                    </List> */}
-                  </div>
+                    {Row}
+                  </VariableSizeList>
                 );
               })()}
           </Box>

@@ -2,9 +2,8 @@ import { useMediaQuery, useTheme } from "@mui/material";
 import Box from "@mui/material/Box";
 import ModalMUI from "@mui/material/Modal";
 import Typography from "@mui/material/Typography";
-import { memo, useCallback, useMemo, useState } from "react";
+import { memo, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
-// import { FixedSizeList as List } from "react-window";
 import { VariableSizeList } from 'react-window';
 import { ARROWUP, edit } from "../../../assets";
 import { customSortUpdated } from "../../../helpers";
@@ -88,6 +87,7 @@ const SessionMarket = ({
   const [visible, setVisible] = useState(true);
   const [sessionMaxBetAmountLimit, setSessionMaxBetAmountLimit] =
     useState(false);
+  const listRef = useRef<VariableSizeList>(null);
 
   const handleFilter = (item: any) =>
     section === "market"
@@ -132,6 +132,12 @@ const SessionMarket = ({
     setSessionMaxBetAmountLimit(true);
   }, []);
 
+
+  useEffect(() => {
+    if (listRef.current) {
+      listRef.current.resetAfterIndex(0, true);
+    }
+  }, [filteredMatches]);
 
   const getItemSize = (index: number): number => {
     const row = filteredMatches[index];
@@ -272,45 +278,24 @@ const SessionMarket = ({
                     : filteredMatches.length * 30;
 
                   return (
-                    <div
-                      style={{
-                        width: "100%",
-                        height: `${dynamicHeight + 1}px`,
+                    <VariableSizeList<ItemData>
+                      ref={listRef}
+                      height={dynamicHeight}
+                      width="100%"
+                      itemCount={filteredMatches.length}
+                      itemSize={getItemSize}
+                      itemData={{
+                        items: filteredMatches,
+                        hideResult,
+                        hideTotalBet,
+                        profitLossData,
+                        hideEditMaxButton,
+                        section,
                       }}
                     >
-                      <VariableSizeList<ItemData>
-                        height={dynamicHeight}
-                        width="100%"
-                        itemCount={filteredMatches.length}
-                        itemSize={getItemSize}
-                        itemData={{
-                          items: filteredMatches,
-                          hideResult,
-                          hideTotalBet,
-                          profitLossData,
-                          hideEditMaxButton,
-                          section,
-                        }}
-                      >
-                        {Row}
-                      </VariableSizeList>
-                      {/* <List
-                        height={dynamicHeight + 1}
-                        width="100%"
-                        itemCount={filteredMatches.length}
-                        itemSize={30}
-                        itemData={{
-                          items: filteredMatches,
-                          hideResult,
-                          hideTotalBet,
-                          profitLossData,
-                          hideEditMaxButton,
-                          section,
-                        }}
-                      >
-                        {Row}
-                      </List> */}
-                    </div>
+                      {Row}
+                    </VariableSizeList>
+
                   );
                 })()}
             </Box>
