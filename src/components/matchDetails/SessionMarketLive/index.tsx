@@ -1,10 +1,9 @@
 import { Box, Typography } from "@mui/material";
 import { memo, useCallback, useEffect, useState } from "react";
-import { VariableSizeList } from 'react-window';
+import { VariableSizeList } from "react-window";
 import { ARROWUP } from "../../../assets";
 import { formatToINR } from "../../helper";
 import SessionMarketBoxLive from "./SessionMarketBoxLive";
-
 
 type ItemData = {
   items: any[];
@@ -56,10 +55,12 @@ const SessionMarketLive = ({ title, sessionData, currentMatch, type }: any) => {
 
   const getItemSize = (index: number): number => {
     const row = matchSessionData[index];
-    let rowHeight = Math.max(row?.ex?.availableToLay?.length ?? 0, row?.ex?.availableToBack?.length ?? 0);
-    if (rowHeight <= 1) return 25;
-    if (rowHeight === 2) return 50;
-    return 75;
+    let rowHeight = Math.max(
+      row?.ex?.availableToLay?.length ?? 0,
+      row?.ex?.availableToBack?.length ?? 0
+    );
+
+    return (rowHeight || 1) * 25;
   };
 
   return (
