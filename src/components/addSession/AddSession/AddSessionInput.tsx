@@ -450,7 +450,9 @@ const AddSessionInput = ({
                       <img
                         src={Lock}
                         alt="Lock"
-                        style={{ width: "10px", height: "15px" }}
+                        // style={{ width: "10px", height: "15px" }}
+                        width={10}
+                        height={15}
                       />
                     )}
                   </Box>
@@ -486,7 +488,9 @@ const AddSessionInput = ({
                       <img
                         src={Lock}
                         alt="Lock"
-                        style={{ width: "10px", height: "15px" }}
+                        // style={{ width: "10px", height: "15px" }}
+                        width={10}
+                        height={15}
                       />
                     )}
                   </Box>
@@ -522,7 +526,9 @@ const AddSessionInput = ({
                       <img
                         src={Lock}
                         alt="Lock"
-                        style={{ width: "10px", height: "15px" }}
+                        // style={{ width: "10px", height: "15px" }}
+                        width={10}
+                        height={15}
                       />
                     )}
                   </Box>
@@ -557,7 +563,9 @@ const AddSessionInput = ({
                       <img
                         src={Lock}
                         alt="Lock"
-                        style={{ width: "10px", height: "15px" }}
+                        // style={{ width: "10px", height: "15px" }}
+                        width={10}
+                        height={15}
                       />
                     )}
                   </Box>
@@ -602,7 +610,7 @@ const AddSessionInput = ({
         >
           <StyledImage
             src={LiveOff}
-            sx={{ height: "4vw", width: "4vw" }}
+            sx={{ height: "4vw", width: "4vw", objectFit: "contain", }}
             alt="stop"
           />
         </Box>

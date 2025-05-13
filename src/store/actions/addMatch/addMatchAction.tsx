@@ -1,5 +1,6 @@
 import { createAction, createAsyncThunk } from "@reduxjs/toolkit";
 import axios, { AxiosError } from "axios";
+import Worker from "../../../helpers/sessionsHelpers?worker";
 import service from "../../../service";
 import { ApiConstants, addMatchThirdParty } from "../../../utils/Constants";
 
@@ -116,7 +117,7 @@ export const addMatchExpert = createAsyncThunk<any, any>(
   "addMatchExpert",
   async (requestData, thunkApi) => {
     try {
-      const resp = await service.post(`${ApiConstants.MATCH.ADD}`, requestData);
+      const resp = await service.post(ApiConstants.MATCH.ADD, requestData);
       if (resp) {
         return resp?.data;
       }
@@ -132,7 +133,13 @@ export const geTournamentBetting = createAsyncThunk<any, any>(
   async ({ matchId, betId }, thunkApi) => {
     try {
       const resp = await service.get(
-        `${ApiConstants.MATCH.GET_TOURNAMENT}${matchId}?id=${betId}&isRate=true`
+        `${ApiConstants.MATCH.GET_TOURNAMENT}${matchId}`,
+        {
+          params: {
+            id: betId,
+            isRate: true,
+          },
+        }
       );
       if (resp) {
         return resp?.data;
@@ -148,10 +155,7 @@ export const addRaceExpert = createAsyncThunk<any, any>(
   "addRaceExpert",
   async (requestData, thunkApi) => {
     try {
-      const resp = await service.post(
-        `${ApiConstants.MATCH.ADD_RACE}`,
-        requestData
-      );
+      const resp = await service.post(ApiConstants.MATCH.ADD_RACE, requestData);
       if (resp) {
         return resp?.data;
       }
@@ -204,8 +208,30 @@ export const getMatchDetail = createAsyncThunk<any, any>(
 
 export const updateMatchRates = createAsyncThunk<any, any>(
   "/match/rates",
-  async (matchDetails) => {
-    return matchDetails;
+  async (matchDetails, { getState }) => {
+    const state: any = getState();
+    const sessionBettings =
+      state.addMatch?.addMatch?.matchDetail?.sessionBettings;
+    const tournament = matchDetails?.tournament;
+    const apiSession = matchDetails?.apiSession;
+
+    return new Promise((resolve) => {
+      const worker = new Worker();
+
+      worker.postMessage({
+        sessionBettings,
+        apiSession,
+      });
+
+      worker.onmessage = (e) => {
+        resolve({
+          apiSession,
+          tournament: tournament,
+          updatedSessionBettings: e.data.updatedSessionBettings,
+        });
+        worker.terminate();
+      };
+    });
   }
 );
 
@@ -239,7 +265,12 @@ export const getRaceMatches = createAsyncThunk<any, string>(
   async (requestData, thunkApi) => {
     try {
       const { data } = await axios.get(
-        `${addMatchThirdParty}/getDirectMatchList?type=${requestData}`
+        `${addMatchThirdParty}/getDirectMatchList`,
+        {
+          params: {
+            type: requestData,
+          },
+        }
       );
       if (data) {
         return data;

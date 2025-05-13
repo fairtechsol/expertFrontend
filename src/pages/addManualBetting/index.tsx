@@ -15,7 +15,7 @@ import {
 } from "@mui/material";
 import { useFormik } from "formik";
 import { memo, useEffect } from "react";
-import { TiDelete } from "react-icons/ti";
+import { TiDelete } from 'react-icons/ti';
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -146,7 +146,6 @@ const AddManualMarket = () => {
         <Box
           sx={{
             background: "white",
-            // borderRadius: "5px",
             borderRadius: "5px",
             margin: "10px",
           }}
@@ -429,6 +428,7 @@ const AddManualMarket = () => {
                         {values.runners?.map((item: any, index: any) => {
                           return (
                             <Box
+                              key={index}
                               sx={{
                                 borderWidth: 0,
                                 justifyContent: "space-between",

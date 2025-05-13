@@ -10,11 +10,15 @@ import {
 import { AppDispatch, RootState } from "../../../store/store";
 import { formatToINR } from "../../helper";
 
+interface SessionMarketMaxBetAmountEditProps {
+  newData: any;
+  onClickCancel: () => void;
+}
+
 const SessionMarketMaxBetAmountEdit = ({
   newData,
-  visible,
   onClickCancel,
-}: any) => {
+}: SessionMarketMaxBetAmountEditProps) => {
   const dispatch: AppDispatch = useDispatch();
   const { loading, multiMaxLimitUpdateSuccess } = useSelector(
     (state: RootState) => state.addSession
@@ -57,12 +61,18 @@ const SessionMarketMaxBetAmountEdit = ({
 
   useEffect(() => {
     scrollToBottom();
-  }, [visible]);
+  }, []);
 
   const handleNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const rawValue = e.target.value.replace(/,/g, "");
     if (/^\d*\.?\d*$/.test(rawValue)) {
       setValue(rawValue);
+    }
+  };
+
+  const handleKeyDown = (e: any) => {
+    if (e.key === "Enter") {
+      handleSubmit(e);
     }
   };
 
@@ -114,7 +124,9 @@ const SessionMarketMaxBetAmountEdit = ({
           }}
           src={CancelDark}
           alt="cancel"
-          style={{ width: "25px", height: "25px", cursor: "pointer" }}
+          width={25}
+          height={25}
+          style={{ cursor: "pointer" }}
         />
       </Box>
 
@@ -165,11 +177,7 @@ const SessionMarketMaxBetAmountEdit = ({
               paddingX: "1vw",
             },
           }}
-          onKeyDown={(e) => {
-            if (e.key === "Enter") {
-              handleSubmit(e);
-            }
-          }}
+          onKeyDown={handleKeyDown}
         />
         <TextField
           label="Max Value"

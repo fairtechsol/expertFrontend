@@ -14,7 +14,7 @@ import { useFormik } from "formik";
 import moment from "moment";
 import { memo, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import CustomErrorMessage from "../../components/Common/CustomErrorMessage";
 import DropDown from "../../components/Common/DropDown";
@@ -70,7 +70,7 @@ const initialValues = {
 const AddMatch = () => {
   const dispatch: AppDispatch = useDispatch();
 
-  const { state } = useLocation();
+  const state: any = useParams();
 
   const { eventsList, matchDetail, success, matchAdded, loading } = useSelector(
     (state: RootState) => state.addMatch.addMatch
@@ -413,7 +413,6 @@ const AddMatch = () => {
             background: "#F8C851",
             marginTop: "20px",
             borderRadius: "5px",
-
             p: "10px",
             py: "20px",
           }}
@@ -537,7 +536,7 @@ const AddMatch = () => {
             </Box>
             <Box sx={{ width: { xs: "100%", lg: "18%", md: "24%" } }}>
               <MatchListInput
-                label="Team C *"
+                label="Team C*"
                 placeholder="Enter Name of Team C"
                 type="text"
                 onChange={(e: any) => {

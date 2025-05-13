@@ -104,6 +104,10 @@ const MatchList = () => {
     }
   }, [socket, selectedTab]);
 
+  const paginationCount = Math.ceil(
+    (matchList?.count || 1) / Constants.pageLimit
+  );
+
   return (
     <Box
       sx={[
@@ -149,10 +153,7 @@ const MatchList = () => {
         }}
         page={matchListCurrentPage}
         className="whiteTextPagination matchList-pagination d-flex justify-content-center"
-        count={Math.ceil(
-          parseInt(matchList?.count ? matchList?.count : 1) /
-            Constants.pageLimit
-        )}
+        count={paginationCount}
         color="primary"
         onChange={callPage}
       />

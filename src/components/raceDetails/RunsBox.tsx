@@ -77,7 +77,9 @@ const RunsBox = ({ item, currentOdd }: any) => {
           }}
           src={CANCEL}
           alt="close"
-          style={{ width: "18px", height: "18px", cursor: "pointer" }}
+          width={18}
+          height={18}
+          style={{ cursor: "pointer" }}
         />
       </Box>
       <Box sx={{ display: "flex", height: "25px" }}>

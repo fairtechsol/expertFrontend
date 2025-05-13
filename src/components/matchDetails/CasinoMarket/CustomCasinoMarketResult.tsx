@@ -89,7 +89,6 @@ const CustomCasinoMarketResult = ({ onClick, newData }: any) => {
               placeholder="Score"
               variant="standard"
               value={selected}
-              // onChange={(e) => setSelected(e?.target.value)}
               onChange={(e: any) => {
                 const numericValue = e.target.value.replace(/[^0-9]/g, "");
                 setSelected(numericValue);
@@ -237,7 +236,9 @@ const CustomCasinoMarketResult = ({ onClick, newData }: any) => {
         }}
         src={CancelDark}
         alt="Cancel"
-        style={{ width: "25px", height: "25px", cursor: "pointer" }}
+        width={25}
+        height={25}
+        style={{ cursor: "pointer" }}
       />
     </Box>
   );

@@ -1,10 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {
-  convertData,
-  updateSessionBettingsItem,
-} from "../../../helpers/sessionsHelpers";
-import { profitLossDataForMatchConstants } from "../../../utils/Constants";
-import {
   addMatchExpert,
   addMatchReset,
   addRaceExpert,
@@ -38,6 +33,7 @@ import {
   updateResultStatusOfMatch,
   updateResultStatusOfSession,
   updateTeamRates,
+  updateTeamRatesOnUndeclare,
 } from "../../actions/match/matchAction";
 
 interface InitialState {
@@ -142,7 +138,7 @@ const addMatch = createSlice({
       })
       .addCase(getAllLiveTournaments.rejected, (state, action) => {
         state.loading = false;
-        state.error = action?.error?.message;
+        state.error = action.error?.message;
       })
       .addCase(getAllEventsList.pending, (state) => {
         state.loading = true;
@@ -150,13 +146,13 @@ const addMatch = createSlice({
         state.error = null;
       })
       .addCase(getAllEventsList.fulfilled, (state, action) => {
-        state.eventsList = action?.payload;
+        state.eventsList = action.payload;
         state.loading = false;
         state.success = true;
       })
       .addCase(getAllEventsList.rejected, (state, action) => {
         state.loading = false;
-        state.error = action?.error?.message;
+        state.error = action.error?.message;
       })
 
       .addCase(geTournamentBetting.pending, (state) => {
@@ -165,21 +161,20 @@ const addMatch = createSlice({
         state.error = null;
       })
       .addCase(geTournamentBetting.fulfilled, (state, action) => {
-        state.tournament = action?.payload;
+        state.tournament = action.payload;
         state.loading = false;
       })
       .addCase(geTournamentBetting.rejected, (state, action) => {
         state.loading = false;
-        state.error = action?.error?.message;
+        state.error = action.error?.message;
       })
       .addCase(
         updateResultStatusOfQuickBookmaker.fulfilled,
         (state, action) => {
           state.tournament.matchBetting["resultStatus"] =
-            action?.payload?.status;
+            action.payload?.status;
         }
       )
-
       .addCase(addMatchExpert.pending, (state) => {
         state.loading = true;
         state.success = false;
@@ -191,7 +186,7 @@ const addMatch = createSlice({
       })
       .addCase(addMatchExpert.rejected, (state, action) => {
         state.loading = false;
-        state.error = action?.error?.message;
+        state.error = action.error?.message;
       })
       .addCase(getMatchDetail.pending, (state) => {
         state.loading = true;
@@ -200,8 +195,8 @@ const addMatch = createSlice({
         state.matchDetail = null;
       })
       .addCase(getMatchDetail.fulfilled, (state, action) => {
-        state.matchDetail = action?.payload;
-        state.quickBookmaker1 = action?.payload?.quickBookmaker;
+        state.matchDetail = action.payload;
+        state.quickBookmaker1 = action.payload?.quickBookmaker;
         state.success = true;
         state.loading = false;
 
@@ -214,29 +209,21 @@ const addMatch = createSlice({
       })
       .addCase(getMatchDetail.rejected, (state, action) => {
         state.loading = false;
-        state.error = action?.error?.message;
+        state.error = action.error?.message;
       })
       .addCase(editMatchReset, (state) => {
         state.success = false;
         state.matchDetail = null;
       })
       .addCase(updateMatchRates.fulfilled, (state, action) => {
-        const { apiSession, tournament } = action.payload;
+        const { apiSession, updatedSessionBettings, tournament } =
+          action.payload;
 
-        let parsedSessionBettings = state?.matchDetail?.sessionBettings?.map(
-          (item: any) => {
-            let parsedItem = JSON.parse(item);
-            if (parsedItem?.isManual) {
-              parsedItem.type = "manualSession";
-            }
-            return parsedItem;
-          }
-        );
-        let updatedFormat = convertData(parsedSessionBettings);
-        let updatedSessionBettings = updateSessionBettingsItem(
-          updatedFormat,
-          apiSession
-        );
+        // let updatedFormat = convertData(state?.matchDetail?.sessionBettings);
+        // let updatedSessionBettings = updateSessionBettingsItem(
+        //   updatedFormat,
+        //   apiSession
+        // );
 
         const sortedTournament = [...(tournament || [])].sort(
           (a, b) =>
@@ -264,21 +251,20 @@ const addMatch = createSlice({
             sessionBettings: state.matchDetail?.sessionBettings?.map(
               (item: any) => {
                 const parsedItem = JSON.parse(item);
-                if (parsedItem?.id === betId) {
-                  return JSON.stringify({
-                    ...parsedItem,
-                    activeStatus: score ? "result" : "save",
-                    result: score ? score : null,
-                    resultStatus: null,
-                    resultData: score
-                      ? {
-                          result: score,
-                          profitLoss: profitLoss,
-                        }
-                      : null,
-                    isComplete: true,
-                  });
-                } else return item;
+                if (parsedItem?.id !== betId) return item;
+                return JSON.stringify({
+                  ...parsedItem,
+                  activeStatus: score ? "result" : "save",
+                  result: score ? score : null,
+                  resultStatus: null,
+                  resultData: score
+                    ? {
+                        result: score,
+                        profitLoss: profitLoss,
+                      }
+                    : null,
+                  isComplete: true,
+                });
               }
             ),
           };
@@ -290,7 +276,7 @@ const addMatch = createSlice({
         if (!action.payload || !state.matchDetail) return;
 
         const newSessionBetting = JSON.stringify(action.payload);
-        const sessionBettings = (state.matchDetail.sessionBettings ??= []); // Initialize if undefined
+        const sessionBettings = (state.matchDetail.sessionBettings ??= []);
 
         const existingIds = new Set(
           sessionBettings
@@ -352,12 +338,12 @@ const addMatch = createSlice({
       .addCase(
         updateTeamRatesOnManualTournamentMarket.fulfilled,
         (state, action) => {
-          const { userRedisObj } = action?.payload;
+          const { userRedisObj } = action.payload;
           state.tournament.teamRates = userRedisObj;
         }
       )
       .addCase(updateMaxLoss.fulfilled, (state, action) => {
-        const { id, maxLoss, totalBet, profitLoss } = action?.payload;
+        const { id, maxLoss, totalBet, profitLoss } = action.payload;
         state.matchDetail = {
           ...state.matchDetail,
           sessionProfitLoss: {
@@ -372,113 +358,43 @@ const addMatch = createSlice({
       })
       .addCase(updateTeamRates.fulfilled, (state, action) => {
         const { userRedisObj, jobData } = action.payload;
-        if (jobData?.newBet?.marketType === "other") {
-          state.matchDetail.teamRates = {
-            ...state.matchDetail.teamRates,
-            [profitLossDataForMatchConstants[jobData?.newBet?.marketType].A +
-            "_" +
-            jobData?.newBet?.betId +
-            "_" +
-            state.matchDetail?.id]: userRedisObj[jobData?.teamArateRedisKey],
-            [profitLossDataForMatchConstants[jobData?.newBet?.marketType].B +
-            "_" +
-            jobData?.newBet?.betId +
-            "_" +
-            state.matchDetail?.id]: userRedisObj[jobData?.teamBrateRedisKey],
-            [profitLossDataForMatchConstants[jobData?.newBet?.marketType].C +
-            "_" +
-            jobData?.newBet?.betId +
-            "_" +
-            state.matchDetail?.id]: userRedisObj[jobData?.teamCrateRedisKey],
-          };
-        } else if (jobData?.newBet?.marketType === "tournament") {
-          state.matchDetail.teamRates = {
-            ...state.matchDetail.teamRates,
-            [jobData?.newBet?.betId +
-            "_" +
-            "profitLoss" +
-            "_" +
-            state.matchDetail?.id]: JSON.stringify(userRedisObj),
-          };
-        } else {
-          state.matchDetail.teamRates = {
-            ...state.matchDetail.teamRates,
-            [profitLossDataForMatchConstants[jobData?.newBet?.marketType].A +
-            "_" +
-            state.matchDetail?.id]: userRedisObj[jobData?.teamArateRedisKey],
-            [profitLossDataForMatchConstants[jobData?.newBet?.marketType].B +
-            "_" +
-            state.matchDetail?.id]: userRedisObj[jobData?.teamBrateRedisKey],
-            [profitLossDataForMatchConstants[jobData?.newBet?.marketType].C +
-            "_" +
-            state.matchDetail?.id]: userRedisObj[jobData?.teamCrateRedisKey],
-          };
-        }
+        state.matchDetail.teamRates = {
+          ...state.matchDetail.teamRates,
+          [jobData?.newBet?.betId +
+          "_" +
+          "profitLoss" +
+          "_" +
+          state.matchDetail?.id]: JSON.stringify(userRedisObj),
+        };
+      })
+      .addCase(updateTeamRatesOnUndeclare.fulfilled, (state, action) => {
+        const { betId, profitLossData } = action.payload;
+        state.matchDetail.teamRates = {
+          ...state.matchDetail.teamRates,
+          [betId + "_" + "profitLoss" + "_" + state.matchDetail?.id]:
+            profitLossData,
+        };
       })
       .addCase(updateRates.fulfilled, (state, action) => {
-        const {
-          redisObject,
-          betId,
-          teamRate,
-          matchBetType,
-          teamArateRedisKey,
-          teamBrateRedisKey,
-          teamCrateRedisKey,
-        } = action?.payload;
+        const { betId, teamRate } = action.payload;
 
-        if (matchBetType === "other") {
-          state.matchDetail.teamRates = {
-            ...state.matchDetail.teamRates,
-            [profitLossDataForMatchConstants[matchBetType].A +
-            "_" +
-            betId +
-            "_" +
-            state.matchDetail?.id]: redisObject[teamArateRedisKey],
-            [profitLossDataForMatchConstants[matchBetType].B +
-            "_" +
-            betId +
-            "_" +
-            state.matchDetail?.id]: redisObject[teamBrateRedisKey],
-            [profitLossDataForMatchConstants[matchBetType].C +
-            "_" +
-            betId +
-            "_" +
-            state.matchDetail?.id]: redisObject[teamCrateRedisKey],
-          };
-        } else if (matchBetType === "tournament") {
-          state.matchDetail.teamRates = {
-            ...state.matchDetail.teamRates,
-            [betId + "_" + "profitLoss" + "_" + state.matchDetail?.id]:
-              JSON.stringify(teamRate),
-          };
-        } else
-          state.matchDetail.teamRates = {
-            ...state.matchDetail.teamRates,
-            [profitLossDataForMatchConstants[matchBetType].A +
-            "_" +
-            state.matchDetail?.id]: redisObject[teamArateRedisKey],
-            [profitLossDataForMatchConstants[matchBetType].B +
-            "_" +
-            state.matchDetail?.id]: redisObject[teamBrateRedisKey],
-            [profitLossDataForMatchConstants[matchBetType].C +
-            "_" +
-            state.matchDetail?.id]: redisObject[teamCrateRedisKey],
-          };
+        state.matchDetail.teamRates = {
+          ...state.matchDetail.teamRates,
+          [betId + "_" + "profitLoss" + "_" + state.matchDetail?.id]:
+            JSON.stringify(teamRate),
+        };
       })
       .addCase(updateResultStatusOfSession.fulfilled, (state, action) => {
+        const { betId, status, userId, loggedUserId } = action.payload;
         const updatedSessionBetting = state.matchDetail?.sessionBettings?.map(
           (item: any) => {
             let parsedItem = JSON.parse(item);
-            if (parsedItem?.id === action?.payload?.betId) {
-              return JSON.stringify({
-                ...parsedItem,
-                resultStatus: action?.payload?.status,
-                selfDeclare:
-                  action?.payload?.status === ""
-                    ? false
-                    : action?.payload?.userId === action?.payload?.loggedUserId,
-              });
-            } else return item;
+            if (parsedItem?.id !== betId) return item;
+            return JSON.stringify({
+              ...parsedItem,
+              resultStatus: status,
+              selfDeclare: status === "" ? false : userId === loggedUserId,
+            });
           }
         );
         state.matchDetail = {
@@ -487,7 +403,7 @@ const addMatch = createSlice({
         };
       })
       .addCase(updateResultStatusOfMatch.fulfilled, (state, action) => {
-        const { status, betId, activeStatus } = action?.payload;
+        const { status, betId, activeStatus } = action.payload;
 
         state.matchDetail = {
           ...state.matchDetail,
@@ -503,13 +419,13 @@ const addMatch = createSlice({
         state.error = null;
       })
       .addCase(getRaceMatches.fulfilled, (state, action) => {
-        state.eventsList = action?.payload;
+        state.eventsList = action.payload;
         state.loading = false;
         state.success = true;
       })
       .addCase(getRaceMatches.rejected, (state, action) => {
         state.loading = false;
-        state.error = action?.error?.message;
+        state.error = action.error?.message;
       })
       .addCase(updateRaceRunners.fulfilled, (state, action) => {
         state.raceRunners = action.payload;
@@ -525,10 +441,10 @@ const addMatch = createSlice({
       })
       .addCase(addRaceExpert.rejected, (state, action) => {
         state.loading = false;
-        state.error = action?.error?.message;
+        state.error = action.error?.message;
       })
       .addCase(updateResultBoxStatus.fulfilled, (state, action) => {
-        state.resultBox = action?.payload;
+        state.resultBox = action.payload;
         state.loading = false;
         state.success = true;
       })

@@ -83,7 +83,7 @@ const SearchableInput = ({
           "& .css-20bmp1-MuiSvgIcon-root": {
             color: "white",
           },
-          "& .css-lc42l8-MuiInputBase-input-MuiOutlinedInput-input.Mui-disabled":
+          "& .css-lc42l8-MuiInputBase-input-MuiOutlinedInput-input .Mui-disabled":
             {
               "-webkit-text-fill-color": "white",
             },
@@ -142,8 +142,11 @@ const SearchableInput = ({
                   borderColor: "#DEDEDE",
                   borderRadius: "5px",
                 },
-                "&.Mui-focused fieldset": {
+                "& .Mui-focused fieldset": {
                   borderColor: "lightgray",
+                },
+                "& .Mui-disabled": {
+                  "-webkit-text-fill-color": "#ffffffbd",
                 },
               },
             }}

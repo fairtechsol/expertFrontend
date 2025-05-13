@@ -11,7 +11,7 @@ export const login = createAsyncThunk<any, LoginInterface>(
   "auth/login",
   async (requestData, thunkApi) => {
     try {
-      const { data } = await service.post(`${ApiConstants.LOGIN}`, requestData);
+      const { data } = await service.post(ApiConstants.LOGIN, requestData);
       const { token } = data;
       sessionStorage.setItem("jwtExpert", token);
       return data;
@@ -26,7 +26,7 @@ export const logout = createAsyncThunk<any>(
   "auth/logout",
   async (_, thunkApi) => {
     try {
-      const response = await service.post(`${ApiConstants.LOGOUT}`);
+      const response = await service.post(ApiConstants.LOGOUT);
       sessionStorage.clear();
       window.location.replace("/expert/login");
       return response;
@@ -41,10 +41,7 @@ export const checkOldPass = createAsyncThunk<any, CheckOldPasswordInterface>(
   "auth/checkOldPass",
   async (requestData, thunkApi) => {
     try {
-      const resp = await service.post(
-        `${ApiConstants.OLD_PASSWORD}`,
-        requestData
-      );
+      const resp = await service.post(ApiConstants.OLD_PASSWORD, requestData);
       if (resp) {
         return resp?.data?.isPasswordMatch;
       }

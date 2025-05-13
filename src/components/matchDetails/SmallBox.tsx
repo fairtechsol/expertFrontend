@@ -39,8 +39,8 @@ const SmallBox = ({
       <Typography
         sx={{
           fontSize: {
-            lg: textSize ? textSize : title === "Go Live" ? "8px" : "8px",
-            xs: textSize ? textSize : title === "Go Live" ? "8px" : "8px",
+            lg: textSize ? textSize : "8px",
+            xs: textSize ? textSize : "8px",
           },
           fontWeight: "600",
           color: color !== "#FFF" ? "white" : "",
@@ -63,8 +63,10 @@ const SmallBox = ({
       {hide && !loading && (
         <img
           src={BroadCast}
-          style={{ height: "15px", width: "15px" }}
+          height={15}
+          width={15}
           alt="stop"
+          style={{ objectFit: "contain" }}
         />
       )}
     </Box>

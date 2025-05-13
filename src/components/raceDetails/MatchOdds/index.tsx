@@ -1,6 +1,6 @@
 import { Box, Typography } from "@mui/material";
 import ModalMUI from "@mui/material/Modal";
-import { Fragment, memo, useEffect, useState } from "react";
+import { Fragment, memo, useCallback, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { ARROWUP, edit } from "../../../assets";
 import { raceLiveStatus } from "../../../store/actions/match/matchAction";
@@ -26,6 +26,9 @@ const MatchOdds = ({ currentMatch, matchOddsLive }: any) => {
     setLive(matchOddsLive?.activeStatus === "live" ? true : false);
   }, [matchOddsLive?.activeStatus]);
 
+  const toggleVisibility = useCallback(() => {
+    setVisibleImg((prev) => !prev);
+  }, []);
   return (
     <>
       <Box
@@ -127,13 +130,12 @@ const MatchOdds = ({ currentMatch, matchOddsLive }: any) => {
                 </>
               )}
             <img
-              onClick={() => {
-                setVisibleImg(!visibleImg);
-              }}
+              onClick={toggleVisibility}
               src={ARROWUP}
               alt="arrow up"
               style={{
                 transform: visibleImg ? "rotate(180deg)" : "rotate(0deg)",
+                transition: "transform 0.3s ease",
                 width: "15px",
                 height: "15px",
                 marginRight: "5px",
@@ -222,8 +224,11 @@ const MatchOdds = ({ currentMatch, matchOddsLive }: any) => {
                 >
                   <img
                     src={edit}
-                    style={{ width: "18px", height: "12px" }}
+                    width={18}
+                    height={12}
+                    // style={{ width: "18px", height: "12px" }}
                     alt="edit"
+                    style={{ objectFit: "contain" }}
                   />
                 </Box>
               </Box>
@@ -329,7 +334,7 @@ const MatchOdds = ({ currentMatch, matchOddsLive }: any) => {
                   <Typography sx={{ color: "#fff", textAlign: "center" }}>
                     RESULT{" "}
                     {currentMatch?.stopAt ||
-                    currentMatch?.activeStatus === "result"
+                      currentMatch?.activeStatus === "result"
                       ? "DECLARED"
                       : currentMatch?.resultStatus}
                   </Typography>

@@ -1,4 +1,5 @@
-import { Box, Typography } from "@mui/material";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
 import { memo } from "react";
 import { useDispatch } from "react-redux";
 import { UD } from "../../../assets";
@@ -96,13 +97,15 @@ const PlaceBetComponent = ({ profitLossData, newData }: any) => {
             {newData?.result
               ? newData?.resultData?.profitLoss ?? 0
               : !profitLossData?.maxLoss
-              ? "P/L"
-              : profitLossData?.maxLoss ?? 0}
+                ? "P/L"
+                : profitLossData?.maxLoss ?? 0}
           </Typography>
           <img
             src={UD}
             alt="icon"
-            style={{ width: "10px", height: "10px", marginLeft: "4px" }}
+            width={10}
+            height={10}
+            style={{ marginLeft: "4px", objectFit: "contain" }}
           />
         </Box>
       </Box>

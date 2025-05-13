@@ -1,8 +1,8 @@
 import { Box, Button, Modal, TextField, Typography } from "@mui/material";
-import { memo, useEffect } from "react";
-import { CancelDark } from "../../assets";
 import { useFormik } from "formik";
+import { memo, useEffect } from "react";
 import { useDispatch } from "react-redux";
+import { CancelDark } from "../../assets";
 import { headerAddNotification } from "../../store/actions/user/userAction";
 import { AppDispatch } from "../../store/store";
 import CustomErrorMessage from "../Common/CustomErrorMessage";
@@ -90,7 +90,9 @@ const NotificationModal = ({
                 onClick={() => setVisible(false)}
                 src={CancelDark}
                 alt="cancel"
-                style={{ width: "25px", height: "25px", cursor: "pointer" }}
+                width={25}
+                height={25}
+                style={{ cursor: "pointer" }}
               />
             </Box>
             <Box
@@ -105,8 +107,8 @@ const NotificationModal = ({
               }}
             >
               <TextField
-                name={"value"}
-                id={"value"}
+                name="value"
+                id="value"
                 value={formik.values.value}
                 onChange={formik.handleChange}
                 variant="standard"
@@ -161,7 +163,6 @@ const NotificationModal = ({
                 style={{
                   backgroundColor: "#0B4F26",
                   color: "white",
-                  // "&:hover": { backgroundColor: "#0B4F26" },
                 }}
               >
                 {loadingDeleteBet ? "Loading..." : "Submit"}

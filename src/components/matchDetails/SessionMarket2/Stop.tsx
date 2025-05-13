@@ -30,7 +30,9 @@ const Stop = ({ color, onClick }: any) => {
       <img
         src={BroadCast_}
         alt="stop"
-        style={{ height: "15px", width: "20px", backgroundSize: "contains" }}
+        width={20}
+        height={15}
+        style={{ backgroundSize: "contains", objectFit: "contain" }}
       />
     </Box>
   );

@@ -1,7 +1,7 @@
 import { Box, useMediaQuery } from "@mui/material";
 import { Fragment, memo, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { handleMarketSorting } from "../../components/helper";
 import Loader from "../../components/Loader";
 import BetList from "../../components/matchDetails/BetList";
@@ -38,18 +38,20 @@ import {
   updateResultStatusOfSession,
   updateSessionBetsPlace,
   updateTeamRates,
+  updateTeamRatesOnUndeclare,
 } from "../../store/actions/match/matchAction";
 import { AppDispatch, RootState } from "../../store/store";
 import theme from "../../theme";
 import { marketArray } from "../../utils/Constants";
 
 const MatchMarketDetail = () => {
-  const { state } = useLocation();
+  const state: any = useParams();
   const navigate = useNavigate();
   const dispatch: AppDispatch = useDispatch();
+  const desktop = useMediaQuery(theme.breakpoints.up("sm"));
 
   useEffect(() => {
-    if (state?.marketId) {
+    if (state?.mId) {
       matchService.connect([state?.id]);
     }
     return () => {
@@ -76,15 +78,11 @@ const MatchMarketDetail = () => {
 
   const resultDeclared = (event: any) => {
     try {
-      if (
-        (event?.matchId === state?.id && event?.isMatchDeclare) ||
-        (event?.matchId === state?.id && event?.betType === "quickbookmaker1")
-      ) {
+      if (event?.matchId !== state?.id) return;
+
+      if (event?.isMatchDeclare) {
         navigate("/expert/match");
-      } else if (
-        event?.matchId === state?.id &&
-        (event?.betType === "other" || event?.betType === "tournament")
-      ) {
+      } else {
         dispatch(updateResultStatusOfMatch(event));
         dispatch(getPlacedBetsMatch(state?.id));
       }
@@ -97,6 +95,7 @@ const MatchMarketDetail = () => {
       if (event?.matchId === state?.id) {
         if (event?.betType) {
           dispatch(updateResultStatusOfMatch(event));
+          dispatch(updateTeamRatesOnUndeclare(event));
         } else {
           dispatch(getMatchDetail(`${state?.id}?isSessionAllowed=false`));
         }
@@ -365,7 +364,6 @@ const MatchMarketDetail = () => {
           : "",
       })) || [];
 
-  const desktop = useMediaQuery(theme.breakpoints.up("sm"));
   return (
     <Box
       sx={{

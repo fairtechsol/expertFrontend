@@ -1,7 +1,7 @@
 import { Box, useMediaQuery, useTheme } from "@mui/material";
 import { Fragment, memo, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { handleMarketSorting } from "../../components/helper";
 import Loader from "../../components/Loader";
 import BetList from "../../components/matchDetails/BetList";
@@ -30,12 +30,13 @@ import {
   updateResultBoxStatus,
   updateResultStatusOfMatch,
   updateTeamRates,
+  updateTeamRatesOnUndeclare,
 } from "../../store/actions/match/matchAction";
 import { AppDispatch, RootState } from "../../store/store";
 import { marketArray } from "../../utils/Constants";
 
 const OtherMatchDetails = () => {
-  const { state } = useLocation();
+  const state: any = useParams();
   const navigate = useNavigate();
   const theme = useTheme();
   const matchesMobile = useMediaQuery(theme.breakpoints.down("sm"));
@@ -48,7 +49,7 @@ const OtherMatchDetails = () => {
   );
 
   useEffect(() => {
-    if (state?.marketId) {
+    if (state?.mId) {
       matchService.connect([state?.id]);
     }
     return () => {
@@ -68,10 +69,7 @@ const OtherMatchDetails = () => {
 
   const resultDeclared = (event: any) => {
     try {
-      if (
-        (event?.matchId === state?.id && event?.isMatchDeclare) ||
-        (event?.matchId === state?.id && event?.betType === "quickbookmaker1")
-      ) {
+      if (event?.matchId === state?.id && event?.isMatchDeclare) {
         navigate("/expert/match");
       } else {
         dispatch(getPlacedBetsMatch(state?.id));
@@ -88,7 +86,12 @@ const OtherMatchDetails = () => {
   const resultUnDeclared = (event: any) => {
     try {
       if (event?.matchId === state?.id) {
-        dispatch(getMatchDetail(`${state?.id}?isSessionAllowed=false`));
+        if (event?.betType) {
+          dispatch(updateResultStatusOfMatch(event));
+          dispatch(updateTeamRatesOnUndeclare(event));
+        } else {
+          dispatch(getMatchDetail(`${state?.id}?isSessionAllowed=false`));
+        }
         dispatch(getPlacedBetsMatch(state?.id));
       }
     } catch (e) {
@@ -379,9 +382,9 @@ const OtherMatchDetails = () => {
           {matchDetail?.tournament &&
             matchDetail?.tournament
               ?.filter((item: any) => item?.name === "HT/FT")
-              ?.map((market: any) => (
+              ?.map((market: any, index: number) => (
                 <HTFTMarket
-                  key={market?.mid}
+                  key={index}
                   liveData={market}
                   currentMatch={matchDetail}
                   title={market?.name}

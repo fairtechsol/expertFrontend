@@ -88,9 +88,9 @@ const MatchListTable = ({ data, index, currentPage, race }: any) => {
                     margin: "5px",
                   }}
                   onClick={() => {
-                    navigate(`/expert/betOdds/race`, {
-                      state: { id: item?.id, marketId: item?.marketId },
-                    });
+                    navigate(
+                      `/expert/betOdds/race/${item?.id}/${item?.marketId}`
+                    );
                   }}
                   title={moment(item.startAt).format("HH:mm")}
                   profitLoss={item?.stopAt ? item?.pl?.totalProfitLoss : ""}

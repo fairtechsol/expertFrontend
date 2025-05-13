@@ -119,12 +119,12 @@ const NewEditBookmaker = ({
             return item.id === name
               ? { ...item, back: item.back, lay: item.lay, suspended: false }
               : {
-                  ...item,
-                  back: rates[backKey] ?? 0,
-                  lay: rates[layKey] ?? 0,
-                  id: item.id,
-                  status: "suspended",
-                };
+                ...item,
+                back: rates[backKey] ?? 0,
+                lay: rates[layKey] ?? 0,
+                id: item.id,
+                status: "suspended",
+              };
           });
 
           let data = {
@@ -303,9 +303,8 @@ const NewEditBookmaker = ({
                   backgroundColor: "transparent",
                 }}
               >
-                {` (Min:${matchBetting?.minBet || 0} Max:${
-                  matchBetting?.maxBet || 0
-                })`}
+                {` (Min:${matchBetting?.minBet || 0} Max:${matchBetting?.maxBet || 0
+                  })`}
               </span>
             </Box>
           </Typography>
@@ -355,17 +354,17 @@ const NewEditBookmaker = ({
           <BookButton
             rate={bookRatioA(
               +teamRates?.[runners?.[0]?.parentRunnerId || runners?.[0]?.id] ||
-                0,
+              0,
               +teamRates?.[runners?.[1]?.parentRunnerId || runners?.[1]?.id] ||
-                0
+              0
             )}
           />
           <BookButton
             rate={bookRatioB(
               +teamRates?.[runners?.[0]?.parentRunnerId || runners?.[0]?.id] ||
-                0,
+              0,
               +teamRates?.[runners?.[1]?.parentRunnerId || runners?.[1]?.id] ||
-                0
+              0
             )}
           />
         </Box>

@@ -1,5 +1,7 @@
 import { Box, Typography, useMediaQuery, useTheme } from "@mui/material";
 import { memo, useState } from "react";
+import AutoSizer from "react-virtualized-auto-sizer";
+import { FixedSizeList as List } from "react-window";
 import { ArrowDownPL, ARROWUP, ARROWUPPL, DeleteIcon } from "../../assets";
 import { formatToINR } from "../../helpers";
 import StyledImage from "../Common/StyledImages";
@@ -16,6 +18,228 @@ const SessionBetSeperate = ({
   const [visible, setVisible] = useState(true);
   const theme = useTheme();
   const matchesMobile = useMediaQuery(theme.breakpoints.down("lg"));
+
+  const Row = memo(({ index, style }: any) => {
+    const i = allBetsData[index];
+    const num = allBetsData.length - index;
+    const formattedNum = num < 10 ? "0" + num : num.toString();
+
+    return (
+      <Box
+        style={style}
+        sx={{
+          display: "flex",
+          flexDirection: "row",
+          position: "relative",
+          gap: "1px",
+        }}
+      >
+        <Box
+          sx={{
+            height: "40px",
+            marginBottom: { xs: "1px", lg: "1px" },
+            width: "30px",
+            display: "flex",
+            background: "black",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <Typography
+            sx={{
+              color: "white",
+              fontSize: "10px",
+              fontWeight: "500",
+            }}
+          >
+            {formattedNum}
+          </Typography>
+        </Box>
+        <RowComponent header={false} data={i} />
+        {i?.deleteReason && (
+          <Box
+            sx={{
+              width: {
+                xs: profit ? "100%" : "100%",
+                alignItems: "flex-end",
+                justifyContent: "center",
+                display: "flex",
+                lg: profit ? "100 % " : "100% ",
+              },
+              background: "rgba(0, 0, 0, 0.6)",
+              height: "45px",
+              position: "absolute",
+            }}
+          >
+            <Box sx={{ width: mark2 ? "35%" : "35%" }} />
+          </Box>
+        )}
+        {i?.deleteReason && betHistory === undefined && (
+          <Box
+            sx={{
+              width: {
+                xs: profit ? "100%" : "100%",
+                alignItems: "flex-end",
+                justifyContent: "center",
+                display: "flex",
+                lg: profit ? "100 % " : "100% ",
+              },
+              background: "rgba(0, 0, 0, 0.5)",
+              height: "45px",
+              position: "absolute",
+            }}
+          >
+            <Box sx={{ width: mark2 ? "35%" : "35%" }} />
+            <Box
+              sx={{
+                width: mark2 ? "65%" : "65%",
+                height: "100%",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "flex-end",
+                alignSelf: "flex-end",
+              }}
+            >
+              {mark && (
+                <Typography
+                  sx={{
+                    fontSize: "10px",
+                    fontWeight: "700",
+                    color: "white",
+                    textTransform: "uppercase",
+                  }}
+                >
+                  Bet <span style={{ color: "#e41b23" }}>deleted</span> due to $
+                  {i?.deleteReason}
+                </Typography>
+              )}
+            </Box>
+          </Box>
+        )}
+        {profit && !i?.deleteReason && (
+          <Box
+            sx={{
+              height: "40px",
+              width: "30%",
+              background: i.totalLoss > 0 ? "#10DC61" : "#E32A2A",
+            }}
+          >
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                px: "10px",
+                height: "100%",
+              }}
+            >
+              <Typography
+                sx={{
+                  fontSize: { xs: "11px", lg: "14px" },
+                  color: "white",
+                  fontWeight: "700",
+                }}
+              >
+                {Number(i.totalLoss) >= 0 ? (
+                  <>
+                    <span style={{ visibility: "hidden" }}>-</span>
+                    {formatToINR(Number(i.totalLoss).toFixed(2))}
+                  </>
+                ) : (
+                  formatToINR(Number(i.totalLoss).toFixed(2))
+                )}
+              </Typography>
+              {!isArrow && (
+                <StyledImage
+                  sx={{
+                    width: { xs: "12px", lg: "15px" },
+                    height: { xs: "12px", lg: "15px" },
+                  }}
+                  src={i.myProfitLoss > 0 ? ARROWUPPL : ArrowDownPL}
+                  alt="updown icon"
+                />
+              )}
+            </Box>
+          </Box>
+        )}
+        {profit && i?.deleteReason && (
+          <Box
+            sx={{
+              height: "40px",
+              width: "30%",
+              margin: { xs: "1px", lg: "1px" },
+              display: "flex",
+              background: "black",
+              justifyContent: "center",
+              alignItems: "center",
+              paddingX: "2px",
+              zIndex: 999,
+            }}
+          >
+            <StyledImage
+              sx={{
+                width: { xs: "15px", lg: "20px" },
+                height: { lg: "20px", xs: "14px" },
+                marginRight: "5px",
+              }}
+              src={DeleteIcon}
+              alt="delete"
+            />
+            <Typography
+              sx={{
+                fontSize: { xs: "7px", lg: ".5vw" },
+                color: "white",
+                fontWeight: "700",
+                width: { lg: "65%", xs: "55%" },
+                textTransform: "uppercase",
+              }}
+            >
+              Bet <span style={{ color: "#e41b23" }}>Deleted</span> Due {"\n"}
+              {i?.deleteReason}
+            </Typography>
+          </Box>
+        )}
+        {i?.deleteReason && betHistory && (
+          <Box
+            sx={{
+              height: "40px",
+              width: "30%",
+              margin: { xs: "1px", lg: "1px" },
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              paddingX: "2px",
+              zIndex: 999,
+              position: "absolute",
+              right: 0,
+            }}
+          >
+            <StyledImage
+              sx={{
+                width: { xs: "15px", lg: "20px" },
+                height: { lg: "20px", xs: "14px" },
+                marginRight: "5px",
+              }}
+              src={DeleteIcon}
+              alt="delete"
+            />
+            <Typography
+              sx={{
+                fontSize: { xs: "7px", lg: ".5vw" },
+                color: "white",
+                fontWeight: "700",
+                width: { lg: "65%", xs: "55%" },
+                textTransform: "uppercase",
+              }}
+            >
+              Bet <span style={{ color: "#e41b23" }}>Deleted</span> Due {"\n"}
+              {i?.deleteReason}
+            </Typography>
+          </Box>
+        )}
+      </Box>
+    );
+  });
 
   return (
     <Box
@@ -94,6 +318,7 @@ const SessionBetSeperate = ({
             alt="arrow up"
             style={{
               transform: visible ? "rotate(180deg)" : "rotate(0deg)",
+              transition: "transform 0.3s ease",
               width: "15px",
               height: "15px",
               marginRight: "5px",
@@ -151,235 +376,25 @@ const SessionBetSeperate = ({
 
           <Box
             sx={{
-              maxHeight: { xs: "200px", lg: "420px" },
+              height: { xs: "200px", lg: "420px" },
               overflowY: "auto",
               "::-webkit-scrollbar": {
                 display: "none",
               },
             }}
           >
-            {allBetsData?.map((i: any, k: any) => {
-              const num = allBetsData.length - k;
-              const formattedNum = num < 10 ? "0" + num : num.toString();
-              return (
-                <Box
-                  key={k}
-                  sx={{
-                    display: "flex",
-                    flexDirection: "row",
-                    position: "relative",
-                    gap: "1px",
-                  }}
+            <AutoSizer>
+              {({ height, width }) => (
+                <List
+                  height={height}
+                  itemCount={allBetsData?.length || 0}
+                  itemSize={41} // Adjust based on your row height
+                  width={width}
                 >
-                  <Box
-                    sx={{
-                      height: "40px",
-                      marginBottom: { xs: "1px", lg: "1px" },
-                      width: "30px",
-                      display: "flex",
-                      background: "black",
-                      justifyContent: "center",
-                      alignItems: "center",
-                    }}
-                  >
-                    <Typography
-                      sx={{
-                        color: "white",
-                        fontSize: "10px",
-                        fontWeight: "500",
-                      }}
-                    >
-                      {formattedNum}
-                    </Typography>
-                  </Box>
-                  <RowComponent header={false} data={i} />
-                  {i?.deleteReason && (
-                    <Box
-                      sx={{
-                        width: {
-                          xs: profit ? "100%" : "100%",
-                          alignItems: "flex-end",
-                          justifyContent: "center",
-                          display: "flex",
-                          lg: profit ? "100 % " : "100% ",
-                        },
-                        background: "rgba(0, 0, 0, 0.6)",
-                        height: "45px",
-                        position: "absolute",
-                      }}
-                    >
-                      <Box sx={{ width: mark2 ? "35%" : "35%" }} />
-                    </Box>
-                  )}
-                  {i?.deleteReason && betHistory === undefined && (
-                    <Box
-                      sx={{
-                        width: {
-                          xs: profit ? "100%" : "100%",
-                          alignItems: "flex-end",
-                          justifyContent: "center",
-                          display: "flex",
-                          lg: profit ? "100 % " : "100% ",
-                        },
-                        background: "rgba(0, 0, 0, 0.5)",
-                        height: "45px",
-                        position: "absolute",
-                      }}
-                    >
-                      <Box sx={{ width: mark2 ? "35%" : "35%" }} />
-                      <Box
-                        sx={{
-                          width: mark2 ? "65%" : "65%",
-                          height: "100%",
-                          display: "flex",
-                          justifyContent: "center",
-                          alignItems: "flex-end",
-                          alignSelf: "flex-end",
-                        }}
-                      >
-                        {mark && (
-                          <Typography
-                            sx={{
-                              fontSize: "10px",
-                              fontWeight: "700",
-                              color: "white",
-                              textTransform: "uppercase",
-                            }}
-                          >
-                            Bet{" "}
-                            <span style={{ color: "#e41b23" }}>deleted</span>{" "}
-                            due to ${i?.deleteReason}
-                          </Typography>
-                        )}
-                      </Box>
-                    </Box>
-                  )}
-                  {profit && !i?.deleteReason && (
-                    <Box
-                      sx={{
-                        height: "40px",
-                        width: "30%",
-                        background: i.totalLoss > 0 ? "#10DC61" : "#E32A2A",
-                      }}
-                    >
-                      <Box
-                        sx={{
-                          display: "flex",
-                          justifyContent: "space-between",
-                          alignItems: "center",
-                          px: "10px",
-                          height: "100%",
-                        }}
-                      >
-                        <Typography
-                          sx={{
-                            fontSize: { xs: "11px", lg: "14px" },
-                            color: "white",
-                            fontWeight: "700",
-                          }}
-                        >
-                          {Number(i.totalLoss) >= 0 ? (
-                            <>
-                              <span style={{ visibility: "hidden" }}>-</span>
-                              {formatToINR(Number(i.totalLoss).toFixed(2))}
-                            </>
-                          ) : (
-                            formatToINR(Number(i.totalLoss).toFixed(2))
-                          )}
-                        </Typography>
-                        {!isArrow && (
-                          <StyledImage
-                            sx={{
-                              width: { xs: "12px", lg: "15px" },
-                              height: { xs: "12px", lg: "15px" },
-                            }}
-                            src={i.myProfitLoss > 0 ? ARROWUPPL : ArrowDownPL}
-                            alt="updown icon"
-                          />
-                        )}
-                      </Box>
-                    </Box>
-                  )}
-                  {profit && i?.deleteReason && (
-                    <Box
-                      sx={{
-                        height: "40px",
-                        width: "30%",
-                        margin: { xs: "1px", lg: "1px" },
-                        display: "flex",
-                        background: "black",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        paddingX: "2px",
-                        zIndex: 999,
-                      }}
-                    >
-                      <StyledImage
-                        sx={{
-                          width: { xs: "15px", lg: "20px" },
-                          height: { lg: "20px", xs: "14px" },
-                          marginRight: "5px",
-                        }}
-                        src={DeleteIcon}
-                        alt="delete"
-                      />
-                      <Typography
-                        sx={{
-                          fontSize: { xs: "7px", lg: ".5vw" },
-                          color: "white",
-                          fontWeight: "700",
-                          width: { lg: "65%", xs: "55%" },
-                          textTransform: "uppercase",
-                        }}
-                      >
-                        Bet <span style={{ color: "#e41b23" }}>Deleted</span>{" "}
-                        Due {"\n"}
-                        {i?.deleteReason}
-                      </Typography>
-                    </Box>
-                  )}
-                  {i?.deleteReason && betHistory && (
-                    <Box
-                      sx={{
-                        height: "40px",
-                        width: "30%",
-                        margin: { xs: "1px", lg: "1px" },
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        paddingX: "2px",
-                        zIndex: 999,
-                        position: "absolute",
-                        right: 0,
-                      }}
-                    >
-                      <StyledImage
-                        sx={{
-                          width: { xs: "15px", lg: "20px" },
-                          height: { lg: "20px", xs: "14px" },
-                          marginRight: "5px",
-                        }}
-                        src={DeleteIcon}
-                        alt="delete"
-                      />
-                      <Typography
-                        sx={{
-                          fontSize: { xs: "7px", lg: ".5vw" },
-                          color: "white",
-                          fontWeight: "700",
-                          width: { lg: "65%", xs: "55%" },
-                          textTransform: "uppercase",
-                        }}
-                      >
-                        Bet <span style={{ color: "#e41b23" }}>Deleted</span>{" "}
-                        Due {"\n"}
-                        {i?.deleteReason}
-                      </Typography>
-                    </Box>
-                  )}
-                </Box>
-              );
-            })}
+                  {Row}
+                </List>
+              )}
+            </AutoSizer>
           </Box>
         </>
       )}

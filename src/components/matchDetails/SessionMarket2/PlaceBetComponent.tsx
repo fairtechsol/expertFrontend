@@ -94,13 +94,15 @@ const PlaceBetComponent = ({ profitLossData, newData }: any) => {
           {newData?.result
             ? newData?.resultData?.profitLoss ?? 0
             : !profitLossData?.maxLoss
-            ? "P/L"
-            : profitLossData?.maxLoss ?? 0}
+              ? "P/L"
+              : profitLossData?.maxLoss ?? 0}
         </Typography>
         <img
           src={UD}
           alt="ud"
-          style={{ width: "10px", height: "10px", marginLeft: "4px" }}
+          width={10}
+          height={10}
+          style={{ marginLeft: "4px", objectFit: "contain" }}
         />
       </Box>
     </Box>

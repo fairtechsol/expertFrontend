@@ -35,7 +35,6 @@ const BoxButtonWithSwitch = ({
           height: "35px",
           minWidth: "250px",
           width: { xs: "100%", sm: "40%", md: "20%" },
-          marginTop: { xs: 1, md: 0 },
           marginLeft: "10px",
           borderRadius: "5px",
           margin: "10px",
@@ -66,42 +65,40 @@ const BoxButtonWithSwitch = ({
       >
         {title}
       </Typography>
-      {
-        <MaterialUISwitch
-          checked={checked}
-          disabled={disable}
-          onChange={async () => {
-            try {
-              if (!disable) {
-                let payload = {
-                  matchId: matchId,
-                  type: matchBettingType,
-                  isActive: !checked,
-                  isManualBet: isManualBet,
-                };
-                const resp: any = await service.post(
-                  ApiConstants.MATCH.UPDATEACTIVESTATUS,
-                  payload
-                );
-                if (resp?.statusCode === 200) {
-                  setChecked(!checked);
-                  setUpdateMatchStatus((prevStatus: any) => ({
-                    ...prevStatus,
-                    [place]: {
-                      ...prevStatus[place],
-                      val: !checked,
-                    },
-                  }));
-                }
-              } else {
-                alert("You don't have privilege to change status.");
+      <MaterialUISwitch
+        checked={checked}
+        disabled={disable}
+        onChange={async () => {
+          try {
+            if (!disable) {
+              let payload = {
+                matchId: matchId,
+                type: matchBettingType,
+                isActive: !checked,
+                isManualBet: isManualBet,
+              };
+              const resp: any = await service.post(
+                ApiConstants.MATCH.UPDATEACTIVESTATUS,
+                payload
+              );
+              if (resp?.statusCode === 200) {
+                setChecked(!checked);
+                setUpdateMatchStatus((prevStatus: any) => ({
+                  ...prevStatus,
+                  [place]: {
+                    ...prevStatus[place],
+                    val: !checked,
+                  },
+                }));
               }
-            } catch (e) {
-              console.log(e);
+            } else {
+              alert("You don't have privilege to change status.");
             }
-          }}
-        />
-      }
+          } catch (e) {
+            console.log(e);
+          }
+        }}
+      />
     </Box>
   );
 };

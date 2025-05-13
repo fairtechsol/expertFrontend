@@ -11,7 +11,7 @@ const BoxProfile = ({ image, value, containerStyle, value1 }: any) => {
   const handleClick = (event: any) => {
     setAnchorEl(event.currentTarget);
   };
-  useEffect(() => {}, [anchorEl]);
+  useEffect(() => { }, [anchorEl]);
   const handleClose = (val: any) => {
     setAnchorEl(0);
     typeof val == "string" &&
@@ -54,6 +54,7 @@ const BoxProfile = ({ image, value, containerStyle, value1 }: any) => {
               height: { lg: "30px", xs: "25px" },
               width: { lg: "30px", xs: "25px" },
               borderRadius: "150px",
+              objectFit: "cover",
             }}
           />
           <Box style={{ flex: 1, marginLeft: "5px" }}>
@@ -76,6 +77,7 @@ const BoxProfile = ({ image, value, containerStyle, value1 }: any) => {
               width: "10px",
               marginRight: "5px",
               marginLeft: "6px",
+              objectFit: "cover",
             }}
           />
         </Box>

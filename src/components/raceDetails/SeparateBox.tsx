@@ -63,7 +63,9 @@ const SeparateBox = ({ color, empty, value, width, value2, lock }: any) => {
           {[0, "0"].includes(value) && (
             <img
               src={Lock}
-              style={{ width: "10px", height: "15px" }}
+              width={10}
+              height={15}
+              // style={{ width: "10px", height: "15px" }}
               alt="lock"
             />
           )}

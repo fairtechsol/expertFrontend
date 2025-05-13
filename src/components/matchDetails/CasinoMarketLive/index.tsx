@@ -132,7 +132,8 @@ const CasinoMarketLive = ({
             src={ARROWUP}
             alt="arrow up"
             style={{
-              transform: visible ? "rotate(180deg)" : "rotate(0deg)",
+              transform: !visible ? "rotate(180deg)" : "rotate(0deg)",
+              transition: "transform 0.3s ease",
               width: "12px",
               height: "12px",
               marginRight: "5px",

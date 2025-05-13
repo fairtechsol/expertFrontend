@@ -1,11 +1,37 @@
 import { Box, Typography } from "@mui/material";
-import { memo, useEffect, useState } from "react";
+import { memo, useCallback, useEffect, useState } from "react";
+import { FixedSizeList as List } from "react-window";
 import { ARROWUP } from "../../../assets";
 import { formatToINR } from "../../helper";
 import SessionMarketBoxLive from "./SessionMarketBoxLive";
 
+const Row = memo(
+  ({
+    index,
+    style,
+    data,
+  }: {
+    index: number;
+    style: React.CSSProperties;
+    data: any;
+  }) => {
+    const match = data.items[index];
+
+    return (
+      <Box style={style}>
+        <SessionMarketBoxLive
+          currentMatch={data?.currentMatch}
+          newData={match}
+          index={index}
+          gtype={data?.gtype}
+          type={data?.type}
+        />
+      </Box>
+    );
+  }
+);
+
 const SessionMarketLive = ({ title, sessionData, currentMatch, type }: any) => {
-  
   const [matchSessionData, setMatchSessionData] = useState(sessionData);
   useEffect(() => {
     setMatchSessionData(
@@ -15,6 +41,10 @@ const SessionMarketLive = ({ title, sessionData, currentMatch, type }: any) => {
     );
   }, [sessionData]);
   const [visible, setVisible] = useState(true);
+
+  const toggleVisibility = useCallback(() => {
+    setVisible((prev) => !prev);
+  }, []);
 
   return (
     <Box
@@ -88,13 +118,13 @@ const SessionMarketLive = ({ title, sessionData, currentMatch, type }: any) => {
           }}
         >
           <img
-            onClick={() => {
-              setVisible(!visible);
-            }}
+            onClick={toggleVisibility}
             src={ARROWUP}
             alt="arrow up"
+            className="arrow-icon"
             style={{
-              transform: visible ? "rotate(180deg)" : "rotate(0deg)",
+              transform: !visible ? "rotate(180deg)" : "rotate(0deg)",
+              transition: "transform 0.3s ease",
               width: "12px",
               height: "12px",
               marginRight: "5px",
@@ -124,9 +154,12 @@ const SessionMarketLive = ({ title, sessionData, currentMatch, type }: any) => {
               },
             }}
           >
-            {matchSessionData?.length > 0 &&
-              matchSessionData?.map((match: any, index: any) => {
-                if (!match?.id || match?.activeStatus === "unSave") {
+            {/* {matchSessionData?.length > 0 &&
+              matchSessionData
+                ?.filter(
+                  (item: any) => !item?.id || item?.activeStatus === "unSave"
+                )
+                ?.map((match: any, index: any) => {
                   return (
                     <Box key={index}>
                       <SessionMarketBoxLive
@@ -138,8 +171,41 @@ const SessionMarketLive = ({ title, sessionData, currentMatch, type }: any) => {
                       />
                     </Box>
                   );
-                }
-              })}
+                })} */}
+            {matchSessionData?.length > 0 &&
+              (() => {
+                const filteredData = matchSessionData?.filter(
+                  (item: any) => !item?.id || item?.activeStatus === "unSave"
+                );
+
+                if (!filteredData.length) return null;
+
+                const dynamicHeight = filteredData.length * 25;
+
+                return (
+                  <div
+                    style={{
+                      width: "100%",
+                      height: `${dynamicHeight + 1}px`,
+                    }}
+                  >
+                    <List
+                      height={dynamicHeight + 1}
+                      width="100%"
+                      itemCount={filteredData.length}
+                      itemSize={25}
+                      itemData={{
+                        items: filteredData,
+                        gtype: sessionData?.gtype,
+                        type: type,
+                        currentMatch,
+                      }}
+                    >
+                      {Row}
+                    </List>
+                  </div>
+                );
+              })()}
           </Box>
         </Box>
       )}

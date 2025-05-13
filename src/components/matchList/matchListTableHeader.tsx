@@ -1,43 +1,40 @@
 import { Box, Typography } from "@mui/material";
-import { memo } from "react";
 
 const MatchListTableHeader = () => {
   return (
     <Box
       sx={{
         display: "flex",
-        height: { lg: "35px", xs: "25px" },
-        background: "#262626",
+        height: { lg: 35, xs: 25 },
+        backgroundColor: "#262626",
         alignItems: "center",
       }}
     >
       <Box
         sx={{
-          width: { xs: "60px", sm: "100px", md: "100px", lg: "100px" },
+          width: { xs: 60, sm: 100 },
           display: "flex",
-          paddingLeft: "10px",
           alignItems: "center",
-          height: { lg: "35px", xs: "25px" },
+          pl: 1.25,
+          height: "100%",
           borderRight: "2px solid white",
         }}
       >
-        <Typography sx={{ color: "white", fontSize: "12px" }}>
-          Sr No.
-        </Typography>
+        <Typography sx={{ color: "white", fontSize: 12 }}>Sr No.</Typography>
       </Box>
       <Box
         sx={{
           flex: 1,
           display: "flex",
-          paddingLeft: "10px",
           alignItems: "center",
-          height: "35px",
+          pl: 1.25,
+          height: "100%",
         }}
       >
-        <Typography sx={{ color: "white", fontSize: "12px" }}>Title</Typography>
+        <Typography sx={{ color: "white", fontSize: 12 }}>Title</Typography>
       </Box>
     </Box>
   );
 };
 
-export default memo(MatchListTableHeader);
+export default MatchListTableHeader;

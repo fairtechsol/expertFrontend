@@ -35,7 +35,7 @@ const Input: React.FC<any> = ({
   const [showPass, setShowPass] = useState(false);
 
   return (
-    <Box sx={[{}, containerStyle]}>
+    <Box sx={[containerStyle]}>
       <Typography
         sx={[
           {

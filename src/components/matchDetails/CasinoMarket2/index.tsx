@@ -4,7 +4,7 @@ import { ARROWUP } from "../../../assets";
 import Divider from "../../Common/Divider";
 import CasinoMarketBox from "./CasinoMarketBox";
 
-const CasinoMarket = ({ title, sessionData, profitLossData }: any) => {
+const CasinoMarket = ({ title, sessionData }: any) => {
   const [visible, setVisible] = useState(true);
   return (
     <Box
@@ -77,7 +77,8 @@ const CasinoMarket = ({ title, sessionData, profitLossData }: any) => {
             src={ARROWUP}
             alt="arrow up"
             style={{
-              transform: visible ? "rotate(180deg)" : "rotate(0deg)",
+              transform: !visible ? "rotate(180deg)" : "rotate(0deg)",
+              transition: "transform 0.3s ease",
               width: "12px",
               height: "12px",
               marginRight: "5px",
@@ -168,7 +169,6 @@ const CasinoMarket = ({ title, sessionData, profitLossData }: any) => {
                     ? sessionData?.section[item]
                     : {}
                 }
-                profitLoss={profitLossData && profitLossData[sessionData?.id]}
                 index={item}
               />
             ))}

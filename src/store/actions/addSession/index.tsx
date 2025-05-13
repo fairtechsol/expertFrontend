@@ -29,10 +29,7 @@ export const addSession = createAsyncThunk<any, SessionData>(
   "add/session",
   async (requestData, thunkApi) => {
     try {
-      const resp = await service.post(
-        `${ApiConstants.SESSION.ADD}`,
-        requestData
-      );
+      const resp = await service.post(ApiConstants.SESSION.ADD, requestData);
       if (resp?.data) {
         return resp?.data;
       }
@@ -46,10 +43,7 @@ export const updateSession = createAsyncThunk<any, updateSession>(
   "update/sessionBet",
   async (requestData, thunkApi) => {
     try {
-      const resp = await service.post(
-        `${ApiConstants.SESSION.UPDATE}`,
-        requestData
-      );
+      const resp = await service.post(ApiConstants.SESSION.UPDATE, requestData);
       if (resp?.data) {
         return resp?.data;
       }
@@ -64,7 +58,7 @@ export const updateMultiSessionMarketAmount = createAsyncThunk<any, any>(
   async (requestData, thunkApi) => {
     try {
       const resp = await service.post(
-        `${ApiConstants.SESSION.UPDATE_MULTI_MARKET_AMOUNT}`,
+        ApiConstants.SESSION.UPDATE_MULTI_MARKET_AMOUNT,
         requestData
       );
       if (resp?.data) {

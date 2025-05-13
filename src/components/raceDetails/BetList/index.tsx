@@ -1,6 +1,6 @@
 import { Box, Button, Typography } from "@mui/material";
 import moment from "moment";
-import { memo, useEffect, useRef, useState } from "react";
+import { memo, useCallback, useEffect, useRef, useState } from "react";
 import { ARROWUP } from "../../../assets";
 import { formatToINR } from "../../helper";
 import HeaderRow from "./HeaderRow";
@@ -52,8 +52,8 @@ const BetList = ({ tag, allBetRates }: any) => {
                   v?.marketType === "completeManual" ||
                   v?.marketType === "tiedMatch2" ||
                   v?.marketType === "tiedMatch1"
-                ? "#faf11b"
-                : "#F1C550",
+                  ? "#faf11b"
+                  : "#F1C550",
               deleteReason: v?.deleteReason,
               width: { lg: "16%", xs: "50%" },
               domain: v?.domain,
@@ -70,8 +70,8 @@ const BetList = ({ tag, allBetRates }: any) => {
                   v?.marketType === "completeManual" ||
                   v?.marketType === "tiedMatch2" ||
                   v?.marketType === "tiedMatch1"
-                ? "#faf11b"
-                : "#F1C550",
+                  ? "#faf11b"
+                  : "#F1C550",
               deleteReason: v?.deleteReason,
               width: { lg: "17%", xs: "35%" },
               overflowWrap: "anywhere",
@@ -124,8 +124,8 @@ const BetList = ({ tag, allBetRates }: any) => {
               name: +v.myStake
                 ? formatToINR(+v.myStake)
                 : formatToINR(
-                    (+v?.amount * +v?.user?.fwPartnership || 0) / 100
-                  ),
+                  (+v?.amount * +v?.user?.fwPartnership || 0) / 100
+                ),
               color: "white",
               background: "#0B4F26",
               deleteReason: v?.deleteReason,
@@ -151,6 +151,9 @@ const BetList = ({ tag, allBetRates }: any) => {
     }
   }, [allBetRates]);
 
+  const toggleVisibility = useCallback(() => {
+    setVisibleImg((prev) => !prev);
+  }, []);
   return (
     <Box
       sx={{
@@ -253,13 +256,12 @@ const BetList = ({ tag, allBetRates }: any) => {
             </Typography>
           </Box>
           <img
-            onClick={() => {
-              setVisibleImg(!visibleImg);
-            }}
+            onClick={toggleVisibility}
             src={ARROWUP}
             alt="arrow up"
             style={{
-              transform: visibleImg ? "rotate(180deg)" : "rotate(0deg)",
+              transform: !visibleImg ? "rotate(180deg)" : "rotate(0deg)",
+              transition: "transform 0.3s ease",
               width: "15px",
               height: "15px",
               marginRight: "5px",

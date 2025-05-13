@@ -4,7 +4,12 @@ import Divider from "../../Common/Divider";
 import { formatNumber } from "../../helper";
 import SeparateBox from "../SeparateBox";
 
-const CasinoMarketBox = ({ newData, index }: any) => {
+interface CasinoMarketBoxProps {
+  newData: any;
+  index: number;
+}
+
+const CasinoMarketBox = ({ newData, index }: CasinoMarketBoxProps) => {
   return (
     <>
       <Box

@@ -97,15 +97,13 @@ const DropDown = ({
         ]}
       >
         <Box
-          sx={[
-            {
-              paddingY: "4px",
-              paddingLeft: "7px",
-              fontSize: "10px",
-              fontWeight: "500",
-              color: "white",
-            },
-          ]}
+          sx={{
+            paddingY: "4px",
+            paddingLeft: "7px",
+            fontSize: "10px",
+            fontWeight: "500",
+            color: "white",
+          }}
         >
           <Typography
             sx={{
