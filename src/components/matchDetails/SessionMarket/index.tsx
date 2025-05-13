@@ -1,10 +1,8 @@
-import { useMediaQuery, useTheme } from "@mui/material";
 import Box from "@mui/material/Box";
 import ModalMUI from "@mui/material/Modal";
 import Typography from "@mui/material/Typography";
 import { memo, useCallback, useMemo, useState } from "react";
 import { useDispatch } from "react-redux";
-import { FixedSizeList as List } from "react-window";
 import { ARROWUP, edit } from "../../../assets";
 import { customSortUpdated } from "../../../helpers";
 import { sessionBetLiveStatus } from "../../../store/actions/match/matchAction";
@@ -28,36 +26,36 @@ interface SessionMarketProps {
   name?: string;
 }
 
-const Row = memo(
-  ({
-    index,
-    style,
-    data,
-  }: {
-    index: number;
-    style: React.CSSProperties;
-    data: any;
-  }) => {
-    const match = data.items[index];
+// const Row = memo(
+//   ({
+//     index,
+//     style,
+//     data,
+//   }: {
+//     index: number;
+//     style: React.CSSProperties;
+//     data: any;
+//   }) => {
+//     const match = data.items[index];
 
-    if (!match?.id) return null;
+//     if (!match?.id) return null;
 
-    return (
-      <Box style={style}>
-        <SessionMarketBox
-          hideResult={data.hideResult}
-          hideTotalBet={data.hideTotalBet}
-          newData={match}
-          profitLossData={data.profitLossData}
-          index={index}
-          hideEditMaxButton={data.hideEditMaxButton}
-          section={data.section}
-        />
-        <Divider />
-      </Box>
-    );
-  }
-);
+//     return (
+//       <Box style={style}>
+//         <SessionMarketBox
+//           hideResult={data.hideResult}
+//           hideTotalBet={data.hideTotalBet}
+//           newData={match}
+//           profitLossData={data.profitLossData}
+//           index={index}
+//           hideEditMaxButton={data.hideEditMaxButton}
+//           section={data.section}
+//         />
+//         <Divider />
+//       </Box>
+//     );
+//   }
+// );
 
 const SessionMarket = ({
   currentMatch,
@@ -72,8 +70,8 @@ const SessionMarket = ({
   section,
   name,
 }: SessionMarketProps) => {
-  const theme = useTheme();
-  const matchesMobile = useMediaQuery(theme.breakpoints.down("md"));
+  // const theme = useTheme();
+  // const matchesMobile = useMediaQuery(theme.breakpoints.down("md"));
   const dispatch: AppDispatch = useDispatch();
   const [visible, setVisible] = useState(true);
   const [sessionMaxBetAmountLimit, setSessionMaxBetAmountLimit] =
@@ -241,7 +239,7 @@ const SessionMarket = ({
                 cstmStyle,
               ]}
             >
-              {sessionData?.section?.length > 0 &&
+              {/* {sessionData?.section?.length > 0 &&
                 (() => {
                   if (!filteredMatches.length) return null;
 
@@ -277,7 +275,21 @@ const SessionMarket = ({
                       </List>
                     </div>
                   );
-                })()}
+                })()} */}
+              {filteredMatches.map((match: any, index: number) => (
+                <Box key={`sessionMarketBox${match?.id}-${index}`}>
+                  <SessionMarketBox
+                    hideResult={hideResult}
+                    hideTotalBet={hideTotalBet}
+                    newData={match}
+                    profitLossData={profitLossData}
+                    index={index}
+                    hideEditMaxButton={hideEditMaxButton}
+                    section={section}
+                  />
+                  <Divider />
+                </Box>
+              ))}
             </Box>
           </Box>
         )}
