@@ -1,9 +1,17 @@
 import { Box, Typography } from "@mui/material";
 import { memo, useCallback, useEffect, useState } from "react";
-import { FixedSizeList as List } from "react-window";
+import { VariableSizeList } from 'react-window';
 import { ARROWUP } from "../../../assets";
 import { formatToINR } from "../../helper";
 import SessionMarketBoxLive from "./SessionMarketBoxLive";
+
+
+type ItemData = {
+  items: any[];
+  gtype: string;
+  type: string;
+  currentMatch: any;
+};
 
 const Row = memo(
   ({
@@ -45,6 +53,14 @@ const SessionMarketLive = ({ title, sessionData, currentMatch, type }: any) => {
   const toggleVisibility = useCallback(() => {
     setVisible((prev) => !prev);
   }, []);
+
+  const getItemSize = (index: number): number => {
+    const row = matchSessionData[index];
+    let rowHeight = Math.max(row?.ex?.availableToLay?.length ?? 0, row?.ex?.availableToBack?.length ?? 0);
+    if (rowHeight <= 1) return 25;
+    if (rowHeight === 2) return 50;
+    return 75;
+  };
 
   return (
     <Box
@@ -189,7 +205,21 @@ const SessionMarketLive = ({ title, sessionData, currentMatch, type }: any) => {
                       height: `${dynamicHeight + 1}px`,
                     }}
                   >
-                    <List
+                    <VariableSizeList<ItemData>
+                      height={dynamicHeight}
+                      width="100%"
+                      itemCount={filteredData.length}
+                      itemSize={getItemSize}
+                      itemData={{
+                        items: filteredData,
+                        gtype: sessionData?.gtype,
+                        type: type,
+                        currentMatch,
+                      }}
+                    >
+                      {Row}
+                    </VariableSizeList>
+                    {/* <List
                       height={dynamicHeight + 1}
                       width="100%"
                       itemCount={filteredData.length}
@@ -202,7 +232,7 @@ const SessionMarketLive = ({ title, sessionData, currentMatch, type }: any) => {
                       }}
                     >
                       {Row}
-                    </List>
+                    </List> */}
                   </div>
                 );
               })()}

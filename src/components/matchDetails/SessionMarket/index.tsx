@@ -4,7 +4,8 @@ import ModalMUI from "@mui/material/Modal";
 import Typography from "@mui/material/Typography";
 import { memo, useCallback, useMemo, useState } from "react";
 import { useDispatch } from "react-redux";
-import { FixedSizeList as List } from "react-window";
+// import { FixedSizeList as List } from "react-window";
+import { VariableSizeList } from 'react-window';
 import { ARROWUP, edit } from "../../../assets";
 import { customSortUpdated } from "../../../helpers";
 import { sessionBetLiveStatus } from "../../../store/actions/match/matchAction";
@@ -13,6 +14,15 @@ import Divider from "../../Common/Divider";
 import SessionMarketBox from "./SessionMarketBox";
 import SessionMarketMaxBetAmountEdit from "./SessionMarketMaxBetAmountEdit";
 import Stop from "./Stop";
+
+type ItemData = {
+  items: any[];
+  hideResult: boolean;
+  hideTotalBet: boolean;
+  profitLossData: any;
+  hideEditMaxButton: boolean;
+  section: string;
+};
 
 interface SessionMarketProps {
   currentMatch: any;
@@ -82,15 +92,15 @@ const SessionMarket = ({
   const handleFilter = (item: any) =>
     section === "market"
       ? !item?.isComplete &&
-        item?.activeStatus !== "unSave" &&
-        ((item?.resultData && item?.resultData === null) ||
-          item?.result === null)
+      item?.activeStatus !== "unSave" &&
+      ((item?.resultData && item?.resultData === null) ||
+        item?.result === null)
       : section === "completed"
-      ? item?.isComplete &&
+        ? item?.isComplete &&
         item?.activeStatus !== "unSave" &&
         ((item?.resultData && item?.resultData === null) ||
           item?.result === null)
-      : (item?.resultData && item?.resultData !== null) ||
+        : (item?.resultData && item?.resultData !== null) ||
         item?.result !== null;
 
   const filteredMatches = useMemo(() => {
@@ -121,6 +131,15 @@ const SessionMarket = ({
   const handleEditClick = useCallback(() => {
     setSessionMaxBetAmountLimit(true);
   }, []);
+
+
+  const getItemSize = (index: number): number => {
+    const row = filteredMatches[index];
+    let rowHeight = Math.max(row?.ex?.availableToLay?.length ?? 0, row?.ex?.availableToBack?.length ?? 0);
+    if (rowHeight <= 1) return 30;
+    if (rowHeight === 2) return 60;
+    return 90;
+  };
 
   return (
     <>
@@ -247,9 +266,9 @@ const SessionMarket = ({
 
                   const dynamicHeight = matchesMobile
                     ? Math.min(
-                        filteredMatches.length * 30,
-                        window.innerHeight * 0.4
-                      )
+                      filteredMatches.length * 30,
+                      window.innerHeight * 0.4
+                    )
                     : filteredMatches.length * 30;
 
                   return (
@@ -259,7 +278,23 @@ const SessionMarket = ({
                         height: `${dynamicHeight + 1}px`,
                       }}
                     >
-                      <List
+                      <VariableSizeList<ItemData>
+                        height={dynamicHeight}
+                        width="100%"
+                        itemCount={filteredMatches.length}
+                        itemSize={getItemSize}
+                        itemData={{
+                          items: filteredMatches,
+                          hideResult,
+                          hideTotalBet,
+                          profitLossData,
+                          hideEditMaxButton,
+                          section,
+                        }}
+                      >
+                        {Row}
+                      </VariableSizeList>
+                      {/* <List
                         height={dynamicHeight + 1}
                         width="100%"
                         itemCount={filteredMatches.length}
@@ -274,7 +309,7 @@ const SessionMarket = ({
                         }}
                       >
                         {Row}
-                      </List>
+                      </List> */}
                     </div>
                   );
                 })()}
