@@ -92,15 +92,15 @@ const SessionMarket = ({
   const handleFilter = (item: any) =>
     section === "market"
       ? !item?.isComplete &&
-        item?.activeStatus !== "unSave" &&
-        ((item?.resultData && item?.resultData === null) ||
-          item?.result === null)
+      item?.activeStatus !== "unSave" &&
+      ((item?.resultData && item?.resultData === null) ||
+        item?.result === null)
       : section === "completed"
-      ? item?.isComplete &&
+        ? item?.isComplete &&
         item?.activeStatus !== "unSave" &&
         ((item?.resultData && item?.resultData === null) ||
           item?.result === null)
-      : (item?.resultData && item?.resultData !== null) ||
+        : (item?.resultData && item?.resultData !== null) ||
         item?.result !== null;
 
   const filteredMatches = useMemo(() => {
@@ -148,6 +148,11 @@ const SessionMarket = ({
     if (rowHeight === 2) return 60;
     return 90;
   };
+
+  const totalHeight: number = filteredMatches.reduce(
+    (sum: number, _: any, index: number): number => sum + getItemSize(index),
+    0
+  );
 
   return (
     <>
@@ -273,11 +278,8 @@ const SessionMarket = ({
                   if (!filteredMatches.length) return null;
 
                   const dynamicHeight = matchesMobile
-                    ? Math.min(
-                        filteredMatches.length * 30 + 1,
-                        window.innerHeight * 0.4
-                      )
-                    : filteredMatches.length * 30 + 1;
+                    ? Math.min(totalHeight, window.innerHeight * 0.4) + 1
+                    : totalHeight + 1;
 
                   return (
                     <VariableSizeList<ItemData>

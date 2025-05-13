@@ -80,6 +80,10 @@ const SessionMarketLive = ({ title, sessionData, currentMatch, type }: any) => {
     return (rowHeight || 1) * 25;
   };
 
+  const totalHeight: number = filteredData.reduce(
+    (sum: number, _: any, index: number): number => sum + getItemSize(index),
+    0
+  );
   return (
     <Box
       sx={{
@@ -214,7 +218,7 @@ const SessionMarketLive = ({ title, sessionData, currentMatch, type }: any) => {
 
                 if (!filteredData.length) return null;
 
-                const dynamicHeight = filteredData.length * 25 + 1;
+                const dynamicHeight = totalHeight + 1;
 
                 return (
                   <VariableSizeList<ItemData>
