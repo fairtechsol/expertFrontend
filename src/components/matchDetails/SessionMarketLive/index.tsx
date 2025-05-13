@@ -71,7 +71,6 @@ const SessionMarketLive = ({ title, sessionData, currentMatch, type }: any) => {
 
   const getItemSize = (index: number): number => {
     const row = filteredData[index];
-    console.log("row", row);
     let rowHeight = Math.max(
       row?.ex?.availableToLay?.length ?? 0,
       row?.ex?.availableToBack?.length ?? 0

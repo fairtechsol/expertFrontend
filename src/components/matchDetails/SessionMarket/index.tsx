@@ -92,15 +92,15 @@ const SessionMarket = ({
   const handleFilter = (item: any) =>
     section === "market"
       ? !item?.isComplete &&
-      item?.activeStatus !== "unSave" &&
-      ((item?.resultData && item?.resultData === null) ||
-        item?.result === null)
-      : section === "completed"
-        ? item?.isComplete &&
         item?.activeStatus !== "unSave" &&
         ((item?.resultData && item?.resultData === null) ||
           item?.result === null)
-        : (item?.resultData && item?.resultData !== null) ||
+      : section === "completed"
+      ? item?.isComplete &&
+        item?.activeStatus !== "unSave" &&
+        ((item?.resultData && item?.resultData === null) ||
+          item?.result === null)
+      : (item?.resultData && item?.resultData !== null) ||
         item?.result !== null;
 
   const filteredMatches = useMemo(() => {
