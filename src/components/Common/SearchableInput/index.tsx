@@ -85,7 +85,7 @@ const SearchableInput = ({
           },
           "& .css-lc42l8-MuiInputBase-input-MuiOutlinedInput-input .Mui-disabled":
             {
-              "-webkit-text-fill-color": "white",
+              WebkitTextFillColor: "white",
             },
         }}
         options={eventsList?.map((item: any) => {
@@ -146,7 +146,7 @@ const SearchableInput = ({
                   borderColor: "lightgray",
                 },
                 "& .Mui-disabled": {
-                  "-webkit-text-fill-color": "#ffffffbd",
+                  WebkitTextFillColor: "#ffffffbd",
                 },
               },
             }}
