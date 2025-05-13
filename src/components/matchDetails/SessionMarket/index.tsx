@@ -268,37 +268,36 @@ const SessionMarket = ({
                 cstmStyle,
               ]}
             >
-              {sessionData?.section?.length > 0 &&
-                (() => {
-                  if (!filteredMatches.length) return null;
+              {(() => {
+                if (!filteredMatches.length) return null;
 
-                  const dynamicHeight = matchesMobile
-                    ? Math.min(
-                        filteredMatches.length * 30 + 1,
-                        window.innerHeight * 0.4
-                      )
-                    : filteredMatches.length * 30 + 1;
+                const dynamicHeight = matchesMobile
+                  ? Math.min(
+                      filteredMatches.length * 30 + 1,
+                      window.innerHeight * 0.4
+                    )
+                  : filteredMatches.length * 30 + 1;
 
-                  return (
-                    <VariableSizeList<ItemData>
-                      ref={listRef}
-                      height={dynamicHeight}
-                      width="100%"
-                      itemCount={filteredMatches.length}
-                      itemSize={getItemSize}
-                      itemData={{
-                        items: filteredMatches,
-                        hideResult,
-                        hideTotalBet,
-                        profitLossData,
-                        hideEditMaxButton,
-                        section,
-                      }}
-                    >
-                      {Row}
-                    </VariableSizeList>
-                  );
-                })()}
+                return (
+                  <VariableSizeList<ItemData>
+                    ref={listRef}
+                    height={dynamicHeight}
+                    width="100%"
+                    itemCount={filteredMatches.length}
+                    itemSize={getItemSize}
+                    itemData={{
+                      items: filteredMatches,
+                      hideResult,
+                      hideTotalBet,
+                      profitLossData,
+                      hideEditMaxButton,
+                      section,
+                    }}
+                  >
+                    {Row}
+                  </VariableSizeList>
+                );
+              })()}
             </Box>
           </Box>
         )}
