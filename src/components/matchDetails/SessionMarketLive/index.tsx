@@ -43,7 +43,6 @@ const SessionMarketLive = ({ title, sessionData, currentMatch, type }: any) => {
   const listRef = useRef<VariableSizeList>(null);
   const [visible, setVisible] = useState(true);
 
-
   useEffect(() => {
     setMatchSessionData(
       sessionData?.section?.filter(
@@ -58,7 +57,9 @@ const SessionMarketLive = ({ title, sessionData, currentMatch, type }: any) => {
 
   const filteredData = useMemo(() => {
     if (!Array.isArray(matchSessionData)) return [];
-    return matchSessionData.filter((item: any) => !item?.id || item?.activeStatus === "unSave");
+    return matchSessionData.filter(
+      (item: any) => !item?.id || item?.activeStatus === "unSave"
+    );
   }, [matchSessionData]);
 
   // Reset list size cache on data change
@@ -213,7 +214,7 @@ const SessionMarketLive = ({ title, sessionData, currentMatch, type }: any) => {
 
                 if (!filteredData.length) return null;
 
-                const dynamicHeight = filteredData.length * 25;
+                const dynamicHeight = filteredData.length * 25 + 1;
 
                 return (
                   <VariableSizeList<ItemData>

@@ -4,7 +4,7 @@ import ModalMUI from "@mui/material/Modal";
 import Typography from "@mui/material/Typography";
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
-import { VariableSizeList } from 'react-window';
+import { VariableSizeList } from "react-window";
 import { ARROWUP, edit } from "../../../assets";
 import { customSortUpdated } from "../../../helpers";
 import { sessionBetLiveStatus } from "../../../store/actions/match/matchAction";
@@ -92,15 +92,15 @@ const SessionMarket = ({
   const handleFilter = (item: any) =>
     section === "market"
       ? !item?.isComplete &&
-      item?.activeStatus !== "unSave" &&
-      ((item?.resultData && item?.resultData === null) ||
-        item?.result === null)
-      : section === "completed"
-        ? item?.isComplete &&
         item?.activeStatus !== "unSave" &&
         ((item?.resultData && item?.resultData === null) ||
           item?.result === null)
-        : (item?.resultData && item?.resultData !== null) ||
+      : section === "completed"
+      ? item?.isComplete &&
+        item?.activeStatus !== "unSave" &&
+        ((item?.resultData && item?.resultData === null) ||
+          item?.result === null)
+      : (item?.resultData && item?.resultData !== null) ||
         item?.result !== null;
 
   const filteredMatches = useMemo(() => {
@@ -132,7 +132,6 @@ const SessionMarket = ({
     setSessionMaxBetAmountLimit(true);
   }, []);
 
-
   useEffect(() => {
     if (listRef.current) {
       listRef.current.resetAfterIndex(0, true);
@@ -141,7 +140,10 @@ const SessionMarket = ({
 
   const getItemSize = (index: number): number => {
     const row = filteredMatches[index];
-    let rowHeight = Math.max(row?.ex?.availableToLay?.length ?? 0, row?.ex?.availableToBack?.length ?? 0);
+    let rowHeight = Math.max(
+      row?.ex?.availableToLay?.length ?? 0,
+      row?.ex?.availableToBack?.length ?? 0
+    );
     if (rowHeight <= 1) return 30;
     if (rowHeight === 2) return 60;
     return 90;
@@ -272,10 +274,10 @@ const SessionMarket = ({
 
                   const dynamicHeight = matchesMobile
                     ? Math.min(
-                      filteredMatches.length * 30,
-                      window.innerHeight * 0.4
-                    )
-                    : filteredMatches.length * 30;
+                        filteredMatches.length * 30 + 1,
+                        window.innerHeight * 0.4
+                      )
+                    : filteredMatches.length * 30 + 1;
 
                   return (
                     <VariableSizeList<ItemData>
@@ -295,7 +297,6 @@ const SessionMarket = ({
                     >
                       {Row}
                     </VariableSizeList>
-
                   );
                 })()}
             </Box>
