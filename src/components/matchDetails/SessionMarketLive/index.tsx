@@ -209,33 +209,34 @@ const SessionMarketLive = ({ title, sessionData, currentMatch, type }: any) => {
                     </Box>
                   );
                 })} */}
-            {(() => {
-              const filteredData = matchSessionData?.filter(
-                (item: any) => !item?.id || item?.activeStatus === "unSave"
-              );
+            {matchSessionData?.length > 0 &&
+              (() => {
+                const filteredData = matchSessionData?.filter(
+                  (item: any) => !item?.id || item?.activeStatus === "unSave"
+                );
 
-              if (!filteredData.length) return null;
+                if (!filteredData.length) return null;
 
-              const dynamicHeight = totalHeight + 1;
+                const dynamicHeight = totalHeight + 1;
 
-              return (
-                <VariableSizeList<ItemData>
-                  ref={listRef}
-                  height={dynamicHeight}
-                  width="100%"
-                  itemCount={filteredData.length}
-                  itemSize={getItemSize}
-                  itemData={{
-                    items: filteredData,
-                    gtype: sessionData?.gtype,
-                    type: type,
-                    currentMatch,
-                  }}
-                >
-                  {Row}
-                </VariableSizeList>
-              );
-            })()}
+                return (
+                  <VariableSizeList<ItemData>
+                    ref={listRef}
+                    height={dynamicHeight}
+                    width="100%"
+                    itemCount={filteredData.length}
+                    itemSize={getItemSize}
+                    itemData={{
+                      items: filteredData,
+                      gtype: sessionData?.gtype,
+                      type: type,
+                      currentMatch,
+                    }}
+                  >
+                    {Row}
+                  </VariableSizeList>
+                );
+              })()}
           </Box>
         </Box>
       )}
