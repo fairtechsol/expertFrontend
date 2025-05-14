@@ -241,6 +241,8 @@ const SessionBetSeperate = ({
     );
   });
 
+  const maxHeight = window.innerWidth < 768 ? 200 : 420;
+  const dynamicHeight = Math.min(allBetsData.length * 41, maxHeight);
   return (
     <Box
       sx={[
@@ -376,7 +378,7 @@ const SessionBetSeperate = ({
 
           <Box
             sx={{
-              height: { xs: "200px", lg: "420px" },
+              height: dynamicHeight,
               overflowY: "auto",
               "::-webkit-scrollbar": {
                 display: "none",
