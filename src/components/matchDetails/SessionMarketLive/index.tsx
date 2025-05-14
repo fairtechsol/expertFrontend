@@ -1,37 +1,48 @@
 import { Box, Typography } from "@mui/material";
-import { memo, useCallback, useEffect, useState } from "react";
+import { memo, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { VariableSizeList } from "react-window";
 import { ARROWUP } from "../../../assets";
 import { formatToINR } from "../../helper";
 import SessionMarketBoxLive from "./SessionMarketBoxLive";
 
-// const Row = memo(
-//   ({
-//     index,
-//     style,
-//     data,
-//   }: {
-//     index: number;
-//     style: React.CSSProperties;
-//     data: any;
-//   }) => {
-//     const match = data.items[index];
+type ItemData = {
+  items: any[];
+  gtype: string;
+  type: string;
+  currentMatch: any;
+};
 
-//     return (
-//       <Box style={style}>
-//         <SessionMarketBoxLive
-//           currentMatch={data?.currentMatch}
-//           newData={match}
-//           index={index}
-//           gtype={data?.gtype}
-//           type={data?.type}
-//         />
-//       </Box>
-//     );
-//   }
-// );
+const Row = memo(
+  ({
+    index,
+    style,
+    data,
+  }: {
+    index: number;
+    style: React.CSSProperties;
+    data: any;
+  }) => {
+    const match = data.items[index];
+
+    return (
+      <Box style={style}>
+        <SessionMarketBoxLive
+          currentMatch={data?.currentMatch}
+          newData={match}
+          index={index}
+          gtype={data?.gtype}
+          type={data?.type}
+        />
+      </Box>
+    );
+  }
+);
 
 const SessionMarketLive = ({ title, sessionData, currentMatch, type }: any) => {
   const [matchSessionData, setMatchSessionData] = useState(sessionData);
+  const listRef = useRef<VariableSizeList>(null);
+  const [visible, setVisible] = useState(true);
+
   useEffect(() => {
     setMatchSessionData(
       sessionData?.section?.filter(
@@ -39,12 +50,39 @@ const SessionMarketLive = ({ title, sessionData, currentMatch, type }: any) => {
       )
     );
   }, [sessionData]);
-  const [visible, setVisible] = useState(true);
 
   const toggleVisibility = useCallback(() => {
     setVisible((prev) => !prev);
   }, []);
 
+  const filteredData = useMemo(() => {
+    if (!Array.isArray(matchSessionData)) return [];
+    return matchSessionData.filter(
+      (item: any) => !item?.id || item?.activeStatus === "unSave"
+    );
+  }, [matchSessionData]);
+
+  // Reset list size cache on data change
+  useEffect(() => {
+    if (listRef.current) {
+      listRef.current.resetAfterIndex(0, true);
+    }
+  }, [filteredData]);
+
+  const getItemSize = (index: number): number => {
+    const row = filteredData[index];
+    let rowHeight = Math.max(
+      row?.ex?.availableToLay?.length ?? 0,
+      row?.ex?.availableToBack?.length ?? 0
+    );
+
+    return (rowHeight || 1) * 25;
+  };
+
+  const totalHeight: number = filteredData.reduce(
+    (sum: number, _: any, index: number): number => sum + getItemSize(index),
+    0
+  );
   return (
     <Box
       sx={{
@@ -153,7 +191,7 @@ const SessionMarketLive = ({ title, sessionData, currentMatch, type }: any) => {
               },
             }}
           >
-            {matchSessionData?.length > 0 &&
+            {/* {matchSessionData?.length > 0 &&
               matchSessionData
                 ?.filter(
                   (item: any) => !item?.id || item?.activeStatus === "unSave"
@@ -170,41 +208,34 @@ const SessionMarketLive = ({ title, sessionData, currentMatch, type }: any) => {
                       />
                     </Box>
                   );
-                })}
-            {/* {matchSessionData?.length > 0 &&
-              (() => {
-                const filteredData = matchSessionData?.filter(
-                  (item: any) => !item?.id || item?.activeStatus === "unSave"
-                );
+                })} */}
+            {(() => {
+              const filteredData = matchSessionData?.filter(
+                (item: any) => !item?.id || item?.activeStatus === "unSave"
+              );
 
-                if (!filteredData.length) return null;
+              if (!filteredData.length) return null;
 
-                const dynamicHeight = filteredData.length * 25;
+              const dynamicHeight = totalHeight + 1;
 
-                return (
-                  <div
-                    style={{
-                      width: "100%",
-                      height: `${dynamicHeight + 1}px`,
-                    }}
-                  >
-                    <List
-                      height={dynamicHeight + 1}
-                      width="100%"
-                      itemCount={filteredData.length}
-                      itemSize={25}
-                      itemData={{
-                        items: filteredData,
-                        gtype: sessionData?.gtype,
-                        type: type,
-                        currentMatch,
-                      }}
-                    >
-                      {Row}
-                    </List>
-                  </div>
-                );
-              })()} */}
+              return (
+                <VariableSizeList<ItemData>
+                  ref={listRef}
+                  height={dynamicHeight}
+                  width="100%"
+                  itemCount={filteredData.length}
+                  itemSize={getItemSize}
+                  itemData={{
+                    items: filteredData,
+                    gtype: sessionData?.gtype,
+                    type: type,
+                    currentMatch,
+                  }}
+                >
+                  {Row}
+                </VariableSizeList>
+              );
+            })()}
           </Box>
         </Box>
       )}

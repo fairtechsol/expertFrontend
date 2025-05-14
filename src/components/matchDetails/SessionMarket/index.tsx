@@ -1,8 +1,10 @@
+import { useMediaQuery, useTheme } from "@mui/material";
 import Box from "@mui/material/Box";
 import ModalMUI from "@mui/material/Modal";
 import Typography from "@mui/material/Typography";
-import { memo, useCallback, useMemo, useState } from "react";
+import { memo, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
+import { VariableSizeList } from "react-window";
 import { ARROWUP, edit } from "../../../assets";
 import { customSortUpdated } from "../../../helpers";
 import { sessionBetLiveStatus } from "../../../store/actions/match/matchAction";
@@ -11,6 +13,15 @@ import Divider from "../../Common/Divider";
 import SessionMarketBox from "./SessionMarketBox";
 import SessionMarketMaxBetAmountEdit from "./SessionMarketMaxBetAmountEdit";
 import Stop from "./Stop";
+
+type ItemData = {
+  items: any[];
+  hideResult: boolean;
+  hideTotalBet: boolean;
+  profitLossData: any;
+  hideEditMaxButton: boolean;
+  section: string;
+};
 
 interface SessionMarketProps {
   currentMatch: any;
@@ -26,36 +37,36 @@ interface SessionMarketProps {
   name?: string;
 }
 
-// const Row = memo(
-//   ({
-//     index,
-//     style,
-//     data,
-//   }: {
-//     index: number;
-//     style: React.CSSProperties;
-//     data: any;
-//   }) => {
-//     const match = data.items[index];
+const Row = memo(
+  ({
+    index,
+    style,
+    data,
+  }: {
+    index: number;
+    style: React.CSSProperties;
+    data: any;
+  }) => {
+    const match = data.items[index];
 
-//     if (!match?.id) return null;
+    if (!match?.id) return null;
 
-//     return (
-//       <Box style={style}>
-//         <SessionMarketBox
-//           hideResult={data.hideResult}
-//           hideTotalBet={data.hideTotalBet}
-//           newData={match}
-//           profitLossData={data.profitLossData}
-//           index={index}
-//           hideEditMaxButton={data.hideEditMaxButton}
-//           section={data.section}
-//         />
-//         <Divider />
-//       </Box>
-//     );
-//   }
-// );
+    return (
+      <Box style={style}>
+        <SessionMarketBox
+          hideResult={data.hideResult}
+          hideTotalBet={data.hideTotalBet}
+          newData={match}
+          profitLossData={data.profitLossData}
+          index={index}
+          hideEditMaxButton={data.hideEditMaxButton}
+          section={data.section}
+        />
+        <Divider />
+      </Box>
+    );
+  }
+);
 
 const SessionMarket = ({
   currentMatch,
@@ -70,12 +81,13 @@ const SessionMarket = ({
   section,
   name,
 }: SessionMarketProps) => {
-  // const theme = useTheme();
-  // const matchesMobile = useMediaQuery(theme.breakpoints.down("md"));
+  const theme = useTheme();
+  const matchesMobile = useMediaQuery(theme.breakpoints.down("md"));
   const dispatch: AppDispatch = useDispatch();
   const [visible, setVisible] = useState(true);
   const [sessionMaxBetAmountLimit, setSessionMaxBetAmountLimit] =
     useState(false);
+  const listRef = useRef<VariableSizeList>(null);
 
   const handleFilter = (item: any) =>
     section === "market"
@@ -119,6 +131,28 @@ const SessionMarket = ({
   const handleEditClick = useCallback(() => {
     setSessionMaxBetAmountLimit(true);
   }, []);
+
+  useEffect(() => {
+    if (listRef.current) {
+      listRef.current.resetAfterIndex(0, true);
+    }
+  }, [filteredMatches]);
+
+  const getItemSize = (index: number): number => {
+    const row = filteredMatches[index];
+    let rowHeight = Math.max(
+      row?.ex?.availableToLay?.length ?? 0,
+      row?.ex?.availableToBack?.length ?? 0
+    );
+    if (rowHeight <= 1) return 30;
+    if (rowHeight === 2) return 60;
+    return 90;
+  };
+
+  const totalHeight: number = filteredMatches.reduce(
+    (sum: number, _: any, index: number): number => sum + getItemSize(index),
+    0
+  );
 
   return (
     <>
@@ -239,57 +273,33 @@ const SessionMarket = ({
                 cstmStyle,
               ]}
             >
-              {/* {sessionData?.section?.length > 0 &&
-                (() => {
-                  if (!filteredMatches.length) return null;
+              {(() => {
+                if (!filteredMatches.length) return null;
 
-                  const dynamicHeight = matchesMobile
-                    ? Math.min(
-                        filteredMatches.length * 30,
-                        window.innerHeight * 0.4
-                      )
-                    : filteredMatches.length * 30;
+                const dynamicHeight = matchesMobile
+                  ? Math.min(totalHeight, window.innerHeight * 0.4) + 1
+                  : totalHeight + 1;
 
-                  return (
-                    <div
-                      style={{
-                        width: "100%",
-                        height: `${dynamicHeight + 1}px`,
-                      }}
-                    >
-                      <List
-                        height={dynamicHeight + 1}
-                        width="100%"
-                        itemCount={filteredMatches.length}
-                        itemSize={30}
-                        itemData={{
-                          items: filteredMatches,
-                          hideResult,
-                          hideTotalBet,
-                          profitLossData,
-                          hideEditMaxButton,
-                          section,
-                        }}
-                      >
-                        {Row}
-                      </List>
-                    </div>
-                  );
-                })()} */}
-              {filteredMatches.map((match: any, index: number) => (
-                <Box key={`sessionMarketBox${match?.id}-${index}`}>
-                  <SessionMarketBox
-                    hideResult={hideResult}
-                    hideTotalBet={hideTotalBet}
-                    newData={match}
-                    profitLossData={profitLossData}
-                    index={index}
-                    hideEditMaxButton={hideEditMaxButton}
-                    section={section}
-                  />
-                  <Divider />
-                </Box>
-              ))}
+                return (
+                  <VariableSizeList<ItemData>
+                    ref={listRef}
+                    height={dynamicHeight}
+                    width="100%"
+                    itemCount={filteredMatches.length}
+                    itemSize={getItemSize}
+                    itemData={{
+                      items: filteredMatches,
+                      hideResult,
+                      hideTotalBet,
+                      profitLossData,
+                      hideEditMaxButton,
+                      section,
+                    }}
+                  >
+                    {Row}
+                  </VariableSizeList>
+                );
+              })()}
             </Box>
           </Box>
         )}

@@ -63,7 +63,7 @@ const SessionMarketBoxLive = ({
         sx={{
           display: "flex",
           background: "white",
-          height: "25px",
+          height: 25,
           width: "100%",
         }}
       >
@@ -71,7 +71,7 @@ const SessionMarketBoxLive = ({
           sx={{
             display: "flex",
             background: index % 2 === 0 ? "#FFE094" : "#ECECEC",
-            height: "25px",
+            height: 25,
             width: "100%",
             alignItems: "center",
           }}
@@ -79,7 +79,7 @@ const SessionMarketBoxLive = ({
           <Typography
             sx={{
               color: "black",
-              fontSize: { lg: "10px", md: "10px", xs: "10px" },
+              fontSize: 10,
               marginLeft: { lg: "7px", md: "20px", xs: "20px" },
               fontWeight: "bold",
               lineHeight: 1,
@@ -92,7 +92,7 @@ const SessionMarketBoxLive = ({
         <Box
           sx={{
             position: "absolute",
-            top: "5px",
+            top: 3,
             right: { lg: "30%", md: "45%", xs: "45%" },
             display: "flex",
             zIndex: 100,
@@ -131,10 +131,10 @@ const SessionMarketBoxLive = ({
             sx={{
               margin: "1px",
               background: "rgba(0,0,0,1)",
-              height: "25px",
+              height: 25,
               right: "0vh",
               position: "absolute",
-              width: { lg: "27.6%", xs: "25.4%", md: "25.5%" },
+              width: { lg: "27.5%", xs: "25.4%", md: "25.5%" },
               justifyContent: "center",
               alignItems: "center",
               display: "flex",
@@ -142,7 +142,7 @@ const SessionMarketBoxLive = ({
           >
             <Typography
               style={{
-                fontSize: "10px",
+                fontSize: 10,
                 textTransform: "uppercase",
                 textAlign: "center",
                 width: "100%",
@@ -162,7 +162,7 @@ const SessionMarketBoxLive = ({
               display: "flex",
               position: "relative",
               background: index % 2 === 0 ? "#FFE094" : "#ECECEC",
-              height: "25px",
+              height: 25,
               width: { lg: "85%", xs: "38.5%", md: "39%" },
               justifyContent: "flex-end",
               alignItems: "center",
@@ -220,7 +220,7 @@ const SessionMarketBoxLive = ({
               sx={{
                 display: "flex",
                 background: "white",
-                height: "25px",
+                height: 25,
                 width: "100%",
               }}
             >
@@ -228,7 +228,7 @@ const SessionMarketBoxLive = ({
                 sx={{
                   display: "flex",
                   background: index % 2 === 0 ? "#FFE094" : "#ECECEC",
-                  height: "25px",
+                  height: 25,
                   width: "100%",
                   alignItems: "center",
                 }}
@@ -240,10 +240,10 @@ const SessionMarketBoxLive = ({
                   sx={{
                     margin: "1px",
                     background: "rgba(0,0,0,1)",
-                    height: "25px",
+                    height: 25,
                     right: "0vh",
                     position: "absolute",
-                    width: { lg: "27.6%", xs: "25.4%", md: "25.5%" },
+                    width: { lg: "27.5%", xs: "25.4%", md: "25.5%" },
                     justifyContent: { xs: "center", lg: "center" },
                     alignItems: "center",
                     display: "flex",
@@ -251,7 +251,7 @@ const SessionMarketBoxLive = ({
                 >
                   <Typography
                     style={{
-                      fontSize: "10px",
+                      fontSize: 10,
                       textTransform: "uppercase",
                       textAlign: "center",
                       width: "100%",
@@ -275,7 +275,7 @@ const SessionMarketBoxLive = ({
                     display: "flex",
                     position: "relative",
                     background: index % 2 === 0 ? "#FFE094" : "#ECECEC",
-                    height: "25px",
+                    height: 25,
                     width: { lg: "85%", xs: "38.5%", md: "39%" },
                     justifyContent: "flex-end",
                     alignItems: "center",
