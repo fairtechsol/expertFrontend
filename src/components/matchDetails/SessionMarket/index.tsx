@@ -273,33 +273,32 @@ const SessionMarket = ({
                 cstmStyle,
               ]}
             >
-              {(() => {
-                if (!filteredMatches.length) return null;
+              {filteredMatches.length > 0 &&
+                (() => {
+                  const dynamicHeight = matchesMobile
+                    ? Math.min(totalHeight, window.innerHeight * 0.4) + 1
+                    : totalHeight + 1;
 
-                const dynamicHeight = matchesMobile
-                  ? Math.min(totalHeight, window.innerHeight * 0.4) + 1
-                  : totalHeight + 1;
-
-                return (
-                  <VariableSizeList<ItemData>
-                    ref={listRef}
-                    height={dynamicHeight}
-                    width="100%"
-                    itemCount={filteredMatches.length}
-                    itemSize={getItemSize}
-                    itemData={{
-                      items: filteredMatches,
-                      hideResult,
-                      hideTotalBet,
-                      profitLossData,
-                      hideEditMaxButton,
-                      section,
-                    }}
-                  >
-                    {Row}
-                  </VariableSizeList>
-                );
-              })()}
+                  return (
+                    <VariableSizeList<ItemData>
+                      ref={listRef}
+                      height={dynamicHeight}
+                      width="100%"
+                      itemCount={filteredMatches.length}
+                      itemSize={getItemSize}
+                      itemData={{
+                        items: filteredMatches,
+                        hideResult,
+                        hideTotalBet,
+                        profitLossData,
+                        hideEditMaxButton,
+                        section,
+                      }}
+                    >
+                      {Row}
+                    </VariableSizeList>
+                  );
+                })()}
             </Box>
           </Box>
         )}
