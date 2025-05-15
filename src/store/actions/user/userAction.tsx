@@ -24,7 +24,7 @@ export const getProfile = createAsyncThunk<any>(
     try {
       let resp = await fetchProfile();
 
-      if (!resp?.data && resp?.status !== 401) {
+      if (!resp || (!resp?.data && resp?.status !== 401)) {
         resp = await fetchProfile();
       }
 
