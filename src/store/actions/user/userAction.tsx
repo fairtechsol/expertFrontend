@@ -12,22 +12,42 @@ interface ChangePassword {
 export const getProfile = createAsyncThunk<any>(
   "user/profile",
   async (_, thunkApi) => {
+    const fetchProfile = async () => {
+      try {
+        const resp = await service.get(ApiConstants.USER.PROFILE);
+        return resp;
+      } catch (error) {
+        throw error;
+      }
+    };
+
     try {
-      const resp = await service.get(ApiConstants.USER.PROFILE);
-      if (resp) {
-        if (resp?.data?.loginAt === null) {
-          window.location.replace("/expert/login");
+      let resp = await fetchProfile();
+
+      if (!resp?.data && resp?.status !== 401) {
+        resp = await fetchProfile();
+      }
+
+      if (resp?.data) {
+        if (resp.data.loginAt === null) {
           sessionStorage.clear();
+          window.location.replace("/expert/login");
+          return thunkApi.rejectWithValue(
+            "Redirecting to login due to null loginAt"
+          );
         } else {
-          return resp?.data;
+          return resp.data;
         }
+      } else {
+        return thunkApi.rejectWithValue("Profile data missing");
       }
     } catch (error: any) {
       const err = error as AxiosError;
-      throw thunkApi.rejectWithValue(err.response?.status);
+      return thunkApi.rejectWithValue(err.response?.status || "Unknown error");
     }
   }
 );
+
 export const getLoggedUserCount = createAsyncThunk<any>(
   "logged/user",
   async (_, thunkApi) => {
