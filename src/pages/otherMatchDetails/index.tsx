@@ -69,14 +69,16 @@ const OtherMatchDetails = () => {
 
   const resultDeclared = (event: any) => {
     try {
-      if (event?.matchId === state?.id && event?.isMatchDeclare) {
-        navigate("/expert/match");
-      } else {
-        dispatch(getPlacedBetsMatch(state?.id));
-        dispatch(updateResultStatusOfMatch(event));
-        dispatch(
-          updateResultBoxStatus({ visible: false, betId: event?.betId })
-        );
+      if (event?.matchId === state?.id) {
+        if (event?.isMatchDeclare) {
+          navigate("/expert/match");
+        } else {
+          dispatch(getPlacedBetsMatch(state?.id));
+          dispatch(updateResultStatusOfMatch(event));
+          dispatch(
+            updateResultBoxStatus({ visible: false, betId: event?.betId })
+          );
+        }
       }
     } catch (e) {
       console.log(e);
