@@ -12,6 +12,11 @@ interface ChangePassword {
 export const getProfile = createAsyncThunk<any>(
   "user/profile",
   async (_, thunkApi) => {
+    const MAX_RETRIES = 5;
+    const RETRY_DELAY_MS = 1000;
+
+    const delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
+
     const fetchProfile = async () => {
       try {
         const resp = await service.get(ApiConstants.USER.PROFILE);
@@ -22,10 +27,18 @@ export const getProfile = createAsyncThunk<any>(
     };
 
     try {
-      let resp = await fetchProfile();
+      let resp: any;
+      let attempt = 0;
 
-      if (!resp || (!resp?.data && resp?.status !== 401)) {
+      while (attempt < MAX_RETRIES) {
+        attempt++;
         resp = await fetchProfile();
+
+        if (resp?.data) break;
+
+        if (resp?.status === 401) break;
+
+        await delay(RETRY_DELAY_MS);
       }
 
       if (resp?.data) {
@@ -35,11 +48,10 @@ export const getProfile = createAsyncThunk<any>(
           return thunkApi.rejectWithValue(
             "Redirecting to login due to null loginAt"
           );
-        } else {
-          return resp.data;
         }
+        return resp.data;
       } else {
-        return thunkApi.rejectWithValue("Profile data missing");
+        return thunkApi.rejectWithValue("Profile data missing after retries");
       }
     } catch (error: any) {
       const err = error as AxiosError;
