@@ -259,8 +259,8 @@ export const resultDeclare = createAsyncThunk<any, any>(
         ApiConstants.SESSION.RESULTDECLARE,
         requestData
       );
-      if (response?.status === 200) {
-        return response?.data;
+      if (response?.status) {
+        return { ...response?.data, betId: requestData?.betId };
       }
     } catch (error) {
       const err = error as AxiosError;
@@ -277,8 +277,8 @@ export const undeclareResult = createAsyncThunk<any, any>(
         ApiConstants.SESSION.UNDECLARE_RESULT,
         requestData
       );
-      if (response?.status === 200) {
-        return response?.data;
+      if (response?.status) {
+        return { ...response?.data, betId: requestData?.betId };
       }
     } catch (error) {
       const err = error as AxiosError;
@@ -295,8 +295,8 @@ export const noResultDeclare = createAsyncThunk<any, any>(
         ApiConstants.SESSION.NO_RESULT,
         requestData
       );
-      if (response?.status === 200) {
-        return response?.data;
+      if (response?.status) {
+        return { ...response?.data, betId: requestData?.betId };
       }
     } catch (error) {
       const err = error as AxiosError;
@@ -584,3 +584,4 @@ export const resetContryCodeList = createAction(
   "contryCodeOnDateArrayEmpty/reset"
 );
 export const resetMatchListDropdown = createAction("matchListDropdown/reset");
+export const resetSuccessObject = createAction("successObject/reset");

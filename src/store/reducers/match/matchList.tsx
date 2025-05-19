@@ -26,6 +26,7 @@ import {
   resetMatchListSessionProLoss,
   resetRaceEdit,
   resetRaceList,
+  resetSuccessObject,
   resultDeclare,
   sessionBetLiveStatus,
   sessionResultSuccessReset,
@@ -63,6 +64,7 @@ interface InitialState {
   selectedTab: number;
   sessionPL: any;
   sessionPLBets: any;
+  successStatusForSessionDetail: any;
 }
 
 const initialState: InitialState = {
@@ -86,6 +88,7 @@ const initialState: InitialState = {
   selectedTab: 0,
   sessionPL: null,
   sessionPLBets: null,
+  successStatusForSessionDetail: {},
 };
 
 const matchList = createSlice({
@@ -182,9 +185,13 @@ const matchList = createSlice({
         state.success = false;
         state.error = null;
       })
-      .addCase(resultDeclare.fulfilled, (state) => {
+      .addCase(resultDeclare.fulfilled, (state, action) => {
         state.success = true;
         state.declareLoading = false;
+        state.successStatusForSessionDetail = {
+          success: true,
+          betId: action.payload?.betId,
+        };
       })
       .addCase(resultDeclare.rejected, (state, action) => {
         state.declareLoading = false;
@@ -195,9 +202,13 @@ const matchList = createSlice({
         state.success = false;
         state.error = null;
       })
-      .addCase(undeclareResult.fulfilled, (state) => {
+      .addCase(undeclareResult.fulfilled, (state, action) => {
         state.success = true;
         state.declareLoading = false;
+        state.successStatusForSessionDetail = {
+          success: true,
+          betId: action.payload?.betId,
+        };
       })
       .addCase(undeclareResult.rejected, (state, action) => {
         state.declareLoading = false;
@@ -208,13 +219,20 @@ const matchList = createSlice({
         state.success = false;
         state.error = null;
       })
-      .addCase(noResultDeclare.fulfilled, (state) => {
+      .addCase(noResultDeclare.fulfilled, (state, action) => {
         state.success = true;
         state.declareLoading = false;
+        state.successStatusForSessionDetail = {
+          success: true,
+          betId: action.payload?.betId,
+        };
       })
       .addCase(noResultDeclare.rejected, (state, action) => {
         state.declareLoading = false;
         state.error = action.error?.message;
+      })
+      .addCase(resetSuccessObject, (state) => {
+        state.successStatusForSessionDetail = {};
       })
       .addCase(editMatch.pending, (state) => {
         state.loading = true;

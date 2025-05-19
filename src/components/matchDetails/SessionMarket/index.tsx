@@ -273,6 +273,21 @@ const SessionMarket = ({
                 cstmStyle,
               ]}
             >
+              {/* {filteredMatches.length > 0 &&
+                filteredMatches?.map((match: any, index: number) => (
+                  <Box key={match?.SelectionId}>
+                    <SessionMarketBox
+                      hideResult={hideResult}
+                      hideTotalBet={hideTotalBet}
+                      newData={match}
+                      profitLossData={profitLossData}
+                      index={index}
+                      hideEditMaxButton={hideEditMaxButton}
+                      section={section}
+                    />
+                    <Divider />
+                  </Box>
+                ))} */}
               {filteredMatches.length > 0 &&
                 (() => {
                   const dynamicHeight = matchesMobile
@@ -286,6 +301,7 @@ const SessionMarket = ({
                       width="100%"
                       itemCount={filteredMatches.length}
                       itemSize={getItemSize}
+                      itemKey={(index, data) => data.items[index].SelectionId}
                       itemData={{
                         items: filteredMatches,
                         hideResult,
