@@ -4,7 +4,10 @@ import { memo, useEffect, useState } from "react";
 import { TiArrowLeftThick } from "react-icons/ti";
 import { useDispatch, useSelector } from "react-redux";
 import { edit } from "../../../assets";
-import { sessionBetLiveStatus } from "../../../store/actions/match/matchAction";
+import {
+  resetSuccessObject,
+  sessionBetLiveStatus,
+} from "../../../store/actions/match/matchAction";
 import { AppDispatch, RootState } from "../../../store/store";
 import CommissionDot from "../../Common/CommissionDot";
 import { formatNumber } from "../../helper";
@@ -25,7 +28,7 @@ const SessionMarketBox = ({
   section,
 }: any) => {
   const dispatch: AppDispatch = useDispatch();
-  const { statusBetLive, error, success } = useSelector(
+  const { statusBetLive, error, successStatusForSessionDetail } = useSelector(
     (state: RootState) => state.matchList
   );
   const [loading, setLoading] = useState(false);
@@ -42,10 +45,11 @@ const SessionMarketBox = ({
   }, [statusBetLive, error]);
 
   useEffect(() => {
-    if (success) {
+    if (successStatusForSessionDetail.betId === newData?.id) {
       setVisible(false);
+      dispatch(resetSuccessObject());
     }
-  }, [success]);
+  }, [successStatusForSessionDetail]);
 
   return (
     <div style={{ position: "relative" }}>
