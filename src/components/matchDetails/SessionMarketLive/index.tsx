@@ -211,12 +211,6 @@ const SessionMarketLive = ({ title, sessionData, currentMatch, type }: any) => {
                 })} */}
             {matchSessionData?.length > 0 &&
               (() => {
-                const filteredData = matchSessionData?.filter(
-                  (item: any) => !item?.id || item?.activeStatus === "unSave"
-                );
-
-                if (!filteredData.length) return null;
-
                 const dynamicHeight = totalHeight + 1;
 
                 return (
@@ -224,10 +218,10 @@ const SessionMarketLive = ({ title, sessionData, currentMatch, type }: any) => {
                     ref={listRef}
                     height={dynamicHeight}
                     width="100%"
-                    itemCount={filteredData.length}
+                    itemCount={matchSessionData.length}
                     itemSize={getItemSize}
                     itemData={{
-                      items: filteredData,
+                      items: matchSessionData,
                       gtype: sessionData?.gtype,
                       type: type,
                       currentMatch,
