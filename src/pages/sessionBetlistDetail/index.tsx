@@ -123,7 +123,7 @@ const SessionBetlistDetail = () => {
     try {
       if (state?.id === event?.matchId) {
         dispatch(updateApiSessionById(event));
-        dispatch(addStatusBetByBetId(event?.betId));
+        dispatch(addStatusBetByBetId(event));
         if (event?.activeStatus === "result") {
           dispatch(
             removeSessionProLoss({
