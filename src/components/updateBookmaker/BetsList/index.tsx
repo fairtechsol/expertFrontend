@@ -138,7 +138,7 @@ const BetsList = ({ betData, name }: any) => {
               itemCount={betData?.length || 0}
               itemSize={ROW_HEIGHT}
               width={width}
-              itemKey={(index, data) => data.betData[index].betId}
+              itemKey={(index, data) => data?.betData[index]?.betId}
               onScroll={handleScroll}
               itemData={itemData} // Pass memoized data
             >

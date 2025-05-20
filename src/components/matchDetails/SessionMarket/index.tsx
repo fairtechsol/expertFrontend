@@ -300,7 +300,7 @@ const SessionMarket = ({
                       width="100%"
                       itemCount={filteredMatches.length}
                       itemSize={getItemSize}
-                      itemKey={(index, data) => data.items[index].id}
+                      itemKey={(index, data) => data?.items[index]?.id}
                       itemData={{
                         items: filteredMatches,
                         hideResult,
