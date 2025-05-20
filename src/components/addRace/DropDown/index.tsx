@@ -1,5 +1,5 @@
 import { Box, Typography } from "@mui/material";
-import { memo, useEffect, useState } from "react";
+import { memo, useCallback, useEffect, useState } from "react";
 import { ARROWDROPDOWN } from "../../../assets";
 import StyledImage from "../../Common/StyledImages";
 import DropDownItem from "./DropDownItem";
@@ -44,14 +44,21 @@ const RaceDropDown = ({
     value === "0"
       ? "0.00"
       : name
-      ? selected[name]
         ? selected[name]
-        : value
-      : value;
+          ? selected[name]
+          : value
+        : value;
 
   useEffect(() => {
     setValue(valued);
   }, [selected]);
+
+  const handleDisableClick = useCallback(() => {
+    if (!disable) {
+      setOpen((prev) => !prev);
+      onOpen(name);
+    }
+  }, []);
 
   return (
     <Box sx={[{ width: "19%" }, containerStyle]}>
@@ -69,12 +76,7 @@ const RaceDropDown = ({
         {title}
       </Typography>
       <Box
-        onClick={() => {
-          if (!disable) {
-            setOpen((prev) => !prev);
-            onOpen(name);
-          }
-        }}
+        onClick={handleDisableClick}
         sx={[
           {
             width: "100%",
