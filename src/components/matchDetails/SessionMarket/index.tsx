@@ -48,7 +48,6 @@ const Row = memo(
     data: any;
   }) => {
     const match = data.items[index];
-
     if (!match?.id) return null;
 
     return (
@@ -92,15 +91,15 @@ const SessionMarket = ({
   const handleFilter = (item: any) =>
     section === "market"
       ? !item?.isComplete &&
-        item?.activeStatus !== "unSave" &&
-        ((item?.resultData && item?.resultData === null) ||
-          item?.result === null)
+      item?.activeStatus !== "unSave" &&
+      ((item?.resultData && item?.resultData === null) ||
+        item?.result === null)
       : section === "completed"
-      ? item?.isComplete &&
+        ? item?.isComplete &&
         item?.activeStatus !== "unSave" &&
         ((item?.resultData && item?.resultData === null) ||
           item?.result === null)
-      : (item?.resultData && item?.resultData !== null) ||
+        : (item?.resultData && item?.resultData !== null) ||
         item?.result !== null;
 
   const filteredMatches = useMemo(() => {
@@ -301,7 +300,7 @@ const SessionMarket = ({
                       width="100%"
                       itemCount={filteredMatches.length}
                       itemSize={getItemSize}
-                      itemKey={(index, data) => data.items[index].SelectionId}
+                      itemKey={(index, data) => data.items[index].id}
                       itemData={{
                         items: filteredMatches,
                         hideResult,

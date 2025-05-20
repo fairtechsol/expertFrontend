@@ -667,6 +667,7 @@ const BetList = ({ tag, allBetRates, title, isMatchDeclare }: any) => {
               height={cHeight}
               itemCount={allBetRates.length}
               itemSize={ROW_HEIGHT}
+              itemKey={(index, data) => data.allBetRates[index].id}
               width={width}
               onScroll={handleScroll}
               itemData={itemData} // Pass memoized data

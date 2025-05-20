@@ -11,6 +11,9 @@ const ROW_HEIGHT = 40; // Define row height as constant
 // Memoized Row component to prevent unnecessary re-renders
 const MemoizedRow = memo(({ data, index, style }: { data: any, index: number, style: React.CSSProperties }) => {
   const num = data.betData.length - index;
+
+  // alert(data.items[index])
+  console.log("data", data);
   const item = data.betData[index];
   return (
     <div style={style}>
@@ -135,6 +138,7 @@ const BetsList = ({ betData, name }: any) => {
               itemCount={betData?.length || 0}
               itemSize={ROW_HEIGHT}
               width={width}
+              itemKey={(index, data) => data.betData[index].betId}
               onScroll={handleScroll}
               itemData={itemData} // Pass memoized data
             >

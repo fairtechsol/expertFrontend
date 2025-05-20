@@ -390,6 +390,7 @@ const SessionBetSeperate = ({
                 <List
                   height={height}
                   itemCount={allBetsData?.length || 0}
+                  itemKey={(index, data) => data.allBetsData[index].betId}
                   itemSize={41} // Adjust based on your row height
                   width={width}
                 >

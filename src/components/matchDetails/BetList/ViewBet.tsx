@@ -576,6 +576,7 @@ const ViewBetList = ({ tag, allBetRates, title }: any) => {
               height={cHeight}
               itemCount={allBetRates?.length || 0}
               itemSize={ROW_HEIGHT}
+              itemKey={(index, data) => data.allBetRates[index].id}
               width={width}
               onScroll={handleScroll}
               itemData={itemData} // Pass memoized data
