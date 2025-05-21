@@ -1,4 +1,5 @@
 import { Box, Typography } from "@mui/material";
+import { get, memoize } from "lodash";
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { VariableSizeList } from "react-window";
 import { ARROWUP } from "../../../assets";
@@ -22,7 +23,7 @@ const Row = memo(
     style: React.CSSProperties;
     data: any;
   }) => {
-    const match = data.items[index];
+    const match = get(data, ["items", index]);
 
     return (
       <Box style={style}>
@@ -69,7 +70,7 @@ const SessionMarketLive = ({ title, sessionData, currentMatch, type }: any) => {
     }
   }, [filteredData]);
 
-  const getItemSize = (index: number): number => {
+  const getItemSize = memoize((index: number): number => {
     const row = filteredData[index];
     let rowHeight = Math.max(
       row?.ex?.availableToLay?.length ?? 0,
@@ -77,7 +78,7 @@ const SessionMarketLive = ({ title, sessionData, currentMatch, type }: any) => {
     );
 
     return (rowHeight || 1) * 25;
-  };
+  });
 
   const totalHeight: number = filteredData.reduce(
     (sum: number, _: any, index: number): number => sum + getItemSize(index),
@@ -220,12 +221,12 @@ const SessionMarketLive = ({ title, sessionData, currentMatch, type }: any) => {
                     width="100%"
                     itemCount={matchSessionData.length}
                     itemSize={getItemSize}
-                    itemKey={(index, data) => data?.items[index]?.id}
+                    itemKey={(index, data) => get(data, ["items", index, "id"])}
                     itemData={{
                       items: matchSessionData,
-                      gtype: sessionData?.gtype,
+                      gtype: get(sessionData, "gtype"),
                       type: type,
-                      currentMatch,
+                      currentMatch: currentMatch,
                     }}
                   >
                     {Row}

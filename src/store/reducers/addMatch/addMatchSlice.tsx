@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import _ from "lodash";
 import {
   addMatchExpert,
   addMatchReset,
@@ -219,25 +220,15 @@ const addMatch = createSlice({
         const { apiSession, updatedSessionBettings, tournament } =
           action.payload;
 
-        // let updatedFormat = convertData(state?.matchDetail?.sessionBettings);
-        // let updatedSessionBettings = updateSessionBettingsItem(
-        //   updatedFormat,
-        //   apiSession
-        // );
-
-        const sortedTournament = [...(tournament || [])].sort(
-          (a, b) =>
-            a.sno - b.sno ||
-            (a.parentBetId === null && b.parentBetId !== null
-              ? -1
-              : a.parentBetId !== null && b.parentBetId === null
-              ? 1
-              : 0)
+        const sortedTournament = _.orderBy(
+          tournament || [],
+          [(item) => item.sno, (item) => (item.parentBetId === null ? 0 : 1)],
+          ["asc", "asc"]
         );
 
         state.matchDetail = {
           ...state.matchDetail,
-          apiSessionActive: !!apiSession,
+          apiSessionActive: Boolean(apiSession),
           apiSession,
           updatedSesssionBettings: updatedSessionBettings,
           tournament: sortedTournament,
@@ -246,25 +237,25 @@ const addMatch = createSlice({
       .addCase(updateApiSessionById.fulfilled, (state, action) => {
         try {
           const { betId, score, profitLoss } = action.payload;
+
           state.matchDetail = {
             ...state.matchDetail,
-            sessionBettings: state.matchDetail?.sessionBettings?.map(
+            sessionBettings: _.map(
+              state.matchDetail?.sessionBettings,
               (item: any) => {
                 const parsedItem = JSON.parse(item);
-                if (parsedItem?.id !== betId) return item;
-                return JSON.stringify({
+                if (!_.isEqual(parsedItem?.id, betId)) return item;
+
+                const updatedItem = {
                   ...parsedItem,
                   activeStatus: score ? "result" : "save",
-                  result: score ? score : null,
+                  result: score || null,
                   resultStatus: null,
-                  resultData: score
-                    ? {
-                        result: score,
-                        profitLoss: profitLoss,
-                      }
-                    : null,
+                  resultData: score ? { result: score, profitLoss } : null,
                   isComplete: true,
-                });
+                };
+
+                return JSON.stringify(updatedItem);
               }
             ),
           };
@@ -275,25 +266,22 @@ const addMatch = createSlice({
       .addCase(updateSessionAdded.fulfilled, (state, action) => {
         if (!action.payload || !state.matchDetail) return;
 
-        const newSessionBetting = JSON.stringify(action.payload);
+        const newSessionBettingObj = action.payload;
+        const newId = newSessionBettingObj?.id;
         const sessionBettings = (state.matchDetail.sessionBettings ??= []);
 
         const existingIds = new Set(
-          sessionBettings
+          _(sessionBettings)
             .map((item: any) => {
-              try {
-                return JSON.parse(item)?.id;
-              } catch {
-                return undefined;
-              }
+              const parsed = _.attempt(JSON.parse, item);
+              return _.isError(parsed) ? undefined : parsed?.id;
             })
             .filter(Boolean)
+            .value()
         );
 
-        const newId = JSON.parse(newSessionBetting)?.id;
-
         if (newId && !existingIds.has(newId)) {
-          sessionBettings.unshift(newSessionBetting);
+          sessionBettings.unshift(JSON.stringify(newSessionBettingObj));
         }
       })
       .addCase(tournamentListReset, (state) => {
