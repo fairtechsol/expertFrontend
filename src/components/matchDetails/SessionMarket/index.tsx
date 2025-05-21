@@ -2,6 +2,7 @@ import { useMediaQuery, useTheme } from "@mui/material";
 import Box from "@mui/material/Box";
 import ModalMUI from "@mui/material/Modal";
 import Typography from "@mui/material/Typography";
+import { get, memoize } from "lodash";
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { VariableSizeList } from "react-window";
@@ -47,7 +48,7 @@ const Row = memo(
     style: React.CSSProperties;
     data: any;
   }) => {
-    const match = data.items[index];
+    const match = get(data, ["items", index]);
     if (!match?.id) return null;
 
     return (
@@ -91,15 +92,15 @@ const SessionMarket = ({
   const handleFilter = (item: any) =>
     section === "market"
       ? !item?.isComplete &&
-      item?.activeStatus !== "unSave" &&
-      ((item?.resultData && item?.resultData === null) ||
-        item?.result === null)
-      : section === "completed"
-        ? item?.isComplete &&
         item?.activeStatus !== "unSave" &&
         ((item?.resultData && item?.resultData === null) ||
           item?.result === null)
-        : (item?.resultData && item?.resultData !== null) ||
+      : section === "completed"
+      ? item?.isComplete &&
+        item?.activeStatus !== "unSave" &&
+        ((item?.resultData && item?.resultData === null) ||
+          item?.result === null)
+      : (item?.resultData && item?.resultData !== null) ||
         item?.result !== null;
 
   const filteredMatches = useMemo(() => {
@@ -137,7 +138,7 @@ const SessionMarket = ({
     }
   }, [filteredMatches]);
 
-  const getItemSize = (index: number): number => {
+  const getItemSize = memoize((index: number): number => {
     const row = filteredMatches[index];
     let rowHeight = Math.max(
       row?.ex?.availableToLay?.length ?? 0,
@@ -146,7 +147,7 @@ const SessionMarket = ({
     if (rowHeight <= 1) return 30;
     if (rowHeight === 2) return 60;
     return 90;
-  };
+  });
 
   const totalHeight: number = filteredMatches.reduce(
     (sum: number, _: any, index: number): number => sum + getItemSize(index),
@@ -300,7 +301,7 @@ const SessionMarket = ({
                       width="100%"
                       itemCount={filteredMatches.length}
                       itemSize={getItemSize}
-                      itemKey={(index, data) => data?.items[index]?.id}
+                      itemKey={(index, data) => get(data, ["items", index, "id"])}
                       itemData={{
                         items: filteredMatches,
                         hideResult,
