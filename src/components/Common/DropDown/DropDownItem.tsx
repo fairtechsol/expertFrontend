@@ -21,21 +21,21 @@ const DropDownItem = ({
   name,
   onOpen,
 }: DropDownItemProps) => {
+
+  const handleClick = () => {
+    if (disable) return;
+
+    setValue(i);
+    setSelected((prev: Record<string, any>) => ({
+      ...prev,
+      [name]: i,
+    }));
+    setOpen(false);
+    onOpen?.(null);
+  };
   return (
     <Box
-      onClick={() => {
-        if (!disable) {
-          setValue(i);
-          setSelected((prev: any) => {
-            return {
-              ...prev,
-              [name]: i,
-            };
-          });
-          setOpen(false);
-          onOpen?.(null);
-        }
-      }}
+      onClick={handleClick}
       sx={[
         {
           padding: "4px 7px 4px 7px",
