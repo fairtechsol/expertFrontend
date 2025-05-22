@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import _ from "lodash";
 import { updateRaceRates } from "../../actions/addMatch/addMatchAction";
 import { resetPlacedBetsMatch } from "../../actions/addSession";
 import {
@@ -265,7 +266,8 @@ const matchList = createSlice({
         const { betId, activeStatus } = action.payload;
         state.loading = false;
         state.success = true;
-        state.placedBetsMatch = state.placedBetsMatch?.map((item: any) =>
+
+        state.placedBetsMatch = _.map(state.placedBetsMatch, (item) =>
           item.betId === betId
             ? { ...item, result: activeStatus === "result" ? "WIN" : "" }
             : item
@@ -313,42 +315,27 @@ const matchList = createSlice({
       })
       .addCase(updateMatchBetsReason.fulfilled, (state, action) => {
         const { betPlacedId, deleteReason, isPermanentDelete } = action.payload;
-        const updateDeleteReason = (bet: any) => {
-          if (betPlacedId?.includes(bet?.id)) {
-            bet.deleteReason = deleteReason;
-          }
-          return bet;
-        };
+
         if (isPermanentDelete) {
-          const updatedBetPlaced = state?.placedBetsMatch?.filter(
-            (item: any) => !betPlacedId?.includes(item?.id)
+          state.placedBetsMatch = _.filter(
+            state.placedBetsMatch,
+            (item) => !betPlacedId?.includes(item?.id)
           );
-          state.placedBetsMatch = Array.from(new Set(updatedBetPlaced));
         } else {
-          const updatedBetPlaced =
-            state?.placedBetsMatch?.map(updateDeleteReason);
-
-          state.placedBetsMatch = Array.from(new Set(updatedBetPlaced));
+          state.placedBetsMatch = _.map(state.placedBetsMatch, (bet) => {
+            if (betPlacedId?.includes(bet?.id)) {
+              return { ...bet, deleteReason };
+            }
+            return bet;
+          });
         }
-        const updatedBetPlaced =
-          state?.placedBetsMatch?.map(updateDeleteReason);
-
-        state.placedBetsMatch = Array.from(new Set(updatedBetPlaced));
       })
       .addCase(updateDeletedBetReasonOnEdit.fulfilled, (state, action) => {
         const { betIds, deleteReason } = action.payload;
-        const updateDeleteReason = (bet: any) => {
-          if (betIds?.includes(bet?.id)) {
-            bet.deleteReason = deleteReason;
-          }
 
-          return bet;
-        };
-
-        const updatedBetPlaced =
-          state?.placedBetsMatch?.map(updateDeleteReason);
-
-        state.placedBetsMatch = Array.from(new Set(updatedBetPlaced));
+        state.placedBetsMatch = _.map(state.placedBetsMatch, (bet) =>
+          betIds?.includes(bet?.id) ? { ...bet, deleteReason } : bet
+        );
       })
       .addCase(getMatchListSessionProfitLoss.pending, (state) => {
         state.loading = true;
@@ -366,41 +353,49 @@ const matchList = createSlice({
       })
       .addCase(updateMatchBetsPlace.fulfilled, (state, action) => {
         const { jobData } = action.payload;
-        state.placedBetsMatch = state?.placedBetsMatch || [];
-        const betId = jobData?.newBet?.betId;
+        const newBet = jobData?.newBet;
+        const betId = newBet?.betId;
 
-        const isBetAlreadyPlaced = state.placedBetsMatch?.some(
-          (item: any) => item?.id === betId
-        );
-        if (jobData && jobData?.newBet && !isBetAlreadyPlaced) {
-          let obj = jobData?.newBet;
-          obj.user = {
-            userName: jobData?.userName,
+        state.placedBetsMatch = state.placedBetsMatch || [];
+
+        const isAlreadyPlaced = _.some(state.placedBetsMatch, { id: betId });
+
+        if (newBet && !isAlreadyPlaced) {
+          const betToAdd = {
+            ...newBet,
+            user: { userName: jobData?.userName },
+            myStake: jobData?.myStake || 0,
+            domain: jobData?.domainUrl,
           };
-          obj.myStake = jobData?.myStake || 0;
-          obj.domain = jobData?.domainUrl;
-          state?.placedBetsMatch?.unshift(obj);
+
+          state.placedBetsMatch.unshift(betToAdd);
         }
       })
       .addCase(updateSessionBetsPlace.fulfilled, (state, action) => {
         const { jobData } = action.payload;
-        state.placedBetsMatch = state?.placedBetsMatch || [];
-        const betId = jobData?.newBet?.betId;
+        const newBetId = jobData?.newBet?.betId;
+        const placedBet = jobData?.placedBet;
 
-        const isBetAlreadyPlaced = state.placedBetsMatch?.some(
-          (item: any) => item?.id === betId
-        );
-        if (jobData && jobData?.placedBet && !isBetAlreadyPlaced) {
-          let obj = jobData?.placedBet;
-          const partnership = JSON.parse(jobData?.partnership);
-          obj.user = {
-            userName: jobData?.betPlaceObject?.betPlacedData?.userName,
-            fwPartnership: partnership?.fwPartnership,
-            faPartnership: partnership?.faPartnership,
+        state.placedBetsMatch = state.placedBetsMatch || [];
+
+        const isAlreadyPlaced = _.some(state.placedBetsMatch, { id: newBetId });
+
+        if (placedBet && !isAlreadyPlaced) {
+          const { betPlacedData } = jobData?.betPlaceObject || {};
+          const partnership = JSON.parse(jobData?.partnership || "{}");
+
+          const betToAdd = {
+            ...placedBet,
+            user: {
+              userName: betPlacedData?.userName,
+              fwPartnership: partnership?.fwPartnership,
+              faPartnership: partnership?.faPartnership,
+            },
+            myStake: parseFloat(jobData?.betPlaceObject?.myStack || "0"),
+            domain: jobData?.domainUrl,
           };
-          obj.myStake = parseFloat(jobData?.betPlaceObject?.myStack || 0);
-          obj.domain = jobData?.domainUrl;
-          state?.placedBetsMatch?.unshift(obj);
+
+          state.placedBetsMatch.unshift(betToAdd);
         }
       })
       .addCase(editSuccessReset, (state) => {

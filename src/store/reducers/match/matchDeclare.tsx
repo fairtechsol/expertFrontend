@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import _ from "lodash";
 import {
   removeSessionProLoss,
   updateSessionProLoss,
@@ -126,7 +127,7 @@ const matchDeclare = createSlice({
       .addCase(getSessionProfitLossMatchDetail.fulfilled, (state, action) => {
         const { id } = action.payload;
 
-        if (id && !state.sessionProLoss?.some((item: any) => item?.id === id)) {
+        if (id && !_.some(state.sessionProLoss, { id })) {
           state.sessionProLoss?.push(action.payload);
         }
       })
@@ -137,31 +138,26 @@ const matchDeclare = createSlice({
         getSessionProfitLossMatchDetailFilter.fulfilled,
         (state, action) => {
           const idToRemove = action.payload;
-          state.sessionProLoss = state?.sessionProLoss?.filter(
-            (item: any) => item?.id !== idToRemove
-          );
+          state.sessionProLoss = _.reject(state.sessionProLoss, {
+            id: idToRemove,
+          });
         }
       )
       .addCase(updateSessionProLoss.fulfilled, (state, action) => {
-        const { id } = action.payload;
+        const { id, betPlaced } = action.payload;
 
-        const foundItemIndex = state.sessionProLoss?.findIndex(
-          (item: any) => item?.id === id
-        );
+        const index = _.findIndex(state.sessionProLoss, { id });
 
-        if (foundItemIndex !== -1) {
-          state.sessionProLoss[foundItemIndex].proLoss = {
-            ...state.sessionProLoss[foundItemIndex].proLoss,
-            betPlaced: action.payload?.betPlaced,
-          };
+        if (index !== -1) {
+          _.set(state, `sessionProLoss[${index}].proLoss.betPlaced`, betPlaced);
         }
       })
       .addCase(removeSessionProLoss.fulfilled, (state, action) => {
         const idToRemove = action.payload?.id;
 
-        state.sessionProLoss = state.sessionProLoss?.filter(
-          (item: any) => item?.id !== idToRemove
-        );
+        state.sessionProLoss = _.reject(state.sessionProLoss, {
+          id: idToRemove,
+        });
       })
       .addCase(getSessionProfitLossMatchDetailReset, (state) => {
         state.sessionProLoss = [];
