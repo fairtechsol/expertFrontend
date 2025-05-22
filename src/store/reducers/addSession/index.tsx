@@ -1,4 +1,5 @@
 import { createReducer } from "@reduxjs/toolkit";
+import _ from "lodash";
 import {
   addSession,
   addsuccessReset,
@@ -114,73 +115,60 @@ export const addSessionReducers = createReducer(initialState, (builder) => {
     })
     .addCase(updateDeleteReason.fulfilled, (state, action) => {
       const { betPlacedId, deleteReason, isPermanentDelete } = action.payload;
-      const updateDeleteReason = (bet: any) => {
-        if (betPlacedId?.includes(bet?.id)) {
-          bet.deleteReason = deleteReason;
-        }
-        return bet;
-      };
-      if (isPermanentDelete) {
-        const updatedBetPlaced = state?.placedBets?.filter(
-          (item: any) => !betPlacedId?.includes(item?.id)
-        );
-        state.placedBets = Array.from(new Set(updatedBetPlaced));
-      } else {
-        const updatedBetPlaced = state?.placedBets?.map(updateDeleteReason);
-        state.placedBets = Array.from(new Set(updatedBetPlaced));
-      }
+      const betIdsSet = new Set(betPlacedId);
+      const currentBets = _.defaultTo(state.placedBets, []);
+
+      state.placedBets = isPermanentDelete
+        ? _.reject(currentBets, (bet) => betIdsSet.has(bet.id))
+        : _.map(currentBets, (bet) =>
+            betIdsSet.has(bet.id) ? _.assign({}, bet, { deleteReason }) : bet
+          );
     })
     .addCase(updateDeleteReasonOnEdit.fulfilled, (state, action) => {
       const { betIds, deleteReason } = action.payload;
-      const updateDeleteReason = (bet: any) => {
-        if (betIds?.includes(bet?.id)) {
-          bet.deleteReason = deleteReason;
-        }
+      const betIdSet = new Set(betIds);
 
-        return bet;
-      };
-
-      const updatedBetPlaced = state.placedBets?.map(updateDeleteReason);
-
-      state.placedBets = Array.from(new Set(updatedBetPlaced));
+      state.placedBets = _.map(state.placedBets || [], (bet) =>
+        betIdSet.has(bet.id) ? _.assign({}, bet, { deleteReason }) : bet
+      );
     })
     .addCase(updateBetsPlaced.fulfilled, (state, action) => {
       const { partnership, placedBet, betPlaceObject, domainUrl } =
         action.payload;
-      const fpartnerShip = JSON.parse(partnership);
-      let objToUpdate = {
+
+      const objToUpdate = {
         ...placedBet,
-        myStake: +betPlaceObject?.myStack,
+        myStake: +(betPlaceObject?.myStake || 0),
         user: {
-          userName: betPlaceObject?.betPlacedData?.userName,
-          fwPartnership: Number(fpartnerShip?.fwPartnership),
+          userName: betPlaceObject?.betPlacedData?.userName || "",
+          fwPartnership: Number(JSON.parse(partnership).fwPartnership || 0),
         },
         domain: domainUrl,
+        id: placedBet.id,
       };
 
-      const id = objToUpdate?.id;
+      if (state.placedBets.some((bet: any) => bet.id === objToUpdate.id))
+        return;
 
-      if (!state?.placedBets?.some((item: any) => item?.id === id)) {
-        state.placedBets = [objToUpdate, ...state.placedBets];
-      }
+      state.placedBets = [objToUpdate, ...state.placedBets];
     })
     .addCase(updateMatchBetsPlaced.fulfilled, (state, action) => {
       const { jobData } = action.payload;
-      let objToUpdate = {
-        ...jobData.newBet,
-        myStake: +jobData?.myStake,
-        user: {
-          userName: jobData?.userName,
-        },
-        domain: jobData?.domainUrl,
-      };
-      const id = objToUpdate?.id;
 
-      if (!state.placedBets?.find((item: any) => item?.id === id)) {
-        state.placedBets = [objToUpdate, ...state.placedBets];
+      const objToUpdate = _.merge({}, _.get(jobData, "newBet", {}), {
+        myStake: _.toNumber(_.get(jobData, "myStake", 0)),
+        user: { userName: _.get(jobData, "userName", "") },
+        domain: _.get(jobData, "domainUrl", ""),
+      });
+
+      if (!_.some(state.placedBets, { id: objToUpdate.id })) {
+        state.placedBets = _.unionWith(
+          [objToUpdate],
+          state.placedBets || [],
+          _.isEqual
+        );
       }
     })
-
     .addCase(updateSessionById.fulfilled, (state, action) => {
       const { activeStatus, score, resultStatus } = action.payload;
       state.sessionById = {
@@ -221,19 +209,13 @@ export const addSessionReducers = createReducer(initialState, (builder) => {
     })
     .addCase(updateSession.fulfilled, (state, action) => {
       const { maxBet, id } = action.payload;
-      const { sessionById } = state;
 
-      if (id === sessionById?.id) {
-        state.sessionById = {
-          ...sessionById,
-          maxBet,
-        };
-        state.loading = false;
-        state.maxLimitUpdateSuccess = true;
-      } else {
-        state.maxLimitUpdateSuccess = true;
-        state.loading = false;
+      if (id === state.sessionById?.id) {
+        state.sessionById.maxBet = maxBet;
       }
+
+      state.loading = false;
+      state.maxLimitUpdateSuccess = true;
     })
     .addCase(updateSession.rejected, (state) => {
       state.loading = false;
@@ -250,20 +232,21 @@ export const addSessionReducers = createReducer(initialState, (builder) => {
       state.loading = false;
     })
     .addCase(updateSessionMaxLimit.fulfilled, (state, action) => {
-      const { maxBet, id, minBet, exposureLimit, isCommissionActive } =
-        action.payload;
-      const { sessionById } = state;
+      const updateProps = _.pick(action.payload, [
+        "maxBet",
+        "minBet",
+        "exposureLimit",
+        "isCommissionActive",
+      ]);
 
-      if (id === sessionById?.id) {
-        state.sessionById = {
-          ...sessionById,
-          maxBet,
-          minBet,
-          exposureLimit,
-          isCommissionActive,
-        };
-        state.loading = false;
-        state.maxLimitUpdateSuccess = true;
+      if (
+        _.isMatch(_.get(state, "sessionById", {}), { id: action.payload.id })
+      ) {
+        _.merge(state.sessionById, updateProps);
+        _.assign(state, {
+          loading: false,
+          maxLimitUpdateSuccess: true,
+        });
       }
     })
     .addCase(resetSessionMaxLimitSuccess, (state) => {
