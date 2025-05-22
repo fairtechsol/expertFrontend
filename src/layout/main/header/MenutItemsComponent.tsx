@@ -5,7 +5,7 @@ import {
   useMediaQuery,
   useTheme,
 } from "@mui/material";
-import { memo } from "react";
+import { memo, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { ArrowLeft } from "../../../assets";
@@ -37,6 +37,29 @@ const MenutItemsComponent = ({
     (state: RootState) => state.matchList
   );
   const navigate = useNavigate();
+
+  const handleSelected = useCallback((e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (index == selected) {
+      setSelected(null);
+    } else {
+      setSelected(index);
+    }
+  }, []);
+
+  const handleLiveSeccion = useCallback((e: React.MouseEvent, element: any) => {
+    e.stopPropagation();
+    navigate(`/expert/live/${element?.id}`, {
+      state: {
+        createSession: false,
+        match: x,
+        sessionEvent: element,
+        betId: element?.id,
+      },
+    });
+    handleClose();
+  }, []);
+
   return (
     <>
       <MenuItem
@@ -60,15 +83,7 @@ const MenutItemsComponent = ({
             borderColor: "white",
           },
         }}
-        onClick={(e: any) => {
-          e.stopPropagation();
-
-          if (index == selected) {
-            setSelected(null);
-          } else {
-            setSelected(index);
-          }
-        }}
+        onClick={handleSelected}
       >
         <StyledImage
           src={IconConstants[x?.matchType]}
@@ -109,18 +124,7 @@ const MenutItemsComponent = ({
                           return (
                             <Box
                               key={element.id}
-                              onClick={(e: any) => {
-                                e.stopPropagation();
-                                navigate(`/expert/live/${element?.id}`, {
-                                  state: {
-                                    createSession: false,
-                                    match: x,
-                                    sessionEvent: element,
-                                    betId: element?.id,
-                                  },
-                                });
-                                handleClose();
-                              }}
+                              onClick={(e) => handleLiveSeccion(e, element)}
                               sx={{ marginLeft: "10px", marginTop: "3px" }}
                             >
                               <Typography
