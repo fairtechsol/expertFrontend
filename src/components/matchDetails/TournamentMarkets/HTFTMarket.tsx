@@ -263,7 +263,7 @@ const HTFTMarket = ({ currentMatch, liveData, title, firstKnownKey }: any) => {
                         height: "100%",
                         width: "100%",
                         display: "flex",
-                        zIndex: "999",
+                        zIndex: "899",
                         justifyContent: "center",
                         alignItems: "center",
                         background: "rgba(0, 0, 0, .6)",
