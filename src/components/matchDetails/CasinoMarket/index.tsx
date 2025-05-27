@@ -13,6 +13,7 @@ import SessionLimitEdit from "../SessionMarket/SessionLimitEdit";
 import CasinoMarketBox from "./CasinoMarketBox";
 import CustomCasinoMarketResult from "./CustomCasinoMarketResult";
 import LiveStatusButtonBox from "./LiveStatusButtonBox";
+import CommissionDot from "../../Common/CommissionDot";
 
 const CasinoMarket = ({ title, sessionData, profitLossData, section }: any) => {
   const [visible, setVisible] = useState(true);
@@ -91,7 +92,7 @@ const CasinoMarket = ({ title, sessionData, profitLossData, section }: any) => {
                 marginLeft: "4px",
                 zIndex: "999",
                 cursor: "pointer",
-                objectFit: "contain"
+                objectFit: "contain",
               }}
             />
           )}
@@ -130,6 +131,7 @@ const CasinoMarket = ({ title, sessionData, profitLossData, section }: any) => {
               alignItems: "center",
             }}
           >
+            {sessionData?.isCommissionActive && <CommissionDot />}
             <Typography
               sx={{ marginRight: "10px", zIndex: showResultModal ? "" : "999" }}
             >
@@ -296,7 +298,7 @@ const CasinoMarket = ({ title, sessionData, profitLossData, section }: any) => {
                     totalBet =
                       sectionItem?.RunnerName == title
                         ? matchDetail?.sessionProfitLoss?.[sectionItem?.id]
-                          ?.totalBet || 0
+                            ?.totalBet || 0
                         : "";
                     return (
                       <Typography
@@ -339,8 +341,8 @@ const CasinoMarket = ({ title, sessionData, profitLossData, section }: any) => {
                 {sessionData?.result
                   ? sessionData?.resultData?.profitLoss ?? 0
                   : !profitLossData?.maxLoss
-                    ? "P/L"
-                    : profitLossData?.maxLoss ?? 0}
+                  ? "P/L"
+                  : profitLossData?.maxLoss ?? 0}
               </Typography>
               <img
                 src={UD}
