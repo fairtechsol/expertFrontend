@@ -15,6 +15,7 @@ const PlaceBetComponent = ({ profitLossData, newData }: any) => {
           dispatch(
             getSessionProfitLossMatchDetail({
               id: newData?.id,
+              matchId: newData?.matchId,
               name: newData?.name,
             })
           );
@@ -94,8 +95,8 @@ const PlaceBetComponent = ({ profitLossData, newData }: any) => {
           {newData?.result
             ? newData?.resultData?.profitLoss ?? 0
             : !profitLossData?.maxLoss
-              ? "P/L"
-              : profitLossData?.maxLoss ?? 0}
+            ? "P/L"
+            : profitLossData?.maxLoss ?? 0}
         </Typography>
         <img
           src={UD}

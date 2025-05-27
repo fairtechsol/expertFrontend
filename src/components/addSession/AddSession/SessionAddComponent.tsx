@@ -193,7 +193,7 @@ const SessionAddComponent = ({
           });
         } else if (event?.activeStatus === "live") {
           dispatch(updateSessionById(event));
-          dispatch(getSessionProfitLoss(id));
+          dispatch(getSessionProfitLoss({ id, matchId: match?.id }));
           dispatch(getPlacedBets({ betId: id }));
         }
       }

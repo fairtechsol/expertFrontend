@@ -341,7 +341,12 @@ export const getSessionProfitLossMatchDetail = createAsyncThunk<any, any>(
   async (requestData, thunkApi) => {
     try {
       const resp = await service.get(
-        `${ApiConstants.SESSION.PROFIT_LOSS}/${requestData?.id}`
+        `${ApiConstants.SESSION.PROFIT_LOSS}/${requestData?.id}`,
+        {
+          params: {
+            matchId: requestData?.matchId,
+          },
+        }
       );
       if (resp?.data) {
         return {
