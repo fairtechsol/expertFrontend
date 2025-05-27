@@ -2,7 +2,7 @@ name: Deploy fairgame
 on:
   push:
     branches:
-      - pardeep-codeCleanTpreMain
+      - pardeep_sessionPL
 jobs:
   deploy:
     runs-on: ubuntu-latest
