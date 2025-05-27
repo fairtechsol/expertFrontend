@@ -80,7 +80,7 @@ const AddSession = () => {
       }
       if (getSessionSuccess) {
         if (!sessionById?.result) {
-          dispatch(getSessionProfitLoss(id));
+          dispatch(getSessionProfitLoss({ id, matchId: state?.match?.id }));
           dispatch(getPlacedBets({ betId: id }));
         }
         dispatch(sessionSuccessReset());

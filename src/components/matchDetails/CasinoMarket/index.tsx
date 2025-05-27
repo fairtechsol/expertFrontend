@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { ARROWUP, edit, UD } from "../../../assets";
 import { sessionBetLiveStatus } from "../../../store/actions/match/matchAction";
 import { AppDispatch, RootState } from "../../../store/store";
+import CommissionDot from "../../Common/CommissionDot";
 import Divider from "../../Common/Divider";
 import { formatToINR } from "../../helper";
 import Result from "../Result";
@@ -91,7 +92,7 @@ const CasinoMarket = ({ title, sessionData, profitLossData, section }: any) => {
                 marginLeft: "4px",
                 zIndex: "999",
                 cursor: "pointer",
-                objectFit: "contain"
+                objectFit: "contain",
               }}
             />
           )}
@@ -130,6 +131,7 @@ const CasinoMarket = ({ title, sessionData, profitLossData, section }: any) => {
               alignItems: "center",
             }}
           >
+            {sessionData?.isCommissionActive && <CommissionDot />}
             <Typography
               sx={{ marginRight: "10px", zIndex: showResultModal ? "" : "999" }}
             >
@@ -296,7 +298,7 @@ const CasinoMarket = ({ title, sessionData, profitLossData, section }: any) => {
                     totalBet =
                       sectionItem?.RunnerName == title
                         ? matchDetail?.sessionProfitLoss?.[sectionItem?.id]
-                          ?.totalBet || 0
+                            ?.totalBet || 0
                         : "";
                     return (
                       <Typography
@@ -339,8 +341,8 @@ const CasinoMarket = ({ title, sessionData, profitLossData, section }: any) => {
                 {sessionData?.result
                   ? sessionData?.resultData?.profitLoss ?? 0
                   : !profitLossData?.maxLoss
-                    ? "P/L"
-                    : profitLossData?.maxLoss ?? 0}
+                  ? "P/L"
+                  : profitLossData?.maxLoss ?? 0}
               </Typography>
               <img
                 src={UD}
@@ -474,6 +476,7 @@ const CasinoMarket = ({ title, sessionData, profitLossData, section }: any) => {
             name: sessionData?.RunnerName,
             minBet: sessionData?.minBet,
             maxBet: sessionData?.maxBet,
+            isCommissionActive: sessionData?.isCommissionActive,
           }}
           onClickCancel={() => {
             setShowMaxLimitModal(false);
