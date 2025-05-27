@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { ARROWUP, edit, UD } from "../../../assets";
 import { sessionBetLiveStatus } from "../../../store/actions/match/matchAction";
 import { AppDispatch, RootState } from "../../../store/store";
+import CommissionDot from "../../Common/CommissionDot";
 import Divider from "../../Common/Divider";
 import { formatToINR } from "../../helper";
 import Result from "../Result";
@@ -13,7 +14,6 @@ import SessionLimitEdit from "../SessionMarket/SessionLimitEdit";
 import CasinoMarketBox from "./CasinoMarketBox";
 import CustomCasinoMarketResult from "./CustomCasinoMarketResult";
 import LiveStatusButtonBox from "./LiveStatusButtonBox";
-import CommissionDot from "../../Common/CommissionDot";
 
 const CasinoMarket = ({ title, sessionData, profitLossData, section }: any) => {
   const [visible, setVisible] = useState(true);
@@ -476,6 +476,7 @@ const CasinoMarket = ({ title, sessionData, profitLossData, section }: any) => {
             name: sessionData?.RunnerName,
             minBet: sessionData?.minBet,
             maxBet: sessionData?.maxBet,
+            isCommissionActive: sessionData?.isCommissionActive,
           }}
           onClickCancel={() => {
             setShowMaxLimitModal(false);
