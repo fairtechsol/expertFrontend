@@ -33,22 +33,17 @@ export const getAllLiveTournaments = createAsyncThunk<any, string>(
         const commonFields = {
           EventId:
             requestData === "cricket"
-              ? match?.gameId
+              ? match?.beventId
               : JSON.stringify(match?.gmid),
           MarketId:
             requestData === "cricket"
-              ? match?.marketId
+              ? match?.bmarketId || "1." + match?.beventId
               : JSON.stringify(match?.mid),
-          f: match?.f === "True",
-          tv: match?.tv === "True",
-          m1: match?.m1 === "True",
+          f: match?.f === "True" || match?.f === true,
+          tv: match?.tv === "True" || match?.tv === true,
+          m1: match?.m1 === "True" || match?.m1 === true,
           section: match?.section,
         };
-
-        if (requestData === "cricket") {
-          const [EventName, EventDate] = match.eventName.split(" / ");
-          return { EventName, EventDate, ...commonFields };
-        }
 
         return {
           EventName: match.ename,

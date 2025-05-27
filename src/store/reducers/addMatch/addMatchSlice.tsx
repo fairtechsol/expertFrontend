@@ -121,7 +121,7 @@ const addMatch = createSlice({
           const teams = item1.EventName?.split(" v ") ?? [];
           const runners = [0, 1, 2]
             .map((index) => ({
-              runnerName: item1.section?.[index]?.nat ?? teams[index] ?? "",
+              runnerName: item1.section?.[index]?.nat || teams[index] || "",
             }))
             .filter((runner) => runner.runnerName);
 
