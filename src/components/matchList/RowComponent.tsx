@@ -1,8 +1,8 @@
 import { Box } from "@mui/material";
 import moment from "moment";
+import { memo } from "react";
 import { formatToINR } from "../../helpers";
 import SingleBox from "./SingleBox";
-import { memo } from "react";
 
 const RowComponent = ({ header, data }: any) => {
   const getTime = (date: any) => {
@@ -43,6 +43,7 @@ const RowComponent = ({ header, data }: any) => {
             first={true}
             header={header}
             time={getTime(data.createdAt)}
+            isCommissionActive={data?.isCommissionActive}
           />
           <SingleBox
             color={getColor()}

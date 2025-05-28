@@ -13,6 +13,7 @@ const SingleBox = ({
   isPercent,
   rate,
   domain,
+  isCommissionActive
 }: any) => {
   return !header ? (
     first ? (
@@ -26,7 +27,7 @@ const SingleBox = ({
           alignItems: 'center',
         }}
       >
-        {data?.isCommissionActive && <CommissionDot />}
+        {isCommissionActive && <CommissionDot />}
         <Typography
           sx={{
             fontWeight: "700",
