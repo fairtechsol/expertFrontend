@@ -77,15 +77,29 @@ const HTFTMarket = ({ currentMatch, liveData, title, firstKnownKey }: any) => {
             justifyContent: "space-between",
           }}
         >
-          <Typography
+          <Box
             sx={{
               fontSize: { lg: "9px", md: "9px", xs: "10px", sm: "8px" },
               fontWeight: "bold",
               marginLeft: "7px",
+              display: "flex",
+              alignItems: "center",
+              fontFamily: "Poppins, sans-serif",
             }}
           >
+            {liveData?.isCommissionActive && (
+              <Box
+                sx={{
+                  width: 8,
+                  height: 8,
+                  borderRadius: "50%",
+                  backgroundColor: "#74ee15",
+                  margin: "2px",
+                }}
+              />
+            )}
             {title}
-          </Typography>
+          </Box>
           {liveData?.id && liveData?.activeStatus !== "result" && (
             <Stop
               onClick={() => {
@@ -254,33 +268,33 @@ const HTFTMarket = ({ currentMatch, liveData, title, firstKnownKey }: any) => {
                   "active",
                   "open",
                 ].includes(item?.status?.toLowerCase()) ||
-                  item?.status?.toLowerCase() === "suspended"
+                item?.status?.toLowerCase() === "suspended"
                   ? true
                   : false) && (
-                    <Box
-                      sx={{
-                        position: "absolute",
-                        height: "100%",
-                        width: "100%",
-                        display: "flex",
-                        zIndex: "899",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        background: "rgba(0, 0, 0, .6)",
+                  <Box
+                    sx={{
+                      position: "absolute",
+                      height: "100%",
+                      width: "100%",
+                      display: "flex",
+                      zIndex: "899",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      background: "rgba(0, 0, 0, .6)",
+                    }}
+                  >
+                    <h4
+                      style={{
+                        textTransform: "uppercase",
+                        color: "#FFF",
+                        fontWeight: "400",
+                        fontSize: matchesMobile ? "12px" : "12px",
                       }}
                     >
-                      <h4
-                        style={{
-                          textTransform: "uppercase",
-                          color: "#FFF",
-                          fontWeight: "400",
-                          fontSize: matchesMobile ? "12px" : "12px",
-                        }}
-                      >
-                        {item?.status}
-                      </h4>
-                    </Box>
-                  )}
+                      {item?.status}
+                    </h4>
+                  </Box>
+                )}
 
                 <HTFTBoxComponent
                   teamRates={
@@ -288,14 +302,14 @@ const HTFTMarket = ({ currentMatch, liveData, title, firstKnownKey }: any) => {
                       liveData?.id + "_" + "profitLoss" + "_" + currentMatch?.id
                     ]
                       ? JSON.parse(
-                        currentMatch?.teamRates?.[
-                        liveData?.id +
-                        "_" +
-                        "profitLoss" +
-                        "_" +
-                        currentMatch?.id
-                        ]
-                      )?.[item?.id] ?? 0
+                          currentMatch?.teamRates?.[
+                            liveData?.id +
+                              "_" +
+                              "profitLoss" +
+                              "_" +
+                              currentMatch?.id
+                          ]
+                        )?.[item?.id] ?? 0
                       : 0
                   }
                   livestatus={
