@@ -1,6 +1,7 @@
 import { Box, Typography } from "@mui/material";
-import { stripUrl } from "../../helpers";
 import { memo } from "react";
+import { stripUrl } from "../../helpers";
+import CommissionDot from "../Common/CommissionDot";
 
 const SingleBox = ({
   data,
@@ -19,12 +20,13 @@ const SingleBox = ({
         sx={{
           width: "140%",
           height: "40px",
-          flexDirection: "column",
           background: "#F8C851",
           display: { xs: "initial", lg: "flex" },
           justifyContent: { lg: "center", xs: "initial" },
+          alignItems: 'center',
         }}
       >
+        {data?.isCommissionActive && <CommissionDot />}
         <Typography
           sx={{
             fontWeight: "700",
