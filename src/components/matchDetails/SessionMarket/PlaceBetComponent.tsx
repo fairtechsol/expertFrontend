@@ -97,7 +97,7 @@ const PlaceBetComponent = ({ profitLossData, newData }: any) => {
             ? newData?.resultData?.profitLoss ?? 0
             : !profitLossData?.maxLoss
             ? "P/L"
-            : (profitLossData?.maxLoss || 0)?.toFixed(2) ?? 0}
+            : parseFloat(profitLossData?.maxLoss || 0)?.toFixed(2) ?? 0}
         </Typography>
         <img
           src={UD}
