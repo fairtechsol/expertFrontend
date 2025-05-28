@@ -460,8 +460,9 @@ const BetList = ({ tag, allBetRates, title, isMatchDeclare }: any) => {
   const handleConfirm = useCallback(() => {
     if (matchDetail?.stopAt) {
       dispatch(unDeclareFinalMatchResult({ matchId: matchDetail?.id }));
+    } else {
+      dispatch(declareFinalMatchResult({ matchId: matchDetail?.id }));
     }
-    dispatch(declareFinalMatchResult({ matchId: matchDetail?.id }));
     handleClose();
   }, [dispatch, matchDetail, handleClose]);
 
