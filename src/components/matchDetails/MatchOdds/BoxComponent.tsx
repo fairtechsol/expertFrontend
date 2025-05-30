@@ -77,17 +77,17 @@ const BoxComponent = ({
         status?.toLowerCase()
       ) ||
         livestatus) &&
-        !(
-          !["ACTIVE", "OPEN", ""].includes(liveData?.status) &&
-          liveData?.gtype == "match"
-        ) ? (
+      !(
+        !["ACTIVE", "OPEN", ""].includes(liveData?.status) &&
+        liveData?.gtype == "match"
+      ) ? (
         <Box
           sx={{
             display: "flex",
             background: "white",
             height: "30px",
             width: { lg: "65%", xs: "78%" },
-            justifyContent: 'flex-end',
+            justifyContent: "flex-end",
             alignItems: "center",
           }}
         >
@@ -121,7 +121,7 @@ const BoxComponent = ({
             background: "white",
             height: "30px",
             width: { lg: "65%", xs: "78%" },
-            justifyContent: 'flex-end',
+            justifyContent: "flex-end",
             alignItems: "center",
           }}
         >
@@ -131,7 +131,7 @@ const BoxComponent = ({
               background: "white",
               height: "30px",
               width: { lg: "36.5%", xs: "55%" },
-              justifyContent: 'flex-end',
+              justifyContent: "flex-end",
               alignItems: "center",
             }}
           >
@@ -139,14 +139,14 @@ const BoxComponent = ({
               value={
                 ex?.availableToBack?.length > 0
                   ? ex?.availableToBack[ex?.availableToBack?.length > 1 ? 2 : 0]
-                    ?.price ?? 0
+                      ?.price ?? 0
                   : 0
               }
               lock={lock}
               value2={formatNumber(
                 ex?.availableToBack?.length > 0
                   ? ex?.availableToBack[ex?.availableToBack?.length > 1 ? 2 : 0]
-                    ?.size ?? 0
+                      ?.size ?? 0
                   : 0
               )}
               color="#A7DCFF"
