@@ -319,7 +319,7 @@ const SessionBetlistDetail = () => {
         direction={{ lg: "row", md: "row", xs: "column", sm: "row" }}
         sx={{ marginTop: { lg: 0, xs: "10px" } }}
       >
-        <Box sx={{ width: { lg: "25%", md: "25%", sm: "25%" } }}>
+        <Box sx={{ width: "25%" }}>
           {matchDetail?.updatedSesssionBettings &&
             Object.entries(matchDetail?.updatedSesssionBettings)
               ?.sort(customSortBySessionMarketName)
@@ -338,20 +338,20 @@ const SessionBetlistDetail = () => {
                         ((items?.resultData && items?.resultData === null) ||
                           items?.result === null)
                     )?.length > 0 && (
-                        <SessionMarket2
-                          title={`${name} Market`}
-                          hideTotalBet={false}
-                          profitLossData={matchDetail?.sessionProfitLoss}
-                          sessionData={item}
-                          hideResult={true}
-                          hideEditMaxButton={false}
-                        />
-                      )}
+                      <SessionMarket2
+                        title={`${name} Market`}
+                        hideTotalBet={false}
+                        profitLossData={matchDetail?.sessionProfitLoss}
+                        sessionData={item}
+                        hideResult={true}
+                        hideEditMaxButton={false}
+                      />
+                    )}
                   </Fragment>
                 );
               })}
         </Box>
-        <Box sx={{ width: { lg: "25%", md: "25%", sm: "25%" } }}>
+        <Box sx={{ width: "25%" }}>
           {matchDetail?.updatedSesssionBettings &&
             Object.entries(matchDetail?.updatedSesssionBettings)
               ?.sort(customSortBySessionMarketName)
@@ -370,15 +370,15 @@ const SessionBetlistDetail = () => {
                       ((items?.resultData && items?.resultData === null) ||
                         items?.result === null)
                   )?.length > 0 && (
-                      <SessionMarket2
-                        title={`${name} Market`}
-                        hideTotalBet={false}
-                        profitLossData={matchDetail?.sessionProfitLoss}
-                        sessionData={item}
-                        hideResult={true}
-                        hideEditMaxButton={false}
-                      />
-                    )}
+                    <SessionMarket2
+                      title={`${name} Market`}
+                      hideTotalBet={false}
+                      profitLossData={matchDetail?.sessionProfitLoss}
+                      sessionData={item}
+                      hideResult={true}
+                      hideEditMaxButton={false}
+                    />
+                  )}
                 </Fragment>
               ))}
           {matchDetail?.updatedSesssionBettings &&
