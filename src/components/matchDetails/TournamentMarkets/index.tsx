@@ -348,7 +348,7 @@ const TournamentMarket = ({
                           (liveData?.parentBetId || liveData?.id) +
                             "_profitLoss_" +
                             currentMatch?.id
-                        ]?.[item?.parentRunnerId || item?.id] ?? 0
+                        ]?.[item?.parentRunnerId || item?.id] || 0
                       : 0
                   }
                   livestatus={
