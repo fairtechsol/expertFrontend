@@ -29,7 +29,7 @@ const MoneyBox = ({ value }: any) => {
           display: "flex",
           height: "28px",
           borderRadius: "7px",
-          border: value === 0 ? "0" : "1px solid #ddd",
+          border: +value === 0 ? "0" : "1px solid #ddd",
         }}
       >
         <Typography
@@ -39,7 +39,7 @@ const MoneyBox = ({ value }: any) => {
             color: Number(value) >= 0 ? "#319E5B" : "#FF4D4D",
           }}
         >
-          {value !== 0 && (
+          {+value !== 0 && (
             <>
               <span>{integerPart}</span>
               <span
