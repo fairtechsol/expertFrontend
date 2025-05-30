@@ -40,7 +40,6 @@ import {
   updateMatchListCurrentPage,
 } from "../../store/actions/match/matchAction";
 import { AppDispatch, RootState } from "../../store/store";
-import { eventWiseMatchData } from "../../utils/Constants";
 
 const initialFormikValues = {
   minBet: "",
@@ -89,11 +88,16 @@ const AddMatch = () => {
   const formik = useFormik({
     initialValues: initialFormikValues,
     onSubmit: (value: any) => {
-      if (!eventWiseMatchData[selected.gameType]) {
-        toast.error("This game is not available yet.");
+      if (!selected.gameType) {
+        toast.error("Game Type is required.");
+        return;
       }
       if (value.betFairSessionMaxBet <= value.minBet) {
         toast.error("Session maximum bet could not be less than minimum bet.");
+        return;
+      }
+      if (!manualMatchToggle && !selected.title) {
+        toast.error("Match Selection is required.");
         return;
       }
       if (loading) {
