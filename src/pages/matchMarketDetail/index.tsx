@@ -386,7 +386,7 @@ const MatchMarketDetail = () => {
           {!desktop ? (
             <Box
               sx={{
-                width: { lg: "100%", xs: "100%", md: "100%" },
+                width: "100%",
                 marginTop: { xs: "10px", lg: "0" },
                 display: "flex",
                 flexDirection: "column",
