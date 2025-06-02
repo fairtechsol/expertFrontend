@@ -148,21 +148,23 @@ const TournamentMarket = ({
                 invert={true}
               />
             )}
-          {liveData.isManual && liveData?.parentBetId && (
-            <DisableClone
-              onClick={(e: any) => {
-                e.preventDefault();
-                dispatch(
-                  marketClone({
-                    matchId: currentMatch?.id,
-                    betId: liveData?.parentBetId,
-                    disabled: true,
-                  })
-                );
-              }}
-              invert={true}
-            />
-          )}
+          {liveData.isManual &&
+            liveData?.parentBetId &&
+            liveData?.activeStatus !== "result" && (
+              <DisableClone
+                onClick={(e: any) => {
+                  e.preventDefault();
+                  dispatch(
+                    marketClone({
+                      matchId: currentMatch?.id,
+                      betId: liveData?.parentBetId,
+                      disabled: true,
+                    })
+                  );
+                }}
+                invert={true}
+              />
+            )}
         </Box>
         <Box
           sx={{
