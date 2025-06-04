@@ -67,6 +67,9 @@ const TournamentMarket = ({
     setVisibleImg((prev) => !prev);
   }, []);
 
+  let key =
+    (liveData?.parentBetId || liveData?.id) + "_profitLoss_" + currentMatch?.id;
+
   return (
     <Box
       sx={{
@@ -341,16 +344,10 @@ const TournamentMarket = ({
                   teamRates={
                     liveData?.activeStatus === "result"
                       ? 0
-                      : currentMatch?.teamRates?.[
-                          (liveData?.parentBetId || liveData?.id) +
-                            "_profitLoss_" +
-                            currentMatch?.id
-                        ]
-                      ? currentMatch?.teamRates?.[
-                          (liveData?.parentBetId || liveData?.id) +
-                            "_profitLoss_" +
-                            currentMatch?.id
-                        ]?.[item?.parentRunnerId || item?.id] || 0
+                      : currentMatch?.teamRates?.[key]
+                      ? JSON.parse(currentMatch?.teamRates?.[key] || "{}")?.[
+                          item?.parentRunnerId || item?.id
+                        ] || 0
                       : 0
                   }
                   livestatus={
