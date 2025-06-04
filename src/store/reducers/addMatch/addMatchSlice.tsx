@@ -356,8 +356,7 @@ const addMatch = createSlice({
         const { betId, profitLossData } = action.payload;
         state.matchDetail.teamRates = {
           ...state.matchDetail.teamRates,
-          [betId + "_profitLoss_" + state.matchDetail?.id]:
-            JSON.stringify(profitLossData),
+          [betId + "_profitLoss_" + state.matchDetail?.id]: profitLossData,
         };
       })
       .addCase(updateRates.fulfilled, (state, action) => {
