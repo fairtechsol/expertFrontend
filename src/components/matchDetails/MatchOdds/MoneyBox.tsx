@@ -17,39 +17,37 @@ const MoneyBox = ({ value }: any) => {
 
   const { integerPart, decimalPart } = formatValue(value);
   return (
-    <>
-      <Box
+    <Box
+      sx={{
+        minWidth: { lg: "50%", xs: "60%" },
+        width: { lg: "80%", xs: "100%" },
+        justifyContent: "center",
+        position: matchesMobile ? "absolute" : "absolute",
+        right: matchesMobile ? "-90%" : "-70%",
+        alignItems: "center",
+        display: "flex",
+        height: "28px",
+        borderRadius: "7px",
+        border: +value === 0 ? "0" : "1px solid #ddd",
+      }}
+    >
+      <Typography
         sx={{
-          minWidth: { lg: "50%", xs: "60%" },
-          width: { lg: "80%", xs: "100%" },
-          justifyContent: "center",
-          position: matchesMobile ? "absolute" : "absolute",
-          right: matchesMobile ? "-90%" : "-70%",
-          alignItems: "center",
-          display: "flex",
-          height: "28px",
-          borderRadius: "7px",
-          border: +value === 0 ? "0" : "1px solid #ddd",
+          fontSize: "14px",
+          fontWeight: "bold",
+          color: Number(value) >= 0 ? "#319E5B" : "#FF4D4D",
         }}
       >
-        <Typography
-          sx={{
-            fontSize: "14px",
-            fontWeight: "bold",
-            color: Number(value) >= 0 ? "#319E5B" : "#FF4D4D",
-          }}
-        >
-          {+value !== 0 && (
-            <>
-              <span>{integerPart}</span>
-              <span
-                style={{ fontSize: "0.8em", fontWeight: "normal" }}
-              >{`.${decimalPart}`}</span>
-            </>
-          )}
-        </Typography>
-      </Box>
-    </>
+        {+value !== 0 && (
+          <>
+            <span>{integerPart}</span>
+            <span
+              style={{ fontSize: "0.8em", fontWeight: "normal" }}
+            >{`.${decimalPart}`}</span>
+          </>
+        )}
+      </Typography>
+    </Box>
   );
 };
 

@@ -133,6 +133,7 @@ export const geTournamentBetting = createAsyncThunk<any, any>(
           params: {
             id: betId,
             isRate: true,
+            type: "tournament",
           },
         }
       );
