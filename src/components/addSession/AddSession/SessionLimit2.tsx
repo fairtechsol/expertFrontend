@@ -247,9 +247,7 @@ const SessionLimit2 = ({
               cursor: "pointer",
               fontFamily: "Poppins, sans-serif",
             }}
-            onClick={() => {
-              handleClose();
-            }}
+            onClick={handleClose}
           >
             Cancel
           </button>
