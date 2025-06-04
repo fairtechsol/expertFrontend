@@ -190,26 +190,26 @@ const MaxBetAdd = ({
               {["matchOdd", "completeMatch", "tiedMatch1"]?.includes(
                 matchOddsLive?.type
               ) && (
-                <Box
-                  sx={{
-                    width: {
-                      xs: "100%",
-                      lg: "50%",
-                      md: "50%",
-                    },
-                  }}
-                >
-                  <MatchListInput
-                    label="Bet Limit*"
-                    type="text"
-                    placeholder="Enter Bet Limit..."
-                    name="betLimit"
-                    id="betLimit"
-                    onChange={handleChange}
-                    value={formatToINR(selected.betLimit)}
-                  />
-                </Box>
-              )}
+                  <Box
+                    sx={{
+                      width: {
+                        xs: "100%",
+                        lg: "50%",
+                        md: "50%",
+                      },
+                    }}
+                  >
+                    <MatchListInput
+                      label="Bet Limit*"
+                      type="text"
+                      placeholder="Enter Bet Limit..."
+                      name="betLimit"
+                      id="betLimit"
+                      onChange={handleChange}
+                      value={formatToINR(selected.betLimit)}
+                    />
+                  </Box>
+                )}
             </Box>
             <Box
               sx={{
@@ -287,9 +287,7 @@ const MaxBetAdd = ({
               cursor: "pointer",
               fontFamily: "Poppins, sans-serif",
             }}
-            onClick={() => {
-              handleClose();
-            }}
+            onClick={handleClose}
           >
             Cancel
           </button>
