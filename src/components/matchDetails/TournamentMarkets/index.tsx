@@ -345,7 +345,7 @@ const TournamentMarket = ({
                     liveData?.activeStatus === "result"
                       ? 0
                       : currentMatch?.teamRates?.[key]
-                      ? JSON.parse(currentMatch?.teamRates?.[key] || "{}")?.[
+                      ? (currentMatch?.teamRates?.[key] || {})?.[
                           item?.parentRunnerId || item?.id
                         ] || 0
                       : 0

@@ -301,15 +301,13 @@ const HTFTMarket = ({ currentMatch, liveData, title, firstKnownKey }: any) => {
                     currentMatch?.teamRates?.[
                       liveData?.id + "_" + "profitLoss" + "_" + currentMatch?.id
                     ]
-                      ? JSON.parse(
-                          currentMatch?.teamRates?.[
-                            liveData?.id +
-                              "_" +
-                              "profitLoss" +
-                              "_" +
-                              currentMatch?.id
-                          ]
-                        )?.[item?.id] ?? 0
+                      ? currentMatch?.teamRates?.[
+                          liveData?.id +
+                            "_" +
+                            "profitLoss" +
+                            "_" +
+                            currentMatch?.id
+                        ]?.[item?.id] ?? 0
                       : 0
                   }
                   livestatus={
