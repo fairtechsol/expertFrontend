@@ -349,7 +349,7 @@ const addMatch = createSlice({
         state.matchDetail.teamRates = {
           ...state.matchDetail.teamRates,
           [jobData?.newBet?.betId + "_profitLoss_" + state.matchDetail?.id]:
-            userRedisObj,
+            JSON.stringify(userRedisObj),
         };
       })
       .addCase(updateTeamRatesOnUndeclare.fulfilled, (state, action) => {
@@ -364,7 +364,8 @@ const addMatch = createSlice({
 
         state.matchDetail.teamRates = {
           ...state.matchDetail.teamRates,
-          [betId + "_profitLoss_" + state.matchDetail?.id]: teamRate,
+          [betId + "_profitLoss_" + state.matchDetail?.id]:
+            JSON.stringify(teamRate),
         };
       })
       .addCase(updateResultStatusOfSession.fulfilled, (state, action) => {
