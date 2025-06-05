@@ -27,7 +27,6 @@ import {
   updateDeletedBetReasonOnEdit,
   updateMatchBetsPlace,
   updateMatchBetsReason,
-  updateResultBoxStatus,
   updateResultStatusOfMatch,
   updateTeamRates,
   updateTeamRatesOnUndeclare,
@@ -75,9 +74,6 @@ const OtherMatchDetails = () => {
         } else {
           dispatch(getPlacedBetsMatch(state?.id));
           dispatch(updateResultStatusOfMatch(event));
-          dispatch(
-            updateResultBoxStatus({ visible: false, betId: event?.betId })
-          );
         }
       }
     } catch (e) {
@@ -137,7 +133,6 @@ const OtherMatchDetails = () => {
     try {
       if (event?.matchId === state?.id) {
         dispatch(updateResultStatusOfMatch(event));
-        dispatch(updateResultBoxStatus({ visible: false }));
       }
     } catch (error) {
       console.error(error);
