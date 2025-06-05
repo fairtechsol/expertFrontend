@@ -30,7 +30,6 @@ import {
 } from "../../actions/addSession";
 import {
   updateMaxLoss,
-  updateResultBoxStatus,
   updateResultStatusOfMatch,
   updateResultStatusOfSession,
   updateTeamRates,
@@ -47,7 +46,6 @@ interface InitialState {
   loading: boolean;
   error: any;
   raceRunners: any;
-  resultBox: any;
   quickBookmaker1: any;
   maxLimitLoading: boolean;
   maxLimitSuccess: boolean;
@@ -73,7 +71,6 @@ const initialState: InitialState = {
   matchAdded: false,
   success: false,
   error: null,
-  resultBox: { visible: false, betId: "" },
   quickBookmaker1: [],
   maxLimitLoading: false,
   maxLimitSuccess: false,
@@ -393,7 +390,7 @@ const addMatch = createSlice({
           ...state.matchDetail,
           otherBettings: {
             ...state.matchDetail?.otherBettings,
-            [betId]: activeStatus === "result" ? "DECLARED" : status ?? null,
+            [betId]: activeStatus === "result" ? "DECLARED" : status || null,
           },
         };
       })
@@ -426,11 +423,6 @@ const addMatch = createSlice({
       .addCase(addRaceExpert.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error?.message;
-      })
-      .addCase(updateResultBoxStatus.fulfilled, (state, action) => {
-        state.resultBox = action.payload;
-        state.loading = false;
-        state.success = true;
       })
       .addCase(updateMultiSessionMinMax.fulfilled, (state, action) => {
         const { type, minBet, maxBet, exposureLimit } = action.payload;
