@@ -280,7 +280,7 @@ const OtherMatchDetails = () => {
     <>
       <Box
         sx={{
-          display: "flex",
+          display: { lg: "flex", md: "flex", sm: "flex" },
           alignSelf: "center",
           borderRadius: "10px",
           flexDirection: "row",
