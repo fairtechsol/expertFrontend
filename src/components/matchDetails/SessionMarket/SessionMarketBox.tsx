@@ -421,7 +421,6 @@ const SessionMarketBox = ({
         )}
         {!hideTotalBet && (
           <PlaceBetComponent
-            width={7}
             profitLossData={profitLossData && profitLossData[newData?.id]}
             newData={newData}
           />
@@ -577,7 +576,6 @@ const SessionMarketBox = ({
           )}
           {!hideTotalBet && (
             <PlaceBetComponent
-              width={7}
               profitLossData={profitLossData && profitLossData[newData?.id]}
               newData={newData}
             />

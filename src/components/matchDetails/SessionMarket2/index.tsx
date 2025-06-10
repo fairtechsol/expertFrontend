@@ -17,21 +17,11 @@ interface SessionMarketProps {
       result?: any;
     }>;
   };
-  profitLossData?: any[];
-  hideResult?: boolean;
-  hideTotalBet?: boolean;
-  hideEditMaxButton?: boolean;
-  cstmStyle?: any;
 }
 
 const SessionMarket2: React.FC<SessionMarketProps> = ({
-  hideResult = false,
   title,
-  hideTotalBet = false,
   sessionData,
-  profitLossData = [],
-  hideEditMaxButton = false,
-  cstmStyle,
 }) => {
   const [visible, setVisible] = useState(true);
 
@@ -40,7 +30,8 @@ const SessionMarket2: React.FC<SessionMarketProps> = ({
       (item) =>
         !item?.isComplete &&
         item?.activeStatus !== "unSave" &&
-        ((item?.resultData && item?.resultData === null) || item?.result === null)
+        ((item?.resultData && item?.resultData === null) ||
+          item?.result === null)
     )
     ?.slice()
     ?.sort(customSortUpdated);
@@ -128,20 +119,28 @@ const SessionMarket2: React.FC<SessionMarketProps> = ({
         </Box>
       </Box>
       {visible && (
-        <Box sx={{ width: "100%", alignItems: "center", display: "flex", flexDirection: "column", }} >
-          <Box sx={[{ display: "flex", flexDirection: "column", width: "100%", position: "relative", "::-webkit-scrollbar": { display: "none", }, }, cstmStyle,]} >
+        <Box
+          sx={{
+            width: "100%",
+            alignItems: "center",
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              width: "100%",
+              position: "relative",
+              "::-webkit-scrollbar": { display: "none" },
+            }}
+          >
             {filteredSessions?.map((match: any, index: number) => {
               if (match.id) {
                 return (
                   <Fragment key={match?.SelectionId}>
-                    <SessionMarketBox
-                      hideResult={hideResult}
-                      hideTotalBet={hideTotalBet}
-                      newData={match}
-                      profitLossData={profitLossData}
-                      index={index}
-                      hideEditMaxButton={hideEditMaxButton}
-                    />
+                    <SessionMarketBox newData={match} index={index} />
                     <Divider />
                   </Fragment>
                 );

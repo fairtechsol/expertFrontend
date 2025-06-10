@@ -3,7 +3,11 @@ import { memo } from "react";
 import { ArrowDownRed, ArrowUpGreen } from "../../../assets";
 import { formatToINR } from "../../helper";
 
-const MoneyBox = ({ value }: any) => {
+interface MoneyBoxProps {
+  value: number | string;
+}
+
+const MoneyBox = ({ value }: MoneyBoxProps) => {
   const formatValue = (value: any) => {
     const formattedValue = formatToINR(value === 0 ? "" : value);
     const [integerPart, decimalPart] = formattedValue.split(".");

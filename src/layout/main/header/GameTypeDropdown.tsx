@@ -14,18 +14,25 @@ const allMatchg = [
   { title: "Football", value: "football" },
   { title: "Tennis", value: "tennis" },
 ];
+
+interface GameTypeDropdownProps {
+  anchorEl: any;
+  open: boolean;
+  handleClose: () => void;
+  anchorrr: (event: any) => void;
+  allMatch: any;
+}
 const GameTypeDropdown = ({
   anchorEl,
   open,
   handleClose,
   anchorrr,
   allMatch,
-}: any) => {
+}: GameTypeDropdownProps) => {
   const theme = useTheme();
   const [selected, setSelected] = useState<any>("");
   const [selectedMatch, setSelectedMatch] = useState("");
   const dispatch: AppDispatch = useDispatch();
-  const [_, setAnchor] = useState(null);
   const matchesMobile = useMediaQuery(theme.breakpoints.down("sm"));
   return (
     <Menu
@@ -74,7 +81,6 @@ const GameTypeDropdown = ({
                 } else {
                   setSelected(i);
                   dispatch(getMatchListDropdown(x.value));
-                  setAnchor(e?.currentTarget);
                   anchorrr(e?.currentTarget);
                 }
               }}

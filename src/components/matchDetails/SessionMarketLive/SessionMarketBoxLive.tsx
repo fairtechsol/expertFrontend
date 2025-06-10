@@ -8,13 +8,21 @@ import { AppDispatch } from "../../../store/store";
 import { formatNumber } from "../../helper";
 import SeparateBox from "./SeparateBox";
 
+interface SessionMarketBoxLiveProps {
+  currentMatch: any;
+  newData: any;
+  index: number;
+  gtype: string;
+  type: string;
+}
+
 const SessionMarketBoxLive = ({
   currentMatch,
   newData,
   index,
   gtype,
   type,
-}: any) => {
+}: SessionMarketBoxLiveProps) => {
   const dispatch: AppDispatch = useDispatch();
 
   const handleLive = () => {

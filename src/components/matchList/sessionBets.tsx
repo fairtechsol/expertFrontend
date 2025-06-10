@@ -7,6 +7,15 @@ import { formatToINR } from "../../helpers";
 import StyledImage from "../Common/StyledImages";
 import RowComponent from "./RowComponent";
 
+interface SessionBetSeperateProps {
+  profit: boolean;
+  mark?: boolean;
+  mark2?: boolean;
+  allBetsData: any;
+  betHistory: boolean;
+  isArrow: boolean;
+}
+
 const SessionBetSeperate = ({
   profit,
   mark,
@@ -14,7 +23,7 @@ const SessionBetSeperate = ({
   allBetsData,
   betHistory,
   isArrow,
-}: any) => {
+}: SessionBetSeperateProps) => {
   const [visible, setVisible] = useState(true);
   const theme = useTheme();
   const matchesMobile = useMediaQuery(theme.breakpoints.down("lg"));

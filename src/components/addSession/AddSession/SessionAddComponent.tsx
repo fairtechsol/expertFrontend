@@ -1,11 +1,6 @@
 import { Box, Typography } from "@mui/material";
 import { memo, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../../../store/store";
-import SessionResultModal from "../SessionResult/SessionResultModal";
-import AddSessionInput from "./AddSessionInput";
-import RunsAmountBox from "./RunsAmountBox";
-// import MaxBetAdd from "../../matchDetails/MaxBetAdd";
 import { useNavigate, useParams } from "react-router-dom";
 import { socket, socketService } from "../../../socketManager";
 import {
@@ -30,7 +25,11 @@ import {
   // getMatchListSessionProfitLoss,
   sessionResultSuccessReset,
 } from "../../../store/actions/match/matchAction";
+import { AppDispatch, RootState } from "../../../store/store";
 import { ButtonRatesQuickSessions } from "../../../utils/Constants";
+import SessionResultModal from "../SessionResult/SessionResultModal";
+import AddSessionInput from "./AddSessionInput";
+import RunsAmountBox from "./RunsAmountBox";
 // import SessionLimit from "./SessionLimit";
 import CommissionDot from "../../Common/CommissionDot";
 import SessionLimit2 from "./SessionLimit2";

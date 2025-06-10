@@ -1,7 +1,12 @@
 import { Box, Typography } from "@mui/material";
 import { memo } from "react";
 
-const Result = ({ invert, onClick }: any) => {
+interface ResultProps {
+  invert: boolean;
+  onClick: () => void;
+}
+
+const Result = ({ invert, onClick }: ResultProps) => {
   return (
     <Box onClick={onClick}>
       <Box

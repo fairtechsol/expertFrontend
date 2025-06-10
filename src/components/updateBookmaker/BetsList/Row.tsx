@@ -2,7 +2,12 @@ import { Box, Typography } from "@mui/material";
 import { memo } from "react";
 import { formatToINR } from "../../helper";
 
-const Row = ({ index, values }: any) => {
+interface RowProps {
+  index: number;
+  values: any;
+}
+
+const Row = ({ index, values }: RowProps) => {
   const getTime = (date: any) => {
     const now = new Date(date);
     const timeString = now.toLocaleTimeString("en-US", {

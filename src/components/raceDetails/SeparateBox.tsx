@@ -3,7 +3,14 @@ import React, { memo } from "react";
 import { Popover } from "react-tiny-popover";
 import { Lock } from "../../assets";
 
-const SeparateBox = ({ color, empty, value, width, value2, lock }: any) => {
+interface SeparateBoxProps {
+  color: any;
+  value: any;
+  value2: any;
+  lock: any;
+}
+
+const SeparateBox = ({ color, value, value2, lock }: SeparateBoxProps) => {
   const theme = useTheme();
   const matchesMobile = useMediaQuery(theme.breakpoints.down("lg"));
   const [isPopoverOpen, setIsPopoverOpen] = React.useState(false);
@@ -27,7 +34,7 @@ const SeparateBox = ({ color, empty, value, width, value2, lock }: any) => {
             background: lock || [0, "0"].includes(value) ? "#FDF21A" : color,
             border:
               color != "white" ? "1px solid #2626264D" : "0px solid white",
-            width: { xs: "32%", lg: width ? width : "45%" },
+            width: { xs: "32%", lg: "45%" },
             height: "94%",
             display: "flex",
             justifyContent: "center",
@@ -35,7 +42,7 @@ const SeparateBox = ({ color, empty, value, width, value2, lock }: any) => {
             flexDirection: "column",
           }}
         >
-          {!empty && !lock && ![0, "0"].includes(value) && (
+          {!lock && ![0, "0"].includes(value) && (
             <Box sx={{ alignItems: "center", justifyContent: "space-around" }}>
               <Typography
                 sx={{

@@ -4,15 +4,21 @@ import { memo } from "react";
 import { formatNumber } from "../../helper";
 import SeparateBox from "../SeparateBox";
 import MoneyBox from "./MoneyBox";
+
+interface BoxComponentProps {
+  name: string;
+  data: any;
+  lock: boolean;
+  teamRates: any;
+  livestatus?: any;
+}
 const BoxComponent = ({
   name,
   data,
-  currentMatch,
-  align,
   lock,
   teamRates,
   livestatus,
-}: any) => {
+}: BoxComponentProps) => {
   const theme = useTheme();
   const matchesMobile = useMediaQuery(theme.breakpoints.down("lg"));
   const { ex, status, adjustmentFactor, removalDate } = data ?? {};
@@ -126,8 +132,6 @@ const BoxComponent = ({
           >
             {!matchesMobile && (
               <SeparateBox
-                currentMatch={currentMatch}
-                align={align}
                 lock={lock}
                 value={
                   ex?.availableToBack?.length > 0
@@ -145,8 +149,6 @@ const BoxComponent = ({
             <Box sx={{ width: ".45%", display: "flex", background: "pink" }} />
             {!matchesMobile && (
               <SeparateBox
-                currentMatch={currentMatch}
-                align={align}
                 lock={lock}
                 value={
                   ex?.availableToBack?.length > 0
@@ -163,8 +165,6 @@ const BoxComponent = ({
             )}
             <Box sx={{ width: ".45%", display: "flex", background: "pink" }} />
             <SeparateBox
-              currentMatch={currentMatch}
-              align={align}
               value={
                 ex?.availableToBack?.length > 0
                   ? ex?.availableToBack[0]?.price ?? 0
@@ -180,8 +180,6 @@ const BoxComponent = ({
             />
             <Box sx={{ width: ".45%", display: "flex", background: "pink" }} />
             <SeparateBox
-              currentMatch={currentMatch}
-              align={align}
               value={
                 ex?.availableToLay?.length > 0
                   ? ex?.availableToLay[0]?.price ?? 0
@@ -202,9 +200,6 @@ const BoxComponent = ({
             )}
             {!matchesMobile && (
               <SeparateBox
-                currentMatch={currentMatch}
-                back={true}
-                align={align}
                 lock={lock}
                 value={
                   ex?.availableToLay?.length > 0
@@ -226,8 +221,6 @@ const BoxComponent = ({
             )}
             {!matchesMobile && (
               <SeparateBox
-                currentMatch={currentMatch}
-                align={align}
                 value={
                   ex?.availableToLay?.length > 0
                     ? ex?.availableToLay[2]?.price ?? 0

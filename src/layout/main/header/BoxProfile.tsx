@@ -5,13 +5,19 @@ import { ArrowDown } from "../../../assets/index";
 import StyledImage from "../../../components/Common/StyledImages";
 import HeaderDropdown from "./HeaderDropdown";
 
-const BoxProfile = ({ image, value, containerStyle, value1 }: any) => {
+interface BoxProfileProps {
+  image: string;
+  containerStyle: any;
+  value1: string;
+}
+
+const BoxProfile = ({ image, containerStyle, value1 }: BoxProfileProps) => {
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = useState<HTMLElement | any>(null);
   const handleClick = (event: any) => {
     setAnchorEl(event.currentTarget);
   };
-  useEffect(() => { }, [anchorEl]);
+  useEffect(() => {}, [anchorEl]);
   const handleClose = (val: any) => {
     setAnchorEl(0);
     typeof val == "string" &&
@@ -58,11 +64,6 @@ const BoxProfile = ({ image, value, containerStyle, value1 }: any) => {
             }}
           />
           <Box style={{ flex: 1, marginLeft: "5px" }}>
-            <Typography
-              sx={{ fontSize: "10px", color: "text.white", fontWeight: "600" }}
-            >
-              {value}
-            </Typography>
             <Typography
               sx={{ fontSize: "10px", color: "text.white", fontWeight: "600" }}
             >

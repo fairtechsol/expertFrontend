@@ -10,7 +10,18 @@ import {
 import { AppDispatch, RootState } from "../../store/store";
 import MatchOddsResultCustomButton from "../updateBookmaker/BookmakerEdit/MatchOddsResultCustomButton";
 
-const ResultComponent = ({ currentMatch, onClick, stopAt, liveData }: any) => {
+interface ResultComponentProps {
+  currentMatch: any;
+  onClick: () => void;
+  stopAt: string;
+  liveData: any;
+}
+const ResultComponent = ({
+  currentMatch,
+  onClick,
+  stopAt,
+  liveData,
+}: ResultComponentProps) => {
   const dispatch: AppDispatch = useDispatch();
   const { success, error } = useSelector((state: RootState) => state.match);
   const [selected, setSelected] = useState(liveData?.runners[0]?.id);

@@ -3,6 +3,19 @@ import { memo } from "react";
 import { stripUrl } from "../../helpers";
 import CommissionDot from "../Common/CommissionDot";
 
+interface SingleBoxProps {
+  data: any;
+  header: any;
+  color: any;
+  up?: any;
+  first?: any;
+  time?: any;
+  isPercent?: any;
+  rate?: any;
+  domain?: any;
+  isCommissionActive?: any;
+}
+
 const SingleBox = ({
   data,
   header,
@@ -13,8 +26,8 @@ const SingleBox = ({
   isPercent,
   rate,
   domain,
-  isCommissionActive
-}: any) => {
+  isCommissionActive,
+}: SingleBoxProps) => {
   return !header ? (
     first ? (
       <Box
@@ -24,7 +37,7 @@ const SingleBox = ({
           background: "#F8C851",
           display: { xs: "initial", lg: "flex" },
           justifyContent: { lg: "center", xs: "initial" },
-          alignItems: 'center',
+          alignItems: "center",
         }}
       >
         {isCommissionActive && <CommissionDot />}

@@ -3,9 +3,14 @@ import { memo, useEffect, useState } from "react";
 import StyledImage from "../../../components/Common/StyledImages";
 import HeaderDropdown from "./HeaderDropdown";
 
-const ActiveUsers = ({ image, value }: any) => {
+interface ActiveUsersProps {
+  image: any;
+  value: number;
+}
+
+const ActiveUsers = ({ image, value }: ActiveUsersProps) => {
   const [anchorEl, setAnchorEl] = useState<any>(null);
-  useEffect(() => { }, [anchorEl]);
+  useEffect(() => {}, [anchorEl]);
   const handleClose = () => {
     setAnchorEl(0);
   };
@@ -48,7 +53,7 @@ const ActiveUsers = ({ image, value }: any) => {
           >
             <StyledImage
               src={image}
-              sx={{ height: "15px", width: "15px", }}
+              sx={{ height: "15px", width: "15px" }}
               alt="image"
             />
           </Box>

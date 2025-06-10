@@ -1,7 +1,11 @@
 import { Box, Typography } from "@mui/material";
 import { memo } from "react";
 
-const HeaderRow = ({ tag }: any) => {
+interface HeaderRowProps {
+  tag: boolean;
+}
+
+const HeaderRow = ({ tag }: HeaderRowProps) => {
   return (
     <Box sx={{ width: "auto", display: "flex" }}>
       <Box

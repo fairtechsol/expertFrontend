@@ -5,7 +5,19 @@ import { useNavigate } from "react-router-dom";
 import { Constants } from "../../utils/Constants";
 import CustomButton from "../Common/CustomButton";
 
-const MatchListTable = ({ data, index, currentPage, race }: any) => {
+interface MatchListTableProps {
+  data: any;
+  index: number;
+  currentPage: number;
+  race: any;
+}
+
+const MatchListTable = ({
+  data,
+  index,
+  currentPage,
+  race,
+}: MatchListTableProps) => {
   const navigate = useNavigate();
 
   return (

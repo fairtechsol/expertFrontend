@@ -2,13 +2,21 @@ import { Box, Typography } from "@mui/material";
 import { memo } from "react";
 import { formatToINR } from "../helper";
 
+interface MatchListProfitLossProps {
+  updateMatchStatus: any;
+  updateMatchStatusLabel: string;
+  onClick?: () => void;
+  showUserModal?: boolean;
+  cursor?: string;
+}
+
 const MatchListProfitLoss = ({
   updateMatchStatus,
   updateMatchStatusLabel,
   onClick,
   showUserModal,
   cursor,
-}: any) => {
+}: MatchListProfitLossProps) => {
   const [integerPart, decimalPart] = parseFloat(updateMatchStatus || 0.0)
     .toFixed(2)
     .split(".");

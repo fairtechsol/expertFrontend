@@ -1,7 +1,12 @@
 import { Box, Typography } from "@mui/material";
 import { memo } from "react";
 
-const LargeBox = ({ item, k }: any) => {
+interface LargeBoxProps {
+  item: any;
+  k: number;
+}
+
+const LargeBox = ({ item, k }: LargeBoxProps) => {
   return (
     <Box
       sx={{

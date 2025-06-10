@@ -2,7 +2,11 @@ import { Box, Typography, useMediaQuery, useTheme } from "@mui/material";
 import { memo } from "react";
 import { formatToINR } from "../../helper";
 
-const MoneyBox = ({ value }: any) => {
+interface MoneyBoxProps {
+  value: number | string;
+}
+
+const MoneyBox = ({ value }: MoneyBoxProps) => {
   const theme = useTheme();
   const matchesMobile = useMediaQuery(theme.breakpoints.down("lg"));
 

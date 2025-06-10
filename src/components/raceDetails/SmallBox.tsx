@@ -1,25 +1,23 @@
-import { Box, CircularProgress, Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { memo } from "react";
 import { BroadCast } from "../../assets";
 
-const SmallBox = ({
-  color,
-  title,
-  width,
-  textSize,
-  onClick,
-  hide,
-  customStyle,
-  loading,
-}: any) => {
+interface SmallBoxProps {
+  onClick: () => void;
+  title: string;
+  color: string;
+  customStyle: any;
+}
+
+const SmallBox = ({ color, title, onClick, customStyle }: SmallBoxProps) => {
   return (
     <Box
       onClick={onClick}
       sx={[
         {
           width: {
-            lg: width ? width.lg : "60px",
-            xs: width ? width.xs : "25%",
+            lg: "60px",
+            xs: "25%",
           },
           display: "flex",
           marginRight: "10px",
@@ -37,37 +35,23 @@ const SmallBox = ({
       <Typography
         sx={{
           fontSize: {
-            lg: textSize ? textSize : "11px",
-            xs: textSize ? textSize : "10px",
+            lg: "11px",
+            xs: "10px",
           },
           fontWeight: "600",
           color: color !== "#FFF" ? "white" : "",
           lineHeight: 1,
         }}
       >
-        {loading ? (
-          <CircularProgress
-            sx={{
-              color: "#FFF",
-            }}
-            size={14}
-            thickness={2}
-            value={60}
-          />
-        ) : (
-          title
-        )}
+        {title}
       </Typography>
-      {hide && !loading && (
-        <img
-          src={BroadCast}
-          width={15}
-          height={15}
-          // style={{ height: "15px", width: "15px" }}
-          alt="stop"
-          style={{ objectFit: "contain" }}
-        />
-      )}
+      <img
+        src={BroadCast}
+        width={15}
+        height={15}
+        alt="stop"
+        style={{ objectFit: "contain" }}
+      />
     </Box>
   );
 };

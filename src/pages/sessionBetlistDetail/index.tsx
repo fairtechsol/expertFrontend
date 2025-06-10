@@ -340,11 +340,7 @@ const SessionBetlistDetail = () => {
                     )?.length > 0 && (
                       <SessionMarket2
                         title={`${name} Market`}
-                        hideTotalBet={false}
-                        profitLossData={matchDetail?.sessionProfitLoss}
                         sessionData={item}
-                        hideResult={true}
-                        hideEditMaxButton={false}
                       />
                     )}
                   </Fragment>
@@ -372,11 +368,7 @@ const SessionBetlistDetail = () => {
                   )?.length > 0 && (
                     <SessionMarket2
                       title={`${name} Market`}
-                      hideTotalBet={false}
-                      profitLossData={matchDetail?.sessionProfitLoss}
                       sessionData={item}
-                      hideResult={true}
-                      hideEditMaxButton={false}
                     />
                   )}
                 </Fragment>

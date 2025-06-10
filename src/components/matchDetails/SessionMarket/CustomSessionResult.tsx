@@ -10,7 +10,15 @@ import {
 import { AppDispatch, RootState } from "../../../store/store";
 import SessionResultCustomButton from "../../addSession/AddSession/SessionResultCustomButton";
 
-const CustomSessionResult = ({ onClick, newData }: any) => {
+interface CustomSessionResultProps {
+  onClick: () => void;
+  newData: any;
+}
+
+const CustomSessionResult = ({
+  onClick,
+  newData,
+}: CustomSessionResultProps) => {
   const dispatch: AppDispatch = useDispatch();
   const { declareLoading } = useSelector((state: RootState) => state.matchList);
   const [selected, setSelected] = useState("");
