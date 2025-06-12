@@ -498,9 +498,32 @@ const BetList = ({ tag, allBetRates, title, isMatchDeclare }: BetListProps) => {
         margin: "0",
         marginTop: ".25vh",
         background: "white",
+        position: "relative",
       }}
     >
+      <Box>
+        {showButton && (
+          <Button
+            variant="contained"
+            onClick={scrollToTop}
+            sx={{
+              position: "absolute",
+              width: "100px",
+              fontSize: "9px",
+              bottom: 30,
+              right: 20,
+              backgroundColor: "#F8C851",
+              color: "#000",
+              "&:hover": { backgroundColor: "#F8C851" },
+              zIndex: 1000,
+            }}
+          >
+            Scroll to Top
+          </Button>
+        )}
+      </Box>
       {/* Header section remains the same */}
+
       <Box
         sx={{
           display: "flex",
@@ -510,27 +533,7 @@ const BetList = ({ tag, allBetRates, title, isMatchDeclare }: BetListProps) => {
           alignSelf: "center",
         }}
       >
-        <Box>
-          {showButton && (
-            <Button
-              variant="contained"
-              onClick={scrollToTop}
-              sx={{
-                position: "fixed",
-                width: "100px",
-                fontSize: "9px",
-                bottom: 20,
-                right: 20,
-                backgroundColor: "#F8C851",
-                color: "#000",
-                "&:hover": { backgroundColor: "#F8C851" },
-                zIndex: 1000,
-              }}
-            >
-              Scroll to Top
-            </Button>
-          )}
-        </Box>
+
         <Box
           sx={{
             flex: 1,
@@ -671,22 +674,24 @@ const BetList = ({ tag, allBetRates, title, isMatchDeclare }: BetListProps) => {
       </Box>
 
       {visibleImg && (
-        <AutoSizer>
-          {({ width }) => (
-            <List
-              ref={listRef}
-              height={cHeight}
-              itemCount={allBetRates.length}
-              itemSize={ROW_HEIGHT}
-              itemKey={(index, data) => data?.allBetRates[index]?.id}
-              width={width}
-              onScroll={handleScroll}
-              itemData={itemData} // Pass memoized data
-            >
-              {MemoizedRow}
-            </List>
-          )}
-        </AutoSizer>
+        <Box sx={{ position: "relative", height: cHeight }}>
+          <AutoSizer>
+            {({ width }) => (
+              <List
+                ref={listRef}
+                height={cHeight}
+                itemCount={allBetRates.length}
+                itemSize={ROW_HEIGHT}
+                itemKey={(index, data) => data?.allBetRates[index]?.id}
+                width={width}
+                onScroll={handleScroll}
+                itemData={itemData} // Pass memoized data
+              >
+                {MemoizedRow}
+              </List>
+            )}
+          </AutoSizer>
+        </Box>
       )}
     </Box>
   );
