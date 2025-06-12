@@ -306,8 +306,8 @@ const OtherMatchDetails = () => {
               }}
             >
               {component
-                ?.sort(handleMarketSorting)
                 ?.filter((_: any, index: any) => index % 2 == 0)
+                ?.sort(handleMarketSorting)
                 ?.map((item: any, index: number) => {
                   return <Fragment key={index}>{item?.component}</Fragment>;
                 })}
@@ -322,8 +322,8 @@ const OtherMatchDetails = () => {
               }}
             >
               {component
-                ?.sort(handleMarketSorting)
                 ?.filter((_: any, index: any) => index % 2 != 0)
+                ?.sort(handleMarketSorting)
                 ?.map((item: any, index: number) => {
                   return <Fragment key={index}>{item?.component}</Fragment>;
                 })}
