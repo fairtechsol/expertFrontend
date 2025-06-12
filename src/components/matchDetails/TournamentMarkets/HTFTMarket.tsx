@@ -310,17 +310,9 @@ const HTFTMarket = ({ currentMatch, liveData, title, firstKnownKey }: any) => {
                         ]?.[item?.id] ?? 0
                       : 0
                   }
-                  livestatus={
-                    !["ACTIVE", "OPEN", "", "active", "open"].includes(
-                      item?.status?.toLowerCase()
-                    )
-                      ? true
-                      : false
-                  }
                   data={item}
                   lock={liveData?.runners?.length > 0 ? false : true}
                   name={item?.nat ?? item?.runnerName}
-                  liveData={liveData}
                 />
 
                 <Divider />

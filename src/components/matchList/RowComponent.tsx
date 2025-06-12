@@ -4,7 +4,12 @@ import { memo } from "react";
 import { formatToINR } from "../../helpers";
 import SingleBox from "./SingleBox";
 
-const RowComponent = ({ header, data }: any) => {
+interface RowComponentProps {
+  header: boolean;
+  data: any;
+}
+
+const RowComponent = ({ header, data }: RowComponentProps) => {
   const getTime = (date: any) => {
     const timeString = moment
       .utc(date)

@@ -11,7 +11,15 @@ import { AppDispatch, RootState } from "../../../store/store";
 import { formatToINR } from "../../helper";
 import { MaterialUISwitch } from "../../tabList/materialUiSwitch";
 
-const SessionLimitEdit = ({ newData, visible, onClickCancel }: any) => {
+interface SessionLimitEditProps {
+  newData: any;
+  onClickCancel: () => void;
+}
+
+const SessionLimitEdit = ({
+  newData,
+  onClickCancel,
+}: SessionLimitEditProps) => {
   const dispatch: AppDispatch = useDispatch();
   const { loading, maxLimitUpdateSuccess } = useSelector(
     (state: RootState) => state.addSession
@@ -63,7 +71,7 @@ const SessionLimitEdit = ({ newData, visible, onClickCancel }: any) => {
 
   useEffect(() => {
     scrollToBottom();
-  }, [visible]);
+  }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const rawValue = e.target.value.replace(/,/g, "");

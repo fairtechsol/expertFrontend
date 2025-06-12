@@ -104,7 +104,6 @@ export const Constants = {
     live_update: "live/:id",
     addBookMaker: "add_book_maker",
     addManualMarket: "addManualMarket",
-    // betOdds: "betOdds",
     betOddsOtherGames: "betOdds/otherGames/:id/:mId",
     betOddsRace: "betOdds/race/:id/:mId",
     session: "session/:id/:mId",

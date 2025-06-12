@@ -291,7 +291,6 @@ const RaceDetails = () => {
                 : ""}
             </Typography>
             <MatchOdds
-              showHeader={true}
               currentMatch={raceDetail}
               matchOddsLive={raceDetail?.matchOdd}
             />

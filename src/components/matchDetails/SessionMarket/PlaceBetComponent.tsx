@@ -6,7 +6,15 @@ import { UD } from "../../../assets";
 import { getSessionProfitLossMatchDetail } from "../../../store/actions/match/matchAction";
 import { AppDispatch } from "../../../store/store";
 
-const PlaceBetComponent = ({ profitLossData, newData }: any) => {
+interface PlaceBetComponentProps {
+  profitLossData: any;
+  newData: any;
+}
+
+const PlaceBetComponent = ({
+  profitLossData,
+  newData,
+}: PlaceBetComponentProps) => {
   const dispatch: AppDispatch = useDispatch();
   return (
     <Box

@@ -19,13 +19,21 @@ import {
 } from "../../../store/actions/addSession";
 import { AppDispatch, RootState } from "../../../store/store";
 
+interface MenutItemsComponentProps {
+  x: any;
+  selected: any;
+  index: number;
+  setSelected: (val: any) => void;
+  handleClose: () => void;
+}
+
 const MenutItemsComponent = ({
   x,
   selected,
   index,
   setSelected,
   handleClose,
-}: any) => {
+}: MenutItemsComponentProps) => {
   const theme = useTheme();
   const dispatch: AppDispatch = useDispatch();
   const matchesMobile = useMediaQuery(theme.breakpoints.down("lg"));
@@ -146,43 +154,43 @@ const MenutItemsComponent = ({
 
               {(profileDetail?.allPrivilege ||
                 profileDetail?.sessionMatchPrivilege) && (
-                  <Box
-                    onClick={(e: any) => {
-                      e.stopPropagation();
-                      dispatch(matchDetailReset());
-                      dispatch(addsuccessReset());
-                      dispatch(sessionByIdReset());
-                      dispatch(resetPlacedBets());
-                      navigate("/expert/live", {
-                        state: {
-                          createSession: true,
-                          match: x,
-                        },
-                      });
-                      handleClose();
-                    }}
+                <Box
+                  onClick={(e: any) => {
+                    e.stopPropagation();
+                    dispatch(matchDetailReset());
+                    dispatch(addsuccessReset());
+                    dispatch(sessionByIdReset());
+                    dispatch(resetPlacedBets());
+                    navigate("/expert/live", {
+                      state: {
+                        createSession: true,
+                        match: x,
+                      },
+                    });
+                    handleClose();
+                  }}
+                  sx={{
+                    marginTop: "5px",
+                    display: "flex",
+                    alignItems: "center",
+                  }}
+                >
+                  <Typography
                     sx={{
-                      marginTop: "5px",
-                      display: "flex",
-                      alignItems: "center",
+                      fontSize: "12px",
+                      fontWeight: "600",
+                      cursor: "pointer",
                     }}
                   >
-                    <Typography
-                      sx={{
-                        fontSize: "12px",
-                        fontWeight: "600",
-                        cursor: "pointer",
-                      }}
-                    >
-                      Create Session
-                    </Typography>
-                    <StyledImage
-                      src={ArrowLeft}
-                      alt="left"
-                      sx={{ width: "15px", height: "10px", marginLeft: "10px" }}
-                    />
-                  </Box>
-                )}
+                    Create Session
+                  </Typography>
+                  <StyledImage
+                    src={ArrowLeft}
+                    alt="left"
+                    sx={{ width: "15px", height: "10px", marginLeft: "10px" }}
+                  />
+                </Box>
+              )}
             </>
           )}
 

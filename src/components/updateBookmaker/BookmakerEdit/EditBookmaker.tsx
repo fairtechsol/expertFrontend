@@ -21,6 +21,16 @@ import ResultComponentTournamentMarket from "../../matchDetails/TournamentMarket
 import TournamentMarketAdd from "../../matchDetails/TournamentMarkets/TournamentMarketAdd";
 import BookButton from "./BookButton";
 
+interface EditBookmakerProps {
+  add: any;
+  match: any;
+  type?: any;
+  exposureLimit: any;
+  matchBetting: any;
+  runners: any;
+  teamRates: any;
+}
+
 const EditBookmaker = ({
   add,
   match,
@@ -29,7 +39,7 @@ const EditBookmaker = ({
   matchBetting,
   runners,
   teamRates,
-}: any) => {
+}: EditBookmakerProps) => {
   const { state } = useLocation();
   const dispatch: AppDispatch = useDispatch();
   const matchesMobile = useMediaQuery(theme.breakpoints.down("lg"));

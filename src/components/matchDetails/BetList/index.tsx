@@ -40,7 +40,7 @@ const MemoizedRow = memo(
     const betTypeDisplay =
       bet?.marketType === "oddEven"
         ? bet?.teamName?.match(/[-_](odd|even)$/i)?.[1]?.toUpperCase() ||
-        bet?.betType
+          bet?.betType
         : bet?.betType;
 
     return (
@@ -296,8 +296,8 @@ const MemoizedRow = memo(
               {bet.myStake
                 ? formatToINR(+bet.myStake)
                 : formatToINR(
-                  (+bet?.amount * +bet?.user?.fwPartnership || 0) / 100
-                )}
+                    (+bet?.amount * +bet?.user?.fwPartnership || 0) / 100
+                  )}
             </Typography>
           </Box>
 
@@ -371,17 +371,19 @@ const MemoizedRow = memo(
               </Box>
             </Box>
           )}
-          {bet?.deleteReason && bet?.result && ["UNDECLARE"].includes(bet.result) && (
-            <Box
-              sx={{
-                background: "rgba(0,0,0,0.5)",
-                width: "100%",
-                height: "30px",
-                position: "absolute",
-                display: "flex",
-              }}
-            />
-          )}
+          {bet?.deleteReason &&
+            bet?.result &&
+            ["UNDECLARE"].includes(bet.result) && (
+              <Box
+                sx={{
+                  background: "rgba(0,0,0,0.5)",
+                  width: "100%",
+                  height: "30px",
+                  position: "absolute",
+                  display: "flex",
+                }}
+              />
+            )}
           {bet?.result && ["LOSS", "WIN", "TIE"].includes(bet.result) && (
             <Box
               sx={{
@@ -430,7 +432,14 @@ const handleDomain = (url: any) => {
   const parts = url?.split(".");
   return parts?.[parts.length - 2] || "";
 };
-const BetList = ({ tag, allBetRates, title, isMatchDeclare }: any) => {
+
+interface BetListProps {
+  tag: boolean;
+  allBetRates: any;
+  title?: string;
+  isMatchDeclare?: boolean;
+}
+const BetList = ({ tag, allBetRates, title, isMatchDeclare }: BetListProps) => {
   const dispatch: AppDispatch = useDispatch();
   const listRef = useRef<any>(null);
   const [visibleImg, setVisibleImg] = useState(true);
@@ -581,8 +590,9 @@ const BetList = ({ tag, allBetRates, title, isMatchDeclare }: any) => {
           >
             <Box sx={{ padding: 2, textAlign: "center" }}>
               <Typography>
-                {`Are you sure you want to ${matchDetail?.stopAt ? "Un Declare" : "Declare"
-                  } the final result?`}
+                {`Are you sure you want to ${
+                  matchDetail?.stopAt ? "Un Declare" : "Declare"
+                } the final result?`}
               </Typography>
               <Box
                 sx={{

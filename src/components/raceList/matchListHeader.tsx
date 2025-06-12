@@ -17,7 +17,7 @@ import {
 } from "../../store/actions/match/matchAction";
 import { AppDispatch, RootState } from "../../store/store";
 
-interface MatchListHeader {
+interface MatchListHeaderProps {
   value: string | any;
 }
 
@@ -35,7 +35,7 @@ const CustomTabs = styled(Tabs)({
   },
 });
 
-const MatchListHeader = ({ value }: MatchListHeader) => {
+const MatchListHeader = ({ value }: MatchListHeaderProps) => {
   const dispatch: AppDispatch = useDispatch();
   const { dateList } = useSelector((state: RootState) => state.user.profile);
   const { countryCode } = useSelector((state: RootState) => state.matchList);

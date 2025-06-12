@@ -4,7 +4,14 @@ import { formatNumber } from "../../helper";
 import SeparateBox from "../SeparateBox";
 import MoneyBox from "./MoneyBox";
 
-const BoxComponent = ({ name, data, lock, teamRates }: any) => {
+interface BoxComponentProps {
+  name: string;
+  data: any;
+  lock: boolean;
+  teamRates: number;
+}
+
+const BoxComponent = ({ name, data, lock, teamRates }: BoxComponentProps) => {
   const { ex } = data ?? {};
 
   return (
@@ -58,7 +65,7 @@ const BoxComponent = ({ name, data, lock, teamRates }: any) => {
             background: "white",
             height: "30px",
             width: { lg: "65%", xs: "78%" },
-            justifyContent: 'flex-end',
+            justifyContent: "flex-end",
             alignItems: "center",
           }}
         >
@@ -68,7 +75,7 @@ const BoxComponent = ({ name, data, lock, teamRates }: any) => {
               background: "white",
               height: "30px",
               width: { lg: "50%", xs: "60%" },
-              justifyContent: 'flex-end',
+              justifyContent: "flex-end",
               alignItems: "center",
             }}
           >
@@ -76,14 +83,14 @@ const BoxComponent = ({ name, data, lock, teamRates }: any) => {
               value={
                 ex?.availableToBack?.length > 0
                   ? ex?.availableToBack[ex?.availableToBack?.length > 1 ? 2 : 0]
-                    ?.price ?? 0
+                      ?.price ?? 0
                   : 0
               }
               lock={lock}
               value2={formatNumber(
                 ex?.availableToBack?.length > 0
                   ? ex?.availableToBack[ex?.availableToBack?.length > 1 ? 2 : 0]
-                    ?.size ?? 0
+                      ?.size ?? 0
                   : 0
               )}
               color="#A7DCFF"

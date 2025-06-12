@@ -13,7 +13,12 @@ import ResultComponent from "../ResultComponent";
 import SmallBox from "../SmallBox";
 import BoxComponent from "./BoxComponent";
 
-const MatchOdds = ({ currentMatch, matchOddsLive }: any) => {
+interface MatchOddsProps {
+  currentMatch: any;
+  matchOddsLive: any;
+}
+
+const MatchOdds = ({ currentMatch, matchOddsLive }: MatchOddsProps) => {
   const [visible, setVisible] = useState(false);
   const [visibleImg, setVisibleImg] = useState(true);
   const [maxLimitModal, setShowMaxLimitModal] = useState(false);
@@ -81,7 +86,6 @@ const MatchOdds = ({ currentMatch, matchOddsLive }: any) => {
             sx={{
               flex: 0.1,
               background: "#262626",
-              // '#262626'
             }}
           >
             <div className="slanted" />
@@ -91,7 +95,6 @@ const MatchOdds = ({ currentMatch, matchOddsLive }: any) => {
             sx={{
               flex: 1,
               background: "#262626",
-              // '#262626' ,
               display: "flex",
               alignItems: "center",
               justifyContent: "flex-end",
@@ -99,7 +102,6 @@ const MatchOdds = ({ currentMatch, matchOddsLive }: any) => {
             }}
           >
             <Result
-              width={"80px"}
               onClick={() => {
                 setVisible(true);
               }}
@@ -109,25 +111,23 @@ const MatchOdds = ({ currentMatch, matchOddsLive }: any) => {
               ((currentMatch?.resultStatus &&
                 !currentMatch?.resultStatus[matchOddsLive?.id]?.status) ||
                 !currentMatch?.resultStatus) && (
-                <>
-                  <SmallBox
-                    onClick={() => {
-                      dispatch(
-                        raceLiveStatus({
-                          isStop: live,
-                          betId: matchOddsLive?.id,
-                        })
-                      );
-                      setLive(!live);
-                    }}
-                    title={live ? "Live" : "Go Live"}
-                    color={live ? "#46e080" : "#FF4D4D"}
-                    customStyle={{
-                      justifyContent: "center",
-                      textAlign: "center",
-                    }}
-                  />
-                </>
+                <SmallBox
+                  onClick={() => {
+                    dispatch(
+                      raceLiveStatus({
+                        isStop: live,
+                        betId: matchOddsLive?.id,
+                      })
+                    );
+                    setLive(!live);
+                  }}
+                  title={live ? "Live" : "Go Live"}
+                  color={live ? "#46e080" : "#FF4D4D"}
+                  customStyle={{
+                    justifyContent: "center",
+                    textAlign: "center",
+                  }}
+                />
               )}
             <img
               onClick={toggleVisibility}
@@ -159,7 +159,6 @@ const MatchOdds = ({ currentMatch, matchOddsLive }: any) => {
             <ResultComponent
               currentMatch={currentMatch}
               stopAt={currentMatch?.stopAt}
-              tie={currentMatch?.matchType === "cricket" ? "Tie" : ""}
               onClick={() => {
                 setVisible(false);
               }}
@@ -292,7 +291,6 @@ const MatchOdds = ({ currentMatch, matchOddsLive }: any) => {
                         data={item ? item : {}}
                         lock={item !== undefined ? false : true}
                         name={item?.runnerName}
-                        currentMatch={currentMatch}
                         teamRates={
                           currentMatch?.profitLossDataMatch
                             ? currentMatch?.profitLossDataMatch[item?.id]
@@ -334,7 +332,7 @@ const MatchOdds = ({ currentMatch, matchOddsLive }: any) => {
                   <Typography sx={{ color: "#fff", textAlign: "center" }}>
                     RESULT{" "}
                     {currentMatch?.stopAt ||
-                      currentMatch?.activeStatus === "result"
+                    currentMatch?.activeStatus === "result"
                       ? "DECLARED"
                       : currentMatch?.resultStatus}
                   </Typography>

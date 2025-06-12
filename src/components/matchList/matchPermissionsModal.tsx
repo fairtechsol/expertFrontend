@@ -10,6 +10,17 @@ import CustomButton from "../Common/CustomButton";
 import { handleSorting } from "../helper";
 import MatchListProfitLoss from "./profitLoss";
 
+interface MatchPermissionsModalProps {
+  showUserModal: boolean;
+  handleMatchProfitLossClick: (val: any) => void;
+  data: any;
+  updateBettings: any;
+  setUpdateBettings: any;
+  updateMatchStatus: any;
+  setUpdateMatchStatus: any;
+  upcoming: boolean;
+}
+
 const MatchPermissionsModal = ({
   showUserModal,
   handleMatchProfitLossClick,
@@ -19,7 +30,7 @@ const MatchPermissionsModal = ({
   updateMatchStatus,
   setUpdateMatchStatus,
   upcoming,
-}: any) => {
+}: MatchPermissionsModalProps) => {
   const navigate = useNavigate();
   const matchesMobile = useMediaQuery(theme.breakpoints.down("lg"));
 
@@ -83,26 +94,18 @@ const MatchPermissionsModal = ({
             <MatchListProfitLoss
               updateMatchStatusLabel="Total Profit/Loss"
               updateMatchStatus={plData?.totalProfitLoss}
-              place="1"
               cursor="default"
             />
             <MatchListProfitLoss
               updateMatchStatusLabel="Commission"
               updateMatchStatus={plData?.commission}
-              place="1"
               cursor="default"
             />
             {isCricket && (
               <MatchListProfitLoss
-                containerStyle={{
-                  minWidth: { xs: "4%", sm: "12px" },
-                  width: { xs: "9%", sm: "100px" },
-                  marginBottom: { xs: "1rem", sm: "1rem", md: 0 },
-                }}
                 onClick={() => handleMatchProfitLossClick(data?.id)}
                 updateMatchStatusLabel="Session Profit/Loss"
                 updateMatchStatus={plData?.sessionTotalProfitLoss}
-                place="1"
                 cursor="pointer"
               />
             )}

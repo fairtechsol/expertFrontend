@@ -24,7 +24,13 @@ interface TimeLeft {
   seconds?: string;
 }
 
-const MatchListTable = ({ data, index, currentPage }: any) => {
+interface MatchListTableProps {
+  data: any;
+  index: number;
+  currentPage: number;
+}
+
+const MatchListTable = ({ data, index, currentPage }: MatchListTableProps) => {
   const navigate = useNavigate();
   const dispatch: AppDispatch = useDispatch();
   const {

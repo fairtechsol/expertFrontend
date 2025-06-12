@@ -6,7 +6,12 @@ import { formatToINR } from "../../helper";
 import HeaderRow from "./HeaderRow";
 import Row from "./Row";
 
-const BetList = ({ tag, allBetRates }: any) => {
+interface BetListProps {
+  tag: boolean;
+  allBetRates: any;
+}
+
+const BetList = ({ tag, allBetRates }: BetListProps) => {
   const [newData, setNewBets] = useState([]);
   const [visibleImg, setVisibleImg] = useState(true);
   const scrollRef = useRef<HTMLDivElement | null>(null);
@@ -52,8 +57,8 @@ const BetList = ({ tag, allBetRates }: any) => {
                   v?.marketType === "completeManual" ||
                   v?.marketType === "tiedMatch2" ||
                   v?.marketType === "tiedMatch1"
-                  ? "#faf11b"
-                  : "#F1C550",
+                ? "#faf11b"
+                : "#F1C550",
               deleteReason: v?.deleteReason,
               width: { lg: "16%", xs: "50%" },
               domain: v?.domain,
@@ -70,8 +75,8 @@ const BetList = ({ tag, allBetRates }: any) => {
                   v?.marketType === "completeManual" ||
                   v?.marketType === "tiedMatch2" ||
                   v?.marketType === "tiedMatch1"
-                  ? "#faf11b"
-                  : "#F1C550",
+                ? "#faf11b"
+                : "#F1C550",
               deleteReason: v?.deleteReason,
               width: { lg: "17%", xs: "35%" },
               overflowWrap: "anywhere",
@@ -124,8 +129,8 @@ const BetList = ({ tag, allBetRates }: any) => {
               name: +v.myStake
                 ? formatToINR(+v.myStake)
                 : formatToINR(
-                  (+v?.amount * +v?.user?.fwPartnership || 0) / 100
-                ),
+                    (+v?.amount * +v?.user?.fwPartnership || 0) / 100
+                  ),
               color: "white",
               background: "#0B4F26",
               deleteReason: v?.deleteReason,
@@ -318,7 +323,7 @@ const BetList = ({ tag, allBetRates }: any) => {
                           {num < 10 ? "0" + num : num.toString()}
                         </Typography>
                       </Box>
-                      <Row index={k} values={i?.values} />
+                      <Row values={i?.values} />
                       {i?.values[0]?.deleteReason && (
                         <Box
                           sx={{

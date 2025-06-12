@@ -8,7 +8,6 @@ import NewEditBookmaker from "./NewEditBookmaker";
 interface BookmakerEditSectionProps {
   add: boolean;
   match: any;
-  bookmakerId: string;
   runners: any;
   matchBetting: any;
   teamRates: any;
@@ -17,7 +16,6 @@ interface BookmakerEditSectionProps {
 const BookmakerEditSection = ({
   add,
   match,
-  bookmakerId,
   runners,
   matchBetting,
   teamRates,
@@ -215,7 +213,6 @@ const BookmakerEditSection = ({
             <EditBookmaker
               add={add}
               match={match}
-              Bid={bookmakerId}
               matchBetting={matchBetting}
               runners={runners}
               exposureLimit={matchBetting?.exposureLimit}
@@ -225,7 +222,6 @@ const BookmakerEditSection = ({
             <NewEditBookmaker
               add={add}
               match={match}
-              Bid={bookmakerId}
               matchBetting={matchBetting}
               runners={runners}
               exposureLimit={matchBetting?.exposureLimit}
