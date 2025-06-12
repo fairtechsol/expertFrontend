@@ -322,12 +322,12 @@ const SessionBetlistDetail = () => {
         <Box sx={{ width: "25%" }}>
           {matchDetail?.updatedSesssionBettings &&
             Object.entries(matchDetail?.updatedSesssionBettings)
-              ?.sort(customSortBySessionMarketName)
               ?.filter(
                 ([name]: any) =>
                   name !== "cricketCasino" &&
                   (name === "session" || name === "oddEven")
               )
+              ?.sort(customSortBySessionMarketName)
               ?.map(([name, item]: any) => {
                 return (
                   <Fragment key={name}>
@@ -350,13 +350,13 @@ const SessionBetlistDetail = () => {
         <Box sx={{ width: "25%" }}>
           {matchDetail?.updatedSesssionBettings &&
             Object.entries(matchDetail?.updatedSesssionBettings)
-              ?.sort(customSortBySessionMarketName)
               ?.filter(
                 ([name]: any) =>
                   name !== "cricketCasino" &&
                   name !== "session" &&
                   name !== "oddEven"
               )
+              ?.sort(customSortBySessionMarketName)
               ?.map(([name, item]: any) => (
                 <Fragment key={name}>
                   {item?.section?.filter(
@@ -375,8 +375,8 @@ const SessionBetlistDetail = () => {
               ))}
           {matchDetail?.updatedSesssionBettings &&
             Object.entries(matchDetail?.updatedSesssionBettings)
-              ?.sort(customSortBySessionMarketName)
               ?.filter(([name]: any) => name === "cricketCasino")
+              ?.sort(customSortBySessionMarketName)
               ?.map(([name, item]: any) => {
                 return (
                   <Fragment key={name}>
