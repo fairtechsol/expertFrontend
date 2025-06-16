@@ -20,6 +20,37 @@ const BoxButtonWithSwitch = ({
   const value = updateMatchStatus[place]?.val;
   const [checked, setChecked] = useState<boolean>(value || false);
 
+  const handleChange = async () => {
+    try {
+      if (!disable) {
+        let payload = {
+          matchId: matchId,
+          type: matchBettingType,
+          isActive: !checked,
+          isManualBet: isManualBet,
+        };
+        const resp: any = await service.post(
+          ApiConstants.MATCH.UPDATEACTIVESTATUS,
+          payload
+        );
+        if (resp?.statusCode === 200) {
+          setChecked(!checked);
+          setUpdateMatchStatus((prevStatus: any) => ({
+            ...prevStatus,
+            [place]: {
+              ...prevStatus[place],
+              val: !checked,
+            },
+          }));
+        }
+      } else {
+        alert("You don't have privilege to change status.");
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   useEffect(() => {
     if (checked) {
       setBackground("#0B4F26");
@@ -68,36 +99,7 @@ const BoxButtonWithSwitch = ({
       <MaterialUISwitch
         checked={checked}
         disabled={disable}
-        onChange={async () => {
-          try {
-            if (!disable) {
-              let payload = {
-                matchId: matchId,
-                type: matchBettingType,
-                isActive: !checked,
-                isManualBet: isManualBet,
-              };
-              const resp: any = await service.post(
-                ApiConstants.MATCH.UPDATEACTIVESTATUS,
-                payload
-              );
-              if (resp?.statusCode === 200) {
-                setChecked(!checked);
-                setUpdateMatchStatus((prevStatus: any) => ({
-                  ...prevStatus,
-                  [place]: {
-                    ...prevStatus[place],
-                    val: !checked,
-                  },
-                }));
-              }
-            } else {
-              alert("You don't have privilege to change status.");
-            }
-          } catch (e) {
-            console.log(e);
-          }
-        }}
+        onChange={handleChange}
       />
     </Box>
   );

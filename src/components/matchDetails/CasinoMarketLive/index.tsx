@@ -35,6 +35,19 @@ const CasinoMarketLive = ({
     dispatch(addSession(payload));
   };
 
+  const handleClick = (e: any) => {
+    e.preventDefault();
+    setLive(!live);
+    if (sessionData?.id) {
+      dispatch(
+        sessionBetLiveStatus({
+          status: "live",
+          betId: sessionData?.id,
+        })
+      );
+    } else handleLive();
+  };
+
   return (
     <Box
       sx={{
@@ -89,18 +102,7 @@ const CasinoMarketLive = ({
           {!live && (
             <LiveStatusButtonBox
               hide={true}
-              onClick={(e: any) => {
-                e.preventDefault();
-                setLive(!live);
-                if (sessionData?.id) {
-                  dispatch(
-                    sessionBetLiveStatus({
-                      status: "live",
-                      betId: sessionData?.id,
-                    })
-                  );
-                } else handleLive();
-              }}
+              onClick={handleClick}
               textSize="8px"
               width={{ lg: "20px", xs: "20px" }}
               color="#FF4D4D"
