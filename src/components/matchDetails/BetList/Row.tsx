@@ -1,17 +1,21 @@
 import { Box } from "@mui/material";
+import { Fragment, memo } from "react";
 import LargeBox from "./LargeBox";
 import SmallBox from "./SmallBox";
-import { memo } from "react";
 
 const Row = ({ values }: any) => {
   return (
     <Box sx={{ width: "100%", display: "flex" }}>
       {values?.map((item: any, k: any) => {
-        if (!item?.small) {
-          return <LargeBox k={k} key={k} item={item} />;
-        } else {
-          return <SmallBox k={k} key={k} item={item} />;
-        }
+        return (
+          <Fragment key={k}>
+            {!item?.small ? (
+              <LargeBox k={k} item={item} />
+            ) : (
+              <SmallBox k={k} item={item} />
+            )}
+          </Fragment>
+        );
       })}
     </Box>
   );
