@@ -1,4 +1,3 @@
-
 import { Box, Button, Typography } from "@mui/material";
 import { memo, useCallback, useMemo, useRef, useState } from "react";
 import AutoSizer from "react-virtualized-auto-sizer";
@@ -9,39 +8,58 @@ import Row from "./Row";
 const ROW_HEIGHT = 40; // Define row height as constant
 
 // Memoized Row component to prevent unnecessary re-renders
-const MemoizedRow = memo(({ data, index, style }: { data: any, index: number, style: React.CSSProperties }) => {
-  const num = data.betData.length - index;
+const MemoizedRow = memo(
+  ({
+    data,
+    index,
+    style,
+  }: {
+    data: any;
+    index: number;
+    style: React.CSSProperties;
+  }) => {
+    const num = data.betData.length - index;
 
-  // alert(data.items[index])
-  console.log("data", data);
-  const item = data.betData[index];
-  return (
-    <div style={style}>
-      <Row index={num} values={item} />
-    </div>
-  );
-});
+    // alert(data.items[index])
+    console.log("data", data);
+    const item = data.betData[index];
+    return (
+      <div style={style}>
+        <Row index={num} values={item} />
+      </div>
+    );
+  }
+);
 
 const BetsList = ({ betData, name }: any) => {
   const listRef = useRef<any>(null);
   const [showButton, setShowButton] = useState(false);
 
   // Memoize the itemData to prevent unnecessary re-renders
-  const itemData = useMemo(() => ({
-    betData,
-    // Include other props that Row might need
-  }), [betData]);
+  const itemData = useMemo(
+    () => ({
+      betData,
+      // Include other props that Row might need
+    }),
+    [betData]
+  );
 
   const scrollToTop = useCallback(() => {
     listRef.current?.scrollToItem(0, "start");
   }, []);
 
-  const handleScroll = useCallback(({ scrollOffset }: { scrollOffset: number }) => {
-    setShowButton(scrollOffset > 0);
-  }, []);
+  const handleScroll = useCallback(
+    ({ scrollOffset }: { scrollOffset: number }) => {
+      setShowButton(scrollOffset > 0);
+    },
+    []
+  );
 
   // Calculate dynamic height based on window size
-  const listHeight = useMemo(() => Math.min(window.innerHeight * 0.75, ROW_HEIGHT * betData.length), [betData.length]);
+  const listHeight = useMemo(
+    () => Math.min(window.innerHeight * 0.75, ROW_HEIGHT * betData.length),
+    [betData.length]
+  );
 
   return (
     <Box
@@ -111,10 +129,14 @@ const BetsList = ({ betData, name }: any) => {
             alignItems: "center",
           }}
         >
-          <Typography sx={{ color: "red", fontWeight: "700", fontSize: "14px" }}>
+          <Typography
+            sx={{ color: "red", fontWeight: "700", fontSize: "14px" }}
+          >
             All Bets
           </Typography>
-          <Typography sx={{ color: "#0B4F26", fontWeight: "700", marginTop: "-5px" }}>
+          <Typography
+            sx={{ color: "#0B4F26", fontWeight: "700", marginTop: "-5px" }}
+          >
             {betData?.length}
           </Typography>
         </Box>

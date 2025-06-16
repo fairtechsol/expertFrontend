@@ -1,5 +1,5 @@
 import { Box, Typography } from "@mui/material";
-import { memo, useEffect, useState } from "react";
+import { memo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ArrowDown } from "../../../assets/index";
 import StyledImage from "../../../components/Common/StyledImages";
@@ -17,7 +17,6 @@ const BoxProfile = ({ image, containerStyle, value1 }: BoxProfileProps) => {
   const handleClick = (event: any) => {
     setAnchorEl(event.currentTarget);
   };
-  useEffect(() => {}, [anchorEl]);
   const handleClose = (val: any) => {
     setAnchorEl(0);
     typeof val == "string" &&

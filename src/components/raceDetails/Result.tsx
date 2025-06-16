@@ -30,7 +30,7 @@ const Result = ({ invert, onClick }: ResultProps) => {
             color: invert ? "0B4F26" : "white",
           }}
         >
-          {"Result"}
+          Result
         </Typography>
       </Box>
     </Box>

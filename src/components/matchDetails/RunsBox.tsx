@@ -139,26 +139,18 @@ const RunsBox = ({ item, currentOdd }: RunBoxProps) => {
         {item?.proLoss?.betPlaced?.length > 0 ? (
           item?.proLoss?.betPlaced?.map((v: any) => {
             const getColor = (value: any) => {
-              if (value >= 1) {
-                return "#10DC61";
-              } else if (value === v?.profitLoss && value > 1) {
-                return "#F8C851";
-              } else if (value === 0) {
-                return "#F8C851";
-              } else {
-                return "#DC3545";
-              }
+              return value >= 1
+                ? "#10DC61"
+                : (value === v?.profitLoss && value > 1) || value === 0
+                ? "#F8C851"
+                : "#DC3545";
             };
             const getSVG = (value: any) => {
-              if (value > 1) {
-                return "https://fontawesomeicons.com/images/svg/trending-up-sharp.svg";
-              } else if (value === v?.profitLoss && value > 1) {
-                return "https://fontawesomeicons.com/images/svg/trending-up-sharp.svg";
-              } else if (value === 0) {
-                return "https://fontawesomeicons.com/images/svg/trending-up-sharp.svg";
-              } else {
-                return "https://fontawesomeicons.com/images/svg/trending-down-sharp.svg";
-              }
+              return value > 1 ||
+                (value === v?.profitLoss && value > 1) ||
+                value === 0
+                ? "https://fontawesomeicons.com/images/svg/trending-up-sharp.svg"
+                : "https://fontawesomeicons.com/images/svg/trending-down-sharp.svg";
             };
             return (
               <Box

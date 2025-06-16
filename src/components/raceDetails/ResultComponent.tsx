@@ -58,18 +58,16 @@ const ResultComponent = ({
       }}
     >
       <Box
-        sx={[
-          {
-            width: "100%",
-            justifyContent: "space-between",
-            paddingX: "10px",
-            display: "flex",
-            alignItems: "center",
-            height: "50px",
-            borderRadius: "8px 8px 0 0",
-            background: "#ff4d4d",
-          },
-        ]}
+        sx={{
+          width: "100%",
+          justifyContent: "space-between",
+          paddingX: "10px",
+          display: "flex",
+          alignItems: "center",
+          height: "50px",
+          borderRadius: "8px 8px 0 0",
+          background: "#ff4d4d",
+        }}
       >
         <Typography
           sx={{
