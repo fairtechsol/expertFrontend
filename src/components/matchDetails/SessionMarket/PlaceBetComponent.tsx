@@ -16,21 +16,23 @@ const PlaceBetComponent = ({
   newData,
 }: PlaceBetComponentProps) => {
   const dispatch: AppDispatch = useDispatch();
+
+  const handleClick = () => {
+    if (newData?.type === "fancy1" || newData?.type === "oddEven") {
+      return;
+    } else {
+      dispatch(
+        getSessionProfitLossMatchDetail({
+          id: newData?.id,
+          matchId: newData?.matchId,
+          name: newData?.name,
+        })
+      );
+    }
+  };
   return (
     <Box
-      onClick={() => {
-        if (newData?.type === "fancy1" || newData?.type === "oddEven") {
-          return;
-        } else {
-          dispatch(
-            getSessionProfitLossMatchDetail({
-              id: newData?.id,
-              matchId: newData?.matchId,
-              name: newData?.name,
-            })
-          );
-        }
-      }}
+      onClick={handleClick}
       sx={{
         background: "#0B4F26",
         flexDirection: "row",
