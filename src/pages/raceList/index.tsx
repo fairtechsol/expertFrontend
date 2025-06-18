@@ -159,32 +159,6 @@ const RaceList = () => {
               race={raceList}
             />
           ))}
-
-        {/* <Pagination
-          sx={{
-            background: "#073c25",
-            overflow: "hidden",
-            borderRadius: "0px 0px 10px 10px",
-            color: "white",
-            "& .MuiPaginationItem-page": {
-              color: "white", // Change the text color for other pages
-            },
-            "& .MuiPaginationItem-ellipsis": {
-              color: "white", // Change the text color for ellipsis (...) items
-            },
-            "& .MuiPaginationItem-next": {
-              color: "white", // Change the text color for the "Next" button
-            },
-          }}
-          page={currentPage}
-          className="whiteTextPagination matchList-pagination d-flex justify-content-center"
-          count={Math.ceil(
-            parseInt(matchList?.count ? matchList?.count : 1) /
-              Constants.pageLimit
-          )}
-          color="primary"
-          // onChange={callPage}
-        /> */}
       </Box>
     </>
   );

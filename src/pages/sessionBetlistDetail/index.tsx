@@ -262,8 +262,6 @@ const SessionBetlistDetail = () => {
           matchSocketService.leaveAllRooms();
           expertSocketService.match.leaveMatchRoom(state?.id);
           expertSocketService.match.getMatchRatesOff(state?.id);
-          // socketService.user.matchBettingStatusChangeOff();
-          // socketService.user.betVerifyOff();
           socketService.user.matchResultDeclaredOff();
           socketService.user.matchResultUnDeclaredOff();
           socketService.user.sessionDeleteBetOff();
@@ -272,7 +270,6 @@ const SessionBetlistDetail = () => {
           socketService.user.sessionResultDeclaredOff();
           socketService.user.updateInResultDeclareOff();
           socketService.user.updateDeleteReasonOff();
-          // expertSocketService.match.connectErrorOff();
           expertSocketService.match.onConnectOff();
           dispatch(resetPlacedBetsMatch());
         };

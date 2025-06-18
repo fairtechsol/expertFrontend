@@ -44,10 +44,10 @@ const RaceDropDown = ({
     value === "0"
       ? "0.00"
       : name
+      ? selected[name]
         ? selected[name]
-          ? selected[name]
-          : value
-        : value;
+        : value
+      : value;
 
   useEffect(() => {
     setValue(valued);

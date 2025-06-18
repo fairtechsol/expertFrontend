@@ -1,11 +1,5 @@
-import {
-  Box,
-  CircularProgress,
-  Menu,
-  MenuItem,
-  Typography,
-} from "@mui/material";
-import { memo, useState } from "react";
+import { Box, Menu, MenuItem, Typography } from "@mui/material";
+import { memo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../../store/actions/auth/authAction";
 import { AppDispatch, RootState } from "../../../store/store";
@@ -19,12 +13,21 @@ const menutItems = [
   { id: 2, title: "Add Race", navigateTo: "add_race" },
   { id: 3, title: "Change Password", navigateTo: "change-password" },
 ];
-const HeaderDropdown = ({ anchorEl, open, handleClose }: any) => {
+
+interface HeaderDropdownProps {
+  anchorEl: any;
+  open: any;
+  handleClose: (val: any) => void;
+}
+const HeaderDropdown = ({
+  anchorEl,
+  open,
+  handleClose,
+}: HeaderDropdownProps) => {
   const { profileDetail } = useSelector(
     (state: RootState) => state.user.profile
   );
 
-  const [loading] = useState(false);
   const dispatch: AppDispatch = useDispatch();
 
   return (
@@ -141,18 +144,7 @@ const HeaderDropdown = ({ anchorEl, open, handleClose }: any) => {
           cursor: "pointer",
         }}
       >
-        {loading ? (
-          <CircularProgress
-            sx={{
-              color: "#FFF",
-            }}
-            size={20}
-            thickness={4}
-            value={60}
-          />
-        ) : (
-          <Typography>Logout</Typography>
-        )}
+        <Typography>Logout</Typography>
       </Box>
     </Menu>
   );

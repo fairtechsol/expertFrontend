@@ -15,9 +15,9 @@ interface MatchPermissionsModalProps {
   handleMatchProfitLossClick: (val: any) => void;
   data: any;
   updateBettings: any;
-  setUpdateBettings: any;
+  setUpdateBettings: (val: any) => void;
   updateMatchStatus: any;
-  setUpdateMatchStatus: any;
+  setUpdateMatchStatus: (val: any) => void;
   upcoming: boolean;
 }
 

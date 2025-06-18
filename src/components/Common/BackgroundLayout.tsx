@@ -1,7 +1,7 @@
 import { Box } from "@mui/material";
-import { Background } from "../../assets";
 import { memo } from "react";
-const BackgroundLayout = ({ children }: any) => {
+import { Background } from "../../assets";
+const BackgroundLayout = ({ children }: { children: any }) => {
   return (
     <Box
       sx={{

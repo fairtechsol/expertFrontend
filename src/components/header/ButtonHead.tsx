@@ -1,15 +1,19 @@
 import { Box, Typography } from "@mui/material";
-import { ARROWDROPDOWN } from "../../assets";
 import { memo } from "react";
+
+interface ButtonHeadProps {
+  title: string;
+  boxStyle: object;
+  titleStyle: object;
+  onClick: (val: any) => void;
+}
 
 const ButtonHead = ({
   title,
   boxStyle,
   titleStyle,
   onClick,
-  report,
-  selected,
-}: any) => {
+}: ButtonHeadProps) => {
   return (
     <Box
       onClick={(e) => onClick(e)}
@@ -37,14 +41,6 @@ const ButtonHead = ({
       >
         {title}
       </Typography>
-
-      {selected && report && (
-        <img
-          src={ARROWDROPDOWN}
-          alt="arrow down"
-          style={{ width: "10px", height: "6px", marginLeft: "4px" }}
-        />
-      )}
     </Box>
   );
 };

@@ -8,8 +8,14 @@ import { AppDispatch, RootState } from "../../store/store";
 import StyledImage from "../Common/StyledImages";
 import SessionBetSeperate from "./sessionBets";
 
+interface SessionProLossProps {
+  setShowSessionPopup: (val: any) => void;
+  matchId: string | null;
+  betId: string | null;
+}
+
 const SessionProLoss = forwardRef(
-  ({ setShowSessionPopup, matchId, betId }: any, ref) => {
+  ({ setShowSessionPopup, matchId, betId }: SessionProLossProps, ref) => {
     const [show, setShow] = useState(false);
     const [userId, setUserId] = useState(null);
     const { sessionPL, sessionPLBets } = useSelector(

@@ -22,7 +22,7 @@ import TournamentMarketAdd from "../../matchDetails/TournamentMarkets/Tournament
 import BookButton from "./BookButton";
 
 interface EditBookmakerProps {
-  add: any;
+  add: boolean;
   match: any;
   type?: any;
   exposureLimit: any;
