@@ -46,7 +46,6 @@ const SessionLimit2 = ({
     e.preventDefault();
     try {
       if (matchOddsLive?.id) {
-        // if (selected?.maxLimit >= selected?.minLimit) {
         const payload = {
           id: matchOddsLive?.id,
           maxBet: selected?.maxLimit,

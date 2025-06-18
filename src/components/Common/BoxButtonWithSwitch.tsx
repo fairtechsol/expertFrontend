@@ -4,18 +4,27 @@ import service from "../../service";
 import { ApiConstants } from "../../utils/Constants";
 import { MaterialUISwitch } from "../matchList/materialUiSwitch";
 
+interface BoxButtonWithSwitchProps {
+  title: string;
+  matchId: string;
+  updateMatchStatus: any;
+  setUpdateMatchStatus: (val: any) => void;
+  place: number;
+  disable: boolean;
+  isManualBet: boolean;
+  matchBettingType: string;
+}
+
 const BoxButtonWithSwitch = ({
   title,
   matchId,
-  containerStyle,
-  titleStyle,
   updateMatchStatus,
   setUpdateMatchStatus,
   place,
   disable,
   isManualBet,
   matchBettingType,
-}: any) => {
+}: BoxButtonWithSwitchProps) => {
   const [background, setBackground] = useState<string>("#0B4F26");
   const value = updateMatchStatus[place]?.val;
   const [checked, setChecked] = useState<boolean>(value || false);
@@ -61,38 +70,32 @@ const BoxButtonWithSwitch = ({
 
   return (
     <Box
-      sx={[
-        {
-          height: "35px",
-          minWidth: "250px",
-          width: { xs: "100%", sm: "40%", md: "20%" },
-          marginLeft: "10px",
-          borderRadius: "5px",
-          margin: "10px",
-          background: background,
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-        },
-        containerStyle,
-      ]}
+      sx={{
+        height: "35px",
+        minWidth: "250px",
+        width: { xs: "100%", sm: "40%", md: "20%" },
+        marginLeft: "10px",
+        borderRadius: "5px",
+        margin: "10px",
+        background: background,
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center",
+      }}
     >
       <Typography
-        sx={[
-          {
-            color: "white",
-            fontWeight: "500",
-            fontSize: "13px",
-            marginLeft: "1vw",
-            lineHeight: "14px",
-            display: "-webkit-box",
-            overflow: "hidden",
-            WebkitLineClamp: { xs: 1, md: 2 },
-            WebkitBoxOrient: "vertical",
-            lineClamp: { xs: 1, md: 2 },
-          },
-          titleStyle,
-        ]}
+        sx={{
+          color: "white",
+          fontWeight: "500",
+          fontSize: "13px",
+          marginLeft: "1vw",
+          lineHeight: "14px",
+          display: "-webkit-box",
+          overflow: "hidden",
+          WebkitLineClamp: { xs: 1, md: 2 },
+          WebkitBoxOrient: "vertical",
+          lineClamp: { xs: 1, md: 2 },
+        }}
       >
         {title}
       </Typography>

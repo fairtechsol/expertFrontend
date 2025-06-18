@@ -29,7 +29,6 @@ const Row = ({ index, values }: RowProps) => {
     return timeString;
   };
 
-
   return (
     <div style={{ display: "flex", position: "relative" }}>
       {values?.deleteReason && (
@@ -54,19 +53,17 @@ const Row = ({ index, values }: RowProps) => {
                 alignItems: "flex-end",
               }}
             >
-              {
-                <Typography
-                  sx={{
-                    fontSize: "10px",
-                    fontWeight: "700",
-                    color: "white",
-                    textTransform: "uppercase",
-                  }}
-                >
-                  Bet <span style={{ color: "#e41b23" }}>deleted</span> due to{" "}
-                  {values?.deleteReason}
-                </Typography>
-              }
+              <Typography
+                sx={{
+                  fontSize: "10px",
+                  fontWeight: "700",
+                  color: "white",
+                  textTransform: "uppercase",
+                }}
+              >
+                Bet <span style={{ color: "#e41b23" }}>deleted</span> due to{" "}
+                {values?.deleteReason}
+              </Typography>
             </Box>
           </Box>
         </Box>
@@ -259,9 +256,9 @@ const Row = ({ index, values }: RowProps) => {
               values?.myStake
                 ? values?.myStake
                 : (
-                  (values?.amount * values?.user?.fwPartnership) /
-                  100
-                ).toFixed()
+                    (values?.amount * values?.user?.fwPartnership) /
+                    100
+                  ).toFixed()
             )}
           </Typography>
         </Box>

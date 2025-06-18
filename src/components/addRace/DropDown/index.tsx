@@ -44,10 +44,10 @@ const RaceDropDown = ({
     value === "0"
       ? "0.00"
       : name
+      ? selected[name]
         ? selected[name]
-          ? selected[name]
-          : value
-        : value;
+        : value
+      : value;
 
   useEffect(() => {
     setValue(valued);
@@ -93,15 +93,13 @@ const RaceDropDown = ({
         ]}
       >
         <Box
-          sx={[
-            {
-              paddingY: "4px",
-              paddingLeft: "7px",
-              fontSize: "10px",
-              fontWeight: "500",
-              color: "white",
-            },
-          ]}
+          sx={{
+            paddingY: "4px",
+            paddingLeft: "7px",
+            fontSize: "10px",
+            fontWeight: "500",
+            color: "white",
+          }}
         >
           <Typography
             sx={{

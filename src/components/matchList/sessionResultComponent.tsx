@@ -9,9 +9,21 @@ import { AppDispatch } from "../../store/store";
 import StyledImage from "../Common/StyledImages";
 import { formatToINR } from "../helper";
 
+interface SessionResultComponentProps {
+  setShowPopup: (val: any) => void;
+  sessionResults: any;
+  setShowSessionPopup: (val: any) => void;
+  setBetId: (val: any) => void;
+}
+
 const SessionResultComponent = forwardRef(
   (
-    { setShowPopup, sessionResults, setShowSessionPopup, setBetId }: any,
+    {
+      setShowPopup,
+      sessionResults,
+      setShowSessionPopup,
+      setBetId,
+    }: SessionResultComponentProps,
     ref
   ) => {
     const dispatch: AppDispatch = useDispatch();

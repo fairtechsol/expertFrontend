@@ -7,12 +7,12 @@ import { headerAddNotification } from "../../store/actions/user/userAction";
 import { AppDispatch } from "../../store/store";
 import CustomErrorMessage from "../Common/CustomErrorMessage";
 
-const NotificationModal = ({
-  visible,
-  setVisible,
-  title,
-  loadingDeleteBet,
-}: any) => {
+interface NotificationModalProps {
+  visible: boolean;
+  setVisible: (val: boolean) => void;
+}
+
+const NotificationModal = ({ visible, setVisible }: NotificationModalProps) => {
   const dispatch: AppDispatch = useDispatch();
   const initialValues: any = {
     value: "",
@@ -20,7 +20,6 @@ const NotificationModal = ({
 
   const formik = useFormik({
     initialValues: initialValues,
-    // validationSchema: notificationvalidationSchema,
     onSubmit: (values: any) => {
       let payload = {
         value: values.value || "",
@@ -84,7 +83,7 @@ const NotificationModal = ({
               <Typography
                 sx={{ fontWeight: "bold", color: "white", fontSize: "18px" }}
               >
-                {title ? title : "Add Notification"}
+                Add Notification
               </Typography>
               <img
                 onClick={() => setVisible(false)}
@@ -134,7 +133,6 @@ const NotificationModal = ({
                   height: "100px",
                   marginTop: "10px",
                 }}
-                // error={touched.value && Boolean(errors.value)}
                 onBlur={formik.handleBlur}
               />
             </Box>
@@ -165,7 +163,7 @@ const NotificationModal = ({
                   color: "white",
                 }}
               >
-                {loadingDeleteBet ? "Loading..." : "Submit"}
+                Submit
               </Button>
             </Box>
           </Box>

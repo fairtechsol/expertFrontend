@@ -13,6 +13,13 @@ const BoxButtonManualMatch = ({
   manualMatchToggle,
   setManualMatchToggle,
 }: BoxButtonManualMatchProps) => {
+  const handleChange = () => {
+    try {
+      setManualMatchToggle((state: boolean) => !state);
+    } catch (e) {
+      console.log(e);
+    }
+  };
   return (
     <Box
       sx={{
@@ -44,16 +51,7 @@ const BoxButtonManualMatch = ({
       >
         {title}
       </Typography>
-      <MaterialUISwitch
-        checked={manualMatchToggle}
-        onChange={async () => {
-          try {
-            setManualMatchToggle((state: boolean) => !state);
-          } catch (e) {
-            console.log(e);
-          }
-        }}
-      />
+      <MaterialUISwitch checked={manualMatchToggle} onChange={handleChange} />
     </Box>
   );
 };

@@ -19,7 +19,11 @@ interface SessionLimitProps {
   onClickCancel: () => void;
 }
 
-const SessionLimit = ({ newData, visible, onClickCancel }: SessionLimitProps) => {
+const SessionLimit = ({
+  newData,
+  visible,
+  onClickCancel,
+}: SessionLimitProps) => {
   const dispatch: AppDispatch = useDispatch();
   const { loading, maxLimitUpdateSuccess } = useSelector(
     (state: RootState) => state.addSession
@@ -131,7 +135,6 @@ const SessionLimit = ({ newData, visible, onClickCancel }: SessionLimitProps) =>
           placeholder="API Session Max Bet"
           variant="standard"
           type="number"
-          // value={selected}
           value={value}
           id="score"
           name="score"
@@ -139,8 +142,6 @@ const SessionLimit = ({ newData, visible, onClickCancel }: SessionLimitProps) =>
             setValue(e?.target.value);
             setError(false);
           }}
-          // touched={touched.score}
-          // error={Boolean(errors.score)}
           InputProps={{
             disableUnderline: true,
             sx: {
@@ -153,7 +154,6 @@ const SessionLimit = ({ newData, visible, onClickCancel }: SessionLimitProps) =>
           }}
           onKeyDown={(e) => {
             if (e.key === "Enter") {
-              // Call your function here
               handleSubmit(e);
             }
           }}
@@ -189,7 +189,6 @@ const SessionLimit = ({ newData, visible, onClickCancel }: SessionLimitProps) =>
           />
         </Box>
       </Box>
-      {/* </form> */}
     </Box>
   );
 };

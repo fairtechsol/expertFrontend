@@ -159,7 +159,6 @@ const AddMatch = () => {
             teamC: selected.teamC,
             startAt: selected.startAt,
             minBet: value.minBet,
-            // rateThan100: value.rateThan100,
             isFancy: selected?.f,
             isTv: selected?.tv,
             isBookmaker: selected?.m1,
