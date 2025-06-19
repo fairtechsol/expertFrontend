@@ -3,7 +3,7 @@ import { Fragment, memo } from "react";
 import LargeBox from "./LargeBox";
 import SmallBox from "./SmallBox";
 
-const Row = ({ values }: any) => {
+const Row = ({ values }: { values: any }) => {
   return (
     <Box sx={{ width: "100%", display: "flex" }}>
       {values?.map((item: any, k: any) => {
@@ -12,7 +12,7 @@ const Row = ({ values }: any) => {
             {!item?.small ? (
               <LargeBox k={k} item={item} />
             ) : (
-              <SmallBox k={k} item={item} />
+              <SmallBox item={item} />
             )}
           </Fragment>
         );

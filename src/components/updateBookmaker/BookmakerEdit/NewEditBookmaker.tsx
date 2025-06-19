@@ -45,7 +45,6 @@ const NewEditBookmaker = ({
   const dispatch: AppDispatch = useDispatch();
   const matchesMobile = useMediaQuery(theme.breakpoints.down("lg"));
   const { success } = useSelector((state: RootState) => state.addSession);
-
   const [incGap, setIncGap] = useState<number>(1);
   const [isTab, setIsTab] = useState("");
   const [visible, setVisible] = useState(false);

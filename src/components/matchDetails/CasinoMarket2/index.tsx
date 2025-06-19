@@ -4,7 +4,12 @@ import { ARROWUP } from "../../../assets";
 import Divider from "../../Common/Divider";
 import CasinoMarketBox from "./CasinoMarketBox";
 
-const CasinoMarket = ({ title, sessionData }: any) => {
+interface CasinoMarketProps {
+  title: string;
+  sessionData: any;
+}
+
+const CasinoMarket = ({ title, sessionData }: CasinoMarketProps) => {
   const [visible, setVisible] = useState(true);
   return (
     <Box

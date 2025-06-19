@@ -1,64 +1,41 @@
-import { Box, CircularProgress, Typography } from "@mui/material";
+import { Box } from "@mui/material";
 import { memo } from "react";
 import { BroadCast } from "../../../assets";
 
+interface LiveStatusButtonBoxProps {
+  color?: any;
+  width: any;
+  onClick: any;
+  hide: any;
+  height: any;
+}
+
 const LiveStatusButtonBox = ({
   color,
-  title,
   width,
-  textSize,
   onClick,
   hide,
-  customStyle,
-  loading,
   height,
-}: any) => {
+}: LiveStatusButtonBoxProps) => {
   return (
     <Box
       onClick={onClick}
-      sx={[
-        {
-          width: {
-            lg: width ? width.lg : "80px",
-            xs: width ? width.xs : "25%",
-          },
-          display: "flex",
-          justifyContent: "center",
-          paddingX: 1,
-          alignItems: "center",
-          height: height ? height : "32px",
-          background: color ? color : "#46e080",
-          borderRadius: "3px",
-          cursor: "pointer",
+      sx={{
+        width: {
+          lg: width ? width.lg : "80px",
+          xs: width ? width.xs : "25%",
         },
-        customStyle,
-      ]}
+        display: "flex",
+        justifyContent: "center",
+        paddingX: 1,
+        alignItems: "center",
+        height: height ? height : "32px",
+        background: color ? color : "#46e080",
+        borderRadius: "3px",
+        cursor: "pointer",
+      }}
     >
-      <Typography
-        sx={{
-          fontSize: {
-            lg: textSize ? textSize : "11px",
-            xs: textSize ? textSize : "10px",
-          },
-          fontWeight: "600",
-          color: color !== "#FFF" ? "white" : "",
-          lineHeight: 1,
-        }}
-      >
-        {loading ? (
-          <CircularProgress
-            sx={{
-              color: "#FFF",
-            }}
-            size={14}
-            thickness={2}
-            value={60}
-          />
-        ) : (
-          title
-        )}
-      </Typography>
-      {hide && !loading && (
+      {hide && (
         <img
           src={BroadCast}
           height={15}

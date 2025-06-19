@@ -3,7 +3,12 @@ import { memo, useEffect, useState } from "react";
 import { formatNumber } from "../../helper";
 import SeparateBox from "../SeparateBox";
 
-const CasinoMarketBoxLive = ({ newData, index }: any) => {
+interface CasinoMarketBoxLiveProps {
+  newData: any;
+  index: number;
+}
+
+const CasinoMarketBoxLive = ({ newData, index }: CasinoMarketBoxLiveProps) => {
   const [live, setLive] = useState<any>(newData?.ActiveStatus ? true : false);
 
   useEffect(() => {

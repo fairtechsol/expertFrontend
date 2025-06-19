@@ -5,15 +5,15 @@ import CommissionDot from "../Common/CommissionDot";
 
 interface SingleBoxProps {
   data: any;
-  header: any;
+  header: boolean;
   color: any;
-  up?: any;
-  first?: any;
+  up?: boolean;
+  first?: boolean;
   time?: any;
-  isPercent?: any;
+  isPercent?: boolean;
   rate?: any;
-  domain?: any;
-  isCommissionActive?: any;
+  domain?: string;
+  isCommissionActive?: boolean;
 }
 
 const SingleBox = ({

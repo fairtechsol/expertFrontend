@@ -215,7 +215,6 @@ const AddManualMarket = () => {
               background: "#F8C851",
               marginTop: "20px",
               borderRadius: "5px",
-
               p: "10px",
               py: "20px",
             }}

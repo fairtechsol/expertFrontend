@@ -5,9 +5,8 @@ import { FixedSizeList as List } from "react-window";
 import Header from "./Header";
 import Row from "./Row";
 
-const ROW_HEIGHT = 40; // Define row height as constant
+const ROW_HEIGHT = 40;
 
-// Memoized Row component to prevent unnecessary re-renders
 const MemoizedRow = memo(
   ({
     data,
@@ -20,8 +19,6 @@ const MemoizedRow = memo(
   }) => {
     const num = data.betData.length - index;
 
-    // alert(data.items[index])
-    console.log("data", data);
     const item = data.betData[index];
     return (
       <div style={style}>
@@ -35,11 +32,9 @@ const BetsList = ({ betData, name }: any) => {
   const listRef = useRef<any>(null);
   const [showButton, setShowButton] = useState(false);
 
-  // Memoize the itemData to prevent unnecessary re-renders
   const itemData = useMemo(
     () => ({
       betData,
-      // Include other props that Row might need
     }),
     [betData]
   );
@@ -55,7 +50,6 @@ const BetsList = ({ betData, name }: any) => {
     []
   );
 
-  // Calculate dynamic height based on window size
   const listHeight = useMemo(
     () => Math.min(window.innerHeight * 0.75, ROW_HEIGHT * betData.length),
     [betData.length]
@@ -72,7 +66,6 @@ const BetsList = ({ betData, name }: any) => {
         position: "relative",
       }}
     >
-      {/* Header Section */}
       <Box
         sx={{
           height: "42px",
@@ -92,8 +85,6 @@ const BetsList = ({ betData, name }: any) => {
         >
           {name} Bets
         </Typography>
-
-        {/* Scroll to Top Button */}
         <Box>
           {showButton && (
             <Button
@@ -115,8 +106,6 @@ const BetsList = ({ betData, name }: any) => {
             </Button>
           )}
         </Box>
-
-        {/* Bet Count Display */}
         <Box
           sx={{
             height: "35px",
@@ -141,8 +130,6 @@ const BetsList = ({ betData, name }: any) => {
           </Typography>
         </Box>
       </Box>
-
-      {/* List Content */}
       <Box
         sx={{
           flex: 1,
@@ -162,7 +149,7 @@ const BetsList = ({ betData, name }: any) => {
               width={width}
               itemKey={(index, data) => data?.betData[index]?.betId}
               onScroll={handleScroll}
-              itemData={itemData} // Pass memoized data
+              itemData={itemData}
             >
               {MemoizedRow}
             </List>
