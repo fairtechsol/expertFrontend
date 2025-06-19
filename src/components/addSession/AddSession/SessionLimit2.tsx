@@ -54,8 +54,6 @@ const SessionLimit2 = ({
           isCommissionActive: selected.commission,
         };
         dispatch(updateSession(payload));
-        //   }
-        // } else {
       }
     } catch (error) {
       console.log("error", error);

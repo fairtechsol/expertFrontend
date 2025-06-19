@@ -107,7 +107,6 @@ const EditBookmaker = ({
 
       setIsTab("");
 
-      // if (regex.test(value)) {
       if ((!match?.rateThan100 && value < 100) || match?.rateThan100) {
         updateLocalQuickBookmaker(
           match,

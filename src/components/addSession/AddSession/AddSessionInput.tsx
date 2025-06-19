@@ -447,13 +447,7 @@ const AddSessionInput = ({
                         {inputDetail?.noRate ? inputDetail?.noRate : ""}
                       </Typography>
                     ) : (
-                      <img
-                        src={Lock}
-                        alt="Lock"
-                        // style={{ width: "10px", height: "15px" }}
-                        width={10}
-                        height={15}
-                      />
+                      <img src={Lock} alt="Lock" width={10} height={15} />
                     )}
                   </Box>
 
@@ -485,13 +479,7 @@ const AddSessionInput = ({
                         {inputDetail.yesRate ? inputDetail.yesRate : ""}
                       </Typography>
                     ) : (
-                      <img
-                        src={Lock}
-                        alt="Lock"
-                        // style={{ width: "10px", height: "15px" }}
-                        width={10}
-                        height={15}
-                      />
+                      <img src={Lock} alt="Lock" width={10} height={15} />
                     )}
                   </Box>
                 </Box>
@@ -523,13 +511,7 @@ const AddSessionInput = ({
                         {inputDetail.noRatePercent}
                       </Typography>
                     ) : (
-                      <img
-                        src={Lock}
-                        alt="Lock"
-                        // style={{ width: "10px", height: "15px" }}
-                        width={10}
-                        height={15}
-                      />
+                      <img src={Lock} alt="Lock" width={10} height={15} />
                     )}
                   </Box>
                   <Box
@@ -560,13 +542,7 @@ const AddSessionInput = ({
                         {inputDetail.yesRatePercent}
                       </Typography>
                     ) : (
-                      <img
-                        src={Lock}
-                        alt="Lock"
-                        // style={{ width: "10px", height: "15px" }}
-                        width={10}
-                        height={15}
-                      />
+                      <img src={Lock} alt="Lock" width={10} height={15} />
                     )}
                   </Box>
                 </Box>
@@ -610,7 +586,7 @@ const AddSessionInput = ({
         >
           <StyledImage
             src={LiveOff}
-            sx={{ height: "4vw", width: "4vw", objectFit: "contain", }}
+            sx={{ height: "4vw", width: "4vw", objectFit: "contain" }}
             alt="stop"
           />
         </Box>

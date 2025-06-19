@@ -64,7 +64,6 @@ export const handleKeysMatchEvents = (
         };
       });
       setIsTab("");
-      // innerRefTeam.current.focus();
       setLocalQuickBookmaker((prev: any) => {
         return {
           ...prev,
