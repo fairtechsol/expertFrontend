@@ -1,7 +1,7 @@
 import { Box, Typography } from "@mui/material";
 import { memo } from "react";
 
-const SmallBox = ({ item }: any) => {
+const SmallBox = ({ item }: { item: any }) => {
   return (
     <Box
       sx={{

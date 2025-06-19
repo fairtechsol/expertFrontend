@@ -43,7 +43,7 @@ const RowComponent = ({ header, data }: RowComponentProps) => {
       {!header && (
         <>
           <SingleBox
-            color={getColor}
+            color={getColor()}
             data={data?.teamName}
             first={true}
             header={header}
@@ -75,7 +75,7 @@ const RowComponent = ({ header, data }: RowComponentProps) => {
       {header && (
         <>
           <SingleBox
-            color={getColor}
+            color={getColor()}
             data={data[0]}
             first={true}
             header={header}

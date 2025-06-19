@@ -2,7 +2,12 @@ import { Box, Typography } from "@mui/material";
 import { memo } from "react";
 import CommissionDot from "../../Common/CommissionDot";
 
-const LargeBox = ({ item, k }: any) => {
+interface LargeBoxProps {
+  item: any;
+  k: number;
+}
+
+const LargeBox = ({ item, k }: LargeBoxProps) => {
   const handleDomain = (url: any) => {
     url = url?.replace(/^(?:https?:\/\/)/, "");
     const parts = url?.split(".");

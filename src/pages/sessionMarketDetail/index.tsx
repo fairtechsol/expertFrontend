@@ -492,7 +492,7 @@ const SessionMarketDetail = () => {
     return Object.entries(matchDetail?.updatedSesssionBettings)
       .filter(([name]) => name === "cricketCasino")
       .sort(customSortBySessionMarketName)
-      .flatMap(([name, item]: any) =>
+      .flatMap(([_, item]: any) =>
         item?.section
           ?.filter(
             (i: any) =>
@@ -505,8 +505,6 @@ const SessionMarketDetail = () => {
               key={`completed-casino-${items?.SelectionId}`}
               title={items?.RunnerName || items?.name}
               sessionData={items}
-              gtype={items?.gtype}
-              type={name}
               profitLossData={matchDetail?.sessionProfitLoss}
               section=" COMPLETED"
             />
@@ -554,7 +552,7 @@ const SessionMarketDetail = () => {
     return Object.entries(matchDetail.updatedSesssionBettings)
       .filter(([name]) => name === "cricketCasino")
       .sort(customSortBySessionMarketName)
-      .flatMap(([name, item]: any) =>
+      .flatMap(([_, item]: any) =>
         item?.section
           ?.filter((i: any) => i?.activeStatus !== "unSave" && !i?.isComplete)
           ?.map((items: any) => (
@@ -562,8 +560,6 @@ const SessionMarketDetail = () => {
               key={`active-casino-${items?.SelectionId}`}
               title={items?.RunnerName || items?.name}
               sessionData={items}
-              gtype={items?.gtype}
-              type={name}
               profitLossData={matchDetail?.sessionProfitLoss}
               section=""
             />
@@ -609,7 +605,7 @@ const SessionMarketDetail = () => {
     return Object.entries(matchDetail.updatedSesssionBettings)
       .filter(([name]) => name === "cricketCasino")
       .sort(customSortBySessionMarketName)
-      .flatMap(([name, item]: any) =>
+      .flatMap(([_, item]: any) =>
         item?.section
           ?.filter(
             (i: any) =>
@@ -622,8 +618,6 @@ const SessionMarketDetail = () => {
               key={`declared-casino-${items?.SelectionId}`}
               title={items?.RunnerName || items?.name}
               sessionData={items}
-              gtype={items?.gtype}
-              type={name}
               profitLossData={matchDetail?.sessionProfitLoss}
               section=" DECLARED"
             />

@@ -10,7 +10,15 @@ import {
 import { AppDispatch, RootState } from "../../../store/store";
 import SessionResultCustomButton from "../../addSession/AddSession/SessionResultCustomButton";
 
-const CustomCasinoMarketResult = ({ onClick, newData }: any) => {
+interface CustomCasinoMarketResultProps {
+  onClick: () => void;
+  newData: any;
+}
+
+const CustomCasinoMarketResult = ({
+  onClick,
+  newData,
+}: CustomCasinoMarketResultProps) => {
   const dispatch: AppDispatch = useDispatch();
   const { declareLoading } = useSelector((state: RootState) => state.matchList);
   const [selected, setSelected] = useState("");

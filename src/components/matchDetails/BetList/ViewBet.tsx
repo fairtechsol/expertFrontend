@@ -9,7 +9,6 @@ import { formatToINR } from "../../helper";
 
 const ROW_HEIGHT = 30;
 
-// Memoize the Row component to prevent unnecessary re-renders
 const MemoizedRow = memo(
   ({
     data,
@@ -34,16 +33,18 @@ const MemoizedRow = memo(
     const betTypeDisplay =
       bet?.marketType === "oddEven"
         ? bet?.teamName?.match(/[-_](odd|even)$/i)?.[1]?.toUpperCase() ||
-        bet?.betType
+          bet?.betType
         : bet?.betType;
 
     return (
       <div style={style}>
-        {/* Rest of your Row JSX remains exactly the same */}
         <div
-          style={{ display: "flex", position: "relative", height: "90px !important" }}
+          style={{
+            display: "flex",
+            position: "relative",
+            height: "90px !important",
+          }}
         >
-          {/* Row Number */}
           <Box
             sx={{
               width: { lg: "4%", xs: "6%" },
@@ -65,8 +66,6 @@ const MemoizedRow = memo(
               {serialNumber < 10 ? `0${serialNumber}` : serialNumber}
             </Typography>
           </Box>
-
-          {/* Username */}
           <Box
             sx={{
               border: "1px solid white",
@@ -125,8 +124,6 @@ const MemoizedRow = memo(
               </Typography>
             )}
           </Box>
-
-          {/* Market Name */}
           <Box
             sx={{
               border: "1px solid white",
@@ -153,8 +150,6 @@ const MemoizedRow = memo(
               {marketName}
             </Typography>
           </Box>
-
-          {/* Team Name */}
           <Box
             sx={{
               border: "1px solid white",
@@ -180,8 +175,6 @@ const MemoizedRow = memo(
               {bet?.teamName}
             </Typography>
           </Box>
-
-          {/* Odds */}
           <Box
             sx={{
               border: "1px solid white",
@@ -216,8 +209,6 @@ const MemoizedRow = memo(
               </Typography>
             )}
           </Box>
-
-          {/* Bet Type */}
           <Box
             sx={{
               border: "1px solid white",
@@ -242,8 +233,6 @@ const MemoizedRow = memo(
               {betTypeDisplay}
             </Typography>
           </Box>
-
-          {/* Amount */}
           <Box
             sx={{
               border: "1px solid white",
@@ -266,8 +255,6 @@ const MemoizedRow = memo(
               {formatToINR(bet?.amount)}
             </Typography>
           </Box>
-
-          {/* Stake */}
           <Box
             sx={{
               border: "1px solid white",
@@ -290,12 +277,10 @@ const MemoizedRow = memo(
               {bet.myStake
                 ? formatToINR(+bet.myStake)
                 : formatToINR(
-                  (+bet?.amount * +bet?.user?.fwPartnership || 0) / 100
-                )}
+                    (+bet?.amount * +bet?.user?.fwPartnership || 0) / 100
+                  )}
             </Typography>
           </Box>
-
-          {/* Time */}
           <Box
             sx={{
               border: "1px solid white",
@@ -327,8 +312,6 @@ const MemoizedRow = memo(
               {moment.utc(bet?.createdAt).utcOffset("+05:30").format("L")}
             </Typography>
           </Box>
-
-          {/* Deleted/Result Overlay */}
           {bet?.deleteReason && (
             <Box
               sx={{
@@ -365,17 +348,19 @@ const MemoizedRow = memo(
               </Box>
             </Box>
           )}
-          {bet?.deleteReason && bet?.result && ["UNDECLARE"].includes(bet.result) && (
-            <Box
-              sx={{
-                background: "rgba(0,0,0,0.5)",
-                width: "100%",
-                height: "30px",
-                position: "absolute",
-                display: "flex",
-              }}
-            />
-          )}
+          {bet?.deleteReason &&
+            bet?.result &&
+            ["UNDECLARE"].includes(bet.result) && (
+              <Box
+                sx={{
+                  background: "rgba(0,0,0,0.5)",
+                  width: "100%",
+                  height: "30px",
+                  position: "absolute",
+                  display: "flex",
+                }}
+              />
+            )}
           {bet?.result && ["LOSS", "WIN", "TIE"].includes(bet.result) && (
             <Box
               sx={{
@@ -392,8 +377,6 @@ const MemoizedRow = memo(
     );
   }
 );
-
-// Helper function outside component
 const getBetStyle = (bet: any) => {
   const marketKey =
     bet?.marketType === "tournament"
@@ -417,8 +400,6 @@ const getBetStyle = (bet: any) => {
 
   return betListColorConstants[marketKey] || defaultStyle;
 };
-
-// Helper function outside component
 const handleDomain = (url: any) => {
   url = url?.replace(/^(?:https?:\/\/)/, "");
   const parts = url?.split(".");
@@ -429,12 +410,10 @@ const ViewBetList = ({ tag, allBetRates, title }: any) => {
   const [visibleImg, setVisibleImg] = useState(true);
   const [showButton, setShowButton] = useState(false);
 
-  // Memoize the itemData to prevent unnecessary re-renders
   const itemData = useMemo(
     () => ({
       allBetRates,
       tag,
-      // Include other props that Row might need
     }),
     [allBetRates, tag]
   );
@@ -450,8 +429,10 @@ const ViewBetList = ({ tag, allBetRates, title }: any) => {
     []
   );
 
-  const cHeight = Math.min(allBetRates.length * ROW_HEIGHT, window.innerHeight * 0.9);
-
+  const cHeight = Math.min(
+    allBetRates.length * ROW_HEIGHT,
+    window.innerHeight * 0.9
+  );
 
   const toggleVisibility = useCallback(() => {
     setVisibleImg((prev) => !prev);
@@ -466,7 +447,6 @@ const ViewBetList = ({ tag, allBetRates, title }: any) => {
         background: "white",
       }}
     >
-      {/* Header section remains the same */}
       <Box
         sx={{
           display: "flex",
@@ -579,7 +559,7 @@ const ViewBetList = ({ tag, allBetRates, title }: any) => {
               itemKey={(index, data) => data?.allBetRates[index]?.id}
               width={width}
               onScroll={handleScroll}
-              itemData={itemData} // Pass memoized data
+              itemData={itemData}
             >
               {MemoizedRow}
             </List>

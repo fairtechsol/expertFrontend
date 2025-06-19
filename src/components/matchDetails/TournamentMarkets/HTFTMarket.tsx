@@ -15,7 +15,19 @@ import SmallBox from "../SmallBox";
 import ResultComponentTournamentMarket from "./ResultComponentTournamentMarket";
 import TournamentMarketAdd from "./TournamentMarketAdd";
 
-const HTFTMarket = ({ currentMatch, liveData, title, firstKnownKey }: any) => {
+interface HTFTMarketProps {
+  currentMatch: any;
+  liveData: any;
+  title: string;
+  firstKnownKey: any;
+}
+
+const HTFTMarket = ({
+  currentMatch,
+  liveData,
+  title,
+  firstKnownKey,
+}: HTFTMarketProps) => {
   const dispatch: AppDispatch = useDispatch();
   const theme = useTheme();
   const matchesMobile = useMediaQuery(theme.breakpoints.down("md"));

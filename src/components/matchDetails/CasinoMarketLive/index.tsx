@@ -103,7 +103,6 @@ const CasinoMarketLive = ({
             <LiveStatusButtonBox
               hide={true}
               onClick={handleClick}
-              textSize="8px"
               width={{ lg: "20px", xs: "20px" }}
               color="#FF4D4D"
               height="20px"

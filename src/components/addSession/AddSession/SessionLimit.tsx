@@ -54,8 +54,7 @@ const SessionLimit = ({
         } else {
           setError(true);
         }
-      } else {
-      }
+      } else return;
     } catch (error) {
       console.log("error", error);
     }

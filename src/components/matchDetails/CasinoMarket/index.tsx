@@ -15,7 +15,19 @@ import CasinoMarketBox from "./CasinoMarketBox";
 import CustomCasinoMarketResult from "./CustomCasinoMarketResult";
 import LiveStatusButtonBox from "./LiveStatusButtonBox";
 
-const CasinoMarket = ({ title, sessionData, profitLossData, section }: any) => {
+interface CasinoMarketProps {
+  title: string;
+  sessionData: any;
+  profitLossData: any;
+  section: any;
+}
+
+const CasinoMarket = ({
+  title,
+  sessionData,
+  profitLossData,
+  section,
+}: CasinoMarketProps) => {
   const [visible, setVisible] = useState(true);
   const [loading, setLoading] = useState(false);
   const [showResultModal, setShowResultModal] = useState(false);
@@ -177,7 +189,6 @@ const CasinoMarket = ({ title, sessionData, profitLossData, section }: any) => {
                       })
                     );
                   }}
-                  textSize="8px"
                   width={{ lg: "20px" }}
                   color="#FF4D4D"
                   height="20px"
@@ -195,7 +206,6 @@ const CasinoMarket = ({ title, sessionData, profitLossData, section }: any) => {
                     })
                   );
                 }}
-                textSize="8px"
                 width={{ lg: "20px" }}
                 height="20px"
               />

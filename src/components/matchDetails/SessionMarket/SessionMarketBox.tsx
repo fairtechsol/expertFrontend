@@ -18,6 +18,16 @@ import CustomSessionResult from "./CustomSessionResult";
 import PlaceBetComponent from "./PlaceBetComponent";
 import SessionLimitEdit from "./SessionLimitEdit";
 
+interface SessionMarketBoxProps {
+  newData: any;
+  hideResult: boolean;
+  hideTotalBet: boolean;
+  profitLossData: any;
+  index: number;
+  hideEditMaxButton: boolean;
+  section: any;
+}
+
 const SessionMarketBox = ({
   newData,
   hideResult,
@@ -26,7 +36,7 @@ const SessionMarketBox = ({
   index,
   hideEditMaxButton,
   section,
-}: any) => {
+}: SessionMarketBoxProps) => {
   const dispatch: AppDispatch = useDispatch();
   const { statusBetLive, error, successStatusForSessionDetail } = useSelector(
     (state: RootState) => state.matchList

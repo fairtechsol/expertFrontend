@@ -45,7 +45,6 @@ const NewEditBookmaker = ({
   const dispatch: AppDispatch = useDispatch();
   const matchesMobile = useMediaQuery(theme.breakpoints.down("lg"));
   const { success } = useSelector((state: RootState) => state.addSession);
-
   const [incGap, setIncGap] = useState<number>(1);
   const [isTab, setIsTab] = useState("");
   const [visible, setVisible] = useState(false);
@@ -68,7 +67,6 @@ const NewEditBookmaker = ({
     teamBall: false,
     teamBackUnlock: true,
   });
-  // let a = rate[".05"]
   const bookRatioB = (teamARates: any, teamBRates: any) => {
     if (+teamARates === 0) {
       return "0.00";
@@ -109,7 +107,6 @@ const NewEditBookmaker = ({
       }
       setIsTab("");
 
-      // if (regex.test(value)) {
       if (!match?.rateThan100 || match?.rateThan100) {
         updateNewLocalQuickBookmaker(
           match,
@@ -153,7 +150,6 @@ const NewEditBookmaker = ({
           };
         });
       }
-      // }
     } catch (error) {
       console.error(error);
     }
@@ -516,8 +512,6 @@ const NewEditBookmaker = ({
                     <Box
                       sx={{
                         width: { lg: "220px", xs: "120px" },
-                        // my: "5px",
-
                         marginRight: "10px",
                         border: "1px solid #2626264D",
                         justifyContent: "center",
