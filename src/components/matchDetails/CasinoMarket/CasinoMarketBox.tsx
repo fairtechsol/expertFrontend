@@ -12,11 +12,12 @@ interface CasinoMarketBoxProps {
 }
 
 const CasinoMarketBox = ({
-  newData,
-  index,
-  profitLoss,
   sessionData,
+  newData,
+  profitLoss,
+  index,
 }: CasinoMarketBoxProps) => {
+  console.log(profitLoss, sessionData?.id, "abc");
   return (
     <>
       <Box
@@ -56,9 +57,11 @@ const CasinoMarketBox = ({
           <Typography
             sx={{
               color:
+                +profitLoss?.profitLoss?.[index]?.profitLoss ||
                 +profitLoss?.profitLoss?.[index] > 0
                   ? "green"
-                  : +profitLoss?.profitLoss?.[index] < 0
+                  : +profitLoss?.profitLoss?.[index]?.profitLoss ||
+                    +profitLoss?.profitLoss?.[index] < 0
                   ? "#7B2626"
                   : "black",
               fontSize: { lg: "10px", md: "10px", xs: "10px" },
@@ -69,9 +72,11 @@ const CasinoMarketBox = ({
               zIndex: "99",
             }}
           >
-            {parseFloat((+profitLoss?.profitLoss?.[index] as any) || 0).toFixed(
-              2
-            )}
+            {parseFloat(
+              +profitLoss?.profitLoss?.[index]?.profitLoss ||
+                (+profitLoss?.profitLoss?.[index] as any) ||
+                0
+            ).toFixed(2)}
           </Typography>
         </Box>
 
