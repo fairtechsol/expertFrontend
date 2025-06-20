@@ -122,8 +122,8 @@ const AddRace = () => {
           raceType: selected.raceType
             ? selected.raceType
             : matchType === "greyhoundRacing"
-            ? "greyHound"
-            : matchType,
+              ? "greyHound"
+              : matchType,
         };
 
         if (manualMatchToggle) {
@@ -249,12 +249,11 @@ const AddRace = () => {
     }
     if (matchAdded) {
       navigate(
-        `/expert/race/${
-          matchType
-            ? matchType === "greyhoundRacing"
-              ? "greyHound"
-              : matchType
-            : "horseRacing"
+        `/expert/race/${matchType
+          ? matchType === "greyhoundRacing"
+            ? "greyHound"
+            : matchType
+          : "horseRacing"
         }`
       );
       dispatch(addMatchReset());
@@ -578,12 +577,11 @@ const AddRace = () => {
                 dispatch(editMatchReset());
               }
               navigate(
-                `/expert/race/${
-                  matchType
-                    ? matchType === "greyhoundRacing"
-                      ? "greyHound"
-                      : matchType
-                    : "horseRacing"
+                `/expert/race/${matchType
+                  ? matchType === "greyhoundRacing"
+                    ? "greyHound"
+                    : matchType
+                  : "horseRacing"
                 }`
               );
             }}

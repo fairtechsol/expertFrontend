@@ -15,7 +15,7 @@ interface RaceDropDownProps {
   titleStyle?: React.CSSProperties;
   data: any;
   dropDownStyle?: React.CSSProperties;
-  dropDownTextStyle?: React.CSSProperties;
+  dropDownTextStyle?: any;
   selected: Record<string, any>;
   setSelected: (val: any) => void;
   onOpen: (val: string) => void;
@@ -29,7 +29,7 @@ const RaceDropDown = ({
   valueContainerStyle = {},
   dropStyle = {},
   dropDownStyle = {},
-  dropDownTextStyle = {},
+  dropDownTextStyle,
   disable,
   selected,
   setSelected,
