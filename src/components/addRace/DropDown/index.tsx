@@ -8,28 +8,28 @@ interface RaceDropDownProps {
   title: string;
   name: string;
   valued: string;
-  dropStyle: any;
+  dropStyle?: React.CSSProperties;
   disable: boolean;
-  valueContainerStyle: any;
-  containerStyle: any;
-  titleStyle: any;
+  valueContainerStyle?: React.CSSProperties;
+  containerStyle?: React.CSSProperties;
+  titleStyle?: React.CSSProperties;
   data: any;
-  dropDownStyle: any;
-  dropDownTextStyle: any;
-  selected: any;
+  dropDownStyle?: React.CSSProperties;
+  dropDownTextStyle?: React.CSSProperties;
+  selected: Record<string, any>;
   setSelected: (val: any) => void;
   onOpen: (val: string) => void;
 }
 
 const RaceDropDown = ({
   title,
-  data,
-  containerStyle,
-  titleStyle,
-  valueContainerStyle,
-  dropStyle,
-  dropDownStyle,
-  dropDownTextStyle,
+  data = [],
+  containerStyle = {},
+  titleStyle = {},
+  valueContainerStyle = {},
+  dropStyle = {},
+  dropDownStyle = {},
+  dropDownTextStyle = {},
   disable,
   selected,
   setSelected,
@@ -40,13 +40,11 @@ const RaceDropDown = ({
   const [value, setValue] = useState(valued);
   const [open, setOpen] = useState(false);
 
-  let valueToShow =
-    value === "0"
-      ? "0.00"
-      : name
+  let valueToShow = value === "0"
+    ? "0.00"
+    : name ? selected[name]
       ? selected[name]
-        ? selected[name]
-        : value
+      : value
       : value;
 
   useEffect(() => {

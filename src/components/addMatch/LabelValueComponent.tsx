@@ -1,10 +1,10 @@
 import { Box, Typography } from "@mui/material";
-import { memo } from "react";
+import { memo, ReactNode } from "react";
 
 interface LabelValueComponentProps {
-  title: string;
-  titleSize: string;
-  headColor: string;
+  title: ReactNode;
+  titleSize?: string;
+  headColor?: string;
 }
 
 const LabelValueComponent = ({
