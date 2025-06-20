@@ -15,7 +15,7 @@ import {
 } from "@mui/material";
 import { useFormik } from "formik";
 import { memo, useEffect } from "react";
-import { TiDelete } from 'react-icons/ti';
+import { TiDelete } from "react-icons/ti";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -424,7 +424,7 @@ const AddManualMarket = () => {
                     </Box>
                     <Box sx={{ display: "flex" }}>
                       <Box sx={{ background: "#FFFFFF", width: "100%" }}>
-                        {values.runners?.map((item: any, index: any) => {
+                        {values.runners?.map((item: any, index: number) => {
                           return (
                             <Box
                               key={index}
@@ -455,7 +455,7 @@ const AddManualMarket = () => {
                                     setValues({
                                       ...values,
                                       runners: values?.runners?.filter(
-                                        (_: any, indexes: any) =>
+                                        (_: any, indexes: number) =>
                                           indexes != index
                                       ),
                                     });
