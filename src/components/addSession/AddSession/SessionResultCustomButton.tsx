@@ -4,7 +4,7 @@ import { memo } from "react";
 interface SessionResultCustomButtonProps {
   id: string;
   title: string;
-  color: string;
+  color?: string;
   loading: any;
   onClick?: (val: any) => void;
   session?: boolean;

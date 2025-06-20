@@ -9,7 +9,7 @@ interface RaceDropDownItemProps {
   EventId: string;
   CompetitionName: string;
   setOpen: (val: any) => void;
-  dropDownTextStyle: any;
+  dropDownTextStyle?: React.CSSProperties;
   setSelected: (val: any) => void;
   name: string;
 }
@@ -19,7 +19,7 @@ const RaceDropDownItem = ({
   EventId,
   CompetitionName,
   setOpen,
-  dropDownTextStyle,
+  dropDownTextStyle = {},
   setSelected,
   name,
 }: RaceDropDownItemProps) => {
@@ -41,7 +41,9 @@ const RaceDropDownItem = ({
         raceType: item?.description?.raceType,
       };
     });
-    dispatch(updateRaceRunners(item?.runners));
+    if (item?.runners) {
+      dispatch(updateRaceRunners(item.runners));
+    }
     setOpen(false);
   }, []);
 

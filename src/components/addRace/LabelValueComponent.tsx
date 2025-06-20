@@ -3,8 +3,8 @@ import { memo } from "react";
 
 interface LabelValueComponentProps {
   title: string;
-  titleSize: string;
-  headColor: string;
+  titleSize?: string;
+  headColor?: string;
 }
 
 const LabelValueComponent = ({

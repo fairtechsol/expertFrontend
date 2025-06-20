@@ -7,7 +7,7 @@ interface MatchListInputProps {
   required?: boolean;
   label: string;
   labelStyle?: React.CSSProperties;
-  type: string;
+  type: React.HTMLInputTypeAttribute;
   disable?: boolean;
   placeholder: string;
   [key: string]: any;

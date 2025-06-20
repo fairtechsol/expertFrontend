@@ -10,6 +10,20 @@ Sentry.init({
   sendDefaultPii: true
 });
 
+// ✅ Track console.error and console.warn
+const originalConsoleError = console.error;
+const originalConsoleWarn = console.warn;
+
+console.error = (...args) => {
+  Sentry.captureMessage(`ConsoleError: ${args.join(" ")}`, 'error');
+  originalConsoleError.apply(console, args);
+};
+
+console.warn = (...args) => {
+  Sentry.captureMessage(`ConsoleWarn: ${args.join(" ")}`, 'warning');
+  originalConsoleWarn.apply(console, args);
+};
+
 function App() {
   if (process.env.NODE_ENV === "production") console.log = () => { };
   return (

@@ -4,21 +4,21 @@ import { numberInputOnWheelPreventChange } from "../../helpers";
 
 interface MatchListInputProps {
   value?: string;
-  required: boolean;
+  required?: boolean;
   label: string;
-  type: string;
+  type?: React.HTMLInputTypeAttribute;
   disable?: boolean;
-  placeholder: string;
+  placeholder?: string;
   [key: string]: any;
 }
 
 const MatchListInput = ({
-  value,
+  value = "",
   required,
   label,
-  type,
+  type = "text",
   disable,
-  placeholder,
+  placeholder = "",
   ...prop
 }: MatchListInputProps) => {
   const containerStyles: any = {
