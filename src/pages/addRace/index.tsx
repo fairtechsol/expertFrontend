@@ -385,7 +385,8 @@ const AddRace = () => {
                   title="Race Name*"
                   valueContainerStyle={{
                     height: "45px",
-                    marginX: "0px",
+                    marginLeft: "0px",
+                    marginRight: "0px",
                     background: "#0B4F26",
                     border: "1px solid #DEDEDE",
                     borderRadius: "5px",
