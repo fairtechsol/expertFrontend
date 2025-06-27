@@ -280,33 +280,33 @@ const HTFTMarket = ({
                   "active",
                   "open",
                 ].includes(item?.status?.toLowerCase()) ||
-                item?.status?.toLowerCase() === "suspended"
+                  item?.status?.toLowerCase() === "suspended"
                   ? true
                   : false) && (
-                  <Box
-                    sx={{
-                      position: "absolute",
-                      height: "100%",
-                      width: "100%",
-                      display: "flex",
-                      zIndex: "899",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      background: "rgba(0, 0, 0, .6)",
-                    }}
-                  >
-                    <h4
-                      style={{
-                        textTransform: "uppercase",
-                        color: "#FFF",
-                        fontWeight: "400",
-                        fontSize: matchesMobile ? "12px" : "12px",
+                    <Box
+                      sx={{
+                        position: "absolute",
+                        height: "100%",
+                        width: "100%",
+                        display: "flex",
+                        zIndex: "899",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        background: "rgba(0, 0, 0, .6)",
                       }}
                     >
-                      {item?.status}
-                    </h4>
-                  </Box>
-                )}
+                      <h4
+                        style={{
+                          textTransform: "uppercase",
+                          color: "#FFF",
+                          fontWeight: "400",
+                          fontSize: matchesMobile ? "12px" : "12px",
+                        }}
+                      >
+                        {item?.status}
+                      </h4>
+                    </Box>
+                  )}
 
                 <HTFTBoxComponent
                   teamRates={
@@ -314,12 +314,12 @@ const HTFTMarket = ({
                       liveData?.id + "_" + "profitLoss" + "_" + currentMatch?.id
                     ]
                       ? currentMatch?.teamRates?.[
-                          liveData?.id +
-                            "_" +
-                            "profitLoss" +
-                            "_" +
-                            currentMatch?.id
-                        ]?.[item?.id] ?? 0
+                      liveData?.id +
+                      "_" +
+                      "profitLoss" +
+                      "_" +
+                      currentMatch?.id
+                      ]?.[item?.id] ?? 0
                       : 0
                   }
                   data={item}
@@ -373,6 +373,7 @@ const HTFTMarket = ({
                   bottom: 0,
                   color: "#fff",
                   backgroundColor: "rgba(203 24 24 / 70%)",
+                  zIndex: 999
                 }}
               >
                 <Typography sx={{ color: "#fff", textAlign: "center" }}>
