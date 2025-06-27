@@ -82,10 +82,10 @@ const SessionMarketBox = ({
           background: visible
             ? "#FFAF45"
             : section === "completed"
-            ? "#E15151"
-            : index % 2 === 0
-            ? "#FFE094"
-            : "#ECECEC",
+              ? "#E15151"
+              : index % 2 === 0
+                ? "#FFE094"
+                : "#ECECEC",
           height: "30px",
           width: "100%",
           boxShadow: visible ? 3 : 0,
@@ -97,10 +97,10 @@ const SessionMarketBox = ({
             background: visible
               ? "#FFAF45"
               : section === "completed"
-              ? "#E15151"
-              : index % 2 === 0
-              ? "#FFE094"
-              : "#ECECEC",
+                ? "#E15151"
+                : index % 2 === 0
+                  ? "#FFE094"
+                  : "#ECECEC",
             height: "30px",
             width: "40%",
             alignItems: "center",
@@ -141,10 +141,18 @@ const SessionMarketBox = ({
                 overflow: "hidden",
                 marginLeft: "7px",
                 textOverflow: "ellipsis",
-                whiteSpace: "nowrap",
                 display: "flex",
                 WebkitLineClamp: "2",
                 WebkitBoxOrient: "vertical",
+                whiteSpace: {
+                  xs: "normal",
+                  sm: "nowrap",
+                },
+                width: {
+                  xs: "70%",
+                  sm: "auto",
+                },
+                lineHeight: 1.1,
               }}
             >
               {newData?.RunnerName ?? newData?.name}
@@ -174,7 +182,7 @@ const SessionMarketBox = ({
               height: "25px",
               zIndex: 100,
               alignItems: "center",
-              paddingRight: "10px",
+              paddingRight: { xs: "1px", sm: "10px" },
               lineHeight: 2,
             }}
           >
@@ -353,8 +361,8 @@ const SessionMarketBox = ({
             </h6>
           </Box>
         ) : !["ACTIVE", "active", "", undefined, null, 0, "open"].includes(
-            newData?.GameStatus?.toLowerCase()
-          ) || newData?.result ? (
+          newData?.GameStatus?.toLowerCase()
+        ) || newData?.result ? (
           <Box
             sx={{
               margin: "1px",
@@ -453,8 +461,8 @@ const SessionMarketBox = ({
             background: visible
               ? "#FFAF45"
               : index % 2 === 0
-              ? "#FFE094"
-              : "#ECECEC",
+                ? "#FFE094"
+                : "#ECECEC",
             height: "30px",
             width: "100%",
             boxShadow: visible ? 3 : 0,
@@ -466,8 +474,8 @@ const SessionMarketBox = ({
               background: visible
                 ? "#FFAF45"
                 : index % 2 === 0
-                ? "#FFE094"
-                : "#ECECEC",
+                  ? "#FFE094"
+                  : "#ECECEC",
 
               height: "30px",
               width: "40%",
@@ -510,8 +518,8 @@ const SessionMarketBox = ({
               </h6>
             </Box>
           ) : !["ACTIVE", "active", "", undefined, null, 0, "open"].includes(
-              newData?.GameStatus?.toLowerCase()
-            ) || newData?.result ? (
+            newData?.GameStatus?.toLowerCase()
+          ) || newData?.result ? (
             <Box
               sx={{
                 margin: "1px",

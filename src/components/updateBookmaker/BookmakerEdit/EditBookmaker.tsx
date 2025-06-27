@@ -302,9 +302,8 @@ const EditBookmaker = ({
                   backgroundColor: "transparent",
                 }}
               >
-                {` (Min:${matchBetting?.minBet || 0} Max:${
-                  matchBetting?.maxBet || 0
-                })`}
+                {` (Min:${matchBetting?.minBet || 0} Max:${matchBetting?.maxBet || 0
+                  })`}
               </span>
             </Box>
           </Typography>
@@ -354,17 +353,17 @@ const EditBookmaker = ({
           <BookButton
             rate={bookRatioA(
               +teamRates?.[runners?.[0]?.parentRunnerId || runners?.[0]?.id] ||
-                0,
+              0,
               +teamRates?.[runners?.[1]?.parentRunnerId || runners?.[1]?.id] ||
-                0
+              0
             )}
           />
           <BookButton
             rate={bookRatioB(
               +teamRates?.[runners?.[0]?.parentRunnerId || runners?.[0]?.id] ||
-                0,
+              0,
               +teamRates?.[runners?.[1]?.parentRunnerId || runners?.[1]?.id] ||
-                0
+              0
             )}
           />
         </Box>
