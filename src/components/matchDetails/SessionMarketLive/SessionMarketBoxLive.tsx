@@ -221,9 +221,9 @@ const SessionMarketBoxLive = ({
             ) - 1,
         },
         (_, i) => i + 1
-      ).map((item: number) => {
+      ).map((item: number, index: number) => {
         return (
-          <Fragment key={item}>
+          <Fragment key={index}>
             <Box
               sx={{
                 display: "flex",
