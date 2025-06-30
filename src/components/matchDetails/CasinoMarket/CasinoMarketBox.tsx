@@ -17,7 +17,6 @@ const CasinoMarketBox = ({
   profitLoss,
   index,
 }: CasinoMarketBoxProps) => {
-  console.log(profitLoss, sessionData?.id, "abc");
   return (
     <>
       <Box
