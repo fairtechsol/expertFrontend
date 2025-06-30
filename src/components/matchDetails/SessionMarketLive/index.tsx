@@ -221,7 +221,9 @@ const SessionMarketLive = ({ title, sessionData, currentMatch, type }: any) => {
                     width="100%"
                     itemCount={matchSessionData.length}
                     itemSize={getItemSize}
-                    itemKey={(index, data) => get(data, ["items", index, "id"])}
+                    itemKey={(index, data) =>
+                      get(data, ["items", index, "id"]) ?? `item-${index}`
+                    }
                     itemData={{
                       items: matchSessionData,
                       gtype: get(sessionData, "gtype"),
