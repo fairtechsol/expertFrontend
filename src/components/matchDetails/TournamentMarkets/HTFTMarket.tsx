@@ -373,7 +373,6 @@ const HTFTMarket = ({
                   bottom: 0,
                   color: "#fff",
                   backgroundColor: "rgba(203 24 24 / 70%)",
-                  zIndex: 999
                 }}
               >
                 <Typography sx={{ color: "#fff", textAlign: "center" }}>
