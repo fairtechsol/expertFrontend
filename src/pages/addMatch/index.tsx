@@ -199,6 +199,7 @@ const AddMatch = () => {
   };
 
   const handleDateChange = (date: any) => {
+    if (!date) return;
     const currentDate = dayjs();
 
     if (dayjs(date).isBefore(currentDate)) {
@@ -586,7 +587,9 @@ const AddMatch = () => {
                           paddingTop: "8px",
                         },
                       }}
-                      value={dayjs(selected?.startAt)}
+                      value={
+                        selected?.startAt ? dayjs(selected?.startAt) : null
+                      }
                       onChange={handleDateChange}
                     />
                   </DemoItem>
