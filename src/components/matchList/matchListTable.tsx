@@ -312,7 +312,7 @@ const MatchListTable = ({ data, index, currentPage }: MatchListTableProps) => {
                         }}
                         onClick={() =>
                           navigate(
-                            `/expert/sessionBetList/${data?.id}/${data?.marketId}`
+                            `/expert/sessionBetList/${data?.id}?mid=${data?.marketId}`
                           )
                         }
                         title="View Session"
@@ -328,7 +328,7 @@ const MatchListTable = ({ data, index, currentPage }: MatchListTableProps) => {
                         }}
                         onClick={() =>
                           navigate(
-                            `/expert/session/${data?.id}/${data?.marketId}`
+                            `/expert/session/${data?.id}?mid=${data?.marketId}`
                           )
                         }
                         title="Expert Session"
@@ -344,9 +344,11 @@ const MatchListTable = ({ data, index, currentPage }: MatchListTableProps) => {
                   }}
                   onClick={() =>
                     isCricketOrPolitics
-                      ? navigate(`/expert/market/${data?.id}/${data?.marketId}`)
+                      ? navigate(
+                          `/expert/market/${data?.id}?mid=${data?.marketId}`
+                        )
                       : navigate(
-                          `/expert/betOdds/otherGames/${data?.id}/${data?.marketId}`
+                          `/expert/betOdds/otherGames/${data?.id}?mid=${data?.marketId}`
                         )
                   }
                   title="View Match"

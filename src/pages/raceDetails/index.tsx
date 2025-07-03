@@ -2,7 +2,7 @@ import { Box, Typography } from "@mui/material";
 import moment from "moment";
 import { memo, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import Loader from "../../components/Loader";
 import BetList from "../../components/raceDetails/BetList";
 import MatchOdds from "../../components/raceDetails/MatchOdds";
@@ -31,7 +31,10 @@ import {
 import { AppDispatch, RootState } from "../../store/store";
 
 const RaceDetails = () => {
-  const state: any = useParams();
+  const { id }: any = useParams();
+  const [searchParams] = useSearchParams();
+  const mid = searchParams.get("mid");
+
   const navigate = useNavigate();
   const dispatch: AppDispatch = useDispatch();
   const [timeLeft, setTimeLeft] = useState<any>({
@@ -50,17 +53,17 @@ const RaceDetails = () => {
   );
 
   useEffect(() => {
-    if (state?.mId) {
-      matchService.connect([state?.id]);
+    if (mid) {
+      matchService.connect([id]);
     }
     return () => {
       matchService.disconnect();
     };
-  }, [state]);
+  }, [id, mid]);
 
   const updateMatchDetailToRedux = (event: any) => {
     try {
-      if (state?.id === event?.id) {
+      if (id === event?.id) {
         dispatch(updateRaceRates(event));
       } else return;
     } catch (e) {
@@ -70,7 +73,7 @@ const RaceDetails = () => {
 
   const resultDeclared = (event: any) => {
     try {
-      if (event?.matchId === state?.id) {
+      if (event?.matchId === id) {
         navigate(
           `/expert/race/${
             raceDetail?.matchType
@@ -87,9 +90,9 @@ const RaceDetails = () => {
   };
   const resultUnDeclared = (event: any) => {
     try {
-      if (event?.matchId === state?.id) {
-        dispatch(getRaceMatch(state?.id));
-        dispatch(getPlacedBetsMatch(state?.id));
+      if (event?.matchId === id) {
+        dispatch(getRaceMatch(id));
+        dispatch(getPlacedBetsMatch(id));
       }
     } catch (e) {
       console.log(e);
@@ -98,7 +101,7 @@ const RaceDetails = () => {
 
   const matchDeleteBet = (event: any) => {
     try {
-      if (event?.matchId === state?.id) {
+      if (event?.matchId === id) {
         dispatch(updateTeamRatesForHorseRacingOnDelete(event));
         dispatch(updateMatchBetsReason(event));
         dispatch(
@@ -114,7 +117,7 @@ const RaceDetails = () => {
   };
   const updateDeleteBetReason = (event: any) => {
     try {
-      if (event?.matchId === state?.id) {
+      if (event?.matchId === id) {
         dispatch(updateDeletedBetReasonOnEdit(event));
       }
     } catch (e) {
@@ -123,7 +126,7 @@ const RaceDetails = () => {
   };
   const updateMatchBetPlaced = (event: any) => {
     try {
-      if (event?.jobData?.newBet?.matchId === state?.id) {
+      if (event?.jobData?.newBet?.matchId === id) {
         dispatch(updateTeamRatesForHorseRacing(event));
         dispatch(updateMatchBetsPlace(event));
       }
@@ -134,7 +137,7 @@ const RaceDetails = () => {
 
   const updateSessionResultStatus = (event: any) => {
     try {
-      if (event?.matchId === state?.id) {
+      if (event?.matchId === id) {
         dispatch(updateResultStatusOfrace(event));
       }
     } catch (error) {
@@ -144,20 +147,20 @@ const RaceDetails = () => {
 
   useEffect(() => {
     try {
-      if (state?.id) {
+      if (id) {
         dispatch(getSessionProfitLossMatchDetailReset());
-        dispatch(getRaceMatch(state?.id));
-        dispatch(getPlacedBetsMatch(state?.id));
+        dispatch(getRaceMatch(id));
+        dispatch(getPlacedBetsMatch(id));
       }
     } catch (e) {
       console.log(e);
     }
-  }, [state?.id]);
+  }, [id]);
 
   useEffect(() => {
     try {
       if (success && socket) {
-        expertSocketService.match.getMatchRatesOff(state?.id);
+        expertSocketService.match.getMatchRatesOff(id);
         // socketService.user.matchBettingStatusChangeOff();
         socketService.user.matchResultDeclaredOff();
         socketService.user.matchResultUnDeclaredOff();
@@ -165,8 +168,8 @@ const RaceDetails = () => {
         socketService.user.userMatchBetPlacedOff();
         socketService.user.updateInResultDeclareOff();
         socketService.user.updateDeleteReasonOff();
-        expertSocketService.match.joinMatchRoom(state?.id);
-        expertSocketService.match.getMatchRates(state?.id, (event: any) => {
+        expertSocketService.match.joinMatchRoom(id);
+        expertSocketService.match.getMatchRates(id, (event: any) => {
           updateMatchDetailToRedux(event);
         });
         // socketService.user.matchBettingStatusChange(updateBettingStatus);
@@ -185,7 +188,7 @@ const RaceDetails = () => {
   useEffect(() => {
     try {
       return () => {
-        expertSocketService.match.getMatchRatesOff(state?.id);
+        expertSocketService.match.getMatchRatesOff(id);
         socketService.user.matchResultDeclaredOff();
         socketService.user.matchResultUnDeclaredOff();
         socketService.user.matchDeleteBetOff();
@@ -196,20 +199,20 @@ const RaceDetails = () => {
     } catch (error) {
       console.log(error);
     }
-  }, [state?.id]);
+  }, [id]);
 
   useEffect(() => {
     try {
       const handleVisibilityChange = () => {
         if (document.visibilityState === "visible") {
-          if (state?.id) {
-            dispatch(getRaceMatch(state?.id));
-            dispatch(getPlacedBetsMatch(state?.id));
+          if (id) {
+            dispatch(getRaceMatch(id));
+            dispatch(getPlacedBetsMatch(id));
           }
         } else if (document.visibilityState === "hidden") {
-          if (state?.id) {
-            // expertSocketService.match.leaveMatchRoom(state?.id);
-            expertSocketService.match.getMatchRatesOff(state?.id);
+          if (id) {
+            // expertSocketService.match.leaveMatchRoom(id);
+            expertSocketService.match.getMatchRatesOff(id);
           }
         }
       };
@@ -232,7 +235,7 @@ const RaceDetails = () => {
       setTimeLeft(timeLeft);
     }, 1000);
     return () => clearInterval(timer);
-  }, [state?.id, raceDetail]);
+  }, [id, raceDetail]);
 
   return (
     <Box

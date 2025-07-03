@@ -101,7 +101,7 @@ const MatchListTable = ({
                   }}
                   onClick={() => {
                     navigate(
-                      `/expert/betOdds/race/${item?.id}/${item?.marketId}`
+                      `/expert/betOdds/race/${item?.id}?mid=${item?.marketId}`
                     );
                   }}
                   title={moment(item.startAt).format("HH:mm")}
