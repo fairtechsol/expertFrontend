@@ -1,7 +1,7 @@
 import { Box, Stack } from "@mui/material";
 import { Fragment, memo, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import BetList from "../../components/matchDetails/BetList";
 import CasinoMarket2 from "../../components/matchDetails/CasinoMarket2";
 import RunsBox from "../../components/matchDetails/RunsBox";
@@ -44,7 +44,10 @@ import { AppDispatch, RootState } from "../../store/store";
 const SessionBetlistDetail = () => {
   const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
-  const state: any = useParams();
+  const { id }: any = useParams();
+  const [searchParams] = useSearchParams();
+  const mid = searchParams.get("mid");
+
   const { matchDetail, success } = useSelector(
     (state: RootState) => state.addMatch.addMatch
   );
@@ -55,17 +58,17 @@ const SessionBetlistDetail = () => {
   );
 
   useEffect(() => {
-    if (state?.mId) {
-      matchService.connect([state?.id]);
+    if (mid) {
+      matchService.connect([id]);
     }
     return () => {
       matchService.disconnect();
     };
-  }, [state]);
+  }, [id, mid]);
 
   const updateMatchDetailToRedux = (event: any) => {
     try {
-      if (state?.id === event?.id) {
+      if (id === event?.id) {
         dispatch(updateMatchRates(event));
       } else return;
     } catch (e) {
@@ -74,7 +77,7 @@ const SessionBetlistDetail = () => {
   };
   const resultDeclared = (event: any) => {
     try {
-      if (event?.matchId === state?.id && event?.isMatchDeclare) {
+      if (event?.matchId === id && event?.isMatchDeclare) {
         navigate("/expert/match");
       }
     } catch (e) {
@@ -83,9 +86,9 @@ const SessionBetlistDetail = () => {
   };
   const resultUnDeclared = (event: any) => {
     try {
-      if (event?.matchId === state?.id) {
-        dispatch(getMatchDetail(`${state?.id}?isMarketAllowed=false`));
-        dispatch(getPlacedBetsForSessionDetail(state?.id));
+      if (event?.matchId === id) {
+        dispatch(getMatchDetail(`${id}?isMarketAllowed=false`));
+        dispatch(getPlacedBetsForSessionDetail(id));
       }
     } catch (e) {
       console.log(e);
@@ -94,7 +97,7 @@ const SessionBetlistDetail = () => {
 
   const matchDeleteBet = (event: any) => {
     try {
-      if (event?.matchId === state?.id) {
+      if (event?.matchId === id) {
         dispatch(updateRates(event));
         dispatch(updateMatchBetsReason(event));
         dispatch(
@@ -111,7 +114,7 @@ const SessionBetlistDetail = () => {
 
   const handleSessionAdded = (event: any) => {
     try {
-      if (event?.matchId === state?.id) {
+      if (event?.matchId === id) {
         dispatch(updateSessionAdded(event));
       }
     } catch (e) {
@@ -121,7 +124,7 @@ const SessionBetlistDetail = () => {
 
   const updateSessionResultDeclared = (event: any) => {
     try {
-      if (state?.id === event?.matchId) {
+      if (id === event?.matchId) {
         dispatch(updateApiSessionById(event));
         dispatch(addStatusBetByBetId(event));
         if (event?.activeStatus === "result") {
@@ -157,7 +160,7 @@ const SessionBetlistDetail = () => {
 
   const updateDeleteBetReason = (event: any) => {
     try {
-      if (event?.matchId === state?.id) {
+      if (event?.matchId === id) {
         dispatch(updateDeletedBetReasonOnEdit(event));
       }
     } catch (e) {
@@ -167,7 +170,7 @@ const SessionBetlistDetail = () => {
 
   const updateSessionBetPlaced = (event: any) => {
     try {
-      if (event?.jobData?.placedBet?.matchId === state?.id) {
+      if (event?.jobData?.placedBet?.matchId === id) {
         dispatch(updateSessionBetsPlace(event));
         dispatch(
           updateSessionProLoss({
@@ -198,7 +201,7 @@ const SessionBetlistDetail = () => {
 
   const updateSessionResultStatus = (event: any) => {
     try {
-      if (event?.matchId === state?.id) {
+      if (event?.matchId === id) {
         dispatch(updateResultStatusOfSession(event));
         dispatch(updateResultStatusOfMatch(event));
       }
@@ -208,27 +211,27 @@ const SessionBetlistDetail = () => {
   };
 
   const handleSocketConnection = () => {
-    if (state?.id) {
-      expertSocketService.match.joinMatchRoom(state?.id);
+    if (id) {
+      expertSocketService.match.joinMatchRoom(id);
     }
   };
 
   useEffect(() => {
     try {
-      if (state?.id) {
+      if (id) {
         dispatch(getSessionProfitLossMatchDetailReset());
-        dispatch(getMatchDetail(`${state?.id}?isMarketAllowed=false`));
-        dispatch(getPlacedBetsForSessionDetail(state?.id));
+        dispatch(getMatchDetail(`${id}?isMarketAllowed=false`));
+        dispatch(getPlacedBetsForSessionDetail(id));
       }
     } catch (e) {
       console.log(e);
     }
-  }, [state?.id]);
+  }, [id]);
 
   useEffect(() => {
     try {
       if (success && socket) {
-        expertSocketService.match.getMatchRatesOff(state?.id);
+        expertSocketService.match.getMatchRatesOff(id);
         socketService.user.matchResultDeclaredOff();
         socketService.user.matchResultUnDeclaredOff();
         socketService.user.sessionDeleteBetOff();
@@ -237,7 +240,7 @@ const SessionBetlistDetail = () => {
         socketService.user.sessionResultDeclaredOff();
         socketService.user.updateInResultDeclareOff();
         socketService.user.updateDeleteReasonOff();
-        expertSocketService.match.getMatchRates(state?.id, (event: any) => {
+        expertSocketService.match.getMatchRates(id, (event: any) => {
           updateMatchDetailToRedux(event);
         });
         socketService.user.matchResultDeclared(resultDeclared);
@@ -257,11 +260,11 @@ const SessionBetlistDetail = () => {
 
   useEffect(() => {
     try {
-      if (state?.id) {
+      if (id) {
         return () => {
           matchSocketService.leaveAllRooms();
-          expertSocketService.match.leaveMatchRoom(state?.id);
-          expertSocketService.match.getMatchRatesOff(state?.id);
+          expertSocketService.match.leaveMatchRoom(id);
+          expertSocketService.match.getMatchRatesOff(id);
           socketService.user.matchResultDeclaredOff();
           socketService.user.matchResultUnDeclaredOff();
           socketService.user.sessionDeleteBetOff();
@@ -277,22 +280,22 @@ const SessionBetlistDetail = () => {
     } catch (error) {
       console.log(error);
     }
-  }, [state?.id]);
+  }, [id]);
 
   useEffect(() => {
     try {
       const handleVisibilityChange = () => {
         if (document.visibilityState === "visible") {
-          if (state?.id) {
-            expertSocketService.match.joinMatchRoom(state?.id);
-            expertSocketService.match.getMatchRates(state?.id, (event: any) => {
+          if (id) {
+            expertSocketService.match.joinMatchRoom(id);
+            expertSocketService.match.getMatchRates(id, (event: any) => {
               updateMatchDetailToRedux(event);
             });
           }
         } else if (document.visibilityState === "hidden") {
-          if (state?.id) {
-            expertSocketService.match.leaveMatchRoom(state?.id);
-            expertSocketService.match.getMatchRatesOff(state?.id);
+          if (id) {
+            expertSocketService.match.leaveMatchRoom(id);
+            expertSocketService.match.getMatchRatesOff(id);
           }
         }
       };
@@ -307,7 +310,7 @@ const SessionBetlistDetail = () => {
     } catch (error) {
       console.error(error);
     }
-  }, [state?.id]);
+  }, [id]);
 
   return (
     <>

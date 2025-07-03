@@ -1,7 +1,7 @@
 import { Box, useMediaQuery, useTheme } from "@mui/material";
 import { Fragment, memo, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { handleMarketSorting } from "../../components/helper";
 import Loader from "../../components/Loader";
 import BetList from "../../components/matchDetails/BetList";
@@ -35,7 +35,10 @@ import { AppDispatch, RootState } from "../../store/store";
 import { marketArray } from "../../utils/Constants";
 
 const OtherMatchDetails = () => {
-  const state: any = useParams();
+  const { id }: any = useParams();
+  const [searchParams] = useSearchParams();
+  const mid = searchParams.get("mid");
+
   const navigate = useNavigate();
   const theme = useTheme();
   const matchesMobile = useMediaQuery(theme.breakpoints.down("sm"));
@@ -48,17 +51,17 @@ const OtherMatchDetails = () => {
   );
 
   useEffect(() => {
-    if (state?.mId) {
-      matchService.connect([state?.id]);
+    if (mid) {
+      matchService.connect([id]);
     }
     return () => {
       matchService.disconnect();
     };
-  }, [state]);
+  }, [id, mid]);
 
   const updateMatchDetailToRedux = (event: any) => {
     try {
-      if (state?.id === event?.id) {
+      if (id === event?.id) {
         dispatch(updateMatchRates(event));
       } else return;
     } catch (e) {
@@ -68,11 +71,11 @@ const OtherMatchDetails = () => {
 
   const resultDeclared = (event: any) => {
     try {
-      if (event?.matchId === state?.id) {
+      if (event?.matchId === id) {
         if (event?.isMatchDeclare) {
           navigate("/expert/match");
         } else {
-          dispatch(getPlacedBetsMatch(state?.id));
+          dispatch(getPlacedBetsMatch(id));
           dispatch(updateResultStatusOfMatch(event));
         }
       }
@@ -83,14 +86,14 @@ const OtherMatchDetails = () => {
 
   const resultUnDeclared = (event: any) => {
     try {
-      if (event?.matchId === state?.id) {
+      if (event?.matchId === id) {
         if (event?.betType) {
           dispatch(updateResultStatusOfMatch(event));
           dispatch(updateTeamRatesOnUndeclare(event));
         } else {
-          dispatch(getMatchDetail(`${state?.id}?isSessionAllowed=false`));
+          dispatch(getMatchDetail(`${id}?isSessionAllowed=false`));
         }
-        dispatch(getPlacedBetsMatch(state?.id));
+        dispatch(getPlacedBetsMatch(id));
       }
     } catch (e) {
       console.log(e);
@@ -99,7 +102,7 @@ const OtherMatchDetails = () => {
 
   const matchDeleteBet = (event: any) => {
     try {
-      if (event?.matchId === state?.id) {
+      if (event?.matchId === id) {
         dispatch(updateRates(event));
         dispatch(updateMatchBetsReason(event));
       }
@@ -110,7 +113,7 @@ const OtherMatchDetails = () => {
 
   const updateDeleteBetReason = (event: any) => {
     try {
-      if (event?.matchId === state?.id) {
+      if (event?.matchId === id) {
         dispatch(updateDeletedBetReasonOnEdit(event));
       }
     } catch (e) {
@@ -120,7 +123,7 @@ const OtherMatchDetails = () => {
 
   const updateMatchBetPlaced = (event: any) => {
     try {
-      if (event?.jobData?.newBet?.matchId === state?.id) {
+      if (event?.jobData?.newBet?.matchId === id) {
         dispatch(updateTeamRates(event));
         dispatch(updateMatchBetsPlace(event));
       }
@@ -131,7 +134,7 @@ const OtherMatchDetails = () => {
 
   const updateSessionResultStatus = (event: any) => {
     try {
-      if (event?.matchId === state?.id) {
+      if (event?.matchId === id) {
         dispatch(updateResultStatusOfMatch(event));
       }
     } catch (error) {
@@ -140,8 +143,8 @@ const OtherMatchDetails = () => {
   };
 
   const handleSocketConnection = () => {
-    if (state?.id) {
-      expertSocketService.match.joinMatchRoom(state?.id);
+    if (id) {
+      expertSocketService.match.joinMatchRoom(id);
     }
   };
 
@@ -161,20 +164,20 @@ const OtherMatchDetails = () => {
 
   useEffect(() => {
     try {
-      if (state?.id) {
+      if (id) {
         dispatch(getSessionProfitLossMatchDetailReset());
-        dispatch(getMatchDetail(`${state?.id}?isSessionAllowed=false`));
-        dispatch(getPlacedBetsMatch(state?.id));
+        dispatch(getMatchDetail(`${id}?isSessionAllowed=false`));
+        dispatch(getPlacedBetsMatch(id));
       }
     } catch (e) {
       console.log(e);
     }
-  }, [state?.id]);
+  }, [id]);
 
   useEffect(() => {
     try {
       if (success && socket) {
-        expertSocketService.match.getMatchRatesOff(state?.id);
+        expertSocketService.match.getMatchRatesOff(id);
         socketService.user.matchResultDeclaredOff();
         socketService.user.matchResultUnDeclaredOff();
         socketService.user.matchDeleteBetOff();
@@ -184,8 +187,8 @@ const OtherMatchDetails = () => {
         socketService.user.updateDeleteReasonOff();
         socketService.user.matchResultDeclareAllUserOff();
         socketService.user.matchResultUnDeclareAllUserOff();
-        expertSocketService.match.joinMatchRoom(state?.id);
-        expertSocketService.match.getMatchRates(state?.id, (event: any) => {
+        expertSocketService.match.joinMatchRoom(id);
+        expertSocketService.match.getMatchRates(id, (event: any) => {
           updateMatchDetailToRedux(event);
         });
         socketService.user.matchResultDeclared(resultDeclared);
@@ -201,14 +204,14 @@ const OtherMatchDetails = () => {
     } catch (e) {
       console.log(e);
     }
-  }, [success, socket, state?.id, matchSocket]);
+  }, [success, socket, id, matchSocket]);
 
   useEffect(() => {
     try {
-      if (state?.id) {
+      if (id) {
         return () => {
           matchSocketService.leaveAllRooms();
-          expertSocketService.match.getMatchRatesOff(state?.id);
+          expertSocketService.match.getMatchRatesOff(id);
           socketService.user.matchResultDeclaredOff();
           socketService.user.matchResultUnDeclaredOff();
           socketService.user.matchDeleteBetOff();
@@ -224,22 +227,22 @@ const OtherMatchDetails = () => {
     } catch (error) {
       console.log(error);
     }
-  }, [state?.id]);
+  }, [id]);
 
   useEffect(() => {
     try {
       const handleVisibilityChange = () => {
         if (document.visibilityState === "visible") {
-          if (state?.id) {
-            dispatch(getPlacedBetsMatch(state?.id));
-            expertSocketService.match.joinMatchRoom(state?.id);
-            expertSocketService.match.getMatchRates(state?.id, (event: any) => {
+          if (id) {
+            dispatch(getPlacedBetsMatch(id));
+            expertSocketService.match.joinMatchRoom(id);
+            expertSocketService.match.getMatchRates(id, (event: any) => {
               updateMatchDetailToRedux(event);
             });
           }
         } else if (document.visibilityState === "hidden") {
-          if (state?.id) {
-            expertSocketService.match.getMatchRatesOff(state?.id);
+          if (id) {
+            expertSocketService.match.getMatchRatesOff(id);
           }
         }
       };
@@ -254,7 +257,7 @@ const OtherMatchDetails = () => {
     } catch (error) {
       console.error(error);
     }
-  }, [state?.id]);
+  }, [id]);
 
   const component =
     matchDetail?.tournament
