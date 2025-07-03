@@ -1,11 +1,6 @@
 import { Box, Typography } from "@mui/material";
-import { useEffect, useRef, useState } from "react";
+import { memo, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../../../store/store";
-import SessionResultModal from "../SessionResult/SessionResultModal";
-import AddSessionInput from "./AddSessionInput";
-import RunsAmountBox from "./RunsAmountBox";
-// import MaxBetAdd from "../../matchDetails/MaxBetAdd";
 import { useNavigate, useParams } from "react-router-dom";
 import { socket, socketService } from "../../../socketManager";
 import {
@@ -27,13 +22,21 @@ import {
 } from "../../../store/actions/addSession";
 import {
   getMatchListSessionProfitLoss,
-  // getMatchListSessionProfitLoss,
   sessionResultSuccessReset,
 } from "../../../store/actions/match/matchAction";
+import { AppDispatch, RootState } from "../../../store/store";
 import { ButtonRatesQuickSessions } from "../../../utils/Constants";
-// import SessionLimit from "./SessionLimit";
+import SessionResultModal from "../SessionResult/SessionResultModal";
+import AddSessionInput from "./AddSessionInput";
+import RunsAmountBox from "./RunsAmountBox";
 import CommissionDot from "../../Common/CommissionDot";
 import SessionLimit2 from "./SessionLimit2";
+
+interface SessionAddComponentProps {
+  createSession: boolean;
+  match: any;
+  setMode: (val: string) => void;
+}
 
 const stateDetail = {
   match_id: "",
@@ -52,7 +55,11 @@ const stateDetail = {
   status: "active",
 };
 
-const SessionAddComponent = ({ createSession, match, setMode }: any) => {
+const SessionAddComponent = ({
+  createSession,
+  match,
+  setMode,
+}: SessionAddComponentProps) => {
   const { id } = useParams();
   const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
@@ -139,6 +146,31 @@ const SessionAddComponent = ({ createSession, match, setMode }: any) => {
     }
   };
 
+  const handleQuickRateSetButton = (e: any, item: any) => {
+    e.preventDefault();
+    if (
+      !isCreateSession &&
+      !sessionById?.result &&
+      sessionById?.activeStatus === "live" &&
+      !sessionById?.resultStatus
+    ) {
+      const [yesRatePercent, noRatePercent] = item?.value?.split("-");
+      setInputDetail((prev: any) => {
+        return {
+          ...prev,
+          leftYesRatePercent: parseInt(yesRatePercent),
+          leftNoRatePercent: parseInt(noRatePercent),
+          yesRatePercent: parseInt(yesRatePercent),
+          noRatePercent: parseInt(noRatePercent),
+        };
+      });
+      handleLiveChange(parseInt(yesRatePercent), parseInt(noRatePercent));
+      if (inputRef.current) {
+        inputRef.current.focus();
+      }
+    }
+  };
+
   const updateResultDeclared = (event: any) => {
     try {
       if (match?.id === event?.matchId) {
@@ -158,8 +190,8 @@ const SessionAddComponent = ({ createSession, match, setMode }: any) => {
           });
         } else if (event?.activeStatus === "live") {
           dispatch(updateSessionById(event));
-          dispatch(getSessionProfitLoss(id));
-          dispatch(getPlacedBets({betId:id}));
+          dispatch(getSessionProfitLoss({ id, matchId: match?.id }));
+          dispatch(getPlacedBets({ betId: id }));
         }
       }
     } catch (e) {
@@ -419,7 +451,7 @@ const SessionAddComponent = ({ createSession, match, setMode }: any) => {
           }
         }}
         sx={{
-          width:"fit-content",
+          width: "fit-content",
           position: "relative",
           display: "flex",
           background: "#0B4F26",
@@ -442,7 +474,7 @@ const SessionAddComponent = ({ createSession, match, setMode }: any) => {
         >
           Set limits
         </Typography>
-      {sessionById?.isCommissionActive&&<CommissionDot/>}
+        {sessionById?.isCommissionActive && <CommissionDot />}
 
         <Box
           sx={{
@@ -452,40 +484,11 @@ const SessionAddComponent = ({ createSession, match, setMode }: any) => {
             left: 0,
           }}
         >
-          {/* {visible3 && (
-            <SessionLimit
-              newData={{
-                id: id,
-                matchId: match?.id,
-                betStatus: 0,
-                minBet: sessionById?.minBet
-                  ? sessionById?.minBet
-                  : match?.minBet,
-                maxBet: maxBetValue
-                  ? maxBetValue
-                  : sessionById?.maxBet
-                  ? sessionById?.maxBet
-                  : match?.betFairSessionMaxBet,
-              }}
-              onClick={() => {
-                setVisible3(false);
-                setIsDisable(true);
-                // getSessionResult(match?.id);
-              }}
-              onClickCancel={() => {
-                setVisible3(false);
-              }}
-            />
-          )} */}
-
           {visible3 && (
             <SessionLimit2
               open={open}
               handleClose={() => setOpen(false)}
               matchOddsLive={sessionById}
-              currentMatch={{
-                id: match?.id,
-              }}
               title={`${sessionById?.name} Max/Min Bet Limit`}
               exposureLimit={sessionById?.exposureLimit}
               isCommissionActive={sessionById?.isCommissionActive}
@@ -532,34 +535,7 @@ const SessionAddComponent = ({ createSession, match, setMode }: any) => {
             >
               {ButtonRatesQuickSessions?.map((item, index) => (
                 <Box
-                  onClick={(e) => {
-                    e.preventDefault();
-                    if (
-                      !isCreateSession &&
-                      !sessionById?.result &&
-                      sessionById?.activeStatus === "live" &&
-                      !sessionById?.resultStatus
-                    ) {
-                      const [yesRatePercent, noRatePercent] =
-                        item?.value?.split("-");
-                      setInputDetail((prev: any) => {
-                        return {
-                          ...prev,
-                          leftYesRatePercent: parseInt(yesRatePercent),
-                          leftNoRatePercent: parseInt(noRatePercent),
-                          yesRatePercent: parseInt(yesRatePercent),
-                          noRatePercent: parseInt(noRatePercent),
-                        };
-                      });
-                      handleLiveChange(
-                        parseInt(yesRatePercent),
-                        parseInt(noRatePercent)
-                      );
-                      if (inputRef.current) {
-                        inputRef.current.focus();
-                      }
-                    }
-                  }}
+                  onClick={(e: any) => handleQuickRateSetButton(e, item)}
                   key={index}
                   sx={{
                     position: "relative",
@@ -576,7 +552,6 @@ const SessionAddComponent = ({ createSession, match, setMode }: any) => {
                     height: "35px",
                     borderRadius: "5px",
                     cursor: "pointer",
-                    // p: 1,
                   }}
                 >
                   <Typography
@@ -613,7 +588,6 @@ const SessionAddComponent = ({ createSession, match, setMode }: any) => {
                       display: "flex",
                       background: "#FF4D4D",
                       maxWidth: "120px",
-                      // marginLeft: "5px",
                       justifyContent: "center",
                       alignItems: "center",
                       height: "35px",
@@ -645,11 +619,6 @@ const SessionAddComponent = ({ createSession, match, setMode }: any) => {
                             matchId: match?.id,
                             betStatus: 2,
                           }}
-                          undeclare={true}
-                          onClick={() => {
-                            setVisible1(false);
-                            // getSessionResult(match?.id);
-                          }}
                           onClickCancel={() => {
                             setVisible1(false);
                           }}
@@ -670,7 +639,6 @@ const SessionAddComponent = ({ createSession, match, setMode }: any) => {
                       position: "relative",
                       display: "flex",
                       background: "#0B4F26",
-                      // marginLeft: "5px",
                       maxWidth: "120px",
                       justifyContent: "center",
                       alignItems: "center",
@@ -702,12 +670,6 @@ const SessionAddComponent = ({ createSession, match, setMode }: any) => {
                             id: id,
                             matchId: match?.id,
                             betStatus: 0,
-                          }}
-                          // setResultPending={setResultPending}
-                          onClick={() => {
-                            setVisible(false);
-                            setIsDisable(true);
-                            // getSessionResult(match?.id);
                           }}
                           onClickCancel={() => {
                             setVisible(false);
@@ -762,12 +724,6 @@ const SessionAddComponent = ({ createSession, match, setMode }: any) => {
                             betStatus: 3,
                             isNoResult: true,
                           }}
-                          onClick={() => {
-                            setIsDisable(true);
-                            setVisible2(false);
-                            setShowUndeclare(false);
-                            // getSessionResult(match?.id);
-                          }}
                           onClickCancel={() => {
                             setVisible2(false);
                           }}
@@ -815,9 +771,6 @@ const SessionAddComponent = ({ createSession, match, setMode }: any) => {
                 >
                   {visible && (
                     <SessionResultModal
-                      onClick={() => {
-                        setVisible(false);
-                      }}
                       onClickCancel={() => {
                         setVisible(false);
                       }}
@@ -844,4 +797,4 @@ const SessionAddComponent = ({ createSession, match, setMode }: any) => {
     </Box>
   );
 };
-export default SessionAddComponent;
+export default memo(SessionAddComponent);

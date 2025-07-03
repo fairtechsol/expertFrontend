@@ -1,6 +1,7 @@
 import { Box } from "@mui/material";
+import { memo, ReactNode } from "react";
 import { Background } from "../../assets";
-const BackgroundLayout = ({ children }: any) => {
+const BackgroundLayout = ({ children }: { children: ReactNode }) => {
   return (
     <Box
       sx={{
@@ -17,4 +18,4 @@ const BackgroundLayout = ({ children }: any) => {
   );
 };
 
-export default BackgroundLayout;
+export default memo(BackgroundLayout);

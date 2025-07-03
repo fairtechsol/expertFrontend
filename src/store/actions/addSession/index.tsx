@@ -24,20 +24,12 @@ interface SessionById {
   matchId: string;
   id?: string | any;
 }
-interface BookmakerById {
-  matchId: string;
-  id?: string;
-  type?: string;
-}
 
 export const addSession = createAsyncThunk<any, SessionData>(
   "add/session",
   async (requestData, thunkApi) => {
     try {
-      const resp = await service.post(
-        `${ApiConstants.SESSION.ADD}`,
-        requestData
-      );
+      const resp = await service.post(ApiConstants.SESSION.ADD, requestData);
       if (resp?.data) {
         return resp?.data;
       }
@@ -51,10 +43,7 @@ export const updateSession = createAsyncThunk<any, updateSession>(
   "update/sessionBet",
   async (requestData, thunkApi) => {
     try {
-      const resp = await service.post(
-        `${ApiConstants.SESSION.UPDATE}`,
-        requestData
-      );
+      const resp = await service.post(ApiConstants.SESSION.UPDATE, requestData);
       if (resp?.data) {
         return resp?.data;
       }
@@ -69,7 +58,7 @@ export const updateMultiSessionMarketAmount = createAsyncThunk<any, any>(
   async (requestData, thunkApi) => {
     try {
       const resp = await service.post(
-        `${ApiConstants.SESSION.UPDATE_MULTI_MARKET_AMOUNT}`,
+        ApiConstants.SESSION.UPDATE_MULTI_MARKET_AMOUNT,
         requestData
       );
       if (resp?.data) {
@@ -104,7 +93,12 @@ export const getSessionProfitLoss = createAsyncThunk<any, any>(
   async (requestData, thunkApi) => {
     try {
       const resp = await service.get(
-        `${ApiConstants.SESSION.PROFIT_LOSS}/${requestData}`
+        `${ApiConstants.SESSION.PROFIT_LOSS}/${requestData?.id}`,
+        {
+          params: {
+            matchId: requestData?.matchId,
+          },
+        }
       );
       if (resp?.data) {
         return resp?.data;
@@ -140,12 +134,6 @@ export const updateSessionProfitLoss = createAsyncThunk<any, SessionById>(
     return requestData;
   }
 );
-export const updateSessionByIdForUndeclare = createAsyncThunk<any, SessionById>(
-  "updateSessionByIdUndeclare/reset",
-  async (requestData) => {
-    return requestData;
-  }
-);
 
 export const updateSessionMaxLimit = createAsyncThunk<any, SessionById>(
   "updateSessionMaxLimit",
@@ -163,31 +151,6 @@ export const updateMatchBetsPlaced = createAsyncThunk<any, SessionById>(
   "update/matchBetsPlaced",
   async (requestData) => {
     return requestData;
-  }
-);
-export const updateTeamRatesOnManualMarket = createAsyncThunk<any, SessionById>(
-  "update/updateTeamRatesOnManualMarket",
-  async (requestData) => {
-    return requestData;
-  }
-);
-
-export const getBookmakerById = createAsyncThunk<any, BookmakerById>(
-  "get/bookmaker",
-  async (requestData, thunkApi) => {
-    try {
-      const resp = await service.get(
-        `${ApiConstants.BOOKMAKER.GET}/${requestData.matchId}${
-          requestData?.id ? `?id=${requestData?.id}` : ""
-        }&type=${requestData?.type}`
-      );
-      if (resp?.data) {
-        return resp?.data;
-      }
-    } catch (error) {
-      const err = error as AxiosError;
-      return thunkApi.rejectWithValue(err.response?.status);
-    }
   }
 );
 
@@ -211,12 +174,6 @@ export const getPlacedBets = createAsyncThunk<any, any>(
       const err = error as AxiosError;
       return thunkApi.rejectWithValue(err.response?.status);
     }
-  }
-);
-export const updateRatesBook = createAsyncThunk<any, any>(
-  "/bookmaker/ratesUpdate",
-  async (rates) => {
-    return rates;
   }
 );
 export const updateProLossSession = createAsyncThunk<any, any>(

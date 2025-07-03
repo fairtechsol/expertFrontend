@@ -1,13 +1,18 @@
 import { Box, Button, TextField, Typography } from "@mui/material";
-import { useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { CancelDark } from "../../assets";
 import { editRace, resetRaceEdit } from "../../store/actions/match/matchAction";
 import { AppDispatch, RootState } from "../../store/store";
 
-const MaxBetEdit = (props: any) => {
-  const { onClickCancel, matchOdd, id } = props;
+interface MaxBetEditProps {
+  onClickCancel: () => void;
+  matchOdd: any;
+  id: string;
+}
+
+const MaxBetEdit = ({ onClickCancel, matchOdd, id }: MaxBetEditProps) => {
   const dispatch: AppDispatch = useDispatch();
   const { editRaceSuccess } = useSelector(
     (state: RootState) => state.matchList
@@ -86,7 +91,10 @@ const MaxBetEdit = (props: any) => {
             onClickCancel();
           }}
           src={CancelDark}
-          style={{ width: "25px", height: "25px", cursor: "pointer" }}
+          alt="cancel"
+          width={25}
+          height={25}
+          style={{ cursor: "pointer" }}
         />
       </Box>
       <Box
@@ -198,7 +206,7 @@ const MaxBetEdit = (props: any) => {
             paddingLeft: "5px",
             width: "30%",
           }}
-        ></Box>
+        />
 
         <Button
           variant="contained"
@@ -218,4 +226,4 @@ const MaxBetEdit = (props: any) => {
   );
 };
 
-export default MaxBetEdit;
+export default memo(MaxBetEdit);

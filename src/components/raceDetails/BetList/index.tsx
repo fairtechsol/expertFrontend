@@ -1,12 +1,17 @@
 import { Box, Button, Typography } from "@mui/material";
 import moment from "moment";
-import { useEffect, useRef, useState } from "react";
+import { memo, useCallback, useEffect, useRef, useState } from "react";
 import { ARROWUP } from "../../../assets";
 import { formatToINR } from "../../helper";
 import HeaderRow from "./HeaderRow";
 import Row from "./Row";
 
-const BetList = ({ tag, allBetRates }: any) => {
+interface BetListProps {
+  tag: boolean;
+  allBetRates: any;
+}
+
+const BetList = ({ tag, allBetRates }: BetListProps) => {
   const [newData, setNewBets] = useState([]);
   const [visibleImg, setVisibleImg] = useState(true);
   const scrollRef = useRef<HTMLDivElement | null>(null);
@@ -151,6 +156,9 @@ const BetList = ({ tag, allBetRates }: any) => {
     }
   }, [allBetRates]);
 
+  const toggleVisibility = useCallback(() => {
+    setVisibleImg((prev) => !prev);
+  }, []);
   return (
     <Box
       sx={{
@@ -193,15 +201,13 @@ const BetList = ({ tag, allBetRates }: any) => {
           )}
         </Box>
         <Box
-          sx={[
-            {
-              flex: 1,
-              background: "#f1c550",
-              alignItems: "center",
-              display: "flex",
-              justifyContent: "space-between",
-            },
-          ]}
+          sx={{
+            flex: 1,
+            background: "#f1c550",
+            alignItems: "center",
+            display: "flex",
+            justifyContent: "space-between",
+          }}
         >
           <Typography
             sx={{
@@ -217,17 +223,15 @@ const BetList = ({ tag, allBetRates }: any) => {
           sx={{
             flex: 0.1,
             background: "#262626",
-            // '#262626'
           }}
         >
-          <div className="slanted"></div>
+          <div className="slanted" />
         </Box>
         <Box
           sx={{
             width: "100px",
             flex: 1,
             background: "#262626",
-            // '#262626' ,
             display: "flex",
             alignItems: "center",
             justifyContent: "flex-end",
@@ -257,12 +261,12 @@ const BetList = ({ tag, allBetRates }: any) => {
             </Typography>
           </Box>
           <img
-            onClick={() => {
-              setVisibleImg(!visibleImg);
-            }}
+            onClick={toggleVisibility}
             src={ARROWUP}
+            alt="arrow up"
             style={{
-              transform: visibleImg ? "rotate(180deg)" : "rotate(0deg)",
+              transform: !visibleImg ? "rotate(180deg)" : "rotate(0deg)",
+              transition: "transform 0.3s ease",
               width: "15px",
               height: "15px",
               marginRight: "5px",
@@ -319,7 +323,7 @@ const BetList = ({ tag, allBetRates }: any) => {
                           {num < 10 ? "0" + num : num.toString()}
                         </Typography>
                       </Box>
-                      <Row index={k} values={i?.values} />
+                      <Row values={i?.values} />
                       {i?.values[0]?.deleteReason && (
                         <Box
                           sx={{
@@ -331,7 +335,7 @@ const BetList = ({ tag, allBetRates }: any) => {
                           }}
                         >
                           <Box sx={{ flex: 1, display: "flex" }}>
-                            <Box sx={{ width: "34%", height: "30px" }}></Box>
+                            <Box sx={{ width: "34%", height: "30px" }} />
                             <Box
                               sx={{
                                 width: "66%",
@@ -372,4 +376,4 @@ const BetList = ({ tag, allBetRates }: any) => {
   );
 };
 
-export default BetList;
+export default memo(BetList);

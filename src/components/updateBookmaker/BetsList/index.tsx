@@ -1,38 +1,59 @@
 import { Box, Button, Typography } from "@mui/material";
-import { useEffect, useRef, useState } from "react";
+import { memo, useCallback, useMemo, useRef, useState } from "react";
+import AutoSizer from "react-virtualized-auto-sizer";
+import { FixedSizeList as List } from "react-window";
 import Header from "./Header";
 import Row from "./Row";
 
+const ROW_HEIGHT = 40;
+
+const MemoizedRow = memo(
+  ({
+    data,
+    index,
+    style,
+  }: {
+    data: any;
+    index: number;
+    style: React.CSSProperties;
+  }) => {
+    const num = data.betData.length - index;
+
+    const item = data.betData[index];
+    return (
+      <div style={style}>
+        <Row index={num} values={item} />
+      </div>
+    );
+  }
+);
+
 const BetsList = ({ betData, name }: any) => {
-  const scrollRef = useRef<HTMLDivElement | null>(null);
+  const listRef = useRef<any>(null);
   const [showButton, setShowButton] = useState(false);
 
-  const scrollToTop = () => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollTo({
-        top: 0,
-        behavior: "smooth",
-      });
-    }
-  };
+  const itemData = useMemo(
+    () => ({
+      betData,
+    }),
+    [betData]
+  );
 
-  const handleScroll = () => {
-    if (scrollRef.current) {
-      const { scrollTop } = scrollRef.current;
-      setShowButton(scrollTop > 0);
-    }
-  };
-
-  useEffect(() => {
-    const scrollElement = scrollRef.current;
-    if (scrollElement) {
-      scrollElement.addEventListener("scroll", handleScroll);
-      return () => {
-        scrollElement.removeEventListener("scroll", handleScroll);
-      };
-    }
+  const scrollToTop = useCallback(() => {
+    listRef.current?.scrollToItem(0, "start");
   }, []);
 
+  const handleScroll = useCallback(
+    ({ scrollOffset }: { scrollOffset: number }) => {
+      setShowButton(scrollOffset > 0);
+    },
+    []
+  );
+
+  const listHeight = useMemo(
+    () => Math.min(window.innerHeight * 0.75, ROW_HEIGHT * betData.length),
+    [betData.length]
+  );
 
   return (
     <Box
@@ -46,16 +67,14 @@ const BetsList = ({ betData, name }: any) => {
       }}
     >
       <Box
-        sx={[
-          {
-            height: "42px",
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            padding: "10px",
-            backgroundColor: "#F8C851",
-          },
-        ]}
+        sx={{
+          height: "42px",
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          padding: "10px",
+          backgroundColor: "#F8C851",
+        }}
       >
         <Typography
           sx={{
@@ -64,7 +83,7 @@ const BetsList = ({ betData, name }: any) => {
             fontWeight: "600",
           }}
         >
-          {name ? name : "Bookmaker"} Bets
+          {name} Bets
         </Typography>
         <Box>
           {showButton && (
@@ -79,9 +98,7 @@ const BetsList = ({ betData, name }: any) => {
                 right: 20,
                 backgroundColor: "#F8C851",
                 color: "#000",
-                "&:hover": {
-                  backgroundColor: "#F8C851",
-                },
+                "&:hover": { backgroundColor: "#F8C851" },
                 zIndex: 1000,
               }}
             >
@@ -122,27 +139,25 @@ const BetsList = ({ betData, name }: any) => {
         }}
       >
         <Header />
-        <Box
-          className="myScroll"
-          ref={scrollRef}
-          sx={{
-            maxHeight: "75vh",
-            overflow: "hidden",
-            overflowY: "auto",
-            "::-webkit-scrollbar": {
-              display: "none",
-            },
-          }}
-        >
-          {betData?.length > 0 &&
-            betData?.map((i: any, k: any) => {
-              const num = betData?.length - k;
-              return <Row key={k} index={num} values={i} />;
-            })}
-        </Box>
+        <AutoSizer>
+          {({ width }) => (
+            <List
+              ref={listRef}
+              height={listHeight}
+              itemCount={betData?.length || 0}
+              itemSize={ROW_HEIGHT}
+              width={width}
+              itemKey={(index, data) => data?.betData[index]?.betId}
+              onScroll={handleScroll}
+              itemData={itemData}
+            >
+              {MemoizedRow}
+            </List>
+          )}
+        </AutoSizer>
       </Box>
     </Box>
   );
 };
 
-export default BetsList;
+export default memo(BetsList);

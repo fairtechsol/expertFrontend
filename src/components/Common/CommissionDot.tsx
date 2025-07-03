@@ -1,17 +1,18 @@
 import { Box } from "@mui/material";
+import { memo } from "react";
 
 const CommissionDot = () => {
   return (
     <Box
       sx={{
-        width: 10,
-        height: 10,
+        width: { xs: 8, sm: 10 },
+        height: { xs: 8, sm: 10 },
         borderRadius: "50%",
         backgroundColor: "#74ee15",
-        marginRight: "5px",
+        marginRight: { xs: "2px", sm: "5px" },
       }}
     />
   );
 };
 
-export default CommissionDot;
+export default memo(CommissionDot);

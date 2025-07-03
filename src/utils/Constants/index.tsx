@@ -18,7 +18,6 @@ export const ApiConstants = {
     GETDETAIL: "match",
     OTHER_MATCH_DETAIL: "match/otherMatch",
     UPDATEACTIVESTATUS: "match/updateActiveStatus",
-    UPDATEMULTIPLEACTIVESTATUS: "match/updateActiveStatus/multiple",
     DECLARE: "bet/declare/result/match",
     FINAL_DECLARE: "bet/declare/result/final/match",
     OTHER_DECLARE: "bet/declare/result/other/match",
@@ -73,7 +72,7 @@ export const ApiConstants = {
 };
 
 export const Constants = {
-  pageLimit: 30,
+  pageLimit: 20,
   apiBasePath: "https://devmaxbet9api.fairgame.club",
   expertSocketBasePath: "https://devexpertapi.fairgame.club",
   thirdParty: "https://devserviceapi.fairgame.club",
@@ -99,19 +98,18 @@ export const Constants = {
     race: "race/:raceType",
     addMatch: "add_match",
     addRace: "add_race",
-    editMatch: "edit_match",
+    editMatch: "edit_match/:id",
     editrace: "edit_race",
     live: "live",
     live_update: "live/:id",
     addBookMaker: "add_book_maker",
     addManualMarket: "addManualMarket",
-    // betOdds: "betOdds",
-    betOddsOtherGames: "betOdds/otherGames",
-    betOddsRace: "betOdds/race",
-    session: "session",
-    sessionBetList: "sessionBetList",
-    market: "market",
-    betDetail: "betDetail",
+    betOddsOtherGames: "betOdds/otherGames/:id",
+    betOddsRace: "betOdds/race/:id",
+    session: "session/:id",
+    sessionBetList: "sessionBetList/:id",
+    market: "market/:id",
+    betDetail: "betDetail/:id",
     changePassword: "change-password",
   },
   WEBSOCKET: "websocket",
@@ -298,105 +296,6 @@ export const eventWiseMatchData = {
       },
     ],
   },
-};
-
-export const profitLossDataForMatchConstants = {
-  [matchBettingType.matchOdd]: {
-    A: "teamARate",
-    B: "teamBRate",
-    C: "teamCRate",
-  },
-  [matchBettingType.bookmaker]: {
-    A: "teamARate",
-    B: "teamBRate",
-    C: "teamCRate",
-  },
-  [matchBettingType.bookmaker2]: {
-    A: "teamARate",
-    B: "teamBRate",
-    C: "teamCRate",
-  },
-  [matchBettingType.quickbookmaker1]: {
-    A: "teamARate",
-    B: "teamBRate",
-    C: "teamCRate",
-  },
-  [matchBettingType.quickbookmaker2]: {
-    A: "teamARate",
-    B: "teamBRate",
-    C: "teamCRate",
-  },
-  [matchBettingType.quickbookmaker3]: {
-    A: "teamARate",
-    B: "teamBRate",
-    C: "teamCRate",
-  },
-  [matchBettingType.tiedMatch1]: {
-    A: "yesRateTie",
-    B: "noRateTie",
-  },
-  [matchBettingType.tiedMatch2]: {
-    A: "yesRateTie",
-    B: "noRateTie",
-  },
-  [matchBettingType.tiedMatch3]: {
-    A: "yesRateTie",
-    B: "noRateTie",
-  },
-  [matchBettingType.completeMatch]: {
-    A: "yesRateComplete",
-    B: "noRateComplete",
-  },
-  [matchBettingType.completeMatch1]: {
-    A: "yesRateComplete",
-    B: "noRateComplete",
-  },
-  [matchBettingType.completeManual]: {
-    A: "yesRateComplete",
-    B: "noRateComplete",
-  },
-  [matchBettingType.other]: {
-    A: "userTeamARateOther",
-    B: "userTeamBRateOther",
-    C: "userTeamCRateOther",
-  },
-  ...Array.from({ length: 20 }, (_, index) => index).reduce(
-    (prev: any, curr) => {
-      prev[`overUnder${curr}.5`] = {
-        A: `yesRateUnderOver${curr}.5`,
-        B: `noRateUnderOver${curr}.5`,
-      };
-      return prev;
-    },
-    {}
-  ),
-  ...Array.from({ length: 20 }, (_, index) => index).reduce(
-    (prev: any, curr) => {
-      prev[`firstHalfGoal${curr}.5`] = {
-        A: `yesRateFirstHalfGoal${curr}.5`,
-        B: `noRateFirstHalfGoal${curr}.5`,
-      };
-      return prev;
-    },
-    {}
-  ),
-  [matchBettingType.halfTime]: {
-    A: "userTeamARateHalfTime",
-    B: "userTeamBRateHalfTime",
-    C: "userTeamCRateHalfTime",
-  },
-
-  ...Array.from({ length: 20 }, (_, index) => index).reduce(
-    (prev: any, curr) => {
-      prev[`setWinner${curr}`] = {
-        A: `userTeamARateSetWinner${curr}`,
-        B: `userTeamBRateSetWinner${curr}`,
-        C: `userTeamCRateSetWinner${curr}`,
-      };
-      return prev;
-    },
-    {}
-  ),
 };
 
 export const gameTypeMatchBetting = {

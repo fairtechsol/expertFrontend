@@ -1,16 +1,29 @@
 import { Box, TextField, Typography } from "@mui/material";
-import { useEffect, useRef, useState } from "react";
-import SessionResultCustomButton from "../AddSession/SessionResultCustomButton";
-import { CancelDark } from "../../../assets";
-import { AppDispatch, RootState } from "../../../store/store";
+import { memo, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { CancelDark } from "../../../assets";
 import {
   resetSessionMaxLimitSuccess,
   updateSession,
 } from "../../../store/actions/addSession";
+import { AppDispatch, RootState } from "../../../store/store";
+import SessionResultCustomButton from "../AddSession/SessionResultCustomButton";
 
-const SessionLimit = (props: any) => {
-  const { newData, visible, onClickCancel } = props;
+interface SessionLimitProps {
+  newData?: {
+    id?: string;
+    maxBet?: any;
+    minBet?: any;
+  };
+  visible?: boolean;
+  onClickCancel: () => void;
+}
+
+const SessionLimit = ({
+  newData,
+  visible,
+  onClickCancel,
+}: SessionLimitProps) => {
   const dispatch: AppDispatch = useDispatch();
   const { loading, maxLimitUpdateSuccess } = useSelector(
     (state: RootState) => state.addSession
@@ -41,8 +54,7 @@ const SessionLimit = (props: any) => {
         } else {
           setError(true);
         }
-      } else {
-      }
+      } else return;
     } catch (error) {
       console.log("error", error);
     }
@@ -98,6 +110,7 @@ const SessionLimit = (props: any) => {
             onClickCancel();
           }}
           src={CancelDark}
+          alt="cancel"
           style={{ width: "25px", height: "25px", cursor: "pointer" }}
         />
       </Box>
@@ -121,7 +134,6 @@ const SessionLimit = (props: any) => {
           placeholder="API Session Max Bet"
           variant="standard"
           type="number"
-          // value={selected}
           value={value}
           id="score"
           name="score"
@@ -129,8 +141,6 @@ const SessionLimit = (props: any) => {
             setValue(e?.target.value);
             setError(false);
           }}
-          // touched={touched.score}
-          // error={Boolean(errors.score)}
           InputProps={{
             disableUnderline: true,
             sx: {
@@ -143,7 +153,6 @@ const SessionLimit = (props: any) => {
           }}
           onKeyDown={(e) => {
             if (e.key === "Enter") {
-              // Call your function here
               handleSubmit(e);
             }
           }}
@@ -176,25 +185,11 @@ const SessionLimit = (props: any) => {
             title={"submit"}
             loading={loading}
             onClick={(e: any) => handleSubmit(e)}
-            // onClick={() => {
-            //   if (loading?.value) {
-            //     return false;
-            //   }
-            //   if (selected !== "" && /^\d+$/.test(selected)) {
-            //     declareResult();
-            //   } else if (selected === "") {
-            //     setError("Please enter score");
-            //   } else {
-            //     // toast.warn("Please enter score");
-            //     setError("Input field should contain numbers only");
-            //   }
-            // }}
           />
         </Box>
       </Box>
-      {/* </form> */}
     </Box>
   );
 };
 
-export default SessionLimit;
+export default memo(SessionLimit);

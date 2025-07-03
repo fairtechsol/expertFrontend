@@ -5,6 +5,7 @@ import {
   useMediaQuery,
   useTheme,
 } from "@mui/material";
+import { memo, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { ArrowLeft } from "../../../assets";
@@ -18,13 +19,21 @@ import {
 } from "../../../store/actions/addSession";
 import { AppDispatch, RootState } from "../../../store/store";
 
+interface MenutItemsComponentProps {
+  x: any;
+  selected: any;
+  index: number;
+  setSelected: (val: any) => void;
+  handleClose: () => void;
+}
+
 const MenutItemsComponent = ({
   x,
   selected,
   index,
   setSelected,
   handleClose,
-}: any) => {
+}: MenutItemsComponentProps) => {
   const theme = useTheme();
   const dispatch: AppDispatch = useDispatch();
   const matchesMobile = useMediaQuery(theme.breakpoints.down("lg"));
@@ -36,6 +45,29 @@ const MenutItemsComponent = ({
     (state: RootState) => state.matchList
   );
   const navigate = useNavigate();
+
+  const handleSelected = useCallback((e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (index == selected) {
+      setSelected(null);
+    } else {
+      setSelected(index);
+    }
+  }, []);
+
+  const handleLiveSeccion = useCallback((e: React.MouseEvent, element: any) => {
+    e.stopPropagation();
+    navigate(`/expert/live/${element?.id}`, {
+      state: {
+        createSession: false,
+        match: x,
+        sessionEvent: element,
+        betId: element?.id,
+      },
+    });
+    handleClose();
+  }, []);
+
   return (
     <>
       <MenuItem
@@ -59,18 +91,11 @@ const MenutItemsComponent = ({
             borderColor: "white",
           },
         }}
-        onClick={(e: any) => {
-          e.stopPropagation();
-
-          if (index == selected) {
-            setSelected(null);
-          } else {
-            setSelected(index);
-          }
-        }}
+        onClick={handleSelected}
       >
         <StyledImage
           src={IconConstants[x?.matchType]}
+          alt={x?.matchType}
           sx={{ height: "12px", width: "12px", marginRight: "8px" }}
         />{" "}
         {x.title}
@@ -107,18 +132,7 @@ const MenutItemsComponent = ({
                           return (
                             <Box
                               key={element.id}
-                              onClick={(e: any) => {
-                                e.stopPropagation();
-                                navigate(`/expert/live/${element?.id}`, {
-                                  state: {
-                                    createSession: false,
-                                    match: x,
-                                    sessionEvent: element,
-                                    betId: element?.id,
-                                  },
-                                });
-                                handleClose();
-                              }}
+                              onClick={(e) => handleLiveSeccion(e, element)}
                               sx={{ marginLeft: "10px", marginTop: "3px" }}
                             >
                               <Typography
@@ -172,6 +186,7 @@ const MenutItemsComponent = ({
                   </Typography>
                   <StyledImage
                     src={ArrowLeft}
+                    alt="left"
                     sx={{ width: "15px", height: "10px", marginLeft: "10px" }}
                   />
                 </Box>
@@ -199,7 +214,7 @@ const MenutItemsComponent = ({
                         marginTop: "5px",
                         display: "flex",
                         alignItems: "center",
-                        cursor:"pointer"
+                        cursor: "pointer",
                       }}
                     >
                       <Typography sx={{ fontSize: "12px", fontWeight: "600" }}>
@@ -207,6 +222,7 @@ const MenutItemsComponent = ({
                       </Typography>
                       <StyledImage
                         src={ArrowLeft}
+                        alt="left"
                         sx={{
                           width: "15px",
                           height: "10px",
@@ -262,4 +278,4 @@ const MenutItemsComponent = ({
   );
 };
 
-export default MenutItemsComponent;
+export default memo(MenutItemsComponent);

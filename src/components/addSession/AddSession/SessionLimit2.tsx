@@ -1,10 +1,9 @@
-import { useEffect, useState } from "react";
-//import { updateMarketRates } from "../../../store/actions/addMatch/addMatchAction";
 import { Box, Typography } from "@mui/material";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
+import { memo, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   resetSessionMaxLimitSuccess,
@@ -14,6 +13,15 @@ import { AppDispatch, RootState } from "../../../store/store";
 import MatchListInput from "../../addMatch/MatchListInput";
 import { MaterialUISwitch } from "../../tabList/materialUiSwitch";
 
+interface SessionLimit2Props {
+  open: boolean;
+  handleClose: () => void;
+  matchOddsLive: any;
+  title: string;
+  exposureLimit: string;
+  isCommissionActive: boolean;
+}
+
 const SessionLimit2 = ({
   open,
   handleClose,
@@ -21,7 +29,7 @@ const SessionLimit2 = ({
   title,
   exposureLimit,
   isCommissionActive,
-}: any) => {
+}: SessionLimit2Props) => {
   const [selected, setSelected] = useState<any>({
     maxLimit: 0,
     minLimit: 0,
@@ -38,7 +46,6 @@ const SessionLimit2 = ({
     e.preventDefault();
     try {
       if (matchOddsLive?.id) {
-        // if (selected?.maxLimit >= selected?.minLimit) {
         const payload = {
           id: matchOddsLive?.id,
           maxBet: selected?.maxLimit,
@@ -47,8 +54,6 @@ const SessionLimit2 = ({
           isCommissionActive: selected.commission,
         };
         dispatch(updateSession(payload));
-        //   }
-        // } else {
       }
     } catch (error) {
       console.log("error", error);
@@ -178,7 +183,7 @@ const SessionLimit2 = ({
                 color: "#fff",
                 borderRadius: "8px",
                 padding: "1px 5px",
-                width:"fit-content"
+                width: "fit-content",
               }}
             >
               <Typography
@@ -239,9 +244,7 @@ const SessionLimit2 = ({
               cursor: "pointer",
               fontFamily: "Poppins, sans-serif",
             }}
-            onClick={() => {
-              handleClose();
-            }}
+            onClick={handleClose}
           >
             Cancel
           </button>
@@ -251,4 +254,4 @@ const SessionLimit2 = ({
   );
 };
 
-export default SessionLimit2;
+export default memo(SessionLimit2);

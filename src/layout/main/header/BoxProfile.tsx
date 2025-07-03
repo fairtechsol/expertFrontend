@@ -1,19 +1,22 @@
 import { Box, Typography } from "@mui/material";
-import StyledImage from "../../../components/Common/StyledImages";
-// import ArrowDown from "../../../assets/arrowDownBlack.svg";
-import { ArrowDown } from "../../../assets/index";
-import { useEffect, useState } from "react";
-import HeaderDropdown from "./HeaderDropdown";
+import { memo, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { ArrowDown } from "../../../assets/index";
+import StyledImage from "../../../components/Common/StyledImages";
+import HeaderDropdown from "./HeaderDropdown";
 
-const BoxProfile = (props: any) => {
-  const { image, value, containerStyle, value1 } = props;
+interface BoxProfileProps {
+  image: string;
+  containerStyle: any;
+  value1: string;
+}
+
+const BoxProfile = ({ image, containerStyle, value1 }: BoxProfileProps) => {
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = useState<HTMLElement | any>(null);
   const handleClick = (event: any) => {
     setAnchorEl(event.currentTarget);
   };
-  useEffect(() => {}, [anchorEl]);
   const handleClose = (val: any) => {
     setAnchorEl(0);
     typeof val == "string" &&
@@ -51,18 +54,15 @@ const BoxProfile = (props: any) => {
         >
           <StyledImage
             src={image}
+            alt="image"
             sx={{
               height: { lg: "30px", xs: "25px" },
               width: { lg: "30px", xs: "25px" },
               borderRadius: "150px",
+              objectFit: "cover",
             }}
           />
           <Box style={{ flex: 1, marginLeft: "5px" }}>
-            <Typography
-              sx={{ fontSize: "10px", color: "text.white", fontWeight: "600" }}
-            >
-              {value}
-            </Typography>
             <Typography
               sx={{ fontSize: "10px", color: "text.white", fontWeight: "600" }}
             >
@@ -71,7 +71,14 @@ const BoxProfile = (props: any) => {
           </Box>
           <StyledImage
             src={ArrowDown}
-            sx={{ height: "6px", width: "10px", marginRight: "5px", marginLeft: "6px" }}
+            alt="down"
+            sx={{
+              height: "6px",
+              width: "10px",
+              marginRight: "5px",
+              marginLeft: "6px",
+              objectFit: "cover",
+            }}
           />
         </Box>
       </Box>
@@ -84,4 +91,4 @@ const BoxProfile = (props: any) => {
   );
 };
 
-export default BoxProfile;
+export default memo(BoxProfile);

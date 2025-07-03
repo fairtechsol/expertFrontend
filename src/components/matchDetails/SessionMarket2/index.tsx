@@ -1,29 +1,43 @@
 import { Box, Typography } from "@mui/material";
-import { useState, memo } from "react";
+import { Fragment, memo, useState } from "react";
 import { ARROWUP } from "../../../assets";
-import Divider from "../../Common/Divider";
-// import Stop from "./Stop";
-import SessionMarketBox from "./SessionMarketBox";
-// import { sessionBetLiveStatus } from "../../../store/actions/match/matchAction";
-// import { AppDispatch } from "../../../store/store";
-// import { useDispatch } from "react-redux";
 import { customSortUpdated } from "../../../helpers";
-// import { formatToINR } from "../../helper";
+import Divider from "../../Common/Divider";
+import SessionMarketBox from "./SessionMarketBox";
 
-const SessionMarket2 = ({
-  // currentMatch,
-  hideResult,
-  // stopAllHide,
+interface SessionMarketProps {
+  title: string;
+  sessionData: {
+    section: Array<{
+      id?: string;
+      SelectionId?: string;
+      isComplete?: boolean;
+      activeStatus?: string;
+      resultData?: any;
+      result?: any;
+    }>;
+  };
+}
+
+const SessionMarket2: React.FC<SessionMarketProps> = ({
   title,
-  hideTotalBet,
   sessionData,
-  profitLossData,
-  hideEditMaxButton,
-  cstmStyle,
-}: // maxHeight,
-any) => {
-  // const dispatch: AppDispatch = useDispatch();
+}) => {
   const [visible, setVisible] = useState(true);
+
+  const filteredSessions = sessionData?.section
+    ?.filter(
+      (item) =>
+        !item?.isComplete &&
+        item?.activeStatus !== "unSave" &&
+        ((item?.resultData && item?.resultData === null) ||
+          item?.result === null)
+    )
+    ?.slice()
+    ?.sort(customSortUpdated);
+
+  const toggleVisibility = () => setVisible((prev) => !prev);
+
   return (
     <Box
       sx={{
@@ -70,28 +84,14 @@ any) => {
           >
             {title}
           </Typography>
-          {/* {!stopAllHide && (
-            <Stop
-              onClick={() => {
-                dispatch(
-                  sessionBetLiveStatus({
-                    status: "save",
-                    matchId: currentMatch?.id,
-                    stopAllSessions: true,
-                  })
-                );
-              }}
-            />
-          )} */}
         </Box>
         <Box
           sx={{
             flex: 0.1,
             background: "#262626",
-            // '#262626'
           }}
         >
-          <div className="slanted"></div>
+          <div className="slanted" />
         </Box>
         <Box
           sx={{
@@ -103,13 +103,12 @@ any) => {
           }}
         >
           <img
-            onClick={() => {
-              setVisible(!visible);
-            }}
+            onClick={toggleVisibility}
             src={ARROWUP}
-            alt={"Up Arrow"}
+            alt="Up Arrow"
             style={{
-              transform: visible ? "rotate(180deg)" : "rotate(0deg)",
+              transform: !visible ? "rotate(180deg)" : "rotate(0deg)",
+              transition: "transform 0.3s ease",
               width: "12px",
               height: "12px",
               marginRight: "5px",
@@ -129,53 +128,26 @@ any) => {
           }}
         >
           <Box
-            sx={[
-              {
-                display: "flex",
-                flexDirection: "column",
-                width: "100%",
-                position: "relative",
-                // maxHeight: { lg: maxHeight ? maxHeight : "30vh", xs: "40vh" },
-                // overflowY: "auto",
-                "::-webkit-scrollbar": {
-                  display: "none",
-                },
-                // maxHeight: "300px",
-                // overflowY: "scroll",
-              },
-              cstmStyle,
-            ]}
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              width: "100%",
+              position: "relative",
+              "::-webkit-scrollbar": { display: "none" },
+            }}
           >
-            {sessionData?.section?.length > 0 &&
-              sessionData?.section
-                ?.filter(
-                  (item: any) =>
-                    !item?.isComplete &&
-                    item?.activeStatus !== "unSave" &&
-                    ((item?.resultData && item?.resultData === null) ||
-                      item?.result === null)
-                )
-                ?.slice()
-                .sort(customSortUpdated)
-                ?.map((match: any, index: number) => {
-                  if (match.id) {
-                    return (
-                      <Box key={match?.SelectionId}>
-                        <SessionMarketBox
-                          hideResult={hideResult}
-                          hideTotalBet={hideTotalBet}
-                          newData={match}
-                          profitLossData={profitLossData}
-                          index={index}
-                          hideEditMaxButton={hideEditMaxButton}
-                        />
-                        <Divider />
-                      </Box>
-                    );
-                  } else {
-                    return null;
-                  }
-                })}
+            {filteredSessions?.map((match: any, index: number) => {
+              if (match.id) {
+                return (
+                  <Fragment key={match?.SelectionId}>
+                    <SessionMarketBox newData={match} index={index} />
+                    <Divider />
+                  </Fragment>
+                );
+              } else {
+                return null;
+              }
+            })}
           </Box>
         </Box>
       )}

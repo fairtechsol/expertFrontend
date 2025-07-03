@@ -1,16 +1,24 @@
-import { useEffect, useState } from "react";
-import { CancelDark } from "../../../assets";
 import { Box, Button, TextField, Typography } from "@mui/material";
-import SessionResultCustomButton from "../../addSession/AddSession/SessionResultCustomButton";
-import { AppDispatch, RootState } from "../../../store/store";
+import { memo, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { CancelDark } from "../../../assets";
 import {
   noResultDeclare,
   resultDeclare,
   undeclareResult,
 } from "../../../store/actions/match/matchAction";
+import { AppDispatch, RootState } from "../../../store/store";
+import SessionResultCustomButton from "../../addSession/AddSession/SessionResultCustomButton";
 
-const CustomSessionResult = ({ onClick, newData }: any) => {
+interface CustomSessionResultProps {
+  onClick: () => void;
+  newData: any;
+}
+
+const CustomSessionResult = ({
+  onClick,
+  newData,
+}: CustomSessionResultProps) => {
   const dispatch: AppDispatch = useDispatch();
   const { declareLoading } = useSelector((state: RootState) => state.matchList);
   const [selected, setSelected] = useState("");
@@ -140,8 +148,8 @@ const CustomSessionResult = ({ onClick, newData }: any) => {
             <>
               {newData?.activeStatus === "result" && newData?.result ? (
                 <SessionResultCustomButton
-                  color={"#FF4D4D"}
-                  title={"Un Declare"}
+                  color="#FF4D4D"
+                  title="Un Declare"
                   loading={loader}
                   id="UD"
                   session={true}
@@ -154,10 +162,10 @@ const CustomSessionResult = ({ onClick, newData }: any) => {
                 <>
                   {newData?.activeStatus !== "result" ? (
                     <SessionResultCustomButton
-                      color={"#0B4F26"}
+                      color="#0B4F26"
                       id="DR"
                       session={true}
-                      title={"Declare"}
+                      title="Declare"
                       loading={loader}
                       disable={loader?.value}
                       onClick={() => {
@@ -189,8 +197,8 @@ const CustomSessionResult = ({ onClick, newData }: any) => {
               </Typography>
               {newData?.activeStatus === "result" && (
                 <SessionResultCustomButton
-                  color={"rgb(106 90 90)"}
-                  title={"Yes"}
+                  color="rgb(106 90 90)"
+                  title="Yes"
                   loading={loader}
                   id="UD"
                   session={true}
@@ -210,8 +218,8 @@ const CustomSessionResult = ({ onClick, newData }: any) => {
 
           {newData?.activeStatus !== "result" && (
             <SessionResultCustomButton
-              color={"rgb(106 90 90)"}
-              title={"No Result"}
+              color="rgb(106 90 90)"
+              title="No Result"
               loading={loader}
               id="NR"
               session={true}
@@ -238,8 +246,8 @@ const CustomSessionResult = ({ onClick, newData }: any) => {
           </Typography>
           {newData?.activeStatus !== "result" && (
             <SessionResultCustomButton
-              color={"rgb(106 90 90)"}
-              title={"Yes"}
+              color="rgb(106 90 90)"
+              title="Yes"
               loading={loader}
               id="NR"
               session={true}
@@ -264,9 +272,11 @@ const CustomSessionResult = ({ onClick, newData }: any) => {
         }}
         src={CancelDark}
         alt="Cancel"
-        style={{ width: "25px", height: "25px", cursor: "pointer" }}
+        height={25}
+        width={25}
+        style={{ cursor: "pointer" }}
       />
     </Box>
   );
 };
-export default CustomSessionResult;
+export default memo(CustomSessionResult);

@@ -1,24 +1,21 @@
 import { Navigate } from "react-router-dom";
-// import Loadable from "../utils/loadable";
-import OtherMatchDetails from "../pages/otherMatchDetails";
-import { Constants } from "../utils/Constants";
-
 import MainLayout from "../layout/main";
-import AddMatch from "../pages/addMatch";
-import AddSession from "../pages/addSession";
-import MatchList from "../pages/matchList";
-import RaceList from "../pages/raceList";
-import UpdateBookmaker from "../pages/updateBookmaker";
-// import MatchDetails from "../pages/matchDetails";
 import AddManualMarket from "../pages/addManualBetting";
+import AddMatch from "../pages/addMatch";
 import AddRace from "../pages/addRace";
+import AddSession from "../pages/addSession";
 import BetDetail from "../pages/betDetail";
 import ChangePassword from "../pages/changePassword";
+import MatchList from "../pages/matchList";
 import MatchMarketDetail from "../pages/matchMarketDetail";
+import OtherMatchDetails from "../pages/otherMatchDetails";
 import RaceDetails from "../pages/raceDetails";
+import RaceList from "../pages/raceList";
 import SessionBetlistDetail from "../pages/sessionBetlistDetail";
 import SessionMarketDetail from "../pages/sessionMarketDetail";
 import TabList from "../pages/tabList";
+import UpdateBookmaker from "../pages/updateBookmaker";
+import { Constants } from "../utils/Constants";
 
 const MainRoutes = {
   path: Constants.MainPaths.root,
@@ -68,10 +65,6 @@ const MainRoutes = {
       path: Constants.MainPaths.addManualMarket,
       element: <AddManualMarket />,
     },
-    // {
-    //   path: Constants.MainPaths.betOdds,
-    //   element: <MatchDetails />,
-    // },
     {
       path: Constants.MainPaths.betOddsOtherGames,
       element: <OtherMatchDetails />,

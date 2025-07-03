@@ -1,10 +1,14 @@
-import { useEffect, useState } from "react";
 import { Box, Typography } from "@mui/material";
-// import Divider from "../../Common/Divider";
-import SeparateBox from "../SeparateBox";
+import { memo, useEffect, useState } from "react";
 import { formatNumber } from "../../helper";
+import SeparateBox from "../SeparateBox";
 
-const CasinoMarketBoxLive = ({ newData, index }: any) => {
+interface CasinoMarketBoxLiveProps {
+  newData: any;
+  index: number;
+}
+
+const CasinoMarketBoxLive = ({ newData, index }: CasinoMarketBoxLiveProps) => {
   const [live, setLive] = useState<any>(newData?.ActiveStatus ? true : false);
 
   useEffect(() => {
@@ -26,7 +30,7 @@ const CasinoMarketBoxLive = ({ newData, index }: any) => {
             background: "rgba(0,0,0,0.4)",
             zIndex: 2,
           }}
-        ></Box>
+        />
       )}
       <Box
         sx={{
@@ -58,7 +62,9 @@ const CasinoMarketBoxLive = ({ newData, index }: any) => {
           </Typography>
         </Box>
 
-        {!["ACTIVE", "", undefined, null, "active", "open"].includes(newData?.gstatus?.toLowerCase()) ? (
+        {!["ACTIVE", "", undefined, null, "active", "open"].includes(
+          newData?.gstatus?.toLowerCase()
+        ) ? (
           <Box
             sx={{
               margin: "1px",
@@ -107,9 +113,8 @@ const CasinoMarketBoxLive = ({ newData, index }: any) => {
           </Box>
         )}
       </Box>
-      {/* <Divider /> */}
     </div>
   );
 };
 
-export default CasinoMarketBoxLive;
+export default memo(CasinoMarketBoxLive);

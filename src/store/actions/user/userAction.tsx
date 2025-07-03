@@ -12,27 +12,59 @@ interface ChangePassword {
 export const getProfile = createAsyncThunk<any>(
   "user/profile",
   async (_, thunkApi) => {
+    const MAX_RETRIES = 5;
+    const RETRY_DELAY_MS = 1000;
+
+    const delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
+
+    const fetchProfile = async () => {
+      try {
+        const resp = await service.get(ApiConstants.USER.PROFILE);
+        return resp;
+      } catch (error) {
+        throw error;
+      }
+    };
+
     try {
-      const resp = await service.get(`${ApiConstants.USER.PROFILE}`);
-      if (resp) {
-        if (resp?.data?.loginAt === null) {
-          window.location.replace("/expert/login");
+      let resp: any;
+      let attempt = 0;
+
+      while (attempt < MAX_RETRIES) {
+        attempt++;
+        resp = await fetchProfile();
+
+        if (resp?.data) break;
+
+        if (resp?.status === 401) break;
+
+        await delay(RETRY_DELAY_MS);
+      }
+
+      if (resp?.data) {
+        if (resp.data.loginAt === null) {
           sessionStorage.clear();
-        } else {
-          return resp?.data;
+          window.location.replace("/expert/login");
+          return thunkApi.rejectWithValue(
+            "Redirecting to login due to null loginAt"
+          );
         }
+        return resp.data;
+      } else {
+        return thunkApi.rejectWithValue("Profile data missing after retries");
       }
     } catch (error: any) {
       const err = error as AxiosError;
-      throw thunkApi.rejectWithValue(err.response?.status);
+      return thunkApi.rejectWithValue(err.response?.status || "Unknown error");
     }
   }
 );
+
 export const getLoggedUserCount = createAsyncThunk<any>(
   "logged/user",
   async (_, thunkApi) => {
     try {
-      const resp = await service.get(`${ApiConstants.USER.LOGGED_USER}`);
+      const resp = await service.get(ApiConstants.USER.LOGGED_USER);
       if (resp) {
         return resp?.data;
       }
@@ -48,7 +80,7 @@ export const changePassword = createAsyncThunk<any, ChangePassword>(
   async (requestData, thunkApi) => {
     try {
       const resp = await service.post(
-        `${ApiConstants.USER.CHANGEPASSWORD}`,
+        ApiConstants.USER.CHANGEPASSWORD,
         requestData
       );
       if (resp) {
@@ -68,7 +100,7 @@ export const headerAddNotification = createAsyncThunk<any, any>(
   async (requestData, thunkApi) => {
     try {
       const resp = await service.post(
-        `${ApiConstants.USER.MARQUEE_NOTIFICATION}`,
+        ApiConstants.USER.MARQUEE_NOTIFICATION,
         requestData
       );
       if (resp) {
@@ -87,10 +119,7 @@ export const headerAddBanner = createAsyncThunk<any, any>(
   "/general/banner/add",
   async (requestData, thunkApi) => {
     try {
-      const resp = await service.post(
-        `${ApiConstants.USER.BANNER}`,
-        requestData
-      );
+      const resp = await service.post(ApiConstants.USER.BANNER, requestData);
       if (resp) {
         if (resp?.data) {
           return resp?.data?.transactionPassword;
@@ -105,11 +134,13 @@ export const headerAddBanner = createAsyncThunk<any, any>(
 );
 export const getDateList = createAsyncThunk<any, any>(
   "match/dateList",
-  async (requestData, thunkApi) => {
+  async ({ matchType }, thunkApi) => {
     try {
-      const resp = await service.get(
-        `${ApiConstants.MATCH.GET_DATES}?matchType=${requestData.matchType}`
-      );
+      const resp = await service.get(ApiConstants.MATCH.GET_DATES, {
+        params: {
+          matchType,
+        },
+      });
       if (resp) {
         return resp?.data;
       }

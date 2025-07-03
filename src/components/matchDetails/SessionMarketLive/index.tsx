@@ -1,13 +1,49 @@
-import { memo, useState } from "react";
-import { useEffect } from "react";
 import { Box, Typography } from "@mui/material";
-// import Divider from "../../Common/Divider";
+import { get, memoize } from "lodash";
+import { memo, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { VariableSizeList } from "react-window";
 import { ARROWUP } from "../../../assets";
-import SessionMarketBoxLive from "./SessionMarketBoxLive";
 import { formatToINR } from "../../helper";
+import SessionMarketBoxLive from "./SessionMarketBoxLive";
+
+type ItemData = {
+  items: any[];
+  gtype: string;
+  type: string;
+  currentMatch: any;
+};
+
+const Row = memo(
+  ({
+    index,
+    style,
+    data,
+  }: {
+    index: number;
+    style: React.CSSProperties;
+    data: any;
+  }) => {
+    const match = get(data, ["items", index]);
+
+    return (
+      <Box style={style}>
+        <SessionMarketBoxLive
+          currentMatch={data?.currentMatch}
+          newData={match}
+          index={index}
+          gtype={data?.gtype}
+          type={data?.type}
+        />
+      </Box>
+    );
+  }
+);
 
 const SessionMarketLive = ({ title, sessionData, currentMatch, type }: any) => {
   const [matchSessionData, setMatchSessionData] = useState(sessionData);
+  const listRef = useRef<VariableSizeList>(null);
+  const [visible, setVisible] = useState(true);
+
   useEffect(() => {
     setMatchSessionData(
       sessionData?.section?.filter(
@@ -15,8 +51,39 @@ const SessionMarketLive = ({ title, sessionData, currentMatch, type }: any) => {
       )
     );
   }, [sessionData]);
-  const [visible, setVisible] = useState(true);
 
+  const toggleVisibility = useCallback(() => {
+    setVisible((prev) => !prev);
+  }, []);
+
+  const filteredData = useMemo(() => {
+    if (!Array.isArray(matchSessionData)) return [];
+    return matchSessionData.filter(
+      (item: any) => !item?.id || item?.activeStatus === "unSave"
+    );
+  }, [matchSessionData]);
+
+  // Reset list size cache on data change
+  useEffect(() => {
+    if (listRef.current) {
+      listRef.current.resetAfterIndex(0, true);
+    }
+  }, [filteredData]);
+
+  const getItemSize = memoize((index: number): number => {
+    const row = filteredData[index];
+    let rowHeight = Math.max(
+      row?.ex?.availableToLay?.length ?? 0,
+      row?.ex?.availableToBack?.length ?? 0
+    );
+
+    return (rowHeight || 1) * 25;
+  });
+
+  const totalHeight: number = filteredData.reduce(
+    (sum: number, _: any, index: number): number => sum + getItemSize(index),
+    0
+  );
   return (
     <Box
       sx={{
@@ -49,7 +116,6 @@ const SessionMarketLive = ({ title, sessionData, currentMatch, type }: any) => {
             alignItems: "center",
             display: "flex",
             justifyContent: "space-between",
-            // height: "40px",
           }}
         >
           <Typography
@@ -76,29 +142,27 @@ const SessionMarketLive = ({ title, sessionData, currentMatch, type }: any) => {
           sx={{
             flex: 0.1,
             background: "#262626",
-            // '#262626'
           }}
         >
-          <div className="slanted"></div>
+          <div className="slanted" />
         </Box>
         <Box
           sx={{
             flex: 0.5,
             background: "#262626",
-            // '#262626' ,
             display: "flex",
             alignItems: "center",
             justifyContent: "flex-end",
           }}
         >
-          {/* <SmallBoxSeason /> */}
           <img
-            onClick={() => {
-              setVisible(!visible);
-            }}
+            onClick={toggleVisibility}
             src={ARROWUP}
+            alt="arrow up"
+            className="arrow-icon"
             style={{
-              transform: visible ? "rotate(180deg)" : "rotate(0deg)",
+              transform: !visible ? "rotate(180deg)" : "rotate(0deg)",
+              transition: "transform 0.3s ease",
               width: "12px",
               height: "12px",
               marginRight: "5px",
@@ -123,16 +187,17 @@ const SessionMarketLive = ({ title, sessionData, currentMatch, type }: any) => {
               flexDirection: "column",
               width: "100%",
               position: "relative",
-              // maxHeight: { lg: "85vh", xs: "40vh" },
-              // overflowY: "auto",
               "::-webkit-scrollbar": {
                 display: "none",
               },
             }}
           >
-            {matchSessionData?.length > 0 &&
-              matchSessionData?.map((match: any, index: any) => {
-                if (!match?.id || match?.activeStatus === "unSave") {
+            {/* {matchSessionData?.length > 0 &&
+              matchSessionData
+                ?.filter(
+                  (item: any) => !item?.id || item?.activeStatus === "unSave"
+                )
+                ?.map((match: any, index: any) => {
                   return (
                     <Box key={index}>
                       <SessionMarketBoxLive
@@ -142,11 +207,34 @@ const SessionMarketLive = ({ title, sessionData, currentMatch, type }: any) => {
                         gtype={sessionData?.gtype}
                         type={type}
                       />
-                      {/* <Divider /> */}
                     </Box>
                   );
-                }
-              })}
+                })} */}
+            {matchSessionData?.length > 0 &&
+              (() => {
+                const dynamicHeight = totalHeight + 1;
+
+                return (
+                  <VariableSizeList<ItemData>
+                    ref={listRef}
+                    height={dynamicHeight}
+                    width="100%"
+                    itemCount={matchSessionData.length}
+                    itemSize={getItemSize}
+                    itemKey={(index, data) =>
+                      get(data, ["items", index, "id"]) ?? `item-${index}`
+                    }
+                    itemData={{
+                      items: matchSessionData,
+                      gtype: get(sessionData, "gtype"),
+                      type: type,
+                      currentMatch: currentMatch,
+                    }}
+                  >
+                    {Row}
+                  </VariableSizeList>
+                );
+              })()}
           </Box>
         </Box>
       )}

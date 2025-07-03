@@ -1,4 +1,5 @@
 import { Box, TextField, Typography } from "@mui/material";
+import { memo } from "react";
 import KeyboardEventHandler from "react-keyboard-event-handler";
 import { BallStart, LiveOff, Lock } from "../../../assets";
 import { numberInputOnWheelPreventChange } from "../../../helpers";
@@ -7,28 +8,41 @@ import { handleKeysMatchEvents } from "../../../utils/InputKeys/Session/SessionI
 import CustomDisableInput from "../../Common/CustomDisableInput";
 import StyledImage from "../../Common/StyledImages";
 
-const AddSessionInput = (props: any) => {
-  const {
-    betId,
-    inputDetail,
-    setInputDetail,
-    inputRef,
-    lock,
-    isBall,
-    isCreateSession,
-    live,
-    isDisable,
-    setLock,
-    incGap,
-    setIncGap,
-    isPercent,
-    setIsPercent,
-    setIsBall,
-    match,
-  } = props;
+interface AddSessionInputProps {
+  betId: string | any;
+  inputDetail: any;
+  setInputDetail: (val: any) => void;
+  inputRef: any;
+  lock: any;
+  isBall: boolean;
+  isCreateSession: boolean;
+  live: boolean;
+  setLock: (val: any) => void;
+  incGap: number;
+  setIncGap: (val: number) => void;
+  isPercent: string;
+  setIsPercent: (val: any) => void;
+  setIsBall: (val: boolean) => void;
+  match: any;
+}
 
-  // const handleSuspend = () => {};
-
+const AddSessionInput = ({
+  betId,
+  inputDetail,
+  setInputDetail,
+  inputRef,
+  lock,
+  isBall,
+  isCreateSession,
+  live,
+  setLock,
+  incGap,
+  setIncGap,
+  isPercent,
+  setIsPercent,
+  setIsBall,
+  match,
+}: AddSessionInputProps) => {
   const handleChange = (event: any) => {
     try {
       const { value } = event.target;
@@ -74,7 +88,6 @@ const AddSessionInput = (props: any) => {
     } catch (error) {
       console.error(error);
     }
-    // handleSuspend();
   };
 
   return (
@@ -145,7 +158,6 @@ const AddSessionInput = (props: any) => {
                 fontSize: { lg: "14px", xs: "8px", sm: "10px", md: "14px" },
               },
               style: {
-                // fontSize: "8px",
                 marginLeft: "5px",
                 height: "45px",
                 fontWeight: "600",
@@ -175,7 +187,12 @@ const AddSessionInput = (props: any) => {
               }}
             >
               <Typography
-                sx={{ color: "#fff", fontWeight: "bold", fontSize: "14px", textAlign: "center" }}
+                sx={{
+                  color: "#fff",
+                  fontWeight: "bold",
+                  fontSize: "14px",
+                  textAlign: "center",
+                }}
               >
                 RESULT {inputDetail?.resultStatus}
               </Typography>
@@ -237,7 +254,6 @@ const AddSessionInput = (props: any) => {
                     }
                   >
                     <TextField
-                      disabled={isDisable}
                       onChange={(e) => handleChange(e)}
                       onWheel={numberInputOnWheelPreventChange}
                       type="Number"
@@ -248,10 +264,14 @@ const AddSessionInput = (props: any) => {
                       InputProps={{
                         disableUnderline: true,
                         sx: {
-                          fontSize: { lg: "14px", xs: "8px", sm: "12px", md: "14px" },
+                          fontSize: {
+                            lg: "14px",
+                            xs: "8px",
+                            sm: "12px",
+                            md: "14px",
+                          },
                         },
                         style: {
-                          // fontSize: "14px",
                           marginLeft: "5px",
                           height: "45px",
                           fontWeight: "600",
@@ -286,10 +306,14 @@ const AddSessionInput = (props: any) => {
                     InputProps={{
                       disableUnderline: true,
                       sx: {
-                        fontSize: { lg: "14px", xs: "8px", sm: "12px", md: "14px" },
+                        fontSize: {
+                          lg: "14px",
+                          xs: "8px",
+                          sm: "12px",
+                          md: "14px",
+                        },
                       },
                       style: {
-                        // fontSize: "14px",
                         marginLeft: "5px",
                         height: "45px",
                         fontWeight: "600",
@@ -300,7 +324,7 @@ const AddSessionInput = (props: any) => {
                 </Typography>
               </Box>
             </Box>
-            <Box display={"flex"} sx={{ borderTop: "2px solid white" }}>
+            <Box display="flex" sx={{ borderTop: "2px solid white" }}>
               <Box
                 sx={{
                   background: "#FFB5B5",
@@ -328,10 +352,14 @@ const AddSessionInput = (props: any) => {
                     InputProps={{
                       disableUnderline: true,
                       sx: {
-                        fontSize: { lg: "14px", xs: "8px", sm: "12px", md: "14px" },
+                        fontSize: {
+                          lg: "14px",
+                          xs: "8px",
+                          sm: "12px",
+                          md: "14px",
+                        },
                       },
                       style: {
-                        // fontSize: "14px",
                         marginLeft: "5px",
                         height: "45px",
                         fontWeight: "600",
@@ -369,10 +397,14 @@ const AddSessionInput = (props: any) => {
                     InputProps={{
                       disableUnderline: true,
                       sx: {
-                        fontSize: { lg: "14px", xs: "8px", sm: "12px", md: "14px" },
+                        fontSize: {
+                          lg: "14px",
+                          xs: "8px",
+                          sm: "12px",
+                          md: "14px",
+                        },
                       },
                       style: {
-                        // fontSize: "14px",
                         marginLeft: "5px",
                         height: "45px",
                         fontWeight: "600",
@@ -403,19 +435,19 @@ const AddSessionInput = (props: any) => {
                         component={"span"}
                         sx={{
                           fontWeight: "600",
-                          // fontSize: "18px",
-                          fontSize: { lg: "18px", xs: "10px", sm: "15px", md: "18px" },
+                          fontSize: {
+                            lg: "18px",
+                            xs: "10px",
+                            sm: "15px",
+                            md: "18px",
+                          },
                           color: "black",
                         }}
                       >
                         {inputDetail?.noRate ? inputDetail?.noRate : ""}
                       </Typography>
                     ) : (
-                      <img
-                        src={Lock}
-                        alt="Lock"
-                        style={{ width: "10px", height: "15px" }}
-                      />
+                      <img src={Lock} alt="Lock" width={10} height={15} />
                     )}
                   </Box>
 
@@ -435,19 +467,19 @@ const AddSessionInput = (props: any) => {
                         component={"span"}
                         sx={{
                           fontWeight: "600",
-                          fontSize: { lg: "18px", xs: "10px", sm: "15px", md: "18px" },
-                          // fontSize: "18px",
+                          fontSize: {
+                            lg: "18px",
+                            xs: "10px",
+                            sm: "15px",
+                            md: "18px",
+                          },
                           color: "black",
                         }}
                       >
                         {inputDetail.yesRate ? inputDetail.yesRate : ""}
                       </Typography>
                     ) : (
-                      <img
-                        src={Lock}
-                        alt="Lock"
-                        style={{ width: "10px", height: "15px" }}
-                      />
+                      <img src={Lock} alt="Lock" width={10} height={15} />
                     )}
                   </Box>
                 </Box>
@@ -467,19 +499,19 @@ const AddSessionInput = (props: any) => {
                         component={"span"}
                         sx={{
                           fontWeight: "600",
-                          fontSize: { lg: "18px", xs: "10px", sm: "15px", md: "18px" },
-                          // fontSize: "18px",
+                          fontSize: {
+                            lg: "18px",
+                            xs: "10px",
+                            sm: "15px",
+                            md: "18px",
+                          },
                           color: "black",
                         }}
                       >
                         {inputDetail.noRatePercent}
                       </Typography>
                     ) : (
-                      <img
-                        src={Lock}
-                        alt="Lock"
-                        style={{ width: "10px", height: "15px" }}
-                      />
+                      <img src={Lock} alt="Lock" width={10} height={15} />
                     )}
                   </Box>
                   <Box
@@ -498,19 +530,19 @@ const AddSessionInput = (props: any) => {
                         component={"span"}
                         sx={{
                           fontWeight: "600",
-                          fontSize: { lg: "18px", xs: "10px", sm: "15px", md: "18px" },
-                          // fontSize: "18px",
+                          fontSize: {
+                            lg: "18px",
+                            xs: "10px",
+                            sm: "15px",
+                            md: "18px",
+                          },
                           color: "black",
                         }}
                       >
                         {inputDetail.yesRatePercent}
                       </Typography>
                     ) : (
-                      <img
-                        src={Lock}
-                        alt="Lock"
-                        style={{ width: "10px", height: "15px" }}
-                      />
+                      <img src={Lock} alt="Lock" width={10} height={15} />
                     )}
                   </Box>
                 </Box>
@@ -537,7 +569,6 @@ const AddSessionInput = (props: any) => {
           </Box>
         </Box>
       </Box>
-      {/* comment */}
       {!live && (
         <Box
           sx={{
@@ -553,11 +584,15 @@ const AddSessionInput = (props: any) => {
             "-webkit-backdrop-filter": "blur(1px)",
           }}
         >
-          <StyledImage src={LiveOff} sx={{ height: "4vw", width: "4vw" }} />
+          <StyledImage
+            src={LiveOff}
+            sx={{ height: "4vw", width: "4vw", objectFit: "contain" }}
+            alt="stop"
+          />
         </Box>
       )}
     </Box>
   );
 };
 
-export default AddSessionInput;
+export default memo(AddSessionInput);

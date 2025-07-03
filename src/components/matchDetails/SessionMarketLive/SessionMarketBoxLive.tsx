@@ -1,12 +1,20 @@
-import { Fragment, useEffect, useState } from "react";
 import { Box, Typography } from "@mui/material";
-import SeparateBox from "../SeparateBox";
-import { formatNumber } from "../../helper";
-import SmallBox from "../SmallBox";
-import { addSession } from "../../../store/actions/addSession";
+import { Fragment, memo } from "react";
 import { useDispatch } from "react-redux";
-import { AppDispatch } from "../../../store/store";
+import { BroadCast } from "../../../assets";
+import { addSession } from "../../../store/actions/addSession";
 import { sessionBetLiveStatus } from "../../../store/actions/match/matchAction";
+import { AppDispatch } from "../../../store/store";
+import { formatNumber } from "../../helper";
+import SeparateBox from "./SeparateBox";
+
+interface SessionMarketBoxLiveProps {
+  currentMatch: any;
+  newData: any;
+  index: number;
+  gtype: string;
+  type: string;
+}
 
 const SessionMarketBoxLive = ({
   currentMatch,
@@ -14,10 +22,8 @@ const SessionMarketBoxLive = ({
   index,
   gtype,
   type,
-}: any) => {
+}: SessionMarketBoxLiveProps) => {
   const dispatch: AppDispatch = useDispatch();
-
-  const [live, setLive] = useState<any>(newData?.ActiveStatus ? true : false);
 
   const handleLive = () => {
     const payload = {
@@ -34,32 +40,38 @@ const SessionMarketBoxLive = ({
     dispatch(addSession(payload));
   };
 
-  useEffect(() => {
-    if (newData?.ActiveStatus) {
-      setLive(true);
-    } else setLive(false);
-  }, [newData]);
+  const handleToggle = (e: any) => {
+    e.preventDefault();
+    if (newData?.id) {
+      dispatch(
+        sessionBetLiveStatus({
+          status: "live",
+          betId: newData?.id,
+        })
+      );
+    } else {
+      handleLive();
+    }
+  };
 
   return (
     <div style={{ position: "relative" }}>
-      {!live && (
-        <Box
-          sx={{
-            margin: "1px",
-            width: { lg: "100%", xs: "100%" },
-            height: "100%",
-            right: 0,
-            position: "absolute",
-            background: "rgba(0,0,0,0.4)",
-            zIndex: 2,
-          }}
-        ></Box>
-      )}
+      <Box
+        sx={{
+          margin: "1px",
+          width: { lg: "100%", xs: "100%" },
+          height: "100%",
+          right: 0,
+          position: "absolute",
+          background: "rgba(0,0,0,0.4)",
+          zIndex: 2,
+        }}
+      />
       <Box
         sx={{
           display: "flex",
           background: "white",
-          height: "25px",
+          height: 25,
           width: "100%",
         }}
       >
@@ -67,7 +79,7 @@ const SessionMarketBoxLive = ({
           sx={{
             display: "flex",
             background: index % 2 === 0 ? "#FFE094" : "#ECECEC",
-            height: "25px",
+            height: 25,
             width: "100%",
             alignItems: "center",
           }}
@@ -75,7 +87,7 @@ const SessionMarketBoxLive = ({
           <Typography
             sx={{
               color: "black",
-              fontSize: { lg: "10px", md: "10px", xs: "10px" },
+              fontSize: 10,
               marginLeft: { lg: "7px", md: "20px", xs: "20px" },
               fontWeight: "bold",
               lineHeight: 1,
@@ -88,44 +100,36 @@ const SessionMarketBoxLive = ({
         <Box
           sx={{
             position: "absolute",
-            top: "5px",
+            top: 3,
             right: { lg: "30%", md: "45%", xs: "45%" },
             display: "flex",
             zIndex: 100,
           }}
         >
-          {!live && (
-            <SmallBox
-              hide={true}
-              onClick={(e: any) => {
-                e.preventDefault();
-                setLive(!live);
-                if (newData?.id) {
-                  dispatch(
-                    sessionBetLiveStatus({
-                      status: "live",
-                      betId: newData?.id,
-                    })
-                  );
-                } else handleLive();
-              }}
-              textSize="8px"
-              width={{ lg: "20px", xs: "20px" }}
-              color="#FF4D4D"
-              height="20px"
+          <Box
+            onClick={handleToggle}
+            sx={{
+              width: "20px",
+              display: "flex",
+              marginRight: "2px",
+              justifyContent: "center",
+              paddingX: 1,
+              zIndex: 2,
+              alignItems: "center",
+              height: "20px",
+              background: "#FF4D4D",
+              borderRadius: "2px",
+              cursor: "pointer",
+            }}
+          >
+            <img
+              src={BroadCast}
+              width={15}
+              height={15}
+              alt="stop"
+              style={{ objectFit: "contain" }}
             />
-          )}
-          {live && (
-            <SmallBox
-              hide={true}
-              onClick={(e: any) => {
-                e.preventDefault();
-              }}
-              textSize="8px"
-              width={{ lg: "20px", xs: "20px" }}
-              height="20px"
-            />
-          )}
+          </Box>
         </Box>
 
         {!["ACTIVE", "", undefined, null, "active", "open"].includes(
@@ -135,18 +139,18 @@ const SessionMarketBoxLive = ({
             sx={{
               margin: "1px",
               background: "rgba(0,0,0,1)",
-              height: "25px",
+              height: 25,
               right: "0vh",
               position: "absolute",
-              width: { lg: "27.6%", xs: "25.4%", md: "25.5%" },
-              justifyContent: { xs: "center", lg: "center" },
+              width: { lg: "27.5%", xs: "25.4%", md: "25.5%" },
+              justifyContent: "center",
               alignItems: "center",
               display: "flex",
             }}
           >
             <Typography
               style={{
-                fontSize: "10px",
+                fontSize: 10,
                 textTransform: "uppercase",
                 textAlign: "center",
                 width: "100%",
@@ -166,7 +170,7 @@ const SessionMarketBoxLive = ({
               display: "flex",
               position: "relative",
               background: index % 2 === 0 ? "#FFE094" : "#ECECEC",
-              height: "25px",
+              height: 25,
               width: { lg: "85%", xs: "38.5%", md: "39%" },
               justifyContent: "flex-end",
               alignItems: "center",
@@ -188,9 +192,7 @@ const SessionMarketBoxLive = ({
               color={type === "oddEven" ? "#B3E0FF" : "#F6D0CB"}
             />
 
-            <Box
-              sx={{ width: ".45%", display: "flex", background: "pink" }}
-            ></Box>
+            <Box sx={{ width: ".45%", display: "flex", background: "pink" }} />
 
             <SeparateBox
               width="30%"
@@ -219,14 +221,14 @@ const SessionMarketBoxLive = ({
             ) - 1,
         },
         (_, i) => i + 1
-      ).map((item: number) => {
+      ).map((item: number, index: number) => {
         return (
-          <Fragment key={item}>
+          <Fragment key={index}>
             <Box
               sx={{
                 display: "flex",
                 background: "white",
-                height: "25px",
+                height: 25,
                 width: "100%",
               }}
             >
@@ -234,11 +236,11 @@ const SessionMarketBoxLive = ({
                 sx={{
                   display: "flex",
                   background: index % 2 === 0 ? "#FFE094" : "#ECECEC",
-                  height: "25px",
+                  height: 25,
                   width: "100%",
                   alignItems: "center",
                 }}
-              ></Box>
+              />
               {!["ACTIVE", "", undefined, null, "active", "open"].includes(
                 newData?.GameStatus?.toLowerCase()
               ) ? (
@@ -246,10 +248,10 @@ const SessionMarketBoxLive = ({
                   sx={{
                     margin: "1px",
                     background: "rgba(0,0,0,1)",
-                    height: "25px",
+                    height: 25,
                     right: "0vh",
                     position: "absolute",
-                    width: { lg: "27.6%", xs: "25.4%", md: "25.5%" },
+                    width: { lg: "27.5%", xs: "25.4%", md: "25.5%" },
                     justifyContent: { xs: "center", lg: "center" },
                     alignItems: "center",
                     display: "flex",
@@ -257,7 +259,7 @@ const SessionMarketBoxLive = ({
                 >
                   <Typography
                     style={{
-                      fontSize: "10px",
+                      fontSize: 10,
                       textTransform: "uppercase",
                       textAlign: "center",
                       width: "100%",
@@ -281,7 +283,7 @@ const SessionMarketBoxLive = ({
                     display: "flex",
                     position: "relative",
                     background: index % 2 === 0 ? "#FFE094" : "#ECECEC",
-                    height: "25px",
+                    height: 25,
                     width: { lg: "85%", xs: "38.5%", md: "39%" },
                     justifyContent: "flex-end",
                     alignItems: "center",
@@ -309,7 +311,7 @@ const SessionMarketBoxLive = ({
                       display: "flex",
                       background: "pink",
                     }}
-                  ></Box>
+                  />
 
                   <SeparateBox
                     width="30%"
@@ -328,7 +330,7 @@ const SessionMarketBoxLive = ({
                   />
                 </Box>
               )}
-            </Box>{" "}
+            </Box>
           </Fragment>
         );
       })}
@@ -336,4 +338,4 @@ const SessionMarketBoxLive = ({
   );
 };
 
-export default SessionMarketBoxLive;
+export default memo(SessionMarketBoxLive);

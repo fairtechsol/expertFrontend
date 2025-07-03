@@ -1,10 +1,14 @@
 import { Box, Button, Typography } from "@mui/material";
+import { memo, useEffect, useRef, useState } from "react";
 import Header from "./Header";
 import Row from "./Row";
-import { useEffect, useRef, useState } from "react";
 
-const BetsList = (props: any) => {
-  const { sessionEvent, betData } = props;
+interface BetsListProps {
+  sessionEvent: any;
+  betData: any;
+}
+
+const BetsList = ({ sessionEvent, betData }: BetsListProps) => {
   const scrollRef = useRef<HTMLDivElement | null>(null);
   const [showButton, setShowButton] = useState(false);
 
@@ -58,31 +62,38 @@ const BetsList = (props: any) => {
           }),
         ]}
       >
-        <Typography sx={{ color: "#000", fontSize: {lg:"20px", xs:"16px", md: "18px"}, fontWeight: "600" }}>
-          {sessionEvent?.name}
-        </Typography>
-        <Box>   
-        {showButton && (
-        <Button
-          variant="contained"
-          onClick={scrollToTop}
+        <Typography
           sx={{
-            position: "fixed", 
-            width: "100px",
-            fontSize: "9px",
-            bottom: 20,
-            right: 20,
-            backgroundColor: "#F8C851",
             color: "#000",
-            "&:hover": {
-              backgroundColor: "#F8C851",
-            },
-            zIndex: 1000,
+            fontSize: { lg: "20px", xs: "16px", md: "18px" },
+            fontWeight: "600",
           }}
         >
-          Scroll to Top
-        </Button>
-      )}</Box>
+          {sessionEvent?.name}
+        </Typography>
+        <Box>
+          {showButton && (
+            <Button
+              variant="contained"
+              onClick={scrollToTop}
+              sx={{
+                position: "fixed",
+                width: "100px",
+                fontSize: "9px",
+                bottom: 20,
+                right: 20,
+                backgroundColor: "#F8C851",
+                color: "#000",
+                "&:hover": {
+                  backgroundColor: "#F8C851",
+                },
+                zIndex: 1000,
+              }}
+            >
+              Scroll to Top
+            </Button>
+          )}
+        </Box>
         <Box
           sx={{
             height: "32px",
@@ -139,4 +150,4 @@ const BetsList = (props: any) => {
   );
 };
 
-export default BetsList;
+export default memo(BetsList);

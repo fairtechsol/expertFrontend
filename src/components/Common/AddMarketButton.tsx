@@ -1,4 +1,10 @@
-const AddMarketButton = ({ handleClickOpen }: any) => {
+import { memo } from "react";
+
+interface AddMarketButtonProps {
+  handleClickOpen: () => void;
+}
+
+const AddMarketButton = ({ handleClickOpen }: AddMarketButtonProps) => {
   return (
     <div
       style={{
@@ -10,7 +16,6 @@ const AddMarketButton = ({ handleClickOpen }: any) => {
         borderRadius: "2px",
         backgroundColor: "#46e080",
         cursor: "pointer",
-        // marginRight: "10px",
       }}
       onClick={handleClickOpen}
     >
@@ -28,4 +33,4 @@ const AddMarketButton = ({ handleClickOpen }: any) => {
   );
 };
 
-export default AddMarketButton;
+export default memo(AddMarketButton);

@@ -8,16 +8,13 @@ export const customSort = (a: any, b: any) => {
   if (statusComparison !== 0) {
     return statusComparison;
   } else {
-    // If activeStatus is the same, compare by updatedAt
     const aUpdatedAt = JSON.parse(a)?.updatedAt;
     const bUpdatedAt = JSON.parse(b)?.updatedAt;
 
-    // Convert string dates to actual Date objects for comparison
     const aDate = new Date(aUpdatedAt);
     const bDate = new Date(bUpdatedAt);
 
-    // Compare updatedAt values
-    return bDate.getTime() - aDate.getTime(); // Sort in descending order of updatedAt
+    return bDate.getTime() - aDate.getTime();
   }
 };
 
@@ -47,16 +44,13 @@ export const customSortUpdated = (a: any, b: any) => {
 };
 
 export const customBetSort = (a: any, b: any) => {
-  // If activeStatus is the same, compare by updatedAt
   const aUpdatedAt = a?.createdAt;
   const bUpdatedAt = b?.createdAt;
 
-  // Convert string dates to actual Date objects for comparison
   const aDate = new Date(aUpdatedAt);
   const bDate = new Date(bUpdatedAt);
 
-  // Compare updatedAt values
-  return bDate.getTime() - aDate.getTime(); // Sort in descending order of updatedAt
+  return bDate.getTime() - aDate.getTime();
 };
 
 export const formatToINR = (amount: any) => {
@@ -137,41 +131,6 @@ export const customSortBySessionMarketName = ([nameA]: any, [nameB]: any) => {
   return orderA - orderB;
 };
 
-export const updateArray = (ab: any, cd: any) => {
-  const cdMap = new Map(cd.map((item: any) => [item?.id, item]));
-
-  ab = ab?.filter((obj: any) => {
-    if (cdMap.has(obj?.id)) {
-      const updatedObj: any = cdMap.get(obj?.id);
-      Object.assign(obj, { ...obj, ...updatedObj });
-      cdMap.delete(obj.id);
-      return true;
-    }
-    return false;
-  });
-
-  cdMap.forEach((value) => {
-    ab.push(value);
-  });
-
-  return ab;
-};
-
-export const sortByActiveStatusOfCricketCasino = (a: any, b: any) => {
-  const getPosition = (item: any) => {
-    if (item.isComplete && item.activeStatus === "result") {
-      return 3;
-    } else if (item.activeStatus === "live") {
-      return 2;
-    } else if (item.activeStatus === "save" || item.isComplete) {
-      return 1;
-    }
-    return 4;
-  };
-
-  return getPosition(a) - getPosition(b);
-};
-
 export const handleNumber = (num: any, color: any) => {
   let amount = parseFloat(num)?.toFixed(2);
   let value;
@@ -194,7 +153,7 @@ export const stripUrl = (url: any) => {
 
   const parts = url?.split(".");
 
-  url = parts?.[parts.length-2]
+  url = parts?.[parts.length - 2];
   // if (parts?.length > 2) {
   //   parts?.pop();
   //   url = parts?.join(".");

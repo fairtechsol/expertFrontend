@@ -1,5 +1,5 @@
 import { Box, Typography } from "@mui/material";
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, memo, useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ARROWUP } from "../../../assets";
 import {
@@ -22,12 +22,19 @@ import SmallBox from "../SmallBox";
 import ResultComponentTournamentMarket from "./ResultComponentTournamentMarket";
 import TournamentMarketAdd from "./TournamentMarketAdd";
 
+interface TournamentMarketProps {
+  currentMatch: any;
+  liveData: any;
+  title: string;
+  firstKnownKey: string | undefined;
+}
+
 const TournamentMarket = ({
   currentMatch,
   liveData,
   title,
   firstKnownKey,
-}: any) => {
+}: TournamentMarketProps) => {
   const dispatch: AppDispatch = useDispatch();
   const [visibleImg, setVisibleImg] = useState<boolean>(true);
   const [visible, setVisible] = useState<boolean>(false);
@@ -55,6 +62,14 @@ const TournamentMarket = ({
       setVisible(false);
     }
   }, [success]);
+
+  const toggleVisibility = useCallback(() => {
+    setVisibleImg((prev) => !prev);
+  }, []);
+
+  let key =
+    (liveData?.parentBetId || liveData?.id) + "_profitLoss_" + currentMatch?.id;
+
   return (
     <Box
       sx={{
@@ -124,7 +139,6 @@ const TournamentMarket = ({
             liveData?.activeStatus !== "result" &&
             liveData?.id && (
               <Clone
-                width={"80px"}
                 onClick={(e: any) => {
                   e.preventDefault();
                   dispatch(
@@ -137,37 +151,36 @@ const TournamentMarket = ({
                 invert={true}
               />
             )}
-          {liveData.isManual && liveData?.parentBetId && (
-            <DisableClone
-              width={"80px"}
-              onClick={(e: any) => {
-                e.preventDefault();
-                dispatch(
-                  marketClone({
-                    matchId: currentMatch?.id,
-                    betId: liveData?.parentBetId,
-                    disabled: true,
-                  })
-                );
-              }}
-              invert={true}
-            />
-          )}
+          {liveData.isManual &&
+            liveData?.parentBetId &&
+            liveData?.activeStatus !== "result" && (
+              <DisableClone
+                onClick={(e: any) => {
+                  e.preventDefault();
+                  dispatch(
+                    marketClone({
+                      matchId: currentMatch?.id,
+                      betId: liveData?.parentBetId,
+                      disabled: true,
+                    })
+                  );
+                }}
+                invert={true}
+              />
+            )}
         </Box>
         <Box
           sx={{
             flex: 0.1,
             background: "#262626",
-            // '#262626'
           }}
         >
-          <div className="slanted"></div>
+          <div className="slanted" />
         </Box>
         <Box
           sx={{
             flex: 1,
             background: "#262626",
-            // '#262626' ,
             display: "flex",
             alignItems: "center",
             justifyContent: "flex-end",
@@ -177,7 +190,6 @@ const TournamentMarket = ({
             <>
               {(!currentMatch?.stopAt || firstKnownKey === undefined) && (
                 <Result
-                  width={"80px"}
                   onClick={() => {
                     setVisible(true);
                   }}
@@ -207,20 +219,6 @@ const TournamentMarket = ({
                     height="18px"
                   />
                   <MaxLimitEditButton handleClickOpen={handleClickOpen} />
-                  {/* {!liveData.isManual && (
-                    <Clone
-                      width={"80px"}
-                      onClick={() => {
-                        dispatch(
-                          marketClone({
-                            matchId: currentMatch?.id,
-                            betId: liveData?.id,
-                          })
-                        );
-                      }}
-                      invert={true}
-                    />
-                  )} */}
                 </>
               )}
             </>
@@ -228,12 +226,12 @@ const TournamentMarket = ({
             <AddMarketButton handleClickOpen={handleClickOpen} />
           )}
           <img
-            onClick={() => {
-              setVisibleImg(!visibleImg);
-            }}
+            onClick={toggleVisibility}
             src={ARROWUP}
+            alt="arrow up"
             style={{
-              transform: visibleImg ? "rotate(180deg)" : "rotate(0deg)",
+              transform: !visibleImg ? "rotate(180deg)" : "rotate(0deg)",
+              transition: "transform 0.3s ease",
               width: "10px",
               height: "10px",
               marginRight: "1px",
@@ -244,26 +242,15 @@ const TournamentMarket = ({
         </Box>
       </Box>
       <Divider />
-      {/* <Box
-        sx={{
-          position: "absolute",
-          zIndex: 999,
-          top: "26%",
-          right: "1%",
-          width: { lg: "30vw", xs: "30vw" },
-        }}
-      > */}
       {visible && (
         <ResultComponentTournamentMarket
           currentMatch={currentMatch}
-          // stopAt={liveData?.stopAt}
           onClick={() => {
             setVisible(false);
           }}
           liveData={liveData}
         />
       )}
-      {/* </Box> */}
       {visibleImg && (
         <>
           <Box
@@ -330,7 +317,7 @@ const TournamentMarket = ({
                   Back
                 </Typography>
               </Box>
-              <Box sx={{ width: ".35%", display: "flex" }}></Box>
+              <Box sx={{ width: ".35%", display: "flex" }} />
               <Box
                 sx={{
                   background: "#FF9292",
@@ -351,28 +338,16 @@ const TournamentMarket = ({
           </Box>
 
           <Box sx={{ position: "relative" }}>
-            {liveData?.runners?.map((item: any) => (
-              <Fragment key={item?.id}>
+            {liveData?.runners?.map((item: any, index: number) => (
+              <Fragment key={index}>
                 <BoxComponent
                   teamRates={
                     liveData?.activeStatus === "result"
                       ? 0
-                      : currentMatch?.teamRates?.[
-                          (liveData?.parentBetId || liveData?.id) +
-                            "_" +
-                            "profitLoss" +
-                            "_" +
-                            currentMatch?.id
-                        ]
-                      ? JSON.parse(
-                          currentMatch?.teamRates?.[
-                            (liveData?.parentBetId || liveData?.id) +
-                              "_" +
-                              "profitLoss" +
-                              "_" +
-                              currentMatch?.id
-                          ]
-                        )?.[item?.parentRunnerId || item?.id] ?? 0
+                      : currentMatch?.teamRates?.[key]
+                      ? (currentMatch?.teamRates?.[key] || {})?.[
+                          item?.parentRunnerId || item?.id
+                        ] || 0
                       : 0
                   }
                   livestatus={
@@ -387,7 +362,6 @@ const TournamentMarket = ({
                   name={item?.nat ?? item?.runnerName}
                   liveData={liveData}
                 />
-
                 <Divider />
               </Fragment>
             ))}
@@ -493,4 +467,4 @@ const TournamentMarket = ({
   );
 };
 
-export default TournamentMarket;
+export default memo(TournamentMarket);

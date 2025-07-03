@@ -1,17 +1,19 @@
 import { Box, Typography } from "@mui/material";
+import { memo } from "react";
 import { ArrowDownRed, ArrowUpGreen } from "../../../assets";
 import { formatToINR } from "../../helper";
 
-const MoneyBox = ({ value }: any) => {
-  // const theme = useTheme();
-  // const matchesMobile = useMediaQuery(theme.breakpoints.down("lg"));
+interface MoneyBoxProps {
+  value: number | string;
+}
 
+const MoneyBox = ({ value }: MoneyBoxProps) => {
   const formatValue = (value: any) => {
     const formattedValue = formatToINR(value === 0 ? "" : value);
     const [integerPart, decimalPart] = formattedValue.split(".");
     const formattedDecimalPart = decimalPart
       ? decimalPart.padEnd(2, "0").slice(0, 2)
-      : "00"; // Ensure exactly 2 digits after the decimal point
+      : "00";
     return { integerPart, decimalPart: formattedDecimalPart };
   };
 
@@ -20,10 +22,9 @@ const MoneyBox = ({ value }: any) => {
   const getFontSize = (text: any) => {
     const length = text.length;
     if (length < 6) return { lg: "12px", xs: "10px" };
-    //if (length < 20) return { lg: "10px", xs: "8px" };
     return { lg: "8px", xs: "10px" };
   };
-  
+
   const fontSize = getFontSize(integerPart);
   return (
     <Box
@@ -48,14 +49,11 @@ const MoneyBox = ({ value }: any) => {
           display: "flex",
         }}
       >
-        {/* {formatToINR(value === 0 ? "" : value)} */}
         {value !== 0 && (
           <>
             <span style={{ padding: "2px" }}>{integerPart}</span>
             <span
               style={{
-          
-            
                 padding: "2px",
               }}
             >{`.${decimalPart}`}</span>
@@ -65,7 +63,10 @@ const MoneyBox = ({ value }: any) => {
       {value ? (
         <img
           src={Number(value) > 0 ? ArrowUpGreen : ArrowDownRed}
-          style={{ width: "12px", height: "10px" }}
+          width={12}
+          height={10}
+          // style={{ width: "12px", height: "10px" }}
+          alt="arrow"
         />
       ) : (
         ""
@@ -74,4 +75,4 @@ const MoneyBox = ({ value }: any) => {
   );
 };
 
-export default MoneyBox;
+export default memo(MoneyBox);

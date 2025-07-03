@@ -1,11 +1,21 @@
 import { Box, Button, Modal, Typography } from "@mui/material";
-import { useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { CancelDark } from "../../assets";
 import { headerAddBanner } from "../../store/actions/user/userAction";
 import { AppDispatch, RootState } from "../../store/store";
 
-const BannerUploadModal = ({ visible, setVisible, title }: any) => {
+interface BannerUploadModalProps {
+  visible: boolean;
+  setVisible: (val: boolean) => void;
+  title?: string;
+}
+
+const BannerUploadModal = ({
+  visible,
+  setVisible,
+  title,
+}: BannerUploadModalProps) => {
   const dispatch: AppDispatch = useDispatch();
   const [mobileBanner, setMobileBanner] = useState<any>("");
   const [desktopBanner, setDesktopBanner] = useState<any>("");
@@ -34,7 +44,6 @@ const BannerUploadModal = ({ visible, setVisible, title }: any) => {
           return;
         }
 
-        // Convert the image to base64
         const reader = new FileReader();
         reader.readAsDataURL(file);
         reader.onload = () => {
@@ -74,7 +83,6 @@ const BannerUploadModal = ({ visible, setVisible, title }: any) => {
         <Box
           sx={{
             width: { lg: "500px", xs: "80%" },
-            // height: "250px",
             padding: 0.2,
             borderRadius: 2,
             boxShadow: "0px 5px 10px #1A568414",
@@ -106,7 +114,10 @@ const BannerUploadModal = ({ visible, setVisible, title }: any) => {
             <img
               onClick={() => setVisible(false)}
               src={CancelDark}
-              style={{ width: "25px", height: "25px", cursor: "pointer" }}
+              alt="cancel"
+              width={25}
+              height={25}
+              style={{ cursor: "pointer" }}
             />
           </Box>
           <form onSubmit={handleSubmit}>
@@ -266,4 +277,4 @@ const BannerUploadModal = ({ visible, setVisible, title }: any) => {
     </Modal>
   );
 };
-export default BannerUploadModal;
+export default memo(BannerUploadModal);

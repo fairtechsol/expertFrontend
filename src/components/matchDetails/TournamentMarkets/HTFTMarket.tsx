@@ -1,21 +1,33 @@
 import { Box, Typography, useMediaQuery, useTheme } from "@mui/material";
-import { useEffect, useState } from "react";
+import { memo, useCallback, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { ARROWUP } from "../../../assets";
 import { betLiveStatus } from "../../../store/actions/match/matchAction";
 import { AppDispatch } from "../../../store/store";
+import AddMarketButton from "../../Common/AddMarketButton";
 import Divider from "../../Common/Divider";
+import MaxLimitEditButton from "../../Common/MaxLimitEditButton";
 import { formatToINR } from "../../helper";
+import HTFTBoxComponent from "../MatchOdds/HTFTBoxComponent";
+import Result from "../Result";
 import Stop from "../SessionMarket/Stop";
 import SmallBox from "../SmallBox";
-import Result from "../Result";
-import TournamentMarketAdd from "./TournamentMarketAdd";
 import ResultComponentTournamentMarket from "./ResultComponentTournamentMarket";
-import AddMarketButton from "../../Common/AddMarketButton";
-import MaxLimitEditButton from "../../Common/MaxLimitEditButton";
-import HTFTBoxComponent from "../MatchOdds/HTFTBoxComponent";
+import TournamentMarketAdd from "./TournamentMarketAdd";
 
-const HTFTMarket = ({ currentMatch, liveData, title, firstKnownKey }: any) => {
+interface HTFTMarketProps {
+  currentMatch: any;
+  liveData: any;
+  title: string;
+  firstKnownKey: any;
+}
+
+const HTFTMarket = ({
+  currentMatch,
+  liveData,
+  title,
+  firstKnownKey,
+}: HTFTMarketProps) => {
   const dispatch: AppDispatch = useDispatch();
   const theme = useTheme();
   const matchesMobile = useMediaQuery(theme.breakpoints.down("md"));
@@ -38,6 +50,9 @@ const HTFTMarket = ({ currentMatch, liveData, title, firstKnownKey }: any) => {
     setOpen(data);
   };
 
+  const toggleVisibility = useCallback(() => {
+    setVisible((prev) => !prev);
+  }, []);
   return (
     <Box
       sx={{
@@ -74,15 +89,29 @@ const HTFTMarket = ({ currentMatch, liveData, title, firstKnownKey }: any) => {
             justifyContent: "space-between",
           }}
         >
-          <Typography
+          <Box
             sx={{
               fontSize: { lg: "9px", md: "9px", xs: "10px", sm: "8px" },
               fontWeight: "bold",
               marginLeft: "7px",
+              display: "flex",
+              alignItems: "center",
+              fontFamily: "Poppins, sans-serif",
             }}
           >
+            {liveData?.isCommissionActive && (
+              <Box
+                sx={{
+                  width: 8,
+                  height: 8,
+                  borderRadius: "50%",
+                  backgroundColor: "#74ee15",
+                  margin: "2px",
+                }}
+              />
+            )}
             {title}
-          </Typography>
+          </Box>
           {liveData?.id && liveData?.activeStatus !== "result" && (
             <Stop
               onClick={() => {
@@ -104,16 +133,14 @@ const HTFTMarket = ({ currentMatch, liveData, title, firstKnownKey }: any) => {
           sx={{
             flex: 0.1,
             background: "#262626",
-            // '#262626'
           }}
         >
-          <div className="slanted"></div>
+          <div className="slanted" />
         </Box>
         <Box
           sx={{
             flex: 1,
             background: "#262626",
-            // '#262626' ,
             display: "flex",
             alignItems: "center",
             justifyContent: "flex-end",
@@ -123,7 +150,6 @@ const HTFTMarket = ({ currentMatch, liveData, title, firstKnownKey }: any) => {
             <>
               {(!currentMatch?.stopAt || firstKnownKey === undefined) && (
                 <Result
-                  width={"80px"}
                   onClick={() => {
                     setVisible(true);
                   }}
@@ -164,8 +190,10 @@ const HTFTMarket = ({ currentMatch, liveData, title, firstKnownKey }: any) => {
               setVisibleImg(!visibleImg);
             }}
             src={ARROWUP}
+            alt="arrow up"
             style={{
-              transform: visibleImg ? "rotate(180deg)" : "rotate(0deg)",
+              transform: !visibleImg ? "rotate(180deg)" : "rotate(0deg)",
+              transition: "transform 0.3s ease",
               width: "12px",
               height: "12px",
               marginRight: "5px",
@@ -180,7 +208,6 @@ const HTFTMarket = ({ currentMatch, liveData, title, firstKnownKey }: any) => {
         sx={{
           position: "absolute",
           zIndex: 999,
-          // top: "26%",
           right: "1%",
           width: { lg: "30vh", xs: "30vh" },
         }}
@@ -188,9 +215,7 @@ const HTFTMarket = ({ currentMatch, liveData, title, firstKnownKey }: any) => {
         {visible && (
           <ResultComponentTournamentMarket
             currentMatch={currentMatch}
-            onClick={() => {
-              setVisible(false);
-            }}
+            onClick={toggleVisibility}
             liveData={liveData}
           />
         )}
@@ -255,62 +280,51 @@ const HTFTMarket = ({ currentMatch, liveData, title, firstKnownKey }: any) => {
                   "active",
                   "open",
                 ].includes(item?.status?.toLowerCase()) ||
-                item?.status?.toLowerCase() === "suspended"
+                  item?.status?.toLowerCase() === "suspended"
                   ? true
                   : false) && (
-                  <Box
-                    sx={{
-                      position: "absolute",
-                      height: "100%",
-                      // top: "18%",
-                      width: "100%",
-                      display: "flex",
-                      zIndex: "999",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      background: "rgba(0, 0, 0, .6)",
-                    }}
-                  >
-                    <h4
-                      style={{
-                        textTransform: "uppercase",
-                        color: "#FFF",
-                        fontWeight: "400",
-                        fontSize: matchesMobile ? "12px" : "12px",
+                    <Box
+                      sx={{
+                        position: "absolute",
+                        height: "100%",
+                        width: "100%",
+                        display: "flex",
+                        zIndex: "899",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        background: "rgba(0, 0, 0, .6)",
                       }}
                     >
-                      {item?.status}
-                    </h4>
-                  </Box>
-                )}
+                      <h4
+                        style={{
+                          textTransform: "uppercase",
+                          color: "#FFF",
+                          fontWeight: "400",
+                          fontSize: matchesMobile ? "12px" : "12px",
+                        }}
+                      >
+                        {item?.status}
+                      </h4>
+                    </Box>
+                  )}
 
                 <HTFTBoxComponent
                   teamRates={
                     currentMatch?.teamRates?.[
                       liveData?.id + "_" + "profitLoss" + "_" + currentMatch?.id
                     ]
-                      ? JSON.parse(
-                          currentMatch?.teamRates?.[
-                            liveData?.id +
-                              "_" +
-                              "profitLoss" +
-                              "_" +
-                              currentMatch?.id
-                          ]
-                        )?.[item?.id] ?? 0
+                      ? currentMatch?.teamRates?.[
+                      liveData?.id +
+                      "_" +
+                      "profitLoss" +
+                      "_" +
+                      currentMatch?.id
+                      ]?.[item?.id] ?? 0
                       : 0
-                  }
-                  livestatus={
-                    !["ACTIVE", "OPEN", "", "active", "open"].includes(
-                      item?.status?.toLowerCase()
-                    )
-                      ? true
-                      : false
                   }
                   data={item}
                   lock={liveData?.runners?.length > 0 ? false : true}
                   name={item?.nat ?? item?.runnerName}
-                  liveData={liveData}
                 />
 
                 <Divider />
@@ -325,7 +339,7 @@ const HTFTMarket = ({ currentMatch, liveData, title, firstKnownKey }: any) => {
                   bottom: 0,
                   background: "rgba(0,0,0,0.5)",
                 }}
-              ></Box>
+              />
             )}
             {currentMatch?.resultStatus &&
               currentMatch?.resultStatus[liveData?.id]?.status && (
@@ -378,9 +392,11 @@ const HTFTMarket = ({ currentMatch, liveData, title, firstKnownKey }: any) => {
         matchOddsLive={liveData}
         currentMatch={currentMatch}
         title={`${title} Max Bet`}
+        exposureLimit={liveData?.exposureLimit}
+        isCommissionActive={liveData.isCommissionActive}
       />
     </Box>
   );
 };
 
-export default HTFTMarket;
+export default memo(HTFTMarket);

@@ -1,19 +1,24 @@
 import { Box, Typography, useMediaQuery, useTheme } from "@mui/material";
-import { memo } from "react";
-import SeparateBox from "../SeparateBox";
-import { formatNumber } from "../../helper";
-import MoneyBox from "./MoneyBox";
 import moment from "moment";
+import { memo } from "react";
+import { formatNumber } from "../../helper";
+import SeparateBox from "../SeparateBox";
+import MoneyBox from "./MoneyBox";
+
+interface BoxComponentProps {
+  name: string;
+  data: any;
+  lock: boolean;
+  teamRates: any;
+  livestatus?: any;
+}
 const BoxComponent = ({
   name,
   data,
-  // teamImage,
-  currentMatch,
-  align,
   lock,
   teamRates,
   livestatus,
-}: any) => {
+}: BoxComponentProps) => {
   const theme = useTheme();
   const matchesMobile = useMediaQuery(theme.breakpoints.down("lg"));
   const { ex, status, adjustmentFactor, removalDate } = data ?? {};
@@ -48,20 +53,6 @@ const BoxComponent = ({
             justifyContent: "space-between",
           }}
         >
-          {/* {teamImage !== null && (
-            <>
-              <img
-                src={`wallet/${teamImage}`}
-                style={{
-                  width: "22px",
-                  height: "25px",
-                  marginLeft: "10px",
-                  backgroundSize: "contains",
-                }}
-                alt={name}
-              />
-            </>
-          )} */}
           <Typography
             sx={{
               color: "black",
@@ -80,8 +71,9 @@ const BoxComponent = ({
         {name != "DRAW" && <MoneyBox value={teamRates} />}
       </Box>
 
-      {!["ACTIVE", "OPEN", "", undefined, null, "active", "open"].includes(status?.toLowerCase()) ||
-      livestatus ? (
+      {!["ACTIVE", "OPEN", "", undefined, null, "active", "open"].includes(
+        status?.toLowerCase()
+      ) || livestatus ? (
         <Box
           sx={{
             display: "flex",
@@ -140,8 +132,6 @@ const BoxComponent = ({
           >
             {!matchesMobile && (
               <SeparateBox
-                currentMatch={currentMatch}
-                align={align}
                 lock={lock}
                 value={
                   ex?.availableToBack?.length > 0
@@ -153,16 +143,12 @@ const BoxComponent = ({
                     ? ex?.availableToBack[2]?.size ?? 0
                     : 0
                 )}
-                color={"#CEEBFF"}
+                color="#CEEBFF"
               />
             )}
-            <Box
-              sx={{ width: ".45%", display: "flex", background: "pink" }}
-            ></Box>
+            <Box sx={{ width: ".45%", display: "flex", background: "pink" }} />
             {!matchesMobile && (
               <SeparateBox
-                currentMatch={currentMatch}
-                align={align}
                 lock={lock}
                 value={
                   ex?.availableToBack?.length > 0
@@ -174,15 +160,11 @@ const BoxComponent = ({
                     ? ex?.availableToBack[1]?.size ?? 0
                     : 0
                 )}
-                color={"#C2E6FF"}
+                color="#C2E6FF"
               />
             )}
-            <Box
-              sx={{ width: ".45%", display: "flex", background: "pink" }}
-            ></Box>
+            <Box sx={{ width: ".45%", display: "flex", background: "pink" }} />
             <SeparateBox
-              currentMatch={currentMatch}
-              align={align}
               value={
                 ex?.availableToBack?.length > 0
                   ? ex?.availableToBack[0]?.price ?? 0
@@ -194,14 +176,10 @@ const BoxComponent = ({
                   ? ex?.availableToBack[0]?.size ?? 0
                   : 0
               )}
-              color={"#A7DCFF"}
+              color="#A7DCFF"
             />
-            <Box
-              sx={{ width: ".45%", display: "flex", background: "pink" }}
-            ></Box>
+            <Box sx={{ width: ".45%", display: "flex", background: "pink" }} />
             <SeparateBox
-              currentMatch={currentMatch}
-              align={align}
               value={
                 ex?.availableToLay?.length > 0
                   ? ex?.availableToLay[0]?.price ?? 0
@@ -213,18 +191,15 @@ const BoxComponent = ({
                   ? ex?.availableToLay[0]?.size ?? 0
                   : 0
               )}
-              color={"#FFB5B5"}
+              color="#FFB5B5"
             />
             {!matchesMobile && (
               <Box
                 sx={{ width: ".45%", display: "flex", background: "pink" }}
-              ></Box>
+              />
             )}
             {!matchesMobile && (
               <SeparateBox
-                currentMatch={currentMatch}
-                back={true}
-                align={align}
                 lock={lock}
                 value={
                   ex?.availableToLay?.length > 0
@@ -236,18 +211,16 @@ const BoxComponent = ({
                     ? ex?.availableToLay[1]?.size ?? 0
                     : 0
                 )}
-                color={"#FFB5B5"}
+                color="#FFB5B5"
               />
             )}
             {!matchesMobile && (
               <Box
                 sx={{ width: ".45%", display: "flex", background: "pink" }}
-              ></Box>
+              />
             )}
             {!matchesMobile && (
               <SeparateBox
-                currentMatch={currentMatch}
-                align={align}
                 value={
                   ex?.availableToLay?.length > 0
                     ? ex?.availableToLay[2]?.price ?? 0
@@ -259,7 +232,7 @@ const BoxComponent = ({
                     ? ex?.availableToLay[2]?.size ?? 0
                     : 0
                 )}
-                color={"#ECD6D6"}
+                color="#ECD6D6"
               />
             )}
           </Box>

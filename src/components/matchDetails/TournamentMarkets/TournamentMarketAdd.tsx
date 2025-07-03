@@ -3,7 +3,7 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
-import { useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   resetMarketListMinMax,
@@ -14,6 +14,17 @@ import MatchListInput from "../../addMatch/MatchListInput";
 import { formatToINR } from "../../helper";
 import { MaterialUISwitch } from "../../tabList/materialUiSwitch";
 
+interface TournamentMarketAddProps {
+  open: boolean;
+  handleClose: (val?: any) => void;
+  matchOddsLive: any;
+  currentMatch: any;
+  title: string;
+  exposureLimit?: number;
+  isManual?: boolean;
+  isCommissionActive?: boolean;
+}
+
 const TournamentMarketAdd = ({
   open,
   handleClose,
@@ -23,7 +34,7 @@ const TournamentMarketAdd = ({
   exposureLimit,
   isManual,
   isCommissionActive,
-}: any) => {
+}: TournamentMarketAddProps) => {
   const [selected, setSelected] = useState<any>({
     maxLimit: 0,
     minLimit: 0,
@@ -82,14 +93,11 @@ const TournamentMarketAdd = ({
   const handleChange = (e: any) => {
     try {
       const { name, value } = e.target;
-      // Remove commas from the input value for raw numeric processing
       const rawValue = value.replace(/,/g, "");
-
-      // Update state only if it's a valid number
       if (/^\d*$/.test(rawValue)) {
         setSelected((prev: any) => ({
           ...prev,
-          [name]: rawValue, // Store the raw number
+          [name]: rawValue,
         }));
       }
     } catch (error) {
@@ -108,7 +116,7 @@ const TournamentMarketAdd = ({
         ...(isManual ? { name: matchOddsLive?.name } : {}),
         runners: matchOddsLive?.runners,
       });
-      setCommission(isCommissionActive);
+      setCommission(isCommissionActive || false);
     } catch (error) {
       console.error(error);
     }
@@ -230,25 +238,6 @@ const TournamentMarketAdd = ({
                   onChange={handleChange}
                 />
               </Box>
-              {/* <Box
-                sx={{
-                  width: {
-                    xs: "100%",
-                    lg: "50%",
-                    md: "50%",
-                  },
-                }}
-              >
-                <MatchListInput
-                  label={"Bet Limit*"}
-                  type={"number"}
-                  placeholder="Enter Bet Limit..."
-                  name="betLimit"
-                  id="betLimit"
-                  onChange={handleChange}
-                  value={selected.betLimit}
-                />
-              </Box> */}
             </Box>
             {isManual && (
               <Box
@@ -404,4 +393,4 @@ const TournamentMarketAdd = ({
   );
 };
 
-export default TournamentMarketAdd;
+export default memo(TournamentMarketAdd);

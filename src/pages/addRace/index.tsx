@@ -1,5 +1,4 @@
 import { Box, Button, Typography } from "@mui/material";
-// import { makeStyles } from "@mui/styles";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
@@ -7,7 +6,7 @@ import { DemoContainer, DemoItem } from "@mui/x-date-pickers/internals/demo";
 import dayjs from "dayjs";
 import { useFormik } from "formik";
 import moment from "moment";
-import { useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -33,15 +32,6 @@ import {
   editSuccessReset,
 } from "../../store/actions/match/matchAction";
 import { AppDispatch, RootState } from "../../store/store";
-// import { addMatchValidation } from "../../utils/Validations/login";
-
-// const useStyles = makeStyles(() => ({
-//   dateTimePicker: {
-//     "& .MuiFormControl-root": {
-//       height: "30px",
-//     },
-//   },
-// }));
 
 const gameTypes = [
   { label: "horse racing", value: "horseRacing" },
@@ -94,7 +84,6 @@ const AddRace = () => {
 
   const { editSuccess } = useSelector((state: RootState) => state.matchList);
   const formik = useFormik({
-    // validationSchema: addMatchValidation(manualMatchToggle, selected.gameType,extraMarketList),
     initialValues: initialFormikValues,
     onSubmit: (value: any) => {
       if (!selected.gameType) {
@@ -133,16 +122,11 @@ const AddRace = () => {
           raceType: selected.raceType
             ? selected.raceType
             : matchType === "greyhoundRacing"
-            ? "greyHound"
-            : matchType,
+              ? "greyHound"
+              : matchType,
         };
 
         if (manualMatchToggle) {
-          // const newPayload = {
-          //   ...addMatchpayload,
-          //   isManualMatch: true,
-          // };
-          // dispatch(addMatchExpert(newPayload));
         } else {
           dispatch(addRaceExpert(addMatchpayload));
         }
@@ -228,30 +212,6 @@ const AddRace = () => {
     }
   }, [selected.gameType]);
 
-  // useEffect(() => {
-  //   if (!state?.id) {
-  //     setSelected((prev: any) => {
-  //       return {
-  //         ...prev,
-  //         teamA: "",
-  //         teamB: "",
-  //         teamC: "",
-  //         title: "",
-  //         manualBookmaker: 0,
-  //         matchName: "",
-  //         competitionName: "",
-  //         eventId: "",
-  //         marketId: "",
-  //         startAt: new Date(),
-  //       };
-  //     });
-  //   }
-
-  //   if (!state?.id) {
-  //     dispatch(eventListReset());
-  //   }
-  // }, [selected.tournamentId]);
-
   useEffect(() => {
     if (selected.title !== "") {
       setError((prev: any) => {
@@ -289,12 +249,11 @@ const AddRace = () => {
     }
     if (matchAdded) {
       navigate(
-        `/expert/race/${
-          matchType
-            ? matchType === "greyhoundRacing"
-              ? "greyHound"
-              : matchType
-            : "horseRacing"
+        `/expert/race/${matchType
+          ? matchType === "greyhoundRacing"
+            ? "greyHound"
+            : matchType
+          : "horseRacing"
         }`
       );
       dispatch(addMatchReset());
@@ -336,9 +295,8 @@ const AddRace = () => {
         >
           <LabelValueComponent
             title={state?.id ? "Edit Race" : "Add Race"}
-            notShowSub={true}
-            titleSize={"20px"}
-            headColor={"#000000"}
+            titleSize="20px"
+            headColor="#000000"
           />
           {!state?.id && (
             <BoxButtonManualMatch
@@ -353,7 +311,6 @@ const AddRace = () => {
             background: "#F8C851",
             marginTop: "20px",
             borderRadius: "5px",
-
             p: "10px",
             py: "20px",
           }}
@@ -381,10 +338,7 @@ const AddRace = () => {
                   filter: "invert(.9) sepia(1) saturate(5) hue-rotate(175deg);",
                 }}
                 disable={state?.id ? true : false}
-                valueStyle={{ ...inputStyle, color: "white" }}
-                title={"Game *"}
-                id={"gameType"}
-                value={values.gameType}
+                title="Game *"
                 valueContainerStyle={{
                   height: "45px",
                   marginX: "0px",
@@ -409,17 +363,10 @@ const AddRace = () => {
                 selected={selected}
                 setSelected={setSelected}
                 dropDownTextStyle={inputStyle}
-                place={1}
                 isOpen={openDropDown === "gameType"}
                 onOpen={handleDropDownOpen}
               />
             </Box>
-            {/* {touched.gameType && errors.gameType && (
-              <p style={{ color: "#fa1e1e" }}>
-                {errors.gameType as string}
-              </p>
-            )} */}
-
             <Box
               sx={{
                 position: "relative",
@@ -435,30 +382,23 @@ const AddRace = () => {
                       "invert(.9) sepia(1) saturate(5) hue-rotate(175deg);",
                   }}
                   disable={state?.id ? true : false}
-                  valueStyle={{ ...inputStyle, color: "white" }}
-                  title={"Race Name*"}
+                  title="Race Name*"
                   valueContainerStyle={{
                     height: "45px",
-                    marginX: "0px",
+                    marginLeft: "0px",
+                    marginRight: "0px",
                     background: "#0B4F26",
                     border: "1px solid #DEDEDE",
                     borderRadius: "5px",
                     cursor: state?.id ? "not-allowed" : "pointer",
                   }}
-                  // touched={touched.competitionName}
-                  gameType={selected.gameType}
-                  // onBlur={formik.handleBlur}
-                  // error={touched.competitionName}
-                  value={values.competitionName}
                   containerStyle={{
                     width: "100%",
                     position: "relative",
                     marginTop: "5px",
                   }}
-                  type={""}
                   titleStyle={{ marginLeft: "0px", color: "#575757" }}
                   data={eventsList}
-                  matchesSelect={true}
                   dropDownStyle={{
                     width: "100%",
                     marginLeft: "0px",
@@ -467,26 +407,16 @@ const AddRace = () => {
                     maxHeight: "255px",
                     overflow: "auto",
                   }}
-                  onChange={(e: any) => {
-                    setSelected((prev) => {
-                      return {
-                        ...prev,
-                        competitionName: e.target?.value,
-                      };
-                    });
-                  }}
                   dropDownTextStyle={inputStyle}
                   selected={selected}
                   setSelected={setSelected}
-                  place={5}
-                  isOpen={openDropDown === "matchName"}
                   onOpen={handleDropDownOpen}
                 />
               ) : (
                 <MatchListInput
                   required={true}
-                  label={"Race Name*"}
-                  type={"text"}
+                  label="Race Name*"
+                  type="text"
                   onChange={handleInputChange}
                   placeholder="Enter your Race Name"
                   place={3}
@@ -498,7 +428,6 @@ const AddRace = () => {
                 <span style={{ color: "red" }}>{"Field is Required"}</span>
               )}
             </Box>
-
             <Box
               sx={{
                 width: { xs: "100%", lg: "18%", md: "24%" },
@@ -506,7 +435,6 @@ const AddRace = () => {
               }}
             >
               <LocalizationProvider dateAdapter={AdapterDayjs}>
-                {" "}
                 <DemoContainer components={["DateTimePicker"]}>
                   <DemoItem>
                     <Typography sx={{ fontSize: "12px" }}>
@@ -515,7 +443,6 @@ const AddRace = () => {
                     <DateTimePicker
                       disabled={state?.id || !manualMatchToggle}
                       sx={{
-                        // height: "40px",
                         background: "#fff",
                         overflow: "hidden",
                         borderRadius: "5px",
@@ -525,15 +452,11 @@ const AddRace = () => {
                         "& .MuiOutlinedInput-notchedOutline": {
                           border: "none",
                         },
-                        "& .css-nxo287-MuiInputBase-input-MuiOutlinedInput-input":
-                          {
-                            // cursor: "not-allowed",
-                            paddingBottom: "8px",
-                            paddingTop: "8px",
-                          },
+                        "& .MuiOutlinedInput-input": {
+                          paddingBottom: "8px",
+                          paddingTop: "8px",
+                        },
                       }}
-                      // className={classes.dateTimePicker}
-                      // label="Basic date picker"
                       value={dayjs(selected?.startAt)}
                       onChange={handleDateChange}
                     />
@@ -541,13 +464,12 @@ const AddRace = () => {
                 </DemoContainer>
               </LocalizationProvider>
             </Box>
-
             <Box sx={{ width: { xs: "100%", lg: "18%", md: "24%" } }}>
               <MatchListInput
                 required={true}
                 disable={state?.id}
-                label={"Min Bet*"}
-                type={"Number"}
+                label="Min Bet*"
+                type="Number"
                 touched={touched.minBet}
                 errors={errors.minBet}
                 value={values.minBet}
@@ -563,13 +485,12 @@ const AddRace = () => {
                 errors={errors.minBet}
               />
             </Box>
-
             <Box sx={{ width: { xs: "100%", lg: "18%", md: "24%" } }}>
               <MatchListInput
                 required={true}
                 containerStyle={{ flex: 1, width: "100%" }}
-                label={"API Match Odd Max Bet*"}
-                type={"Number"}
+                label="API Match Odd Max Bet*"
+                type="Number"
                 placeholder="API Match Odd Max Bet..."
                 place={11}
                 name="maxBet"
@@ -584,16 +505,17 @@ const AddRace = () => {
                 errors={errors.maxBet}
               />
             </Box>
-
             {raceRunners?.map((item: any, index: number) => {
               return (
-                <Box sx={{ width: { xs: "100%", lg: "18%", md: "24%" } }}>
+                <Box
+                  sx={{ width: { xs: "100%", lg: "18%", md: "24%" } }}
+                  key={index}
+                >
                   <Typography
                     style={{
                       color: "#575757",
                       fontSize: "12px",
                       fontWeight: "600",
-                      // ...labelStyle,
                     }}
                   >
                     Runner {index + 1}
@@ -606,7 +528,6 @@ const AddRace = () => {
                       px: "10px",
                       py: "4px",
                       display: "flex",
-                      // alignItems: "center",
                       justifyContent: "flex-start",
                       background: "white",
                       backgroundColor: " ",
@@ -616,7 +537,6 @@ const AddRace = () => {
                     <Typography sx={{ fontSize: "16px" }}>
                       {item?.runnerName}
                     </Typography>
-
                     <Typography sx={{ fontSize: "11px" }}>
                       {item?.metadata?.TRAINER_NAME}
                     </Typography>
@@ -624,45 +544,6 @@ const AddRace = () => {
                 </Box>
               );
             })}
-
-            {/* {!manualMatchToggle &&
-              eventWiseMatchData[selected.gameType]?.market
-                ?.filter(
-                  (item: any) =>
-                    extraMarketList[item.marketIdKey]?.marketId !== null &&
-                    extraMarketList[item.marketIdKey]?.marketId !== undefined
-                )
-                ?.map((item: any) => {
-                  return (
-                    <Box sx={{ width: { xs: "100%", lg: "18%", md: "24%" } }}>
-                      <MatchListInput
-                        required={true}
-                        containerStyle={{ flex: 1, width: "100%" }}
-                        label={`${item?.label}*`}
-                        {...formik.getFieldProps(`${item?.matchType}.maxBet`)}
-                        onChange={(e: any) => {
-                          formik.setValues({
-                            ...values,
-                            [item.matchType]: {
-                              ...values[item.matchType],
-                              maxBet: e.target.value,
-                            },
-                          });
-                        }}
-                        type={"Number"}
-                        touched={(touched?.[item?.matchType] as any)?.maxBet}
-                        value={values?.[item?.matchType]?.maxBet}
-                        placeholder={`Enter ${item?.name} Max Bet...`}
-                        place={15}
-                        onBlur={formik.handleBlur}
-                      />
-                      <CustomErrorMessage
-                        touched={(touched?.[item?.matchType] as any)?.maxBet}
-                        errors={(errors?.[item?.matchType] as any)?.maxBet}
-                      />
-                    </Box>
-                  );
-                })} */}
           </Box>
         </Box>
         <Box
@@ -697,12 +578,11 @@ const AddRace = () => {
                 dispatch(editMatchReset());
               }
               navigate(
-                `/expert/race/${
-                  matchType
-                    ? matchType === "greyhoundRacing"
-                      ? "greyHound"
-                      : matchType
-                    : "horseRacing"
+                `/expert/race/${matchType
+                  ? matchType === "greyhoundRacing"
+                    ? "greyHound"
+                    : matchType
+                  : "horseRacing"
                 }`
               );
             }}
@@ -727,4 +607,4 @@ const AddRace = () => {
   );
 };
 
-export default AddRace;
+export default memo(AddRace);

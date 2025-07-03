@@ -1,13 +1,19 @@
 import { Box, Typography } from "@mui/material";
+import { memo } from "react";
 
-const Result = ({ invert, onClick }: any) => {
+interface ResultProps {
+  invert: boolean;
+  onClick: () => void;
+}
+
+const Result = ({ invert, onClick }: ResultProps) => {
   return (
     <Box onClick={onClick}>
       <Box
         sx={{
           width: { lg: "36px", xs: "80%" },
           display: "flex",
-          marginRight: {lg:"5px", xs: "0"},
+          marginRight: { lg: "5px", xs: "0" },
           justifyContent: "center",
           paddingX: 1,
           alignItems: "center",
@@ -24,11 +30,11 @@ const Result = ({ invert, onClick }: any) => {
             color: invert ? "0B4F26" : "white",
           }}
         >
-          {"Result"}
+          Result
         </Typography>
       </Box>
     </Box>
   );
 };
 
-export default Result;
+export default memo(Result);

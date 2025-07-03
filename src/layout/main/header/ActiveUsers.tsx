@@ -1,11 +1,14 @@
 import { Box, Typography } from "@mui/material";
-import { useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import StyledImage from "../../../components/Common/StyledImages";
 import HeaderDropdown from "./HeaderDropdown";
-// import { ArrowDown } from "../../../assets";
 
-const ActiveUsers = (props: any) => {
-  const { image, value, containerStyle } = props;
+interface ActiveUsersProps {
+  image: any;
+  value: number;
+}
+
+const ActiveUsers = ({ image, value }: ActiveUsersProps) => {
   const [anchorEl, setAnchorEl] = useState<any>(null);
   useEffect(() => {}, [anchorEl]);
   const handleClose = () => {
@@ -22,24 +25,20 @@ const ActiveUsers = (props: any) => {
         }}
       >
         <Box
-          onClick={() => {}}
-          sx={[
-            {
-              backgroundColor: "white",
-              minWidth: { lg: "110px" },
-              marginLeft: "1vw",
-              display: "flex",
-              alignItems: "center",
-              boxShadow: "0px 3px 10px #B7B7B726",
-              justifyContent: "space-between",
-              height: { lg: "35px", xs: "27px" },
-              overflow: "hidden",
-              paddingX: "2px",
-              borderRadius: "35px",
-              width: { xs: "80px", md: "100px" },
-            },
-            containerStyle,
-          ]}
+          sx={{
+            backgroundColor: "white",
+            minWidth: { lg: "110px" },
+            marginLeft: "1vw",
+            display: "flex",
+            alignItems: "center",
+            boxShadow: "0px 3px 10px #B7B7B726",
+            justifyContent: "space-between",
+            height: { lg: "35px", xs: "27px" },
+            overflow: "hidden",
+            paddingX: "2px",
+            borderRadius: "35px",
+            width: { xs: "80px", md: "100px" },
+          }}
         >
           <Box
             sx={{
@@ -52,7 +51,11 @@ const ActiveUsers = (props: any) => {
               background: "#175731",
             }}
           >
-            <StyledImage src={image} sx={{ height: "15px", width: "15px" }} />
+            <StyledImage
+              src={image}
+              sx={{ height: "15px", width: "15px" }}
+              alt="image"
+            />
           </Box>
           <Box style={{ flex: 1, marginLeft: "5px" }}>
             <Typography
@@ -72,10 +75,6 @@ const ActiveUsers = (props: any) => {
               {value}
             </Typography>
           </Box>
-          {/* <StyledImage
-            src={ArrowDown}
-            sx={{ height: "6px", width: "10px", marginRight: "5px" }}
-          /> */}
         </Box>
       </Box>
       <HeaderDropdown
@@ -87,4 +86,4 @@ const ActiveUsers = (props: any) => {
   );
 };
 
-export default ActiveUsers;
+export default memo(ActiveUsers);

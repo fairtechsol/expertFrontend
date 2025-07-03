@@ -1,19 +1,22 @@
 import { Box, Typography } from "@mui/material";
+import { memo } from "react";
 
-const DisableClone = ({ invert, onClick, height }: any) => {
+interface DisableCloneProps {
+  invert: boolean;
+  onClick: (val: any) => void;
+}
+
+const DisableClone = ({ invert, onClick }: DisableCloneProps) => {
   return (
     <Box onClick={onClick} sx={{ zIndex: 2 }}>
       <Box
         sx={{
-          // width: { lg: "38px", xs: "25px" },
           display: "flex",
           marginRight: "2px",
           marginLeft: "2px",
-          // marginRight: { lg: "5px", xs: "0" },
           justifyContent: "center",
-          // paddingX: 0.5,
           alignItems: "center",
-          height: height ? height : "18px",
+          height: "18px",
           background: invert ? "#e04646" : "#e04646",
           borderRadius: "2px",
           cursor: "pointer",
@@ -26,11 +29,11 @@ const DisableClone = ({ invert, onClick, height }: any) => {
             color: invert ? "#ffffff" : "#ffffff",
           }}
         >
-          {"Disable"}
+          Disable
         </Typography>
       </Box>
     </Box>
   );
 };
 
-export default DisableClone;
+export default memo(DisableClone);

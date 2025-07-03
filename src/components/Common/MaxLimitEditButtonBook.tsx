@@ -1,4 +1,12 @@
-const MaxLimitEditButtonBook = ({ handleClickOpen }: any) => {
+import { memo } from "react";
+
+interface MaxLimitEditButtonBookProps {
+  handleClickOpen: () => void;
+}
+
+const MaxLimitEditButtonBook = ({
+  handleClickOpen,
+}: MaxLimitEditButtonBookProps) => {
   return (
     <div
       style={{
@@ -10,7 +18,6 @@ const MaxLimitEditButtonBook = ({ handleClickOpen }: any) => {
         borderRadius: "2px",
         backgroundColor: "#FF4D4D",
         cursor: "pointer",
-        // marginRight: "10px",
       }}
       onClick={handleClickOpen}
     >
@@ -28,4 +35,4 @@ const MaxLimitEditButtonBook = ({ handleClickOpen }: any) => {
   );
 };
 
-export default MaxLimitEditButtonBook;
+export default memo(MaxLimitEditButtonBook);

@@ -1,6 +1,11 @@
 import { Box, Typography } from "@mui/material";
+import { memo } from "react";
 
-const SmallBox = ({ item }: any) => {
+interface SmallBoxProps {
+  item: any;
+}
+
+const SmallBox = ({ item }: SmallBoxProps) => {
   return (
     <Box
       sx={{
@@ -16,7 +21,7 @@ const SmallBox = ({ item }: any) => {
     >
       <Typography
         sx={{
-          fontSize:{lg:"11px", xs:"10px"},
+          fontSize: { lg: "11px", xs: "10px" },
           fontWeight: "600",
           color: item?.color,
           textTransform: "capitalize",
@@ -26,7 +31,11 @@ const SmallBox = ({ item }: any) => {
         {item?.name}
       </Typography>
       <Typography
-        sx={{ fontSize: {lg:"9px", xs:"6px"}, fontWeight: "600", color: item?.color }}
+        sx={{
+          fontSize: { lg: "9px", xs: "6px" },
+          fontWeight: "600",
+          color: item?.color,
+        }}
       >
         {item?.rate && item?.rate}
       </Typography>
@@ -34,4 +43,4 @@ const SmallBox = ({ item }: any) => {
   );
 };
 
-export default SmallBox;
+export default memo(SmallBox);

@@ -10,29 +10,37 @@ import {
   successReset,
   updateResultStatusOfQuickBookmaker,
 } from "../../../store/actions/addSession";
+import { betLiveStatus } from "../../../store/actions/match/matchAction";
 import { AppDispatch, RootState } from "../../../store/store";
 import theme from "../../../theme";
 import { handleKeysMatchEvents } from "../../../utils/InputKeys/Bookmaker/BookmakerSessionKeys";
 import { updateLocalQuickBookmaker } from "../../../utils/InputKeys/Bookmaker/Utils";
-import BookButton from "./BookButton";
-// import MaxLimitEditButtonBook from "../../Common/MaxLimitEditButtonBzook";
-import { betLiveStatus } from "../../../store/actions/match/matchAction";
 import MaxLimitEditButtonBook from "../../Common/MaxLimitEditButtonBook";
 import SmallBox from "../../matchDetails/SmallBox";
 import ResultComponentTournamentMarket from "../../matchDetails/TournamentMarkets/ResultComponentTournamentMarket";
 import TournamentMarketAdd from "../../matchDetails/TournamentMarkets/TournamentMarketAdd";
+import BookButton from "./BookButton";
 
-const EditBookmaker = (props: any) => {
+interface EditBookmakerProps {
+  add: boolean;
+  match: any;
+  type?: any;
+  exposureLimit: any;
+  matchBetting: any;
+  runners: any;
+  teamRates: any;
+}
+
+const EditBookmaker = ({
+  add,
+  match,
+  type,
+  exposureLimit,
+  matchBetting,
+  runners,
+  teamRates,
+}: EditBookmakerProps) => {
   const { state } = useLocation();
-  const {
-    add,
-    match,
-    type,
-    exposureLimit,
-    matchBetting,
-    runners,
-    teamRates,
-  } = props;
   const dispatch: AppDispatch = useDispatch();
   const matchesMobile = useMediaQuery(theme.breakpoints.down("lg"));
   const { success } = useSelector((state: RootState) => state.addSession);
@@ -99,7 +107,6 @@ const EditBookmaker = (props: any) => {
 
       setIsTab("");
 
-      // if (regex.test(value)) {
       if ((!match?.rateThan100 && value < 100) || match?.rateThan100) {
         updateLocalQuickBookmaker(
           match,
@@ -138,7 +145,6 @@ const EditBookmaker = (props: any) => {
           };
         });
       }
-      // }
     } catch (error) {
       console.error(error);
     }
@@ -170,15 +176,6 @@ const EditBookmaker = (props: any) => {
             ),
           };
         });
-        // if (
-        //   Number(bookmakerById?.backTeamA) &&
-        //   Number(bookmakerById?.backTeamB) &&
-        //   Number(bookmakerById?.backTeamC)
-        // ) {
-        //   setIsTab("tab");
-        // } else {
-        //   setIsTab("");
-        // }
         dispatch(successReset());
       }
     } catch (error) {
@@ -262,6 +259,7 @@ const EditBookmaker = (props: any) => {
       console.log(error);
     }
   }, [matchBetting, state?.betId]);
+
   return (
     <>
       <Box
@@ -295,9 +293,6 @@ const EditBookmaker = (props: any) => {
               gap: "5px",
             }}
           >
-            {/* {matchBetting?.isCommissionActive && (
-              <CommissionDot/>
-            )} */}
             <Box>
               {matchBetting?.name}
               <span
@@ -344,7 +339,7 @@ const EditBookmaker = (props: any) => {
             background: "#262626",
           }}
         >
-          <div className="slanted-b"></div>
+          <div className="slanted-b" />
         </Box>
         <Box
           sx={{
@@ -389,7 +384,6 @@ const EditBookmaker = (props: any) => {
               alignItems: "center",
             }}
           >
-            {" "}
             <Typography
               sx={{
                 color: "#fff",
@@ -406,8 +400,6 @@ const EditBookmaker = (props: any) => {
           <Box
             sx={{
               position: "absolute",
-              // top: 80,
-              // right: 0,
               width: "100%",
               height: "100%",
               backgroundColor: "rgba(203 24 24 / 70%)",
@@ -430,7 +422,7 @@ const EditBookmaker = (props: any) => {
           </Box>
         )}
         <Box sx={{ display: "flex" }}>
-          <Box sx={{ background: "#319E5B", width: "75%", px: "5px" }}></Box>
+          <Box sx={{ background: "#319E5B", width: "75%", px: "5px" }} />
           <Box
             sx={{
               background: "#00C0F9",
@@ -478,6 +470,7 @@ const EditBookmaker = (props: any) => {
               >
                 <img
                   src={BallStart}
+                  alt="ball start"
                   style={{
                     width: "80%",
                     height: "30%",
@@ -513,8 +506,6 @@ const EditBookmaker = (props: any) => {
                     <Box
                       sx={{
                         width: { lg: "220px", xs: "120px" },
-                        // my: "5px",
-
                         marginRight: "10px",
                         border: "1px solid #2626264D",
                         justifyContent: "center",
@@ -604,7 +595,6 @@ const EditBookmaker = (props: any) => {
                           InputProps={{
                             disableUnderline: true,
                             sx: {
-                              // position: "relative",
                               height: "55px",
                               width: "90%",
                               background: "#F6F6F6",
@@ -671,6 +661,7 @@ const EditBookmaker = (props: any) => {
               >
                 <img
                   src={BallStart}
+                  alt="ball start"
                   style={{ width: "90px", height: "27px" }}
                 />
               </Box>
@@ -679,60 +670,58 @@ const EditBookmaker = (props: any) => {
                 {localQuickBookmaker?.teams?.map((item: any) => {
                   return (
                     <Box display={"flex"} sx={{ borderTop: "2px solid white" }}>
-                      {
-                        <Box
-                          sx={{
-                            background: item?.suspended ? "#FDF21A" : "#A7DCFF",
-                            width: "50%",
-                            display: "flex",
-                            height: "55px",
-                            justifyContent: "center",
-                            alignItems: "center",
-                          }}
-                        >
-                          {!item?.suspended && item?.rightBack > 0 ? (
-                            <Typography
-                              sx={{ fontWeight: "600", fontSize: "22px" }}
-                            >
-                              {item?.suspended ? "" : +item?.rightBack}
-                            </Typography>
-                          ) : (
-                            <img
-                              src={Lock}
-                              style={{ width: "10px", height: "15px" }}
-                            />
-                          )}
-                        </Box>
-                      }
-                      {
-                        <Box
-                          sx={{
-                            background:
-                              item?.suspended || item?.rightLay === 0
-                                ? "#FDF21A"
-                                : "#FFB5B5",
-                            width: "50%",
-                            borderLeft: "2px solid white",
-                            display: "flex",
-                            height: "55px",
-                            justifyContent: "center",
-                            alignItems: "center",
-                          }}
-                        >
-                          {!item?.suspended && item?.rightLay ? (
-                            <Typography
-                              sx={{ fontWeight: "600", fontSize: "22px" }}
-                            >
-                              {item?.suspended ? 0 : +item?.rightLay}
-                            </Typography>
-                          ) : (
-                            <img
-                              src={Lock}
-                              style={{ width: "10px", height: "15px" }}
-                            />
-                          )}
-                        </Box>
-                      }
+                      <Box
+                        sx={{
+                          background: item?.suspended ? "#FDF21A" : "#A7DCFF",
+                          width: "50%",
+                          display: "flex",
+                          height: "55px",
+                          justifyContent: "center",
+                          alignItems: "center",
+                        }}
+                      >
+                        {!item?.suspended && item?.rightBack > 0 ? (
+                          <Typography
+                            sx={{ fontWeight: "600", fontSize: "22px" }}
+                          >
+                            {item?.suspended ? "" : +item?.rightBack}
+                          </Typography>
+                        ) : (
+                          <img
+                            src={Lock}
+                            alt="lock"
+                            style={{ width: "10px", height: "15px" }}
+                          />
+                        )}
+                      </Box>
+                      <Box
+                        sx={{
+                          background:
+                            item?.suspended || item?.rightLay === 0
+                              ? "#FDF21A"
+                              : "#FFB5B5",
+                          width: "50%",
+                          borderLeft: "2px solid white",
+                          display: "flex",
+                          height: "55px",
+                          justifyContent: "center",
+                          alignItems: "center",
+                        }}
+                      >
+                        {!item?.suspended && item?.rightLay ? (
+                          <Typography
+                            sx={{ fontWeight: "600", fontSize: "22px" }}
+                          >
+                            {item?.suspended ? 0 : +item?.rightLay}
+                          </Typography>
+                        ) : (
+                          <img
+                            src={Lock}
+                            alt="lock"
+                            style={{ width: "10px", height: "15px" }}
+                          />
+                        )}
+                      </Box>
                     </Box>
                   );
                 })}
@@ -754,7 +743,7 @@ const EditBookmaker = (props: any) => {
             alignSelf: "center",
           }}
         >
-          <Box sx={{ width: "2%" }}></Box>
+          <Box sx={{ width: "2%" }} />
           {match?.stopAt ? (
             <Box
               onClick={(e) => {
@@ -792,7 +781,6 @@ const EditBookmaker = (props: any) => {
                 {visible1 && (
                   <ResultComponentTournamentMarket
                     currentMatch={match}
-                    // stopAt={liveData?.stopAt}
                     onClick={() => {
                       setVisible(false);
                     }}
@@ -802,8 +790,6 @@ const EditBookmaker = (props: any) => {
               </Box>
             </Box>
           ) : (
-            /* <Box sx={{ width: '2%' }} ></Box> */
-
             <Box
               onClick={(e) => {
                 setVisible(true);
@@ -841,7 +827,6 @@ const EditBookmaker = (props: any) => {
                 {visible && (
                   <ResultComponentTournamentMarket
                     currentMatch={match}
-                    // stopAt={liveData?.stopAt}
                     onClick={() => {
                       setVisible(false);
                     }}

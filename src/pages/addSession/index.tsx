@@ -1,11 +1,10 @@
-import { Box, Grid, Paper } from "@mui/material";
-import { useEffect, useState } from "react";
+import { Grid, Paper } from "@mui/material";
+import { memo, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import SessionInputFields from "../../components/addSession/AddSession/SessionAddComponent";
 import BetsList from "../../components/addSession/BetList";
 import SessionResult from "../../components/addSession/SessionResult/SessionResult";
-import DailogModal from "../../components/helper/DailogModal";
 import { socket, socketService } from "../../socketManager";
 import { getMatchDetail } from "../../store/actions/addMatch/addMatchAction";
 import {
@@ -16,7 +15,6 @@ import {
 } from "../../store/actions/addSession";
 import { getMatchListSessionProfitLoss } from "../../store/actions/match/matchAction";
 import { AppDispatch, RootState } from "../../store/store";
-// import { socketService } from "../../socketManager";
 
 const AddSession = () => {
   const { state } = useLocation();
@@ -82,8 +80,8 @@ const AddSession = () => {
       }
       if (getSessionSuccess) {
         if (!sessionById?.result) {
-          dispatch(getSessionProfitLoss(id));
-          dispatch(getPlacedBets({betId:id}));
+          dispatch(getSessionProfitLoss({ id, matchId: state?.match?.id }));
+          dispatch(getPlacedBets({ betId: id }));
         }
         dispatch(sessionSuccessReset());
       }
@@ -133,52 +131,34 @@ const AddSession = () => {
   }, []);
 
   return (
-    <Box>
-      <Grid container>
-
-      {/* <Grid
-  item
-  xs={12}
-  md={6}
-  lg={6}
-  sx={{
-    width: { xs: "100%", md: "700px" }, // Full width below 700px, 700px width on md+
-    maxWidth: "100%", // Ensures it doesn't overflow
-  }}
-> */}
-
-        <Grid item xs={12} sm={6} md={6} lg={6}  >
-          <Paper style={{ margin: "4px" }}>
-            <SessionInputFields
-              createSession={state?.createSession}
-              sessionEvent={state?.sessionEvent}
-              match={state?.match}
-              setMode={setMode}
-            />
-          </Paper>
-          <Paper style={{ margin: "4px" }}>
-            <SessionResult
-              setMode={setMode}
-              mode={mode}
-              sessionProLoss={sessionProLoss}
-              matchId={state?.match}
-            />
-          </Paper>
-        </Grid>
-        <Grid item xs={12} sm={6} md={6} lg={6}>
-          <Paper style={{ margin: "4px" }}>
-            {true && (
-              <BetsList
-                sessionEvent={sessionById && sessionById}
-                betData={placedBets && placedBets.length > 0 ? placedBets : []}
-              />
-            )}
-          </Paper>
-        </Grid>
+    <Grid container>
+      <Grid item xs={12} sm={6} md={6} lg={6}>
+        <Paper style={{ margin: "4px" }}>
+          <SessionInputFields
+            createSession={state?.createSession}
+            match={state?.match}
+            setMode={setMode}
+          />
+        </Paper>
+        <Paper style={{ margin: "4px" }}>
+          <SessionResult
+            setMode={setMode}
+            mode={mode}
+            sessionProLoss={sessionProLoss}
+            matchId={state?.match}
+          />
+        </Paper>
       </Grid>
-      <DailogModal />
-    </Box>
+      <Grid item xs={12} sm={6} md={6} lg={6}>
+        <Paper style={{ margin: "4px" }}>
+          <BetsList
+            sessionEvent={sessionById && sessionById}
+            betData={placedBets && placedBets.length > 0 ? placedBets : []}
+          />
+        </Paper>
+      </Grid>
+    </Grid>
   );
 };
 
-export default AddSession;
+export default memo(AddSession);

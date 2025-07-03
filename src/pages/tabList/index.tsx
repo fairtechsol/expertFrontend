@@ -1,23 +1,23 @@
 import { Box, Pagination } from "@mui/material";
-import { useEffect, useState } from "react";
-import "./style.css";
+import { memo, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../../store/store";
-import {
-  getMatchList,
-  getTabList,
-  matchListReset,
-} from "../../store/actions/match/matchAction";
+import TabListTableHeader from "../../components/matchList/tabListTableHeader";
+import TabListHeader from "../../components/tabList/tabListHeader";
+import TabListTable from "../../components/tabList/tabListTable";
 import {
   expertSocketService,
   socket,
   socketService,
 } from "../../socketManager";
-import TabListHeader from "../../components/tabList/tabListHeader";
-import TabListTable from "../../components/tabList/tabListTable";
-import TabListTableHeader from "../../components/matchList/tabListTableHeader";
+import {
+  getMatchList,
+  getTabList,
+  matchListReset,
+} from "../../store/actions/match/matchAction";
+import { AppDispatch, RootState } from "../../store/store";
+import "./style.css";
 
-const TabList = ({}) => {
+const TabList = () => {
   const dispatch: AppDispatch = useDispatch();
   const [currentPage, setCurrentPage] = useState(1);
   const { matchList, success } = useSelector(
@@ -76,60 +76,58 @@ const TabList = ({}) => {
     }
   }, [socket]);
   return (
-    <>
-      <Box
-        sx={[
-          {
-            marginX: "10px",
-            marginTop: "10px",
-            minHeight: "200px",
-            borderRadius: "10px",
-            border: "2px solid white",
-          },
-          (theme: any) => ({
-            backgroundImage: `${theme.palette.primary.headerGradient}`,
-          }),
-        ]}
-      >
-        <TabListHeader />
-        <TabListTableHeader />
+    <Box
+      sx={[
+        {
+          marginX: "10px",
+          marginTop: "10px",
+          minHeight: "200px",
+          borderRadius: "10px",
+          border: "2px solid white",
+        },
+        (theme: any) => ({
+          backgroundImage: `${theme.palette.primary.headerGradient}`,
+        }),
+      ]}
+    >
+      <TabListHeader />
+      <TabListTableHeader />
 
-        {matchList &&
-          matchList?.matches?.map((item: any, index: number) => (
-            <TabListTable
-              key={item?.id}
-              data={item}
-              index={index}
-              currentPage={currentPage}
-            />
-          ))}
-        <Pagination
-          sx={{
-            background: "#073c25",
-            overflow: "hidden",
-            borderRadius: "0px 0px 10px 10px",
+      {matchList &&
+        matchList?.matches?.map((item: any, index: number) => (
+          <TabListTable
+            key={item?.id}
+            data={item}
+            index={index}
+            currentPage={currentPage}
+          />
+        ))}
+      <Pagination
+        sx={{
+          background: "#073c25",
+          overflow: "hidden",
+          borderRadius: "0px 0px 10px 10px",
+          color: "white",
+          "& .MuiPaginationItem-page": {
             color: "white",
-            "& .MuiPaginationItem-page": {
-              color: "white", // Change the text color for other pages
-            },
-            "& .MuiPaginationItem-ellipsis": {
-              color: "white", // Change the text color for ellipsis (...) items
-            },
-            "& .MuiPaginationItem-next": {
-              color: "white", // Change the text color for the "Next" button
-            },
-          }}
-          page={currentPage}
-          className="whiteTextPagination matchList-pagination d-flex justify-content-center"
-          count={Math.ceil(
-            parseInt(matchList?.count ? matchList?.count : 1) / 20
-          )}
-          color="primary"
-          onChange={callPage}
-        />
-      </Box>
-    </>
+          },
+          "& .MuiPaginationItem-ellipsis": {
+            color: "white",
+          },
+          "& .MuiPaginationItem-next": {
+            color: "white",
+          },
+        }}
+        page={currentPage}
+        className="whiteTextPagination matchList-pagination d-flex justify-content-center"
+        count={Math.ceil(
+          parseInt(matchList?.count ? matchList?.count : 1) / 20
+        )}
+        color="primary"
+        onChange={callPage}
+      />
+    </Box>
   );
 };
 
-export default TabList;
+export default memo(TabList);

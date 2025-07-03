@@ -1,16 +1,24 @@
-import { useEffect, useState } from "react";
-import { CancelDark } from "../../../assets";
 import { Box, TextField, Typography } from "@mui/material";
-import SessionResultCustomButton from "../../addSession/AddSession/SessionResultCustomButton";
-import { AppDispatch, RootState } from "../../../store/store";
+import { memo, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { CancelDark } from "../../../assets";
 import {
   noResultDeclare,
   resultDeclare,
   undeclareResult,
 } from "../../../store/actions/match/matchAction";
+import { AppDispatch, RootState } from "../../../store/store";
+import SessionResultCustomButton from "../../addSession/AddSession/SessionResultCustomButton";
 
-const CustomCasinoMarketResult = ({ onClick, newData }: any) => {
+interface CustomCasinoMarketResultProps {
+  onClick: () => void;
+  newData: any;
+}
+
+const CustomCasinoMarketResult = ({
+  onClick,
+  newData,
+}: CustomCasinoMarketResultProps) => {
   const dispatch: AppDispatch = useDispatch();
   const { declareLoading } = useSelector((state: RootState) => state.matchList);
   const [selected, setSelected] = useState("");
@@ -89,7 +97,6 @@ const CustomCasinoMarketResult = ({ onClick, newData }: any) => {
               placeholder="Score"
               variant="standard"
               value={selected}
-              // onChange={(e) => setSelected(e?.target.value)}
               onChange={(e: any) => {
                 const numericValue = e.target.value.replace(/[^0-9]/g, "");
                 setSelected(numericValue);
@@ -113,8 +120,8 @@ const CustomCasinoMarketResult = ({ onClick, newData }: any) => {
             <>
               {newData?.activeStatus === "result" && newData?.result ? (
                 <SessionResultCustomButton
-                  color={"#FF4D4D"}
-                  title={"Un Declare"}
+                  color="#FF4D4D"
+                  title="Un Declare"
                   loading={loader}
                   id="UD"
                   session={true}
@@ -127,10 +134,10 @@ const CustomCasinoMarketResult = ({ onClick, newData }: any) => {
                 <>
                   {newData?.activeStatus !== "result" ? (
                     <SessionResultCustomButton
-                      color={"#0B4F26"}
+                      color="#0B4F26"
                       id="DR"
                       session={true}
-                      title={"Declare"}
+                      title="Declare"
                       loading={loader}
                       disable={loader?.value}
                       onClick={() => {
@@ -162,8 +169,8 @@ const CustomCasinoMarketResult = ({ onClick, newData }: any) => {
               </Typography>
               {newData?.activeStatus === "result" && (
                 <SessionResultCustomButton
-                  color={"rgb(106 90 90)"}
-                  title={"Yes"}
+                  color="rgb(106 90 90)"
+                  title="Yes"
                   loading={loader}
                   id="UD"
                   session={true}
@@ -183,8 +190,8 @@ const CustomCasinoMarketResult = ({ onClick, newData }: any) => {
 
           {newData?.activeStatus !== "result" && (
             <SessionResultCustomButton
-              color={"rgb(106 90 90)"}
-              title={"No Result"}
+              color="rgb(106 90 90)"
+              title="No Result"
               loading={loader}
               id="NR"
               session={true}
@@ -211,8 +218,8 @@ const CustomCasinoMarketResult = ({ onClick, newData }: any) => {
           </Typography>
           {newData?.activeStatus !== "result" && (
             <SessionResultCustomButton
-              color={"rgb(106 90 90)"}
-              title={"Yes"}
+              color="rgb(106 90 90)"
+              title="Yes"
               loading={loader}
               id="NR"
               session={true}
@@ -237,9 +244,11 @@ const CustomCasinoMarketResult = ({ onClick, newData }: any) => {
         }}
         src={CancelDark}
         alt="Cancel"
-        style={{ width: "25px", height: "25px", cursor: "pointer" }}
+        width={25}
+        height={25}
+        style={{ cursor: "pointer" }}
       />
     </Box>
   );
 };
-export default CustomCasinoMarketResult;
+export default memo(CustomCasinoMarketResult);

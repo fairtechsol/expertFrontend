@@ -5,10 +5,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { eye, eyeLock, mail } from "../../../assets";
 import Input from "../../../components/login/Input";
+import { LoginInterface } from "../../../interface/authInterface";
 import { authReset, login } from "../../../store/actions/auth/authAction";
 import { AppDispatch, RootState } from "../../../store/store";
 import { loginValidationSchema } from "../../../utils/Validations/login";
-import { LoginInterface } from "../../../interface/authInterface";
 
 const initialValues: LoginInterface = {
   userName: "",

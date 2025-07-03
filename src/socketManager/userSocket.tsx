@@ -1,6 +1,5 @@
 import { socket } from ".";
 
-
 export const userSocketService = {
   userCount: (callback: any) => {
     socket?.on("loginUserCount", (packet: any) => {

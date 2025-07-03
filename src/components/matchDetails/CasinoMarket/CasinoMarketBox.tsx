@@ -1,11 +1,24 @@
 import { Box, Typography } from "@mui/material";
+import { memo } from "react";
 import Divider from "../../Common/Divider";
 import { formatNumber } from "../../helper";
 import SeparateBox from "../SeparateBox";
 
-const CasinoMarketBox = ({ newData, index, profitLoss, sessionData }: any) => {
+interface CasinoMarketBoxProps {
+  newData: any;
+  index: number;
+  profitLoss: any;
+  sessionData: any;
+}
+
+const CasinoMarketBox = ({
+  sessionData,
+  newData,
+  profitLoss,
+  index,
+}: CasinoMarketBoxProps) => {
   return (
-    <div>
+    <>
       <Box
         sx={{
           display: "flex",
@@ -43,9 +56,11 @@ const CasinoMarketBox = ({ newData, index, profitLoss, sessionData }: any) => {
           <Typography
             sx={{
               color:
-                profitLoss?.profitLoss?.[index] > 0
+                +profitLoss?.profitLoss?.[index]?.profitLoss ||
+                +profitLoss?.profitLoss?.[index] > 0
                   ? "green"
-                  : profitLoss?.profitLoss?.[index] < 0
+                  : +profitLoss?.profitLoss?.[index]?.profitLoss ||
+                    +profitLoss?.profitLoss?.[index] < 0
                   ? "#7B2626"
                   : "black",
               fontSize: { lg: "10px", md: "10px", xs: "10px" },
@@ -56,7 +71,11 @@ const CasinoMarketBox = ({ newData, index, profitLoss, sessionData }: any) => {
               zIndex: "99",
             }}
           >
-            {parseFloat(profitLoss?.profitLoss?.[index] || 0).toFixed(2)}
+            {parseFloat(
+              +profitLoss?.profitLoss?.[index]?.profitLoss ||
+                (+profitLoss?.profitLoss?.[index] as any) ||
+                0
+            ).toFixed(2)}
           </Typography>
         </Box>
 
@@ -132,8 +151,8 @@ const CasinoMarketBox = ({ newData, index, profitLoss, sessionData }: any) => {
         )}
       </Box>
       <Divider />
-    </div>
+    </>
   );
 };
 
-export default CasinoMarketBox;
+export default memo(CasinoMarketBox);

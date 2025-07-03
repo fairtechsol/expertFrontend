@@ -10,11 +10,17 @@ import {
 import { AppDispatch, RootState } from "../../../store/store";
 import MatchOddsResultCustomButton from "../../updateBookmaker/BookmakerEdit/MatchOddsResultCustomButton";
 
+interface ResultComponentTournamentMarketProps {
+  currentMatch: any;
+  onClick: () => void;
+  liveData: any;
+}
+
 const ResultComponentTournamentMarket = ({
   currentMatch,
   onClick,
   liveData,
-}: any) => {
+}: ResultComponentTournamentMarketProps) => {
   const dispatch: AppDispatch = useDispatch();
   const { success, error } = useSelector((state: RootState) => state.match);
   const [selected, setSelected] = useState("");
@@ -24,6 +30,59 @@ const ResultComponentTournamentMarket = ({
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
+  };
+
+  const handleNoResult = () => {
+    try {
+      if (loading?.value) {
+        return false;
+      }
+      setLoading({ id: "DNR", value: true });
+      dispatch(
+        declareTournamentMarketCricketResult({
+          matchId: currentMatch?.id,
+          result: "No Result",
+          betId: liveData?.parentBetId || liveData?.id,
+        })
+      );
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const handleDeclare = () => {
+    try {
+      if (loading?.value) {
+        return false;
+      }
+      setLoading({ id: "DR", value: true });
+      dispatch(
+        declareTournamentMarketCricketResult({
+          matchId: currentMatch?.id,
+          result: selected,
+          betId: liveData?.parentBetId || liveData?.id,
+        })
+      );
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const handleUndeclare = () => {
+    try {
+      if (loading?.value) {
+        return false;
+      }
+      setLoading({ id: "UD", value: true });
+      dispatch(
+        UnDeclareTournamentMarketCricketResult({
+          matchId: currentMatch?.id,
+          betId: liveData?.parentBetId || liveData?.id,
+        })
+      );
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   useEffect(() => {
@@ -119,7 +178,10 @@ const ResultComponentTournamentMarket = ({
             onClick();
           }}
           src={CancelDark}
-          style={{ width: "15px", height: "15px", cursor: "pointer" }}
+          alt="cancel"
+          width={15}
+          height={15}
+          style={{ cursor: "pointer" }}
         />
       </Box>
       <Box sx={{ padding: 0 }}>
@@ -189,7 +251,6 @@ const ResultComponentTournamentMarket = ({
           <Box
             sx={{
               width: "100%",
-              // height: "60px",
               paddingY: "10px",
               justifyContent: "space-evenly",
               display: "flex",
@@ -200,74 +261,27 @@ const ResultComponentTournamentMarket = ({
           >
             {liveData?.activeStatus === "result" ? (
               <MatchOddsResultCustomButton
-                color={"#FF4D4D"}
+                color="#FF4D4D"
                 loading={loading}
                 id="UD"
-                title={"Un Declare"}
-                onClick={() => {
-                  try {
-                    if (loading?.value) {
-                      return false;
-                    }
-                    setLoading({ id: "UD", value: true });
-                    dispatch(
-                      UnDeclareTournamentMarketCricketResult({
-                        matchId: currentMatch?.id,
-                        betId: liveData?.parentBetId || liveData?.id,
-                      })
-                    );
-                  } catch (e) {
-                    console.log(e);
-                  }
-                }}
+                title="Un Declare"
+                onClick={handleUndeclare}
               />
             ) : (
               <>
                 <MatchOddsResultCustomButton
                   id="DR"
-                  color={"#0B4F26"}
+                  color="#0B4F26"
                   loading={loading}
-                  title={"Declare"}
-                  onClick={() => {
-                    try {
-                      if (loading?.value) {
-                        return false;
-                      }
-                      setLoading({ id: "DR", value: true });
-                      dispatch(
-                        declareTournamentMarketCricketResult({
-                          matchId: currentMatch?.id,
-                          result: selected,
-                          betId: liveData?.parentBetId || liveData?.id,
-                        })
-                      );
-                    } catch (e) {
-                      console.log(e);
-                    }
-                  }}
+                  title="Declare"
+                  onClick={handleDeclare}
                 />
                 <MatchOddsResultCustomButton
                   id="DNR"
-                  color={"#0B4F26"}
+                  color="#0B4F26"
                   loading={loading}
-                  title={"No Result"}
-                  onClick={() => {
-                    try {
-                      if (loading?.value) {
-                        return false;
-                      }
-                      setLoading({ id: "DNR", value: true });
-                      dispatch(
-                        declareTournamentMarketCricketResult({
-                          matchId: currentMatch?.id,
-                          result: "No Result",
-                          betId: liveData?.parentBetId || liveData?.id,
-                        })
-                      );
-                    } catch (e) {
-                      console.log(e);
-                    }
-                  }}
+                  title="No Result"
+                  onClick={handleNoResult}
                 />
               </>
             )}

@@ -1,14 +1,17 @@
 import { Box, Typography } from "@mui/material";
+import { memo } from "react";
 import CommissionDot from "../../Common/CommissionDot";
 
-const LargeBox = ({ item, k }: any) => {
+interface LargeBoxProps {
+  item: any;
+  k: number;
+}
+
+const LargeBox = ({ item, k }: LargeBoxProps) => {
   const handleDomain = (url: any) => {
     url = url?.replace(/^(?:https?:\/\/)/, "");
-
     const parts = url?.split(".");
-
     url = parts?.[parts.length - 2];
-
     return url || "";
   };
   return (
@@ -23,7 +26,6 @@ const LargeBox = ({ item, k }: any) => {
         display: "flex",
         flexDirection: "column",
         width: item?.width ? item?.width : "150px",
-        // paddingTop: "5px"
       }}
     >
       <Typography
@@ -35,7 +37,6 @@ const LargeBox = ({ item, k }: any) => {
           textTransform: "capitalize",
           textAlign: item?.textAlign ? item?.textAlign : "left",
           lineHeight: 1,
-          // px: "2px",
           overflow: "hidden",
           display: "flex",
           WebkitLineClamp: 2,
@@ -61,7 +62,6 @@ const LargeBox = ({ item, k }: any) => {
             fontWeight: "600",
             color: item?.color,
             overflowWrap: "anywhere",
-            // padding: "2px",
             overflow: "hidden",
             lineHeight: 1,
           }}
@@ -84,4 +84,4 @@ const LargeBox = ({ item, k }: any) => {
   );
 };
 
-export default LargeBox;
+export default memo(LargeBox);

@@ -1,42 +1,55 @@
 import { Box, Typography } from "@mui/material";
-import { updateRaceRunners } from "../../../store/actions/addMatch/addMatchAction";
+import { memo, useCallback } from "react";
 import { useDispatch } from "react-redux";
+import { updateRaceRunners } from "../../../store/actions/addMatch/addMatchAction";
 import { AppDispatch } from "../../../store/store";
-const raceDropDownItem = (props: any) => {
-  const {
-    item,
-    EventId,
-    CompetitionName,
-    setOpen,
-    dropDownTextStyle,
-    setSelected,
-    name,
-  } = props;
 
+interface RaceDropDownItemProps {
+  item: any;
+  EventId: string;
+  CompetitionName: string;
+  setOpen: (val: any) => void;
+  dropDownTextStyle?: React.CSSProperties;
+  setSelected: (val: any) => void;
+  name: string;
+}
+
+const RaceDropDownItem = ({
+  item,
+  EventId,
+  CompetitionName,
+  setOpen,
+  dropDownTextStyle = {},
+  setSelected,
+  name,
+}: RaceDropDownItemProps) => {
   const dispatch: AppDispatch = useDispatch();
+
+  const handleClick = useCallback(() => {
+    setSelected((prev: any) => {
+      return {
+        ...prev,
+        [name]: `${item?.event?.countryCode}>${item?.event?.venue}/${CompetitionName}`,
+        title: CompetitionName,
+        eventId: EventId,
+        marketId: item?.marketId,
+        competitionName: item?.event?.name,
+        competitionId: EventId,
+        countryCode: item?.event?.countryCode,
+        startAt: item?.marketStartTime,
+        venue: item?.event?.venue,
+        raceType: item?.description?.raceType,
+      };
+    });
+    if (item?.runners) {
+      dispatch(updateRaceRunners(item.runners));
+    }
+    setOpen(false);
+  }, []);
 
   return (
     <Box
-      onClick={() => {
-        setSelected((prev: any) => {
-          return {
-            ...prev,
-            [name]: `${item?.event?.countryCode}>${item?.event?.venue}/${CompetitionName}`,
-            title: CompetitionName,
-            eventId: EventId,
-            marketId: item?.marketId,
-            competitionName:item?.event?.name,
-            competitionId:EventId,
-            countryCode:item?.event?.countryCode,
-            startAt:item?.marketStartTime ,
-            venue:item?.event?.venue ,
-            raceType:item?.description?.raceType ,
-          };
-        });
-        dispatch(updateRaceRunners(item?.runners))
-        setOpen(false);
-      }
-      }
+      onClick={handleClick}
       sx={[
         {
           paddingY: "4px",
@@ -52,10 +65,13 @@ const raceDropDownItem = (props: any) => {
         dropDownTextStyle,
       ]}
     >
-      <Typography>{CompetitionName?`${item?.event?.countryCode}>${item?.event?.venue}/${CompetitionName}`:item?.EventName}</Typography>
-      {/* <Typography sx={{ fontSize: "12px" }}>{CompetitionName}</Typography> */}
+      <Typography>
+        {CompetitionName
+          ? `${item?.event?.countryCode}>${item?.event?.venue}/${CompetitionName}`
+          : item?.EventName}
+      </Typography>
     </Box>
   );
 };
 
-export default raceDropDownItem;
+export default memo(RaceDropDownItem);
