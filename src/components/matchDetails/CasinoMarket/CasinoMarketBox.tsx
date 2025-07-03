@@ -57,8 +57,8 @@ const CasinoMarketBox = ({
             sx={{
               color: (() => {
                 const value =
-                  +profitLoss?.profitLoss?.[index]?.profitLoss ??
-                  +profitLoss?.profitLoss?.[index] ??
+                  +profitLoss?.profitLoss?.[index]?.profitLoss ||
+                  +profitLoss?.profitLoss?.[index] ||
                   0;
 
                 if (value > 0) return "green";
