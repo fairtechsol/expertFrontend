@@ -33,8 +33,8 @@ const CasinoMarketBox = ({
             background: sessionData?.isComplete
               ? "#E15151"
               : index % 2 === 0
-              ? "#FFE094"
-              : "#ECECEC",
+                ? "#FFE094"
+                : "#ECECEC",
             height: "28px",
             width: "100%",
             justifyContent: "space-between",
@@ -55,14 +55,16 @@ const CasinoMarketBox = ({
           </Typography>
           <Typography
             sx={{
-              color:
-                +profitLoss?.profitLoss?.[index]?.profitLoss ||
-                +profitLoss?.profitLoss?.[index] > 0
-                  ? "green"
-                  : +profitLoss?.profitLoss?.[index]?.profitLoss ||
-                    +profitLoss?.profitLoss?.[index] < 0
-                  ? "#7B2626"
-                  : "black",
+              color: (() => {
+                const value =
+                  +profitLoss?.profitLoss?.[index]?.profitLoss ??
+                  +profitLoss?.profitLoss?.[index] ??
+                  0;
+
+                if (value > 0) return "green";
+                if (value < 0) return "#FF4D4D"; // dark red
+                return "black"; // zero or invalid
+              })(),
               fontSize: { lg: "10px", md: "10px", xs: "10px" },
               marginLeft: { lg: "7px", md: "20px", xs: "20px" },
               fontWeight: "600",
@@ -73,8 +75,8 @@ const CasinoMarketBox = ({
           >
             {parseFloat(
               +profitLoss?.profitLoss?.[index]?.profitLoss ||
-                (+profitLoss?.profitLoss?.[index] as any) ||
-                0
+              (+profitLoss?.profitLoss?.[index] as any) ||
+              0
             ).toFixed(2)}
           </Typography>
         </Box>
@@ -89,8 +91,8 @@ const CasinoMarketBox = ({
               background: sessionData?.isComplete
                 ? "#E15151"
                 : index % 2 === 0
-                ? "#FFE094"
-                : "#ECECEC",
+                  ? "#FFE094"
+                  : "#ECECEC",
               height: "28px",
               width: { lg: "20%", xs: "17%", md: "10%" },
               justifyContent: "flex-end",
@@ -129,8 +131,8 @@ const CasinoMarketBox = ({
               background: sessionData?.isComplete
                 ? "#E15151"
                 : index % 2 === 0
-                ? "#FFE094"
-                : "#ECECEC",
+                  ? "#FFE094"
+                  : "#ECECEC",
               height: "28px",
               width: { lg: "20%", xs: "17%", md: "10%" },
               justifyContent: "flex-end",
