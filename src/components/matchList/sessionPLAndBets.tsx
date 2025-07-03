@@ -254,7 +254,7 @@ const SessionProLoss = forwardRef(
                             textAlign: "center",
                           }}
                         >
-                          {item?.totalBet}
+                          {item?.totalBet || 0}
                         </Typography>
                       </Box>
                     </Box>

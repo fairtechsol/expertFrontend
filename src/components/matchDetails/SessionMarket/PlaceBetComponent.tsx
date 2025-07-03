@@ -79,7 +79,7 @@ const PlaceBetComponent = ({
             lineHeight: 1,
           }}
         >
-          {profitLossData?.totalBet ?? 0}
+          {profitLossData?.totalBet || 0}
         </Typography>
       </Box>
       <Box
